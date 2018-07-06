@@ -1,7 +1,8 @@
 # iOS Crash Dump Analysis Book
 
 The purpose of this repository is to provide the source code and other resources supporting the iOS crash dump analysis book.  The initial intention is to provide the book in two parts, the first part being an introduction, and the second part an advanced book.
-The first book would be distributed free.
+
+The first book is distributed for free [here](./markdown/README.md)
 
 ## Why write this book?
 
