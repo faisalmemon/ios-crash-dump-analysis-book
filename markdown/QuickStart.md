@@ -37,9 +37,10 @@ One take away lesson from the above examples are that we need to think of our co
 
 As a first step in getting into the correct mindset to tackle app crashes, its worthwhile working through each of the above operating environment differences and trying to note down if such a difference ever resulted in a crash that you know about or suspect could happen.  This will teach you that crashes are much more about **environment** than about **source code**.  Another secondary insight is that the more able you are to produce a list of hypotheses given a specific environment difference, the more easily and quickly you will be able to find the root cause of crashes that seem mysterious to other people, and almost magical that you came up with a suggestion of where the problem could be.
 
-Here are some curious examples of crashes to whet your appetite and get you thinking:
+Here are some curious examples of crashes from the Information Technology industry in general to whet your appetite and get you thinking:
 
 Trigger for Crash | Reason for crash
 --|--
 Locale | Only Russian locale caused a crash during date processing.  This was because 1984-04-01 was being used as a sentinel date marker.  However, in Russia, there is no such date/time because there is no midnight at that point in time.  Daylight time started in Russia on that date with a +1 hour.
 Geographic Location | A computer was crashing each day; each time a different reason.  The actual problem was the computer was near a window next to a estuary where ships passed by.  At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.
+Bus Noise | When a computer was under both heavy network load and disk load the system would crash to due corruption on disk.  There was always a zero very 64 bytes.  It was the cache line size of the computer.  The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.
