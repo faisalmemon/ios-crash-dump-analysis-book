@@ -33,3 +33,14 @@ source | Parent directory of compilable source code
 The software configuration management plan (SCM plan) is very simple.
 * All development is done on the master branch.
 * When a version of the book is published a numbered release branch is made, e.g. `release/1.0`
+
+# Authoring Methodology
+
+I aim to follow a similar approach as http://rtalbert.org/how-i-wrote-my-book/
+* Write the content of the book in markdown
+* Use pandoc to convert the markdown into InDesign format
+* Use the chapter import feature of iBook to imort the InDesign format
+* Publish the iBook in the iBook book store.
+
+I don't know if the InDesign import will work in practice or not.  This is one of my first experiments.
+Even if that does not work out, I can use other e-Book formats.
