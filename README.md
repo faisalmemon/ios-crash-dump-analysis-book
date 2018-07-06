@@ -20,27 +20,28 @@ This less trodden route has given me a perspective which I would like to share w
 It's my opinion that when you put these three approaches together: software engineering, systematic problem solving, and crash dump exploration you end up with a powerful toolbox you can take with you to any iOS app project.
 You will be able to spend less time fixing crashes, and more time writing valuable functionality.  That's something we all want!
 
-# Directory Structure
+# Project Details
+## Directory Structure
 
 Directory | Purpose
----|---
+----------| -------
 external | Downloaded resources
 topics | Topic specific writing
 source | Parent directory of compilable source code
 
-# Branch Policy
+## Branch Policy
 
 The software configuration management plan (SCM plan) is very simple.
-* All development is done on the master branch.
-* When a version of the book is published a numbered release branch is made, e.g. `release/1.0`
+- All development is done on the master branch.
+- When a version of the book is published a numbered release branch is made, e.g. `release/1.0`
 
-# Authoring Methodology
+## Authoring Methodology
 
 I aim to follow a similar approach as http://rtalbert.org/how-i-wrote-my-book/
-* Write the content of the book in markdown
-* Use pandoc to convert the markdown into InDesign format
-* Use the chapter import feature of iBook to imort the InDesign format
-* Publish the iBook in the iBook book store.
 
-I don't know if the InDesign import will work in practice or not.  This is one of my first experiments.
-Even if that does not work out, I can use other e-Book formats.
+- Write the content of the book in markdown
+- Use pandoc to convert the markdown into ePub format
+- Use the New from ePub option in iBooks to import the book
+- Publish the iBook in the iBook book store.
+
+From experiment I've found importing InDesign format files as a chapter in iBooks author does not work.  There seems to be a file version compatibility issue between pandoc and iBook Author.
