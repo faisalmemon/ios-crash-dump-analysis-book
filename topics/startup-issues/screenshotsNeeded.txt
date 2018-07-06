@@ -1,0 +1,5 @@
+Command-Option-Shift-K clean
+
+Hardware->Reset all content and settings
+
+Command-< select Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug)`
