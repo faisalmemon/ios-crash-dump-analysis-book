@@ -21,6 +21,7 @@ It's my opinion that when you put these three approaches together: software engi
 You will be able to spend less time fixing crashes, and more time writing valuable functionality.  That's something we all want!
 
 # Project Details
+
 ## Directory Structure
 
 Directory | Purpose
@@ -28,6 +29,7 @@ Directory | Purpose
 external | Downloaded resources
 topics | Topic specific writing
 source | Parent directory of compilable source code
+markdown | Markdown files for the body text of the book
 
 ## Branch Policy
 
