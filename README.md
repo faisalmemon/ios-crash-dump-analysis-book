@@ -48,3 +48,21 @@ I aim to follow a similar approach as http://rtalbert.org/how-i-wrote-my-book/
 - Publish the iBook in the iBook book store.
 
 From experiment I've found importing InDesign format files as a chapter in iBooks author does not work.  There seems to be a file version compatibility issue between pandoc and iBook Author.
+
+## Supporting software
+
+### Essential Software
+
+I used the Brew package manager on MacOS and used the Brew packages:
+
+Brew Package | Purpose
+--|--
+`pandoc` | Document translator to get from .markdown format to other formats
+`pandoc-citeproc` | Biliography Citation Helper for pandoc
+
+### Recommended Software
+
+Package | Purpose
+--|--
+Atom|Edits and understands markdown and can preview render it
+BibDesk | Eases the definition of Citations for the Biliography

@@ -15,3 +15,5 @@ Programming literature comprehensively has documented software engineering conce
 Formal problem solving is less discussed in software engineering circles, perhaps because it’s considered a table stakes skill for an engineer.  It is however a discipline of its own and when directly studied can only enhance the “natural” abilities that seem to mark out the “technically-minded” folks from the rest of the population.
 
 Our goal is not the shy away from repeating knowledge we’ve probably seen or read elsewhere but instead we take the view point of explaining the whole narrative in a cohesive manner.  What makes crash dump analysis hard is that significant background knowledge is often assumed in order to make room to concentrate on the particulars of a specific tool or crash report.  That causes a barrier to entry which this book aims to overcome.
+
+@tn2151
