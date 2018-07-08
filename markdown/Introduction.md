@@ -6,6 +6,7 @@ We cover specifically the Apple ecosystem using the Swift programming language. 
 The approach we take is to combine three different perspectives on the problem to give a rounded and robust view of the situation and how to resolve it.
 
 Our three perspectives are:
+
 1. A practical HOW-TO guide for using the excellent tooling available from Apple.
 1. A discussion of software engineering concepts tailored to preventing and resolving crashes.
 1. A formal problem-solving approach but applied to crash analysis.
