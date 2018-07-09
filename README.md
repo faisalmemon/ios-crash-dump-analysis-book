@@ -29,6 +29,7 @@ external | Downloaded resources
 topics | Topic specific writing
 source | Parent directory of compilable source code
 markdown | Markdown files for the body text of the book
+examples | Examples of crashes
 
 ## Branch Policy
 
