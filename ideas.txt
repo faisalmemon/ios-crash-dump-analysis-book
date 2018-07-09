@@ -1,0 +1,3 @@
+Explain heuristic concepts before going in examples of each
+Explain the choice of tooling (free = to communicate without prop tooling, just starting out, hopper = paid ios pro, irda = pen tester/rev eng/enterprise)
+Possible to have a website to analyse crashes and promote the book.

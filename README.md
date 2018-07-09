@@ -59,6 +59,10 @@ Brew Package | Purpose
 `pandoc` | Document translator to get from .markdown format to other formats
 `pandoc-citeproc` | Biliography Citation Helper for pandoc
 
+For analysing binaries I used `class-dump`.  Whilst previously this was available from Brew, it seems now you have to directly download it.
+
+[Download class-dump](http://stevenygard.com/projects/class-dump/)
+
 ### Recommended Software
 
 Package | Purpose
