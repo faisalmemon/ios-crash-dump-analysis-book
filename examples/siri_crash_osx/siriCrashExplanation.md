@@ -10,38 +10,53 @@ Here is the crash report, suitably truncated for ease of demonstration:
 
 ```
 Process:               SiriNCService [1045]
-Path:                  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+Path:                  
+/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
+Contents/MacOS/SiriNCService
 Identifier:            com.apple.SiriNCService
 Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
 Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000018
 Exception Note:        EXC_CORPSE_NOTIFY
 VM Regions Near 0x18:
 -->
-    __TEXT                 0000000100238000-0000000100247000 [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+    __TEXT                 0000000100238000-0000000100247000
+    [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/
+    XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
 
 Application Specific Information:
 objc_msgSend() selector name: didUnlockScreen:
 
 Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
 0   libobjc.A.dylib               	0x00007fff69feae9d objc_msgSend + 29
-1   com.apple.CoreFoundation      	0x00007fff42e19f2c __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
-2   com.apple.CoreFoundation      	0x00007fff42e19eaf ___CFXRegistrationPost_block_invoke + 63
-3   com.apple.CoreFoundation      	0x00007fff42e228cc __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
+1   com.apple.CoreFoundation      	0x00007fff42e19f2c
+ __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
+2   com.apple.CoreFoundation      	0x00007fff42e19eaf
+___CFXRegistrationPost_block_invoke + 63
+3   com.apple.CoreFoundation      	0x00007fff42e228cc
+ __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
 4   com.apple.CoreFoundation      	0x00007fff42e052a3 __CFRunLoopDoBlocks + 275
 5   com.apple.CoreFoundation      	0x00007fff42e0492e __CFRunLoopRun + 1278
-6   com.apple.CoreFoundation      	0x00007fff42e041a3 CFRunLoopRunSpecific + 483
-7   com.apple.HIToolbox           	0x00007fff420ead96 RunCurrentEventLoopInMode + 286
-8   com.apple.HIToolbox           	0x00007fff420eab06 ReceiveNextEventCommon + 613
-9   com.apple.HIToolbox           	0x00007fff420ea884 _BlockUntilNextEventMatchingListInModeWithFilter + 64
+6   com.apple.CoreFoundation      	0x00007fff42e041a3
+CFRunLoopRunSpecific + 483
+7   com.apple.HIToolbox           	0x00007fff420ead96
+RunCurrentEventLoopInMode + 286
+8   com.apple.HIToolbox           	0x00007fff420eab06
+ReceiveNextEventCommon + 613
+9   com.apple.HIToolbox           	0x00007fff420ea884
+_BlockUntilNextEventMatchingListInModeWithFilter + 64
 10  com.apple.AppKit              	0x00007fff4039ca73 _DPSNextEvent + 2085
-11  com.apple.AppKit              	0x00007fff40b32e34 -[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:inMode:dequeue:] + 3044
-12  com.apple.ViewBridge          	0x00007fff67859df0 -[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:dequeue:] + 92
+11  com.apple.AppKit              	0x00007fff40b32e34
+-[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:inMode:dequeue:] + 3044
+12  com.apple.ViewBridge          	0x00007fff67859df0
+-[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:dequeue:] + 92
 13  com.apple.AppKit              	0x00007fff40391885 -[NSApplication run] + 764
 14  com.apple.AppKit              	0x00007fff40360a72 NSApplicationMain + 804
 15  libxpc.dylib                  	0x00007fff6af6cdc7 _xpc_objc_main + 580
 16  libxpc.dylib                  	0x00007fff6af6ba1a xpc_main + 433
-17  com.apple.ViewBridge          	0x00007fff67859c15 -[NSXPCSharedListener resume] + 16
-18  com.apple.ViewBridge          	0x00007fff67857abe NSViewServiceApplicationMain + 2903
+17  com.apple.ViewBridge          	0x00007fff67859c15
+-[NSXPCSharedListener resume] + 16
+18  com.apple.ViewBridge          	0x00007fff67857abe
+NSViewServiceApplicationMain + 2903
 19  com.apple.SiriNCService       	0x00000001002396e0 main + 180
 20  libdyld.dylib                 	0x00007fff6ac12015 start + 1
 ```
@@ -55,7 +70,8 @@ Looking at the 09:52 crash we see
 This means we are accessing memory which does not exist.
 The program that was running (known as the TEXT) was
 
-`    __TEXT                 0000000100238000-0000000100247000 [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+`/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
+Contents/MacOS/SiriNCService
 `
 
 This is interesting because normally its applications that crash.  Here we see a software component crashing.
@@ -71,7 +87,7 @@ objc_msgSend() selector name: didUnlockScreen:
 `
 
 Now we have to a first level approximation answered the _what_, _where_  and _when_ aspect of the crash.
-It was a Siri component that crashed, in SiriNCService when didUnlockScreen was called on a non-existent object.
+It was a Siri component that crashed, in `SiriNCService` when `didUnlockScreen` was called on a non-existent object.
 
 ## Applying our Tool Box
 
@@ -89,7 +105,7 @@ Looking at a portion of the output is the following:
 - (void)_didLockScreen:(id)arg1;
 ```
 
-We see that there is indeed a method, `didUnlockScreen`, and we see that there is a service object which is owned **weakly**.  This means that the object is not retained and could get freed.  It typically means we a user of the SiriNCService but not the owner.  We do not own the lifecycle of the object.
+We see that there is indeed a method, `didUnlockScreen`, and we see that there is a service object which is owned **weakly**.  This means that the object is not retained and could get freed.  It typically means we a user of the `SiriNCService` but not the owner.  We do not own the lifecycle of the object.
 
 ## Software Engineering Insights
 
@@ -104,14 +120,18 @@ grep -i heat SiriNCService.classdump.txt
 @protocol SiriUXHeaterDelegate <NSObject>
 - (void)heaterSuggestsPreheating:(SiriUXHeater *)arg1;
 - (void)heaterSuggestsDefrosting:(SiriUXHeater *)arg1;
-@interface SiriNCAlertViewController : NSViewController <SiriUXHeaterDelegate, AFUISiriViewControllerDataSource, AFUISiriViewControllerDelegate>
+@interface SiriNCAlertViewController : NSViewController
+<SiriUXHeaterDelegate, AFUISiriViewControllerDataSource,
+ AFUISiriViewControllerDelegate>
     SiriUXHeater *_heater;
-@property(readonly, nonatomic) SiriUXHeater *heater; // @synthesize heater=_heater;
+@property(readonly, nonatomic)
+SiriUXHeater *heater; // @synthesize heater=_heater;
 - (void)heaterSuggestsPreheating:(id)arg1;
 - (void)heaterSuggestsDefrosting:(id)arg1;
 @interface SiriUXHeater : NSObject
     id <SiriUXHeaterDelegate> _delegate;
-@property(nonatomic) __weak id <SiriUXHeaterDelegate> delegate; // @synthesize delegate=_delegate;
+@property(nonatomic)
+__weak id <SiriUXHeaterDelegate> delegate; // @synthesize delegate=_delegate;
 - (void)_suggestPreheat;
 ```
 

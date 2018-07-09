@@ -10,7 +10,8 @@ Our three perspectives are:
 1. A practical HOW-TO guide for using the excellent tooling available from Apple.
 1. A discussion of software engineering concepts tailored to preventing and resolving crashes.
 1. A formal problem-solving approach but applied to crash analysis.
- 
+
+
 Programming literature comprehensively has documented software engineering concepts, and Apple has documented their crash dump tooling via Guides and WWDC videos.  
 
 Formal problem solving is less discussed in software engineering circles, perhaps because it’s considered a table stakes skill for an engineer.  It is however a discipline of its own and when directly studied can only enhance the “natural” abilities that seem to mark out the “technically-minded” folks from the rest of the population.

@@ -1,2 +1,3 @@
 markdown/Introduction.md
 markdown/QuickStart.md
+examples/siri_crash_osx/siriCrashExplanation.md
