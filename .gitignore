@@ -67,6 +67,9 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 
+# Finder related
+.DS_Store
+
 # Temporary work area
 scratch/
 foo.pdf
