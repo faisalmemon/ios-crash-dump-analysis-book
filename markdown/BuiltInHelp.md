@@ -11,3 +11,5 @@ We shall revisit Xcode configuration, setup and tooling many times.  But let us 
 By opening the project icdab_sample from the @icdabgithub github site and looking at the Schema definition and then highlighting the Diagnostics tab we see the following options:
 
 ![](screenshots/diagnostic_settings.png)
+
+//FAISALMEMON CARRY ON HERE
