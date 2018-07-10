@@ -30,6 +30,7 @@ topics | Topic specific writing
 source | Parent directory of compilable source code
 markdown | Markdown files for the body text of the book
 examples | Examples of crashes
+automation | Sikulix automation scripts to produce screenshots, etc.
 
 ## Branch Policy
 
@@ -62,6 +63,10 @@ Brew Package | Purpose
 For analysing binaries I used `class-dump`.  Whilst previously this was available from Brew, it seems now you have to directly download it.
 
 [Download class-dump](http://stevenygard.com/projects/class-dump/)
+
+For automating the taking of screenshots I used the automation tool [Sikulix](http://www.sikulix.com/quickstart/)
+
+The automation scripts, since they are based on inferences from the desktop UI experience are tied to my own installation and setup of my desktop Mac so the automation scripts may not work without modification on your system.
 
 ### Recommended Software
 
