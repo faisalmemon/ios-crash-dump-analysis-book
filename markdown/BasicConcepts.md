@@ -109,9 +109,15 @@ It's your job as the application developer to shield the lower level parts of th
 
 How should we guard against the privacy problems described above?
 
-The thing to keep in mind is that any code that touches upon the policies the Operating Environment has guards for is a good candidate for automated testing. 
+The thing to keep in mind is that any code that touches upon the policies the Operating Environment has guards for is a good candidate for automated testing.
 
 In the `icdab_sample` project we have created Unit tests and UI tests.
+
+Test cases always feel over-the-top when applied to trivial programs.  But consider a large program which has an extensive `Info.plist` file.  A new version of the app is called for so another `Info.plist` is created.  Then keeping the privilege settings in sync between the different build targets becomes an issue.  The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.  
+
+Similarly if your app has a lot of low level code and then is ported from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?
+
+Unit testing a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in your code base.  Its a strategic play allowing you to get some confidence in your application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).
 
 ## Unit Testing the MAC Address
 
@@ -153,3 +159,14 @@ Here is a snippet from the Unit tests:
 In fact, the last test fails because the OS returns a local address.
 
 ## UI Testing Camera access
+
+For testing camera access we have written a simple UI test case which just presses the Take Photo button (by means of an accessibility identifier `takePhotoButton`)
+
+```
+func testTakePhoto() {
+    let app = XCUIApplication()
+    app.buttons["takePhotoButton"].tap()
+}
+```
+
+This UI test code caused an immediate crash.

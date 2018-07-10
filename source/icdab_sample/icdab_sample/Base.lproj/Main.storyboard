@@ -69,6 +69,7 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mLR-yh-1h2">
                                                 <rect key="frame" x="0.0" y="0.0" width="333" height="30"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="takePhotoButton"/>
                                                 <state key="normal" title="Take Photo"/>
                                                 <connections>
                                                     <action selector="takePhotoButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8Sf-TP-0rA"/>

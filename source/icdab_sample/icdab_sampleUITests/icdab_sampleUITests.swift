@@ -28,9 +28,9 @@ class icdab_sampleUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testTakePhoto() {
+        let app = XCUIApplication()
+        app.buttons["takePhotoButton"].tap()
     }
     
 }
