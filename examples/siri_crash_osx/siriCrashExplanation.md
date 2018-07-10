@@ -70,9 +70,10 @@ Looking at the 09:52 crash we see
 This means we are accessing memory which does not exist.
 The program that was running (known as the TEXT) was
 
-`/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
+```
+/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
 Contents/MacOS/SiriNCService
-`
+```
 
 This is interesting because normally its applications that crash.  Here we see a software component crashing.
 The Siri service is a distributed app which uses cross process communication (xpc) to do its work.

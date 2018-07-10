@@ -1,10 +1,10 @@
-## Quick Start
+# Quick Start
 
 When an application crash appears after a recent code change, it can be straightforward to reason about the crash and look at the relevant code changes.  Often, crashes just appear due to a change in operating environment.  Those can be the most annoying.  For example, the app runs fine in the Office but crashes at the customer Site.  You don't have time to get into why, but need a quick fix or workaround.  Another common problem is when a new project is being explored.  This is where we have no past experience with the code base but immediately face crash problems after compilation and running the app.
 
 In this chapter we explore possible reasons for crashing due to a change in operating environment.  There are a variety of problems that can be dealt with without getting into logical analysis of the specifics of the problem at hand.  In reality sometimes you just need to make progress, whilst making a note to go back and address the root cause.
 
-### Troubleshooting operating environment crashes
+## Troubleshooting operating environment crashes
 
 Situation | Suggested steps
 -- | --
@@ -15,9 +15,10 @@ App crashes when at customer site | Check Wi-Fi settings or try hot-spotting you
 Deploying on customer device gives problems | If you cable up your laptop to the customer's device, you're probably doing a Debug release deployment.  This means push notification tokens will be the development tokens not the production tokens.  It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version).  Try switching deployment configuration via Command-< select Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug).  Also manually check any resource access grants in the iPad/iPhone settings.
 Deploying with a certain locale causes a crash | Resource files might be absent in the wrong locale.  Furthermore, locale handling is rife with undocumented special cases.  Try changing the locale temporarily to a known working one.
 
-### The Crash Mindset
+## The Crash Mindset
 
 One take away lesson from the above examples are that we need to think of our code in a wider context.  Think of the operating environment for your app.  This comprises:
+
 - the compiled code
 - binary incompatibilities between code modules (different language versions, compilers and toolchains)
 - resource files bundled or downloaded into the app
