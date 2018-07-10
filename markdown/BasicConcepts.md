@@ -104,3 +104,50 @@ If the problems have resulted directly from some
 IO problem (file or network access for example) or some human input problem (such as a bad date value) then you should not crash.  
 
 It's your job as the application developer to shield the lower level parts of the system from unpredictability present in the real world.  Such problems are better dealt with by logging, error handling, user alerts, and IO retries.
+
+# Engineering Guidance
+
+How should we guard against the problems described above?  The thing to keep in mind is that any code that touches upon the policies the Operating Environment guards for is a good candidate for automated testing.  Code which gets privacy sensitive information in this example.
+
+In the `icdab_sample` project we have created Unit tests and UI tests.
+
+## Unit Testing the MAC Address
+
+The code to get the MAC address is not trivial.  So it merits some level of testing.
+
+Here is a snippet from the Unit tests:
+
+```
+    func getFirstOctectAsInt(_ macAddress: String) -> Int {
+        let firstOctect = macAddress.split(separator: ":").first!
+        let firstOctectAsNumber = Int(String(firstOctect))!
+        return firstOctectAsNumber
+    }
+
+    func testMacAddressNotNil() {
+        let macAddress = MacAddress().getMacAddress()
+        XCTAssertNotNil(macAddress)
+    }
+
+    func testMacAddressIsNotRandom() {
+        let macAddressFirst = MacAddress().getMacAddress()
+        let macAddressSecond = MacAddress().getMacAddress()
+        XCTAssert(macAddressFirst == macAddressSecond)
+    }
+
+    func testMacAddressIsUnicast() {
+        let macAddress = MacAddress().getMacAddress()!
+        let firstOctect = getFirstOctectAsInt(macAddress)
+        XCTAssert(0 == (firstOctect & 1))
+    }
+
+    func testMacAddressIsGloballyUnique() {
+        let macAddress = MacAddress().getMacAddress()!
+        let firstOctect = getFirstOctectAsInt(macAddress)
+        XCTAssert(0 == (firstOctect & 2))
+    }
+```
+
+In fact, the last test fails because the OS returns a local address.
+
+## UI Testing Camera access

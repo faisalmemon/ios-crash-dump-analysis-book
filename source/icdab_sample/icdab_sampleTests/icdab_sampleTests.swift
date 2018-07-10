@@ -21,16 +21,33 @@ class icdab_sampleTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func getFirstOctectAsInt(_ macAddress: String) -> Int {
+        let firstOctect = macAddress.split(separator: ":").first!
+        let firstOctectAsNumber = Int(String(firstOctect))!
+        return firstOctectAsNumber
+    }
+
+    func testMacAddressNotNil() {
+        let macAddress = MacAddress().getMacAddress()
+        XCTAssertNotNil(macAddress)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testMacAddressIsNotRandom() {
+        let macAddressFirst = MacAddress().getMacAddress()
+        let macAddressSecond = MacAddress().getMacAddress()
+        XCTAssert(macAddressFirst == macAddressSecond)
+    }
+    
+    func testMacAddressIsUnicast() {
+        let macAddress = MacAddress().getMacAddress()!
+        let firstOctect = getFirstOctectAsInt(macAddress)
+        XCTAssert(0 == (firstOctect & 1))
+    }
+    
+    func testMacAddressIsGloballyUnique() {
+        let macAddress = MacAddress().getMacAddress()!
+        let firstOctect = getFirstOctectAsInt(macAddress)
+        XCTAssert(0 == (firstOctect & 2))
     }
     
 }
