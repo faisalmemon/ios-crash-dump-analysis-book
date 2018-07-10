@@ -1,5 +1,6 @@
 markdown/Introduction.md
 markdown/QuickStart.md
 markdown/Tooling.md
+markdown/BuiltInHelp.md
 examples/siri_crash_osx/siriCrashExplanation.md
 markdown/Bibliography.md

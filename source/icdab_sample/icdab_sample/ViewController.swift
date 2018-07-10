@@ -10,9 +10,15 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var macAddressLabelOutlet: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        let macAddress = MacAddress()
+        if let deviceMacAddress = macAddress.getMacAddress() {
+            macAddressLabelOutlet.text = deviceMacAddress
+        } else {
+            macAddressLabelOutlet.text = "Unknown"
+        }
     }
 
     override func didReceiveMemoryWarning() {
