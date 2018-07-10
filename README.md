@@ -31,6 +31,7 @@ source | Parent directory of compilable source code
 markdown | Markdown files for the body text of the book
 examples | Examples of crashes
 automation | Sikulix automation scripts to produce screenshots, etc.
+screenshots | Screenshots
 
 ## Branch Policy
 

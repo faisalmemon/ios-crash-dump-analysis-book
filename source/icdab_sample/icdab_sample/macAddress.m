@@ -11,6 +11,17 @@
 
 @implementation MacAddress
 
+- (void)nilDispatchDoesNothing
+{
+    NSString *error = NULL;
+    assert([error length] == 0);
+}
+
+void nullDereferenceCrash() {
+    char *nullPointer = NULL;
+    assert(strlen(nullPointer) == 0);
+}
+
 - (NSString *)getMacAddress
 {
     int                 mgmtInfoBase[6];
@@ -20,6 +31,8 @@
     struct if_msghdr    *interfaceMsgStruct;
     struct sockaddr_dl  *socketStruct;
     NSString            *errorFlag = NULL;
+    
+    [self nilDispatchDoesNothing];
     
     // Setup the management Information Base (mib)
     mgmtInfoBase[0] = CTL_NET;        // Request network subsystem
