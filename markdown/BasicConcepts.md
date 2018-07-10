@@ -107,7 +107,9 @@ It's your job as the application developer to shield the lower level parts of th
 
 # Engineering Guidance
 
-How should we guard against the problems described above?  The thing to keep in mind is that any code that touches upon the policies the Operating Environment guards for is a good candidate for automated testing.  Code which gets privacy sensitive information in this example.
+How should we guard against the privacy problems described above?
+
+The thing to keep in mind is that any code that touches upon the policies the Operating Environment has guards for is a good candidate for automated testing. 
 
 In the `icdab_sample` project we have created Unit tests and UI tests.
 
