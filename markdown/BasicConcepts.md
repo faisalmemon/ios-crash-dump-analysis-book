@@ -105,7 +105,7 @@ IO problem (file or network access for example) or some human input problem (suc
 
 It's your job as the application developer to shield the lower level parts of the system from unpredictability present in the real world.  Such problems are better dealt with by logging, error handling, user alerts, and IO retries.
 
-# Engineering Guidance
+## Engineering Guidance
 
 How should we guard against the privacy problems described above?
 
@@ -119,7 +119,7 @@ Similarly if your app has a lot of low level code and then is ported from iOS to
 
 Unit testing a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in your code base.  Its a strategic play allowing you to get some confidence in your application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).
 
-## Unit Testing the MAC Address
+### Unit Testing the MAC Address
 
 The code to get the MAC address is not trivial.  So it merits some level of testing.
 
@@ -158,7 +158,7 @@ Here is a snippet from the Unit tests:
 
 In fact, the last test fails because the OS returns a local address.
 
-## UI Testing Camera access
+### UI Testing Camera access
 
 For testing camera access we have written a simple UI test case which just presses the Take Photo button (by means of an accessibility identifier `takePhotoButton`)
 
