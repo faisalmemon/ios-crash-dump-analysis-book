@@ -87,10 +87,6 @@ void nullDereferenceCrash() {
     // Release the buffer memory
     free(msgBuffer);
     
-    if ([macAddressString isEqualToString:@"02:00:00:00:00:00"]) {
-        return nil;
-    }
-    
     return macAddressString;
 }
 
