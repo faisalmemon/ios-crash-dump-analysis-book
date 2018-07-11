@@ -1,5 +1,8 @@
 # iOS Crash Dump Analysis Book
 
+The HTML version of the book, "iOS Crash Dump Analysis" is available at the link:
+https://faisalmemon.github.io/ios-crash-dump-analysis-book/
+
 The purpose of this repository is to provide the source code and other resources supporting the iOS crash dump analysis book.  The initial intention is to provide the book in two parts, the first part being an introduction, and the second part an advanced book.
 
 ## Why write this book?
