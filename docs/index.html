@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="by Faisal Memon" />
+  <title>iOS Crash Dump Analysis</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="style/gitHubStyle.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header>
+<h1 class="title">iOS Crash Dump Analysis</h1>
+<p class="author">by Faisal Memon</p>
+</header>
+<nav id="TOC">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#quick-start">Quick Start</a><ul>
+<li><a href="#troubleshooting-operating-environment-crashes">Troubleshooting operating environment crashes</a></li>
+<li><a href="#the-crash-mindset">The Crash Mindset</a></li>
+</ul></li>
+<li><a href="#basic-concepts">Basic Concepts</a><ul>
+<li><a href="#what-is-a-crash">What is a crash?</a></li>
+<li><a href="#operating-environment-policies">Operating Environment Policies</a><ul>
+<li><a href="#nil-handling-example">Nil Handling Example</a></li>
+<li><a href="#mac-address-example">MAC Address Example</a></li>
+<li><a href="#camera-example">Camera Example</a></li>
+<li><a href="#lessons-learnt">Lessons Learnt</a></li>
+</ul></li>
+<li><a href="#application-policies">Application policies</a><ul>
+<li><a href="#when-should-you-crash">When should you crash?</a></li>
+<li><a href="#when-should-you-not-crash">When should you not crash?</a></li>
+</ul></li>
+<li><a href="#engineering-guidance">Engineering Guidance</a><ul>
+<li><a href="#unit-testing-the-mac-address">Unit Testing the MAC Address</a></li>
+<li><a href="#ui-testing-camera-access">UI Testing Camera access</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#tooling">Tooling</a><ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#reverse-engineering">Reverse Engineering</a></li>
+<li><a href="#class-dump-tool">Class Dump Tool</a></li>
+</ul></li>
+<li><a href="#xcode-built-in-help">Xcode Built In Help</a><ul>
+<li><a href="#xcode-diagnostic-settings">Xcode Diagnostic Settings</a></li>
+</ul></li>
+<li><a href="#a-siri-crash">A Siri Crash</a><ul>
+<li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
+<li><a href="#the-crash-report">The Crash report</a></li>
+<li><a href="#the-crash-details">The Crash details</a></li>
+<li><a href="#applying-our-tool-box">Applying our Tool Box</a></li>
+<li><a href="#software-engineering-insights">Software Engineering Insights</a></li>
+<li><a href="#lessons-learnt-1">Lessons Learnt</a></li>
+</ul></li>
+<li><a href="#bibliography">Bibliography</a></li>
+</ul>
+</nav>
+<h1 id="introduction">Introduction</h1>
+<p>This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs. The mindset of the Application developer is largely understanding high level concepts and abstractions. When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.</p>
+<p>We cover specifically the Apple ecosystem using the Swift programming language. Our main focus is iOS but we touch upon other platforms and languages also. The approach we take is to combine three different perspectives on the problem to give a rounded and robust view of the situation and how to resolve it.</p>
+<p>Our three perspectives are:</p>
+<ol type="1">
+<li>A practical HOW-TO guide for using the excellent tooling available from Apple.</li>
+<li>A discussion of software engineering concepts tailored to preventing and resolving crashes.</li>
+<li>A formal problem-solving approach but applied to crash analysis.</li>
+</ol>
+<p>Programming literature comprehensively has documented software engineering concepts, and Apple has documented their crash dump tooling via Guides and WWDC videos.</p>
+<p>Formal problem solving is less discussed in software engineering circles, perhaps because it’s considered a table stakes skill for an engineer. It is however a discipline of its own and when directly studied can only enhance the “natural” abilities that seem to mark out the “technically-minded” folks from the rest of the population.</p>
+<p>Our goal is not the shy away from repeating knowledge we’ve probably seen or read elsewhere but instead we take the view point of explaining the whole narrative in a cohesive manner. What makes crash dump analysis hard is that significant background knowledge is often assumed in order to make room to concentrate on the particulars of a specific tool or crash report. That causes a barrier to entry which this book aims to overcome.</p>
+<p>To complement the book, there is a website of resources which is intended to be used alongside the printed material so example projects can be setup and run by yourself and experimented with. All references in this book are collected into the Bibliography Chapter at the end of the book. There you will find URLs to resources for example.</p>
+<p>The GitHub website supporting the book at <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<h1 id="quick-start">Quick Start</h1>
+<p>When an application crash appears after a recent code change, it can be straightforward to reason about the crash and look at the relevant code changes. Often, crashes just appear due to a change in operating environment. Those can be the most annoying. For example, the app runs fine in the Office but crashes at the customer Site. You don’t have time to get into why, but need a quick fix or workaround. Another common problem is when a new project is being explored. This is where we have no past experience with the code base but immediately face crash problems after compilation and running the app.</p>
+<p>In this chapter we explore possible reasons for crashing due to a change in operating environment. There are a variety of problems that can be dealt with without getting into logical analysis of the specifics of the problem at hand. In reality sometimes you just need to make progress, whilst making a note to go back and address the root cause.</p>
+<h2 id="troubleshooting-operating-environment-crashes">Troubleshooting operating environment crashes</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Suggested steps</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>App crashes on startup due to a missing resource issue</td>
+<td>Try compiling and running other Xcode project targets. Sometimes a specific target is the one that sets up your environment as part of the build. If so, make a note to address that later.</td>
+</tr>
+<tr class="even">
+<td>App crashes on startup due to a binary compatibility issue</td>
+<td>If you’ve recently updated Xcode, or pulled code updates on top of a compiled project, do a Option-Command-Shift-K clean which cleans the build area of intermediates, and then re-build as normal</td>
+</tr>
+<tr class="odd">
+<td>App crashes only on simulator</td>
+<td>Try Simulator Hardware-&gt;Reset all content and settings. Try iPad simulator instead of iPhone simulator and vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.</td>
+</tr>
+<tr class="even">
+<td>App crashes when at customer site</td>
+<td>Check Wi-Fi settings or try hot-spotting your iPad to iPhone. Sometimes network issues such as connectivity, or latency are overlooked when developing your app in your office/home environment. Make a note to fix networking assumptions if that is the problem.</td>
+</tr>
+<tr class="odd">
+<td>Deploying on customer device gives problems</td>
+<td>If you cable up your laptop to the customer’s device, you’re probably doing a Debug release deployment. This means push notification tokens will be the development tokens not the production tokens. It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version). Try switching deployment configuration via Command-&lt; select Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug). Also manually check any resource access grants in the iPad/iPhone settings.</td>
+</tr>
+<tr class="even">
+<td>Deploying with a certain locale causes a crash</td>
+<td>Resource files might be absent in the wrong locale. Furthermore, locale handling is rife with undocumented special cases. Try changing the locale temporarily to a known working one.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-crash-mindset">The Crash Mindset</h2>
+<p>One take away lesson from the above examples are that we need to think of our code in a wider context. Think of the operating environment for your app. This comprises:</p>
+<ul>
+<li>the compiled code</li>
+<li>binary incompatibilities between code modules (different language versions, compilers and toolchains)</li>
+<li>resource files bundled or downloaded into the app</li>
+<li>the build configuration (e.g. Release or Debug)</li>
+<li>the network environment, availability/latency/speed</li>
+<li>permissions granted to the app</li>
+<li>permissions denied to the app (in a Mobile Device Managment secured environment)</li>
+<li>platform variants</li>
+<li>orientation</li>
+<li>foreground and background operating modes</li>
+<li>hardware performance (old slow hardware versus faster newer devices)</li>
+<li>hardware components (GPU, Memory, CPU, accessories, etc.)</li>
+<li>geographic location related issues</li>
+<li>locale issues</li>
+<li>presence of diagnostics settings</li>
+<li>presence of a debugger or profiler</li>
+<li>the OS version of the target device</li>
+</ul>
+<p>As a first step in getting into the correct mindset to tackle app crashes, its worthwhile working through each of the above operating environment differences and trying to note down if such a difference ever resulted in a crash that you know about or suspect could happen. This will teach you that crashes are much more about <strong>environment</strong> than about <strong>source code</strong>. Another secondary insight is that the more able you are to produce a list of hypotheses given a specific environment difference, the more easily and quickly you will be able to find the root cause of crashes that seem mysterious to other people, and almost magical that you came up with a suggestion of where the problem could be.</p>
+<p>Here are some curious examples of crashes from the Information Technology folklore to whet your appetite and get you thinking:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Trigger for Crash</th>
+<th>Reason for crash</th>
+<th>Historical Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Locale</td>
+<td>Only Russian locale caused a crash during date processing. This was because 1984-04-01 was being used as a sentinel date marker. However, in Russia, there is no such date/time because there is no midnight at that point in time. Daylight time started in Russia on that date with a +1 hour.</td>
+<td>This was seen during development of the WecudosPro iPad app when it was tested in Russia</td>
+</tr>
+<tr class="even">
+<td>Geographic Location</td>
+<td>A computer was crashing each day; each time a different reason. The actual problem was the computer was near a window next to a estuary where ships passed by. At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.</td>
+<td>This folklore story was told to Sun Microsystems Answer Center engineers in the UK during Kepner-Tregoe formal problem solving training.</td>
+</tr>
+<tr class="odd">
+<td>Bus Noise</td>
+<td>When a computer was under both heavy network load and disk load the system would crash to due corruption on disk. There was always a zero very 64 bytes. It was the cache line size of the computer. The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.</td>
+<td>This was seen during the development of Sun Volume Systems Group prototype hardware build.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="basic-concepts">Basic Concepts</h1>
+<h2 id="what-is-a-crash">What is a crash?</h2>
+<p>An application crash is something the Operating Environment does to your application in response to what you have done (or failed to do) in the Operating Environment that violates some <em>policy</em> of the platform you are running on.</p>
+<h2 id="operating-environment-policies">Operating Environment Policies</h2>
+<p>The policies of the operating environment are there to ensure security, data safety, performance, and privacy of the environment to the user.</p>
+<h3 id="nil-handling-example">Nil Handling Example</h3>
+<p>Newcomers to the Apple ecosystem are often surprised to learn that Objective-C allows you to message a nil object. It silently ignores the failed dispatch. For example the following method runs ok.</p>
+<pre><code>- (void)nilDispatchDoesNothing
+{
+    NSString *error = NULL;
+    assert([error length] == 0);
+}</code></pre>
+<p>The Objective-C runtime authors made a judgement call, and decided it was better for an application to ignore such problems.</p>
+<p>However if you deference a C pointer you get a crash.</p>
+<pre><code>void nullDereferenceCrash() {
+    char *nullPointer = NULL;
+    assert(strlen(nullPointer) == 0);
+}</code></pre>
+<p>The authors of the operating system have setup the system so access to this and other low memory addresses causes the hardware to trap on this illegal access and abort your program.</p>
+<p>This area of memory is set aside by the operating system because it indicates a programming error of not setting up an object or data structure properly.</p>
+<p>When things go wrong, you don’t always get a crash. Only if it is Operating Environment policy then you get a crash.</p>
+<h3 id="mac-address-example">MAC Address Example</h3>
+<p>Consider the example of getting the MAC address of your iPhone. The Media Access Control (MAC) address is a unique code allocated to network cards to allow machines to talk to each other without duplication at the Data Link layer of the communication stack.</p>
+<p>Prior to iOS 7, the MAC address was not considered a sensitive API. So requesting the MAC address gave the real address. The <code>icdab_sample</code> app attempts to do this. See <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span>. However, the API was abused as a way of tracking the user - a privacy violation. Therefore a policy was established from iOS 7. Apple could have chosen to crash your app when the call to <code>sysctl</code> was made in order to get the MAC address. However, this is a general purpose low level call which can be used for other valid purposes. Therefore the policy set by iOS was to return you a fixed MAC address <code>02:00:00:00:00:00</code> whenever that was requested.</p>
+<h3 id="camera-example">Camera Example</h3>
+<p>Now lets consider the case of taking a photo using the camera.</p>
+<p>Introduced in iOS 10, when you want to access the Camera, a privacy sensitive feature, you need to define human readable text that is presented inside the system permission dialogue before access to the Camera is granted.</p>
+<p>If you don’t define the text in your <code>Info.plist</code> for <code>NSCameraUsageDescription</code> you still the following code returning true and then attempting to present the image picker.</p>
+<pre><code>if UIImagePickerController
+            .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        }</code></pre>
+<p>However when you run the code you see a crash and descriptive console message:</p>
+<pre><code>2018-07-10 20:09:21.549897+0100 icdab_sample[1775:15601294]
+ [access] This app has crashed because it attempted to access
+  privacy-sensitive data without a usage description.  
+  The app&#39;s Info.plist must contain an NSCameraUsageDescription
+   key with a string value explaining to the user how the app
+   uses this data.
+Message from debugger: Terminated due to signal 9</code></pre>
+<h3 id="lessons-learnt">Lessons Learnt</h3>
+<p>Note the contrast here. In both cases there was a privacy sensitive API. But in the camera case, Apple chose a policy of crashing your app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a <code>false</code> value to indicate the source type was not available.</p>
+<p>This underlies the point about there being two entities involved, the program and the operating environment (which includes its policies). Having correct source code does not guarantee crash free running. And when we see a crash we need to think about the operating environment as much as the code itself.</p>
+<h2 id="application-policies">Application policies</h2>
+<p>It’s not just the Operating Environment that can define a policy for when to crash. The application you are writing can also request a crash. This is typically done via <code>assert</code> calls in your code. These calls ask the Operating Environment to terminate your app if the assert has failed. The Operating Environment then aborts your app. In the crash report you get a</p>
+<p><code>Exception Type:  EXC_CRASH (SIGABRT)</code></p>
+<p>to indicate it was the application that requested the crash in the first place.</p>
+<h3 id="when-should-you-crash">When should you crash?</h3>
+<p>You can apply similar standards as the Operating Environment for your crash policy.</p>
+<p>If your code detects a data integrity issue, you could crash to prevent further data corruption.</p>
+<h3 id="when-should-you-not-crash">When should you not crash?</h3>
+<p>If the problems have resulted directly from some IO problem (file or network access for example) or some human input problem (such as a bad date value) then you should not crash.</p>
+<p>It’s your job as the application developer to shield the lower level parts of the system from unpredictability present in the real world. Such problems are better dealt with by logging, error handling, user alerts, and IO retries.</p>
+<h2 id="engineering-guidance">Engineering Guidance</h2>
+<p>How should we guard against the privacy problems described above?</p>
+<p>The thing to keep in mind is that any code that touches upon the policies the Operating Environment has guards for is a good candidate for automated testing.</p>
+<p>In the <code>icdab_sample</code> project we have created Unit tests and UI tests.</p>
+<p>Test cases always feel over-the-top when applied to trivial programs. But consider a large program which has an extensive <code>Info.plist</code> file. A new version of the app is called for so another <code>Info.plist</code> is created. Then keeping the privilege settings in sync between the different build targets becomes an issue. The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.</p>
+<p>Similarly if your app has a lot of low level code and then is ported from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?</p>
+<p>Unit testing a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in your code base. Its a strategic play allowing you to get some confidence in your application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).</p>
+<h3 id="unit-testing-the-mac-address">Unit Testing the MAC Address</h3>
+<p>The code to get the MAC address is not trivial. So it merits some level of testing.</p>
+<p>Here is a snippet from the Unit tests:</p>
+<pre><code>    func getFirstOctectAsInt(_ macAddress: String) -&gt; Int {
+        let firstOctect = macAddress.split(separator: &quot;:&quot;).first!
+        let firstOctectAsNumber = Int(String(firstOctect))!
+        return firstOctectAsNumber
+    }
+
+    func testMacAddressNotNil() {
+        let macAddress = MacAddress().getMacAddress()
+        XCTAssertNotNil(macAddress)
+    }
+
+    func testMacAddressIsNotRandom() {
+        let macAddressFirst = MacAddress().getMacAddress()
+        let macAddressSecond = MacAddress().getMacAddress()
+        XCTAssert(macAddressFirst == macAddressSecond)
+    }
+
+    func testMacAddressIsUnicast() {
+        let macAddress = MacAddress().getMacAddress()!
+        let firstOctect = getFirstOctectAsInt(macAddress)
+        XCTAssert(0 == (firstOctect &amp; 1))
+    }
+
+    func testMacAddressIsGloballyUnique() {
+        let macAddress = MacAddress().getMacAddress()!
+        let firstOctect = getFirstOctectAsInt(macAddress)
+        XCTAssert(0 == (firstOctect &amp; 2))
+    }</code></pre>
+<p>In fact, the last test fails because the OS returns a local address.</p>
+<h3 id="ui-testing-camera-access">UI Testing Camera access</h3>
+<p>For testing camera access we have written a simple UI test case which just presses the Take Photo button (by means of an accessibility identifier <code>takePhotoButton</code>)</p>
+<pre><code>func testTakePhoto() {
+    let app = XCUIApplication()
+    app.buttons[&quot;takePhotoButton&quot;].tap()
+}</code></pre>
+<p>This UI test code caused an immediate crash.</p>
+<h1 id="tooling">Tooling</h1>
+<h2 id="overview">Overview</h2>
+<p>We have a rich set of tools available to assist crash dump analysis. When used properly they can save a huge amount of time.</p>
+<p>Xcode provides much help out of the box. But using and comprehending the information Xcode tools provide is daunting. In later chapters we go through examples showing the use of such tools.</p>
+<p>Additionally there are command line tools provided as standard in macOS. These are helpful when used in particular usage scenarios when you already know what you want to find out. We shall go through specific scenarios and show how the tools are used.</p>
+<p>Next come software tools that help you reverse engineer programs. Sometimes you cannot get your program to work with a third party library. Aside from looking at Documentation or raising a Support Request, it’s possible to do some investigation yourself using these tools.</p>
+<h2 id="reverse-engineering">Reverse Engineering</h2>
+<p>Reverse engineering is where you take an already built binary (such as an application, library, or helper process daemon), and work out how it was engineered to work. For example:</p>
+<ul>
+<li>what are the lifecycles of the objects it is provided?</li>
+<li>what checks does it do on objects?</li>
+<li>what files or resources does it depend on?</li>
+<li>why did it return a failure code?</li>
+</ul>
+<p>You generally do not want to know everything, only something specific to help build a hypothesis which you will test related to the crash dump you are dealing with.</p>
+<p>How far should you go with reverse engineering and how much money and time to invest in it is a good question. We offer the following recommendation.</p>
+<ul>
+<li>If you are just starting your application developer journey or you have limited funds, then just stick with the standard Xcode tooling, macOS command line, and the open source class-dump tool.</li>
+<li>If you are a professional application developer, strongly consider buying a commercial reverse engineering tool. The one that draws most attention is Hopper; it provides a lot of functionality offered by IDA Pro (a high end tool). It is well priced and can pay for itself in gained productivity even if only used a handful of times. We show how Hopper can be used in this book.</li>
+<li>If you are a professional penetration tester, reverse engineer, or security researcher, then you will be probably wanting to invest in the top of the line software tool, IDA Pro. The tool costs thousands but is often purchased as an company wide expense.</li>
+</ul>
+<h2 id="class-dump-tool">Class Dump Tool</h2>
+<p>One of the great things about the Objective-C runtime is that it carries lots of rich program structure information in its built binaries. These allow the dynamic aspects of the language to work. In fact its flexibility of dynamic dispatch is a source for many crashes.</p>
+<p>We recommend installing the <code>class-dump</code> tool right away because we shall reference its usage in later chapters. See <span class="citation" data-cites="class-dump-tool">Nygard (2018)</span></p>
+<p>The class dump tool allows us to look at what Objective C classes, methods and properties are present in a given program.</p>
+<h1 id="xcode-built-in-help">Xcode Built In Help</h1>
+<p>Xcode provides a lot of help to developers in understanding and preventing crashes.</p>
+<p>We think of Xcode in layers of sophistication, where at the lowest layer of sophistication Xcode directly tells you the common error it has seen with suggested corrections, up to the highest level were Xcode is telling the raw information, but you need Operating Systems knowledge to interpret the information yourself.</p>
+<p>We shall revisit Xcode configuration, setup and tooling many times. But let us first start off with the simple but high value assistance Xcode provides.</p>
+<h2 id="xcode-diagnostic-settings">Xcode Diagnostic Settings</h2>
+<p>By opening the project icdab_sample from the <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> github site and looking at the Schema definition and then highlighting the Diagnostics tab we see the following options:</p>
+<p><img src="screenshots/diagnostic_settings.png" /></p>
+<p>//FAISALMEMON CARRY ON HERE</p>
+<h1 id="a-siri-crash">A Siri Crash</h1>
+<h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
+<p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
+<h2 id="the-crash-report">The Crash report</h2>
+<p>Here is the crash report, suitably truncated for ease of demonstration:</p>
+<pre><code>Process:               SiriNCService [1045]
+Path:                  
+/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
+Contents/MacOS/SiriNCService
+Identifier:            com.apple.SiriNCService
+Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
+Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000018
+Exception Note:        EXC_CORPSE_NOTIFY
+VM Regions Near 0x18:
+--&gt;
+    __TEXT                 0000000100238000-0000000100247000
+    [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/
+    XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+
+Application Specific Information:
+objc_msgSend() selector name: didUnlockScreen:
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libobjc.A.dylib                 0x00007fff69feae9d objc_msgSend + 29
+1   com.apple.CoreFoundation        0x00007fff42e19f2c
+ __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
+2   com.apple.CoreFoundation        0x00007fff42e19eaf
+___CFXRegistrationPost_block_invoke + 63
+3   com.apple.CoreFoundation        0x00007fff42e228cc
+ __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
+4   com.apple.CoreFoundation        0x00007fff42e052a3 __CFRunLoopDoBlocks + 275
+5   com.apple.CoreFoundation        0x00007fff42e0492e __CFRunLoopRun + 1278
+6   com.apple.CoreFoundation        0x00007fff42e041a3
+CFRunLoopRunSpecific + 483
+7   com.apple.HIToolbox             0x00007fff420ead96
+RunCurrentEventLoopInMode + 286
+8   com.apple.HIToolbox             0x00007fff420eab06
+ReceiveNextEventCommon + 613
+9   com.apple.HIToolbox             0x00007fff420ea884
+_BlockUntilNextEventMatchingListInModeWithFilter + 64
+10  com.apple.AppKit                0x00007fff4039ca73 _DPSNextEvent + 2085
+11  com.apple.AppKit                0x00007fff40b32e34
+-[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:inMode:dequeue:] + 3044
+12  com.apple.ViewBridge            0x00007fff67859df0
+-[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:dequeue:] + 92
+13  com.apple.AppKit                0x00007fff40391885 -[NSApplication run] + 764
+14  com.apple.AppKit                0x00007fff40360a72 NSApplicationMain + 804
+15  libxpc.dylib                    0x00007fff6af6cdc7 _xpc_objc_main + 580
+16  libxpc.dylib                    0x00007fff6af6ba1a xpc_main + 433
+17  com.apple.ViewBridge            0x00007fff67859c15
+-[NSXPCSharedListener resume] + 16
+18  com.apple.ViewBridge            0x00007fff67857abe
+NSViewServiceApplicationMain + 2903
+19  com.apple.SiriNCService         0x00000001002396e0 main + 180
+20  libdyld.dylib                   0x00007fff6ac12015 start + 1</code></pre>
+<h2 id="the-crash-details">The Crash details</h2>
+<p>Looking at the 09:52 crash we see</p>
+<p><code>Exception Type:        EXC_BAD_ACCESS (SIGSEGV)</code></p>
+<p>This means we are accessing memory which does not exist. The program that was running (known as the TEXT) was</p>
+<pre><code>/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
+Contents/MacOS/SiriNCService</code></pre>
+<p>This is interesting because normally its applications that crash. Here we see a software component crashing. The Siri service is a distributed app which uses cross process communication (xpc) to do its work. We see that from references to xpc as above.</p>
+<p>What method were we trying to call on an object that no longer exists? Helpfully, the crash dump provides the answer:</p>
+<p><code>Application Specific Information: objc_msgSend() selector name: didUnlockScreen:</code></p>
+<p>Now we have to a first level approximation answered the <em>what</em>, <em>where</em> and <em>when</em> aspect of the crash. It was a Siri component that crashed, in <code>SiriNCService</code> when <code>didUnlockScreen</code> was called on a non-existent object.</p>
+<h2 id="applying-our-tool-box">Applying our Tool Box</h2>
+<p>Now to understand further we need to reach for the <code>class-dump</code> tool.</p>
+<p><code>class-dump SiriNCService &gt; SiriNCService.classdump.txt</code></p>
+<p>Looking at a portion of the output is the following:</p>
+<pre><code>@property __weak SiriNCService *service; // @synthesize service=_service;
+- (void).cxx_destruct;
+- (BOOL)isSiriListening;
+- (void)_didUnlockScreen:(id)arg1;
+- (void)_didLockScreen:(id)arg1;</code></pre>
+<p>We see that there is indeed a method, <code>didUnlockScreen</code>, and we see that there is a service object which is owned <strong>weakly</strong>. This means that the object is not retained and could get freed. It typically means we a user of the <code>SiriNCService</code> but not the owner. We do not own the lifecycle of the object.</p>
+<h2 id="software-engineering-insights">Software Engineering Insights</h2>
+<p>The underlying software engineering problem here is one of lifecycle. Part of the application has a object lifecycle we were not expecting. The consumer should have been written to detect the absence of the service as a robustness and defensive programming best practice. What can happen is that the software is maintained over time, and the lifecycles of objects grow more complex over time as new functionality is added but the old code using the objects is not updated in sync.</p>
+<p>Taking one step further back we should ask what weak properties are used by this component? From that we can create some simple unit test cases which test the code whilst those objects are nil. Then we can go back and add robustness to the code paths that assumed the object were non-nil.</p>
+<p>Taking a further step back, is there anything unusual in the design of this component that calls for integration testing?</p>
+<pre><code>grep -i heat SiriNCService.classdump.txt
+@protocol SiriUXHeaterDelegate &lt;NSObject&gt;
+- (void)heaterSuggestsPreheating:(SiriUXHeater *)arg1;
+- (void)heaterSuggestsDefrosting:(SiriUXHeater *)arg1;
+@interface SiriNCAlertViewController : NSViewController
+&lt;SiriUXHeaterDelegate, AFUISiriViewControllerDataSource,
+ AFUISiriViewControllerDelegate&gt;
+    SiriUXHeater *_heater;
+@property(readonly, nonatomic)
+SiriUXHeater *heater; // @synthesize heater=_heater;
+- (void)heaterSuggestsPreheating:(id)arg1;
+- (void)heaterSuggestsDefrosting:(id)arg1;
+@interface SiriUXHeater : NSObject
+    id &lt;SiriUXHeaterDelegate&gt; _delegate;
+@property(nonatomic)
+__weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delegate;
+- (void)_suggestPreheat;</code></pre>
+<p>It seems that this component can be prepared and made ready and has a variety of levels of initialisation and de-initialisation. Maybe this complexity is to make the user interface responsive. But it sends us a message that this component needs an integration test suite that codifies the state machine so we know the lifecycle of the service.</p>
+<h2 id="lessons-learnt-1">Lessons Learnt</h2>
+<p>We went from using HOWTO knowledge (understanding the crash report) to using tooling to get a baseline level of knowledge. Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem. This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis. It cannot be achieved by just focusing on the HOWTO of comprehending crash reports. We need to switch hats and see things from different perspectives in order to really make progress.</p>
+<h1 id="bibliography" class="unnumbered">Bibliography</h1>
+<div id="refs" class="references">
+<div id="ref-icdabgithub">
+<p>“IOS Crash Dump Analysis Book Github Resources.” 2018. <a href="https://github.com/faisalmemon/ios-crash-dump-analysis-book" class="uri">https://github.com/faisalmemon/ios-crash-dump-analysis-book</a>.</p>
+</div>
+<div id="ref-class-dump-tool">
+<p>Nygard, Steve. 2018. “Class Dump Tool.” <a href="http://stevenygard.com/projects/class-dump/" class="uri">http://stevenygard.com/projects/class-dump/</a>.</p>
+</div>
+</div>
+</body>
+</html>
