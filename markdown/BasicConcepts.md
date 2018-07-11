@@ -42,8 +42,11 @@ When things go wrong, you don't always get a crash.  Only if it is Operating Env
 
 Consider the example of getting the MAC address of your iPhone.  The Media Access Control (MAC) address is a unique code allocated to network cards to allow machines to talk to each other without duplication at the Data Link layer of the communication stack.
 
-Prior to iOS 7, the MAC address was not considered a sensitive API.  So requesting the MAC address gave the real address.  The `icdab_sample` app attempts to do this.  See @icdabgithub. However, the API was abused as a way of tracking the user - a privacy violation.  Therefore a policy was established from iOS 7.  Apple could have chosen to crash your app when the call to `sysctl` was made in order to get the MAC address.
-However, this is a general purpose low level call which can be used for other valid purposes.  Therefore the policy set by iOS was to return you a fixed MAC address `02:00:00:00:00:00` whenever that was requested.
+Prior to iOS 7, the MAC address was not considered a sensitive API.  So requesting the MAC address using the `sysctl` API gave the real address.  To see this in action, see the `icdab_sample` app @icdabgithub.
+
+Unfortunately, the API was abused as a way of tracking the user - a privacy violation.  Therefore Apple introduced a policy from iOS 7 where they would return a fixed MAC address always.
+
+Apple could have chosen to crash your app when any call to `sysctl` was made.  However, `sysctl` is a general purpose low level call which can be used for other valid purposes.  Therefore the policy set by iOS was to return you a fixed MAC address `02:00:00:00:00:00` whenever that was requested.
 
 ### Camera Example
 
@@ -64,7 +67,7 @@ if UIImagePickerController
         }
 ```
 
-However when you run the code you see a crash and descriptive console message:
+However when you run the code you see a crash with a descriptive console message:
 
 ```
 2018-07-10 20:09:21.549897+0100 icdab_sample[1775:15601294]
