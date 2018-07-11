@@ -29,7 +29,7 @@ As we go deeper into the topic of crash dump analysis, we shall explore each dia
 
 ### Analysis Methodology
 
-Another complementary approach to analysing and proactively avoiding crashes is to run the Code Analyser.
+Another complementary approach for analysing and proactively avoiding crashes is to run the Code Analyser.
 This is invoked using Command-Shift-B
 
 In the sample app `icdab_sample` the Analyser reports:
@@ -73,7 +73,7 @@ Most software developers know what they "should" be doing; clean code, proper te
 
 We recommend to take a measured approach.  There is a time for hacking together a sample app to understand a concept.  There is a time to write a prototype which just needs to prove a business use case.  There is a time to write heavily trusted code used by many people.
 
-We take the view that maximising economic impact is the one that matters most because most people are involved in professional software development.
+We take the view that maximising economic impact is the one that matters most because most developers are involved in professional software development.
 
 We recommend:
 
