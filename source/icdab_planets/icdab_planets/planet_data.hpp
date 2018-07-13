@@ -30,6 +30,7 @@ public:
     string get_name(void);
     double get_diameter(void);
     double get_distance_from_sun(void);
+    double get_volume(void);
     
 public:
     static planet get_planet_with_name(string name);

@@ -8,6 +8,7 @@
 
 #include "planet_data.hpp"
 #include <map>
+#include <math.h>
 
 struct planet_database {
     map<string, planet> planets;
@@ -16,7 +17,8 @@ struct planet_database {
     void load_data();
 } database;
 
-const double millionKm = 1000000;
+static const double millionKm = 1000000;
+static const double pi4_3 = atan(1)*4.0*4.0/3.0; // 4π/3
 
 void planet_database::load_data() {
     planet planet_Mercury = planet("Mercury", 4878.0, 57.9 * millionKm);
@@ -95,4 +97,12 @@ double planet::get_diameter(void) {
 
 double planet::get_distance_from_sun(void) {
     return distance_from_sun;
+}
+
+double planet::get_volume(void) {
+    // 4/3πr**3 = volume of a sphere
+    double radius = this->diameter / 2.0;
+    double r_3 = pow(radius, 3.0);
+    double volume = pi4_3 * r_3;
+    return volume;
 }

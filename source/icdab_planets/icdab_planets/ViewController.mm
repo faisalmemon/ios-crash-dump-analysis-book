@@ -19,13 +19,17 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     planet pluto = planet::get_planet_with_name("Pluto");
+    planet jupiter = planet::get_planet_with_name("Jupiter");
     
-    double diameter = pluto.get_diameter();
+    double pluto_diameter = pluto.get_diameter();
+    double jupiter_diameter = jupiter.get_diameter();
     
-    NSLog(@"Pluto diameter is %f", diameter);
+    NSLog(@"Pluto diameter is %f", pluto_diameter);
+    NSLog(@"Jupiter diameter is %f", jupiter_diameter);
     
-//    NSString *planetName = [NSString stringWithCString:pluto.name
-//                       encoding:[NSString defaultCStringEncoding]];
+    double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto.get_volume();
+    
+    NSLog(@"Plutos that would fit inside Jupiter = %f", plutos_to_fill_jupiter);
 }
 
 
