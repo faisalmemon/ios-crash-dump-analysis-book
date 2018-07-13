@@ -329,7 +329,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>It may feel like the above approach is somewhat of a caveman approach to software engineering. But Apple engineering has gone to the trouble of automating the detection of most of the common types of problems seen in apps. Whilst you are at the beginning of your crash dump analysis journey it is best just to use the out of the box tooling to see what it finds for very little effort on your behalf.</p>
 <p>As we go deeper into the topic of crash dump analysis, we shall explore each diagnostic option more closely and at that point you will be able to make selective use of these tools according to the problem at hand.</p>
 <h3 id="analysis-methodology">Analysis Methodology</h3>
-<p>Another complementary approach to analysing and proactively avoiding crashes is to run the Code Analyser. This is invoked using Command-Shift-B</p>
+<p>Another complementary approach for analysing and proactively avoiding crashes is to run the Code Analyser. This is invoked using Command-Shift-B</p>
 <p>In the sample app <code>icdab_sample</code> the Analyser reports:</p>
 <pre><code>/Users/faisalm/dev/icdab/source/icdab_sample/icdab_sample/macAddress.m:22:12:
  warning: Null pointer argument in call to string length function
@@ -350,7 +350,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <h2 id="the-middle-road">The Middle Road</h2>
 <p>Most software developers know what they “should” be doing; clean code, proper tests, code reviews, etc.</p>
 <p>We recommend to take a measured approach. There is a time for hacking together a sample app to understand a concept. There is a time to write a prototype which just needs to prove a business use case. There is a time to write heavily trusted code used by many people.</p>
-<p>We take the view that maximising economic impact is the one that matters most because most people are involved in professional software development.</p>
+<p>We take the view that maximising economic impact is the one that matters most because most developers are involved in professional software development.</p>
 <p>We recommend:</p>
 <ul>
 <li>For Sample apps and concept exploration, just code the app.</li>
