@@ -14,18 +14,15 @@ By opening the project `icdab_sample` @icdabgithub and looking at the Schema def
 
 ### Execution Methodology
 
-If you have a crash which is reproducible from your own developer environment and source code, then a methodology for finding the cause of the crash can be:
+If you have a crash which is reproducible from your own developer environment and source code, then a methodology for finding is to switch on the appropriate diagnostic setting and then re-run your application.
+
+As you become familiar with each diagnostic, you will know which option to switch on.  We shall work through different scenarios so you understand when to use each.  But when you are just starting out its worth just going through each one-by-one to get a feel for what is available.  The basic approach is:
 
 1.  Write a Unit Test Case or UI Test Case that hits the problem.
-1.  Enable just one of the Diagnostic options from above.
+1.  Enable just one of the Diagnostic options from above starting with your best guess.
 1.  Run your tests.
 1.  Take note of any warning or console message from Xcode.
 1.  Repeat again but choosing a different diagnostic option if the problem is not understood.
-
-It may feel like the above approach is somewhat of a caveman approach to software engineering.
-But Apple engineering has gone to the trouble of automating the detection of most of the common types of problems seen in apps.  Whilst you are at the beginning of your crash dump analysis journey it is best just to use the out of the box tooling to see what it finds for very little effort on your behalf.
-
-As we go deeper into the topic of crash dump analysis, we shall explore each diagnostic option more closely and at that point you will be able to make selective use of these tools according to the problem at hand.
 
 ### Analysis Methodology
 
@@ -43,6 +40,10 @@ In the sample app `icdab_sample` the Analyser reports:
 and conveniently marks up your source code
 
 ![](screenshots/analyser_null.png)
+
+This can be switched on for whenever the project is Built, either in shallow or deep mode according to you feel the tradeoff should be done between slower more thorough analysis versus quicker build times.  It is in the Build Settings tab for the Xcode project file.
+
+![](screenshots/static_analyser_build.png)
 
 For a large project that has never had an Analysis report done, the output can be overwhelming.
 There will be some noise in the report but it generally does a good job.  There will be duplication in the report because certain classes of error will repeat throughout the code.
