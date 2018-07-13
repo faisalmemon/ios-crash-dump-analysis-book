@@ -335,7 +335,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
     assert(strlen(nullPointer) == 0);</code></pre>
 <p>and conveniently marks up your source code</p>
 <p><img src="screenshots/analyser_null.png" /></p>
-<p>This can be switched on for whenever the project is Built, either in shallow or deep mode according to you feel the tradeoff should be done between slower more thorough analysis versus quicker build times. It is in the Build Settings tab for the Xcode project file.</p>
+<p>This can be switched on for whenever the project is Built, either in shallow or deep mode according to how you feel the tradeoff should be done between slower more thorough analysis versus quicker build times with less analysis. It is in the Build Settings tab for the Xcode project file.</p>
 <p><img src="screenshots/static_analyser_build.png" /></p>
 <p>For a large project that has never had an Analysis report done, the output can be overwhelming. There will be some noise in the report but it generally does a good job. There will be duplication in the report because certain classes of error will repeat throughout the code.</p>
 <p>If you are developing code using the Agile software methodology, then it is possible to frame the report as potential backlog items that can be worked upon during the time allocated for refactoring and maintenance.</p>
@@ -345,19 +345,19 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>QuickEdit due to its age only used manual reference counting in Objective-C. Despite this it had a reliability of 99.5% based on app analytics. Only about 5% of engineering effort was needed to maintain this stability over time once the initial issues had been addressed.</p>
 <h3 id="process-methodology">Process Methodology</h3>
 <p>One way to drive out crashes from your app, particularly when you are in a large organisation, is to factor it in your software development process.</p>
-<p>When a developer proposes a code change in a pull request, get the developer to ensure no new analyser warnings are introduced. You might consider the analyser report as a robotically generated code review available to you for free.</p>
+<p>When a developer proposes a code change in a pull request, get the developer to ensure no new analyser warnings are introduced. You might consider the analyser report as a robotically generated code review available to you for free. That is particularly helpful if you are working alone on a project with no peer to review your code.</p>
 <p>When code is committed to a feature branch, have the automated tests run on it, with different diagnostics settings set. This can shake out problems automatically.</p>
 <p>Before each release, schedule time to run some specific user cases under the memory profiler (Xcode instruments will be covered later on) to look at memory usage or other key metrics. Record the highlights such as the peak memory usage as well as the profile file. Then when the following release is made you have a yardstick to see how things have changed both quantitatively and qualitatively.</p>
 <h2 id="the-middle-road">The Middle Road</h2>
 <p>Most software developers know what they “should” be doing; clean code, proper tests, code reviews, etc.</p>
 <p>We recommend to take a measured approach. There is a time for hacking together a sample app to understand a concept. There is a time to write a prototype which just needs to prove a business use case. There is a time to write heavily trusted code used by many people.</p>
-<p>We take the view that maximising economic impact is the one that matters most because most developers are involved in professional software development.</p>
+<p>We take the view that maximising economic impact is the one that matters most because most developers are involved in professional software development. Alternatively if you are working on non-commercial projects or hobby projects, the economic cost is really your personal free time which you will want to use most effectively.</p>
 <p>We recommend:</p>
 <ul>
 <li>For Sample apps and concept exploration, just code the app.</li>
-<li>For Prototype development, just use the Execution Methodology when you hit problems.</li>
-<li>For Product development, from the beginning run the Analyser regularly and informally incorporate it into your workflow when you see something important. From the beginning write tests but selectively where you get big impact.</li>
-<li>Team based product development. Here add in the Process Methodology. Start becoming comprehensive with Testing.</li>
+<li>For Prototype Development, just use the Execution Methodology when you hit problems.</li>
+<li>For Individual Product Development, from the beginning run the Analyser automatically and informally incorporate it into your workflow when you see something important. From the beginning write tests but selectively where you get big impact.</li>
+<li>For Team-based Product Development, add in the Process Methodology. Start becoming comprehensive with Testing.</li>
 </ul>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
