@@ -1,0 +1,588 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		39E7A38620F8B5B70028E0A4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A38520F8B5B70028E0A4 /* AppDelegate.m */; };
+		39E7A38920F8B5B70028E0A4 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A38820F8B5B70028E0A4 /* ViewController.mm */; };
+		39E7A38C20F8B5B70028E0A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39E7A38A20F8B5B70028E0A4 /* Main.storyboard */; };
+		39E7A38E20F8B5B80028E0A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39E7A38D20F8B5B80028E0A4 /* Assets.xcassets */; };
+		39E7A39120F8B5B80028E0A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39E7A38F20F8B5B80028E0A4 /* LaunchScreen.storyboard */; };
+		39E7A39420F8B5B80028E0A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A39320F8B5B80028E0A4 /* main.m */; };
+		39E7A39E20F8B5B80028E0A4 /* icdab_planetsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A39D20F8B5B80028E0A4 /* icdab_planetsTests.m */; };
+		39E7A3A920F8B5B80028E0A4 /* icdab_planetsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A3A820F8B5B80028E0A4 /* icdab_planetsUITests.m */; };
+		39E7A3B820F8B5F80028E0A4 /* planet_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A3B620F8B5F80028E0A4 /* planet_data.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		39E7A39A20F8B5B80028E0A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39E7A37920F8B5B70028E0A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 39E7A38020F8B5B70028E0A4;
+			remoteInfo = icdab_planets;
+		};
+		39E7A3A520F8B5B80028E0A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39E7A37920F8B5B70028E0A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 39E7A38020F8B5B70028E0A4;
+			remoteInfo = icdab_planets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		39E7A38120F8B5B70028E0A4 /* icdab_planets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = icdab_planets.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		39E7A38420F8B5B70028E0A4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		39E7A38520F8B5B70028E0A4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		39E7A38720F8B5B70028E0A4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		39E7A38820F8B5B70028E0A4 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		39E7A38B20F8B5B70028E0A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		39E7A38D20F8B5B80028E0A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		39E7A39020F8B5B80028E0A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		39E7A39220F8B5B80028E0A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39E7A39320F8B5B80028E0A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		39E7A39920F8B5B80028E0A4 /* icdab_planetsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_planetsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39E7A39D20F8B5B80028E0A4 /* icdab_planetsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_planetsTests.m; sourceTree = "<group>"; };
+		39E7A39F20F8B5B80028E0A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39E7A3A420F8B5B80028E0A4 /* icdab_planetsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_planetsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39E7A3A820F8B5B80028E0A4 /* icdab_planetsUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_planetsUITests.m; sourceTree = "<group>"; };
+		39E7A3AA20F8B5B80028E0A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39E7A3B620F8B5F80028E0A4 /* planet_data.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = planet_data.cpp; sourceTree = "<group>"; };
+		39E7A3B720F8B5F80028E0A4 /* planet_data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = planet_data.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		39E7A37E20F8B5B70028E0A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39E7A39620F8B5B80028E0A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39E7A3A120F8B5B80028E0A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		39E7A37820F8B5B70028E0A4 = {
+			isa = PBXGroup;
+			children = (
+				39E7A38320F8B5B70028E0A4 /* icdab_planets */,
+				39E7A39C20F8B5B80028E0A4 /* icdab_planetsTests */,
+				39E7A3A720F8B5B80028E0A4 /* icdab_planetsUITests */,
+				39E7A38220F8B5B70028E0A4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		39E7A38220F8B5B70028E0A4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				39E7A38120F8B5B70028E0A4 /* icdab_planets.app */,
+				39E7A39920F8B5B80028E0A4 /* icdab_planetsTests.xctest */,
+				39E7A3A420F8B5B80028E0A4 /* icdab_planetsUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		39E7A38320F8B5B70028E0A4 /* icdab_planets */ = {
+			isa = PBXGroup;
+			children = (
+				39E7A38420F8B5B70028E0A4 /* AppDelegate.h */,
+				39E7A38520F8B5B70028E0A4 /* AppDelegate.m */,
+				39E7A38720F8B5B70028E0A4 /* ViewController.h */,
+				39E7A38820F8B5B70028E0A4 /* ViewController.mm */,
+				39E7A3B620F8B5F80028E0A4 /* planet_data.cpp */,
+				39E7A3B720F8B5F80028E0A4 /* planet_data.hpp */,
+				39E7A38A20F8B5B70028E0A4 /* Main.storyboard */,
+				39E7A38D20F8B5B80028E0A4 /* Assets.xcassets */,
+				39E7A38F20F8B5B80028E0A4 /* LaunchScreen.storyboard */,
+				39E7A39220F8B5B80028E0A4 /* Info.plist */,
+				39E7A39320F8B5B80028E0A4 /* main.m */,
+			);
+			path = icdab_planets;
+			sourceTree = "<group>";
+		};
+		39E7A39C20F8B5B80028E0A4 /* icdab_planetsTests */ = {
+			isa = PBXGroup;
+			children = (
+				39E7A39D20F8B5B80028E0A4 /* icdab_planetsTests.m */,
+				39E7A39F20F8B5B80028E0A4 /* Info.plist */,
+			);
+			path = icdab_planetsTests;
+			sourceTree = "<group>";
+		};
+		39E7A3A720F8B5B80028E0A4 /* icdab_planetsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				39E7A3A820F8B5B80028E0A4 /* icdab_planetsUITests.m */,
+				39E7A3AA20F8B5B80028E0A4 /* Info.plist */,
+			);
+			path = icdab_planetsUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		39E7A38020F8B5B70028E0A4 /* icdab_planets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39E7A3AD20F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planets" */;
+			buildPhases = (
+				39E7A37D20F8B5B70028E0A4 /* Sources */,
+				39E7A37E20F8B5B70028E0A4 /* Frameworks */,
+				39E7A37F20F8B5B70028E0A4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = icdab_planets;
+			productName = icdab_planets;
+			productReference = 39E7A38120F8B5B70028E0A4 /* icdab_planets.app */;
+			productType = "com.apple.product-type.application";
+		};
+		39E7A39820F8B5B80028E0A4 /* icdab_planetsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39E7A3B020F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planetsTests" */;
+			buildPhases = (
+				39E7A39520F8B5B80028E0A4 /* Sources */,
+				39E7A39620F8B5B80028E0A4 /* Frameworks */,
+				39E7A39720F8B5B80028E0A4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				39E7A39B20F8B5B80028E0A4 /* PBXTargetDependency */,
+			);
+			name = icdab_planetsTests;
+			productName = icdab_planetsTests;
+			productReference = 39E7A39920F8B5B80028E0A4 /* icdab_planetsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		39E7A3A320F8B5B80028E0A4 /* icdab_planetsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39E7A3B320F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planetsUITests" */;
+			buildPhases = (
+				39E7A3A020F8B5B80028E0A4 /* Sources */,
+				39E7A3A120F8B5B80028E0A4 /* Frameworks */,
+				39E7A3A220F8B5B80028E0A4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				39E7A3A620F8B5B80028E0A4 /* PBXTargetDependency */,
+			);
+			name = icdab_planetsUITests;
+			productName = icdab_planetsUITests;
+			productReference = 39E7A3A420F8B5B80028E0A4 /* icdab_planetsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		39E7A37920F8B5B70028E0A4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = "Faisal Memon";
+				TargetAttributes = {
+					39E7A38020F8B5B70028E0A4 = {
+						CreatedOnToolsVersion = 9.3;
+					};
+					39E7A39820F8B5B80028E0A4 = {
+						CreatedOnToolsVersion = 9.3;
+						TestTargetID = 39E7A38020F8B5B70028E0A4;
+					};
+					39E7A3A320F8B5B80028E0A4 = {
+						CreatedOnToolsVersion = 9.3;
+						TestTargetID = 39E7A38020F8B5B70028E0A4;
+					};
+				};
+			};
+			buildConfigurationList = 39E7A37C20F8B5B70028E0A4 /* Build configuration list for PBXProject "icdab_planets" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 39E7A37820F8B5B70028E0A4;
+			productRefGroup = 39E7A38220F8B5B70028E0A4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				39E7A38020F8B5B70028E0A4 /* icdab_planets */,
+				39E7A39820F8B5B80028E0A4 /* icdab_planetsTests */,
+				39E7A3A320F8B5B80028E0A4 /* icdab_planetsUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		39E7A37F20F8B5B70028E0A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39E7A39120F8B5B80028E0A4 /* LaunchScreen.storyboard in Resources */,
+				39E7A38E20F8B5B80028E0A4 /* Assets.xcassets in Resources */,
+				39E7A38C20F8B5B70028E0A4 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39E7A39720F8B5B80028E0A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39E7A3A220F8B5B80028E0A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		39E7A37D20F8B5B70028E0A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39E7A38920F8B5B70028E0A4 /* ViewController.mm in Sources */,
+				39E7A3B820F8B5F80028E0A4 /* planet_data.cpp in Sources */,
+				39E7A39420F8B5B80028E0A4 /* main.m in Sources */,
+				39E7A38620F8B5B70028E0A4 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39E7A39520F8B5B80028E0A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39E7A39E20F8B5B80028E0A4 /* icdab_planetsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39E7A3A020F8B5B80028E0A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39E7A3A920F8B5B80028E0A4 /* icdab_planetsUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		39E7A39B20F8B5B80028E0A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 39E7A38020F8B5B70028E0A4 /* icdab_planets */;
+			targetProxy = 39E7A39A20F8B5B80028E0A4 /* PBXContainerItemProxy */;
+		};
+		39E7A3A620F8B5B80028E0A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 39E7A38020F8B5B70028E0A4 /* icdab_planets */;
+			targetProxy = 39E7A3A520F8B5B80028E0A4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		39E7A38A20F8B5B70028E0A4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39E7A38B20F8B5B70028E0A4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		39E7A38F20F8B5B80028E0A4 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39E7A39020F8B5B80028E0A4 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		39E7A3AB20F8B5B80028E0A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		39E7A3AC20F8B5B80028E0A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		39E7A3AE20F8B5B80028E0A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-planets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		39E7A3AF20F8B5B80028E0A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-planets";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		39E7A3B120F8B5B80028E0A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planetsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-planetsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_planets.app/icdab_planets";
+			};
+			name = Debug;
+		};
+		39E7A3B220F8B5B80028E0A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planetsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-planetsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_planets.app/icdab_planets";
+			};
+			name = Release;
+		};
+		39E7A3B420F8B5B80028E0A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planetsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-planetsUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = icdab_planets;
+			};
+			name = Debug;
+		};
+		39E7A3B520F8B5B80028E0A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planetsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-planetsUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = icdab_planets;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		39E7A37C20F8B5B70028E0A4 /* Build configuration list for PBXProject "icdab_planets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39E7A3AB20F8B5B80028E0A4 /* Debug */,
+				39E7A3AC20F8B5B80028E0A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39E7A3AD20F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39E7A3AE20F8B5B80028E0A4 /* Debug */,
+				39E7A3AF20F8B5B80028E0A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39E7A3B020F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planetsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39E7A3B120F8B5B80028E0A4 /* Debug */,
+				39E7A3B220F8B5B80028E0A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39E7A3B320F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planetsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39E7A3B420F8B5B80028E0A4 /* Debug */,
+				39E7A3B520F8B5B80028E0A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 39E7A37920F8B5B70028E0A4 /* Project object */;
+}
