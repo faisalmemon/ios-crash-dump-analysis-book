@@ -41,7 +41,7 @@ and conveniently marks up your source code
 
 ![](screenshots/analyser_null.png)
 
-This can be switched on for whenever the project is Built, either in shallow or deep mode according to you feel the tradeoff should be done between slower more thorough analysis versus quicker build times.  It is in the Build Settings tab for the Xcode project file.
+This can be switched on for whenever the project is Built, either in shallow or deep mode according to how you feel the tradeoff should be done between slower more thorough analysis versus quicker build times with less analysis.  It is in the Build Settings tab for the Xcode project file.
 
 ![](screenshots/static_analyser_build.png)
 
@@ -62,7 +62,7 @@ QuickEdit due to its age only used manual reference counting in Objective-C.  De
 
 One way to drive out crashes from your app, particularly when you are in a large organisation, is to factor it in your software development process.
 
-When a developer proposes a code change in a pull request, get the developer to ensure no new analyser warnings are introduced.  You might consider the analyser report as a robotically generated code review available to you for free.
+When a developer proposes a code change in a pull request, get the developer to ensure no new analyser warnings are introduced.  You might consider the analyser report as a robotically generated code review available to you for free.  That is particularly helpful if you are working alone on a project with no peer to review your code.
 
 When code is committed to a feature branch, have the automated tests run on it, with different diagnostics settings set.  This can shake out problems automatically.
 
@@ -74,11 +74,11 @@ Most software developers know what they "should" be doing; clean code, proper te
 
 We recommend to take a measured approach.  There is a time for hacking together a sample app to understand a concept.  There is a time to write a prototype which just needs to prove a business use case.  There is a time to write heavily trusted code used by many people.
 
-We take the view that maximising economic impact is the one that matters most because most developers are involved in professional software development.
+We take the view that maximising economic impact is the one that matters most because most developers are involved in professional software development.  Alternatively if you are working on non-commercial projects or hobby projects, the economic cost is really your personal free time which you will want to use most effectively.
 
 We recommend:
 
 - For Sample apps and concept exploration, just code the app.
-- For Prototype development, just use the Execution Methodology when you hit problems.
-- For Product development, from the beginning run the Analyser regularly and informally incorporate it into your workflow when you see something important.  From the beginning write tests but selectively where you get big impact.
-- Team based product development.  Here add in the Process Methodology.  Start becoming comprehensive with Testing.
+- For Prototype Development, just use the Execution Methodology when you hit problems.
+- For Individual Product Development, from the beginning run the Analyser automatically and informally incorporate it into your workflow when you see something important.  From the beginning write tests but selectively where you get big impact.
+- For Team-based Product Development, add in the Process Methodology.  Start becoming comprehensive with Testing.
