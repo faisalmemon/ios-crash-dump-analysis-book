@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "planet_data.hpp"
 
 @interface ViewController ()
 
@@ -18,6 +17,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    planet pluto = planet::get_planet_with_name("pluto");
+    
+    double diameter = pluto.get_diameter();
+    
+    NSLog(@"Pluto diameter is %f", diameter);
+    
+//    NSString *planetName = [NSString stringWithCString:pluto.name
+//                       encoding:[NSString defaultCStringEncoding]];
 }
 
 
