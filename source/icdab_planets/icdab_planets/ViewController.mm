@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    planet pluto = planet::get_planet_with_name("pluto");
+    planet pluto = planet::get_planet_with_name("Pluto");
     
     double diameter = pluto.get_diameter();
     
