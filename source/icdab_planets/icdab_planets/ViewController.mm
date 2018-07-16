@@ -16,7 +16,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
     planet pluto = planet::get_planet_with_name("Pluto");
     planet jupiter = planet::get_planet_with_name("Jupiter");
@@ -27,7 +26,10 @@
     NSLog(@"Pluto diameter is %f", pluto_diameter);
     NSLog(@"Jupiter diameter is %f", jupiter_diameter);
     
-    double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto.get_volume();
+    double pluto_volume = pluto.get_volume();
+    assert(pluto_volume != 0.0);
+    
+    double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;
     
     NSLog(@"Plutos that would fit inside Jupiter = %f", plutos_to_fill_jupiter);
 }
