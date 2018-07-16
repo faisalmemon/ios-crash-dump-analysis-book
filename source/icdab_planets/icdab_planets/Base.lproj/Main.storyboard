@@ -57,6 +57,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="jupiterLabelOutlet" destination="utT-fn-l2B" id="J4n-sf-Pc2"/>
+                        <outlet property="plutoLabelOutlet" destination="q2X-sh-cub" id="UL7-uH-Mem"/>
+                        <outlet property="plutosInJupiterLabelOutlet" destination="WsI-g6-fS0" id="dCy-h8-Tkg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

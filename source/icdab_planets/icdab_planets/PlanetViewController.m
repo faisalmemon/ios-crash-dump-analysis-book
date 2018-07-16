@@ -9,6 +9,9 @@
 #import "PlanetViewController.h"
 
 @interface PlanetViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *jupiterLabelOutlet;
+@property (weak, nonatomic) IBOutlet UILabel *plutoLabelOutlet;
+@property (weak, nonatomic) IBOutlet UILabel *plutosInJupiterLabelOutlet;
 
 @end
 
