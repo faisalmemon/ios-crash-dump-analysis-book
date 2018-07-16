@@ -1,18 +1,18 @@
 //
-//  ViewController.mm
+//  PlanetViewController.m
 //  icdab_planets
 //
-//  Created by Faisal Memon on 13/07/2018.
+//  Created by Faisal Memon on 16/07/2018.
 //  Copyright © 2018 Faisal Memon. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "PlanetViewController.h"
 
-@interface ViewController ()
+@interface PlanetViewController ()
 
 @end
 
-@implementation ViewController
+@implementation PlanetViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,11 +34,19 @@
     NSLog(@"Plutos that would fit inside Jupiter = %f", plutos_to_fill_jupiter);
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end

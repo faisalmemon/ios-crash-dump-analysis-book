@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		39E7A38620F8B5B70028E0A4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A38520F8B5B70028E0A4 /* AppDelegate.m */; };
-		39E7A38920F8B5B70028E0A4 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A38820F8B5B70028E0A4 /* ViewController.mm */; };
+		39E7A38920F8B5B70028E0A4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A38820F8B5B70028E0A4 /* ViewController.m */; };
 		39E7A38C20F8B5B70028E0A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39E7A38A20F8B5B70028E0A4 /* Main.storyboard */; };
 		39E7A38E20F8B5B80028E0A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39E7A38D20F8B5B80028E0A4 /* Assets.xcassets */; };
 		39E7A39120F8B5B80028E0A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39E7A38F20F8B5B80028E0A4 /* LaunchScreen.storyboard */; };
@@ -16,6 +16,7 @@
 		39E7A39E20F8B5B80028E0A4 /* icdab_planetsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A39D20F8B5B80028E0A4 /* icdab_planetsTests.m */; };
 		39E7A3A920F8B5B80028E0A4 /* icdab_planetsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A3A820F8B5B80028E0A4 /* icdab_planetsUITests.m */; };
 		39E7A3B820F8B5F80028E0A4 /* planet_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A3B620F8B5F80028E0A4 /* planet_data.cpp */; };
+		39E7A3BB20FC90C50028E0A4 /* PlanetViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A3BA20FC90C50028E0A4 /* PlanetViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +41,7 @@
 		39E7A38420F8B5B70028E0A4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		39E7A38520F8B5B70028E0A4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		39E7A38720F8B5B70028E0A4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		39E7A38820F8B5B70028E0A4 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		39E7A38820F8B5B70028E0A4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		39E7A38B20F8B5B70028E0A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		39E7A38D20F8B5B80028E0A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		39E7A39020F8B5B80028E0A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,6 +55,8 @@
 		39E7A3AA20F8B5B80028E0A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39E7A3B620F8B5F80028E0A4 /* planet_data.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = planet_data.cpp; sourceTree = "<group>"; };
 		39E7A3B720F8B5F80028E0A4 /* planet_data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = planet_data.hpp; sourceTree = "<group>"; };
+		39E7A3B920FC90C50028E0A4 /* PlanetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlanetViewController.h; sourceTree = "<group>"; };
+		39E7A3BA20FC90C50028E0A4 /* PlanetViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PlanetViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +110,9 @@
 				39E7A38420F8B5B70028E0A4 /* AppDelegate.h */,
 				39E7A38520F8B5B70028E0A4 /* AppDelegate.m */,
 				39E7A38720F8B5B70028E0A4 /* ViewController.h */,
-				39E7A38820F8B5B70028E0A4 /* ViewController.mm */,
+				39E7A38820F8B5B70028E0A4 /* ViewController.m */,
+				39E7A3B920FC90C50028E0A4 /* PlanetViewController.h */,
+				39E7A3BA20FC90C50028E0A4 /* PlanetViewController.mm */,
 				39E7A3B620F8B5F80028E0A4 /* planet_data.cpp */,
 				39E7A3B720F8B5F80028E0A4 /* planet_data.hpp */,
 				39E7A38A20F8B5B70028E0A4 /* Main.storyboard */,
@@ -267,7 +272,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39E7A38920F8B5B70028E0A4 /* ViewController.mm in Sources */,
+				39E7A38920F8B5B70028E0A4 /* ViewController.m in Sources */,
+				39E7A3BB20FC90C50028E0A4 /* PlanetViewController.mm in Sources */,
 				39E7A3B820F8B5F80028E0A4 /* planet_data.cpp in Sources */,
 				39E7A39420F8B5B80028E0A4 /* main.m in Sources */,
 				39E7A38620F8B5B70028E0A4 /* AppDelegate.m in Sources */,

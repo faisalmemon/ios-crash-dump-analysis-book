@@ -6,9 +6,6 @@
 //  Copyright © 2018 Faisal Memon. All rights reserved.
 //
 
-#import "planet_data.hpp"
-
-
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
