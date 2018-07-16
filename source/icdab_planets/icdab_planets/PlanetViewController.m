@@ -20,6 +20,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.jupiterLabelOutlet.text = @"A";
+    self.plutoLabelOutlet.text = @"B";
+    self.plutosInJupiterLabelOutlet.text = @"C";
 }
 
 - (void)didReceiveMemoryWarning {
