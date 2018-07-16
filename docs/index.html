@@ -26,7 +26,14 @@
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#quick-start">Quick Start</a><ul>
-<li><a href="#troubleshooting-operating-environment-crashes">Troubleshooting operating environment crashes</a></li>
+<li><a href="#troubleshooting-operating-environment-crashes">Troubleshooting operating environment crashes</a><ul>
+<li><a href="#missing-resource-issue">Missing resource issue</a></li>
+<li><a href="#binary-compatibility-issue">Binary compatibility issue</a></li>
+<li><a href="#simulator-only-issue">Simulator only issue</a></li>
+<li><a href="#site-specific-issues">Site specific issues</a></li>
+<li><a href="#customer-device-deployment-issues">Customer device deployment issues</a></li>
+<li><a href="#locale-specific-issues">Locale specific issues</a></li>
+</ul></li>
 <li><a href="#the-crash-mindset">The Crash Mindset</a></li>
 </ul></li>
 <li><a href="#basic-concepts">Basic Concepts</a><ul>
@@ -72,7 +79,9 @@
 </nav>
 <h1 id="introduction">Introduction</h1>
 <p>This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs. The mindset of the Application developer is largely understanding high level concepts and abstractions. When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.</p>
-<p>We cover specifically the Apple ecosystem using the Swift programming language. Our main focus is iOS but we touch upon other platforms and languages also. The approach we take is to combine three different perspectives on the problem to give a rounded and robust view of the situation and how to resolve it.</p>
+<p>We focus exclusively on the Apple ecosystem, and primarily the Swift programming language on iOS. We also cover macOS, tvOS, watchOS platforms, and C (CoreFoundation), Objective-C, and Objective-C++ programming languages. This is because the older languages are more prone to crash bugs. Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.</p>
+<p>We assume you have at least an introductory knowledge of iOS programming and software engineering, and have access to a Mac with Xcode.</p>
+<p>The approach we take is to combine three different perspectives on the problem to give a rounded and robust view of the situation and how to resolve it.</p>
 <p>Our three perspectives are:</p>
 <ol type="1">
 <li>A practical HOW-TO guide for using the excellent tooling available from Apple.</li>
@@ -88,44 +97,25 @@
 <p>When an application crash appears after a recent code change, it can be straightforward to reason about the crash and look at the relevant code changes. Often, crashes just appear due to a change in operating environment. Those can be the most annoying. For example, the app runs fine in the Office but crashes at the customer Site. You don’t have time to get into why, but need a quick fix or workaround. Another common problem is when a new project is being explored. This is where we have no past experience with the code base but immediately face crash problems after compilation and running the app.</p>
 <p>In this chapter we explore possible reasons for crashing due to a change in operating environment. There are a variety of problems that can be dealt with without getting into logical analysis of the specifics of the problem at hand. In reality sometimes you just need to make progress, whilst making a note to go back and address the root cause.</p>
 <h2 id="troubleshooting-operating-environment-crashes">Troubleshooting operating environment crashes</h2>
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Situation</th>
-<th>Suggested steps</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>App crashes on startup due to a missing resource issue</td>
-<td>Try compiling and running other Xcode project targets. Sometimes a specific target is the one that sets up your environment as part of the build. If so, make a note to address that later.</td>
-</tr>
-<tr class="even">
-<td>App crashes on startup due to a binary compatibility issue</td>
-<td>If you’ve recently updated Xcode, or pulled code updates on top of a compiled project, do a Option-Command-Shift-K clean which cleans the build area of intermediates, and then re-build as normal</td>
-</tr>
-<tr class="odd">
-<td>App crashes only on simulator</td>
-<td>Try Simulator Hardware-&gt;Reset all content and settings. Try iPad simulator instead of iPhone simulator and vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.</td>
-</tr>
-<tr class="even">
-<td>App crashes when at customer site</td>
-<td>Check Wi-Fi settings or try hot-spotting your iPad to iPhone. Sometimes network issues such as connectivity, or latency are overlooked when developing your app in your office/home environment. Make a note to fix networking assumptions if that is the problem.</td>
-</tr>
-<tr class="odd">
-<td>Deploying on customer device gives problems</td>
-<td>If you cable up your laptop to the customer’s device, you’re probably doing a Debug release deployment. This means push notification tokens will be the development tokens not the production tokens. It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version). Try switching deployment configuration via Command-&lt; select Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug). Also manually check any resource access grants in the iPad/iPhone settings.</td>
-</tr>
-<tr class="even">
-<td>Deploying with a certain locale causes a crash</td>
-<td>Resource files might be absent in the wrong locale. Furthermore, locale handling is rife with undocumented special cases. Try changing the locale temporarily to a known working one.</td>
-</tr>
-</tbody>
-</table>
+<h3 id="missing-resource-issue">Missing resource issue</h3>
+<p>Sometimes your app crashes on startup due to a missing resource issue.</p>
+<p>Try compiling and running other Xcode targets within the same project. Sometimes a specific target is the one that sets up your environment as part of the build. If so, make a note to address that later.</p>
+<h3 id="binary-compatibility-issue">Binary compatibility issue</h3>
+<p>Sometimes your app crashes on startup due to a binary compatibility issue.</p>
+<p>If you’ve recently updated Xcode, or pulled code updates on top of a compiled project, do a Option-Command-Shift-K clean which cleans the build area of intermediates, and then re-build as normal.</p>
+<h3 id="simulator-only-issue">Simulator only issue</h3>
+<p>Somtimes your app crashes only on simulator.</p>
+<p>Try Simulator Hardware-&gt;Reset all content and settings. Try iPad simulator instead of iPhone simulator and vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.</p>
+<h3 id="site-specific-issues">Site specific issues</h3>
+<p>Sometimes your app only crashes when at customer site.</p>
+<p>Check Wi-Fi settings or try hot-spotting your iPad to iPhone. Sometimes network issues such as connectivity, or latency are overlooked when developing your app in your office/home environment. Make a note to fix networking assumptions if that is the problem.</p>
+<h3 id="customer-device-deployment-issues">Customer device deployment issues</h3>
+<p>Sometimes your app only crashes when deploying on a customer device gives problems.</p>
+<p>If you cable up your laptop to the customer’s device, you’re probably doing a Debug release deployment. This means push notification tokens will be the development tokens not the production tokens. It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version).</p>
+<p>Try switching deployment configuration via Command-&lt; select Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug). Also manually check any resource access grants in the iPad/iPhone settings.</p>
+<h3 id="locale-specific-issues">Locale specific issues</h3>
+<p>Sometimes deploying with the customer’s locale causes a crash.</p>
+<p>Resource files might be absent in the wrong locale. Furthermore, locale handling is rife with undocumented special cases. Try changing the locale temporarily to a known working one. Make a note to return to the issue when back in the office.</p>
 <h2 id="the-crash-mindset">The Crash Mindset</h2>
 <p>One take away lesson from the above examples are that we need to think of our code in a wider context. Think of the operating environment for your app. This comprises:</p>
 <ul>
