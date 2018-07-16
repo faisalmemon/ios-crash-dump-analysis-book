@@ -1,4 +1,5 @@
-This chapter explains how to do local crash dump symbolification.
+This chapter explains crash dump symbolification.
+We use the `icdab_planets` sample app to demonstrate a crash.
 
 When dealing with real world crashes, a number of different entities are involved.  These can be the end user device, the settings allowing the crash report to be sent back to Apple, the symbols held by Apple and your local development environment setup to mirror such a configuration.
 
@@ -6,18 +7,24 @@ In order to understand how things all fit together it is best to start from firs
 
 Normally when you develop an app, you are deploying the Debug version of your app onto your device.  When you are deploying your app for testers, app review, or app store release, you are deploying the Release version of your app.
 
-Release builds are special for crash dump analysis because they create a lookup
-file, called a DSYM file, which map machine addresses to source code references
-so the functions involved at the time of a crash can be seen in a meaningful
-representation.  This is called symbolification.  Xcode also prunes out
-any debug information from the released binaries during deployment to help prevent
-reverse engineering of your program.
+In both scenarios debug information is placed into the binary being generated.
+This is called DWARF debugging information.
+
+For Release builds, that information is then stripped out and placed into a DSYM file.
+For Debug builds, it is left in.
+
+The debugger can use debugging information in the binary when it sees a crash to
+help us understand where the program has gone wrong.
+
+When a user sees your program crash, there is no debugger.  Instead, a crash
+report is generated.  This comprises the machine addresses where the problem was
+seen.  A later phase, called symbolification, can convert the addresses
+into meaningful source code references so long as an appropriate DSYM file exists.
 
 Xcode is by default setup so that only DSYM files are generated for Release
 builds, and not for Debug builds.
 
-Xcode by default for Debug builds puts the equivalent debugging information into the binary you are debugging so that when you test out your app, and there is a crash, the debugger which launched your app knows where the program has gone wrong and shows you the appropriate place in the code in your Xcode session.
-The advantage of this approach is that the correct symbol information is bound into the actual binary that had the problem so no possibility of a mismatch can occur.  The downside is that it makes the binary much larger and allows reverse engineers to peek into your binary quite easily as if you had published the source code together with the program.
+The reason why Debug builds just use the application binary with all the debug information built in is that the information is always available and consistent with the rest of the binary.  However it makes the binary much larger and allows reverse engineers to peek into your binary quite easily as if you had published the source code together with the program.
 
 From Xcode, in your build settings, searching for "Debug Information Format" we see the following settings:
 
@@ -28,12 +35,16 @@ DWARF with dSYM File|We get an extra file also generated with symbols|Release
 
 In the default setup, if you run your debug binary on your device, launching it from the app icon itself then if it were to crash you would not have any symbols in the crash report.  This confuses many people.
 
-Whilst you may have all the source code for your program, it's the symbols generated at the time of the original build which are needed for symbolification.
+Whilst you may have all the source code for your program, and DWARF data in the crashed binary, ReportCrash crash reporter only looks for DSYM files on your Mac in order to perform symbolification.
 
 To avoid this problem, the sample app `icdab_planets` has been configured to have `DWARF  with dSYM File` set for both debug and release targets.
 
+The program is designed to crash upon launch due to an assertion.
+
+If the setting had not been made, we would get a partially symbolicated crash.
+
 The crash report, seen from Windows->Devices and Simulators->View Device Logs,
-will then be transformed from something that looks like
+would look like this (truncated for ease of demonstration)
 
 ```
 Thread 0 Crashed:
@@ -43,9 +54,15 @@ Thread 0 Crashed:
 3   libsystem_c.dylib             	0x0000000183944000 basename_r + 0
 4   icdab_planets                 	0x00000001008e45bc 0x1008e0000 + 17852
 5   UIKit                         	0x000000018db56ee0 -[UIViewController loadViewIfRequired] + 1020
+
+Binary Images:
+0x1008e0000 - 0x1008ebfff icdab_planets arm64
+  <9ff56cfacd66354ea85ff5973137f011>
+   /var/containers/Bundle/Application/BEF249D9-1520-40F7-93F4-8B99D913A4AC/
+   icdab_planets.app/icdab_planets
 ```
 
-to
+With the above setting in place, a crash would instead be reported as:
 
 ```
 Thread 0 Crashed:
@@ -57,17 +74,57 @@ Thread 0 Crashed:
 5   UIKit                         	0x000000018db56ee0 -[UIViewController loadViewIfRequired] + 1020
 ```
 
+Lines 0, 1, 2, 5 are the same in both cases because your developer environment will
+have the symbols for the iOS release under test.  In the second case Xcode will
+look up the DSYM file to clarify line 4.  It tells us this is line 33 in file
+PlanetViewController.mm.  This is:
 
-  We want to do a local demonstration of DSYMs without having to go
-via the App Store so we have maximum control of all the parts involved.
+```
+assert(pluto_volume != 0.0);
+```
 
-We want to be able to do a normal Debug build of our app, deploy it to our local device.  
-Then when we run it and see it crash have Xcode give us full details of the crash.
+The DSYM file is strictly speaking a directory hierarchy:
+```
+icdab_planets.app.dSYM
+icdab_planets.app.dSYM/Contents
+icdab_planets.app.dSYM/Contents/Resources
+icdab_planets.app.dSYM/Contents/Resources/DWARF
+icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets
+icdab_planets.app.dSYM/Contents/Info.plist
+```
 
-The build system uses the command `dsymutil path_to_app_binary -o output_symbols.dSYM` to do the job.
-GenerateDSYMFile /Users/faisalm/Library/Developer/Xcode/DerivedData/icdab_planets-deimnsayssxnidbtkbhjtqahixqn/Build/Products/Debug-iphoneos/icdab_planets.app.dSYM /Users/faisalm/Library/Developer/Xcode/DerivedData/icdab_planets-deimnsayssxnidbtkbhjtqahixqn/Build/Products/Debug-iphoneos/icdab_planets.app/icdab_planets
-    cd /Users/faisalm/dev/icdab/source/icdab_planets
-    export PATH="/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /Users/faisalm/Library/Developer/Xcode/DerivedData/icdab_planets-deimnsayssxnidbtkbhjtqahixqn/Build/Products/Debug-iphoneos/icdab_planets.app/icdab_planets -o /Users/faisalm/Library/Developer/Xcode/DerivedData/icdab_planets-deimnsayssxnidbtkbhjtqahixqn/Build/Products/Debug-iphoneos/icdab_planets.app.dSYM
+It is just the DWARF data normally put into the debug binary but copied into a separate file.
 
-to create a DSYM file.
+From looking at your build log you can see how the DSYM was generated.
+It is effectively just `dsymutil path_to_app_binary -o output_symbols_dir.dSYM`
+
+In order to help us get comfortable with crash dump reports, we can demonstrate
+how the symbolification actually works.  In the first crash dump we want to understand:
+
+```
+4   icdab_planets                 	0x00000001008e45bc 0x1008e0000 + 17852
+```
+
+If we knew accurately the version of our code at the time of the crash we can
+recompile our program but with the DSYM setting switched on and then get a
+DSYM file after the original crash.  It should line up almost exactly.
+
+The crash dump program tells us where the program was loaded in memory at the
+time of the problem.  This is important because it is a master base offset from
+which all other address (TEXT) locations are relative to.  At the bottom of the crash
+dump we have line `0x1008e0000 - 0x1008ebfff icdab_planets`
+
+So the icdab_planets binary starts at location `0x1008e0000`
+
+Running the lookup command `atos` symbolicates the line of interest:
+```
+# atos -arch arm64 -o ./icdab_planets.app.dSYM/Contents/Resources/DWARF/
+icdab_planets -l 0x1008e0000 0x00000001008e45bc
+-[PlanetViewController viewDidLoad] (in icdab_planets)
+ (PlanetViewController.mm:33)
+```
+
+The crash reporter tool fundamentally just uses `atos` to symbolicate the
+crash report, as well as providing other system related information.
+
+Symbolification is described further by an Apple Technote in case you want to get into it in more detail. @tn2123
