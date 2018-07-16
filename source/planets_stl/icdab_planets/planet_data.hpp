@@ -10,6 +10,7 @@
 #define planet_data_hpp
 
 #include <string>
+#include <map>
 
 using namespace std;
 
@@ -34,6 +35,8 @@ public:
     
 public:
     static planet get_planet_with_name(string name);
+    static map<string, planet>::iterator find_planet_named(string name);
+    static bool isEnd(map<string, planet>::iterator it);
     
     friend planet_database;
 };

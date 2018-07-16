@@ -42,8 +42,12 @@ void planet_database::load_data() {
     planet planet_Uranus = planet("Uranus", 51118, 2870 * millionKm);
     planets["Uranus"] = planet_Uranus;
     
-    planet planet_Neptune = planet("Neptune", 49532, 44969 * millionKm);
+    planet planet_Neptune = planet("Neptune", 49532, 4497 * millionKm);
     planets["Neptune"] = planet_Neptune;
+    
+//  No longer considered a planet but instead a dwarf planet
+//  planet planet_Pluto = planet("Pluto", 2370, 7375 * millionKm);
+//  planets["Pluto"] = planet_Pluto;
     
     loaded_data = true;
 }
@@ -90,6 +94,22 @@ planet planet::get_planet_with_name(string name) {
     }
     return database.planets[name];
 }
+
+map<string, planet>::iterator planet::find_planet_named(string name) {
+    if (!database.loaded_data) {
+        database.load_data();
+    }
+    
+    return database.planets.find(name);
+}
+
+bool planet::isEnd(map<string, planet>::iterator it) {
+    if (it == database.planets.end()) {
+        return true;
+    }
+    return false;
+}
+
 
 double planet::get_diameter(void) {
     return diameter;

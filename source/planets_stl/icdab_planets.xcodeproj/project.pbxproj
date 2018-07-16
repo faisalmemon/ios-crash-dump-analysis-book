@@ -7,74 +7,74 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		39E7A38620F8B5B70028E0A4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A38520F8B5B70028E0A4 /* AppDelegate.m */; };
-		39E7A38920F8B5B70028E0A4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A38820F8B5B70028E0A4 /* ViewController.m */; };
-		39E7A38C20F8B5B70028E0A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39E7A38A20F8B5B70028E0A4 /* Main.storyboard */; };
-		39E7A38E20F8B5B80028E0A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39E7A38D20F8B5B80028E0A4 /* Assets.xcassets */; };
-		39E7A39120F8B5B80028E0A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39E7A38F20F8B5B80028E0A4 /* LaunchScreen.storyboard */; };
-		39E7A39420F8B5B80028E0A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A39320F8B5B80028E0A4 /* main.m */; };
-		39E7A39E20F8B5B80028E0A4 /* icdab_planetsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A39D20F8B5B80028E0A4 /* icdab_planetsTests.m */; };
-		39E7A3A920F8B5B80028E0A4 /* icdab_planetsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A3A820F8B5B80028E0A4 /* icdab_planetsUITests.m */; };
-		39E7A3B820F8B5F80028E0A4 /* planet_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A3B620F8B5F80028E0A4 /* planet_data.cpp */; };
-		39E7A3BB20FC90C50028E0A4 /* PlanetViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 39E7A3BA20FC90C50028E0A4 /* PlanetViewController.mm */; };
+		3995A81320FC97F800903BFD /* planet_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3995A81120FC97F700903BFD /* planet_data.cpp */; };
+		3997B47620FC9266009B067E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B47520FC9266009B067E /* AppDelegate.m */; };
+		3997B47920FC9266009B067E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B47820FC9266009B067E /* ViewController.m */; };
+		3997B47C20FC9266009B067E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3997B47A20FC9266009B067E /* Main.storyboard */; };
+		3997B47E20FC9267009B067E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3997B47D20FC9267009B067E /* Assets.xcassets */; };
+		3997B48120FC9267009B067E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3997B47F20FC9267009B067E /* LaunchScreen.storyboard */; };
+		3997B48420FC9267009B067E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B48320FC9267009B067E /* main.m */; };
+		3997B48E20FC9267009B067E /* icdab_planetsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B48D20FC9267009B067E /* icdab_planetsTests.m */; };
+		3997B49920FC9267009B067E /* icdab_planetsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B49820FC9267009B067E /* icdab_planetsUITests.m */; };
+		3997B4A820FC93A7009B067E /* PlanetViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3997B4A720FC93A7009B067E /* PlanetViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		39E7A39A20F8B5B80028E0A4 /* PBXContainerItemProxy */ = {
+		3997B48A20FC9267009B067E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 39E7A37920F8B5B70028E0A4 /* Project object */;
+			containerPortal = 3997B46920FC9266009B067E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 39E7A38020F8B5B70028E0A4;
+			remoteGlobalIDString = 3997B47020FC9266009B067E;
 			remoteInfo = icdab_planets;
 		};
-		39E7A3A520F8B5B80028E0A4 /* PBXContainerItemProxy */ = {
+		3997B49520FC9267009B067E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 39E7A37920F8B5B70028E0A4 /* Project object */;
+			containerPortal = 3997B46920FC9266009B067E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 39E7A38020F8B5B70028E0A4;
+			remoteGlobalIDString = 3997B47020FC9266009B067E;
 			remoteInfo = icdab_planets;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		39E7A38120F8B5B70028E0A4 /* icdab_planets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = icdab_planets.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		39E7A38420F8B5B70028E0A4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		39E7A38520F8B5B70028E0A4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		39E7A38720F8B5B70028E0A4 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		39E7A38820F8B5B70028E0A4 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		39E7A38B20F8B5B70028E0A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		39E7A38D20F8B5B80028E0A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		39E7A39020F8B5B80028E0A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		39E7A39220F8B5B80028E0A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		39E7A39320F8B5B80028E0A4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		39E7A39920F8B5B80028E0A4 /* icdab_planetsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_planetsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		39E7A39D20F8B5B80028E0A4 /* icdab_planetsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_planetsTests.m; sourceTree = "<group>"; };
-		39E7A39F20F8B5B80028E0A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		39E7A3A420F8B5B80028E0A4 /* icdab_planetsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_planetsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		39E7A3A820F8B5B80028E0A4 /* icdab_planetsUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_planetsUITests.m; sourceTree = "<group>"; };
-		39E7A3AA20F8B5B80028E0A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		39E7A3B620F8B5F80028E0A4 /* planet_data.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = planet_data.cpp; sourceTree = "<group>"; };
-		39E7A3B720F8B5F80028E0A4 /* planet_data.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = planet_data.hpp; sourceTree = "<group>"; };
-		39E7A3B920FC90C50028E0A4 /* PlanetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlanetViewController.h; sourceTree = "<group>"; };
-		39E7A3BA20FC90C50028E0A4 /* PlanetViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PlanetViewController.mm; sourceTree = "<group>"; };
+		3995A81120FC97F700903BFD /* planet_data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = planet_data.cpp; sourceTree = "<group>"; };
+		3995A81220FC97F800903BFD /* planet_data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = planet_data.hpp; sourceTree = "<group>"; };
+		3997B47120FC9266009B067E /* icdab_planets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = icdab_planets.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3997B47420FC9266009B067E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		3997B47520FC9266009B067E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		3997B47720FC9266009B067E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		3997B47820FC9266009B067E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		3997B47B20FC9266009B067E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3997B47D20FC9267009B067E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3997B48020FC9267009B067E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3997B48220FC9267009B067E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3997B48320FC9267009B067E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3997B48920FC9267009B067E /* icdab_planetsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_planetsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3997B48D20FC9267009B067E /* icdab_planetsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_planetsTests.m; sourceTree = "<group>"; };
+		3997B48F20FC9267009B067E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3997B49420FC9267009B067E /* icdab_planetsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_planetsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3997B49820FC9267009B067E /* icdab_planetsUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_planetsUITests.m; sourceTree = "<group>"; };
+		3997B49A20FC9267009B067E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3997B4A620FC93A7009B067E /* PlanetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlanetViewController.h; sourceTree = "<group>"; };
+		3997B4A720FC93A7009B067E /* PlanetViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PlanetViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		39E7A37E20F8B5B70028E0A4 /* Frameworks */ = {
+		3997B46E20FC9266009B067E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		39E7A39620F8B5B80028E0A4 /* Frameworks */ = {
+		3997B48620FC9267009B067E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		39E7A3A120F8B5B80028E0A4 /* Frameworks */ = {
+		3997B49120FC9267009B067E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -84,60 +84,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		39E7A37820F8B5B70028E0A4 = {
+		3997B46820FC9266009B067E = {
 			isa = PBXGroup;
 			children = (
-				39E7A38320F8B5B70028E0A4 /* icdab_planets */,
-				39E7A39C20F8B5B80028E0A4 /* icdab_planetsTests */,
-				39E7A3A720F8B5B80028E0A4 /* icdab_planetsUITests */,
-				39E7A38220F8B5B70028E0A4 /* Products */,
+				3997B47320FC9266009B067E /* icdab_planets */,
+				3997B48C20FC9267009B067E /* icdab_planetsTests */,
+				3997B49720FC9267009B067E /* icdab_planetsUITests */,
+				3997B47220FC9266009B067E /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		39E7A38220F8B5B70028E0A4 /* Products */ = {
+		3997B47220FC9266009B067E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				39E7A38120F8B5B70028E0A4 /* icdab_planets.app */,
-				39E7A39920F8B5B80028E0A4 /* icdab_planetsTests.xctest */,
-				39E7A3A420F8B5B80028E0A4 /* icdab_planetsUITests.xctest */,
+				3997B47120FC9266009B067E /* icdab_planets.app */,
+				3997B48920FC9267009B067E /* icdab_planetsTests.xctest */,
+				3997B49420FC9267009B067E /* icdab_planetsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		39E7A38320F8B5B70028E0A4 /* icdab_planets */ = {
+		3997B47320FC9266009B067E /* icdab_planets */ = {
 			isa = PBXGroup;
 			children = (
-				39E7A38420F8B5B70028E0A4 /* AppDelegate.h */,
-				39E7A38520F8B5B70028E0A4 /* AppDelegate.m */,
-				39E7A38720F8B5B70028E0A4 /* ViewController.h */,
-				39E7A38820F8B5B70028E0A4 /* ViewController.m */,
-				39E7A3B920FC90C50028E0A4 /* PlanetViewController.h */,
-				39E7A3BA20FC90C50028E0A4 /* PlanetViewController.mm */,
-				39E7A3B620F8B5F80028E0A4 /* planet_data.cpp */,
-				39E7A3B720F8B5F80028E0A4 /* planet_data.hpp */,
-				39E7A38A20F8B5B70028E0A4 /* Main.storyboard */,
-				39E7A38D20F8B5B80028E0A4 /* Assets.xcassets */,
-				39E7A38F20F8B5B80028E0A4 /* LaunchScreen.storyboard */,
-				39E7A39220F8B5B80028E0A4 /* Info.plist */,
-				39E7A39320F8B5B80028E0A4 /* main.m */,
+				3997B47420FC9266009B067E /* AppDelegate.h */,
+				3997B47520FC9266009B067E /* AppDelegate.m */,
+				3997B47720FC9266009B067E /* ViewController.h */,
+				3997B47820FC9266009B067E /* ViewController.m */,
+				3997B47A20FC9266009B067E /* Main.storyboard */,
+				3997B4A620FC93A7009B067E /* PlanetViewController.h */,
+				3995A81120FC97F700903BFD /* planet_data.cpp */,
+				3995A81220FC97F800903BFD /* planet_data.hpp */,
+				3997B4A720FC93A7009B067E /* PlanetViewController.mm */,
+				3997B47D20FC9267009B067E /* Assets.xcassets */,
+				3997B47F20FC9267009B067E /* LaunchScreen.storyboard */,
+				3997B48220FC9267009B067E /* Info.plist */,
+				3997B48320FC9267009B067E /* main.m */,
 			);
 			path = icdab_planets;
 			sourceTree = "<group>";
 		};
-		39E7A39C20F8B5B80028E0A4 /* icdab_planetsTests */ = {
+		3997B48C20FC9267009B067E /* icdab_planetsTests */ = {
 			isa = PBXGroup;
 			children = (
-				39E7A39D20F8B5B80028E0A4 /* icdab_planetsTests.m */,
-				39E7A39F20F8B5B80028E0A4 /* Info.plist */,
+				3997B48D20FC9267009B067E /* icdab_planetsTests.m */,
+				3997B48F20FC9267009B067E /* Info.plist */,
 			);
 			path = icdab_planetsTests;
 			sourceTree = "<group>";
 		};
-		39E7A3A720F8B5B80028E0A4 /* icdab_planetsUITests */ = {
+		3997B49720FC9267009B067E /* icdab_planetsUITests */ = {
 			isa = PBXGroup;
 			children = (
-				39E7A3A820F8B5B80028E0A4 /* icdab_planetsUITests.m */,
-				39E7A3AA20F8B5B80028E0A4 /* Info.plist */,
+				3997B49820FC9267009B067E /* icdab_planetsUITests.m */,
+				3997B49A20FC9267009B067E /* Info.plist */,
 			);
 			path = icdab_planetsUITests;
 			sourceTree = "<group>";
@@ -145,13 +145,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		39E7A38020F8B5B70028E0A4 /* icdab_planets */ = {
+		3997B47020FC9266009B067E /* icdab_planets */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 39E7A3AD20F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planets" */;
+			buildConfigurationList = 3997B49D20FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planets" */;
 			buildPhases = (
-				39E7A37D20F8B5B70028E0A4 /* Sources */,
-				39E7A37E20F8B5B70028E0A4 /* Frameworks */,
-				39E7A37F20F8B5B70028E0A4 /* Resources */,
+				3997B46D20FC9266009B067E /* Sources */,
+				3997B46E20FC9266009B067E /* Frameworks */,
+				3997B46F20FC9266009B067E /* Resources */,
 			);
 			buildRules = (
 			);
@@ -159,68 +159,68 @@
 			);
 			name = icdab_planets;
 			productName = icdab_planets;
-			productReference = 39E7A38120F8B5B70028E0A4 /* icdab_planets.app */;
+			productReference = 3997B47120FC9266009B067E /* icdab_planets.app */;
 			productType = "com.apple.product-type.application";
 		};
-		39E7A39820F8B5B80028E0A4 /* icdab_planetsTests */ = {
+		3997B48820FC9267009B067E /* icdab_planetsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 39E7A3B020F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planetsTests" */;
+			buildConfigurationList = 3997B4A020FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planetsTests" */;
 			buildPhases = (
-				39E7A39520F8B5B80028E0A4 /* Sources */,
-				39E7A39620F8B5B80028E0A4 /* Frameworks */,
-				39E7A39720F8B5B80028E0A4 /* Resources */,
+				3997B48520FC9267009B067E /* Sources */,
+				3997B48620FC9267009B067E /* Frameworks */,
+				3997B48720FC9267009B067E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				39E7A39B20F8B5B80028E0A4 /* PBXTargetDependency */,
+				3997B48B20FC9267009B067E /* PBXTargetDependency */,
 			);
 			name = icdab_planetsTests;
 			productName = icdab_planetsTests;
-			productReference = 39E7A39920F8B5B80028E0A4 /* icdab_planetsTests.xctest */;
+			productReference = 3997B48920FC9267009B067E /* icdab_planetsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		39E7A3A320F8B5B80028E0A4 /* icdab_planetsUITests */ = {
+		3997B49320FC9267009B067E /* icdab_planetsUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 39E7A3B320F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planetsUITests" */;
+			buildConfigurationList = 3997B4A320FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planetsUITests" */;
 			buildPhases = (
-				39E7A3A020F8B5B80028E0A4 /* Sources */,
-				39E7A3A120F8B5B80028E0A4 /* Frameworks */,
-				39E7A3A220F8B5B80028E0A4 /* Resources */,
+				3997B49020FC9267009B067E /* Sources */,
+				3997B49120FC9267009B067E /* Frameworks */,
+				3997B49220FC9267009B067E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				39E7A3A620F8B5B80028E0A4 /* PBXTargetDependency */,
+				3997B49620FC9267009B067E /* PBXTargetDependency */,
 			);
 			name = icdab_planetsUITests;
 			productName = icdab_planetsUITests;
-			productReference = 39E7A3A420F8B5B80028E0A4 /* icdab_planetsUITests.xctest */;
+			productReference = 3997B49420FC9267009B067E /* icdab_planetsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		39E7A37920F8B5B70028E0A4 /* Project object */ = {
+		3997B46920FC9266009B067E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Faisal Memon";
 				TargetAttributes = {
-					39E7A38020F8B5B70028E0A4 = {
+					3997B47020FC9266009B067E = {
 						CreatedOnToolsVersion = 9.3;
 					};
-					39E7A39820F8B5B80028E0A4 = {
+					3997B48820FC9267009B067E = {
 						CreatedOnToolsVersion = 9.3;
-						TestTargetID = 39E7A38020F8B5B70028E0A4;
+						TestTargetID = 3997B47020FC9266009B067E;
 					};
-					39E7A3A320F8B5B80028E0A4 = {
+					3997B49320FC9267009B067E = {
 						CreatedOnToolsVersion = 9.3;
-						TestTargetID = 39E7A38020F8B5B70028E0A4;
+						TestTargetID = 3997B47020FC9266009B067E;
 					};
 				};
 			};
-			buildConfigurationList = 39E7A37C20F8B5B70028E0A4 /* Build configuration list for PBXProject "icdab_planets" */;
+			buildConfigurationList = 3997B46C20FC9266009B067E /* Build configuration list for PBXProject "icdab_planets" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -228,37 +228,37 @@
 				en,
 				Base,
 			);
-			mainGroup = 39E7A37820F8B5B70028E0A4;
-			productRefGroup = 39E7A38220F8B5B70028E0A4 /* Products */;
+			mainGroup = 3997B46820FC9266009B067E;
+			productRefGroup = 3997B47220FC9266009B067E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				39E7A38020F8B5B70028E0A4 /* icdab_planets */,
-				39E7A39820F8B5B80028E0A4 /* icdab_planetsTests */,
-				39E7A3A320F8B5B80028E0A4 /* icdab_planetsUITests */,
+				3997B47020FC9266009B067E /* icdab_planets */,
+				3997B48820FC9267009B067E /* icdab_planetsTests */,
+				3997B49320FC9267009B067E /* icdab_planetsUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		39E7A37F20F8B5B70028E0A4 /* Resources */ = {
+		3997B46F20FC9266009B067E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39E7A39120F8B5B80028E0A4 /* LaunchScreen.storyboard in Resources */,
-				39E7A38E20F8B5B80028E0A4 /* Assets.xcassets in Resources */,
-				39E7A38C20F8B5B70028E0A4 /* Main.storyboard in Resources */,
+				3997B48120FC9267009B067E /* LaunchScreen.storyboard in Resources */,
+				3997B47E20FC9267009B067E /* Assets.xcassets in Resources */,
+				3997B47C20FC9266009B067E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		39E7A39720F8B5B80028E0A4 /* Resources */ = {
+		3997B48720FC9267009B067E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		39E7A3A220F8B5B80028E0A4 /* Resources */ = {
+		3997B49220FC9267009B067E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -268,62 +268,62 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		39E7A37D20F8B5B70028E0A4 /* Sources */ = {
+		3997B46D20FC9266009B067E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39E7A38920F8B5B70028E0A4 /* ViewController.m in Sources */,
-				39E7A3BB20FC90C50028E0A4 /* PlanetViewController.mm in Sources */,
-				39E7A3B820F8B5F80028E0A4 /* planet_data.cpp in Sources */,
-				39E7A39420F8B5B80028E0A4 /* main.m in Sources */,
-				39E7A38620F8B5B70028E0A4 /* AppDelegate.m in Sources */,
+				3997B4A820FC93A7009B067E /* PlanetViewController.mm in Sources */,
+				3997B47920FC9266009B067E /* ViewController.m in Sources */,
+				3997B48420FC9267009B067E /* main.m in Sources */,
+				3997B47620FC9266009B067E /* AppDelegate.m in Sources */,
+				3995A81320FC97F800903BFD /* planet_data.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		39E7A39520F8B5B80028E0A4 /* Sources */ = {
+		3997B48520FC9267009B067E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39E7A39E20F8B5B80028E0A4 /* icdab_planetsTests.m in Sources */,
+				3997B48E20FC9267009B067E /* icdab_planetsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		39E7A3A020F8B5B80028E0A4 /* Sources */ = {
+		3997B49020FC9267009B067E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39E7A3A920F8B5B80028E0A4 /* icdab_planetsUITests.m in Sources */,
+				3997B49920FC9267009B067E /* icdab_planetsUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		39E7A39B20F8B5B80028E0A4 /* PBXTargetDependency */ = {
+		3997B48B20FC9267009B067E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 39E7A38020F8B5B70028E0A4 /* icdab_planets */;
-			targetProxy = 39E7A39A20F8B5B80028E0A4 /* PBXContainerItemProxy */;
+			target = 3997B47020FC9266009B067E /* icdab_planets */;
+			targetProxy = 3997B48A20FC9267009B067E /* PBXContainerItemProxy */;
 		};
-		39E7A3A620F8B5B80028E0A4 /* PBXTargetDependency */ = {
+		3997B49620FC9267009B067E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 39E7A38020F8B5B70028E0A4 /* icdab_planets */;
-			targetProxy = 39E7A3A520F8B5B80028E0A4 /* PBXContainerItemProxy */;
+			target = 3997B47020FC9266009B067E /* icdab_planets */;
+			targetProxy = 3997B49520FC9267009B067E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		39E7A38A20F8B5B70028E0A4 /* Main.storyboard */ = {
+		3997B47A20FC9266009B067E /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				39E7A38B20F8B5B70028E0A4 /* Base */,
+				3997B47B20FC9266009B067E /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		39E7A38F20F8B5B80028E0A4 /* LaunchScreen.storyboard */ = {
+		3997B47F20FC9267009B067E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				39E7A39020F8B5B80028E0A4 /* Base */,
+				3997B48020FC9267009B067E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -331,7 +331,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		39E7A3AB20F8B5B80028E0A4 /* Debug */ = {
+		3997B49B20FC9267009B067E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -389,7 +389,7 @@
 			};
 			name = Debug;
 		};
-		39E7A3AC20F8B5B80028E0A4 /* Release */ = {
+		3997B49C20FC9267009B067E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -441,11 +441,12 @@
 			};
 			name = Release;
 		};
-		39E7A3AE20F8B5B80028E0A4 /* Debug */ = {
+		3997B49E20FC9267009B067E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 5Y3322JWHB;
 				INFOPLIST_FILE = icdab_planets/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -458,11 +459,12 @@
 			};
 			name = Debug;
 		};
-		39E7A3AF20F8B5B80028E0A4 /* Release */ = {
+		3997B49F20FC9267009B067E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5Y3322JWHB;
 				INFOPLIST_FILE = icdab_planets/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -475,7 +477,7 @@
 			};
 			name = Release;
 		};
-		39E7A3B120F8B5B80028E0A4 /* Debug */ = {
+		3997B4A120FC9267009B067E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -494,7 +496,7 @@
 			};
 			name = Debug;
 		};
-		39E7A3B220F8B5B80028E0A4 /* Release */ = {
+		3997B4A220FC9267009B067E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -513,7 +515,7 @@
 			};
 			name = Release;
 		};
-		39E7A3B420F8B5B80028E0A4 /* Debug */ = {
+		3997B4A420FC9267009B067E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -531,7 +533,7 @@
 			};
 			name = Debug;
 		};
-		39E7A3B520F8B5B80028E0A4 /* Release */ = {
+		3997B4A520FC9267009B067E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -552,43 +554,43 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		39E7A37C20F8B5B70028E0A4 /* Build configuration list for PBXProject "icdab_planets" */ = {
+		3997B46C20FC9266009B067E /* Build configuration list for PBXProject "icdab_planets" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				39E7A3AB20F8B5B80028E0A4 /* Debug */,
-				39E7A3AC20F8B5B80028E0A4 /* Release */,
+				3997B49B20FC9267009B067E /* Debug */,
+				3997B49C20FC9267009B067E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		39E7A3AD20F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planets" */ = {
+		3997B49D20FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planets" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				39E7A3AE20F8B5B80028E0A4 /* Debug */,
-				39E7A3AF20F8B5B80028E0A4 /* Release */,
+				3997B49E20FC9267009B067E /* Debug */,
+				3997B49F20FC9267009B067E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		39E7A3B020F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planetsTests" */ = {
+		3997B4A020FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planetsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				39E7A3B120F8B5B80028E0A4 /* Debug */,
-				39E7A3B220F8B5B80028E0A4 /* Release */,
+				3997B4A120FC9267009B067E /* Debug */,
+				3997B4A220FC9267009B067E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		39E7A3B320F8B5B80028E0A4 /* Build configuration list for PBXNativeTarget "icdab_planetsUITests" */ = {
+		3997B4A320FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planetsUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				39E7A3B420F8B5B80028E0A4 /* Debug */,
-				39E7A3B520F8B5B80028E0A4 /* Release */,
+				3997B4A420FC9267009B067E /* Debug */,
+				3997B4A520FC9267009B067E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 39E7A37920F8B5B70028E0A4 /* Project object */;
+	rootObject = 3997B46920FC9266009B067E /* Project object */;
 }
