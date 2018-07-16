@@ -29,7 +29,7 @@ assert(pluto_volume != 0.0);
 double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;
 ```
 
-Enabling code Analysis and runtime checks of Xcode will not find any issue or warning.
+Enabling code Analysis will not find any issue or warning.
 
 The assert is in place to avoid a division by zero.  That fact that it is triggered is good because we know where to start debugging the problem.
 
@@ -92,7 +92,7 @@ void planet_database::load_data() {
 }
 ```
 
-The problem indirectly is because `database.planets[name]` discovered that there was no entry for Pluto so created one via the constructor as this is the behaviour for STL map data structures.
+The problem indirectly is because `database.planets[name]` discovered that there was no entry for Pluto so created one via the no-arg constructor as this is the behaviour for STL map data structures.
 
 ```
 planet::planet() {
@@ -103,3 +103,43 @@ planet::planet() {
 ```
 
 We see the constructor makes the diameter zero in this case.
+
+### Solutions
+
+We see that the problem is not applying the paradigms of each framework and language properly and when you have a mixture of paradigms those different assumptions get masked by each layer of abstraction.
+
+In STL, we expect a `find` operation to be done, instead of the indexing operator.  This allows the abstraction to flag the absence of the item being found.
+
+In Objective-C we expect the lookup API to be a function which returns an index given the lookup name.  And the index would be `NSNotFound` when the operation failed.
+
+In this code example, each layer of abstraction assumes the other side will re-map the edge case into an appropriate form.
+
+We have a variant of the code which does things "properly" from an STL point of view. @icdabgithub
+It is `example/planets_stl`.  On the consumer side, we have a helper method:
+
+```
+- (BOOL)loadPlanetData {
+    auto pluto_by_find = planet::find_planet_named("Pluto");
+    auto jupiter_by_find = planet::find_planet_named("Jupiter");
+
+    if (planet::isEnd(jupiter_by_find) || planet::isEnd(pluto_by_find)) {
+        return NO;
+    }
+    pluto = pluto_by_find->second;
+    jupiter = jupiter_by_find->second;
+    return YES;
+}
+```
+
+This is is hard to parse if you are mainly an Objective-C programmer.  If the
+project is mainly a C++ project with a thin platform-specific layer then perhaps
+that is acceptable.  If the code base just leverages C++ code from elsewhere,
+then a better solution is to confine the paradigms to their own files and apply
+the facade design pattern to give a version of the API following Objective-C
+paradigms on the platform-specific code side.
+
+Then Objective-C++ can be dispensed with in the ViewController code; it can be made an Objective-C file instead.
+
+## Lessons Learnt
+
+The lesson here is that crashes can arise from special case handling.  Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out your code and use a Facade if possible to keep each paradigm cleanly separated.

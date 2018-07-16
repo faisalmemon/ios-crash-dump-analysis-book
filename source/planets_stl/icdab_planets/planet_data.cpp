@@ -88,13 +88,6 @@ planet::planet(string name, double diameter, double distance_from_sun) {
     this->distance_from_sun = distance_from_sun;
 }
 
-planet planet::get_planet_with_name(string name) {
-    if (!database.loaded_data) {
-        database.load_data();
-    }
-    return database.planets[name];
-}
-
 map<string, planet>::iterator planet::find_planet_named(string name) {
     if (!database.loaded_data) {
         database.load_data();

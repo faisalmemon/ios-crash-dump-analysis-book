@@ -34,7 +34,6 @@ public:
     double get_volume(void);
     
 public:
-    static planet get_planet_with_name(string name);
     static map<string, planet>::iterator find_planet_named(string name);
     static bool isEnd(map<string, planet>::iterator it);
     
