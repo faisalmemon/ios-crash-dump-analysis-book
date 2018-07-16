@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3995A81320FC97F800903BFD /* planet_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3995A81120FC97F700903BFD /* planet_data.cpp */; };
 		3997B47620FC9266009B067E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B47520FC9266009B067E /* AppDelegate.m */; };
 		3997B47920FC9266009B067E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B47820FC9266009B067E /* ViewController.m */; };
 		3997B47C20FC9266009B067E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3997B47A20FC9266009B067E /* Main.storyboard */; };
@@ -15,7 +16,7 @@
 		3997B48420FC9267009B067E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B48320FC9267009B067E /* main.m */; };
 		3997B48E20FC9267009B067E /* icdab_planetsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B48D20FC9267009B067E /* icdab_planetsTests.m */; };
 		3997B49920FC9267009B067E /* icdab_planetsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B49820FC9267009B067E /* icdab_planetsUITests.m */; };
-		3997B4A820FC93A7009B067E /* PlanetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B4A720FC93A7009B067E /* PlanetViewController.m */; };
+		3997B4A820FC93A7009B067E /* PlanetViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3997B4A720FC93A7009B067E /* PlanetViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3995A81120FC97F700903BFD /* planet_data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = planet_data.cpp; sourceTree = "<group>"; };
+		3995A81220FC97F800903BFD /* planet_data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = planet_data.hpp; sourceTree = "<group>"; };
 		3997B47120FC9266009B067E /* icdab_planets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = icdab_planets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3997B47420FC9266009B067E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3997B47520FC9266009B067E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -53,7 +56,7 @@
 		3997B49820FC9267009B067E /* icdab_planetsUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_planetsUITests.m; sourceTree = "<group>"; };
 		3997B49A20FC9267009B067E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3997B4A620FC93A7009B067E /* PlanetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlanetViewController.h; sourceTree = "<group>"; };
-		3997B4A720FC93A7009B067E /* PlanetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlanetViewController.m; sourceTree = "<group>"; };
+		3997B4A720FC93A7009B067E /* PlanetViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PlanetViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +113,9 @@
 				3997B47820FC9266009B067E /* ViewController.m */,
 				3997B47A20FC9266009B067E /* Main.storyboard */,
 				3997B4A620FC93A7009B067E /* PlanetViewController.h */,
-				3997B4A720FC93A7009B067E /* PlanetViewController.m */,
+				3995A81120FC97F700903BFD /* planet_data.cpp */,
+				3995A81220FC97F800903BFD /* planet_data.hpp */,
+				3997B4A720FC93A7009B067E /* PlanetViewController.mm */,
 				3997B47D20FC9267009B067E /* Assets.xcassets */,
 				3997B47F20FC9267009B067E /* LaunchScreen.storyboard */,
 				3997B48220FC9267009B067E /* Info.plist */,
@@ -267,10 +272,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3997B4A820FC93A7009B067E /* PlanetViewController.m in Sources */,
+				3997B4A820FC93A7009B067E /* PlanetViewController.mm in Sources */,
 				3997B47920FC9266009B067E /* ViewController.m in Sources */,
 				3997B48420FC9267009B067E /* main.m in Sources */,
 				3997B47620FC9266009B067E /* AppDelegate.m in Sources */,
+				3995A81320FC97F800903BFD /* planet_data.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

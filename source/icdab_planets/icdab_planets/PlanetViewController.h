@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "planet_data.hpp"
+
 @interface PlanetViewController : UIViewController
 
 @end
