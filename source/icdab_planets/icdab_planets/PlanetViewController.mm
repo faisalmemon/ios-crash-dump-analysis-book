@@ -19,11 +19,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+   
+    planet pluto = planet::get_planet_with_name("Pluto");
+    planet jupiter = planet::get_planet_with_name("Jupiter");
     
-    self.jupiterLabelOutlet.text = @"A";
-    self.plutoLabelOutlet.text = @"B";
-    self.plutosInJupiterLabelOutlet.text = @"C";
+    double pluto_diameter = pluto.get_diameter();
+    double jupiter_diameter = jupiter.get_diameter();
+    
+    NSLog(@"Pluto diameter is %f", pluto_diameter);
+    NSLog(@"Jupiter diameter is %f", jupiter_diameter);
+    
+    double pluto_volume = pluto.get_volume();
+    assert(pluto_volume != 0.0);
+    
+    double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;
+    
+    self.jupiterLabelOutlet.text =
+    [NSString stringWithFormat:@"Diameter of Jupiter (km) = %f",
+     jupiter_diameter];
+    self.plutoLabelOutlet.text =
+    [NSString stringWithFormat:@"Diameter of Pluto (km) = %f",
+                                  pluto_diameter];
+    self.plutosInJupiterLabelOutlet.text =
+    [NSString stringWithFormat:@"Number of Plutos that fit inside Jupiter = %f",
+                                            plutos_to_fill_jupiter];
 }
 
 - (void)didReceiveMemoryWarning {
