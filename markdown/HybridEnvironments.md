@@ -140,6 +140,37 @@ paradigms on the platform-specific code side.
 
 Then Objective-C++ can be dispensed with in the ViewController code; it can be made an Objective-C file instead.
 
+Here is a facade implementation `example/facade_planets` that makes these enhancements :
+
+```
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.planetModel = [[PlanetModel alloc] init];
+
+    if (self.planetModel == nil) {
+        return;
+    }
+
+    double pluto_diameter = self.planetModel.planetDict[@"Pluto"].diameter;
+    double jupiter_diameter = self.planetModel.planetDict[@"Jupiter"].diameter;
+    double plutoVolume = self.planetModel.planetDict[@"Pluto"].volume;
+    double jupiterVolume = self.planetModel.planetDict[@"Jupiter"].volume;
+    double plutosInJupiter = jupiterVolume/plutoVolume;
+
+    self.plutosInJupiterLabelOutlet.text =
+    [NSString stringWithFormat:@"Number of Plutos that fit inside Jupiter = %f",
+     plutosInJupiter];
+
+    self.jupiterLabelOutlet.text =
+    [NSString stringWithFormat:@"Diameter of Jupiter (km) = %f",
+     jupiter_diameter];
+    self.plutoLabelOutlet.text =
+    [NSString stringWithFormat:@"Diameter of Pluto (km) = %f",
+     pluto_diameter];
+}
+```
+
 ## Lessons Learnt
 
 The lesson here is that crashes can arise from special case handling.  Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out your code and use a Facade if possible to keep each paradigm cleanly separated.

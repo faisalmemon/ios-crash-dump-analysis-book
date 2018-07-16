@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "planet_data.hpp"
 
 NS_ASSUME_NONNULL_BEGIN
 

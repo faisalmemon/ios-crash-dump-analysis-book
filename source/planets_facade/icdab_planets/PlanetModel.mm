@@ -7,6 +7,8 @@
 //
 
 #import "PlanetModel.h"
+#import "planet_data.hpp"
+
 
 @implementation PlanetInfo
 
