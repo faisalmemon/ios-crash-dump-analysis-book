@@ -7,58 +7,41 @@
 //
 #import "PlanetViewController.h"
 
-@interface PlanetViewController ()
+@interface PlanetViewController () {
+    planet pluto;
+    planet jupiter;
+}
+
 @property (weak, nonatomic) IBOutlet UILabel *jupiterLabelOutlet;
 @property (weak, nonatomic) IBOutlet UILabel *plutoLabelOutlet;
 @property (weak, nonatomic) IBOutlet UILabel *plutosInJupiterLabelOutlet;
+
 @end
+
+
 @implementation PlanetViewController
 
-#define original_Code 0
-
-#if original_Code
-- (void)viewDidLoad {
-    [super viewDidLoad];
-   
-    planet pluto = planet::get_planet_with_name("Pluto");
-    planet jupiter = planet::get_planet_with_name("Jupiter");
-    
-    double pluto_diameter = pluto.get_diameter();
-    double jupiter_diameter = jupiter.get_diameter();
-    
-    NSLog(@"Pluto diameter is %f", pluto_diameter);
-    NSLog(@"Jupiter diameter is %f", jupiter_diameter);
-    
-    double pluto_volume = pluto.get_volume();
-    assert(pluto_volume != 0.0);
-    
-    double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;
-    
-    self.jupiterLabelOutlet.text =
-    [NSString stringWithFormat:@"Diameter of Jupiter (km) = %f",
-     jupiter_diameter];
-    self.plutoLabelOutlet.text =
-    [NSString stringWithFormat:@"Diameter of Pluto (km) = %f",
-                                  pluto_diameter];
-    self.plutosInJupiterLabelOutlet.text =
-    [NSString stringWithFormat:@"Number of Plutos that fit inside Jupiter = %f",
-                                            plutos_to_fill_jupiter];
-    
-    [self safelyGetPlutosInJupiter];
-}
-#else
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
+- (BOOL)loadPlanetData {
     auto pluto_by_find = planet::find_planet_named("Pluto");
     auto jupiter_by_find = planet::find_planet_named("Jupiter");
     
     if (planet::isEnd(jupiter_by_find) || planet::isEnd(pluto_by_find)) {
+        return NO;
+    }
+    pluto = pluto_by_find->second;
+    jupiter = jupiter_by_find->second;
+    return YES;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    if ([self loadPlanetData] == NO) {
         return;
     }
-    
-    auto pluto_vol = pluto_by_find->second.get_volume();
-    auto jupiter_vol = jupiter_by_find->second.get_volume();
+
+    auto pluto_vol = pluto.get_volume();
+    auto jupiter_vol = jupiter.get_volume();
     
     assert (pluto_vol != 0.0);
     double plutos_to_fill_jupiter =  jupiter_vol / pluto_vol;
@@ -67,34 +50,14 @@
     [NSString stringWithFormat:@"Number of Plutos that fit inside Jupiter = %f",
      plutos_to_fill_jupiter];
     
-    double pluto_diameter = pluto_by_find->second.get_diameter();
-    double jupiter_diameter = jupiter_by_find->second.get_diameter();
+    double pluto_diameter = pluto.get_diameter();
+    double jupiter_diameter = jupiter.get_diameter();
     self.jupiterLabelOutlet.text =
     [NSString stringWithFormat:@"Diameter of Jupiter (km) = %f",
      jupiter_diameter];
     self.plutoLabelOutlet.text =
     [NSString stringWithFormat:@"Diameter of Pluto (km) = %f",
      pluto_diameter];
-}
-#endif
-
-- (void)safelyGetPlutosInJupiter {
-    auto pluto_by_find = planet::find_planet_named("Pluto");
-    auto jupiter_by_find = planet::find_planet_named("Jupiter");
-    
-    if (planet::isEnd(jupiter_by_find) || planet::isEnd(pluto_by_find)) {
-        return;
-    }
-    
-    auto pluto_vol = pluto_by_find->second.get_volume();
-    auto jupiter_vol = jupiter_by_find->second.get_volume();
-    
-    assert (pluto_vol != 0.0);
-    double plutos_to_fill_jupiter =  jupiter_vol / pluto_vol;
-    
-    self.plutosInJupiterLabelOutlet.text =
-    [NSString stringWithFormat:@"Number of Plutos that fit inside Jupiter = %f",
-     plutos_to_fill_jupiter];
 }
 
 - (void)didReceiveMemoryWarning {
