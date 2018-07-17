@@ -144,3 +144,23 @@ The crash reporter tool fundamentally just uses `atos` to symbolicate the
 crash report, as well as providing other system related information.
 
 Symbolification is described further by an Apple Technote in case you want to get into it in more detail. @tn2123
+
+## Reverse Engineering Approach
+
+In the above example we have the source code and symbols for the crash dump so can do Symbolification.
+
+Sometimes we may have included a third party binary framework in our project for which we do not have the source code.  It is good practice for the vendor to supply symbol information for their framework to allow crash dump analysis.  When symbol information is not available, it is still possible to make progress by applying some reverse engineering.
+
+When working with third parties there is typically a much larger turnaround time for diagnostics and troubleshooting.  We find that well written and specific bug reports can speed up things a lot.  The following approach can help provide the kind of specific information needed.
+
+We shall demonstrate our approach using the Hopper tool mentioned in the Tooling chapter.
+
+Launching hopper, we choose File->Read Executable to Disassemble.  The binary in our case is `examples/assert_crash_ios/icdab_planets`
+
+We need to "rebase" our disassembly so the addresses it shows mirror those of the program when it crashed.  We choose Modify->Change File Base Address.  As before, we supply `0x1008e0000`.
+
+Now we can visit the code which crashed.  The address `0x00000001008e45bc` is actually the address the device would _return_ to after performing the function call in the stack trace.  Nevertheless it puts us in the right part of the file.  We choose Navigate->Go To Address or Symbol and supply `0x00000001008e45bc`
+
+The overall view we see is
+
+![](screenshots/hopperAddressView.png)
