@@ -76,6 +76,7 @@
 </ul></li>
 <li><a href="#lessons-learnt-1">Lessons Learnt</a></li>
 </ul></li>
+<li><a href="#symbolification">Symbolification</a></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
 <li><a href="#the-crash-report">The Crash report</a></li>
@@ -522,7 +523,8 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 }</code></pre>
 <h2 id="lessons-learnt-1">Lessons Learnt</h2>
 <p>The lesson here is that crashes can arise from special case handling. Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out your code and use a Facade if possible to keep each paradigm cleanly separated.</p>
-<p>This chapter explains crash dump symbolification. We use the <code>icdab_planets</code> sample app to demonstrate a crash.</p>
+<h1 id="symbolification">Symbolification</h1>
+<p>This chapter explains crash dump symbolification. We use the <code>icdab_planets</code> sample app to demonstrate a crash. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <p>When dealing with real world crashes, a number of different entities are involved. These can be the end user device, the settings allowing the crash report to be sent back to Apple, the symbols held by Apple and your local development environment setup to mirror such a configuration.</p>
 <p>In order to understand how things all fit together it is best to start from first principles and do the data conversion tasks yourself so if you have to diagnose symbolification issues, you have some experience with the technologies at hand.</p>
 <p>Normally when you develop an app, you are deploying the Debug version of your app onto your device. When you are deploying your app for testers, app review, or app store release, you are deploying the Release version of your app.</p>
