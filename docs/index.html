@@ -66,13 +66,21 @@
 </ul></li>
 <li><a href="#the-middle-road">The Middle Road</a></li>
 </ul></li>
+<li><a href="#hybrid-environments">Hybrid Environments</a><ul>
+<li><a href="#program-structure">Program structure</a></li>
+<li><a href="#paradigms">Paradigms</a></li>
+<li><a href="#the-problem">The Problem</a><ul>
+<li><a href="#solutions">Solutions</a></li>
+</ul></li>
+<li><a href="#lessons-learnt-1">Lessons Learnt</a></li>
+</ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
 <li><a href="#the-crash-report">The Crash report</a></li>
 <li><a href="#the-crash-details">The Crash details</a></li>
 <li><a href="#applying-our-tool-box">Applying our Tool Box</a></li>
 <li><a href="#software-engineering-insights">Software Engineering Insights</a></li>
-<li><a href="#lessons-learnt-1">Lessons Learnt</a></li>
+<li><a href="#lessons-learnt-2">Lessons Learnt</a></li>
 </ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
@@ -349,6 +357,123 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <li>For Individual Product Development, from the beginning run the Analyser automatically and informally incorporate it into your workflow when you see something important. From the beginning write tests but selectively where you get big impact.</li>
 <li>For Team-based Product Development, add in the Process Methodology. Start becoming comprehensive with Testing.</li>
 </ul>
+<h1 id="hybrid-environments">Hybrid Environments</h1>
+<p>We have seen that Xcode offers many automatic facilities for crash dump analysis and crash avoidance. But these can not get us all the answers we need. A complementary design oriented viewpoint is needed.</p>
+<p>In this chapter we shall look at a sample app <code>icdab_planets</code> which uses hybrid of programming languages and paradigms. It shows an example of why design insights must also be considered.</p>
+<h2 id="program-structure">Program structure</h2>
+<p>The <code>icdab_planets</code> sample app uses a mixture of C++, and Objective-C++. It relies on both STL data structures and traditional Objective-C data structures. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>The model layer of the app is written in C++. The controller layer of the app is written in Objective-C++.</p>
+<p>The purpose of the app is to tell you how many Pluto sized planets would fit inside Jupiter.</p>
+<h2 id="paradigms">Paradigms</h2>
+<p>Recall earlier we contrasted between Objective-C allowing messaging to nil objects versus C which crashes upon NULL dereference. Here we show how the C++ Standard Template Library has a back-fill strategy.</p>
+<p>In the STL map abstraction (a Hash Table) when you query for an entry which does not exist, the STL will insert a new entry in the table for the key being queried, and then return you that entry instead of returning an error or returning a nil.</p>
+<h2 id="the-problem">The Problem</h2>
+<p>In our sample app, which crashes upon launch, we have an assert that gets triggered.</p>
+<pre><code>double pluto_volume = pluto.get_volume();
+assert(pluto_volume != 0.0);
+
+double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pre>
+<p>Enabling code Analysis will not find any issue or warning.</p>
+<p>The assert is in place to avoid a division by zero. That fact that it is triggered is good because we know where to start debugging the problem.</p>
+<p>Pluto’s volume is 0.0 because the code <code>planet pluto = planet::get_planet_with_name(&quot;Pluto&quot;);</code> returns a planet with zero diameter.</p>
+<p>From the file <code>planet_data.hpp</code> we see the API that we rely upon is:</p>
+<pre><code>static planet get_planet_with_name(string name);</code></pre>
+<p>So whatever name we pass in, we should always get a <code>planet</code> in response. Never a NULL.</p>
+<p>The problem is that this API has not been thought deeply about. It has just been put together as a thin wrapper around the underlying abstractions that do the work.</p>
+<p>We have</p>
+<pre><code>planet planet::get_planet_with_name(string name) {
+    if (!database.loaded_data) {
+        database.load_data();
+    }
+    return database.planets[name];
+}</code></pre>
+<p>At first glance it might be that the database failed to load data properly. In actual fact, the database is missing the entry for Pluto due to:</p>
+<pre><code>void planet_database::load_data() {
+    planet planet_Mercury = planet(&quot;Mercury&quot;, 4878.0, 57.9 * millionKm);
+    planets[&quot;Mercury&quot;] = planet_Mercury;
+
+    planet planet_Venus = planet(&quot;Venus&quot;, 12104, 108.2 * millionKm);
+    planets[&quot;Venus&quot;] = planet_Venus;
+
+    planet planet_Earth = planet(&quot;Earth&quot;, 12756, 149.6 * millionKm);
+    planets[&quot;Earth&quot;] = planet_Earth;
+
+    planet planet_Mars = planet(&quot;Mars&quot;, 6792, 227.9 * millionKm);
+    planets[&quot;Mars&quot;] = planet_Mars;
+
+    planet planet_Jupiter = planet(&quot;Jupiter&quot;, 142984, 778 * millionKm);
+    planets[&quot;Jupiter&quot;] = planet_Jupiter;
+
+    planet planet_Saturn = planet(&quot;Saturn&quot;, 120536, 1427 * millionKm);
+    planets[&quot;Saturn&quot;] = planet_Saturn;
+
+    planet planet_Uranus = planet(&quot;Uranus&quot;, 51118, 2870 * millionKm);
+    planets[&quot;Uranus&quot;] = planet_Uranus;
+
+    planet planet_Neptune = planet(&quot;Neptune&quot;, 49532, 4497 * millionKm);
+    planets[&quot;Neptune&quot;] = planet_Neptune;
+
+//  No longer considered a planet but instead a dwarf planet
+//  planet planet_Pluto = planet(&quot;Pluto&quot;, 2370, 7375 * millionKm);
+//  planets[&quot;Pluto&quot;] = planet_Pluto;
+
+    loaded_data = true;
+}</code></pre>
+<p>The problem indirectly is because <code>database.planets[name]</code> discovered that there was no entry for Pluto so created one via the no-arg constructor as this is the behaviour for STL map data structures.</p>
+<pre><code>planet::planet() {
+    this-&gt;name = &quot;&quot;;
+    this-&gt;diameter = 0.0;
+    this-&gt;distance_from_sun = 0.0;
+}</code></pre>
+<p>We see the constructor makes the diameter zero in this case.</p>
+<h3 id="solutions">Solutions</h3>
+<p>We see that the problem is not applying the paradigms of each framework and language properly and when you have a mixture of paradigms those different assumptions get masked by each layer of abstraction.</p>
+<p>In STL, we expect a <code>find</code> operation to be done, instead of the indexing operator. This allows the abstraction to flag the absence of the item being found.</p>
+<p>In Objective-C we expect the lookup API to be a function which returns an index given the lookup name. And the index would be <code>NSNotFound</code> when the operation failed.</p>
+<p>In this code example, each layer of abstraction assumes the other side will re-map the edge case into an appropriate form.</p>
+<p>We have a variant of the code which does things “properly” from an STL point of view. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> It is <code>example/planets_stl</code>. On the consumer side, we have a helper method:</p>
+<pre><code>- (BOOL)loadPlanetData {
+    auto pluto_by_find = planet::find_planet_named(&quot;Pluto&quot;);
+    auto jupiter_by_find = planet::find_planet_named(&quot;Jupiter&quot;);
+
+    if (planet::isEnd(jupiter_by_find) || planet::isEnd(pluto_by_find)) {
+        return NO;
+    }
+    pluto = pluto_by_find-&gt;second;
+    jupiter = jupiter_by_find-&gt;second;
+    return YES;
+}</code></pre>
+<p>This is is hard to parse if you are mainly an Objective-C programmer. If the project is mainly a C++ project with a thin platform-specific layer then perhaps that is acceptable. If the code base just leverages C++ code from elsewhere, then a better solution is to confine the paradigms to their own files and apply the facade design pattern to give a version of the API following Objective-C paradigms on the platform-specific code side.</p>
+<p>Then Objective-C++ can be dispensed with in the ViewController code; it can be made an Objective-C file instead.</p>
+<p>Here is a facade implementation <code>example/facade_planets</code> that makes these enhancements :</p>
+<pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.planetModel = [[PlanetModel alloc] init];
+
+    if (self.planetModel == nil) {
+        return;
+    }
+
+    double pluto_diameter = self.planetModel.planetDict[@&quot;Pluto&quot;].diameter;
+    double jupiter_diameter = self.planetModel.planetDict[@&quot;Jupiter&quot;].diameter;
+    double plutoVolume = self.planetModel.planetDict[@&quot;Pluto&quot;].volume;
+    double jupiterVolume = self.planetModel.planetDict[@&quot;Jupiter&quot;].volume;
+    double plutosInJupiter = jupiterVolume/plutoVolume;
+
+    self.plutosInJupiterLabelOutlet.text =
+    [NSString stringWithFormat:@&quot;Number of Plutos that fit inside Jupiter = %f&quot;,
+     plutosInJupiter];
+
+    self.jupiterLabelOutlet.text =
+    [NSString stringWithFormat:@&quot;Diameter of Jupiter (km) = %f&quot;,
+     jupiter_diameter];
+    self.plutoLabelOutlet.text =
+    [NSString stringWithFormat:@&quot;Diameter of Pluto (km) = %f&quot;,
+     pluto_diameter];
+}</code></pre>
+<h2 id="lessons-learnt-1">Lessons Learnt</h2>
+<p>The lesson here is that crashes can arise from special case handling. Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out your code and use a Facade if possible to keep each paradigm cleanly separated.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
@@ -446,7 +571,7 @@ SiriUXHeater *heater; // @synthesize heater=_heater;
 __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delegate;
 - (void)_suggestPreheat;</code></pre>
 <p>It seems that this component can be prepared and made ready and has a variety of levels of initialisation and de-initialisation. Maybe this complexity is to make the user interface responsive. But it sends us a message that this component needs an integration test suite that codifies the state machine so we know the lifecycle of the service.</p>
-<h2 id="lessons-learnt-1">Lessons Learnt</h2>
+<h2 id="lessons-learnt-2">Lessons Learnt</h2>
 <p>We went from using HOWTO knowledge (understanding the crash report) to using tooling to get a baseline level of knowledge. Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem. This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis. It cannot be achieved by just focusing on the HOWTO of comprehending crash reports. We need to switch hats and see things from different perspectives in order to really make progress.</p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
