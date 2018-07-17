@@ -69,9 +69,8 @@
 <li><a href="#hybrid-environments">Hybrid Environments</a><ul>
 <li><a href="#program-structure">Program structure</a></li>
 <li><a href="#paradigms">Paradigms</a></li>
-<li><a href="#the-problem">The Problem</a><ul>
+<li><a href="#the-problem">The Problem</a></li>
 <li><a href="#solutions">Solutions</a></li>
-</ul></li>
 <li><a href="#lessons-learnt-1">Lessons Learnt</a></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
@@ -426,7 +425,7 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
     this-&gt;distance_from_sun = 0.0;
 }</code></pre>
 <p>We see the constructor makes the diameter zero in this case.</p>
-<h3 id="solutions">Solutions</h3>
+<h2 id="solutions">Solutions</h2>
 <p>We see that the problem is not applying the paradigms of each framework and language properly and when you have a mixture of paradigms those different assumptions get masked by each layer of abstraction.</p>
 <p>In STL, we expect a <code>find</code> operation to be done, instead of the indexing operator. This allows the abstraction to flag the absence of the item being found.</p>
 <p>In Objective-C we expect the lookup API to be a function which returns an index given the lookup name. And the index would be <code>NSNotFound</code> when the operation failed.</p>
@@ -445,7 +444,51 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 }</code></pre>
 <p>This is is hard to parse if you are mainly an Objective-C programmer. If the project is mainly a C++ project with a thin platform-specific layer then perhaps that is acceptable. If the code base just leverages C++ code from elsewhere, then a better solution is to confine the paradigms to their own files and apply the facade design pattern to give a version of the API following Objective-C paradigms on the platform-specific code side.</p>
 <p>Then Objective-C++ can be dispensed with in the ViewController code; it can be made an Objective-C file instead.</p>
-<p>Here is a facade implementation <code>example/facade_planets</code> that makes these enhancements :</p>
+<p>Here is a facade implementation <code>example/facade_planets</code> that makes these enhancements.</p>
+<p>The facade is:</p>
+<pre><code>@implementation PlanetModel
+
+- (id)init {
+    self = [super init];
+
+    NSString *testSupportAddPluto = [[[NSProcessInfo processInfo] environment]
+                                     objectForKey:@&quot;AddPluto&quot;];
+
+    if ([testSupportAddPluto isEqualToString:@&quot;YES&quot;]) {
+        planet::add_planet(planet(&quot;Pluto&quot;, 2370, 7375 * millionKm));
+    }
+
+    if (self) {
+        _planetDict = [[NSMutableDictionary alloc] init];
+        auto pluto_by_find = planet::find_planet_named(&quot;Pluto&quot;);
+        auto jupiter_by_find = planet::find_planet_named(&quot;Jupiter&quot;);
+
+        if (planet::isEnd(jupiter_by_find) || planet::isEnd(pluto_by_find)) {
+            return nil;
+        }
+        auto pluto = pluto_by_find-&gt;second;
+        auto jupiter = jupiter_by_find-&gt;second;
+
+        PlanetInfo *plutoPlanet = [[PlanetInfo alloc] init];
+        plutoPlanet.diameter = pluto.get_diameter();
+        plutoPlanet.distanceFromSun = pluto.get_distance_from_sun();
+        plutoPlanet.volume = pluto.get_volume();
+        assert (plutoPlanet.volume != 0.0);
+        [_planetDict setObject:plutoPlanet forKey:@&quot;Pluto&quot;];
+
+        PlanetInfo *jupiterPlanet = [[PlanetInfo alloc] init];
+        jupiterPlanet.diameter = jupiter.get_diameter();
+        jupiterPlanet.distanceFromSun = jupiter.get_distance_from_sun();
+        jupiterPlanet.volume = jupiter.get_volume();
+        assert (jupiterPlanet.volume != 0.0);
+        [_planetDict setObject:jupiterPlanet forKey:@&quot;Jupiter&quot;];
+    }
+
+    return self;
+}
+
+@end</code></pre>
+<p>The consumer then becomes a purely Objective-C class:</p>
 <pre><code>- (void)viewDidLoad {
     [super viewDidLoad];
 
