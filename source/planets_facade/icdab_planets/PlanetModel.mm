@@ -24,6 +24,13 @@
 - (id)init {
     self = [super init];
     
+    NSString *testSupportAddPluto = [[[NSProcessInfo processInfo] environment] objectForKey:@"AddPluto"];
+    
+    if ([testSupportAddPluto isEqualToString:@"YES"]) {
+        planet::add_planet(planet("Pluto", 2370, 7375 * millionKm));
+    }
+
+    
     if (self) {
         _planetDict = [[NSMutableDictionary alloc] init];
         auto pluto_by_find = planet::find_planet_named("Pluto");
