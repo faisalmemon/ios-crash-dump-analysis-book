@@ -70,7 +70,10 @@
 <li><a href="#program-structure">Program structure</a></li>
 <li><a href="#paradigms">Paradigms</a></li>
 <li><a href="#the-problem">The Problem</a></li>
-<li><a href="#solutions">Solutions</a></li>
+<li><a href="#solutions">Solutions</a><ul>
+<li><a href="#stl-solution">STL Solution</a></li>
+<li><a href="#facade-solution">Facade Solution</a></li>
+</ul></li>
 <li><a href="#lessons-learnt-1">Lessons Learnt</a></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
@@ -430,6 +433,7 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 <p>In STL, we expect a <code>find</code> operation to be done, instead of the indexing operator. This allows the abstraction to flag the absence of the item being found.</p>
 <p>In Objective-C we expect the lookup API to be a function which returns an index given the lookup name. And the index would be <code>NSNotFound</code> when the operation failed.</p>
 <p>In this code example, each layer of abstraction assumes the other side will re-map the edge case into an appropriate form.</p>
+<h3 id="stl-solution">STL Solution</h3>
 <p>We have a variant of the code which does things “properly” from an STL point of view. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> It is <code>example/planets_stl</code>. On the consumer side, we have a helper method:</p>
 <pre><code>- (BOOL)loadPlanetData {
     auto pluto_by_find = planet::find_planet_named(&quot;Pluto&quot;);
@@ -444,7 +448,8 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 }</code></pre>
 <p>This is is hard to parse if you are mainly an Objective-C programmer. If the project is mainly a C++ project with a thin platform-specific layer then perhaps that is acceptable. If the code base just leverages C++ code from elsewhere, then a better solution is to confine the paradigms to their own files and apply the facade design pattern to give a version of the API following Objective-C paradigms on the platform-specific code side.</p>
 <p>Then Objective-C++ can be dispensed with in the ViewController code; it can be made an Objective-C file instead.</p>
-<p>Here is a facade implementation <code>example/facade_planets</code> that makes these enhancements.</p>
+<h3 id="facade-solution">Facade Solution</h3>
+<p>Here is a facade implementation <code>example/facade_planets</code> that overcomes the mixing of paradigms problem.</p>
 <p>The facade is:</p>
 <pre><code>@implementation PlanetModel
 
@@ -517,6 +522,93 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 }</code></pre>
 <h2 id="lessons-learnt-1">Lessons Learnt</h2>
 <p>The lesson here is that crashes can arise from special case handling. Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out your code and use a Facade if possible to keep each paradigm cleanly separated.</p>
+<p>This chapter explains crash dump symbolification. We use the <code>icdab_planets</code> sample app to demonstrate a crash.</p>
+<p>When dealing with real world crashes, a number of different entities are involved. These can be the end user device, the settings allowing the crash report to be sent back to Apple, the symbols held by Apple and your local development environment setup to mirror such a configuration.</p>
+<p>In order to understand how things all fit together it is best to start from first principles and do the data conversion tasks yourself so if you have to diagnose symbolification issues, you have some experience with the technologies at hand.</p>
+<p>Normally when you develop an app, you are deploying the Debug version of your app onto your device. When you are deploying your app for testers, app review, or app store release, you are deploying the Release version of your app.</p>
+<p>In both scenarios debug information is placed into the binary being generated. This is called DWARF debugging information.</p>
+<p>For Release builds, that information is then stripped out and placed into a DSYM file. For Debug builds, it is left in.</p>
+<p>The debugger can use debugging information in the binary when it sees a crash to help us understand where the program has gone wrong.</p>
+<p>When a user sees your program crash, there is no debugger. Instead, a crash report is generated. This comprises the machine addresses where the problem was seen. A later phase, called symbolification, can convert the addresses into meaningful source code references so long as an appropriate DSYM file exists.</p>
+<p>Xcode is by default setup so that only DSYM files are generated for Release builds, and not for Debug builds.</p>
+<p>The reason why Debug builds just use the application binary with all the debug information built in is that the information is always available and consistent with the rest of the binary. However it makes the binary much larger and allows reverse engineers to peek into your binary quite easily as if you had published the source code together with the program.</p>
+<p>From Xcode, in your build settings, searching for “Debug Information Format” we see the following settings:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Meaning</th>
+<th>Usually set for target</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DWARF</td>
+<td>Debugging information built into the binary itself</td>
+<td>Debug</td>
+</tr>
+<tr class="even">
+<td>DWARF with dSYM File</td>
+<td>We get an extra file also generated with symbols</td>
+<td>Release</td>
+</tr>
+</tbody>
+</table>
+<p>In the default setup, if you run your debug binary on your device, launching it from the app icon itself then if it were to crash you would not have any symbols in the crash report. This confuses many people.</p>
+<p>Whilst you may have all the source code for your program, and DWARF data in the crashed binary, ReportCrash crash reporter only looks for DSYM files on your Mac in order to perform symbolification.</p>
+<p>To avoid this problem, the sample app <code>icdab_planets</code> has been configured to have <code>DWARF  with dSYM File</code> set for both debug and release targets.</p>
+<p>The program is designed to crash upon launch due to an assertion.</p>
+<p>If the setting had not been made, we would get a partially symbolicated crash.</p>
+<p>The crash report, seen from Windows-&gt;Devices and Simulators-&gt;View Device Logs, would look like this (truncated for ease of demonstration)</p>
+<pre><code>Thread 0 Crashed:
+0   libsystem_kernel.dylib          0x0000000183a012ec __pthread_kill + 8
+1   libsystem_pthread.dylib         0x0000000183ba2288 pthread_kill$VARIANT$mp + 376
+2   libsystem_c.dylib               0x000000018396fd0c abort + 140
+3   libsystem_c.dylib               0x0000000183944000 basename_r + 0
+4   icdab_planets                   0x00000001008e45bc 0x1008e0000 + 17852
+5   UIKit                           0x000000018db56ee0 -[UIViewController loadViewIfRequired] + 1020
+
+Binary Images:
+0x1008e0000 - 0x1008ebfff icdab_planets arm64
+  &lt;9ff56cfacd66354ea85ff5973137f011&gt;
+   /var/containers/Bundle/Application/BEF249D9-1520-40F7-93F4-8B99D913A4AC/
+   icdab_planets.app/icdab_planets</code></pre>
+<p>With the above setting in place, a crash would instead be reported as:</p>
+<pre><code>Thread 0 Crashed:
+0   libsystem_kernel.dylib          0x0000000183a012ec __pthread_kill + 8
+1   libsystem_pthread.dylib         0x0000000183ba2288 pthread_kill$VARIANT$mp + 376
+2   libsystem_c.dylib               0x000000018396fd0c abort + 140
+3   libsystem_c.dylib               0x0000000183944000 basename_r + 0
+4   icdab_planets                   0x0000000104e145bc -[PlanetViewController viewDidLoad] + 17852 (PlanetViewController.mm:33)
+5   UIKit                           0x000000018db56ee0 -[UIViewController loadViewIfRequired] + 1020</code></pre>
+<p>Lines 0, 1, 2, 5 are the same in both cases because your developer environment will have the symbols for the iOS release under test. In the second case Xcode will look up the DSYM file to clarify line 4. It tells us this is line 33 in file PlanetViewController.mm. This is:</p>
+<pre><code>assert(pluto_volume != 0.0);</code></pre>
+<p>The DSYM file is strictly speaking a directory hierarchy:</p>
+<pre><code>icdab_planets.app.dSYM
+icdab_planets.app.dSYM/Contents
+icdab_planets.app.dSYM/Contents/Resources
+icdab_planets.app.dSYM/Contents/Resources/DWARF
+icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets
+icdab_planets.app.dSYM/Contents/Info.plist</code></pre>
+<p>It is just the DWARF data normally put into the debug binary but copied into a separate file.</p>
+<p>From looking at your build log you can see how the DSYM was generated. It is effectively just <code>dsymutil path_to_app_binary -o output_symbols_dir.dSYM</code></p>
+<p>In order to help us get comfortable with crash dump reports, we can demonstrate how the symbolification actually works. In the first crash dump we want to understand:</p>
+<pre><code>4   icdab_planets                   0x00000001008e45bc 0x1008e0000 + 17852</code></pre>
+<p>If we knew accurately the version of our code at the time of the crash we can recompile our program but with the DSYM setting switched on and then get a DSYM file after the original crash. It should line up almost exactly.</p>
+<p>The crash dump program tells us where the program was loaded in memory at the time of the problem. This is important because it is a master base offset from which all other address (TEXT) locations are relative to. At the bottom of the crash dump we have line <code>0x1008e0000 - 0x1008ebfff icdab_planets</code></p>
+<p>So the icdab_planets binary starts at location <code>0x1008e0000</code></p>
+<p>Running the lookup command <code>atos</code> symbolicates the line of interest:</p>
+<pre><code># atos -arch arm64 -o ./icdab_planets.app.dSYM/Contents/Resources/DWARF/
+icdab_planets -l 0x1008e0000 0x00000001008e45bc
+-[PlanetViewController viewDidLoad] (in icdab_planets)
+ (PlanetViewController.mm:33)</code></pre>
+<p>The crash reporter tool fundamentally just uses <code>atos</code> to symbolicate the crash report, as well as providing other system related information.</p>
+<p>Symbolification is described further by an Apple Technote in case you want to get into it in more detail. <span class="citation" data-cites="tn2123">(“CrashReport Technote 2123,” n.d.)</span></p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
@@ -618,6 +710,9 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <p>We went from using HOWTO knowledge (understanding the crash report) to using tooling to get a baseline level of knowledge. Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem. This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis. It cannot be achieved by just focusing on the HOWTO of comprehending crash reports. We need to switch hats and see things from different perspectives in order to really make progress.</p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
+<div id="ref-tn2123">
+<p>“CrashReport Technote 2123.” n.d.</p>
+</div>
 <div id="ref-icdabgithub">
 <p>“IOS Crash Dump Analysis Book Github Resources.” 2018. <a href="https://github.com/faisalmemon/ios-crash-dump-analysis-book" class="uri">https://github.com/faisalmemon/ios-crash-dump-analysis-book</a>.</p>
 </div>
