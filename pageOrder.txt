@@ -3,6 +3,6 @@ markdown/QuickStart.md
 markdown/BasicConcepts.md
 markdown/Tooling.md
 markdown/BuiltInHelp.md
-markdown/HybridEnvironment.md
+markdown/HybridEnvironments.md
 examples/siri_crash_osx/siriCrashExplanation.md
 markdown/Bibliography.md
