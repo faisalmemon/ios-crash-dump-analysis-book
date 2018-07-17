@@ -82,6 +82,7 @@
 <li><a href="#observing-a-local-crash">Observing a local crash</a></li>
 <li><a href="#dsym-structure">DSYM structure</a></li>
 <li><a href="#manual-symbolification">Manual Symbolification</a></li>
+<li><a href="#reverse-engineering-approach">Reverse Engineering Approach</a></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
@@ -626,6 +627,16 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
  (PlanetViewController.mm:33)</code></pre>
 <p>The crash reporter tool fundamentally just uses <code>atos</code> to symbolicate the crash report, as well as providing other system related information.</p>
 <p>Symbolification is described further by an Apple Technote in case you want to get into it in more detail. <span class="citation" data-cites="tn2123">(“CrashReport Technote 2123” n.d.)</span></p>
+<h2 id="reverse-engineering-approach">Reverse Engineering Approach</h2>
+<p>In the above example we have the source code and symbols for the crash dump so can do Symbolification.</p>
+<p>Sometimes we may have included a third party binary framework in our project for which we do not have the source code. It is good practice for the vendor to supply symbol information for their framework to allow crash dump analysis. When symbol information is not available, it is still possible to make progress by applying some reverse engineering.</p>
+<p>When working with third parties there is typically a much larger turnaround time for diagnostics and troubleshooting. We find that well written and specific bug reports can speed up things a lot. The following approach can help provide the kind of specific information needed.</p>
+<p>We shall demonstrate our approach using the Hopper tool mentioned in the Tooling chapter.</p>
+<p>Launching hopper, we choose File-&gt;Read Executable to Disassemble. The binary in our case is <code>examples/assert_crash_ios/icdab_planets</code></p>
+<p>We need to “rebase” our disassembly so the addresses it shows mirror those of the program when it crashed. We choose Modify-&gt;Change File Base Address. As before, we supply <code>0x1008e0000</code>.</p>
+<p>Now we can visit the code which crashed. The address <code>0x00000001008e45bc</code> is actually the address the device would <em>return</em> to after performing the function call in the stack trace. Nevertheless it puts us in the right part of the file. We choose Navigate-&gt;Go To Address or Symbol and supply <code>0x00000001008e45bc</code></p>
+<p>The overall view we see is</p>
+<p><img src="screenshots/hopperAddressView.png" /></p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
