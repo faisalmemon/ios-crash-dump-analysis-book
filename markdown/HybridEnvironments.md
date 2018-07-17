@@ -114,6 +114,8 @@ In Objective-C we expect the lookup API to be a function which returns an index 
 
 In this code example, each layer of abstraction assumes the other side will re-map the edge case into an appropriate form.
 
+### STL Solution
+
 We have a variant of the code which does things "properly" from an STL point of view. @icdabgithub
 It is `example/planets_stl`.  On the consumer side, we have a helper method:
 
@@ -140,7 +142,9 @@ paradigms on the platform-specific code side.
 
 Then Objective-C++ can be dispensed with in the ViewController code; it can be made an Objective-C file instead.
 
-Here is a facade implementation `example/facade_planets` that makes these enhancements.
+### Facade Solution
+
+Here is a facade implementation `example/facade_planets` that overcomes the mixing of paradigms problem.
 
 The facade is:
 ```
