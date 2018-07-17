@@ -30,7 +30,7 @@ builds, and not for Debug builds.
 
 The reason why Debug builds just use the application binary with all the debug information built in is that the information is always available and consistent with the rest of the binary.  However it makes the binary much larger and allows reverse engineers to peek into your binary quite easily as if you had published the source code together with the program.
 
-### Build Settings
+## Build Settings
 
 From Xcode, in your build settings, searching for "Debug Information Format" we see the following settings:
 
@@ -61,7 +61,8 @@ Thread 0 Crashed:
 2   libsystem_c.dylib             	0x000000018396fd0c abort + 140
 3   libsystem_c.dylib             	0x0000000183944000 basename_r + 0
 4   icdab_planets                 	0x00000001008e45bc 0x1008e0000 + 17852
-5   UIKit                         	0x000000018db56ee0 -[UIViewController loadViewIfRequired] + 1020
+5   UIKit                         	0x000000018db56ee0
+-[UIViewController loadViewIfRequired] + 1020
 
 Binary Images:
 0x1008e0000 - 0x1008ebfff icdab_planets arm64
@@ -75,11 +76,14 @@ However with the setting in place, a crash would instead be reported as:
 ```
 Thread 0 Crashed:
 0   libsystem_kernel.dylib        	0x0000000183a012ec __pthread_kill + 8
-1   libsystem_pthread.dylib       	0x0000000183ba2288 pthread_kill$VARIANT$mp + 376
+1   libsystem_pthread.dylib       	0x0000000183ba2288
+pthread_kill$VARIANT$mp + 376
 2   libsystem_c.dylib             	0x000000018396fd0c abort + 140
 3   libsystem_c.dylib             	0x0000000183944000 basename_r + 0
-4   icdab_planets                 	0x0000000104e145bc -[PlanetViewController viewDidLoad] + 17852 (PlanetViewController.mm:33)
-5   UIKit                         	0x000000018db56ee0 -[UIViewController loadViewIfRequired] + 1020
+4   icdab_planets                 	0x0000000104e145bc
+-[PlanetViewController viewDidLoad] + 17852 (PlanetViewController.mm:33)
+5   UIKit                         	0x000000018db56ee0
+-[UIViewController loadViewIfRequired] + 1020
 ```
 
 Lines 0, 1, 2, 5 are the same in both cases because our developer environment will
