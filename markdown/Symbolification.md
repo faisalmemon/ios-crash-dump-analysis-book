@@ -168,3 +168,11 @@ The overall view we see is
 Zooming in on the code line, we have
 
 ![](screenshots/hopperPlanetAbort.png)
+
+This indeed shows the return address for the assert method.  Further up we see the test for Pluto's volume being non-zero.  This is just a very basic Hopper example.  We shall revisit Hopper later to demonstrate its most interesting feature - that of being able to generate pseudocode from assembly code.  This lowers the mental load of comprehending crashes.  Most developers rarely look at assembly code nowadays so this feature is worth the cost of the software itself!
+
+Now at least for the current problem, we could formulate a bug report that said the code was crashing because Pluto's volume was zero.  That may be enough to unlock the problem from the framework vendor's point of view.
+
+In a more complex case, imagine we were using an image conversion library which was crashing.  Since there can be many pixel formats for images, an assert might lead us to notice it was the format that was asserting and we could just try a different pixel format.
+
+Another example would be a security library.  Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details.  A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.
