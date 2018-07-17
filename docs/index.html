@@ -639,6 +639,10 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p><img src="screenshots/hopperAddressView.png" /></p>
 <p>Zooming in on the code line, we have</p>
 <p><img src="screenshots/hopperPlanetAbort.png" /></p>
+<p>This indeed shows the return address for the assert method. Further up we see the test for Pluto’s volume being non-zero. This is just a very basic Hopper example. We shall revisit Hopper later to demonstrate its most interesting feature - that of being able to generate pseudocode from assembly code. This lowers the mental load of comprehending crashes. Most developers rarely look at assembly code nowadays so this feature is worth the cost of the software itself!</p>
+<p>Now at least for the current problem, we could formulate a bug report that said the code was crashing because Pluto’s volume was zero. That may be enough to unlock the problem from the framework vendor’s point of view.</p>
+<p>In a more complex case, imagine we were using an image conversion library which was crashing. Since there can be many pixel formats for images, an assert might lead us to notice it was the format that was asserting and we could just try a different pixel format.</p>
+<p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details. A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
