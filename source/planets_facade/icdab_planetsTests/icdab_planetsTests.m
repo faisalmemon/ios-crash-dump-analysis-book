@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "PlanetModel.h"
 
 @interface icdab_planetsTests : XCTestCase
 
@@ -24,16 +25,11 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-}
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testPlutoCanBeAdded {
+    PlanetModel *model = [[PlanetModel alloc] init];
+    XCTAssertNil(model); // it wanted Pluto to exist
+    
+    
 }
 
 @end
