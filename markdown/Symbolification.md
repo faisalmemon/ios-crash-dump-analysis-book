@@ -7,6 +7,8 @@ When dealing with real world crashes, a number of different entities are involve
 
 In order to understand how things all fit together it is best to start from first principles and do the data conversion tasks yourself so if you have to diagnose symbolification issues, you have some experience with the technologies at hand.
 
+## Build Process
+
 Normally when you develop an app, you are deploying the Debug version of your app onto your device.  When you are deploying your app for testers, app review, or app store release, you are deploying the Release version of your app.
 
 In both scenarios debug information is placed into the binary being generated.
@@ -28,6 +30,8 @@ builds, and not for Debug builds.
 
 The reason why Debug builds just use the application binary with all the debug information built in is that the information is always available and consistent with the rest of the binary.  However it makes the binary much larger and allows reverse engineers to peek into your binary quite easily as if you had published the source code together with the program.
 
+### Build Settings
+
 From Xcode, in your build settings, searching for "Debug Information Format" we see the following settings:
 
 Setting|Meaning|Usually set for target
@@ -39,11 +43,13 @@ In the default setup, if you run your debug binary on your device, launching it 
 
 Whilst you may have all the source code for your program, and DWARF data in the crashed binary, ReportCrash crash reporter only looks for DSYM files on your Mac in order to perform symbolification.
 
-To avoid this problem, the sample app `icdab_planets` has been configured to have `DWARF  with dSYM File` set for both debug and release targets.
+To avoid this problem, the sample app `icdab_planets` has been configured to have `DWARF with dSYM File` set for both debug and release targets.
 
-The program is designed to crash upon launch due to an assertion.
+## Observing a local crash
 
-If the setting had not been made, we would get a partially symbolicated crash.
+The `icdab_planets` program is designed to crash upon launch due to an assertion.
+
+If the `DWARF with dSYM File` setting had not been made, we would get a partially symbolicated crash.
 
 The crash report, seen from Windows->Devices and Simulators->View Device Logs,
 would look like this (truncated for ease of demonstration)
@@ -64,7 +70,7 @@ Binary Images:
    icdab_planets.app/icdab_planets
 ```
 
-With the above setting in place, a crash would instead be reported as:
+However with the setting in place, a crash would instead be reported as:
 
 ```
 Thread 0 Crashed:
@@ -76,7 +82,7 @@ Thread 0 Crashed:
 5   UIKit                         	0x000000018db56ee0 -[UIViewController loadViewIfRequired] + 1020
 ```
 
-Lines 0, 1, 2, 5 are the same in both cases because your developer environment will
+Lines 0, 1, 2, 5 are the same in both cases because our developer environment will
 have the symbols for the iOS release under test.  In the second case Xcode will
 look up the DSYM file to clarify line 4.  It tells us this is line 33 in file
 PlanetViewController.mm.  This is:
@@ -84,6 +90,8 @@ PlanetViewController.mm.  This is:
 ```
 assert(pluto_volume != 0.0);
 ```
+
+## DSYM structure
 
 The DSYM file is strictly speaking a directory hierarchy:
 ```
@@ -99,6 +107,8 @@ It is just the DWARF data normally put into the debug binary but copied into a s
 
 From looking at your build log you can see how the DSYM was generated.
 It is effectively just `dsymutil path_to_app_binary -o output_symbols_dir.dSYM`
+
+## Manual Symbolification
 
 In order to help us get comfortable with crash dump reports, we can demonstrate
 how the symbolification actually works.  In the first crash dump we want to understand:
