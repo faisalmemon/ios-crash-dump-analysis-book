@@ -637,6 +637,8 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>Now we can visit the code which crashed. The address <code>0x00000001008e45bc</code> is actually the address the device would <em>return</em> to after performing the function call in the stack trace. Nevertheless it puts us in the right part of the file. We choose Navigate-&gt;Go To Address or Symbol and supply <code>0x00000001008e45bc</code></p>
 <p>The overall view we see is</p>
 <p><img src="screenshots/hopperAddressView.png" /></p>
+<p>Zooming in on the code line, we have</p>
+<p><img src="screenshots/hopperPlanetAbort.png" /></p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
