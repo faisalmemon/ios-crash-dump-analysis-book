@@ -15,41 +15,28 @@ struct planet_database {
     bool loaded_data;
     
     void load_data();
+    void add_planet(planet additional_planet);
 } database;
 
 static const double millionKm = 1000000;
 static const double pi4_3 = atan(1)*4.0*4.0/3.0; // 4π/3
 
 void planet_database::load_data() {
-    planet planet_Mercury = planet("Mercury", 4878.0, 57.9 * millionKm);
-    planets["Mercury"] = planet_Mercury;
-    
-    planet planet_Venus = planet("Venus", 12104, 108.2 * millionKm);
-    planets["Venus"] = planet_Venus;
-    
-    planet planet_Earth = planet("Earth", 12756, 149.6 * millionKm);
-    planets["Earth"] = planet_Earth;
-    
-    planet planet_Mars = planet("Mars", 6792, 227.9 * millionKm);
-    planets["Mars"] = planet_Mars;
-    
-    planet planet_Jupiter = planet("Jupiter", 142984, 778 * millionKm);
-    planets["Jupiter"] = planet_Jupiter;
-    
-    planet planet_Saturn = planet("Saturn", 120536, 1427 * millionKm);
-    planets["Saturn"] = planet_Saturn;
-    
-    planet planet_Uranus = planet("Uranus", 51118, 2870 * millionKm);
-    planets["Uranus"] = planet_Uranus;
-    
-    planet planet_Neptune = planet("Neptune", 49532, 4497 * millionKm);
-    planets["Neptune"] = planet_Neptune;
-    
-//  No longer considered a planet but instead a dwarf planet
-//  planet planet_Pluto = planet("Pluto", 2370, 7375 * millionKm);
-//  planets["Pluto"] = planet_Pluto;
-    
+    add_planet(planet("Mercury", 4878.0, 57.9 * millionKm));
+    add_planet(planet("Venus", 12104, 108.2 * millionKm));
+    add_planet(planet("Earth", 12756, 149.6 * millionKm));
+    add_planet(planet("Mars", 6792, 227.9 * millionKm));
+    add_planet(planet("Jupiter", 142984, 778 * millionKm));
+    add_planet(planet("Saturn", 120536, 1427 * millionKm));
+    add_planet(planet("Uranus", 51118, 2870 * millionKm));
+    //No longer considered a planet but instead a dwarf planet
+    //add_planet(planet("Pluto", 2370, 7375 * millionKm));
+
     loaded_data = true;
+}
+
+void planet_database::add_planet(planet additional_planet) {
+    planets[additional_planet.get_name()] = additional_planet;
 }
 
 bool planet::operator<(const planet& r ) const
@@ -118,4 +105,12 @@ double planet::get_volume(void) {
     double r_3 = pow(radius, 3.0);
     double volume = pi4_3 * r_3;
     return volume;
+}
+
+void planet::add_planet(planet extra) {
+    database.add_planet(extra);
+}
+
+string planet::get_name() {
+    return name;
 }

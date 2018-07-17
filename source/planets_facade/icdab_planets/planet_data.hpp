@@ -36,6 +36,7 @@ public:
 public:
     static map<string, planet>::iterator find_planet_named(string name);
     static bool isEnd(map<string, planet>::iterator it);
+    static void add_planet(planet extra);
     
     friend planet_database;
 };
