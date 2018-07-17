@@ -16,6 +16,8 @@ using namespace std;
 
 class planet_database;
 
+static const double millionKm = 1000000;
+
 class planet {
     string name;
     double diameter;

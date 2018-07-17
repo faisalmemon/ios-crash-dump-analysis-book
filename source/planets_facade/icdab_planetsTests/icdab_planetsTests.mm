@@ -7,6 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
+
+#import "planet_data.hpp"
 #import "PlanetModel.h"
 
 @interface icdab_planetsTests : XCTestCase
@@ -28,8 +30,9 @@
 - (void)testPlutoCanBeAdded {
     PlanetModel *model = [[PlanetModel alloc] init];
     XCTAssertNil(model); // it wanted Pluto to exist
-    
-    
+    planet::add_planet(planet("Pluto", 2370, 7375 * millionKm));
+    model = [[PlanetModel alloc] init];
+    XCTAssert(model);
 }
 
 @end

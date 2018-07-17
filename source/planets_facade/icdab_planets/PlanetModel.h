@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PlanetModel : NSObject
 
-@property (nonatomic, strong) NSDictionary<NSString*, PlanetInfo *> *planetDict;
+@property (nonatomic, strong) NSMutableDictionary<NSString*, PlanetInfo *> *planetDict;
 
 @end
 

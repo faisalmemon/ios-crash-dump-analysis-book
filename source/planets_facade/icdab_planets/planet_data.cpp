@@ -18,7 +18,6 @@ struct planet_database {
     void add_planet(planet additional_planet);
 } database;
 
-static const double millionKm = 1000000;
 static const double pi4_3 = atan(1)*4.0*4.0/3.0; // 4π/3
 
 void planet_database::load_data() {
@@ -90,6 +89,9 @@ bool planet::isEnd(map<string, planet>::iterator it) {
     return false;
 }
 
+string planet::get_name() {
+    return name;
+}
 
 double planet::get_diameter(void) {
     return diameter;
@@ -108,9 +110,11 @@ double planet::get_volume(void) {
 }
 
 void planet::add_planet(planet extra) {
+    if (!database.loaded_data) {
+        database.load_data();
+    }
+    
     database.add_planet(extra);
 }
 
-string planet::get_name() {
-    return name;
-}
+
