@@ -164,3 +164,7 @@ Now we can visit the code which crashed.  The address `0x00000001008e45bc` is ac
 The overall view we see is
 
 ![](screenshots/hopperAddressView.png)
+
+Zooming in on the code line, we have
+
+![](screenshots/hopperPlanetAbort.png)
