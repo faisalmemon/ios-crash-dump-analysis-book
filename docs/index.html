@@ -76,7 +76,14 @@
 </ul></li>
 <li><a href="#lessons-learnt-1">Lessons Learnt</a></li>
 </ul></li>
-<li><a href="#symbolification">Symbolification</a></li>
+<li><a href="#symbolification">Symbolification</a><ul>
+<li><a href="#build-process">Build Process</a><ul>
+<li><a href="#build-settings">Build Settings</a></li>
+</ul></li>
+<li><a href="#observing-a-local-crash">Observing a local crash</a></li>
+<li><a href="#dsym-structure">DSYM structure</a></li>
+<li><a href="#manual-symbolification">Manual Symbolification</a></li>
+</ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
 <li><a href="#the-crash-report">The Crash report</a></li>
@@ -527,6 +534,7 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 <p>This chapter explains crash dump symbolification. We use the <code>icdab_planets</code> sample app to demonstrate a crash. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <p>When dealing with real world crashes, a number of different entities are involved. These can be the end user device, the settings allowing the crash report to be sent back to Apple, the symbols held by Apple and your local development environment setup to mirror such a configuration.</p>
 <p>In order to understand how things all fit together it is best to start from first principles and do the data conversion tasks yourself so if you have to diagnose symbolification issues, you have some experience with the technologies at hand.</p>
+<h2 id="build-process">Build Process</h2>
 <p>Normally when you develop an app, you are deploying the Debug version of your app onto your device. When you are deploying your app for testers, app review, or app store release, you are deploying the Release version of your app.</p>
 <p>In both scenarios debug information is placed into the binary being generated. This is called DWARF debugging information.</p>
 <p>For Release builds, that information is then stripped out and placed into a DSYM file. For Debug builds, it is left in.</p>
@@ -534,6 +542,7 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 <p>When a user sees your program crash, there is no debugger. Instead, a crash report is generated. This comprises the machine addresses where the problem was seen. A later phase, called symbolification, can convert the addresses into meaningful source code references so long as an appropriate DSYM file exists.</p>
 <p>Xcode is by default setup so that only DSYM files are generated for Release builds, and not for Debug builds.</p>
 <p>The reason why Debug builds just use the application binary with all the debug information built in is that the information is always available and consistent with the rest of the binary. However it makes the binary much larger and allows reverse engineers to peek into your binary quite easily as if you had published the source code together with the program.</p>
+<h3 id="build-settings">Build Settings</h3>
 <p>From Xcode, in your build settings, searching for “Debug Information Format” we see the following settings:</p>
 <table>
 <colgroup>
@@ -563,9 +572,10 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 </table>
 <p>In the default setup, if you run your debug binary on your device, launching it from the app icon itself then if it were to crash you would not have any symbols in the crash report. This confuses many people.</p>
 <p>Whilst you may have all the source code for your program, and DWARF data in the crashed binary, ReportCrash crash reporter only looks for DSYM files on your Mac in order to perform symbolification.</p>
-<p>To avoid this problem, the sample app <code>icdab_planets</code> has been configured to have <code>DWARF  with dSYM File</code> set for both debug and release targets.</p>
-<p>The program is designed to crash upon launch due to an assertion.</p>
-<p>If the setting had not been made, we would get a partially symbolicated crash.</p>
+<p>To avoid this problem, the sample app <code>icdab_planets</code> has been configured to have <code>DWARF with dSYM File</code> set for both debug and release targets.</p>
+<h2 id="observing-a-local-crash">Observing a local crash</h2>
+<p>The <code>icdab_planets</code> program is designed to crash upon launch due to an assertion.</p>
+<p>If the <code>DWARF with dSYM File</code> setting had not been made, we would get a partially symbolicated crash.</p>
 <p>The crash report, seen from Windows-&gt;Devices and Simulators-&gt;View Device Logs, would look like this (truncated for ease of demonstration)</p>
 <pre><code>Thread 0 Crashed:
 0   libsystem_kernel.dylib          0x0000000183a012ec __pthread_kill + 8
@@ -580,7 +590,7 @@ Binary Images:
   &lt;9ff56cfacd66354ea85ff5973137f011&gt;
    /var/containers/Bundle/Application/BEF249D9-1520-40F7-93F4-8B99D913A4AC/
    icdab_planets.app/icdab_planets</code></pre>
-<p>With the above setting in place, a crash would instead be reported as:</p>
+<p>However with the setting in place, a crash would instead be reported as:</p>
 <pre><code>Thread 0 Crashed:
 0   libsystem_kernel.dylib          0x0000000183a012ec __pthread_kill + 8
 1   libsystem_pthread.dylib         0x0000000183ba2288 pthread_kill$VARIANT$mp + 376
@@ -588,8 +598,9 @@ Binary Images:
 3   libsystem_c.dylib               0x0000000183944000 basename_r + 0
 4   icdab_planets                   0x0000000104e145bc -[PlanetViewController viewDidLoad] + 17852 (PlanetViewController.mm:33)
 5   UIKit                           0x000000018db56ee0 -[UIViewController loadViewIfRequired] + 1020</code></pre>
-<p>Lines 0, 1, 2, 5 are the same in both cases because your developer environment will have the symbols for the iOS release under test. In the second case Xcode will look up the DSYM file to clarify line 4. It tells us this is line 33 in file PlanetViewController.mm. This is:</p>
+<p>Lines 0, 1, 2, 5 are the same in both cases because our developer environment will have the symbols for the iOS release under test. In the second case Xcode will look up the DSYM file to clarify line 4. It tells us this is line 33 in file PlanetViewController.mm. This is:</p>
 <pre><code>assert(pluto_volume != 0.0);</code></pre>
+<h2 id="dsym-structure">DSYM structure</h2>
 <p>The DSYM file is strictly speaking a directory hierarchy:</p>
 <pre><code>icdab_planets.app.dSYM
 icdab_planets.app.dSYM/Contents
@@ -599,6 +610,7 @@ icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets
 icdab_planets.app.dSYM/Contents/Info.plist</code></pre>
 <p>It is just the DWARF data normally put into the debug binary but copied into a separate file.</p>
 <p>From looking at your build log you can see how the DSYM was generated. It is effectively just <code>dsymutil path_to_app_binary -o output_symbols_dir.dSYM</code></p>
+<h2 id="manual-symbolification">Manual Symbolification</h2>
 <p>In order to help us get comfortable with crash dump reports, we can demonstrate how the symbolification actually works. In the first crash dump we want to understand:</p>
 <pre><code>4   icdab_planets                   0x00000001008e45bc 0x1008e0000 + 17852</code></pre>
 <p>If we knew accurately the version of our code at the time of the crash we can recompile our program but with the DSYM setting switched on and then get a DSYM file after the original crash. It should line up almost exactly.</p>
@@ -610,7 +622,7 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 -[PlanetViewController viewDidLoad] (in icdab_planets)
  (PlanetViewController.mm:33)</code></pre>
 <p>The crash reporter tool fundamentally just uses <code>atos</code> to symbolicate the crash report, as well as providing other system related information.</p>
-<p>Symbolification is described further by an Apple Technote in case you want to get into it in more detail. <span class="citation" data-cites="tn2123">(“CrashReport Technote 2123,” n.d.)</span></p>
+<p>Symbolification is described further by an Apple Technote in case you want to get into it in more detail. <span class="citation" data-cites="tn2123">(“CrashReport Technote 2123” n.d.)</span></p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
@@ -713,7 +725,7 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-tn2123">
-<p>“CrashReport Technote 2123.” n.d.</p>
+<p>“CrashReport Technote 2123.” n.d. Accessed 2004.</p>
 </div>
 <div id="ref-icdabgithub">
 <p>“IOS Crash Dump Analysis Book Github Resources.” 2018. <a href="https://github.com/faisalmemon/ios-crash-dump-analysis-book" class="uri">https://github.com/faisalmemon/ios-crash-dump-analysis-book</a>.</p>
