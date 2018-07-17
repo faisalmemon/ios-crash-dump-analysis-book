@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3995A81320FC97F800903BFD /* planet_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3995A81120FC97F700903BFD /* planet_data.cpp */; };
 		3997B47620FC9266009B067E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B47520FC9266009B067E /* AppDelegate.m */; };
-		3997B47920FC9266009B067E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B47820FC9266009B067E /* ViewController.m */; };
 		3997B47C20FC9266009B067E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3997B47A20FC9266009B067E /* Main.storyboard */; };
 		3997B47E20FC9267009B067E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3997B47D20FC9267009B067E /* Assets.xcassets */; };
 		3997B48120FC9267009B067E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3997B47F20FC9267009B067E /* LaunchScreen.storyboard */; };
@@ -42,8 +41,6 @@
 		3997B47120FC9266009B067E /* icdab_planets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = icdab_planets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3997B47420FC9266009B067E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3997B47520FC9266009B067E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		3997B47720FC9266009B067E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		3997B47820FC9266009B067E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		3997B47B20FC9266009B067E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3997B47D20FC9267009B067E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3997B48020FC9267009B067E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -109,8 +106,6 @@
 			children = (
 				3997B47420FC9266009B067E /* AppDelegate.h */,
 				3997B47520FC9266009B067E /* AppDelegate.m */,
-				3997B47720FC9266009B067E /* ViewController.h */,
-				3997B47820FC9266009B067E /* ViewController.m */,
 				3997B47A20FC9266009B067E /* Main.storyboard */,
 				3997B4A620FC93A7009B067E /* PlanetViewController.h */,
 				3995A81120FC97F700903BFD /* planet_data.cpp */,
@@ -273,7 +268,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3997B4A820FC93A7009B067E /* PlanetViewController.mm in Sources */,
-				3997B47920FC9266009B067E /* ViewController.m in Sources */,
 				3997B48420FC9267009B067E /* main.m in Sources */,
 				3997B47620FC9266009B067E /* AppDelegate.m in Sources */,
 				3995A81320FC97F800903BFD /* planet_data.cpp in Sources */,

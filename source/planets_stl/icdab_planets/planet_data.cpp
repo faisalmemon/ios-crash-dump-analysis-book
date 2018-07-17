@@ -103,6 +103,9 @@ bool planet::isEnd(map<string, planet>::iterator it) {
     return false;
 }
 
+string planet::get_name() {
+    return name;
+}
 
 double planet::get_diameter(void) {
     return diameter;
