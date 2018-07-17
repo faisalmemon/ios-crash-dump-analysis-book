@@ -1,5 +1,7 @@
+# Symbolification
+
 This chapter explains crash dump symbolification.
-We use the `icdab_planets` sample app to demonstrate a crash.
+We use the `icdab_planets` sample app to demonstrate a crash. @icdabgithub
 
 When dealing with real world crashes, a number of different entities are involved.  These can be the end user device, the settings allowing the crash report to be sent back to Apple, the symbols held by Apple and your local development environment setup to mirror such a configuration.
 
