@@ -6,8 +6,9 @@ pandoc $(cat pageOrder.txt) pandocMetaData.yaml -f markdown+smart --standalone -
 mkdir -p docs
 cp foo.html docs/index.html
 git add docs/index.html
-rm -rf docs/screenshots
+rm -rf docs/screenshots docs/style
 cp -pr screenshots docs/screenshots
-git add docs/screenshots
+cp -pr style docs/style
+git add docs/screenshots docs/style
 git commit -m'update published book on github pages'
 git push
