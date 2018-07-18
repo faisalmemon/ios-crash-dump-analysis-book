@@ -88,7 +88,9 @@
 <li><a href="#system-diagnostics">System Diagnostics</a><ul>
 <li><a href="#extracting-system-diagnostic-information">Extracting System Diagnostic Information</a></li>
 </ul></li>
-<li><a href="#guided-tour-of-a-crash-report">Guided tour of a crash report</a></li>
+<li><a href="#guided-tour-of-a-crash-report">Guided tour of a crash report</a><ul>
+<li><a href="#header-section">Header Section</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
@@ -650,15 +652,89 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>In a more complex case, imagine we were using an image conversion library which was crashing. Since there can be many pixel formats for images, an assert might lead us to notice it was the format that was asserting and we could just try a different pixel format.</p>
 <p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details. A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
 <h1 id="the-crash-report">The Crash Report</h1>
+<p>In this chapter we get into the details of what comprises a crash report.</p>
 <p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
 <p>When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
 <p>Apple have a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
 <h2 id="system-diagnostics">System Diagnostics</h2>
-<p>Note that Crash Reports are just one part of a much bigger diagnostic reporting story. Ordinarily as application developers we don’t need to look much further. However, if your problems are potentially triggered by a unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do you need to look at your crash reports, you need to study the system diagnostics.</p>
+<p>Crash Reports are just one part of a much bigger diagnostic reporting story.</p>
+<p>Ordinarily as application developers we don’t need to look much further. However, if your problems are potentially triggered by a unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do you need to look at your crash reports, you need to study the system diagnostics.</p>
 <h3 id="extracting-system-diagnostic-information">Extracting System Diagnostic Information</h3>
 <p>When understanding the environment that gave rise to your crash, you may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple have a great web page covering each scenario. <span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” n.d.)</span></p>
 <p>The basic idea is that you install a profile which alters your device to produce more logging, then you reproduce the crash (or get the customer to do that). Then you press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code> which extracts many log files. Then you use iTunes to sync your device to retrieve the resultant <code>sysdiagnose_date_name.tar.gz</code> file. Inside this archive file are many system and subsystem logs, and you can see when crashes occur and the context that gave rise to them.</p>
 <h2 id="guided-tour-of-a-crash-report">Guided tour of a crash report</h2>
+<p>Here we go through each section of the crash report and explain the fields. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
+<h3 id="header-section">Header Section</h3>
+<pre><code>Incident Identifier: E030D9E4-32B5-4C11-8B39-C12045CABE26
+CrashReporter Key:   b544a32d592996e0efdd7f5eaafd1f4164a2e13c
+Hardware Model:      iPad6,3
+Process:             icdab_planets [2726]
+Path:                /private/var/containers/Bundle/Application/
+BEF249D9-1520-40F7-93F4-8B99D913A4AC/icdab_planets.app/icdab_planets
+Identifier:          www.perivalebluebell.icdab-planets
+Version:             1 (1.0)
+Code Type:           ARM-64 (Native)
+Role:                Foreground
+Parent Process:      launchd [1]
+Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Entry</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Incident Identifier</td>
+<td>Unique report number of crash</td>
+</tr>
+<tr class="even">
+<td>CrashReporter Key</td>
+<td>Unique identifier for the device that crashed</td>
+</tr>
+<tr class="odd">
+<td>Hardware Model</td>
+<td>Apple Hardware Model <span class="citation" data-cites="ios-devices">(2018)</span></td>
+</tr>
+<tr class="even">
+<td>Process</td>
+<td>Process name (number) that crashed</td>
+</tr>
+<tr class="odd">
+<td>Path</td>
+<td>Full pathname of crashing program on the device file system</td>
+</tr>
+<tr class="even">
+<td>Identifier</td>
+<td>Bundle identifier from <code>Info.plist</code></td>
+</tr>
+<tr class="odd">
+<td>Version</td>
+<td>CFBundleVersion; also CFBundleVersionString in brackets</td>
+</tr>
+<tr class="even">
+<td>Code Type</td>
+<td>Target architecture of the process that crashed</td>
+</tr>
+<tr class="odd">
+<td>Role</td>
+<td>The process <code>task_role</code>. An indicator if we were in the background, foreground, or was a console app. Mainly affects the scheduling priority of the process.</td>
+</tr>
+<tr class="even">
+<td>Parent Process</td>
+<td>Which process created the crashing process. <code>launchd</code> is a process launcher and is often the parent.</td>
+</tr>
+<tr class="odd">
+<td>Coalition</td>
+<td>Tasks are grouped into coalitions so they can pool together their consumption of resources <span class="citation" data-cites="resource-management">(2015)</span></td>
+</tr>
+</tbody>
+</table>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
@@ -774,6 +850,12 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 </div>
 <div id="ref-class-dump-tool">
 <p>Nygard, Steve. 2018. “Class Dump Tool.” <a href="http://stevenygard.com/projects/class-dump/" class="uri">http://stevenygard.com/projects/class-dump/</a>.</p>
+</div>
+<div id="ref-resource-management">
+<p>2015. <a href="http://newosxbook.com/files/MSAse2015.pdf" class="uri">http://newosxbook.com/files/MSAse2015.pdf</a>.</p>
+</div>
+<div id="ref-ios-devices">
+<p>2018. <a href="https://en.wikipedia.org/wiki/List_of_iOS_devices" class="uri">https://en.wikipedia.org/wiki/List_of_iOS_devices</a>.</p>
 </div>
 </div>
 </body>
