@@ -84,3 +84,19 @@ Report Version:      104
 ```
 
 These are explained by the following table:
+
+Entry|Meaning
+--|--
+Date/Time|When the crash occurred
+Launch Time|When the process was originally launched before crashing
+OS Version| Operating System Version (Build number).  @ios-versions
+Baseband Version| Version number of the firmware of the cellular modem (used for phone calls) or `n/a` if the device has no cellular modem (most iPads, iPod Touch, etc.)
+Report Version|The version of ReportCrash used to produce the report
+
+The first thing to check is the OS Version.  Is it newer or older than we've tested?  Is it a beta version of the operating system?
+
+The next thing to check is the difference between the launch time and the time of the crash.  Did the app crash immediately or after a long time?  Early start crashes can sometimes be a packaging and deployment problem.  We shall visit some techniques to tackle those later on.
+
+Is the date a sensible value?  Sometimes a device is set back or forwards in time, perhaps to trigger date checks on security certificates or license keys.  Make sure the date is a realistic looking one.
+
+Normally the baseband version is not interesting.  The presence of the baseband means you could get interrupted by a phone call (of course there is VOIP calling as well in any case).  iPad software is generally written to assume you're not going to get a phone call but iPads can be purchased with a cellular modem option.
