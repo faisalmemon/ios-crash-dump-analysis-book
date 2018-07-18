@@ -17,11 +17,13 @@ Ordinarily as application developers we don't need to look much further.  Howeve
 ### Extracting System Diagnostic Information
 When understanding the environment that gave rise to your crash, you may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing).  Apple have a great web page covering each scenario.  @apple-sysdiag  
 
-The basic idea is that you install a profile which alters your device to produce more logging, then you reproduce the crash (or get the customer to do that).  Then you press a special key sequence on the device (for example, both volume buttons and the side button).  The system vibrates briefly to indicate it is running a program, `sysdiagnose` which extracts many log files.  Then you use iTunes to sync your device to retrieve the resultant `sysdiagnose_date_name.tar.gz` file.  Inside this archive file are many system and subsystem logs, and you can see when crashes occur and the context that gave rise to them.
+On iOS, the basic idea is that you install a profile which alters your device to produce more logging, then you reproduce the crash (or get the customer to do that).  Then you press a special key sequence on the device (for example, both volume buttons and the side button).  The system vibrates briefly to indicate it is running a program, `sysdiagnose` which extracts many log files.  Then you use iTunes to sync your device to retrieve the resultant `sysdiagnose_date_name.tar.gz` file.  Inside this archive file are many system and subsystem logs, and you can see when crashes occur and the context that gave rise to them.
 
-## Guided tour of a crash report
+An equivalent approach is available on macOS as well.
 
-Here we go through each section of the crash report and explain the fields. @tn2151
+## Guided tour of an iOS Crash Report
+
+Here we go through each section of an iOS crash report and explain the fields. @tn2151
 
 ### Crash Report Header Section
 
@@ -42,7 +44,7 @@ Parent Process:      launchd [1]
 Coalition:           www.perivalebluebell.icdab-planets [1935]
 ```
 
-These are explained by the following table:
+These items are explained by the following table:
 
 Entry|Meaning
 --|--
@@ -83,7 +85,7 @@ Baseband Version:    n/a
 Report Version:      104
 ```
 
-These are explained by the following table:
+These items are explained by the following table:
 
 Entry|Meaning
 --|--
@@ -100,3 +102,37 @@ The next thing to check is the difference between the launch time and the time o
 Is the date a sensible value?  Sometimes a device is set back or forwards in time, perhaps to trigger date checks on security certificates or license keys.  Make sure the date is a realistic looking one.
 
 Normally the baseband version is not interesting.  The presence of the baseband means you could get interrupted by a phone call (of course there is VOIP calling as well in any case).  iPad software is generally written to assume you're not going to get a phone call but iPads can be purchased with a cellular modem option.
+
+### Crash Report Exception Section
+
+A Crash Report will next have exception information:
+
+```
+Exception Type:  EXC_CRASH (SIGABRT)
+Exception Codes: 0x0000000000000000, 0x0000000000000000
+Exception Note:  EXC_CORPSE_NOTIFY
+Triggered by Thread:  0
+```
+
+What has happened is that the MachOS kernel has raised an Operating System Exception on the problematic process, which terminates the process.  The ReportCrash program then retrieves from the OS details of such an exception.
+
+These items are explained by the following table:
+
+Entry|Meaning
+--|--
+Exception Type|The type of exception in Mach OS. @exception-types
+Exception Codes|These codes encode the kind of exception, such as trying to trying to access an invalid address, and supporting information.  @exception-types
+Exception Note|Either this says `SIMULATED (this is NOT a crash)` because the process will killed by the watchdog timer, or it says `EXC_CORPSE_NOTIFY` because the process crashed
+Triggered by Thread|The thread in the process that caused the crash
+
+
+In this section the most important item is the exception type.
+
+Exception Type|Meaning
+--|--
+EXC_CRASH (SIGABRT)|Our program raised a programming language exception such as a failed assertion and this caused the OS to Abort our app
+EXC_BAD_ACCESS or SIGSEGV or SIGBUS|Our program most likely tried to access a bad memory location or alternatively the address was good but we did not have the privilege to access it.
+
+When we have a SIGABRT, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thead.
+
+When we have a memory issue, we should look at what was the address at fault.  Note the CR2 register described in a later section carries the address which caused the problem.  For making progress on these issues, we should use the Xcode Diagnostics options for memory debugging.  There is an option to switch on the Address Sanitiser.  If this does not catch the problem, it is then trying the 
