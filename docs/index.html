@@ -84,9 +84,15 @@
 <li><a href="#manual-symbolification">Manual Symbolification</a></li>
 <li><a href="#reverse-engineering-approach">Reverse Engineering Approach</a></li>
 </ul></li>
+<li><a href="#the-crash-report">The Crash Report</a><ul>
+<li><a href="#system-diagnostics">System Diagnostics</a><ul>
+<li><a href="#extracting-system-diagnostic-information">Extracting System Diagnostic Information</a></li>
+</ul></li>
+<li><a href="#guided-tour-of-a-crash-report">Guided tour of a crash report</a></li>
+</ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
-<li><a href="#the-crash-report">The Crash report</a></li>
+<li><a href="#the-crash-report-1">The Crash report</a></li>
 <li><a href="#the-crash-details">The Crash details</a></li>
 <li><a href="#applying-our-tool-box">Applying our Tool Box</a></li>
 <li><a href="#software-engineering-insights">Software Engineering Insights</a></li>
@@ -643,10 +649,20 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>Now at least for the current problem, we could formulate a bug report that said the code was crashing because Pluto’s volume was zero. That may be enough to unlock the problem from the framework vendor’s point of view.</p>
 <p>In a more complex case, imagine we were using an image conversion library which was crashing. Since there can be many pixel formats for images, an assert might lead us to notice it was the format that was asserting and we could just try a different pixel format.</p>
 <p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details. A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
+<h1 id="the-crash-report">The Crash Report</h1>
+<p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
+<p>When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
+<p>Apple have a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
+<h2 id="system-diagnostics">System Diagnostics</h2>
+<p>Note that Crash Reports are just one part of a much bigger diagnostic reporting story. Ordinarily as application developers we don’t need to look much further. However, if your problems are potentially triggered by a unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do you need to look at your crash reports, you need to study the system diagnostics.</p>
+<h3 id="extracting-system-diagnostic-information">Extracting System Diagnostic Information</h3>
+<p>When understanding the environment that gave rise to your crash, you may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple have a great web page covering each scenario. <span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” n.d.)</span></p>
+<p>The basic idea is that you install a profile which alters your device to produce more logging, then you reproduce the crash (or get the customer to do that). Then you press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code> which extracts many log files. Then you use iTunes to sync your device to retrieve the resultant <code>sysdiagnose_date_name.tar.gz</code> file. Inside this archive file are many system and subsystem logs, and you can see when crashes occur and the context that gave rise to them.</p>
+<h2 id="guided-tour-of-a-crash-report">Guided tour of a crash report</h2>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
-<h2 id="the-crash-report">The Crash report</h2>
+<h2 id="the-crash-report-1">The Crash report</h2>
 <p>Here is the crash report, suitably truncated for ease of demonstration:</p>
 <pre><code>Process:               SiriNCService [1045]
 Path:                  
@@ -744,8 +760,14 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <p>We went from using HOWTO knowledge (understanding the crash report) to using tooling to get a baseline level of knowledge. Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem. This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis. It cannot be achieved by just focusing on the HOWTO of comprehending crash reports. We need to switch hats and see things from different perspectives in order to really make progress.</p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
+<div id="ref-tn2151">
+<p>“Apple Crash Dump Technote 2151.” 2018. <a href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2151/_index.html</a>.</p>
+</div>
 <div id="ref-tn2123">
 <p>“CrashReport Technote 2123.” n.d. Accessed 2004.</p>
+</div>
+<div id="ref-apple-sysdiag">
+<p>“Diagnostic Profiles and Logs.” n.d. Accessed 2018.</p>
 </div>
 <div id="ref-icdabgithub">
 <p>“IOS Crash Dump Analysis Book Github Resources.” 2018. <a href="https://github.com/faisalmemon/ios-crash-dump-analysis-book" class="uri">https://github.com/faisalmemon/ios-crash-dump-analysis-book</a>.</p>
