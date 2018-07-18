@@ -23,7 +23,9 @@ The basic idea is that you install a profile which alters your device to produce
 
 Here we go through each section of the crash report and explain the fields. @tn2151
 
-### Header Section
+### Crash Report Header Section
+
+A Crash Report starts with the following header:
 
 ```
 Incident Identifier: E030D9E4-32B5-4C11-8B39-C12045CABE26
@@ -40,6 +42,8 @@ Parent Process:      launchd [1]
 Coalition:           www.perivalebluebell.icdab-planets [1935]
 ```
 
+These are explained by the following table:
+
 Entry|Meaning
 --|--
 Incident Identifier|Unique report number of crash
@@ -53,3 +57,30 @@ Code Type|Target architecture of the process that crashed
 Role|The process `task_role`.  An indicator if we were in the background, foreground, or was a console app.  Mainly affects the scheduling priority of the process.
 Parent Process|Which process created the crashing process. `launchd` is a process launcher and is often the parent.
 Coalition|Tasks are grouped into coalitions so they can pool together their consumption of resources @resource-management
+
+The first thing to look at is the version.  Typically if you are a small team or individual, you will not have the resources to diagnose crashes in older versions of your app, so the first thing might be to get the customer to install the latest version.
+
+If you have got a lot of crashes then you might see it being a problem to one customer (common CrashReporter key seen) or lots of customers (so different CrashReporter keys are seen).  This may affect how you rank the priority of the crash.
+
+The hardware model could be interesting.  It is iPad only devices, or iPhone only, or both?
+Maybe your code has less testing or unique code paths for a given platform.
+
+The hardware model might indicate an older device, which we have not tested on.
+
+Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested when they are backgrounded.  For example, you might receive a phone call, or have task switched between apps.
+
+The Code Type (target architecture) is now mostly 64-bit ARM.  But you might see ARM being reported - the original 32-bit ARM.  There could be a 64-bit specific issue.
+
+### Crash Report Date and Version Section
+
+A Crash Report will continue with date and version information:
+
+```
+Date/Time:           2018-07-16 10:15:31.4746 +0100
+Launch Time:         2018-07-16 10:15:31.3763 +0100
+OS Version:          iPhone OS 11.3 (15E216)
+Baseband Version:    n/a
+Report Version:      104
+```
+
+These are explained by the following table:
