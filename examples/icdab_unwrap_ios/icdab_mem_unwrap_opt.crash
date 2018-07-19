@@ -304,5 +304,3 @@ Binary Images:
 0x1ac14c000 - 0x1ac17cfff libclosured.dylib arm64  <23ea8cc8f66931e4a59c47fb92b8baaa> /usr/lib/closure/libclosured.dylib
 
 EOF
-
-
