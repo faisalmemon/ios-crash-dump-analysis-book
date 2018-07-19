@@ -131,8 +131,8 @@ In this section the most important item is the exception type.
 Exception Type|Meaning
 --|--
 EXC_CRASH (SIGABRT)|Our program raised a programming language exception such as a failed assertion and this caused the OS to Abort our app
-EXC_BAD_ACCESS or SIGSEGV or SIGBUS|Our program most likely tried to access a bad memory location or alternatively the address was good but we did not have the privilege to access it.
+EXC_BAD_ACCESS or SIGSEGV or SIGBUS|Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to due memory pressure.
 
 When we have a SIGABRT, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thead.
 
-When we have a memory issue, we should look at what was the address at fault.  Note the CR2 register described in a later section carries the address which caused the problem.  For making progress on these issues, we should use the Xcode Diagnostics options for memory debugging.  There is an option to switch on the Address Sanitiser.  If this does not catch the problem, it is then trying the 
+When we have a memory issue, we should look at what was the address at fault.
