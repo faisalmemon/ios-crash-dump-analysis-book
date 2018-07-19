@@ -132,7 +132,7 @@ Exception Type|Meaning
 --|--
 EXC_CRASH (SIGABRT)|Our program raised a programming language exception such as a failed assertion and this caused the OS to Abort our app
 EXC_BAD_ACCESS or SIGSEGV or SIGBUS|Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to due memory pressure.
-EXC_BREAKPOINT (SIGTRAP)|This is due to an NSException being raised (possibly by a library on your behalf).  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
+EXC_BREAKPOINT (SIGTRAP)|This is due to an `NSException` being raised (possibly by a library on your behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
 
 When we have a SIGABRT, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thead.
 
