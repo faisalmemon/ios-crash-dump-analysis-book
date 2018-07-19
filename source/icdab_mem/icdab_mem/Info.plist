@@ -20,6 +20,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>PlutoUrl</key>
+	<string>https://solarsystem.nasa.gov/system/downloadable_items/1192_pluto_natural_color_20150714.png</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

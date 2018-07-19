@@ -11,6 +11,9 @@ import XCTest
 
 class icdab_memTests: XCTestCase {
     
+    var downloadExpectation: XCTestExpectation?
+    var error: NSError?
+    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -21,16 +24,32 @@ class icdab_memTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testDownload() {
+        downloadExpectation = expectation(description: "DownloadPhoto")
+        let helper = DownloadHelper(urlString: "https://solarsystem.nasa.gov/system/downloadable_items/1192_pluto_natural_color_20150714.png")
+        helper.downloadDelegate = self
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testDownloadFailure() {
+        downloadExpectation = expectation(description: "DownloadFailure")
+        let helper = DownloadHelper(urlString: "https://solarsystem.nasa.gov/system/downloadable_items/1192_pluto_natural_color_20150714.XXX.png")
+        helper.downloadDelegate = self
+        waitForExpectations(timeout: 10, handler: nil)
+        XCTAssert(self.error != nil)
     }
+    
+}
+
+extension icdab_memTests: DownloadDelegate {
+    func imageDownloaded(_ image: UIImage) {
+        downloadExpectation?.fulfill()
+    }
+    
+    func downloadFailed(_ error: NSError) {
+        self.error = error
+        downloadExpectation?.fulfill()
+    }
+    
     
 }

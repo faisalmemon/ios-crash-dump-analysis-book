@@ -10,26 +10,42 @@ import UIKit
 
 class PlanetViewController: UIViewController {
 
+    @IBOutlet weak var planetImageOutlet: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // Artificial delay to simulate slow network
+        let deadlineTime = DispatchTime.now() + .seconds(5)
+        DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
+            self.downloadPlanetImage()
+        }
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        planetImageOutlet = nil // BUG; should be planetImageOutlet.image = nil
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+
+    func downloadPlanetImage() {
+        let location = Bundle.main.infoDictionary!["PlutoUrl"] as! String
+        let helper = DownloadHelper(urlString: location)
+        helper.downloadDelegate = self
+    }
+}
+
+extension PlanetViewController: DownloadDelegate {
+    func imageDownloaded(_ image: UIImage) {
+        self.planetImageOutlet.image = image
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func downloadFailed(_ error: NSError) {
+        self.planetImageOutlet.image = nil
     }
-    */
-
 }

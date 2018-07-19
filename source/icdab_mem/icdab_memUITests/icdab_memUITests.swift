@@ -28,9 +28,14 @@ class icdab_memUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testCrash() {
+        let app = XCUIApplication()
+        print(app.debugDescription)
+        let plutoButton = app.buttons.element(matching: .button, identifier: "Show Pluto")
+        plutoButton.tap()
+        let backButton = app.navigationBars.buttons.element(matching: .button, identifier: "Back")
+        backButton.tap()
+        sleep(200)
     }
     
 }

@@ -46,15 +46,15 @@
             </objects>
             <point key="canvasLocation" x="1015.2" y="134.48275862068968"/>
         </scene>
-        <!--View Controller-->
+        <!--Planet View Controller-->
         <scene sceneID="Dw4-13-eoq">
             <objects>
-                <viewController id="qiO-WX-1cc" sceneMemberID="viewController">
+                <viewController id="qiO-WX-1cc" customClass="PlanetViewController" customModule="icdab_mem" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zSs-Ta-Hs6">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rou-qD-WDT">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rou-qD-WDT">
                                 <rect key="frame" x="16" y="64" width="343" height="583"/>
                             </imageView>
                         </subviews>
@@ -67,6 +67,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FXU-e6-Oer"/>
                     </view>
+                    <connections>
+                        <outlet property="planetImageOutlet" destination="rou-qD-WDT" id="uU3-A5-Tyr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="etN-9V-Kmp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
