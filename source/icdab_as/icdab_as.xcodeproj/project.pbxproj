@@ -14,6 +14,8 @@
 		397F799F210252EF00809273 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 397F799D210252EF00809273 /* LaunchScreen.storyboard */; };
 		397F79AA210252EF00809273 /* icdab_asTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F79A9210252EF00809273 /* icdab_asTests.swift */; };
 		397F79B5210252EF00809273 /* icdab_asUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F79B4210252EF00809273 /* icdab_asUITests.swift */; };
+		397F79C52102533E00809273 /* scaffold.c in Sources */ = {isa = PBXBuildFile; fileRef = 397F79C42102533E00809273 /* scaffold.c */; };
+		397F79C72102544600809273 /* egg.s in Sources */ = {isa = PBXBuildFile; fileRef = 397F79C62102544600809273 /* egg.s */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,10 @@
 		397F79B0210252EF00809273 /* icdab_asUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_asUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F79B4210252EF00809273 /* icdab_asUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = icdab_asUITests.swift; sourceTree = "<group>"; };
 		397F79B6210252EF00809273 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		397F79C22102533E00809273 /* icdab_as-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "icdab_as-Bridging-Header.h"; sourceTree = "<group>"; };
+		397F79C32102533E00809273 /* scaffold.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = scaffold.h; sourceTree = "<group>"; };
+		397F79C42102533E00809273 /* scaffold.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = scaffold.c; sourceTree = "<group>"; };
+		397F79C62102544600809273 /* egg.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = egg.s; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,10 +105,14 @@
 			children = (
 				397F7994210252EE00809273 /* AppDelegate.swift */,
 				397F7996210252EE00809273 /* ViewController.swift */,
+				397F79C32102533E00809273 /* scaffold.h */,
+				397F79C42102533E00809273 /* scaffold.c */,
+				397F79C62102544600809273 /* egg.s */,
 				397F7998210252EE00809273 /* Main.storyboard */,
 				397F799B210252EF00809273 /* Assets.xcassets */,
 				397F799D210252EF00809273 /* LaunchScreen.storyboard */,
 				397F79A0210252EF00809273 /* Info.plist */,
+				397F79C22102533E00809273 /* icdab_as-Bridging-Header.h */,
 			);
 			path = icdab_as;
 			sourceTree = "<group>";
@@ -193,6 +203,7 @@
 				TargetAttributes = {
 					397F7990210252EE00809273 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 0930;
 					};
 					397F79A4210252EF00809273 = {
 						CreatedOnToolsVersion = 9.3;
@@ -257,7 +268,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				397F7997210252EE00809273 /* ViewController.swift in Sources */,
+				397F79C52102533E00809273 /* scaffold.c in Sources */,
 				397F7995210252EE00809273 /* AppDelegate.swift in Sources */,
+				397F79C72102544600809273 /* egg.s in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +443,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5Y3322JWHB;
@@ -440,6 +454,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-as";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "icdab_as/icdab_as-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -449,6 +465,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Y3322JWHB;
 				INFOPLIST_FILE = icdab_as/Info.plist;
@@ -458,6 +475,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-as";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "icdab_as/icdab_as-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

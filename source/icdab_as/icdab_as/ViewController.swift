@@ -12,7 +12,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        switchToAssemblyCodePath()
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +20,12 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    func switchToAssemblyCodePath() {
+        let result = scaffold(10, 40)
+        print(result)
+        
+        let asResult = bad_instruction_egg(10, 40)
+        print(asResult)
+    }
 }
 
