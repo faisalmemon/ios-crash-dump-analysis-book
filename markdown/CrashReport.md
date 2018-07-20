@@ -150,9 +150,9 @@ EXC_BAD_ACCESS or SIGSEGV or SIGBUS|Our program most likely tried to access a ba
 EXC_BREAKPOINT (SIGTRAP)|This is due to an `NSException` being raised (possibly by a library on your behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
 EXC_BAD_INSTRUCTION (SIGILL)|This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code.  On Simulator it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).
 
-The Termination Reason when present gives a specific reason for the Crash.  They are not all comprehensively documented but we have the following as a guide:
+When Termination Reason is present, we can look up the Code as follows:
 
-Termination Code | Possible Meaning
+Termination Code | Meaning
 --|--
 0xdead10cc | We held a file lock or sqlite database lock before suspending.  We should release locks before suspending.
 0xbaaaaaad | A stackshot was done of the entire system via the side and both volume buttons.  See earlier section on System Diagnostics
