@@ -799,6 +799,12 @@ Report Version:      104</code></pre>
 Exception Codes: 0x0000000000000000, 0x0000000000000000
 Exception Note:  EXC_CORPSE_NOTIFY
 Triggered by Thread:  0</code></pre>
+<p>or it may have a more detailed exception information:</p>
+<pre><code>Exception Type:  EXC_CRASH (SIGKILL)
+Exception Codes: 0x0000000000000000, 0x0000000000000000
+Exception Note:  EXC_CORPSE_NOTIFY
+Termination Reason: Namespace &lt;0xF&gt;, Code 0xdead10cc
+Triggered by Thread:  0</code></pre>
 <p>What has happened is that the MachOS kernel has raised an Operating System Exception on the problematic process, which terminates the process. The ReportCrash program then retrieves from the OS details of such an exception.</p>
 <p>These items are explained by the following table:</p>
 <table>
@@ -826,6 +832,10 @@ Triggered by Thread:  0</code></pre>
 <td>Either this says <code>SIMULATED (this is NOT a crash)</code> because the process will killed by the watchdog timer, or it says <code>EXC_CORPSE_NOTIFY</code> because the process crashed</td>
 </tr>
 <tr class="even">
+<td>Termination Reason</td>
+<td>Optionally present, this gives a Namespace (number or subsystem name) and a magic number Code (normally a hex number that looks like a English word). See below for details on each Termination Codes.</td>
+</tr>
+<tr class="odd">
 <td>Triggered by Thread</td>
 <td>The thread in the process that caused the crash</td>
 </tr>
@@ -849,6 +859,14 @@ Triggered by Thread:  0</code></pre>
 <td>Our program raised a programming language exception such as a failed assertion and this caused the OS to Abort our app</td>
 </tr>
 <tr class="even">
+<td>EXC_CRASH (SIGQUIT)</td>
+<td>A process received a quit signal from another process that is managing it. Typically this means a Keyboard extension took too long or used up too much memory. App extensions are only only limited amounts of memory.</td>
+</tr>
+<tr class="odd">
+<td>EXC_CRASH (SIGKILL)</td>
+<td>The system killed your app (or app extension), usually because some resource limit had been reached. The Termination Reason needs to be looked at to work out what policy violation was the reason for termination.</td>
+</tr>
+<tr class="even">
 <td>EXC_BAD_ACCESS or SIGSEGV or SIGBUS</td>
 <td>Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it. The memory might have been deallocated due to due memory pressure.</td>
 </tr>
@@ -859,6 +877,37 @@ Triggered by Thread:  0</code></pre>
 <tr class="even">
 <td>EXC_BAD_INSTRUCTION (SIGILL)</td>
 <td>This is when the program code itself is faulty, not the memory it might be accessing. This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code. On Simulator it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).</td>
+</tr>
+</tbody>
+</table>
+<p>When Termination Reason is present, we can look up the Code as follows:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Termination Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0xdead10cc</td>
+<td>We held a file lock or sqlite database lock before suspending. We should release locks before suspending.</td>
+</tr>
+<tr class="even">
+<td>0xbaaaaaad</td>
+<td>A stackshot was done of the entire system via the side and both volume buttons. See earlier section on System Diagnostics</td>
+</tr>
+<tr class="odd">
+<td>0xbad22222</td>
+<td>VOIP was terminated as it resumed too frequently</td>
+</tr>
+<tr class="even">
+<td>0x8badf00d</td>
+<td>Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.). The watchdog timer noticed the policy violation and caused the termination. The most common culprit is doing synchronous networking on the main thread.</td>
 </tr>
 </tbody>
 </table>
