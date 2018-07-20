@@ -25,6 +25,9 @@ An equivalent approach is available on macOS as well.
 
 Here we go through each section of an iOS crash report and explain the fields. @tn2151
 
+Note here iOS Crash Report means a crash report that came from a physical target device.
+After a crash, apps are often debugged on the Simulator.  The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.
+
 ### Crash Report Header Section
 
 A Crash Report starts with the following header:
@@ -133,11 +136,18 @@ Exception Type|Meaning
 EXC_CRASH (SIGABRT)|Our program raised a programming language exception such as a failed assertion and this caused the OS to Abort our app
 EXC_BAD_ACCESS or SIGSEGV or SIGBUS|Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to due memory pressure.
 EXC_BREAKPOINT (SIGTRAP)|This is due to an `NSException` being raised (possibly by a library on your behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
+EXC_BAD_INSTRUCTION (SIGILL)|This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code.  On Simulator it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).
 
+#### Aborts
 When we have a SIGABRT, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thead.
 
+#### Memory Issues
 When we have a memory issue, EXC_BAD_ACCESS, SIGSEGV or SIGBUS we should look at what was the address at fault.  Here the diagnostics settings within Xcode for the target in the schema are relevant.  The address sanitiser should be switched on to see if it can spot the error.  If that cannot detect the issue, try each of the memory management settings, one at a time.
 
 If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system.  For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History.  Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.
 
+#### Exceptions
 When we have a EXC_BREAKPOINT it can seem confusing.  The program may have been running standalone without a debugger so where did the breakpoint come from?  Typically we are running NSException code.  This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging.  So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception.  In the case of normal app running, there is no debugger so we would just crash the app.
+
+#### Illegal Instructions
+When we have a EXC_BAD_INSTRUCTION, the exception codes (second number) will be the problematic assembly code.  This should be a rare condition.  It is worthwhile adjusting the optimisation level of the code at fault in the Build Settings because higher level optimisations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug.  Alternatively the problem might be a lower level library which has hand assembly optimisations in it - such as a multimedia library.  Handwritten assembly can be the cause of bad instructions.
