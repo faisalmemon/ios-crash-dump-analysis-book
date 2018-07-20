@@ -23,7 +23,6 @@ class ViewController: UIViewController {
     func switchToAssemblyCodePath() {
         let result = scaffold(10, 40)
         print(result)
-        
         let asResult = bad_instruction_egg(10, 40)
         print(asResult)
     }
