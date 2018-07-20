@@ -117,6 +117,15 @@ Exception Note:  EXC_CORPSE_NOTIFY
 Triggered by Thread:  0
 ```
 
+or it may have a more detailed exception information:
+```
+Exception Type:  EXC_CRASH (SIGKILL)
+Exception Codes: 0x0000000000000000, 0x0000000000000000
+Exception Note:  EXC_CORPSE_NOTIFY
+Termination Reason: Namespace <0xF>, Code 0xdead10cc
+Triggered by Thread:  0
+```
+
 What has happened is that the MachOS kernel has raised an Operating System Exception on the problematic process, which terminates the process.  The ReportCrash program then retrieves from the OS details of such an exception.
 
 These items are explained by the following table:
@@ -126,6 +135,7 @@ Entry|Meaning
 Exception Type|The type of exception in Mach OS. @exception-types
 Exception Codes|These codes encode the kind of exception, such as trying to trying to access an invalid address, and supporting information.  @exception-types
 Exception Note|Either this says `SIMULATED (this is NOT a crash)` because the process will killed by the watchdog timer, or it says `EXC_CORPSE_NOTIFY` because the process crashed
+Termination Reason|Optionally present, this gives a Namespace (number or subsystem name) and a magic number Code (normally a hex number that looks like a English word).  See below for details on each Termination Codes.
 Triggered by Thread|The thread in the process that caused the crash
 
 
@@ -140,6 +150,14 @@ EXC_BAD_ACCESS or SIGSEGV or SIGBUS|Our program most likely tried to access a ba
 EXC_BREAKPOINT (SIGTRAP)|This is due to an `NSException` being raised (possibly by a library on your behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
 EXC_BAD_INSTRUCTION (SIGILL)|This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code.  On Simulator it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).
 
+The Termination Reason when present gives a specific reason for the Crash.  They are not all comprehensively documented but we have the following as a guide:
+
+Termination Code | Possible Meaning
+--|--
+0xdead10cc | We held a file lock or sqlite database lock before suspending.  We should release locks before suspending.
+0xbaaaaaad | A stackshot was done of the entire system via the side and both volume buttons.  See earlier section on System Diagnostics
+0xbad22222 | VOIP was terminated as it resumed too frequently
+0x8badf00d | Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.).  The watchdog timer noticed the policy violation and caused the termination.  The most common culprit is doing synchronous networking on the main thread.
 
 #### Aborts
 When we have a SIGABRT, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thead.
