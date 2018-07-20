@@ -13,7 +13,6 @@
 		39CD32B02101DAB1004B0E64 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39CD32AE2101DAB1004B0E64 /* LaunchScreen.storyboard */; };
 		39CD32BB2101DAB1004B0E64 /* icdab_wrapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD32BA2101DAB1004B0E64 /* icdab_wrapTests.swift */; };
 		39CD32C62101DAB1004B0E64 /* icdab_wrapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD32C52101DAB1004B0E64 /* icdab_wrapUITests.swift */; };
-		39CD32DD2101DBD3004B0E64 /* icdab_memUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CD32DC2101DBD3004B0E64 /* icdab_memUITests.swift */; };
 		39E63EBC2101DF4700012472 /* DownloadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E63EB92101DF4600012472 /* DownloadHelper.swift */; };
 		39E63EBD2101DF4700012472 /* PlanetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E63EBA2101DF4700012472 /* PlanetViewController.swift */; };
 		39E63EBE2101DF4700012472 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E63EBB2101DF4700012472 /* MainPageViewController.swift */; };
@@ -49,7 +48,6 @@
 		39CD32C12101DAB1004B0E64 /* icdab_wrapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_wrapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39CD32C52101DAB1004B0E64 /* icdab_wrapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = icdab_wrapUITests.swift; sourceTree = "<group>"; };
 		39CD32C72101DAB2004B0E64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		39CD32DC2101DBD3004B0E64 /* icdab_memUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = icdab_memUITests.swift; path = ../../icdab_mem/icdab_memUITests/icdab_memUITests.swift; sourceTree = "<group>"; };
 		39E63EB92101DF4600012472 /* DownloadHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadHelper.swift; sourceTree = "<group>"; };
 		39E63EBA2101DF4700012472 /* PlanetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetViewController.swift; sourceTree = "<group>"; };
 		39E63EBB2101DF4700012472 /* MainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
@@ -128,7 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				39CD32C52101DAB1004B0E64 /* icdab_wrapUITests.swift */,
-				39CD32DC2101DBD3004B0E64 /* icdab_memUITests.swift */,
 				39CD32C72101DAB2004B0E64 /* Info.plist */,
 			);
 			path = icdab_wrapUITests;
@@ -285,7 +282,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				39CD32C62101DAB1004B0E64 /* icdab_wrapUITests.swift in Sources */,
-				39CD32DD2101DBD3004B0E64 /* icdab_memUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

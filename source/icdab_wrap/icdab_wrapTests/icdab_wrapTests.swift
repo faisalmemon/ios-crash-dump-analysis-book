@@ -39,3 +39,14 @@ class icdab_wrapTests: XCTestCase {
     }
     
 }
+
+extension icdab_wrapTests: DownloadDelegate {
+    func imageDownloaded(_ image: UIImage) {
+        downloadExpectation?.fulfill()
+    }
+    
+    func downloadFailed(_ error: NSError) {
+        self.error = error
+        downloadExpectation?.fulfill()
+    }
+}
