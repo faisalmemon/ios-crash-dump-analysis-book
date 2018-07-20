@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		397F79032101E9EE00809273 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F79022101E9EE00809273 /* AppDelegate.m */; };
-		397F79062101E9EE00809273 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F79052101E9EE00809273 /* ViewController.m */; };
+		397F79062101E9EE00809273 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 397F79052101E9EE00809273 /* ViewController.mm */; };
 		397F79092101E9EE00809273 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 397F79072101E9EE00809273 /* Main.storyboard */; };
 		397F790B2101E9EF00809273 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 397F790A2101E9EF00809273 /* Assets.xcassets */; };
 		397F790E2101E9EF00809273 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 397F790C2101E9EF00809273 /* LaunchScreen.storyboard */; };
@@ -40,7 +40,7 @@
 		397F79012101E9EE00809273 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		397F79022101E9EE00809273 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		397F79042101E9EE00809273 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		397F79052101E9EE00809273 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		397F79052101E9EE00809273 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		397F79082101E9EE00809273 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		397F790A2101E9EF00809273 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		397F790D2101E9EF00809273 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 				397F798021021E2800809273 /* timerModule.h */,
 				397F798121021E2800809273 /* timerModule.c */,
 				397F79042101E9EE00809273 /* ViewController.h */,
-				397F79052101E9EE00809273 /* ViewController.m */,
+				397F79052101E9EE00809273 /* ViewController.mm */,
 				397F79072101E9EE00809273 /* Main.storyboard */,
 				397F790A2101E9EF00809273 /* Assets.xcassets */,
 				397F790C2101E9EF00809273 /* LaunchScreen.storyboard */,
@@ -267,7 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				397F79062101E9EE00809273 /* ViewController.m in Sources */,
+				397F79062101E9EE00809273 /* ViewController.mm in Sources */,
 				397F798221021E2800809273 /* timerModule.c in Sources */,
 				397F79112101E9EF00809273 /* main.m in Sources */,
 				397F79032101E9EE00809273 /* AppDelegate.m in Sources */,
