@@ -15,6 +15,7 @@
 		397F79112101E9EF00809273 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F79102101E9EF00809273 /* main.m */; };
 		397F791B2101E9EF00809273 /* icdab_lockTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F791A2101E9EF00809273 /* icdab_lockTests.m */; };
 		397F79262101E9EF00809273 /* icdab_lockUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F79252101E9EF00809273 /* icdab_lockUITests.m */; };
+		397F798221021E2800809273 /* timerModule.c in Sources */ = {isa = PBXBuildFile; fileRef = 397F798121021E2800809273 /* timerModule.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,8 @@
 		397F79212101E9EF00809273 /* icdab_lockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_lockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F79252101E9EF00809273 /* icdab_lockUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_lockUITests.m; sourceTree = "<group>"; };
 		397F79272101E9EF00809273 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		397F798021021E2800809273 /* timerModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = timerModule.h; sourceTree = "<group>"; };
+		397F798121021E2800809273 /* timerModule.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = timerModule.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +106,8 @@
 			children = (
 				397F79012101E9EE00809273 /* AppDelegate.h */,
 				397F79022101E9EE00809273 /* AppDelegate.m */,
+				397F798021021E2800809273 /* timerModule.h */,
+				397F798121021E2800809273 /* timerModule.c */,
 				397F79042101E9EE00809273 /* ViewController.h */,
 				397F79052101E9EE00809273 /* ViewController.m */,
 				397F79072101E9EE00809273 /* Main.storyboard */,
@@ -263,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				397F79062101E9EE00809273 /* ViewController.m in Sources */,
+				397F798221021E2800809273 /* timerModule.c in Sources */,
 				397F79112101E9EF00809273 /* main.m in Sources */,
 				397F79032101E9EE00809273 /* AppDelegate.m in Sources */,
 			);

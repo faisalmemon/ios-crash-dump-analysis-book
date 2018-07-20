@@ -8,9 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController () {
-    NSLock* criticalSectionLock;
-}
+@interface ViewController () 
 
 @end
 
@@ -18,26 +16,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self useSemaphoreApi];
+    [ViewController smthPressed:self];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+// Without the "static" keyword compile fails
+static inline void fakeStartTimers() {
+    int x = 0;
+    int y = 0;
+    printf("x and y are %d %d", x, y);
 }
 
-- (void)useSemaphoreApi {
-    dispatch_semaphore_t aSemaphore = dispatch_semaphore_create(1);
-    dispatch_semaphore_wait(aSemaphore, DISPATCH_TIME_FOREVER);
-    dispatch_release(aSemaphore);
++ (void)smthPressed:(id) caller
+{
+    fakeStartTimers();
 }
-
-- (void)useLockingApi {
-    criticalSectionLock = [[NSLock alloc] init];
-    [criticalSectionLock unlock];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self->criticalSectionLock unlock];
-    });}
 
 @end
+
