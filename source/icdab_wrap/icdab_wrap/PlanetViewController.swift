@@ -18,7 +18,7 @@ class PlanetViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         // Artificial delay to simulate slow network
-        let deadlineTime = DispatchTime.now() + .seconds(5)
+        let deadlineTime = DispatchTime.now() + .seconds(1)
         DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
             self.downloadPlanetImage()
         }
