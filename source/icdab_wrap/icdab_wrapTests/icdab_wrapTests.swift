@@ -1,16 +1,15 @@
 //
-//  icdab_memTests.swift
-//  icdab_memTests
+//  icdab_wrapTests.swift
+//  icdab_wrapTests
 //
-//  Created by Faisal Memon on 19/07/2018.
+//  Created by Faisal Memon on 20/07/2018.
 //  Copyright © 2018 Faisal Memon. All rights reserved.
 //
 
 import XCTest
-@testable import icdab_mem
+@testable import icdab_wrap
 
-class icdab_memTests: XCTestCase {
-    
+class icdab_wrapTests: XCTestCase {
     var downloadExpectation: XCTestExpectation?
     var error: NSError?
     
@@ -38,18 +37,5 @@ class icdab_memTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
         XCTAssert(self.error != nil)
     }
-    
-}
-
-extension icdab_memTests: DownloadDelegate {
-    func imageDownloaded(_ image: UIImage) {
-        downloadExpectation?.fulfill()
-    }
-    
-    func downloadFailed(_ error: NSError) {
-        self.error = error
-        downloadExpectation?.fulfill()
-    }
-    
     
 }
