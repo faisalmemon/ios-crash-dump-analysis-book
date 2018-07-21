@@ -2,8 +2,9 @@
 
 This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs.  The mindset of the Application developer is largely understanding high level concepts and abstractions.  When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.
 
-We focus exclusively on the Apple ecosystem, and primarily the Swift programming language on iOS.
-We also cover macOS, tvOS, watchOS platforms, and C (CoreFoundation), Objective-C, and Objective-C++ programming languages.  This is because the older languages are more prone to crash bugs. Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.
+We focus exclusively on the Apple ecosystem.
+
+We cover macOS, tvOS, watchOS platforms, ARM Assembly, and C (CoreFoundation), Objective-C, and Objective-C++ and Swift programming languages.  This is because the older languages are more prone to crash bugs.  Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.
 
 We assume you have at least an introductory knowledge of iOS programming and software engineering, and have access to a Mac with Xcode.
 

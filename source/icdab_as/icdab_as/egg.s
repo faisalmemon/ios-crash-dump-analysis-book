@@ -6,8 +6,18 @@
 //  Copyright © 2018 Faisal Memon. All rights reserved.
 //
 
+#include "TargetConditionals.h"
+
+#if TARGET_IPHONE_SIMULATOR
+#error This project cannot be build for simulator target, only hardware target
+#endif
+
+#if TARGET_CPU_ARM64 == 0
+#error You must select a 64-bit hardware target
+#endif
+
 .section    __TEXT,__text,regular,pure_instructions
-.ios_version_min 11, 3
+.ios_version_min 9, 3
 .globl    _bad_instruction_egg               ; -- Begin function bad_instruction_egg
 .p2align    2
 _bad_instruction_egg:                              ; @bad_instruction_egg
@@ -35,9 +45,6 @@ add    w1, w0, #1              ; =1
 // https://bugs.llvm.org/show_bug.cgi?id=27081
 //
 ldxp xzr, xzr, [x19]  ; -- Illegal instruction inserted by hand
-//
-//
-//
 //
 cmp        w0, #0          ; =0
 csel    w0, w1, w0, lt

@@ -152,12 +152,12 @@ EXC_BAD_INSTRUCTION (SIGILL)|This is when the program code itself is faulty, not
 
 When Termination Reason is present, we can look up the Code as follows:
 
-Termination Code | Meaning
+Termination Code | Spoken As | Meaning
 --|--
-0xdead10cc | We held a file lock or sqlite database lock before suspending.  We should release locks before suspending.
-0xbaaaaaad | A stackshot was done of the entire system via the side and both volume buttons.  See earlier section on System Diagnostics
-0xbad22222 | VOIP was terminated as it resumed too frequently
-0x8badf00d | Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.).  The watchdog timer noticed the policy violation and caused the termination.  The most common culprit is doing synchronous networking on the main thread.
+`0xdead10cc`  | Deadlock |We held a file lock or sqlite database lock before suspending.  We should release locks before suspending.
+`0xbaaaaaad` | Bad | A stackshot was done of the entire system via the side and both volume buttons.  See earlier section on System Diagnostics
+`0xbad22222` | Bad too (two) many times | VOIP was terminated as it resumed too frequently
+`0x8badf00d` | Ate (eight) bad food | Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.).  The watchdog timer noticed the policy violation and caused the termination.  The most common culprit is doing synchronous networking on the main thread.
 
 #### Aborts
 When we have a SIGABRT, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thead.
