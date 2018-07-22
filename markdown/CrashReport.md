@@ -158,9 +158,10 @@ Termination Code | Spoken As | Meaning
 --|--
 `0xdead10cc`  | Deadlock |We held a file lock or sqlite database lock before suspending.  We should release locks before suspending.
 `0xbaaaaaad` | Bad | A stackshot was done of the entire system via the side and both volume buttons.  See earlier section on System Diagnostics
-`0xbad22222` | Bad too (two) many times | VOIP was terminated as it resumed too frequently
+`0xbad22222` | Bad too (two) many times | VOIP was terminated as it resumed too frequently.  Also see with code using networking whilst in the background.  If your TCP connection is woken up too many times (say 15 wakes in 300 seconds) you get this crash.
 `0x8badf00d` | Ate (eight) bad food | Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.).  The watchdog timer noticed the policy violation and caused the termination.  The most common culprit is doing synchronous networking on the main thread.
-
+`0xc00010ff` | Cool Off | The system detected a thermal event and kill off your app.  If it's just one device it could be a hardware issue, not a software problem in your app.  If it happens on other devices, check your app's power usage using Instruments.
+`0x2bad45ec` | Too bad for security | There was a security violation. If the Termination Description says "Process detected doing insecure drawing while in secure mode" it means your app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.
 #### Aborts
 When we have a `SIGABRT` , we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.
 
@@ -170,7 +171,7 @@ When we have a memory issue, `EXC_BAD_ACCESS` , `SIGSEGV` or `SIGBUS` we should 
 If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system.  For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History.  Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.
 
 #### Exceptions
-When we have a `EXC_BREAKPOINT` it can seem confusing.  The program may have been running standalone without a debugger so where did the breakpoint come from?  Typically we are running NSException code.  This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging.  So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception.  In the case of normal app running, there is no debugger so we would just crash the app.
+When we have a `EXC_BREAKPOINT` it can seem confusing.  The program may have been running standalone without a debugger so where did the breakpoint come from?  Typically we are running `NSException` code.  This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging.  So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception.  In the case of normal app running, there is no debugger so we would just crash the app.
 
 #### Illegal Instructions
 When we have a `EXC_BAD_INSTRUCTION` , the exception codes (second number) will be the problematic assembly code.  This should be a rare condition.  It is worthwhile adjusting the optimisation level of the code at fault in the Build Settings because higher level optimisations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug.  Alternatively the problem might be a lower level library which has hand assembly optimisations in it - such as a multimedia library.  Handwritten assembly can be the cause of bad instructions.
