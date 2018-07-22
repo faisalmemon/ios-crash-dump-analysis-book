@@ -1,0 +1,885 @@
+{"os_version":"iPhone OS 7.1.2 (11D257)","bug_type":"188"}
+Incident Identifier: D2604550-FFA3-45D5-8247-A3F1E72E6A40
+CrashReporter Key:   e971b83dc1fd82b65ef25e0bc75ff56dcd73272b
+Hardware Model:      iPhone3,1
+OS Version:          iPhone OS 7.1.2 (11D257)
+Kernel version:      Darwin Kernel Version 14.0.0: Thu May 15 23:18:01 PDT 2014; root:xnu-2423.10.71~1/RELEASE_ARM_S5L8930X
+Date:                2016-05-12 14:57:08 -0500
+Exception Code:      0xbaaaaaad
+Reason:              Manually triggered stackshot via backboardd
+
+Thermal data unavailable
+
+Frontmost process PID:    3316
+Frontmost process PID:    34
+Jetsam Level:              0
+Free Pages:             2049
+Active Pages:          20635
+Inactive Pages:        10752
+Purgeable Pages:         716
+Wired Pages:           19786
+Speculative Pages:        96
+Throttled Pages:       75902
+File-backed Pages:     28795
+Compressions:         214070
+Decompressions:        54792
+Compressor Size:          25
+Busy Buffer Count:         0
+Pages Wanted:              0
+Pages Reclaimed:         431
+
+Process 0 info:
+	resident memory bytes:  54738944
+	page faults:                 759
+	page-ins:                      0
+	copy-on-write faults:          0
+	times throttled:            4604
+	times did throttle:          103
+	user   time in task:      173837.804535 seconds
+	system time in task:           0.000000 seconds
+
+Process 0 kernel_task threads:
+thread 0x1 TH_WAIT|TH_UNINT 0x8037ba3c
+	thread priority:               92
+	Base thread priority:          92
+	thread sched flags:     none
+	kernel cont: 0x800ffa35
+	user   time in thread:    63.211834 seconds
+	system time in thread:     0.000000 seconds
+thread 0x2 TH_RUN|TH_IDLE 0
+	thread priority:                0
+	Base thread priority:           0
+	thread sched flags:     none
+	kernel cont: 0x800c1bc9
+	user   time in thread: 167199.064840 seconds
+	system time in thread:     0.000000 seconds
+thread 0x3 TH_WAIT|TH_UNINT 0x800be55d
+	thread priority:               95
+	Base thread priority:          95
+	thread sched flags:     none
+	kernel cont: 0x800be55d
+	user   time in thread:    52.619813 seconds
+	system time in thread:     0.000000 seconds
+thread 0x4 TH_WAIT|TH_UNINT 0x8037d27c
+	thread priority:               80
+	Base thread priority:          80
+	thread sched flags:     none
+	kernel cont: 0x800cdb31
+	user   time in thread:    20.460244 seconds
+	system time in thread:     0.000000 seconds
+thread 0x5 TH_WAIT|TH_UNINT 0x8037d284
+	thread priority:               93
+	Base thread priority:          93
+	thread sched flags:     none
+	kernel cont: 0x800cdd4d
+	user   time in thread:     0.285985 seconds
+	system time in thread:     0.000000 seconds
+thread 0x6 TH_WAIT|TH_UNINT 0xdb2a6cb8
+	thread priority:               95
+	Base thread priority:          95
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800d34f1 0x8001f05c
+	user   time in thread:     0.000296 seconds
+	system time in thread:     0.000000 seconds
+thread 0x7 TH_WAIT|TH_UNINT 0
+	thread priority:               94
+	Base thread priority:          94
+	thread sched flags:     none
+	kernel cont: 0x800d05dd
+	user   time in thread:     0.551093 seconds
+	system time in thread:     0.000000 seconds
+thread 0x8 TH_WAIT|TH_UNINT 0x8037bb9c
+	thread priority:               95
+	Base thread priority:          95
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x80112eab 0x8001f05c
+	user   time in thread:     0.004149 seconds
+	system time in thread:     0.000000 seconds
+thread 0x9 TH_WAIT|TH_UNINT 0x9c55ec74
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000011 seconds
+	system time in thread:     0.000000 seconds
+thread 0xc TH_WAIT|TH_UNINT 0x9c586f1c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:    39.637941 seconds
+	system time in thread:     0.000000 seconds
+thread 0x1e TH_WAIT|TH_UNINT 0x8037e530
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8026bc49
+	user   time in thread:     0.000016 seconds
+	system time in thread:     0.000000 seconds
+thread 0x1f TH_WAIT|TH_UNINT 0x9c65c864
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.433019 seconds
+	system time in thread:     0.000000 seconds
+thread 0x20 TH_WAIT|TH_UNINT 0x9c65c364
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000009 seconds
+	system time in thread:     0.000000 seconds
+thread 0x21 TH_WAIT|TH_UNINT 0x9c65c094
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000009 seconds
+	system time in thread:     0.000000 seconds
+thread 0x59 TH_WAIT|TH_UNINT 0x808c679c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.005432 seconds
+	system time in thread:     0.000000 seconds
+thread 0x5b TH_WAIT|TH_UNINT 0x808c6634
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.762327 seconds
+	system time in thread:     0.000000 seconds
+thread 0x5d TH_WAIT|TH_UNINT 0x9c6a0364
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x8008b03b 0x8001f05c
+	user   time in thread:    12.888981 seconds
+	system time in thread:     0.000000 seconds
+thread 0x5e TH_WAIT|TH_UNINT 0x9c74fcc4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   203.443920 seconds
+	system time in thread:     0.000000 seconds
+thread 0x5f TH_WAIT|TH_UNINT 0x9c74f7ec
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000014 seconds
+	system time in thread:     0.000000 seconds
+thread 0x60 TH_WAIT|TH_UNINT 0x9c74f79c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x8008b03b 0x8001f05c
+	user   time in thread:   161.157338 seconds
+	system time in thread:     0.000000 seconds
+thread 0x61 TH_WAIT|TH_UNINT 0x9c74f544
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000013 seconds
+	system time in thread:     0.000000 seconds
+thread 0x62 TH_WAIT|TH_UNINT 0x9c74f38c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:    43.738672 seconds
+	system time in thread:     0.000000 seconds
+thread 0x63 TH_WAIT|TH_UNINT 0x9c74f134
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   292.825546 seconds
+	system time in thread:     0.000000 seconds
+thread 0x64 TH_WAIT|TH_UNINT 0x9c73ce7c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000014 seconds
+	system time in thread:     0.000000 seconds
+thread 0x65 TH_WAIT|TH_UNINT 0x9c73cd14
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000011 seconds
+	system time in thread:     0.000000 seconds
+thread 0x66 TH_WAIT|TH_UNINT 0x9c73cb34
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000012 seconds
+	system time in thread:     0.000000 seconds
+thread 0x67 TH_WAIT|TH_UNINT 0x9c73c9cc
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.041990 seconds
+	system time in thread:     0.000000 seconds
+thread 0x68 TH_WAIT|TH_UNINT 0x9c73c814
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000011 seconds
+	system time in thread:     0.000000 seconds
+thread 0x69 TH_WAIT|TH_UNINT 0x9c73c684
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000010 seconds
+	system time in thread:     0.000000 seconds
+thread 0x6a TH_WAIT|TH_UNINT 0x9c73c51c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.006298 seconds
+	system time in thread:     0.000000 seconds
+thread 0x6b TH_WAIT|TH_UNINT 0x9c73c2c4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000012 seconds
+	system time in thread:     0.000000 seconds
+thread 0x6d TH_WAIT|TH_UNINT 0x9c73c06c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   279.788645 seconds
+	system time in thread:     0.000000 seconds
+thread 0x6e TH_WAIT|TH_UNINT 0x9c748ea4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   109.160771 seconds
+	system time in thread:     0.000000 seconds
+thread 0x6f TH_WAIT|TH_UNINT 0x9c748c74
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:    24.644596 seconds
+	system time in thread:     0.000000 seconds
+thread 0x70 TH_WAIT|TH_UNINT 0x9c7489a4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000011 seconds
+	system time in thread:     0.000000 seconds
+thread 0x71 TH_WAIT|TH_UNINT 0x9c7486fc
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.273794 seconds
+	system time in thread:     0.000000 seconds
+thread 0x73 TH_WAIT|TH_UNINT 0x9c74829c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000012 seconds
+	system time in thread:     0.000000 seconds
+thread 0x75 TH_WAIT|TH_UNINT 0x9c76fd8c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     1.607913 seconds
+	system time in thread:     0.000000 seconds
+thread 0x76 TH_WAIT|TH_UNINT 0x808d78b4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     7.230932 seconds
+	system time in thread:     0.000000 seconds
+thread 0x77 TH_WAIT|TH_UNINT 0x808d7404
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000012 seconds
+	system time in thread:     0.000000 seconds
+thread 0x78 TH_WAIT|TH_UNINT 0x9c783b34
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000014 seconds
+	system time in thread:     0.000000 seconds
+thread 0x7a TH_WAIT|TH_UNINT 0x9c7cbb84
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:    17.989191 seconds
+	system time in thread:     0.000000 seconds
+thread 0x7b TH_WAIT|TH_UNINT 0x9c7cb7c4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000017 seconds
+	system time in thread:     0.000000 seconds
+thread 0x8a TH_WAIT|TH_UNINT 0x9c7ecf6c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.001398 seconds
+	system time in thread:     0.000000 seconds
+thread 0x8f TH_WAIT|TH_UNINT 0x9c7f24a4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x8008b03b 0x8001f05c
+	user   time in thread:     1.465370 seconds
+	system time in thread:     0.000000 seconds
+thread 0x91 TH_WAIT|TH_UNINT 0x9c7f24f4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     1.627432 seconds
+	system time in thread:     0.000000 seconds
+thread 0x92 TH_WAIT|TH_UNINT 0x9c748f44
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000018 seconds
+	system time in thread:     0.000000 seconds
+thread 0x9d TH_WAIT|TH_UNINT 0x80887a6c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:    23.324456 seconds
+	system time in thread:     0.000000 seconds
+thread 0x9e TH_WAIT|TH_UNINT 0x8088797c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.826131 seconds
+	system time in thread:     0.000000 seconds
+thread 0xa0 TH_WAIT|TH_UNINT 0x9c74f724
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000015 seconds
+	system time in thread:     0.000000 seconds
+thread 0xaa TH_WAIT|TH_UNINT 0x80824bd4
+	thread priority:               97
+	Base thread priority:          97
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     4.260501 seconds
+	system time in thread:     0.000000 seconds
+thread 0xab TH_WAIT|TH_UNINT 0x80824a1c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.223954 seconds
+	system time in thread:     0.000000 seconds
+thread 0xac TH_WAIT|TH_UNINT 0x80824954
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000011 seconds
+	system time in thread:     0.000000 seconds
+thread 0xae TH_WAIT|TH_UNINT 0x808244a4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000011 seconds
+	system time in thread:     0.000000 seconds
+thread 0xb1 TH_WAIT|TH_UNINT 0x80604044
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   709.042158 seconds
+	system time in thread:     0.000000 seconds
+thread 0xb7 TH_WAIT|TH_UNINT 0x8099ac9c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.008649 seconds
+	system time in thread:     0.000000 seconds
+thread 0xb8 TH_WAIT|TH_UNINT 0x8099aa6c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   114.431202 seconds
+	system time in thread:     0.000000 seconds
+thread 0xd5 TH_WAIT|TH_UNINT 0x9c8bc814
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000015 seconds
+	system time in thread:     0.000000 seconds
+thread 0xd8 TH_WAIT|TH_UNINT 0x9c8fb47c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.025574 seconds
+	system time in thread:     0.000000 seconds
+thread 0xd9 TH_WAIT|TH_UNINT 0x8037d380
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8012e8b5
+	user   time in thread:     0.000014 seconds
+	system time in thread:     0.000000 seconds
+thread 0xdb TH_WAIT|TH_UNINT 0x8037cd60
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x802811c5
+	user   time in thread:     0.004950 seconds
+	system time in thread:     0.000000 seconds
+thread 0xdc TH_WAIT|TH_UNINT 0x8037e4bc
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8024dd95
+	user   time in thread:     0.000011 seconds
+	system time in thread:     0.000000 seconds
+thread 0xdd TH_WAIT|TH_UNINT 0x8037e4bc
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8024dd95
+	user   time in thread:     0.000010 seconds
+	system time in thread:     0.000000 seconds
+thread 0xde TH_WAIT|TH_UNINT 0x8003e0fd
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8026bc49
+	user   time in thread:     0.000012 seconds
+	system time in thread:     0.000000 seconds
+thread 0xdf TH_WAIT|TH_UNINT 0x8037d3e0
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8026bc49
+	user   time in thread:     0.000247 seconds
+	system time in thread:     0.000000 seconds
+thread 0xe0 TH_WAIT|TH_UNINT 0x80382eb0
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x8015c581 0x8001f05c
+	user   time in thread:     0.160805 seconds
+	system time in thread:     0.000000 seconds
+thread 0xe1 TH_WAIT|TH_UNINT 0x8037c120
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8026bc49
+	user   time in thread:     0.000010 seconds
+	system time in thread:     0.000000 seconds
+thread 0xe2 TH_WAIT|TH_UNINT 0x8037cb58
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x80270855
+	user   time in thread:     0.576435 seconds
+	system time in thread:     0.000000 seconds
+thread 0xe3 TH_WAIT|TH_UNINT 0x8037cb44
+	thread priority:               95
+	Base thread priority:          95
+	thread sched flags:     none
+	kernel cont: 0x8026f895
+	user   time in thread:     5.417702 seconds
+	system time in thread:     0.000000 seconds
+thread 0xe6 TH_WAIT|TH_UNINT 0x9caa0d14
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   189.575318 seconds
+	system time in thread:     0.000000 seconds
+thread 0xe8 TH_WAIT|TH_UNINT 0x9caa0c4c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000013 seconds
+	system time in thread:     0.000000 seconds
+thread 0xea TH_WAIT|TH_UNINT 0x806233e0
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x80057659 0x8061e9b3 0x8001f05c
+	user   time in thread:     0.000015 seconds
+	system time in thread:     0.000000 seconds
+thread 0xeb TH_WAIT|TH_UNINT 0x80629270
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x80005ab1 0x8026b9f9 0x80057659 0x806260c1 0x8001f05c
+	user   time in thread:    21.402311 seconds
+	system time in thread:     0.000000 seconds
+thread 0xec TH_WAIT|TH_UNINT 0x80cdf230
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x80005ab1 0x8026b9f9 0x80057659 0x80cdd351 0x8001f05c
+	user   time in thread:    11.874651 seconds
+	system time in thread:     0.000000 seconds
+thread 0xf1 TH_WAIT|TH_UNINT 0x9caa074c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:    66.791135 seconds
+	system time in thread:     0.000000 seconds
+thread 0xf2 TH_WAIT|TH_UNINT 0x9caa06fc
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   511.190186 seconds
+	system time in thread:     0.000000 seconds
+thread 0xf3 TH_WAIT|TH_UNINT 0x9caa05e4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   124.142652 seconds
+	system time in thread:     0.000000 seconds
+thread 0xf6 TH_WAIT|TH_UNINT 0x9cd12abc
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   677.753933 seconds
+	system time in thread:     0.000000 seconds
+thread 0xf7 TH_WAIT|TH_UNINT 0x9cd128b4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.001014 seconds
+	system time in thread:     0.000000 seconds
+thread 0x101 TH_WAIT|TH_UNINT 0x9c6a0f44
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.016673 seconds
+	system time in thread:     0.000000 seconds
+thread 0x10c TH_WAIT 0x9be30294
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x806d6389 0x806d4425 0x8008bd21 0x806d4265 0x80c60e75 0x8001f05c
+	user   time in thread:     0.000020 seconds
+	system time in thread:     0.000000 seconds
+thread 0x111 TH_WAIT|TH_UNINT 0x9cdf7954
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.001348 seconds
+	system time in thread:     0.000000 seconds
+thread 0x11a TH_WAIT|TH_UNINT 0x809afcc4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   406.079015 seconds
+	system time in thread:     0.000000 seconds
+thread 0x12c TH_WAIT|TH_UNINT 0x9c89bc80
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags: 
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8008b133 0x8008bdfb 0x809c97a5 0x8008bd21 0x809ca341 0x809c9a1d 0x8001f05c
+	user   time in thread:   526.901711 seconds
+	system time in thread:     0.000000 seconds
+thread 0x13a TH_WAIT|TH_UNINT 0x9d048b5c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000012 seconds
+	system time in thread:     0.000000 seconds
+thread 0x14c TH_WAIT|TH_UNINT 0x8037e0a8
+	thread priority:               92
+	Base thread priority:          92
+	thread sched flags:     none
+	kernel cont: 0x801039b1
+	user   time in thread:     2.772308 seconds
+	system time in thread:     0.000000 seconds
+thread 0x14d TH_WAIT|TH_UNINT 0x800ff679
+	thread priority:               31
+	Base thread priority:          31
+	thread sched flags:     none
+	kernel cont: 0x800ff679
+	user   time in thread:    16.456173 seconds
+	system time in thread:     0.000000 seconds
+thread 0x14e TH_WAIT|TH_UNINT 0x800ffa8d
+	thread priority:               31
+	Base thread priority:          31
+	thread sched flags:     none
+	kernel cont: 0x800ffa8d
+	user   time in thread:     0.055283 seconds
+	system time in thread:     0.000000 seconds
+thread 0x14f TH_WAIT|TH_UNINT 0x8037d2d0
+	thread priority:               92
+	Base thread priority:          92
+	thread sched flags:     none
+	kernel cont: 0x800fc319
+	user   time in thread:     0.058489 seconds
+	system time in thread:     0.000000 seconds
+thread 0x150 TH_WAIT|TH_UNINT 0x8037b6c4
+	thread priority:               92
+	Base thread priority:          92
+	thread sched flags:     none
+	kernel cont: 0x800e8641
+	user   time in thread:     0.873931 seconds
+	system time in thread:     0.000000 seconds
+thread 0x151 TH_WAIT|TH_UNINT 0x8037e08c
+	thread priority:               92
+	Base thread priority:          92
+	thread sched flags:     none
+	kernel cont: 0x80102f71
+	user   time in thread:     8.909200 seconds
+	system time in thread:     0.000000 seconds
+thread 0x165 TH_WAIT|TH_UNINT 0x9d08333c
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:   388.316294 seconds
+	system time in thread:     0.000000 seconds
+thread 0x16c TH_WAIT|TH_UNINT 0x9b3aec24
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.067251 seconds
+	system time in thread:     0.000000 seconds
+thread 0x16e TH_WAIT 0
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800b0f49 0x8029aac1 0x8001f05c
+	user   time in thread:     0.000339 seconds
+	system time in thread:     0.000000 seconds
+thread 0x206 TH_WAIT|TH_UNINT 0x9ca4c678
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x8015cf8d 0x8001f05c
+	user   time in thread:     0.000014 seconds
+	system time in thread:     0.000000 seconds
+thread 0x207 TH_WAIT|TH_UNINT 0x9ca4c1a4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x8015ab51 0x8001f05c
+	user   time in thread:     0.000013 seconds
+	system time in thread:     0.000000 seconds
+thread 0x23e TH_WAIT|TH_UNINT 0xa6e6de68
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x8015cf8d 0x8001f05c
+	user   time in thread:   108.910981 seconds
+	system time in thread:     0.000000 seconds
+thread 0x23f TH_WAIT|TH_UNINT 0xa6e6d994
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x80057659 0x8015abc7 0x8001f05c
+	user   time in thread:   108.993197 seconds
+	system time in thread:     0.000000 seconds
+thread 0x271 TH_WAIT|TH_UNINT 0x9d06f440
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags: 
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8008b133 0x8008bdfb 0x80b11a79 0x80b12a93 0x8008bd21 0x80b1296b 0x8001f05c
+	user   time in thread:    41.128930 seconds
+	system time in thread:     0.000000 seconds
+thread 0x2c8 TH_WAIT|TH_UNINT 0xa6e6d678
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x8015cf8d 0x8001f05c
+	user   time in thread:    47.292787 seconds
+	system time in thread:     0.000000 seconds
+thread 0x2c9 TH_WAIT|TH_UNINT 0xa9e2ee68
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x8015cf8d 0x8001f05c
+	user   time in thread:     0.000020 seconds
+	system time in thread:     0.000000 seconds
+thread 0x2ca TH_WAIT|TH_UNINT 0xa9e2e678
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x8015cf8d 0x8001f05c
+	user   time in thread:     0.000019 seconds
+	system time in thread:     0.000000 seconds
+thread 0x2cb TH_WAIT|TH_UNINT 0xa9e4fe68
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x8015cf8d 0x8001f05c
+	user   time in thread:     0.000019 seconds
+	system time in thread:     0.000000 seconds
+thread 0x32a TH_WAIT|TH_UNINT 0xabd76ef4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel cont: 0x8008afbd
+	user   time in thread:     0.000020 seconds
+	system time in thread:     0.000000 seconds
+thread 0x32f TH_WAIT|TH_UNINT 0xa9e4f678
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x8015cf8d 0x8001f05c
+	user   time in thread:     0.000016 seconds
+	system time in thread:     0.000000 seconds
+thread 0x330 TH_WAIT|TH_UNINT 0xa9e4f1a4
+	thread priority:               81
+	Base thread priority:          81
+	thread sched flags:     none
+	kernel: 0x800c158f 0x800c0971 0x800059a9 0x8026ba07 0x80057659 0x8015abc7 0x8001f05c
+	user   time in thread:     0.000039 seconds
+	system time in thread:     0.000000 seconds
+thread 0x93342 TH_WAIT|TH_UNINT 0
+	thread priority:               93
+	Base thread priority:          93
+	thread sched flags:     none
+	kernel cont: 0x800d0791
+	user   time in thread:     1.198117 seconds
+	system time in thread:     0.000000 seconds
+thread 0x93346 TH_WAIT|TH_UNINT 0
+	thread priority:               93
+	Base thread priority:          93
+	thread sched flags:     none
+	kernel cont: 0x800d0791
+	user   time in thread:     1.181161 seconds
+	system time in thread:     0.000000 seconds
+thread 0x938b4 TH_WAIT|TH_UNINT 0
+	thread priority:               93
+	Base thread priority:          93
+	thread sched flags:     none
+	kernel cont: 0x800d0791
+	user   time in thread:     0.598325 seconds
+	system time in thread:     0.000000 seconds
+thread 0x938b8 TH_WAIT|TH_UNINT 0
+	thread priority:               93
+	Base thread priority:          93
+	thread sched flags:     none
+	kernel cont: 0x800d0791
+	user   time in thread:     0.569996 seconds
+	system time in thread:     0.000000 seconds
+
+Process 1 info:
+	resident memory bytes:  966656
+	page faults:              219676
+	page-ins:                   2529
+	copy-on-write faults:     109619
+	times throttled:             962
+	times did throttle:          147
+	user   time in task:         204.398416 seconds
+	system time in task:           0.000000 seconds
+
+Process 1 binary images:
+ 0x2bec4000 <651a31c39f71311f965f8ac44de02c88>
+ 0x16000 <1a6c526c3cca3e32b3c0f448b1d16c89>
+
+Process 1 launchd threads:
+thread 0x14b TH_WAIT 0
+	thread priority:               30
+	Base thread priority:          31
+	thread sched flags:     none
+	kernel cont: 0x800b0e89
+	user: 0x3964aa58 0x3964a859 0x396e0211 0x396e0347 0x1b1d9 0x197fb 0x395a7ab7
+	user   time in thread:   136.265192 seconds
+	system time in thread:     0.000000 seconds
+thread 0x174 TH_WAIT 0
+	thread priority:               31
+	Base thread priority:          31
+	thread sched flags:     none
+	kernel cont: 0x8026bc49
+	user: 0x3965d434 0x1a2d3 0x396c6919 0x396c688b 0x396c4aa4
+	user   time in thread:     8.914137 seconds
+	system time in thread:     0.000000 seconds
+thread 0x175 TH_WAIT 0x8037b5a8
+	thread priority:               31
+	Base thread priority:          31
+	thread sched flags:     none
+	kernel cont: 0x800c7ead
+	user: 0x3965d544 0x395ce98d 0x3961c481 0x198fb 0x396c6919 0x396c688b 0x396c4aa4
+	user   time in thread:    59.219087 seconds
+	system time in thread:     0.000000 seconds
+
+Process 14 info:
+	resident memory bytes:  3502080
+	page faults:              915492
+	page-ins:                   4369
+	copy-on-write faults:        178
+	times throttled:              20
+	times did throttle:          658
+	user   time in task:        1214.397036 seconds
+	system time in task:           0.000000 seconds
+
+Process 14 binary images:
+ 0x2be01000 <651a31c39f71311f965f8ac44de02c88>
+ 0xee000 <26651787173137d4ae5fabf0160cf298>
+ 0x114000 <a9fedbe0cf7b31b0b62887692a5a52d5>
+ 0x306000 <b99b603e2e0d3488a1658356620eb6ae>
+ 0x13a000 <9f4e55ac18403192907e9aa86cc7841a>
+ 0x1a60000 <3d531b396def378783d219ce7fa93fec>
+ 0x1c3e000 <805fa2caf47c39b6988c51abb44dcb4b>
+ 0x1c46000 <1fcc3d71ffab33efb4480a09a54f63c7>
+ 0x1cd4000 <0559f46c2074352abeafbe1f22600fbb>
+ 0x1d5c000 <e9ebaa46d91b30e7b4a90504327e26ab>
+ 0x1d61000 <f16be0fa5a8c3b3986202e2b2af44ab1>
+ 0x1d64000 <25a280a7486532eeaeb0f49e3db33d2e>
+ 0x1e71000 <fd0943c2f3d6363ab567583aec98ea90>
+ 0x1e84000 <1e3f2970d2cb3e2483a746c3b42ca21a>
+ 0x1e89000 <01a70203e923354abe8142b28574d411>
+ 0x1e90000 <f925fd26d7e63dd7b2df9c130d829e04>
+ 0x1e95000 <735545a8ced53baeb8ba5c6d9ea10972>
+ 0x1e9a000 <a834213bd2353aedaf5456f61de43c6a>
+ 0x1ea1000 <2fbef406c8aa314d9b511868fd33245f>
+ 0x1ea5000 <7d205a32401631dda74ec2443dac989c>
+ 0x1eaa000 <6f43978705223be9979840fd5f1d8701>
+ 0x1eaf000 <fcb8a74604ff33eba947724ba8d64214
