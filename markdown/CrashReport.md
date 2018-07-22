@@ -1,6 +1,8 @@
 # The Crash Report
 
 In this chapter we get into the details of what comprises a crash report.
+Our main focus is the iOS crash report.  We also cover the macOS crash report,
+which caries a slightly different structure but serves the same purpose.
 
 When a crash occurs the `ReportCrash` program extracts information from the crashing process from the Operating System.  The result is a text file with a `.crash` extension.
 
@@ -74,7 +76,7 @@ The hardware model might indicate an older device, which we have not tested on.
 
 Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested when they are backgrounded.  For example, you might receive a phone call, or have task switched between apps.
 
-The Code Type (target architecture) is now mostly 64-bit ARM.  But you might see ARM being reported - the original 32-bit ARM.  There could be a 64-bit specific issue.
+The Code Type (target architecture) is now mostly 64-bit ARM.  But you might see ARM being reported - the original 32-bit ARM.
 
 ### Crash Report Date and Version Section
 
@@ -143,11 +145,11 @@ In this section the most important item is the exception type.
 
 Exception Type|Meaning
 --|--
-EXC_CRASH (SIGABRT)|Our program raised a programming language exception such as a failed assertion and this caused the OS to Abort our app
-EXC_CRASH (SIGQUIT)|A process received a quit signal from another process that is managing it.  Typically this means a Keyboard extension took too long or used up too much memory.  App extensions are only only limited amounts of memory.
-EXC_CRASH (SIGKILL)|The system killed your app (or app extension), usually because some resource limit had been reached.  The Termination Reason needs to be looked at to work out what policy violation was the reason for termination.
-EXC_BAD_ACCESS or SIGSEGV or SIGBUS|Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to due memory pressure.
-EXC_BREAKPOINT (SIGTRAP)|This is due to an `NSException` being raised (possibly by a library on your behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
+`EXC_CRASH (SIGABRT)` |Our program raised a programming language exception such as a failed assertion and this caused the OS to Abort our app
+`EXC_CRASH (SIGQUIT)` |A process received a quit signal from another process that is managing it.  Typically this means a Keyboard extension took too long or used up too much memory.  App extensions are only only limited amounts of memory.
+`EXC_CRASH (SIGKILL)` |The system killed your app (or app extension), usually because some resource limit had been reached.  The Termination Reason needs to be looked at to work out what policy violation was the reason for termination.
+`EXC_BAD_ACCESS` or `SIGSEGV` or `SIGBUS` |Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to due memory pressure.
+`EXC_BREAKPOINT (SIGTRAP)` |This is due to an `NSException` being raised (possibly by a library on your behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
 EXC_BAD_INSTRUCTION (SIGILL)|This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code.  On Simulator it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).
 
 When Termination Reason is present, we can look up the Code as follows:
@@ -160,15 +162,15 @@ Termination Code | Spoken As | Meaning
 `0x8badf00d` | Ate (eight) bad food | Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.).  The watchdog timer noticed the policy violation and caused the termination.  The most common culprit is doing synchronous networking on the main thread.
 
 #### Aborts
-When we have a SIGABRT, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thead.
+When we have a `SIGABRT` , we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.
 
 #### Memory Issues
-When we have a memory issue, EXC_BAD_ACCESS, SIGSEGV or SIGBUS we should look at what was the address at fault.  Here the diagnostics settings within Xcode for the target in the schema are relevant.  The address sanitiser should be switched on to see if it can spot the error.  If that cannot detect the issue, try each of the memory management settings, one at a time.
+When we have a memory issue, `EXC_BAD_ACCESS` , `SIGSEGV` or `SIGBUS` we should look at what was the address at fault.  Here the diagnostics settings within Xcode for the target in the schema are relevant.  The address sanitiser should be switched on to see if it can spot the error.  If that cannot detect the issue, try each of the memory management settings, one at a time.
 
 If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system.  For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History.  Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.
 
 #### Exceptions
-When we have a EXC_BREAKPOINT it can seem confusing.  The program may have been running standalone without a debugger so where did the breakpoint come from?  Typically we are running NSException code.  This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging.  So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception.  In the case of normal app running, there is no debugger so we would just crash the app.
+When we have a `EXC_BREAKPOINT` it can seem confusing.  The program may have been running standalone without a debugger so where did the breakpoint come from?  Typically we are running NSException code.  This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging.  So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception.  In the case of normal app running, there is no debugger so we would just crash the app.
 
 #### Illegal Instructions
-When we have a EXC_BAD_INSTRUCTION, the exception codes (second number) will be the problematic assembly code.  This should be a rare condition.  It is worthwhile adjusting the optimisation level of the code at fault in the Build Settings because higher level optimisations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug.  Alternatively the problem might be a lower level library which has hand assembly optimisations in it - such as a multimedia library.  Handwritten assembly can be the cause of bad instructions.
+When we have a `EXC_BAD_INSTRUCTION` , the exception codes (second number) will be the problematic assembly code.  This should be a rare condition.  It is worthwhile adjusting the optimisation level of the code at fault in the Build Settings because higher level optimisations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug.  Alternatively the problem might be a lower level library which has hand assembly optimisations in it - such as a multimedia library.  Handwritten assembly can be the cause of bad instructions.
