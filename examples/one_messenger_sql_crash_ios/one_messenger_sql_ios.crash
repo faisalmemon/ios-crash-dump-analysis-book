@@ -1,0 +1,232 @@
+Incident Identifier: A176CFB8-6BB7-4515-A4A2-82D2B962E097
+CrashReporter Key:   f02957b828fe4090389c1282ca8e38393b4e133d
+Hardware Model:      iPhone9,4
+Process:             OneMessenger [10627]
+Path:                /private/var/containers/Bundle/Application/03E067E9-E2C1-43F4-AC53-4E4F58131FF3/OneMessenger.app/OneMessenger
+Identifier:          com.onem.adhoc
+Version:             158 (1.0.4)
+Code Type:           ARM-64 (Native)
+Role:                Non UI
+Parent Process:      launchd [1]
+Coalition:           com.onem.adhoc [3747]
+
+
+Date/Time:           2017-05-10 17:37:48.6201 -0700
+Launch Time:         2017-05-10 17:37:46.7161 -0700
+OS Version:          iPhone OS 10.3.1 (14E304)
+Report Version:      104
+
+Exception Type:  EXC_CRASH (SIGKILL)
+Exception Codes: 0x0000000000000000, 0x0000000000000000
+Exception Note:  EXC_CORPSE_NOTIFY
+Termination Reason: Namespace SPRINGBOARD, Code 0xdead10cc
+Triggered by Thread:  0
+
+Thread 0 name:
+Thread 0 Crashed:
+0   libsystem_kernel.dylib          0x000000018a337224 mach_msg_trap + 8
+1   libsystem_kernel.dylib          0x000000018a33709c mach_msg + 72 (mach_msg.c:103)
+2   CoreFoundation                  0x000000018b308e88 __CFRunLoopServiceMachPort + 192 (CFRunLoop.c:2527)
+3   CoreFoundation                  0x000000018b306adc __CFRunLoopRun + 1060 (CFRunLoop.c:2870)
+4   CoreFoundation                  0x000000018b236d94 CFRunLoopRunSpecific + 424 (CFRunLoop.c:3113)
+5   GraphicsServices                0x000000018cca0074 GSEventRunModal + 100 (GSEvent.c:2245)
+6   UIKit                           0x00000001914ef130 UIApplicationMain + 208 (UIApplication.m:4089)
+7   OneMessenger                    0x00000001004ff1b0 main + 88 (main.m:16)
+8   libdyld.dylib                   0x000000018a24559c start + 4
+
+Thread 1:
+0   libsystem_pthread.dylib         0x000000018a41ad78 start_wqthread + 0 (pthread.c:2333)
+
+Thread 2:
+0   libsystem_kernel.dylib          0x000000018a355a88 __workq_kernreturn + 8
+1   libsystem_pthread.dylib         0x000000018a41b274 _pthread_wqthread + 1260 (pthread.c:2205)
+2   libsystem_pthread.dylib         0x000000018a41ad7c start_wqthread + 4
+
+Thread 3:
+0   libsystem_pthread.dylib         0x000000018a41ad78 start_wqthread + 0 (pthread.c:2333)
+
+Thread 4 name:
+Thread 4:
+0   libsystem_kernel.dylib          0x000000018a337224 mach_msg_trap + 8
+1   libsystem_kernel.dylib          0x000000018a33709c mach_msg + 72 (mach_msg.c:103)
+2   CoreFoundation                  0x000000018b308e88 __CFRunLoopServiceMachPort + 192 (CFRunLoop.c:2527)
+3   CoreFoundation                  0x000000018b306adc __CFRunLoopRun + 1060 (CFRunLoop.c:2870)
+4   CoreFoundation                  0x000000018b236d94 CFRunLoopRunSpecific + 424 (CFRunLoop.c:3113)
+5   Foundation                      0x000000018bd50d64 -[NSRunLoop(NSRunLoop) runMode:beforeDate:] + 304 (NSRunLoop.m:367)
+6   Foundation                      0x000000018bd71b34 -[NSRunLoop(NSRunLoop) runUntilDate:] + 96 (NSRunLoop.m:411)
+7   UIKit                           0x0000000191e795f8 -[UIEventFetcher threadMain] + 136 (UIEventFetcher.m:313)
+8   Foundation                      0x000000018be4e2c8 __NSThread__start__ + 996 (NSThread.m:1163)
+9   libsystem_pthread.dylib         0x000000018a41d75c _pthread_body + 240 (pthread.c:697)
+10  libsystem_pthread.dylib         0x000000018a41d66c _pthread_start + 284 (pthread.c:744)
+11  libsystem_pthread.dylib         0x000000018a41ad84 thread_start + 4
+
+Thread 5 name:
+Thread 5:
+0   libsystem_kernel.dylib          0x000000018a3558e8 __ulock_wait + 8
+1   libdispatch.dylib               0x000000018a22577c _dispatch_ulock_wait + 48 (lock.c:327)
+2   libdispatch.dylib               0x000000018a2258a4 _dispatch_thread_event_wait_slow + 36 (lock.c:515)
+3   libdispatch.dylib               0x000000018a2234f0 _dispatch_barrier_sync_f_slow + 236 (lock.h:392)
+4   libcorecrypto.dylib             0x000000018a1efd50 ccrng_cryptographic_generate + 200 (ccrng_cryptographic.c:196)
+5   libcorecrypto.dylib             0x000000018a1d8434 ccn_random_bits + 52 (ccn_random_bits.c:17)
+6   libcorecrypto.dylib             0x000000018a1b9fb0 ccec_generate_scalar_fips_retry + 108 (ccec_generate_scalar_fips_retry.c:39)
+7   libcorecrypto.dylib             0x000000018a1f1514 ccec_generate_key_internal_fips + 148 (ccec_generate_key_internal_fips.c:31)
+8   libcorecrypto.dylib             0x000000018a1c912c ccec_generate_key_fips + 24 (ccec_generate_key_fips.c:19)
+9   libsystem_coretls.dylib         0x000000018a2f7660 sslEcdhCreateKey + 76 (sslCrypto.c:199)
+10  libsystem_coretls.dylib         0x000000018a2fb16c SSLEncodeKeyExchange + 792 (sslKeyExchange.c:1367)
+11  libsystem_coretls.dylib         0x000000018a2fcd4c SSLAdvanceHandshake + 2132 (sslHandshake.c:1214)
+12  libsystem_coretls.dylib         0x000000018a3021c0 tls_handshake_continue + 40 (tls_handshake.c:334)
+13  libnetwork.dylib                0x0000000197fa83a8 __nw_coretls_callback_handshake_message_block_invoke_3 + 76 (protocol_coretls.c:780)
+14  libdispatch.dylib               0x000000018a2129e0 _dispatch_call_block_and_release + 24 (init.c:963)
+15  libdispatch.dylib               0x000000018a2129a0 _dispatch_client_callout + 16 (object.m:473)
+16  libdispatch.dylib               0x000000018a220ad4 _dispatch_queue_serial_drain + 928 (inline_internal.h:2431)
+17  libdispatch.dylib               0x000000018a2162cc _dispatch_queue_invoke + 884 (queue.c:4853)
+18  libdispatch.dylib               0x000000018a222a50 _dispatch_root_queue_drain + 540 (inline_internal.h:2468)
+19  libdispatch.dylib               0x000000018a2227d0 _dispatch_worker_thread3 + 124 (queue.c:5550)
+20  libsystem_pthread.dylib         0x000000018a41b1d0 _pthread_wqthread + 1096 (pthread.c:2196)
+21  libsystem_pthread.dylib         0x000000018a41ad7c start_wqthread + 4
+
+Thread 6:
+0   libsystem_pthread.dylib         0x000000018a41ad78 start_wqthread + 0 (pthread.c:2333)
+
+Thread 7 name:
+Thread 7:
+0   libsystem_kernel.dylib          0x000000018a337224 mach_msg_trap + 8
+1   libsystem_kernel.dylib          0x000000018a33709c mach_msg + 72 (mach_msg.c:103)
+2   CoreFoundation                  0x000000018b308e88 __CFRunLoopServiceMachPort + 192 (CFRunLoop.c:2527)
+3   CoreFoundation                  0x000000018b306adc __CFRunLoopRun + 1060 (CFRunLoop.c:2870)
+4   CoreFoundation                  0x000000018b236d94 CFRunLoopRunSpecific + 424 (CFRunLoop.c:3113)
+5   Foundation                      0x000000018bd50d64 -[NSRunLoop(NSRunLoop) runMode:beforeDate:] + 304 (NSRunLoop.m:367)
+6   Foundation                      0x000000018bda56b4 -[NSRunLoop(NSRunLoop) run] + 88 (NSRunLoop.m:389)
+7   OneMessenger                    0x000000010056e0a8 +[GAI threadMain:] + 64
+8   Foundation                      0x000000018be4e2c8 __NSThread__start__ + 996 (NSThread.m:1163)
+9   libsystem_pthread.dylib         0x000000018a41d75c _pthread_body + 240 (pthread.c:697)
+10  libsystem_pthread.dylib         0x000000018a41d66c _pthread_start + 284 (pthread.c:744)
+11  libsystem_pthread.dylib         0x000000018a41ad84 thread_start + 4
+
+Thread 8 name:
+Thread 8:
+0   libsystem_kernel.dylib          0x000000018a337224 mach_msg_trap + 8
+1   libsystem_kernel.dylib          0x000000018a33709c mach_msg + 72 (mach_msg.c:103)
+2   CoreFoundation                  0x000000018b308e88 __CFRunLoopServiceMachPort + 192 (CFRunLoop.c:2527)
+3   CoreFoundation                  0x000000018b306adc __CFRunLoopRun + 1060 (CFRunLoop.c:2870)
+4   CoreFoundation                  0x000000018b236d94 CFRunLoopRunSpecific + 424 (CFRunLoop.c:3113)
+5   CFNetwork                       0x000000018ba42ca4 +[NSURLConnection(Loader) _resourceLoadLoop:] + 404 (NSURLConnection.mm:364)
+6   Foundation                      0x000000018be4e2c8 __NSThread__start__ + 996 (NSThread.m:1163)
+7   libsystem_pthread.dylib         0x000000018a41d75c _pthread_body + 240 (pthread.c:697)
+8   libsystem_pthread.dylib         0x000000018a41d66c _pthread_start + 284 (pthread.c:744)
+9   libsystem_pthread.dylib         0x000000018a41ad84 thread_start + 4
+
+Thread 9:
+0   libsystem_pthread.dylib         0x000000018a41ad78 start_wqthread + 0 (pthread.c:2333)
+
+Thread 10:
+0   libsystem_kernel.dylib          0x000000018a355a88 __workq_kernreturn + 8
+1   libsystem_pthread.dylib         0x000000018a41b0a0 _pthread_wqthread + 792 (pthread.c:2129)
+2   libsystem_pthread.dylib         0x000000018a41ad7c start_wqthread + 4
+
+Thread 11 name:
+Thread 11:
+0   libsystem_kernel.dylib          0x000000018a3558e8 __ulock_wait + 8
+1   libdispatch.dylib               0x000000018a22577c _dispatch_ulock_wait + 48 (lock.c:327)
+2   libdispatch.dylib               0x000000018a2258a4 _dispatch_thread_event_wait_slow + 36 (lock.c:515)
+3   libdispatch.dylib               0x000000018a2234f0 _dispatch_barrier_sync_f_slow + 236 (lock.h:392)
+4   OneMessenger                    0x0000000100429538 +[DataBase getDeliveredInfoForMsgId:] + 136 (DataBase.m:8598)
+5   OneMessenger                    0x0000000100495708 -[SingleWebSocket messageViewedWithDictionary:] + 828 (SingleWebSocket.m:9584)
+6   OneMessenger                    0x000000010044ab18 -[SingleWebSocket websocketDidReceiveMessageWithSocket:text:] + 3672 (SingleWebSocket.m:854)
+7   OneMessenger                    0x00000001005332b0 specialized WebSocket.(processResponse(WebSocket.WSResponse) -> Bool).(closure #1) + 320 (WebSocket.swift:833)
+8   OneMessenger                    0x0000000100534a54 partial apply for WebSocket.(processResponse(WebSocket.WSResponse) -> Bool).(closure #1) + 64
+9   libdispatch.dylib               0x000000018a2129e0 _dispatch_call_block_and_release + 24 (init.c:963)
+10  libdispatch.dylib               0x000000018a2129a0 _dispatch_client_callout + 16 (object.m:473)
+11  libdispatch.dylib               0x000000018a220ad4 _dispatch_queue_serial_drain + 928 (inline_internal.h:2431)
+12  libdispatch.dylib               0x000000018a2162cc _dispatch_queue_invoke + 884 (queue.c:4853)
+13  libdispatch.dylib               0x000000018a220fa8 _dispatch_queue_override_invoke + 344 (queue.c:4890)
+14  libdispatch.dylib               0x000000018a222a50 _dispatch_root_queue_drain + 540 (inline_internal.h:2468)
+15  libdispatch.dylib               0x000000018a2227d0 _dispatch_worker_thread3 + 124 (queue.c:5550)
+16  libsystem_pthread.dylib         0x000000018a41b1d0 _pthread_wqthread + 1096 (pthread.c:2196)
+17  libsystem_pthread.dylib         0x000000018a41ad7c start_wqthread + 4
+
+Thread 12 name:
+Thread 12:
+0   libsystem_kernel.dylib          0x000000018a337224 mach_msg_trap + 8
+1   libsystem_kernel.dylib          0x000000018a33709c mach_msg + 72 (mach_msg.c:103)
+2   CoreFoundation                  0x000000018b308e88 __CFRunLoopServiceMachPort + 192 (CFRunLoop.c:2527)
+3   CoreFoundation                  0x000000018b306adc __CFRunLoopRun + 1060 (CFRunLoop.c:2870)
+4   CoreFoundation                  0x000000018b236d94 CFRunLoopRunSpecific + 424 (CFRunLoop.c:3113)
+5   AVFAudio                        0x00000001a53d3540 GenericRunLoopThread::Entry(void*) + 164 (GenericRunLoopThread.h:106)
+6   AVFAudio                        0x00000001a53f9814 CAPThread::Entry(CAPThread*) + 84
+7   libsystem_pthread.dylib         0x000000018a41d75c _pthread_body + 240 (pthread.c:697)
+8   libsystem_pthread.dylib         0x000000018a41d66c _pthread_start + 284 (pthread.c:744)
+9   libsystem_pthread.dylib         0x000000018a41ad84 thread_start + 4
+
+Thread 13 name:
+Thread 13:
+0   libsystem_kernel.dylib          0x000000018a337224 mach_msg_trap + 8
+1   libsystem_kernel.dylib          0x000000018a33709c mach_msg + 72 (mach_msg.c:103)
+2   CoreFoundation                  0x000000018b308e88 __CFRunLoopServiceMachPort + 192 (CFRunLoop.c:2527)
+3   CoreFoundation                  0x000000018b306adc __CFRunLoopRun + 1060 (CFRunLoop.c:2870)
+4   CoreFoundation                  0x000000018b236d94 CFRunLoopRunSpecific + 424 (CFRunLoop.c:3113)
+5   CoreFoundation                  0x000000018b31678c _legacyStreamRunLoop_workThread + 268 (CFStream.c:1775)
+6   libsystem_pthread.dylib         0x000000018a41d75c _pthread_body + 240 (pthread.c:697)
+7   libsystem_pthread.dylib         0x000000018a41d66c _pthread_start + 284 (pthread.c:744)
+8   libsystem_pthread.dylib         0x000000018a41ad84 thread_start + 4
+
+Thread 14 name:
+Thread 14:
+0   libsystem_kernel.dylib          0x000000018a35523c __select + 8
+1   CoreFoundation                  0x000000018b30fca8 __CFSocketManager + 632 (CFSocket.c:2241)
+2   libsystem_pthread.dylib         0x000000018a41d75c _pthread_body + 240 (pthread.c:697)
+3   libsystem_pthread.dylib         0x000000018a41d66c _pthread_start + 284 (pthread.c:744)
+4   libsystem_pthread.dylib         0x000000018a41ad84 thread_start + 4
+
+Thread 15 name:
+Thread 15:
+0   libsystem_c.dylib               0x000000018a2734d8 confstr + 488 (confstr.c:225)
+1   Foundation                      0x000000018bd68240 NSTemporaryDirectory + 56 (NSPathUtilities.m:1826)
+2   Foundation                      0x000000018bd68240 NSTemporaryDirectory + 56 (NSPathUtilities.m:1826)
+3   Foundation                      0x000000018bd67a94 -[NSFileManager _URLForReplacingItemAtURL:error:] + 112 (NSFileManager.m:2747)
+4   Foundation                      0x000000018be2ed64 _NSCreateTemporaryFile_Protected + 504 (NSPlatform.m:1021)
+5   Foundation                      0x000000018bd66dc4 _NSWriteDataToFileWithExtendedAttributes + 356 (NSPlatform.m:1194)
+6   Foundation                      0x000000018be4b0c4 writeStringToURLOrPath + 224 (NSString.m:1556)
+7   OneMessenger                    0x00000001009fa024 +[FIRApp writeString:toURL:] + 96
+8   OneMessenger                    0x00000001009f79ac __32+[FIRApp addAppToAppDictionary:]_block_invoke + 192
+9   OneMessenger                    0x00000001009fcca4 -[FIRClearcutLogger sendNextPendingRequestWithCompletionHandler:] + 672
+10  libdispatch.dylib               0x000000018a2129e0 _dispatch_call_block_and_release + 24 (init.c:963)
+11  libdispatch.dylib               0x000000018a2129a0 _dispatch_client_callout + 16 (object.m:473)
+12  libdispatch.dylib               0x000000018a220ad4 _dispatch_queue_serial_drain + 928 (inline_internal.h:2431)
+13  libdispatch.dylib               0x000000018a2162cc _dispatch_queue_invoke + 884 (queue.c:4853)
+14  libdispatch.dylib               0x000000018a220fa8 _dispatch_queue_override_invoke + 344 (queue.c:4890)
+15  libdispatch.dylib               0x000000018a222a50 _dispatch_root_queue_drain + 540 (inline_internal.h:2468)
+16  libdispatch.dylib               0x000000018a2227d0 _dispatch_worker_thread3 + 124 (queue.c:5550)
+17  libsystem_pthread.dylib         0x000000018a41b1d0 _pthread_wqthread + 1096 (pthread.c:2196)
+18  libsystem_pthread.dylib         0x000000018a41ad7c start_wqthread + 4
+
+Thread 16 name:
+Thread 16:
+0   libsystem_kernel.dylib          0x000000018a3394dc fsync + 8
+1   libsqlite3.dylib                0x000000018b8b704c unixSync + 220 (sqlite3.c:33772)
+2   libsqlite3.dylib                0x000000018b8b6a5c sqlite3PagerCommitPhaseOne + 1428 (sqlite3.c:18932)
+3   libsqlite3.dylib                0x000000018b8a35a0 sqlite3BtreeCommitPhaseOne + 180 (sqlite3.c:66409)
+4   libsqlite3.dylib                0x000000018b872d68 sqlite3VdbeHalt + 2508 (sqlite3.c:77161)
+5   libsqlite3.dylib                0x000000018b89cb7c sqlite3VdbeExec + 56292 (sqlite3.c:82886)
+6   libsqlite3.dylib                0x000000018b88e0e0 sqlite3_step + 528 (sqlite3.c:80263)
+7   OneMessenger                    0x00000001003fc2bc __25+[DataBase executeQuery:]_block_invoke + 72 (DataBase.m:1072)
+8   libdispatch.dylib               0x000000018a2129e0 _dispatch_call_block_and_release + 24 (init.c:963)
+9   libdispatch.dylib               0x000000018a2129a0 _dispatch_client_callout + 16 (object.m:473)
+10  libdispatch.dylib               0x000000018a220ad4 _dispatch_queue_serial_drain + 928 (inline_internal.h:2431)
+11  libdispatch.dylib               0x000000018a2162cc _dispatch_queue_invoke + 884 (queue.c:4853)
+12  libdispatch.dylib               0x000000018a220fa8 _dispatch_queue_override_invoke + 344 (queue.c:4890)
+13  libdispatch.dylib               0x000000018a222a50 _dispatch_root_queue_drain + 540 (inline_internal.h:2468)
+14  libdispatch.dylib               0x000000018a2227d0 _dispatch_worker_thread3 + 124 (queue.c:5550)
+15  libsystem_pthread.dylib         0x000000018a41b1d0 _pthread_wqthread + 1096 (pthread.c:2196)
+16  libsystem_pthread.dylib         0x000000018a41ad7c start_wqthread + 4
+
+Thread 0 crashed with ARM Thread State (64-bit):
+    x0: 0x0000000010004005   x1: 0x0000000007000806   x2: 0x0000000000000000   x3: 0x0000000000000c00
+    x4: 0x0000000000002403   x5: 0x00000000ffffffff   x6: 0x0000000000000000   x7: 0x0000000000000000
+    x8: 0x00000000fffffbbf   x9: 0x0000000007000000  x10: 0x0000000007000100  x11: 0x0000000000001cc8
+   x12: 0x0001440000014503  x13: 0x0000000000000000  x14: 0x0001450000014500  x15: 0x0000000000000000
+   x16: 0xffffffffffffffe1  x17: 0x000000018b237294  x18: 0x0000000000000000  x19: 0x0000000000000000
+   x20: 0x00000000ffffffff  x21: 0x0000000000002403  x22: 0x0000000000000c00  x23: 0x000000016fd02dd8
+   x24: 0x0000000007000806  x25: 0x0000000000000000  x26: 0x0000000007000806  x27: 0x0000000000000c00
+   x28: 0x0000000000000001   fp: 0x000000016fd02ce0   lr: 0x000000018a33709c
+    sp: 0x000000016fd02c90   pc: 0x000000018a337224 cpsr: 0x60000000 
