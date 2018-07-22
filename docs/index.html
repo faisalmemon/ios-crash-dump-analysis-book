@@ -107,7 +107,8 @@
 </nav>
 <h1 id="introduction">Introduction</h1>
 <p>This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs. The mindset of the Application developer is largely understanding high level concepts and abstractions. When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.</p>
-<p>We focus exclusively on the Apple ecosystem, and primarily the Swift programming language on iOS. We also cover macOS, tvOS, watchOS platforms, and C (CoreFoundation), Objective-C, and Objective-C++ programming languages. This is because the older languages are more prone to crash bugs. Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.</p>
+<p>We focus exclusively on the Apple ecosystem.</p>
+<p>We cover macOS, tvOS, watchOS platforms, ARM Assembly, and C (CoreFoundation), Objective-C, and Objective-C++ and Swift programming languages. This is because the older languages are more prone to crash bugs. Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.</p>
 <p>We assume you have at least an introductory knowledge of iOS programming and software engineering, and have access to a Mac with Xcode.</p>
 <p>The approach we take is to combine three different perspectives on the problem to give a rounded and robust view of the situation and how to resolve it.</p>
 <p>Our three perspectives are:</p>
@@ -654,7 +655,7 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>In a more complex case, imagine we were using an image conversion library which was crashing. Since there can be many pixel formats for images, an assert might lead us to notice it was the format that was asserting and we could just try a different pixel format.</p>
 <p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details. A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
 <h1 id="the-crash-report">The Crash Report</h1>
-<p>In this chapter we get into the details of what comprises a crash report.</p>
+<p>In this chapter we get into the details of what comprises a crash report. Our main focus is the iOS crash report. We also cover the macOS crash report, which caries a slightly different structure but serves the same purpose.</p>
 <p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
 <p>When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
 <p>Apple have a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
@@ -746,7 +747,7 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 <p>The hardware model could be interesting. It is iPad only devices, or iPhone only, or both? Maybe your code has less testing or unique code paths for a given platform.</p>
 <p>The hardware model might indicate an older device, which we have not tested on.</p>
 <p>Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested when they are backgrounded. For example, you might receive a phone call, or have task switched between apps.</p>
-<p>The Code Type (target architecture) is now mostly 64-bit ARM. But you might see ARM being reported - the original 32-bit ARM. There could be a 64-bit specific issue.</p>
+<p>The Code Type (target architecture) is now mostly 64-bit ARM. But you might see ARM being reported - the original 32-bit ARM.</p>
 <h3 id="crash-report-date-and-version-section">Crash Report Date and Version Section</h3>
 <p>A Crash Report will continue with date and version information:</p>
 <pre><code>Date/Time:           2018-07-16 10:15:31.4746 +0100
@@ -855,23 +856,23 @@ Triggered by Thread:  0</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td>EXC_CRASH (SIGABRT)</td>
+<td><code>EXC_CRASH (SIGABRT)</code></td>
 <td>Our program raised a programming language exception such as a failed assertion and this caused the OS to Abort our app</td>
 </tr>
 <tr class="even">
-<td>EXC_CRASH (SIGQUIT)</td>
+<td><code>EXC_CRASH (SIGQUIT)</code></td>
 <td>A process received a quit signal from another process that is managing it. Typically this means a Keyboard extension took too long or used up too much memory. App extensions are only only limited amounts of memory.</td>
 </tr>
 <tr class="odd">
-<td>EXC_CRASH (SIGKILL)</td>
+<td><code>EXC_CRASH (SIGKILL)</code></td>
 <td>The system killed your app (or app extension), usually because some resource limit had been reached. The Termination Reason needs to be looked at to work out what policy violation was the reason for termination.</td>
 </tr>
 <tr class="even">
-<td>EXC_BAD_ACCESS or SIGSEGV or SIGBUS</td>
+<td><code>EXC_BAD_ACCESS</code> or <code>SIGSEGV</code> or <code>SIGBUS</code></td>
 <td>Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it. The memory might have been deallocated due to due memory pressure.</td>
 </tr>
 <tr class="odd">
-<td>EXC_BREAKPOINT (SIGTRAP)</td>
+<td><code>EXC_BREAKPOINT (SIGTRAP)</code></td>
 <td>This is due to an <code>NSException</code> being raised (possibly by a library on your behalf) or <code>_NSLockError</code> or <code>objc_exception_throw</code> being called. For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional</td>
 </tr>
 <tr class="even">
@@ -882,44 +883,48 @@ Triggered by Thread:  0</code></pre>
 </table>
 <p>When Termination Reason is present, we can look up the Code as follows:</p>
 <table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th>Termination Code</th>
-<th>Meaning</th>
+<th>Spoken As</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>0xdead10cc</td>
-<td>We held a file lock or sqlite database lock before suspending. We should release locks before suspending.</td>
+<td><code>0xdead10cc</code></td>
+<td>Deadlock</td>
 </tr>
 <tr class="even">
-<td>0xbaaaaaad</td>
-<td>A stackshot was done of the entire system via the side and both volume buttons. See earlier section on System Diagnostics</td>
+<td><code>0xbaaaaaad</code></td>
+<td>Bad</td>
 </tr>
 <tr class="odd">
-<td>0xbad22222</td>
-<td>VOIP was terminated as it resumed too frequently</td>
+<td><code>0xbad22222</code></td>
+<td>Bad too (two) many times</td>
 </tr>
 <tr class="even">
-<td>0x8badf00d</td>
-<td>Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.). The watchdog timer noticed the policy violation and caused the termination. The most common culprit is doing synchronous networking on the main thread.</td>
+<td><code>0x8badf00d</code></td>
+<td>Ate (eight) bad food</td>
+</tr>
+<tr class="odd">
+<td><code>0xc00010ff</code></td>
+<td>Cool Off</td>
+</tr>
+<tr class="even">
+<td><code>0x2bad45ec</code></td>
+<td>Too bad for security</td>
 </tr>
 </tbody>
 </table>
 <h4 id="aborts">Aborts</h4>
-<p>When we have a SIGABRT, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thead.</p>
+<p>When we have a <code>SIGABRT</code> , we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.</p>
 <h4 id="memory-issues">Memory Issues</h4>
-<p>When we have a memory issue, EXC_BAD_ACCESS, SIGSEGV or SIGBUS we should look at what was the address at fault. Here the diagnostics settings within Xcode for the target in the schema are relevant. The address sanitiser should be switched on to see if it can spot the error. If that cannot detect the issue, try each of the memory management settings, one at a time.</p>
+<p>When we have a memory issue, <code>EXC_BAD_ACCESS</code> , <code>SIGSEGV</code> or <code>SIGBUS</code>. The faulty memory reference is the second number of the Exception Codes number pair. For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant. The address sanitiser should be switched on to see if it can spot the error. If that cannot detect the issue, try each of the memory management settings, one at a time.</p>
 <p>If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system. For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History. Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.</p>
 <h4 id="exceptions">Exceptions</h4>
-<p>When we have a EXC_BREAKPOINT it can seem confusing. The program may have been running standalone without a debugger so where did the breakpoint come from? Typically we are running NSException code. This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging. So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception. In the case of normal app running, there is no debugger so we would just crash the app.</p>
+<p>When we have a <code>EXC_BREAKPOINT</code> it can seem confusing. The program may have been running standalone without a debugger so where did the breakpoint come from? Typically we are running <code>NSException</code> code. This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging. So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception. In the case of normal app running, there is no debugger so we would just crash the app.</p>
 <h4 id="illegal-instructions">Illegal Instructions</h4>
-<p>When we have a EXC_BAD_INSTRUCTION, the exception codes (second number) will be the problematic assembly code. This should be a rare condition. It is worthwhile adjusting the optimisation level of the code at fault in the Build Settings because higher level optimisations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug. Alternatively the problem might be a lower level library which has hand assembly optimisations in it - such as a multimedia library. Handwritten assembly can be the cause of bad instructions.</p>
+<p>When we have a <code>EXC_BAD_INSTRUCTION</code> , the exception codes (second number) will be the problematic assembly code. This should be a rare condition. It is worthwhile adjusting the optimisation level of the code at fault in the Build Settings because higher level optimisations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug. Alternatively the problem might be a lower level library which has hand assembly optimisations in it - such as a multimedia library. Handwritten assembly can be the cause of bad instructions.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
