@@ -166,7 +166,7 @@ Termination Code | Spoken As | Meaning
 When we have a `SIGABRT` , we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.
 
 #### Memory Issues
-When we have a memory issue, `EXC_BAD_ACCESS` , `SIGSEGV` or `SIGBUS` we should look at what was the address at fault.  Here the diagnostics settings within Xcode for the target in the schema are relevant.  The address sanitiser should be switched on to see if it can spot the error.  If that cannot detect the issue, try each of the memory management settings, one at a time.
+When we have a memory issue, `EXC_BAD_ACCESS` , `SIGSEGV` or `SIGBUS`.  The faulty memory reference is the second number of the Exception Codes number pair.  For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant.  The address sanitiser should be switched on to see if it can spot the error.  If that cannot detect the issue, try each of the memory management settings, one at a time.
 
 If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system.  For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History.  Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.
 
