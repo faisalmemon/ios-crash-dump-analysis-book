@@ -1,0 +1,189 @@
+Incident Identifier: 732438C5-9E5A-48E7-95E2-76C800CDD6D9
+CrashReporter Key:   181EC21F-295A-4D13-B14E-8BE1A7DFB5C7
+Hardware Model:      iPhone3,1
+Process:         MyJablotron_dev [177]
+Path:            /var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/MyJablotron_dev
+Identifier:      net.jablonet.myjablotron.staging
+Version:         3.3.0.14 (3.3.0.14)
+Code Type:       ARM
+Parent Process:  launchd [1]
+
+Date/Time:       2016-05-24T07:59:56Z
+Launch Time:     2016-05-24T07:57:08Z
+OS Version:      iPhone OS 7.1.2 (11D257)
+Report Version:  104
+
+Exception Type:  SIGBUS
+Exception Codes: BUS_ADRALN at 0xcd0b1c
+Crashed Thread:  0
+
+Thread 0 Crashed:
+0   libswiftCore.dylib                   0x011aed64 0xfba000 + 2051428
+1   MyJablotron_dev                      0x004e7c18 0xb2000 + 4414488
+2   libswiftCore.dylib                   0x011b007f 0xfba000 + 2056319
+3   libswiftCore.dylib                   0x011aff73 0xfba000 + 2056051
+4   libswiftCore.dylib                   0x011adf29 0xfba000 + 2047785
+5   libswiftCore.dylib                   0x011adf73 0xfba000 + 2047859
+6   MyJablotron_dev                      0x00614a6c type metadata accessor for MyJablotron.CDFM<MyJablotron.ChartDataPointStructure, MyJablotron.ChartDataPointStructureLegend> (ChartThermoPlotSpace.swift:0)
+7   MyJablotron_dev                      0x00606698 MyJablotron.ChartThermoPlotSpace.init ()MyJablotron.ChartThermoPlotSpace (ChartThermoPlotSpace.swift:206)
+8   MyJablotron_dev                      0x00606c60 MyJablotron.ChartThermoPlotSpace.__allocating_init ()MyJablotron.ChartThermoPlotSpace (ChartThermoPlotSpace.swift:0)
+9   MyJablotron_dev                      0x0048825c MyJablotron.ChartBase.initWithThermometer (__ObjC.Thermometer)() (ChartBase.swift:139)
+10  MyJablotron_dev                      0x00488034 MyJablotron.ChartBase.initWithSegment (__ObjC.Segment)() (ChartBase.swift:123)
+11  MyJablotron_dev                      0x0059186c MyJablotron.ChartViewController.setupSegment ()() (ChartViewController.swift:106)
+12  MyJablotron_dev                      0x0058f374 MyJablotron.ChartViewController.viewDidLoad ()() (ChartViewController.swift:39)
+13  MyJablotron_dev                      0x0058f5a4 @objc MyJablotron.ChartViewController.viewDidLoad ()() (ChartViewController.swift:0)
+14  UIKit                                0x3227d4ab -[UIViewController loadViewIfRequired] + 516
+15  UIKit                                0x3227d269 -[UIViewController view] + 22
+16  UIKit                                0x3240936b -[UINavigationController _startCustomTransition:] + 632
+17  UIKit                                0x32326d63 -[UINavigationController _startDeferredTransitionIfNeeded:] + 416
+18  UIKit                                0x32326b6d -[UINavigationController __viewWillLayoutSubviews] + 42
+19  UIKit                                0x32326b05 -[UILayoutContainerView layoutSubviews] + 182
+20  UIKit                                0x32278d59 -[UIView(CALayerDelegate) layoutSublayersOfLayer:] + 378
+21  QuartzCore                           0x31ef662b -[CALayer layoutSublayers] + 140
+22  QuartzCore                           0x31ef1e3b CA::Layer::layout_if_needed(CA::Transaction*) + 348
+23  QuartzCore                           0x31ef1ccd CA::Layer::layout_and_display_if_needed(CA::Transaction*) + 14
+24  QuartzCore                           0x31ef16df CA::Context::commit_transaction(CA::Transaction*) + 228
+25  QuartzCore                           0x31ef14ef CA::Transaction::commit() + 312
+26  QuartzCore                           0x31eeb21d CA::Transaction::observer_callback(__CFRunLoopObserver*, unsigned long, void*) + 54
+27  CoreFoundation                       0x2fa27255 __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__ + 18
+28  CoreFoundation                       0x2fa24bf9 __CFRunLoopDoObservers + 282
+29  CoreFoundation                       0x2fa24f3b __CFRunLoopRun + 728
+30  CoreFoundation                       0x2f98febf CFRunLoopRunSpecific + 520
+31  CoreFoundation                       0x2f98fca3 CFRunLoopRunInMode + 104
+32  GraphicsServices                     0x34895663 GSEventRunModal + 136
+33  UIKit                                0x322dc14d UIApplicationMain + 1134
+34  MyJablotron_dev                      0x002b0683 main (main.m:16)
+35  libdyld.dylib                        0x3a719ab7 start + 0
+
+Thread 1:
+0   libsystem_kernel.dylib               0x3a7bc808 kevent64 + 24
+1   libdispatch.dylib                    0x3a6f7f73 _dispatch_mgr_thread$VARIANT$up + 36
+
+Thread 2:
+0   libsystem_kernel.dylib               0x3a7bcaa8 semaphore_wait_trap + 8
+1   libdispatch.dylib                    0x3a706c3f _dispatch_barrier_sync_f_slow + 132
+2   CoreData                             0x2f831df3 _perform + 100
+3   CoreData                             0x2f83c1ad -[NSManagedObjectContext(_NestedContextSupport) executeRequest:withContext:error:] + 238
+4   CoreData                             0x2f7ad99f -[NSManagedObjectContext executeFetchRequest:error:] + 612
+5   MyJablotron_dev                      0x002a0773 __40+[User(Data) getCurrentUserWithContext:]_block_invoke (User+Data.m:41)
+6   CoreData                             0x2f834935 developerSubmittedBlockToNSManagedObjectContextPerform + 86
+7   CoreData                             0x2f834a7b -[NSManagedObjectContext performBlockAndWait:] + 112
+8   MyJablotron_dev                      0x002a0485 +[User(Data) getCurrentUserWithContext:] (User+Data.m:33)
+9   MyJablotron_dev                      0x002f99c7 __68+[Device(Data) processPeripheryData:ignoreExtendedData:withContext:]_block_invoke (Device+Data.m:498)
+10  CoreData                             0x2f834935 developerSubmittedBlockToNSManagedObjectContextPerform + 86
+11  libdispatch.dylib                    0x3a6f481f _dispatch_client_callout + 20
+12  libdispatch.dylib                    0x3a706dd7 _dispatch_barrier_sync_f_invoke + 24
+13  CoreData                             0x2f834a73 -[NSManagedObjectContext performBlockAndWait:] + 104
+14  MyJablotron_dev                      0x002f9821 +[Device(Data) processPeripheryData:ignoreExtendedData:withContext:] (Device+Data.m:494)
+15  MyJablotron_dev                      0x0037f957 +[Segment(Data) processAnswerGetControlls:forDevice:] (Segment+Data.m:492)
+16  MyJablotron_dev                      0x0037ef3f __84+[Segment(Data) getControllsForDevice:withCompletitionHandler:withConnectParameter:]_block_invoke (Segment+Data.m:437)
+17  MyJablotron_dev                      0x002cfd03 +[JsonConnector processWarningDialogWithCustomText:withResponseCode:withResponseType:withOperatioClass:withResponse:withData:withError:withCompletionHandler:withRefreshHandler:] (JsonConnector.m:1986)
+18  MyJablotron_dev                      0x002ce8b3 __103+[JsonConnector sendRequest:withUrlParameters:withCompletionHandler:withOperationClass:withRetryCount:]_block_invoke (JsonConnector.m:1797)
+19  Foundation                           0x30471f35 __67+[NSURLConnection sendAsynchronousRequest:queue:completionHandler:]_block_invoke_2 + 106
+20  Foundation                           0x303a03c7 -[NSBlockOperation main] + 128
+21  Foundation                           0x303905ab -[__NSOperationInternal _start:] + 768
+22  Foundation                           0x3043476d __NSOQSchedule_f + 58
+23  libdispatch.dylib                    0x3a6f69ab _dispatch_async_redirect_invoke$VARIANT$up + 108
+24  libdispatch.dylib                    0x3a707921 _dispatch_root_queue_drain + 222
+25  libdispatch.dylib                    0x3a707b21 _dispatch_worker_thread2 + 54
+26  libsystem_pthread.dylib              0x3a836bd3 _pthread_wqthread + 296
+27  libsystem_pthread.dylib              0x3a836a98 start_wqthread + 6
+
+Thread 3:
+0   libsystem_kernel.dylib               0x3a7be630 fsync + 8
+1   libsqlite3.dylib                     0x3a4f3e9d sqlite3_randomness + 1646
+2   libsqlite3.dylib                     0x3a4ee2a7 sqlite3_free_table + 29440
+3   libsqlite3.dylib                     0x3a4e3d69 sqlite3_value_text + 9690
+4   libsqlite3.dylib                     0x3a4c516d sqlite3_finalize + 2046
+5   libsqlite3.dylib                     0x3a4e07fb sqlite3_step + 40672
+6   libsqlite3.dylib                     0x3a4d6ab1 sqlite3_step + 406
+7   MyJablotron_dev                      0x006ae5dd -[GAIAnalyticsPropertiesStore upsertPropertyRecord:] + 810
+8   MyJablotron_dev                      0x006ae085 -[GAIAnalyticsPropertiesStore nextHitNumberForTrackingId:clientId:] + 918
+9   MyJablotron_dev                      0x006a840f -[GAIBatchingDispatcher queueDispatch:] + 440
+10  MyJablotron_dev                      0x006a8241 -[GAIBatchingDispatcher queueModel:] + 118
+11  Foundation                           0x30445c73 __NSThreadPerformPerform + 384
+12  CoreFoundation                       0x2fa2720b __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 12
+13  CoreFoundation                       0x2fa266db __CFRunLoopDoSources0 + 204
+14  CoreFoundation                       0x2fa24ecf __CFRunLoopRun + 620
+15  CoreFoundation                       0x2f98febf CFRunLoopRunSpecific + 520
+16  CoreFoundation                       0x2f98fca3 CFRunLoopRunInMode + 104
+17  Foundation                           0x303831eb -[NSRunLoop(NSRunLoop) runMode:beforeDate:] + 252
+18  Foundation                           0x303d40a1 -[NSRunLoop(NSRunLoop) run] + 78
+19  MyJablotron_dev                      0x0069722d +[GAI threadMain:] + 62
+20  Foundation                           0x30445a5f __NSThread__main__ + 1060
+21  libsystem_pthread.dylib              0x3a838919 _pthread_body + 138
+22  libsystem_pthread.dylib              0x3a83888b _pthread_start + 100
+23  libsystem_pthread.dylib              0x3a836aa4 thread_start + 6
+
+Thread 4:
+0   libsystem_kernel.dylib               0x3a7bca58 mach_msg_trap + 20
+1   CoreFoundation                       0x2fa2684b __CFRunLoopServiceMachPort + 152
+2   CoreFoundation                       0x2fa24f71 __CFRunLoopRun + 782
+3   CoreFoundation                       0x2f98febf CFRunLoopRunSpecific + 520
+4   CoreFoundation                       0x2f98fca3 CFRunLoopRunInMode + 104
+5   Foundation                           0x303d0087 +[NSURLConnection(Loader) _resourceLoadLoop:] + 316
+6   Foundation                           0x30445a5f __NSThread__main__ + 1060
+7   libsystem_pthread.dylib              0x3a838919 _pthread_body + 138
+8   libsystem_pthread.dylib              0x3a83888b _pthread_start + 100
+9   libsystem_pthread.dylib              0x3a836aa4 thread_start + 6
+
+Thread 5:
+0   libsystem_kernel.dylib               0x3a7cf434 __select + 20
+1   libsystem_pthread.dylib              0x3a838919 _pthread_body + 138
+2   libsystem_pthread.dylib              0x3a83888b _pthread_start + 100
+3   libsystem_pthread.dylib              0x3a836aa4 thread_start + 6
+
+Thread 6:
+0   libsystem_kernel.dylib               0x3a7cfc70 __workq_kernreturn + 8
+1   libsystem_pthread.dylib              0x3a836a98 start_wqthread + 6
+
+Thread 7:
+0   libsystem_kernel.dylib               0x3a7cfc70 __workq_kernreturn + 8
+1   libsystem_pthread.dylib              0x3a836a98 start_wqthread + 6
+
+Thread 0 crashed with ARM Thread State:
+    pc: 0x011aed64     r7: 0x27d4f340     sp: 0x27d4f2e4     r0: 0x16123ac0 
+    r1: 0x00cd0b1c     r2: 0x00000008     r3: 0x00000010     r4: 0x16123ac0 
+    r5: 0x0000001d     r6: 0x04113224     r8: 0x041132b0     r9: 0x00000001 
+   r10: 0x0000001d    r11: 0x0000000f     ip: 0x3c4e5388     lr: 0x00000000 
+  cpsr: 0x20001830 
+
+Binary Images:
+   0xb2000 -   0xd19fff +MyJablotron_dev armv7  <45819c0e424a32f3b8481ead9135acb4> /var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/MyJablotron_dev
+  0xfba000 -  0x11d1fff  libswiftCore.dylib armv7  <b7fc0aaaa6fa3e82a47c74512b8df45d> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftCore.dylib
+ 0x13e1000 -  0x13ecfff  libswiftCoreAudio.dylib armv7  <2311d64043823a91833e9bc2e008a390> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftCoreAudio.dylib
+ 0x1400000 -  0x1407fff  libswiftCoreData.dylib armv7  <b2520885c5bc3cfe86ece7b5b1c8f102> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftCoreData.dylib
+ 0x1416000 -  0x1421fff  libswiftCoreGraphics.dylib armv7  <11a275402fac3387ae62398c1f4efe33> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftCoreGraphics.dylib
+ 0x1437000 -  0x143efff  libswiftCoreImage.dylib armv7  <b504fa9c44823833a6cf975ea42fdc97> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftCoreImage.dylib
+ 0x1448000 -  0x144ffff  libswiftCoreLocation.dylib armv7  <0b38ad37e9bf355db2a47f32e0916c20> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftCoreLocation.dylib
+ 0x145c000 -  0x1463fff  libswiftDarwin.dylib armv7  <b16e8fa38701363695bb7c3cdfb42758> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftDarwin.dylib
+ 0x1474000 -  0x147bfff  libswiftDispatch.dylib armv7  <13629b5113c53b92af26fae9cd94b22a> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftDispatch.dylib
+ 0x148b000 -  0x14cafff  libswiftFoundation.dylib armv7  <17c07442a3c73db9bf56c5e917dfd95f> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftFoundation.dylib
+ 0x1513000 -  0x151afff  libswiftLocalAuthentication.dylib armv7  <fcc263c2f9e1304aaffe593fa5976a18> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftLocalAuthentication.dylib
+ 0x1527000 -  0x152efff  libswiftObjectiveC.dylib armv7  <8d2e7344edf43367a60030dcf9cbb3c0> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftObjectiveC.dylib
+ 0x153e000 -  0x1549fff  libswiftUIKit.dylib armv7  <dc3339fa9aed3512b868f70c9a31ac9e> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftUIKit.dylib
+ 0x1559000 -  0x1560fff  libswiftWatchConnectivity.dylib armv7  <f7eb870d212e3a78a4bc5fd8a74e1829> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftWatchConnectivity.dylib
+ 0x156f000 -  0x1576fff  libswiftWatchKit.dylib armv7  <c7e24dc8f79c3416a2273bc8f3ce6edc> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftWatchKit.dylib
+ 0x1585000 -  0x158cfff  libswiftContacts.dylib armv7  <0348347e6bce3f50bf698d9ad7bcd0c7> /private/var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/MyJablotron_dev.app/Frameworks/libswiftContacts.dylib
+0x2e703000 - 0x2e7ebfff  RawCamera armv7  <5bcf485b4e0035cd8b766bac94d7aae9> /System/Library/CoreServices/RawCamera.bundle/RawCamera
+0x2e8db000 - 0x2e9ddfff  AVFoundation armv7  <2bb988ba37473ce087d10d9a50f47327> /System/Library/Frameworks/AVFoundation.framework/AVFoundation
+0x2e9de000 - 0x2ea06fff  libAVFAudio.dylib armv7  <88a2ed6c453432868f8faa84748a861a> /System/Library/Frameworks/AVFoundation.framework/libAVFAudio.dylib
+0x2ea07000 - 0x2ea07fff  Accelerate armv7  <0424978b39f037a7b3bf9aad5b34a5b3> /System/Library/Frameworks/Accelerate.framework/Accelerate
+0x2ea11000 - 0x2ebddfff  vImage armv7  <c4834965bdc638fcb1082f53a7721f42> /System/Library/Frameworks/Accelerate.framework/Frameworks/vImage.framework/vImage
+0x2ebde000 - 0x2ecb7fff  libBLAS.dylib armv7  <cfc693306499378c9c09851259cf3563> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libBLAS.dylib
+0x2ecb8000 - 0x2ef6efff  libLAPACK.dylib armv7  <65970a4fea383446b0b4b87e634b8dfd> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libLAPACK.dylib
+0x2ef6f000 - 0x2efddfff  libvDSP.dylib armv7  <174c13fd605a39efbb7f1314a6d1fdbe> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libvDSP.dylib
+0x2efde000 - 0x2efeffff  libvMisc.dylib armv7  <5a8317adbade34a9b415e44ab8c64eb6> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libvMisc.dylib
+0x2eff0000 - 0x2eff0fff  vecLib armv7  <7b2718a5a22c36e6ab943b2e4bea9123> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/vecLib
+0x2eff1000 - 0x2f011fff  Accounts armv7  <e58ce4873fe23f91b70bbb907deaf71f> /System/Library/Frameworks/Accounts.framework/Accounts
+0x2f012000 - 0x2f012fff  AdSupport armv7  <3b665e5a345235d7bd2cc47bf84973e8> /System/Library/Frameworks/AdSupport.framework/AdSupport
+0x2f013000 - 0x2f07afff  AddressBook armv7  <c742d15daada36238f237d74bcfb7f0e> /System/Library/Frameworks/AddressBook.framework/AddressBook
+0x2f07b000 - 0x2f191fff  AddressBookUI armv7  <50ef2d12c0c130f9a9d033c55cfcee26> /System/Library/Frameworks/AddressBookUI.framework/AddressBookUI
+0x2f192000 - 0x2f1a3fff  AssetsLibrary armv7  <bd32e25ad0063147ae26a6c154243793> /System/Library/Frameworks/AssetsLibrary.framework/AssetsLibrary
+0x2f2e6000 - 0x2f5fffff  AudioToolbox armv7  <84c0f38107e93f0a8b5b5e27a42f971e> /System/Library/Frameworks/AudioToolbox.framework/AudioToolbox
+0x2f600000 - 0x2f71efff  CFNetwork armv7  <32c4f521ed6338bf96139f76cf3f609e> /System/Library/Frameworks/CFNetwork.framework/CFNetwork
+0x2f71f000 - 0x2f77afff  CoreAudio armv7  <10173be0d8bc39aca273f270ec6265d8> /System/Library/Frameworks/CoreAudio.framework/CoreAudio
+0x2f77b000 - 0x2f792fff  CoreBluetooth armv7  <b78aa79dedc8357a90fc79effe3cf7f0> /System/Library/Frameworks/CoreBluetooth.framework/CoreBluetooth
+0x2f793000 - 0x2f987fff  CoreData armv7  <694f017c380c36e79d8372e4b8800b1b> /System/Library/Frameworks/CoreData.framework/CoreData
+0x2f988000 - 0x2facafff  CoreFoundation armv7  <4f5fe18d15f2330bb4759690b5d2e575> /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation
+0x2facb000 - 0x2fbeefff  CoreGraphics armv7  
