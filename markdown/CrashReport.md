@@ -175,3 +175,195 @@ When we have a `EXC_BREAKPOINT` it can seem confusing.  The program may have bee
 
 #### Illegal Instructions
 When we have a `EXC_BAD_INSTRUCTION` , the exception codes (second number) will be the problematic assembly code.  This should be a rare condition.  It is worthwhile adjusting the optimisation level of the code at fault in the Build Settings because higher level optimisations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug.  Alternatively the problem might be a lower level library which has hand assembly optimisations in it - such as a multimedia library.  Handwritten assembly can be the cause of bad instructions.
+
+### Crash Report Filtered Syslog Section
+
+The Crash Report continues with the syslog section:
+
+```
+Filtered syslog:
+None found
+```
+
+This is an anomalous section because it is supposed to look at the process ID of the crashed process and then look to see if there are any syslog (System Log) entries for that process.  We have never seen filtered entries in a crash, and only see `None found` reported.
+
+### Crash Report Thread Section
+
+The Crash Report continues with a dump of the thread backtraces as follows (formatted for ease of demonstration)
+
+```
+Thread 0 name:  Dispatch queue: com.apple.main-thread
+Thread 0 Crashed:
+0   libsystem_kernel.dylib        	0x0000000183a012ec
+ __pthread_kill + 8
+1   libsystem_pthread.dylib       	0x0000000183ba2288
+ pthread_kill$VARIANT$mp + 376
+2   libsystem_c.dylib             	0x000000018396fd0c
+ abort + 140
+3   libsystem_c.dylib             	0x0000000183944000
+ basename_r + 0
+4   icdab_planets                 	0x0000000104e145bc
+ -[PlanetViewController viewDidLoad] + 17852 (PlanetViewController.mm:33)
+5   UIKit                         	0x000000018db56ee0
+ -[UIViewController loadViewIfRequired] + 1020
+6   UIKit                         	0x000000018db56acc
+ -[UIViewController view] + 28
+7   UIKit                         	0x000000018db47d60
+ -[UIWindow addRootViewControllerViewIfPossible] + 136
+8   UIKit                         	0x000000018db46b94
+ -[UIWindow _setHidden:forced:] + 272
+9   UIKit                         	0x000000018dbd46a8
+-[UIWindow makeKeyAndVisible] + 48
+10  UIKit                         	0x000000018db4a2f0
+ -[UIApplication _callInitializationDelegatesForMainScene:transitionContext:]
+  + 3660
+11  UIKit                         	0x000000018db1765c
+-[UIApplication _runWithMainScene:transitionContext:completion:] + 1680
+12  UIKit                         	0x000000018e147a0c
+__111-[__UICanvasLifecycleMonitor_Compatability
+_scheduleFirstCommitForScene:transition:firstActivation:
+completion:]_block_invoke + 784
+13  UIKit                         	0x000000018db16e4c
++[_UICanvas _enqueuePostSettingUpdateTransactionBlock:] + 160
+14  UIKit                         	0x000000018db16ce8
+-[__UICanvasLifecycleMonitor_Compatability
+_scheduleFirstCommitForScene:transition:firstActivation:completion:] + 240
+15  UIKit                         	0x000000018db15b78
+-[__UICanvasLifecycleMonitor_Compatability
+activateEventsOnly:withContext:completion:] + 724
+16  UIKit                         	0x000000018e7ab72c
+__82-[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:
+completion:]_block_invoke + 296
+17  UIKit                         	0x000000018db15268
+-[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:
+completion:] + 432
+18  UIKit                         	0x000000018e5909b8
+__125-[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:
+withUpdatedScene:settingsDiff:fromSettings:
+transitionContext:]_block_invoke + 220
+19  UIKit                         	0x000000018e6deae8
+_performActionsWithDelayForTransitionContext + 112
+20  UIKit                         	0x000000018db14c88
+-[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:
+settingsDiff:fromSettings:transitionContext:] + 248
+21  UIKit                         	0x000000018db14624
+-[_UICanvas scene:didUpdateWithDiff:transitionContext:completion:] + 368
+22  UIKit                         	0x000000018db1165c
+-[UIApplication workspace:didCreateScene:withTransitionContext:completion:]
+ + 540
+23  UIKit                         	0x000000018db113ac
+-[UIApplicationSceneClientAgent scene:didInitializeWithEvent:completion:] + 364
+24  FrontBoardServices            	0x0000000186778470
+-[FBSSceneImpl _didCreateWithTransitionContext:completion:] + 364
+25  FrontBoardServices            	0x0000000186780d6c
+__56-[FBSWorkspace client:handleCreateScene:withCompletion:]_block_invoke_2 + 224
+26  libdispatch.dylib             	0x000000018386cae4
+_dispatch_client_callout + 16
+27  libdispatch.dylib             	0x00000001838741f4
+_dispatch_block_invoke_direct$VARIANT$mp + 224
+28  FrontBoardServices            	0x00000001867ac878
+__FBSSERIALQUEUE_IS_CALLING_OUT_TO_A_BLOCK__ + 36
+29  FrontBoardServices            	0x00000001867ac51c
+-[FBSSerialQueue _performNext] + 404
+30  FrontBoardServices            	0x00000001867acab8
+-[FBSSerialQueue _performNextFromRunLoopSource] + 56
+31  CoreFoundation                	0x0000000183f23404
+__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 24
+32  CoreFoundation                	0x0000000183f22c2c
+__CFRunLoopDoSources0 + 276
+33  CoreFoundation                	0x0000000183f2079c __CFRunLoopRun + 1204
+34  CoreFoundation                	0x0000000183e40da8
+CFRunLoopRunSpecific + 552
+35  GraphicsServices              	0x0000000185e23020 GSEventRunModal + 100
+36  UIKit                         	0x000000018de2178c UIApplicationMain + 236
+37  icdab_planets                 	0x0000000104e14c94 main + 19604 (main.m:14)
+38  libdyld.dylib                 	0x00000001838d1fc0 start + 4
+
+Thread 1:
+0   libsystem_pthread.dylib       	0x0000000183b9fb04 start_wqthread + 0
+
+Thread 2:
+0   libsystem_kernel.dylib        	0x0000000183a01d84 __workq_kernreturn + 8
+1   libsystem_pthread.dylib       	0x0000000183b9feb4 _pthread_wqthread + 928
+2   libsystem_pthread.dylib       	0x0000000183b9fb08 start_wqthread + 4
+
+Thread 3:
+0   libsystem_pthread.dylib       	0x0000000183b9fb04 start_wqthread + 0
+
+Thread 4:
+0   libsystem_kernel.dylib        	0x0000000183a01d84 __workq_kernreturn + 8
+1   libsystem_pthread.dylib       	0x0000000183b9feb4 _pthread_wqthread + 928
+2   libsystem_pthread.dylib       	0x0000000183b9fb08 start_wqthread + 4
+
+Thread 5:
+0   libsystem_kernel.dylib        	0x0000000183a01d84 __workq_kernreturn + 8
+1   libsystem_pthread.dylib       	0x0000000183b9feb4 _pthread_wqthread + 928
+2   libsystem_pthread.dylib       	0x0000000183b9fb08 start_wqthread + 4
+
+Thread 6 name:  com.apple.uikit.eventfetch-thread
+Thread 6:
+0   libsystem_kernel.dylib        	0x00000001839dfe08 mach_msg_trap + 8
+1   libsystem_kernel.dylib        	0x00000001839dfc80 mach_msg + 72
+2   CoreFoundation                	0x0000000183f22e40
+__CFRunLoopServiceMachPort + 196
+3   CoreFoundation                	0x0000000183f20908 __CFRunLoopRun + 1568
+4   CoreFoundation                	0x0000000183e40da8
+CFRunLoopRunSpecific + 552
+5   Foundation                    	0x00000001848b5674
+-[NSRunLoop+ 34420 (NSRunLoop) runMode:beforeDate:] + 304
+6   Foundation                    	0x00000001848b551c
+-[NSRunLoop+ 34076 (NSRunLoop) runUntilDate:] + 148
+7   UIKit                         	0x000000018db067e4
+-[UIEventFetcher threadMain] + 136
+8   Foundation                    	0x00000001849c5efc
+__NSThread__start__ + 1040
+9   libsystem_pthread.dylib       	0x0000000183ba1220 _pthread_body + 272
+10  libsystem_pthread.dylib       	0x0000000183ba1110 _pthread_body + 0
+11  libsystem_pthread.dylib       	0x0000000183b9fb10 thread_start + 4
+
+Thread 7:
+0   libsystem_pthread.dylib       	0x0000000183b9fb04 start_wqthread + 0
+```
+
+The crash report will explicitly tell you which thread crashed.
+```
+Thread 0 Crashed:
+```
+
+Threads are numbered, and if they have a name you are told this:
+```
+Thread 0 name:  Dispatch queue: com.apple.main-thread
+```
+
+Most of your focus should be on the crashed thread; it is often thread 0.
+Take note of the thread name.  Note no long duration tasks such as networking
+may be done on the main thread, `com.apple.main-thread`, because that thread
+is used to handle user interactions.
+
+The references to `__workq_kernreturn` just indicate a thread waiting for work
+so can be ignored unless there are a huge number of them.
+
+Similarly the reference to `mach_msg_trap` just indicate waiting for a message
+to come in.
+
+When looking at stack backtraces, stack frame 0, the top of the stack, comes first, and then calling frames are listed.
+So the last thing being done is in frame 0.  The frame number is the first number in the stack backtrace line for a given thread.
+The second frame, numbered 1, is code that called the function being executed in stack frame 0.  This repeats until reach the original code that was running when the thread commenced.
+
+The second column in a back trace is the binary file.  We focus on our own binary mostly because framework code from Apple is generally very reliable.  Faults usually occur either directly in our code, or by faults caused by incorrect usage of Apple APIs.
+Just because the code crashed in Apple provided code does not mean the fault is in Apple code.
+
+The fourth column onwards is the address in memory after the code from the higher up stacks would leave the program once they have returned to the particular stack frame in question.  If in our binary, and our
+libraries we do not see a symbolic address, but just hex offsets, then we have
+not got a symbolicated crash report.  See earlier chapter on Symbolification.
+
+The fifth column is the calling function relative to the parent function it is in.  The plus sign followed by an offset tells us how far into the parent function the call to the next function is.
+
+Therefore with the example stack frame:
+```
+20  UIKit                         	0x000000018db14c88
+-[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:
+settingsDiff:fromSettings:transitionContext:] + 248
+```
+
+We see :
