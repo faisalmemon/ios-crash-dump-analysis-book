@@ -64,6 +64,8 @@ Brew Package | Purpose
 `pandoc` | Document translator to get from .markdown format to other formats
 `pandoc-citeproc` | Biliography Citation Helper for pandoc
 
+Latext support appears not to be available directly in brew so I used the rec mmended [MacTex](https://www.tug.org/mactex/)
+
 For analysing binaries I used `class-dump`.  Whilst previously this was available from Brew, it seems now you have to directly download it.
 
 [Download class-dump](http://stevenygard.com/projects/class-dump/)
