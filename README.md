@@ -64,7 +64,10 @@ Brew Package | Purpose
 `pandoc` | Document translator to get from .markdown format to other formats
 `pandoc-citeproc` | Biliography Citation Helper for pandoc
 
-Latext support appears not to be available directly in brew so I used the rec mmended [MacTex](https://www.tug.org/mactex/)
+#### Latex Support
+
+Latex support appears not to be available directly in brew so I used the recommended [MacTex](https://www.tug.org/mactex/) and this was installed via a brew cask install
+`brew cask install mactex`
 
 For analysing binaries I used `class-dump`.  Whilst previously this was available from Brew, it seems now you have to directly download it.
 
@@ -80,3 +83,25 @@ Package | Purpose
 --|--
 Atom|Edits and understands markdown and can preview render it
 BibDesk | Eases the definition of Citations for the Biliography
+
+# Ignore this section
+
+I tried to install fonts to get a latex template working but keep hitting problems.  My original instructions were:
+
+#### Font Support
+
+For the document template I wanted to use I needed `sourcesanspro.sty` so
+I downloaded [SourceSansPro.zip](http://mirrors.ctan.org/install/fonts/sourcesanspro.tds.zip)
+
+-  `sudo cp -Rfp sourcesanspro/* /opt/local/share/texmf-texlive` to overlay the downloaded font into the existing system tree.
+-  `sudo vi /opt/local/var/db/texmf/web2c/updmap.cfg` to append the line `Map SourceSansPro.map`
+-  Update indexes `sudo mktexlsr`
+-  Install the fonts with `sudo -H updmap-sys`
+
+In fact I needed a collection of fonts and resources:
+
+Resource|Location
+--|--
+SansPro | http://mirrors.ctan.org/install/fonts/sourcesanspro.tds.zip
+Ly1 | http://mirrors.ctan.org/fonts/psfonts/ly1.zip
+MWeights | http://mirrors.ctan.org/macros/latex/contrib/mweights.zip

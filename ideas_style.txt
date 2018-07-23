@@ -1,1 +1,2 @@
 https://github.com/Wandmalfarbe/pandoc-latex-template	computer science book
+I see to also need the sourcesanspro file https://ctan.org/tex-archive/fonts/sourcesanspro?lang=en to get the above template to work.

@@ -155,7 +155,7 @@ EXC_BAD_INSTRUCTION (SIGILL)|This is when the program code itself is faulty, not
 When Termination Reason is present, we can look up the Code as follows:
 
 Termination Code | Spoken As | Meaning
---|--
+--|--|--
 `0xdead10cc`  | Deadlock |We held a file lock or sqlite database lock before suspending.  We should release locks before suspending.
 `0xbaaaaaad` | Bad | A stackshot was done of the entire system via the side and both volume buttons.  See earlier section on System Diagnostics
 `0xbad22222` | Bad too (two) many times | VOIP was terminated as it resumed too frequently.  Also see with code using networking whilst in the background.  If your TCP connection is woken up too many times (say 15 wakes in 300 seconds) you get this crash.
