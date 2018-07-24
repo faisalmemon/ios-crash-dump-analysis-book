@@ -58,7 +58,8 @@ If you don't define the text in your `Info.plist` for `NSCameraUsageDescription`
 
 ```
 if UIImagePickerController
-            .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+            .isSourceTypeAvailable(
+              UIImagePickerControllerSourceType.camera) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = UIImagePickerControllerSourceType.camera
