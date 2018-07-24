@@ -57,15 +57,14 @@ Introduced in iOS 10, when you want to access the Camera, a privacy sensitive fe
 If you don't define the text in your `Info.plist` for `NSCameraUsageDescription` you still the following code returning true and then attempting to present the image picker.
 
 ```
-if UIImagePickerController
-            .isSourceTypeAvailable(
-              UIImagePickerControllerSourceType.camera) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-        }
+if UIImagePickerController.isSourceTypeAvailable(
+      UIImagePickerControllerSourceType.camera) {
+      let imagePicker = UIImagePickerController()
+      imagePicker.delegate = self
+      imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+      imagePicker.allowsEditing = false
+      self.present(imagePicker, animated: true, completion: nil)
+      }
 ```
 
 However when you run the code you see a crash with a descriptive console message:
