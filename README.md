@@ -44,12 +44,12 @@ The software configuration management plan (SCM plan) is very simple.
 
 ## Authoring Methodology
 
-I aim to follow a similar approach as http://rtalbert.org/how-i-wrote-my-book/
+I aim to follow a similar approach as http://rtalbert.org/how-i-wrote-my-book/ and Ben Watson at [Philosophical Geek](http://www.philosophicalgeek.com/2014/11/10/tips-for-writing-a-programming-book/)
 
 - Write the content of the book in markdown
-- Use pandoc to convert the markdown into ePub format
-- Use the New from ePub option in iBooks to import the book
-- Publish the iBook in the iBook book store.
+- Use pandoc to convert the markdown into MS Word format
+- Use Calibre to convert MS Word into EPUB format
+- Import the EPUB into iBooks author and Kindle KDP
 
 From experiment I've found importing InDesign format files as a chapter in iBooks author does not work.  There seems to be a file version compatibility issue between pandoc and iBook Author.
 
@@ -77,12 +77,30 @@ For automating the taking of screenshots I used the automation tool [Sikulix](ht
 
 The automation scripts, since they are based on inferences from the desktop UI experience are tied to my own installation and setup of my desktop Mac so the automation scripts may not work without modification on your system.
 
+#### E-Book Tools
+
+I use the [Calibre](https://calibre-ebook.com/dist/osx) tool to convert MS Word documents into EPUB format files so I can then import them into Kindle Direct Publishing and iBooks Author.
+
+I tried various combinations but the MS Word format works best as an input source for Calibre.  The output seen in iBook is impressive.  The output seen in KDP is faulty - it shows the blue color everywhere.  I need to fix that.
+
+I've tried various "official" E-book tools but Calibre seems the best: doesn't crash, it's automatic, the default results look great.
+
 ### Recommended Software
 
 Package | Purpose
 --|--
 Atom|Edits and understands markdown and can preview render it
 BibDesk | Eases the definition of Citations for the Biliography
+
+I am considering switching from Markdown to MultiMarkdown because it has some citations support.  Then I will move off BibDesk.  The tool works well sometimes, and other times it has problems producing a reference in the generated file.
+
+## Essential Mac Configuration
+
+#### Screenshots
+
+I have discovered the standard screenshot on Mac only does low resolution (screen resolution) images.  Print books need to have higher resolution.
+
+I saw an answer at: https://apple.stackexchange.com/a/110206
 
 # Ignore this section
 
