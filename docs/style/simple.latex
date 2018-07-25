@@ -161,6 +161,7 @@ $endif$
 $if(geometry)$
 \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
 $endif$
+
 $if(beamer)$
 \newif\ifbibliography
 $endif$
@@ -419,7 +420,3 @@ $include-after$
 
 $endfor$
 \end{document}
-
-
-\paperwidth=8.9cm
-\paperheight=24.61cm
