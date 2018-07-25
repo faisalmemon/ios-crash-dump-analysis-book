@@ -34,7 +34,11 @@
 <li><a href="#customer-device-deployment-issues">Customer device deployment issues</a></li>
 <li><a href="#locale-specific-issues">Locale specific issues</a></li>
 </ul></li>
-<li><a href="#the-crash-mindset">The Crash Mindset</a></li>
+<li><a href="#the-crash-mindset">The Crash Mindset</a><ul>
+<li><a href="#locale-based-crash">Locale based Crash</a></li>
+<li><a href="#geographic-location-crash">Geographic Location Crash</a></li>
+<li><a href="#bus-noise-crash">Bus Noise Crash</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#basic-concepts">Basic Concepts</a><ul>
 <li><a href="#what-is-a-crash">What is a crash?</a></li>
@@ -170,37 +174,18 @@
 </ul>
 <p>As a first step in getting into the correct mindset to tackle app crashes, its worthwhile working through each of the above operating environment differences and trying to note down if such a difference ever resulted in a crash that you know about or suspect could happen. This will teach you that crashes are much more about <strong>environment</strong> than about <strong>source code</strong>. Another secondary insight is that the more able you are to produce a list of hypotheses given a specific environment difference, the more easily and quickly you will be able to find the root cause of crashes that seem mysterious to other people, and almost magical that you came up with a suggestion of where the problem could be.</p>
 <p>Here are some curious examples of crashes from the Information Technology folklore to whet your appetite and get you thinking:</p>
-<table>
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Trigger for Crash</th>
-<th>Reason for crash</th>
-<th>Historical Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Locale</td>
-<td>Only Russian locale caused a crash during date processing. This was because 1984-04-01 was being used as a sentinel date marker. However, in Russia, there is no such date/time because there is no midnight at that point in time. Daylight time started in Russia on that date with a +1 hour.</td>
-<td>This was seen during development of the WecudosPro iPad app when it was tested in Russia</td>
-</tr>
-<tr class="even">
-<td>Geographic Location</td>
-<td>A computer was crashing each day; each time a different reason. The actual problem was the computer was near a window next to a estuary where ships passed by. At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.</td>
-<td>This folklore story was told to Sun Microsystems Answer Center engineers in the UK during Kepner-Tregoe formal problem solving training.</td>
-</tr>
-<tr class="odd">
-<td>Bus Noise</td>
-<td>When a computer was under both heavy network load and disk load the system would crash to due corruption on disk. There was always a zero very 64 bytes. It was the cache line size of the computer. The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.</td>
-<td>This was seen during the development of Sun Volume Systems Group prototype hardware build.</td>
-</tr>
-</tbody>
-</table>
+<h3 id="locale-based-crash">Locale based Crash</h3>
+<p>The Russian locale caused a crash during date processing.</p>
+<p>This was because 1984-04-01 was being used as a sentinel date marker. However, in Russia, there is no such date/time because there is no midnight at that point in time. Daylight time started in Russia on that date with a +1 hour.</p>
+<p>This was seen during development of the WecudosPro iPad app when it was tested in Russia</p>
+<h3 id="geographic-location-crash">Geographic Location Crash</h3>
+<p>A computer was crashing each day; each time a different reason.</p>
+<p>The actual problem was the computer was near a window next to a estuary where ships passed by. At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.</p>
+<p>This folklore story was told to Sun Microsystems Answer Center engineers in the UK during Kepner-Tregoe formal problem solving training.</p>
+<h3 id="bus-noise-crash">Bus Noise Crash</h3>
+<p>When a computer was under both heavy network load and disk load the system would</p>
+<p>The crash was due corruption on disk. There was a zero very 64 bytes. It was the cache line size of the computer. The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.</p>
+<p>This was seen during the development of Sun Volume Systems Group prototype hardware build.</p>
 <h1 id="basic-concepts">Basic Concepts</h1>
 <h2 id="what-is-a-crash">What is a crash?</h2>
 <p>An application crash is something the Operating Environment does to your application in response to what you have done (or failed to do) in the Operating Environment that violates some <em>policy</em> of the platform you are running on.</p>
