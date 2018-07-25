@@ -648,10 +648,10 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>Apple have a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
 <h2 id="system-diagnostics">System Diagnostics</h2>
 <p>Crash Reports are just one part of a much bigger diagnostic reporting story.</p>
-<p>Ordinarily as application developers we don’t need to look much further. However, if your problems are potentially triggered by a unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do you need to look at your crash reports, you need to study the system diagnostics.</p>
+<p>Ordinarily as application developers we don’t need to look much further. However, if our problems are potentially triggered by a unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our crash reports, we need to study the system diagnostics.</p>
 <h3 id="extracting-system-diagnostic-information">Extracting System Diagnostic Information</h3>
-<p>When understanding the environment that gave rise to your crash, you may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple have a great web page covering each scenario. <span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” n.d.)</span></p>
-<p>On iOS, the basic idea is that you install a profile which alters your device to produce more logging, then you reproduce the crash (or get the customer to do that). Then you press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code> which extracts many log files. Then you use iTunes to sync your device to retrieve the resultant <code>sysdiagnose_date_name.tar.gz</code> file. Inside this archive file are many system and subsystem logs, and you can see when crashes occur and the context that gave rise to them.</p>
+<p>When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple have a great web page covering each scenario. <span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” n.d.)</span></p>
+<p>On iOS, the basic idea is that we install a profile which alters our device to produce more logging, then we reproduce the crash (or get the customer to do that). Then we press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code> which extracts many log files. Then we use iTunes to sync our device to retrieve the resultant <code>sysdiagnose_date_name.tar.gz</code> file. Inside this archive file are many system and subsystem logs, and we can see when crashes occur and the context that gave rise to them.</p>
 <p>An equivalent approach is available on macOS as well.</p>
 <h2 id="guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</h2>
 <p>Here we go through each section of an iOS crash report and explain the fields. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
@@ -729,12 +729,12 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 </tr>
 </tbody>
 </table>
-<p>The first thing to look at is the version. Typically if you are a small team or individual, you will not have the resources to diagnose crashes in older versions of your app, so the first thing might be to get the customer to install the latest version.</p>
-<p>If you have got a lot of crashes then you might see it being a problem to one customer (common CrashReporter key seen) or lots of customers (so different CrashReporter keys are seen). This may affect how you rank the priority of the crash.</p>
-<p>The hardware model could be interesting. It is iPad only devices, or iPhone only, or both? Maybe your code has less testing or unique code paths for a given platform.</p>
+<p>The first thing to look at is the version. Typically if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.</p>
+<p>If we have got a lot of crashes then we might see it being a problem to one customer (common CrashReporter key seen) or lots of customers (so different CrashReporter keys are seen). This may affect how we rank the priority of the crash.</p>
+<p>The hardware model could be interesting. It is iPad only devices, or iPhone only, or both? Maybe our code has less testing or unique code paths for a given platform.</p>
 <p>The hardware model might indicate an older device, which we have not tested on.</p>
-<p>Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested when they are backgrounded. For example, you might receive a phone call, or have task switched between apps.</p>
-<p>The Code Type (target architecture) is now mostly 64-bit ARM. But you might see ARM being reported - the original 32-bit ARM.</p>
+<p>Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested when they are backgrounded. For example, we might receive a phone call, or have task switched between apps.</p>
+<p>The Code Type (target architecture) is now mostly 64-bit ARM. But we might see ARM being reported - the original 32-bit ARM.</p>
 <h3 id="crash-report-date-and-version-section">Crash Report Date and Version Section</h3>
 <p>A Crash Report will continue with date and version information:</p>
 <pre><code>Date/Time:           2018-07-16 10:15:31.4746 +0100
@@ -780,7 +780,7 @@ Report Version:      104</code></pre>
 <p>The first thing to check is the OS Version. Is it newer or older than we’ve tested? Is it a beta version of the operating system?</p>
 <p>The next thing to check is the difference between the launch time and the time of the crash. Did the app crash immediately or after a long time? Early start crashes can sometimes be a packaging and deployment problem. We shall visit some techniques to tackle those later on.</p>
 <p>Is the date a sensible value? Sometimes a device is set back or forwards in time, perhaps to trigger date checks on security certificates or license keys. Make sure the date is a realistic looking one.</p>
-<p>Normally the baseband version is not interesting. The presence of the baseband means you could get interrupted by a phone call (of course there is VOIP calling as well in any case). iPad software is generally written to assume you’re not going to get a phone call but iPads can be purchased with a cellular modem option.</p>
+<p>Normally the baseband version is not interesting. The presence of the baseband means we could get interrupted by a phone call (of course there is VOIP calling as well in any case). iPad software is generally written to assume we’re not going to get a phone call but iPads can be purchased with a cellular modem option.</p>
 <h3 id="crash-report-exception-section">Crash Report Exception Section</h3>
 <p>A Crash Report will next have exception information:</p>
 <pre><code>Exception Type:  EXC_CRASH (SIGABRT)
@@ -852,7 +852,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="odd">
 <td><code>EXC_CRASH (SIGKILL)</code></td>
-<td>The system killed your app (or app extension), usually because some resource limit had been reached. The Termination Reason needs to be looked at to work out what policy violation was the reason for termination.</td>
+<td>The system killed our app (or app extension), usually because some resource limit had been reached. The Termination Reason needs to be looked at to work out what policy violation was the reason for termination.</td>
 </tr>
 <tr class="even">
 <td><code>EXC_BAD_ACCESS</code> or <code>SIGSEGV</code> or <code>SIGBUS</code></td>
@@ -860,7 +860,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="odd">
 <td><code>EXC_BREAKPOINT (SIGTRAP)</code></td>
-<td>This is due to an <code>NSException</code> being raised (possibly by a library on your behalf) or <code>_NSLockError</code> or <code>objc_exception_throw</code> being called. For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional</td>
+<td>This is due to an <code>NSException</code> being raised (possibly by a library on our behalf) or <code>_NSLockError</code> or <code>objc_exception_throw</code> being called. For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional</td>
 </tr>
 <tr class="even">
 <td>EXC_BAD_INSTRUCTION (SIGILL)</td>
@@ -896,7 +896,7 @@ Triggered by Thread:  0</code></pre>
 <tr class="odd">
 <td><code>0xbad22222</code></td>
 <td>Bad too (two) many times</td>
-<td>VOIP was terminated as it resumed too frequently. Also see with code using networking whilst in the background. If your TCP connection is woken up too many times (say 15 wakes in 300 seconds) you get this crash.</td>
+<td>VOIP was terminated as it resumed too frequently. Also see with code using networking whilst in the background. If our TCP connection is woken up too many times (say 15 wakes in 300 seconds) we get this crash.</td>
 </tr>
 <tr class="even">
 <td><code>0x8badf00d</code></td>
@@ -906,12 +906,12 @@ Triggered by Thread:  0</code></pre>
 <tr class="odd">
 <td><code>0xc00010ff</code></td>
 <td>Cool Off</td>
-<td>The system detected a thermal event and kill off your app. If it’s just one device it could be a hardware issue, not a software problem in your app. If it happens on other devices, check your app’s power usage using Instruments.</td>
+<td>The system detected a thermal event and kill off our app. If it’s just one device it could be a hardware issue, not a software problem in our app. If it happens on other devices, check our app’s power usage using Instruments.</td>
 </tr>
 <tr class="even">
 <td><code>0x2bad45ec</code></td>
 <td>Too bad for security</td>
-<td>There was a security violation. If the Termination Description says “Process detected doing insecure drawing while in secure mode” it means your app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.</td>
+<td>There was a security violation. If the Termination Description says “Process detected doing insecure drawing while in secure mode” it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.</td>
 </tr>
 </tbody>
 </table>
@@ -1062,11 +1062,11 @@ __NSThread__start__ + 1040
 
 Thread 7:
 0   libsystem_pthread.dylib         0x0000000183b9fb04 start_wqthread + 0</code></pre>
-<p>The crash report will explicitly tell you which thread crashed.</p>
+<p>The crash report will explicitly tell us which thread crashed.</p>
 <pre><code>Thread 0 Crashed:</code></pre>
-<p>Threads are numbered, and if they have a name you are told this:</p>
+<p>Threads are numbered, and if they have a name we are told this:</p>
 <pre><code>Thread 0 name:  Dispatch queue: com.apple.main-thread</code></pre>
-<p>Most of your focus should be on the crashed thread; it is often thread 0. Take note of the thread name. Note no long duration tasks such as networking may be done on the main thread, <code>com.apple.main-thread</code>, because that thread is used to handle user interactions.</p>
+<p>Most of our focus should be on the crashed thread; it is often thread 0. Take note of the thread name. Note no long duration tasks such as networking may be done on the main thread, <code>com.apple.main-thread</code>, because that thread is used to handle user interactions.</p>
 <p>The references to <code>__workq_kernreturn</code> just indicate a thread waiting for work so can be ignored unless there are a huge number of them.</p>
 <p>Similarly the reference to <code>mach_msg_trap</code> just indicate waiting for a message to come in.</p>
 <p>When looking at stack backtraces, stack frame 0, the top of the stack, comes first, and then calling frames are listed. So the last thing being done is in frame 0. The frame number is the first number in the stack backtrace line for a given thread. The second frame, numbered 1, is code that called the function being executed in stack frame 0. This repeats until reach the original code that was running when the thread commenced.</p>
