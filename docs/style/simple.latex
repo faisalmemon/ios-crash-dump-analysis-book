@@ -420,3 +420,6 @@ $include-after$
 $endfor$
 \end{document}
 
+
+\paperwidth = 18.9 cm
+\paperheight = 24.61 cm
