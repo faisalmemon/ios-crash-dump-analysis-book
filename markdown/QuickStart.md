@@ -4,7 +4,7 @@ When an application crash appears after a recent code change, it can be straight
 
 In this chapter we explore possible reasons for crashing due to a change in operating environment.  There are a variety of problems that can be dealt with without getting into logical analysis of the specifics of the problem at hand.  In reality sometimes you just need to make progress, whilst making a note to go back and address the root cause.
 
-## Troubleshooting operating environment crashes
+## Troubleshooting
 
 ### Missing resource issue
 
