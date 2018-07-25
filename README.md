@@ -33,7 +33,7 @@ topics | Topic specific writing
 source | Parent directory of compilable source code
 markdown | Markdown files for the body text of the book
 examples | Examples of crashes
-automation | Sikulix automation scripts to produce screenshots, etc.
+automation | Not yet used
 screenshots | Screenshots
 
 ## Branch Policy
@@ -107,6 +107,33 @@ BibDesk | Eases the definition of Citations for the Biliography
 I have discovered the standard screenshot on Mac only does low resolution (screen resolution) images.  Print books need to have higher resolution.
 
 I saw an answer at: https://apple.stackexchange.com/a/110206
+
+I need to experiment in this area.  Maybe putting my screen in large scale mode will give me screenshots with effectively a higher ppi when shrunk down for print.
+
+## Build System
+
+The book is built using `buildBook.sh`
+
+The build outputs are:
+
+File | Purpose
+--|--
+`foo.html` | Intermediate used for GitHub Pages documentation
+`foo.pdf` | For the Hard Copy Paper Edition
+`foo.docx` | For further conversion into EPUB, and internally for spelling and grammar checking
+`foo.epub` | For E-book readers (Apple and Amazon)
+`docs/*` | Final destination for GitHub Pages documentation
+
+The output are `foo.*` files locally for ease of inspection.  They are ignored by version control.
+
+For github pages, the GitHub documentation facility, the HTML documentation and supporting resources is copied into the `docs` directory and then they are checked in (the branch is required to be master).
+
+The build system also checks for uses of "you" - they should be "we" in all cases apart from the Introduction.
+
+The main purpose of the `docx` version was I could not get a good quality E-book generated automatically from pandoc.  But going via Calibre sorts out the problem.
+
+The reason why I am not using `docx` for the Paperback edition is because there is no filter that will allow me to convert embedded index references in the markdown into docx references.  Creating the index would then be a manual task.  For a 300 page book, that's one week of work!
+
 
 # Ignore this section
 
