@@ -69,8 +69,28 @@ As a first step in getting into the correct mindset to tackle app crashes, its w
 
 Here are some curious examples of crashes from the Information Technology folklore to whet your appetite and get you thinking:
 
-Trigger for Crash | Reason for crash | Historical Notes
---|--|--
-Locale | Only Russian locale caused a crash during date processing.  This was because 1984-04-01 was being used as a sentinel date marker.  However, in Russia, there is no such date/time because there is no midnight at that point in time.  Daylight time started in Russia on that date with a +1 hour. | This was seen during development of the WecudosPro iPad app when it was tested in Russia
-Geographic Location | A computer was crashing each day; each time a different reason.  The actual problem was the computer was near a window next to a estuary where ships passed by.  At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash. | This folklore story was told to Sun Microsystems Answer Center engineers in the UK during Kepner-Tregoe formal problem solving training.
-Bus Noise | When a computer was under both heavy network load and disk load the system would crash to due corruption on disk.  There was always a zero very 64 bytes.  It was the cache line size of the computer.  The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it. | This was seen during the development of Sun Volume Systems Group prototype hardware build.
+### Locale based Crash
+
+The Russian locale caused a crash during date processing.
+
+This was because 1984-04-01 was being used as a sentinel date marker.  However, in Russia, there is no such date/time because there is no midnight at that point in time.  Daylight time started in Russia on that date with a +1 hour.
+
+This was seen during development of the WecudosPro iPad app when it was tested in Russia
+
+
+### Geographic Location Crash
+
+A computer was crashing each day; each time a different reason.
+
+The actual problem was the computer was near a window next to a estuary where ships passed by.  At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.
+
+This folklore story was told to Sun Microsystems Answer Center engineers in the UK during Kepner-Tregoe formal problem solving training.
+
+
+### Bus Noise Crash
+
+When a computer was under both heavy network load and disk load the system would
+
+The crash was due corruption on disk.  There was a zero very 64 bytes.  It was the cache line size of the computer.  The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.
+
+This was seen during the development of Sun Volume Systems Group prototype hardware build.
