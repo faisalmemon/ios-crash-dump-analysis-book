@@ -1,8 +1,8 @@
 # Quick Start
 
-When an application crash appears after a recent code change, it can be straightforward to reason about the crash and look at the relevant code changes.  Often, crashes just appear due to a change in operating environment.  Those can be the most annoying.  For example, the app runs fine in the Office but crashes at the customer Site.  We don't have time to get into why, but need a quick fix or workaround.  Another common problem scenario is when a new project is being explored.  This is where we have no prior experience with the code base but immediately face crash problems after compilation and running the app.
+When an application crash appears after a recent code change, it can be straightforward to reason about the crash and look at the relevant code changes.  Often, crashes just appear due to a change in operating environment.  Those can be the most annoying.  For example, the app runs fine in the Office but crashes at the customer Site.  We don't have time to get into why, but need a quick fix or workaround.  Another common problem scenario arises when a new project is being explored.  This is where we have no prior experience with the code base but immediately face crash problems after compilation and running the app.
 
-In this chapter, we explore possible reasons for crashing due to a change in operating environment.  There are a lots of problems that can be dealt with without getting into logical analysis of the specifics of the problem at hand.  In reality sometimes we just need to make progress, whilst making a note to go back and address the root cause.
+In this chapter, we explore possible reasons for crashing due to a change in operating environment.  Many problems can be dealt with without getting into logical analysis of the specifics of the problem at hand.  In reality sometimes we just need to make progress, whilst making a note to go back and address the root cause.
 
 ## Troubleshooting
 
@@ -16,7 +16,7 @@ We should try compiling and running other Xcode targets within the same project.
 
 Sometimes our app crashes on startup due to a binary compatibility issue.
 
-If we've recently updated Xcode, or pulled code updates on top of a compiled project, we can perform a Option-Command-Shift-K clean which cleans the build area of intermediates, and then re-build as normal.
+If we've recently updated Xcode, or pulled code updates on top of a compiled project, we can perform an Option-Command-Shift-K clean which cleans the build area of intermediates, and then re-build as normal.
 
 ### Simulator only issue
 Sometimes our app crashes only on simulator.
@@ -45,7 +45,7 @@ Resource files might be absent in the wrong locale.  Furthermore, locale handlin
 
 ## The Crash Mindset
 
-One take away lesson from the above examples are that we need to think of our code in a wider context.  We should think of the operating environment of our app.  This comprises:
+One take away lesson from the above examples is that we need to think of our code in a wider context.  We should think of the operating environment of our app.  This comprises:
 
 - the compiled code
 - binary incompatibilities between code modules (different language versions, compilers and toolchains)
@@ -53,7 +53,7 @@ One take away lesson from the above examples are that we need to think of our co
 - the build configuration (e.g. Release or Debug)
 - the network environment, availability/latency/speed
 - permissions granted to the app
-- permissions denied to the app (in a Mobile Device Managment secured environment)
+- permissions denied to the app (in a Mobile Device Management secured environment)
 - platform variants
 - orientation
 - foreground and background operating modes
@@ -82,7 +82,7 @@ This was seen during development of the WecudosPro iPad app when it was tested i
 
 A computer was crashing each day at a different time.
 
-The actual problem was the computer was near a window next to a estuary where ships passed by.  At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.
+The actual problem was the computer was near a window next to an estuary where ships passed by.  At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.
 
 This folklore story was told to Sun Microsystems Answer Center engineers in the UK during Kepner-Tregoe formal problem solving training.
 
@@ -91,6 +91,6 @@ This folklore story was told to Sun Microsystems Answer Center engineers in the 
 
 When a computer was under both heavy network load and disk load the system would
 
-The crash was due corruption on disk.  There was a zero very 64 bytes.  It was the cache line size of the computer.  The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.
+The crash was due corruption on disk.  There were zeroes very 64 bytes.  It was the cache line size of the computer.  The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.
 
 This was seen during the development of Sun Volume Systems Group prototype hardware build.
