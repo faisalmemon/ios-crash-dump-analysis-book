@@ -1,9 +1,9 @@
 #!/bin/bash
 
 echo Usages of "you" in the narrative
-grep --color you $(cat pageOrder.txt) -c
+grep --color you $(cat pageOrder.txt | grep -v Introduction) -c
 echo
-grep --color you $(cat pageOrder.txt)
+grep --color you $(cat pageOrder.txt| grep -v Introduction)
 
 pandoc $(cat pageOrder.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -c style/gitHubStyle.css -o foo.html
 pandoc $(cat pageOrder.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -o foo.pdf
