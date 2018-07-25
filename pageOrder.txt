@@ -1,4 +1,3 @@
-markdown/Properties.mmd
 markdown/Introduction.mmd
 markdown/QuickStart.mmd
 markdown/BasicConcepts.mmd
