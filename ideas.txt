@@ -5,3 +5,5 @@ Explain Kepner Tregoe
 Explain Mach, mach_msg etc. and History
 Look at structure of iBook and Technical books - need Acknowledgements and Copyright/Trademarks Section
 Look at smashbooks
+Include example of WTFCrash (WebKit)
+Add Preface
