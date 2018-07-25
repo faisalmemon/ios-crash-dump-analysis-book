@@ -1,8 +1,10 @@
 #!/bin/bash
 
-pandoc $(cat pageOrder.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -c style/gitHubStyle.css -o foo.html
-pandoc $(cat pageOrder.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -o foo.pdf
-pandoc $(cat pageOrder.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -o foo.docx
+PANDOC_OPTIONS="-f markdown_mmd --standalone --bibliography bibliography.bib --toc"
+
+pandoc $(cat pageOrder.txt) pandocMetaData.yaml "$PANDOC_OPTIONS" -c style/gitHubStyle.css -o foo.html
+pandoc $(cat pageOrder.txt) pandocMetaData.yaml "$PANDOC_OPTIONS" -o foo.pdf
+pandoc $(cat pageOrder.txt) pandocMetaData.yaml "$PANDOC_OPTIONS" -o foo.docx
 
 mkdir -p docs
 cp foo.html docs/index.html
