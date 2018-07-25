@@ -162,15 +162,6 @@ $if(geometry)$
 \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
 $endif$
 
-\paperwidth=18.9cm
-\paperheight=24.61cm
-
-\pdfpagewidth 18.9cm
-\pdfpageheight 24.61cm
-
-
-
-
 $if(beamer)$
 \newif\ifbibliography
 $endif$
