@@ -2,7 +2,7 @@
 
 Xcode provides a lot of help to developers in understanding and preventing crashes.
 
-We think of Xcode in layers of sophistication, where at the lowest layer of sophistication Xcode directly tells you the common error it has seen with suggested corrections, up to the highest level were Xcode is telling the raw information, but you need Operating Systems knowledge to interpret the information yourself.
+We think of Xcode in layers of sophistication, where at the lowest layer of sophistication Xcode directly tells us the common error it has seen with suggested corrections, up to the highest level were Xcode is telling the raw information, but we need Operating Systems knowledge to interpret the information ourselves.
 
 We shall revisit Xcode configuration, setup and tooling many times.  But let us first start off with the simple but high value assistance Xcode provides.
 
@@ -14,13 +14,13 @@ By opening the project `icdab_sample` @icdabgithub and looking at the Schema def
 
 ### Execution Methodology
 
-If you have a crash which is reproducible from your own developer environment and source code, then a methodology for finding is to switch on the appropriate diagnostic setting and then re-run your application.
+If we have a crash which is reproducible from our own developer environment and source code, then a methodology for finding is to switch on the appropriate diagnostic setting and then re-run our application.
 
-As you become familiar with each diagnostic, you will know which option to switch on.  We shall work through different scenarios so you understand when to use each.  But when you are just starting out its worth just going through each one-by-one to get a feel for what is available.  The basic approach is:
+As we become familiar with each diagnostic, we will know which option to switch on.  We shall work through different scenarios so we understand when to use each.  But when we are just starting out its worth just going through each one-by-one to get a feel for what is available.  The basic approach is:
 
 1.  Write a Unit Test Case or UI Test Case that hits the problem.
-1.  Enable just one of the Diagnostic options from above starting with your best guess.
-1.  Run your tests.
+1.  Enable just one of the Diagnostic options from above starting with our best guess.
+1.  Run our tests.
 1.  Take note of any warning or console message from Xcode.
 1.  Repeat again but choosing a different diagnostic option if the problem is not understood.
 
@@ -37,18 +37,18 @@ In the sample app `icdab_sample` the Analyser reports:
     assert(strlen(nullPointer) == 0);
 ```
 
-and conveniently marks up your source code
+and conveniently marks up our source code
 
 ![](screenshots/analyser_null.png)
 
-This can be switched on for whenever the project is Built, either in shallow or deep mode according to how you feel the tradeoff should be done between slower more thorough analysis versus quicker build times with less analysis.  It is in the Build Settings tab for the Xcode project file.
+This can be switched on for whenever the project is Built, either in shallow or deep mode according to how we feel the tradeoff should be done between slower more thorough analysis versus quicker build times with less analysis.  It is in the Build Settings tab for the Xcode project file.
 
 ![](screenshots/static_analyser_build.png)
 
 For a large project that has never had an Analysis report done, the output can be overwhelming.
 There will be some noise in the report but it generally does a good job.  There will be duplication in the report because certain classes of error will repeat throughout the code.
 
-If you are developing code using the Agile software methodology, then it is possible to frame the report as potential backlog items that can be worked upon during the time allocated for refactoring and maintenance.
+If we are developing code using the Agile software methodology, then it is possible to frame the report as potential backlog items that can be worked upon during the time allocated for refactoring and maintenance.
 
 In a large software project refactoring and maintenance should be around 20% of the work in a Sprint.  Different viewpoints arise in this area.  The author recommends doing such work alongside the normal development activities so long as no high risk changes are amongst the work being done.  For risky changes, leave that till after a major update of the app has been done.  There is usually a lull where planning and strategy is developed following a release which allows a convenient software engineering window to tackle such matters.
 
@@ -60,13 +60,13 @@ QuickEdit due to its age only used manual reference counting in Objective-C.  De
 
 ### Process Methodology
 
-One way to drive out crashes from your app, particularly when you are in a large organisation, is to factor it in your software development process.
+One way to drive out crashes from our app, particularly when we are in a large organisation, is to factor it in our software development process.
 
-When a developer proposes a code change in a pull request, get the developer to ensure no new analyser warnings are introduced.  You might consider the analyser report as a robotically generated code review available to you for free.  That is particularly helpful if you are working alone on a project with no peer to review your code.
+When a developer proposes a code change in a pull request, get the developer to ensure no new analyser warnings are introduced.  We might consider the analyser report as a robotically generated code review available to us for free.  That is particularly helpful if we are working alone on a project with no peer to review our code.
 
 When code is committed to a feature branch, have the automated tests run on it, with different diagnostics settings set.  This can shake out problems automatically.
 
-Before each release, schedule time to run some specific user cases under the memory profiler (Xcode instruments will be covered later on) to look at memory usage or other key metrics.  Record the highlights such as the peak memory usage as well as the profile file.  Then when the following release is made you have a yardstick to see how things have changed both quantitatively and qualitatively.
+Before each release, schedule time to run some specific user cases under the memory profiler (Xcode instruments will be covered later on) to look at memory usage or other key metrics.  Record the highlights such as the peak memory usage as well as the profile file.  Then when the following release is made we have a yardstick to see how things have changed both quantitatively and qualitatively.
 
 ## The Middle Road
 
@@ -74,11 +74,11 @@ Most software developers know what they "should" be doing; clean code, proper te
 
 We recommend to take a measured approach.  There is a time for hacking together a sample app to understand a concept.  There is a time to write a prototype which just needs to prove a business use case.  There is a time to write heavily trusted code used by many people.
 
-We take the view that maximising economic impact is the one that matters most because most developers are involved in professional software development.  Alternatively if you are working on non-commercial projects or hobby projects, the economic cost is really your personal free time which you will want to use most effectively.
+We take the view that maximising economic impact is the one that matters most because most developers are involved in professional software development.  Alternatively if we are working on non-commercial projects or hobby projects, the economic cost is really our personal free time which we will want to use most effectively.
 
 We recommend:
 
 - For Sample apps and concept exploration, just code the app.
-- For Prototype Development, just use the Execution Methodology when you hit problems.
-- For Individual Product Development, from the beginning run the Analyser automatically and informally incorporate it into your workflow when you see something important.  From the beginning write tests but selectively where you get big impact.
+- For Prototype Development, just use the Execution Methodology when we hit problems.
+- For Individual Product Development, from the beginning run the Analyser automatically and informally incorporate it into our workflow when we see something important.  From the beginning write tests but selectively where we get big impact.
 - For Team-based Product Development, add in the Process Methodology.  Start becoming comprehensive with Testing.
