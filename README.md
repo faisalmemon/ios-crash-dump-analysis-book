@@ -57,6 +57,15 @@ From experiment I've found importing InDesign format files as a chapter in iBook
 
 ### Essential Software
 
+You need:
+- Brew Package manager
+- Various Brew packages
+- Latex packages
+- Class dump
+- Calibre
+
+#### Brew Software
+
 I used the Brew package manager on MacOS and used the Brew packages:
 
 Brew Package | Purpose
@@ -69,15 +78,14 @@ Brew Package | Purpose
 Latex support appears not to be available directly in brew so I used the recommended [MacTex](https://www.tug.org/mactex/) and this was installed via a brew cask install
 `brew cask install mactex`
 
+#### Class Dump
+
 For analysing binaries I used `class-dump`.  Whilst previously this was available from Brew, it seems now you have to directly download it.
 
 [Download class-dump](http://stevenygard.com/projects/class-dump/)
 
-For automating the taking of screenshots I used the automation tool [Sikulix](http://www.sikulix.com/quickstart/)
 
-The automation scripts, since they are based on inferences from the desktop UI experience are tied to my own installation and setup of my desktop Mac so the automation scripts may not work without modification on your system.
-
-#### E-Book Tools
+#### Calibre Tool
 
 I use the [Calibre](https://calibre-ebook.com/dist/osx) tool to convert MS Word documents into EPUB format files so I can then import them into Kindle Direct Publishing and iBooks Author.
 
@@ -91,8 +99,6 @@ Package | Purpose
 --|--
 Atom|Edits and understands markdown and can preview render it
 BibDesk | Eases the definition of Citations for the Biliography
-
-I am considering switching from Markdown to MultiMarkdown because it has some citations support.  Then I will move off BibDesk.  The tool works well sometimes, and other times it has problems producing a reference in the generated file.
 
 ## Essential Mac Configuration
 
