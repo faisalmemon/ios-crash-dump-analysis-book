@@ -112,7 +112,7 @@
 </ul>
 </nav>
 <h1 id="introduction">Introduction</h1>
-<p>This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs. The mindset of the Application developer is largely understanding high level concepts and abstractions. When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.</p>
+<p>This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs. The mindset of the Application developer is largely understanding high-level concepts and abstractions. When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.</p>
 <p>We focus exclusively on the Apple ecosystem.</p>
 <p>We cover macOS, tvOS, watchOS platforms, ARM Assembly, and C (CoreFoundation), Objective-C, and Objective-C++ and Swift programming languages. This is because the older languages are more prone to crash bugs. Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.</p>
 <p>We assume you have at least an introductory knowledge of iOS programming and software engineering, and have access to a Mac with Xcode.</p>
@@ -125,34 +125,34 @@
 </ol>
 <p>Programming literature comprehensively has documented software engineering concepts, and Apple has documented their crash dump tooling via Guides and WWDC videos.</p>
 <p>Formal problem solving is less discussed in software engineering circles, perhaps because it’s considered a table stakes skill for an engineer. It is however a discipline of its own and when directly studied can only enhance the “natural” abilities that seem to mark out the “technically-minded” folks from the rest of the population.</p>
-<p>Our goal is not the shy away from repeating knowledge we’ve probably seen or read elsewhere but instead we take the view point of explaining the whole narrative in a cohesive manner. What makes crash dump analysis hard is that significant background knowledge is often assumed in order to make room to concentrate on the particulars of a specific tool or crash report. That causes a barrier to entry which this book aims to overcome.</p>
+<p>Our goal is not the shy away from repeating knowledge we’ve probably seen or read elsewhere but instead we take the viewpoint of explaining the whole narrative in a cohesive manner. What makes crash dump analysis hard is that significant background knowledge is often assumed in order to make room to concentrate on the particulars of a specific tool or crash report. That causes a barrier to entry, which this book aims to overcome.</p>
 <p>To complement the book, there is a website of resources which is intended to be used alongside the printed material so example projects can be setup and run by yourself and experimented with. All references in this book are collected into the Bibliography Chapter at the end of the book. There you will find URLs to resources for example.</p>
 <p>The GitHub website supporting the book at <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <h1 id="quick-start">Quick Start</h1>
-<p>When an application crash appears after a recent code change, it can be straightforward to reason about the crash and look at the relevant code changes. Often, crashes just appear due to a change in operating environment. Those can be the most annoying. For example, the app runs fine in the Office but crashes at the customer Site. You don’t have time to get into why, but need a quick fix or workaround. Another common problem is when a new project is being explored. This is where we have no past experience with the code base but immediately face crash problems after compilation and running the app.</p>
-<p>In this chapter we explore possible reasons for crashing due to a change in operating environment. There are a variety of problems that can be dealt with without getting into logical analysis of the specifics of the problem at hand. In reality sometimes you just need to make progress, whilst making a note to go back and address the root cause.</p>
+<p>When an application crash appears after a recent code change, it can be straightforward to reason about the crash and look at the relevant code changes. Often, crashes just appear due to a change in operating environment. Those can be the most annoying. For example, the app runs fine in the Office but crashes at the customer Site. We don’t have time to get into why, but need a quick fix or workaround. Another common problem scenario is when a new project is being explored. This is where we have no prior experience with the code base but immediately face crash problems after compilation and running the app.</p>
+<p>In this chapter, we explore possible reasons for crashing due to a change in operating environment. There are a lots of problems that can be dealt with without getting into logical analysis of the specifics of the problem at hand. In reality sometimes we just need to make progress, whilst making a note to go back and address the root cause.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <h3 id="missing-resource-issue">Missing resource issue</h3>
-<p>Sometimes your app crashes on startup due to a missing resource issue.</p>
-<p>Try compiling and running other Xcode targets within the same project. Sometimes a specific target is the one that sets up your environment as part of the build. If so, make a note to address that later.</p>
+<p>Sometimes our app crashes on startup due to a missing resource issue.</p>
+<p>We should try compiling and running other Xcode targets within the same project. Sometimes a specific target is the one that sets up the needed environment as part of the build. If so, we can make a note to address that later.</p>
 <h3 id="binary-compatibility-issue">Binary compatibility issue</h3>
-<p>Sometimes your app crashes on startup due to a binary compatibility issue.</p>
-<p>If you’ve recently updated Xcode, or pulled code updates on top of a compiled project, do a Option-Command-Shift-K clean which cleans the build area of intermediates, and then re-build as normal.</p>
+<p>Sometimes our app crashes on startup due to a binary compatibility issue.</p>
+<p>If we’ve recently updated Xcode, or pulled code updates on top of a compiled project, we can perform a Option-Command-Shift-K clean which cleans the build area of intermediates, and then re-build as normal.</p>
 <h3 id="simulator-only-issue">Simulator only issue</h3>
-<p>Somtimes your app crashes only on simulator.</p>
-<p>Try Simulator Hardware-&gt;Reset all content and settings. Try iPad simulator instead of iPhone simulator and vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.</p>
+<p>Sometimes our app crashes only on simulator.</p>
+<p>Here we should try Simulator Hardware-&gt;Reset all content and settings. We can try iPad simulator instead of iPhone simulator or vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.</p>
 <h3 id="site-specific-issues">Site specific issues</h3>
-<p>Sometimes your app only crashes when at customer site.</p>
-<p>Check Wi-Fi settings or try hot-spotting your iPad to iPhone. Sometimes network issues such as connectivity, or latency are overlooked when developing your app in your office/home environment. Make a note to fix networking assumptions if that is the problem.</p>
+<p>Sometimes our app only crashes when at customer site.</p>
+<p>We can check Wi-Fi settings or try hot-spotting our iPad to an iPhone. Sometimes network issues such as connectivity, or latency are overlooked when developing our app in the office/home environment. We should make a note to fix networking assumptions if that is the problem.</p>
 <h3 id="customer-device-deployment-issues">Customer device deployment issues</h3>
-<p>Sometimes your app only crashes when deploying on a customer device gives problems.</p>
-<p>If you cable up your laptop to the customer’s device, you’re probably doing a Debug release deployment. This means push notification tokens will be the development tokens not the production tokens. It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version).</p>
-<p>Try switching deployment configuration via Command-&lt; select Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug). Also manually check any resource access grants in the iPad/iPhone settings.</p>
+<p>Sometimes our app only crashes when deploying on a customer device gives problems.</p>
+<p>If we cable up our laptop to the customer’s device, we’re probably doing a Debug release deployment. This means push notification tokens will be the development tokens not the production tokens. It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version).</p>
+<p>We should try switching deployment configuration via Command-&lt; selecting Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug). We should also manually check any resource access grants in the iPad/iPhone settings.</p>
 <h3 id="locale-specific-issues">Locale specific issues</h3>
 <p>Sometimes deploying with the customer’s locale causes a crash.</p>
-<p>Resource files might be absent in the wrong locale. Furthermore, locale handling is rife with undocumented special cases. Try changing the locale temporarily to a known working one. Make a note to return to the issue when back in the office.</p>
+<p>Resource files might be absent in the wrong locale. Furthermore, locale handling is rife with undocumented special cases. We should try changing the locale temporarily to a known working one. Make a note to return to the issue when back in the office.</p>
 <h2 id="the-crash-mindset">The Crash Mindset</h2>
-<p>One take away lesson from the above examples are that we need to think of our code in a wider context. Think of the operating environment for your app. This comprises:</p>
+<p>One take away lesson from the above examples are that we need to think of our code in a wider context. We should think of the operating environment of our app. This comprises:</p>
 <ul>
 <li>the compiled code</li>
 <li>binary incompatibilities between code modules (different language versions, compilers and toolchains)</li>
@@ -172,14 +172,14 @@
 <li>presence of a debugger or profiler</li>
 <li>the OS version of the target device</li>
 </ul>
-<p>As a first step in getting into the correct mindset to tackle app crashes, its worthwhile working through each of the above operating environment differences and trying to note down if such a difference ever resulted in a crash that you know about or suspect could happen. This will teach you that crashes are much more about <strong>environment</strong> than about <strong>source code</strong>. Another secondary insight is that the more able you are to produce a list of hypotheses given a specific environment difference, the more easily and quickly you will be able to find the root cause of crashes that seem mysterious to other people, and almost magical that you came up with a suggestion of where the problem could be.</p>
-<p>Here are some curious examples of crashes from the Information Technology folklore to whet your appetite and get you thinking:</p>
+<p>As a first step in getting into the correct mindset to tackle app crashes, its worthwhile working through each of the above operating environment differences and trying to note down if such a difference ever resulted in a crash that we know about or suspect could happen. This teaches us that crashes are much more about <strong>environment</strong> than about <strong>source code</strong>. Another secondary insight is that the more able we are to produce a list of hypotheses given a specific environment difference, the more easily and quickly we will be able to find the root cause of crashes that seem mysterious to other people, and almost magical that we came up with a suggestion of where the problem could be.</p>
+<p>Here are some curious examples of crashes from the Information Technology folklore to whet our appetite and get us thinking:</p>
 <h3 id="locale-based-crash">Locale based Crash</h3>
 <p>The Russian locale caused a crash during date processing.</p>
 <p>This was because 1984-04-01 was being used as a sentinel date marker. However, in Russia, there is no such date/time because there is no midnight at that point in time. Daylight time started in Russia on that date with a +1 hour.</p>
 <p>This was seen during development of the WecudosPro iPad app when it was tested in Russia</p>
 <h3 id="geographic-location-crash">Geographic Location Crash</h3>
-<p>A computer was crashing each day; each time a different reason.</p>
+<p>A computer was crashing each day at a different time.</p>
 <p>The actual problem was the computer was near a window next to a estuary where ships passed by. At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.</p>
 <p>This folklore story was told to Sun Microsystems Answer Center engineers in the UK during Kepner-Tregoe formal problem solving training.</p>
 <h3 id="bus-noise-crash">Bus Noise Crash</h3>
