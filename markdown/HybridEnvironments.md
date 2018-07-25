@@ -10,13 +10,13 @@ The `icdab_planets` sample app uses a mixture of C++, and Objective-C++.  It rel
 
 The model layer of the app is written in C++.  The controller layer of the app is written in Objective-C++.
 
-The purpose of the app is to tell you how many Pluto sized planets would fit inside Jupiter.
+The purpose of the app is to tell us how many Pluto sized planets would fit inside Jupiter.
 
 ## Paradigms
 
 Recall earlier we contrasted between Objective-C allowing messaging to nil objects versus C which crashes upon NULL dereference.  Here we show how the C++ Standard Template Library has a back-fill strategy.
 
-In the STL map abstraction (a Hash Table) when you query for an entry which does not exist, the STL will insert a new entry in the table for the key being queried, and then return you that entry instead of returning an error or returning a nil.
+In the STL map abstraction (a Hash Table) when we query for an entry which does not exist, the STL will insert a new entry in the table for the key being queried, and then return that entry instead of returning an error or returning a nil.
 
 ## The Problem
 
@@ -106,7 +106,7 @@ We see the constructor makes the diameter zero in this case.
 
 ## Solutions
 
-We see that the problem is not applying the paradigms of each framework and language properly and when you have a mixture of paradigms those different assumptions get masked by each layer of abstraction.
+We see that the problem is not applying the paradigms of each framework and language properly and when we have a mixture of paradigms those different assumptions get masked by each layer of abstraction.
 
 In STL, we expect a `find` operation to be done, instead of the indexing operator.  This allows the abstraction to flag the absence of the item being found.
 
@@ -133,7 +133,7 @@ It is `example/planets_stl`.  On the consumer side, we have a helper method:
 }
 ```
 
-This is is hard to parse if you are mainly an Objective-C programmer.  If the
+This is is hard to parse if we are mainly an Objective-C programmer.  If the
 project is mainly a C++ project with a thin platform-specific layer then perhaps
 that is acceptable.  If the code base just leverages C++ code from elsewhere,
 then a better solution is to confine the paradigms to their own files and apply
@@ -225,4 +225,4 @@ The consumer then becomes a purely Objective-C class:
 
 ## Lessons Learnt
 
-The lesson here is that crashes can arise from special case handling.  Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out your code and use a Facade if possible to keep each paradigm cleanly separated.
+The lesson here is that crashes can arise from special case handling.  Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out our code and use a Facade if possible to keep each paradigm cleanly separated.
