@@ -1,3 +1,11 @@
 ---
+title:  iOS Crash Dump Analysis
+author:
+- by Faisal Memon
+
 tags: [iOS, crash dump, crash analysis]
+abstract: |
+  This book explains crash dump analysis, the specifics but also the Software
+  Engineering and Problem Solving Methodology that surround it.
 ...
+
