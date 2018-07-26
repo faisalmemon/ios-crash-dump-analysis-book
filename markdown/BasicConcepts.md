@@ -46,7 +46,7 @@ Prior to iOS 7\index{iOS!iOS 7}, the MAC address was not considered a sensitive 
 
 Unfortunately, the API was abused as a way of tracking the user - a privacy violation\index{violation!privacy}.  Therefore, Apple introduced a policy from iOS 7 where they would return a fixed MAC address always.
 
-Apple could have chosen to crash our app when any call to `sysctl`\index{command!sysctl} was made.  However, `sysctl` is a general-purpose low level call which can be used for other valid purposes.  Therefore the policy set by iOS was to return a fixed MAC address `02:00:00:00:00:00`\index{02:00:00:00:00:00} whenever that was requested.
+Apple could have chosen to crash our app when any call to `sysctl`\index{command!sysctl} was made.  However, `sysctl` is a general-purpose low-level call which can be used for other valid purposes.  Therefore the policy set by iOS was to return a fixed MAC address `02:00:00:00:00:00`\index{02:00:00:00:00:00} whenever that was requested.
 
 ### Camera Example
 
@@ -87,8 +87,8 @@ This underlies the point about there being two entities involved, the program an
 
 ## Application policies
 
-The application we are writing can also request a crash.  This is typically done via `assert`\index{assert} calls in our code.  These calls ask the Operating Environment to terminate our app if the assert has failed.  The Operating Environment then aborts our app.
-In the crash report we get a
+The application we are writing can also request a crash.  This is typically done via `assert`\index{assert} calls in our code.  These calls ask the Operating Environment to terminate our app if any `assert` has failed.  The Operating Environment then aborts our app.
+In the crash report we get a:
 
 `Exception Type:  EXC_CRASH (SIGABRT)`\index{signal!SIGABRT}
 
@@ -115,15 +115,15 @@ The thing to keep in mind is that any code that touches upon the policies the Op
 
 In the `icdab_sample` project we have created Unit tests and UI tests.
 
-Test cases always feel over-the-top when applied to trivial programs.  But consider a large program which has an extensive `Info.plist`\index{Info.plist} file.  A new version of the app is called for so another `Info.plist` is created.  Then keeping the privilege settings in sync between the different build targets becomes an issue.  The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.  
+Test cases always feel over-the-top when applied to trivial programs.  But consider a large program that has an extensive `Info.plist`\index{Info.plist} file.  A new version of the app is called for so another `Info.plist` is created.  Then keeping the privilege settings in sync between the different build targets becomes an issue.  The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.  
 
-Similarly if our app has a lot of low level code and then is ported\index{software!porting} from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?
+Similarly, if our app has a lot of low-level code and then is ported\index{software!porting} from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?
 
 Unit testing\index{testing!unit} a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in our code base.  It's a strategic play allowing us to get some confidence in our application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).
 
 ### Unit Testing the MAC Address
 
-The code to get the MAC address is not trivial.  So it merits some level of testing.
+The code to get the MAC address is not trivial.  Therefore it merits some level of testing.
 
 Here is a snippet from the Unit tests:
 
@@ -162,7 +162,7 @@ In fact, the last test fails because the OS returns a local address.
 
 ### UI Testing Camera access
 
-For testing camera access we have written a simple UI test case\index{testing!UI} which just presses the Take Photo button (by means of an accessibility identifier `takePhotoButton`)
+For testing camera access, we have written a simple UI test case\index{testing!UI} which just presses the Take Photo button (by means of an accessibility identifier `takePhotoButton`)
 
 ```
 func testTakePhoto() {
