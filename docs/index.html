@@ -257,7 +257,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p><code>Exception Type:  EXC_CRASH (SIGABRT)</code></p>
 <p>to indicate it was the application that requested the crash in the first place.</p>
 <h3 id="when-should-we-crash">When should we crash?</h3>
-<p>WE can apply similar standards as the Operating Environment for our crash policy.</p>
+<p>We can apply similar standards as the Operating Environment for our crash policy.</p>
 <p>If our code detects a data integrity issue, we could crash to prevent further data corruption.</p>
 <h3 id="when-should-we-not-crash">When should we not crash?</h3>
 <p>If the problems have resulted directly from some IO problem (file or network access for example) or some human input problem (such as a bad date value) then we should not crash.</p>
