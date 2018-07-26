@@ -16,28 +16,31 @@ We should try compiling and running other Xcode targets within the same project.
 
 ### Binary compatibility issue
 
-Sometimes our app crashes on startup due to a binary compatibility issue.
+Sometimes our app crashes on startup due to a binary compatibility\index{crash!binary compatibility} issue.
 
 If we've recently updated Xcode, or pulled code updates on top of a compiled project, we can perform an Option-Command-Shift-K clean which cleans the build area of intermediates, and then re-build as normal.
 
 ### Simulator only issue
-Sometimes our app crashes only on simulator.
+Sometimes our app crashes only on simulator\index{crash!simulator only}.
 
 Here we should try Simulator Hardware->Reset all content and settings.  We can try iPad simulator instead of iPhone simulator or vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.
 
 ### Site specific issues
 
-Sometimes our app only crashes when at customer site.
+Sometimes our app only crashes when at customer site\index{crash!site specific}.
 
-We can check Wi-Fi settings or try hot-spotting our iPad to an iPhone.  Sometimes network issues such as connectivity, or latency are overlooked when developing our app in the office/home environment.  We should make a note to fix networking assumptions if that is the problem.
+We can check Wi-Fi\index{Wi-Fi} settings or try hot-spotting our iPad to an iPhone.  Sometimes network issues such as connectivity\index{network!connectivity}, or latency\index{network!latency} are overlooked when developing our app in the office/home environment.  We should make a note to fix networking assumptions if that is the problem.
 
 ### Customer device deployment issues
 
 Sometimes our app only crashes when deploying on a customer device gives problems.
 
-If we cable up our laptop to the customer's device, we're probably doing a Debug release deployment.  This means push notification tokens will be the development tokens not the production tokens.  It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version).
+If we cable up our laptop to the customer's device, we're probably doing a
+Debug\index{deployment!debug} release deployment.  This means push notification tokens will be the development tokens not the production tokens.  It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version).
 
-We should try switching deployment configuration via Command-< selecting Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug).  We should also manually check any resource access grants in the iPad/iPhone settings.
+We should try switching deployment configuration via Command-< selecting Run in the left panel, Info tab in the right panel, Build Configuration setting
+Release\index{deployment!release}
+(not Debug).  We should also manually check any resource access grants in the iPad/iPhone settings.
 
 ### Locale specific issues
 
