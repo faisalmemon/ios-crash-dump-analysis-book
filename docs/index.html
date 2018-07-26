@@ -336,12 +336,12 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <h1 id="xcode-built-in-help">Xcode Built-In Help</h1>
 <p>Xcode provides a lot of help to developers in understanding and preventing crashes.</p>
 <p>We think of Xcode in layers of sophistication, where at the lowest layer of sophistication Xcode directly tells us the common error it has seen with suggested corrections, up to the highest level were Xcode is telling the raw information, but we need Operating Systems knowledge to interpret the information ourselves.</p>
-<p>We shall revisit Xcode configuration, setup and tooling many times. But let us first start off with the simple but high value assistance Xcode provides.</p>
+<p>We shall revisit Xcode configuration, setup and tooling many times. Nevertheless, let us first start off with the simple but high value assistance Xcode provides.</p>
 <h2 id="xcode-diagnostic-settings">Xcode Diagnostic Settings</h2>
 <p>By opening the project <code>icdab_sample</code> <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> and looking at the Schema definition and then highlighting the Diagnostics tab we see the following options:</p>
 <p><img src="screenshots/diagnostic_settings.png" /></p>
 <h3 id="execution-methodology">Execution Methodology</h3>
-<p>If we have a crash which is reproducible from our own developer environment and source code, then a methodology for finding is to switch on the appropriate diagnostic setting and then re-run our application.</p>
+<p>If we have a crash that is reproducible from our own developer environment and source code, then a methodology for finding is to switch on the appropriate diagnostic setting and then re-run our application.</p>
 <p>As we become familiar with each diagnostic, we will know which option to switch on. We shall work through different scenarios so we understand when to use each. But when we are just starting out its worth just going through each one-by-one to get a feel for what is available. The basic approach is:</p>
 <ol type="1">
 <li>Write a Unit Test Case or UI Test Case that hits the problem.</li>
@@ -351,35 +351,35 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <li>Repeat again but choosing a different diagnostic option if the problem is not understood.</li>
 </ol>
 <h3 id="analysis-methodology">Analysis Methodology</h3>
-<p>Another complementary approach for analysing and proactively avoiding crashes is to run the Code Analyser. This is invoked using Command-Shift-B</p>
-<p>In the sample app <code>icdab_sample</code> the Analyser reports:</p>
+<p>Another complementary approach for analyzing and proactively avoiding crashes is to run the Code Analyzer. This is invoked using Command-Shift-B</p>
+<p>In the sample app <code>icdab_sample</code> the Analyzer reports:</p>
 <pre><code>/Users/faisalm/dev/icdab/source/icdab_sample/icdab_sample/macAddress.m:22:12:
  warning: Null pointer argument in call to string length function
     assert(strlen(nullPointer) == 0);</code></pre>
 <p>and conveniently marks up our source code</p>
 <p><img src="screenshots/analyser_null.png" /></p>
-<p>This can be switched on for whenever the project is Built, either in shallow or deep mode according to how we feel the tradeoff should be done between slower more thorough analysis versus quicker build times with less analysis. It is in the Build Settings tab for the Xcode project file.</p>
+<p>This can be switched on for whenever the project is built, either in shallow or deep mode according to how we feel the tradeoff should be done between slower more thorough analysis versus quicker build times with less analysis. It is in the Build Settings tab for the Xcode project file.</p>
 <p><img src="screenshots/static_analyser_build.png" /></p>
 <p>For a large project that has never had an Analysis report done, the output can be overwhelming. There will be some noise in the report but it generally does a good job. There will be duplication in the report because certain classes of error will repeat throughout the code.</p>
 <p>If we are developing code using the Agile software methodology, then it is possible to frame the report as potential backlog items that can be worked upon during the time allocated for refactoring and maintenance.</p>
-<p>In a large software project refactoring and maintenance should be around 20% of the work in a Sprint. Different viewpoints arise in this area. The author recommends doing such work alongside the normal development activities so long as no high risk changes are amongst the work being done. For risky changes, leave that till after a major update of the app has been done. There is usually a lull where planning and strategy is developed following a release which allows a convenient software engineering window to tackle such matters.</p>
+<p>In a large software project refactoring and maintenance should be around 20% of the work in a Sprint. Different viewpoints arise in this area. The author recommends doing such work alongside the normal development activities so long as no high-risk changes are amongst the work being done. For risky changes, leave that until after a major update of the app has been done. There is usually a lull where planning and strategy is developed following a release, which allows a convenient software engineering window to tackle such matters.</p>
 <h4 id="ios-quickedit-app-case-study">iOS QuickEdit App Case Study</h4>
-<p>Where the analyser identifies potential crashes, from an economic point of view it is good investment to fix the problem. For example in the case of the QuickEdit iOS App, about 1 million lines of Objective-C, with 70 000 daily active users, the analyser was run and found 13 clear crashing issues. We created one engineering story (“Fix top analyser errors”). All 13 issues were fixed in the same day with testing taking two more days. Crashes are a top complaint from customers. Bugs found in the field typically are 20 times the effort and cost compared those found in development. With a large population of users, potentially experiencing a severe crash bug, the cost of those 13 bugs could be 20 * 3 days = 60 days wasted effort.</p>
-<p>QuickEdit due to its age only used manual reference counting in Objective-C. Despite this it had a reliability of 99.5% based on app analytics. Only about 5% of engineering effort was needed to maintain this stability over time once the initial issues had been addressed.</p>
+<p>Where the analyzer identifies potential crashes, from an economic point of view it is good investment to fix the problem. For example in the case of the QuickEdit iOS App, about 1 million lines of Objective-C, with 70 000 daily active users, the analyzer was run and found 13 clear crashing issues. We created one engineering story (“Fix top analyzer errors”). All 13 issues were fixed in the same day with testing taking two more days. Crashes are a top complaint from customers. Bugs found in the field typically are 20 times the effort and cost compared those found in development. With a large population of users, potentially experiencing a severe crash bug, the cost of those 13 bugs could be 20 * 3 days = 60 days wasted effort.</p>
+<p>QuickEdit due to its age only used manual reference counting in Objective-C. Despite this, it had a reliability of 99.5% based on app analytics. Only about 5% of engineering effort was needed to maintain this stability over time once the initial issues had been addressed.</p>
 <h3 id="process-methodology">Process Methodology</h3>
-<p>One way to drive out crashes from our app, particularly when we are in a large organisation, is to factor it in our software development process.</p>
-<p>When a developer proposes a code change in a pull request, get the developer to ensure no new analyser warnings are introduced. We might consider the analyser report as a robotically generated code review available to us for free. That is particularly helpful if we are working alone on a project with no peer to review our code.</p>
+<p>One way to drive out crashes from our app, particularly when we are in a large organization, is to factor it in our software development process.</p>
+<p>When a developer proposes a code change in a pull request, get the developer to ensure no new analyzer warnings are introduced. We might consider the analyzer report as a robotically generated code review available to us for free. That is particularly helpful if we are working alone on a project with no peer to review our code.</p>
 <p>When code is committed to a feature branch, have the automated tests run on it, with different diagnostics settings set. This can shake out problems automatically.</p>
 <p>Before each release, schedule time to run some specific user cases under the memory profiler (Xcode instruments will be covered later on) to look at memory usage or other key metrics. Record the highlights such as the peak memory usage as well as the profile file. Then when the following release is made we have a yardstick to see how things have changed both quantitatively and qualitatively.</p>
 <h2 id="the-middle-road">The Middle Road</h2>
 <p>Most software developers know what they “should” be doing; clean code, proper tests, code reviews, etc.</p>
-<p>We recommend to take a measured approach. There is a time for hacking together a sample app to understand a concept. There is a time to write a prototype which just needs to prove a business use case. There is a time to write heavily trusted code used by many people.</p>
-<p>We take the view that maximising economic impact is the one that matters most because most developers are involved in professional software development. Alternatively if we are working on non-commercial projects or hobby projects, the economic cost is really our personal free time which we will want to use most effectively.</p>
+<p>We recommend taking a measured approach. There is a time for hacking together a sample app to understand a concept. There is a time to write a prototype that just needs to prove a business use case. There is a time to write heavily trusted code used by many people.</p>
+<p>We take the view that maximizing economic impact is the one that matters most because most developers are involved in professional software development. Alternatively, if we are working on non-commercial projects or hobby projects, the economic cost is really our personal free time which we will want to use most effectively.</p>
 <p>We recommend:</p>
 <ul>
 <li>For Sample apps and concept exploration, just code the app.</li>
 <li>For Prototype Development, just use the Execution Methodology when we hit problems.</li>
-<li>For Individual Product Development, from the beginning run the Analyser automatically and informally incorporate it into our workflow when we see something important. From the beginning write tests but selectively where we get big impact.</li>
+<li>For Individual Product Development, from the beginning, run the Analyzer automatically and informally incorporate it into our workflow when we see something important. From the beginning write tests but selectively where we get big impact.</li>
 <li>For Team-based Product Development, add in the Process Methodology. Start becoming comprehensive with Testing.</li>
 </ul>
 <h1 id="hybrid-environments">Hybrid Environments</h1>
