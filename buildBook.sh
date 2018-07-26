@@ -14,6 +14,7 @@ pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart
 pandoc $(cat frontPages_latex.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --template=style/simple.latex  -V documentclass=book -o foo.latex
 pdflatex foo.latex > foo.pass.0.log
 pdflatex foo.latex > foo.pass.1.log
+pdflatex foo.latex > foo.pass.2.log
 
 pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --css=style/ebook.css -o foo.pandoc.epub
 
