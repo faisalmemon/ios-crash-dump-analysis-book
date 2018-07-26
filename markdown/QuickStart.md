@@ -1,4 +1,4 @@
-\pagenumbering{arabic} 
+\pagenumbering{arabic}
 
 # Quick Start
 
@@ -10,7 +10,7 @@ In this chapter, we explore possible reasons for crashing due to a change in ope
 
 ### Missing resource issue
 
-Sometimes our app crashes on startup due to a missing resource issue.
+Sometimes our app crashes on startup due to a missing resource\index{crash!missing resource} issue.
 
 We should try compiling and running other Xcode targets within the same project.  Sometimes a specific target is the one that sets up the needed environment as part of the build.  If so, we can make a note to address that later.
 

@@ -343,6 +343,13 @@ $if(logo)$
 $endif$
 $endif$
 
+
+\usepackage{imakeidx}
+\makeindex
+
+
+
+
 \begin{document}
 $if(title)$
 $if(beamer)$
@@ -419,4 +426,7 @@ $for(include-after)$
 $include-after$
 
 $endfor$
+
+\printindex
+
 \end{document}
