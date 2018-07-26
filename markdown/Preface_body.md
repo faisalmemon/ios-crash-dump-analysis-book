@@ -12,7 +12,7 @@ My first day was somewhat ignominious.  I wasn't even given my own cubicle.  My 
 
 One thing struck me was that there was a book sitting on the desk of about a quarter of the 500 odd engineers.  It proudly said on the front cover, "Panic!" @panicbook.  It was a book on SunOS crash dump analysis.
 
-After acquiring a proper cubicle and getting to know my colleagues, I noticed that the engineers with the Panic book just seemed to have that extract edge in low-level issues reported by Customers.  Collectively it lifted the problem solving IQ of the Answer Center where I worked.
+After acquiring a proper cubicle and getting to know my colleagues, I noticed that the engineers with the "Panic!" book just seemed to have that extract edge in low-level issues reported by Customers.  Collectively it lifted the problem solving IQ of the Answer Center where I worked.
 
 At Sun, there was a deep culture of learning.  We were given such extensive training and support it was often the case we'd be doing seven courses per year, each a week long.
 

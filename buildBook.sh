@@ -1,9 +1,12 @@
 #!/bin/bash
 
+# We allow first person in the preface and second person in the Introduction.
+# Elsewhere it is third person only.
+
 echo Usages of "you" in the narrative
-grep --color you $(cat frontPages.txt mainPages.txt | grep -v Introduction) -c
+grep --color you $(cat frontPages.txt mainPages.txt | egrep -v 'Introduction|Preface') -c
 echo
-grep --color you $(cat frontPages.txt mainPages.txt | grep -v Introduction)
+grep --color you $(cat frontPages.txt mainPages.txt | egrep -v 'Introduction|Preface')
 
 pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -c style/gitHubStyle.css -o foo.html
 pandoc $(cat frontPages_latex.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --template=style/simple.latex  -V documentclass=book -o foo.pdf
