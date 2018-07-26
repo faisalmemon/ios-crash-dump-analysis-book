@@ -1,7 +1,3 @@
-markdown/Preface_heading_latex.md
-markdown/Preface_body.md
-markdown/Introduction_heading_latex.md
-markdown/Introduction_body.md
 markdown/QuickStart.md
 markdown/BasicConcepts.md
 markdown/Tooling.md
