@@ -1,3 +1,5 @@
+\pagenumbering{arabic} 
+
 # Quick Start
 
 When an application crash appears after a recent code change, it can be straightforward to reason about the crash and look at the relevant code changes.  Often, crashes just appear due to a change in operating environment.  Those can be the most annoying.  For example, the app runs fine in the Office but crashes at the customer Site.  We don't have time to get into why, but need a quick fix or workaround.  Another common problem scenario arises when a new project is being explored.  This is where we have no prior experience with the code base but immediately face crash problems after compilation and running the app.
