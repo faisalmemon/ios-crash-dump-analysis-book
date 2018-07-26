@@ -114,7 +114,37 @@
 </ul>
 </nav>
 <h1 id="preface">Preface</h1>
-<p>This book grew from an inspiration gained back in the late 1990s.</p>
+<p>This book grew from an inspiration gained back in the late 1990s. Latex support appears not to be available directly in brew so I used the recommended MacTex and this was installed via a brew cask install brew cask install mactex</p>
+<p>Class Dump</p>
+<p>For analysing binaries I used class-dump. Whilst previously this was available from Brew, it seems now you have to directly download it.</p>
+<p>Download class-dump</p>
+<p>Recommended Software</p>
+<p>Package Purpose Atom Edits and understands markdown and can preview render it BibDesk Eases the definition of Citations for the Biliography Calibre Tool</p>
+<p>I sometimes use the Calibre tool to convert MS Word documents into EPUB format files so I can then import them into Kindle Direct Publishing and iBooks Author.</p>
+<p>I tried various combinations but the MS Word format works best as an input source for Calibre. The output seen in iBook is impressive.</p>
+<p>I’ve tried various “official” E-book tools but Calibre seems the best: doesn’t crash, it’s automatic, the default results look great.</p>
+<p>From learning about ebook css, I’ve been able to make pandoc generated e-books much better so I have decided not to actively use Calibre at the moment.</p>
+<p>Essential Mac Configuration</p>
+<p>Screenshots</p>
+<p>I have discovered the standard screenshot on Mac only does low resolution (screen resolution) images. Print books need to have higher resolution.</p>
+<p>I saw an answer at: https://apple.stackexchange.com/a/110206</p>
+<p>I need to experiment in this area. Maybe putting my screen in large scale mode will give me screenshots with effectively a higher ppi when shrunk down for print.</p>
+<p>Build System</p>
+<p>The book is built using buildBook.sh</p>
+<p>The build outputs are:</p>
+<p>File Purpose foo.html Intermediate used for GitHub Pages documentation foo.pdf For the Hard Copy Paper Edition foo.docx For further conversion into EPUB, and internally for spelling and grammar checking foo.pandoc.epub For E-book readers (Apple and Amazon) directly from pandoc docs/* Final destination for GitHub Pages documentation The output are foo.* files locally for ease of inspection. They are ignored by version control.</p>
+<p>For github pages, the GitHub documentation facility, the HTML documentation and supporting resources is copied into the docs directory and then they are checked in (the branch is required to be master).</p>
+<p>The build system also checks for uses of “you” - they should be “we” in all cases apart from the Introduction.</p>
+<p>The main purpose of the docx version was I could not get a good quality E-book generated automatically from pandoc. But going via Calibre sorts out the problem.</p>
+<p>The reason why I am not using docx for the Paperback edition is because there is no filter that will allow me to convert embedded index references in the markdown into docx references. Creating the index would then be a manual task. For a 300 page book, that’s one week of work!</p>
+<p>Ignore this section I tried to install fonts to get a latex template working but keep hitting problems. My original instructions were:</p>
+<p>Font Support</p>
+<p>For the document template I wanted to use I needed sourcesanspro.sty so I downloaded SourceSansPro.zip</p>
+<p>sudo cp -Rfp sourcesanspro/* /opt/local/share/texmf-texlive to overlay the downloaded font into the existing system tree. sudo vi /opt/local/var/db/texmf/web2c/updmap.cfg to append the line Map SourceSansPro.map Update indexes sudo mktexlsr Install the fonts with sudo -H updmap-sys In fact I needed a collection of fonts and resources:</p>
+<p>Resource Location SansPro http://mirrors.ctan.org/install/fonts/sourcesanspro.tds.zip Ly1 http://mirrors.ctan.org/fonts/psfonts/ly1.zip MWeights http://mirrors.ctan.org/macros/latex/contrib/mweights.zip No results found for ’page’Finding with Options: Case Insensitive</p>
+<p>page</p>
+<p>no results Find Find All</p>
+<p>Replace in current buffer Replace Replace All</p>
 <h1 id="introduction">Introduction</h1>
 <p>This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs. The mindset of the Application developer is largely understanding high-level concepts and abstractions. When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.</p>
 <p>We focus exclusively on the Apple ecosystem.</p>
