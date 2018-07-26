@@ -1,5 +1,3 @@
-# Introduction
-
 This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs.  The mindset of the Application developer is largely understanding high-level concepts and abstractions.  When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.
 
 We focus exclusively on the Apple ecosystem.

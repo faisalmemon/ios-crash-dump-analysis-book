@@ -1,6 +1,7 @@
 markdown/Preface_heading.md
 markdown/Preface_body.md
-markdown/Introduction.md
+markdown/Introduction_heading.md
+markdown/Introduction_body.md
 markdown/QuickStart.md
 markdown/BasicConcepts.md
 markdown/Tooling.md
