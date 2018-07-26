@@ -345,7 +345,7 @@ $endif$
 
 
 \usepackage{imakeidx}
-\makeindex
+\makeindex[columns=2]
 
 
 
