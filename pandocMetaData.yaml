@@ -1,12 +1,10 @@
 ---
 title:  iOS Crash Dump Analysis
+  - \pagenumbering{gobble}
 author:
 - By Faisal Memon
 
 tags: [iOS, crash dump, crash analysis]
-abstract: |
-  This book explains crash dump analysis, the specifics but also the Software
-  Engineering and Problem Solving Methodology that surround it.
 
 geometry: "paperwidth=18.9cm,paperheight=24.61cm,left=3cm,right=3cm,top=2cm,bottom=2cm"
 
