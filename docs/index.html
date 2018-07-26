@@ -228,7 +228,7 @@
 <p>Consider the example of getting the MAC address of our iPhone. The Media Access Control (MAC) address is a unique code allocated to network cards to allow machines to talk to each other without duplication at the Data Link layer of the communication stack.</p>
 <p>Prior to iOS 7, the MAC address was not considered a sensitive API. So requesting the MAC address using the <code>sysctl</code> API gave the real address. To see this in action, see the <code>icdab_sample</code> app <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span>.</p>
 <p>Unfortunately, the API was abused as a way of tracking the user - a privacy violation. Therefore, Apple introduced a policy from iOS 7 where they would return a fixed MAC address always.</p>
-<p>Apple could have chosen to crash our app when any call to <code>sysctl</code> was made. However, <code>sysctl</code> is a general-purpose low level call which can be used for other valid purposes. Therefore the policy set by iOS was to return a fixed MAC address <code>02:00:00:00:00:00</code> whenever that was requested.</p>
+<p>Apple could have chosen to crash our app when any call to <code>sysctl</code> was made. However, <code>sysctl</code> is a general-purpose low-level call which can be used for other valid purposes. Therefore the policy set by iOS was to return a fixed MAC address <code>02:00:00:00:00:00</code> whenever that was requested.</p>
 <h3 id="camera-example">Camera Example</h3>
 <p>Now lets consider the case of taking a photo using the camera.</p>
 <p>Introduced in iOS 10, when we want to access the Camera, a privacy sensitive feature, we need to define human readable text that is presented inside the system permission dialogue before access to the Camera is granted.</p>
@@ -253,7 +253,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>Note the contrast here. In both cases there was a privacy sensitive API. However, in the camera case, Apple chose a policy of crashing our app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a <code>false</code> value to indicate the source type was not available.</p>
 <p>This underlies the point about there being two entities involved, the program and the operating environment (which includes its policies). Having correct source code does not guarantee crash free running. When we see a crash we need to think about the operating environment as much as the code itself.</p>
 <h2 id="application-policies">Application policies</h2>
-<p>The application we are writing can also request a crash. This is typically done via <code>assert</code> calls in our code. These calls ask the Operating Environment to terminate our app if the assert has failed. The Operating Environment then aborts our app. In the crash report we get a</p>
+<p>The application we are writing can also request a crash. This is typically done via <code>assert</code> calls in our code. These calls ask the Operating Environment to terminate our app if any <code>assert</code> has failed. The Operating Environment then aborts our app. In the crash report we get a:</p>
 <p><code>Exception Type:  EXC_CRASH (SIGABRT)</code></p>
 <p>to indicate it was the application that requested the crash in the first place.</p>
 <h3 id="when-should-we-crash">When should we crash?</h3>
@@ -266,11 +266,11 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>How should we guard against the privacy problems described above?</p>
 <p>The thing to keep in mind is that any code that touches upon the policies the Operating Environment has guards for is a good candidate for automated testing.</p>
 <p>In the <code>icdab_sample</code> project we have created Unit tests and UI tests.</p>
-<p>Test cases always feel over-the-top when applied to trivial programs. But consider a large program which has an extensive <code>Info.plist</code> file. A new version of the app is called for so another <code>Info.plist</code> is created. Then keeping the privilege settings in sync between the different build targets becomes an issue. The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.</p>
-<p>Similarly if our app has a lot of low level code and then is ported from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?</p>
+<p>Test cases always feel over-the-top when applied to trivial programs. But consider a large program that has an extensive <code>Info.plist</code> file. A new version of the app is called for so another <code>Info.plist</code> is created. Then keeping the privilege settings in sync between the different build targets becomes an issue. The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.</p>
+<p>Similarly, if our app has a lot of low-level code and then is ported from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?</p>
 <p>Unit testing a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in our code base. It’s a strategic play allowing us to get some confidence in our application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).</p>
 <h3 id="unit-testing-the-mac-address">Unit Testing the MAC Address</h3>
-<p>The code to get the MAC address is not trivial. So it merits some level of testing.</p>
+<p>The code to get the MAC address is not trivial. Therefore it merits some level of testing.</p>
 <p>Here is a snippet from the Unit tests:</p>
 <pre><code>    func getFirstOctectAsInt(_ macAddress: String) -&gt; Int {
         let firstOctect = macAddress.split(separator: &quot;:&quot;).first!
@@ -302,7 +302,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
     }</code></pre>
 <p>In fact, the last test fails because the OS returns a local address.</p>
 <h3 id="ui-testing-camera-access">UI Testing Camera access</h3>
-<p>For testing camera access we have written a simple UI test case which just presses the Take Photo button (by means of an accessibility identifier <code>takePhotoButton</code>)</p>
+<p>For testing camera access, we have written a simple UI test case which just presses the Take Photo button (by means of an accessibility identifier <code>takePhotoButton</code>)</p>
 <pre><code>func testTakePhoto() {
     let app = XCUIApplication()
     app.buttons[&quot;takePhotoButton&quot;].tap()
