@@ -10,7 +10,7 @@ The policies\index{policy} of the operating environment are there to ensure secu
 
 ### Nil Handling Example
 
-Newcomers to the Apple ecosystem are often surprised to learn that Objective-C allows us to message a nil object.  It silently ignores the failed dispatch\index{nil dispatch}.  For example,
+Newcomers to the Apple\index{trademark!Apple} ecosystem are often surprised to learn that Objective-C\index{trademark!Objective-C} allows us to message a nil object.  It silently ignores the failed dispatch\index{nil dispatch}.  For example,
 the following method runs ok.
 
 ```
@@ -42,17 +42,17 @@ When things go wrong, we don't always get a crash.  Only if it is Operating Envi
 
 Consider the example of getting the MAC address\index{MAC address} of our iPhone.  The Media Access Control (MAC) address is a unique code allocated to network cards to allow machines to talk to each other without duplication at the Data Link\index{network!Data Link Layer} layer of the communication stack.
 
-Prior to iOS 7\index{iOS!iOS 7}, the MAC address was not considered a sensitive API\index{API!sensitive}.  So requesting the MAC address using the `sysctl` API gave the real address.  To see this in action, see the `icdab_sample` app @icdabgithub.
+Prior to iOS\index{trademark!iOS} 7\index{iOS!iOS 7}, the MAC address was not considered a sensitive API\index{API!sensitive}.  So requesting the MAC address using the `sysctl`\index{command!sysctl} API gave the real address.  To see this in action, see the `icdab_sample` app @icdabgithub.
 
 Unfortunately, the API was abused as a way of tracking the user - a privacy violation\index{violation!privacy}.  Therefore, Apple introduced a policy from iOS 7 where they would return a fixed MAC address always.
 
-Apple could have chosen to crash our app when any call to `sysctl`\index{command!sysctl} was made.  However, `sysctl` is a general-purpose low-level call which can be used for other valid purposes.  Therefore the policy set by iOS was to return a fixed MAC address `02:00:00:00:00:00`\index{02:00:00:00:00:00} whenever that was requested.
+Apple could have chosen to crash our app when any call to `sysctl` was made.  However, `sysctl` is a general-purpose low-level call which can be used for other valid purposes.  Therefore the policy set by iOS was to return a fixed MAC address `02:00:00:00:00:00`\index{02:00:00:00:00:00} whenever that was requested.
 
 ### Camera Example
 
 Now lets consider the case of taking a photo using the camera.
 
-Introduced in iOS 10, when we want to access the Camera, a privacy sensitive feature, we need to define human readable text that is presented inside the system permission dialogue before access to the Camera is granted.
+Introduced in iOS 10\index{iOS!iOS 10}, when we want to access the Camera, a privacy sensitive feature, we need to define human readable text that is presented inside the system permission dialogue before access to the Camera is granted.
 
 If we don't define the text in our `Info.plist`\index{Info.plist} for `NSCameraUsageDescription`\index{API!camera} we still see the following code evaluating true and then attempting to present the image picker.
 
@@ -117,7 +117,7 @@ In the `icdab_sample` project we have created Unit tests and UI tests.
 
 Test cases always feel over-the-top when applied to trivial programs.  But consider a large program that has an extensive `Info.plist`\index{Info.plist} file.  A new version of the app is called for so another `Info.plist` is created.  Then keeping the privilege settings in sync between the different build targets becomes an issue.  The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.  
 
-Similarly, if our app has a lot of low-level code and then is ported\index{software!porting} from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?
+Similarly, if our app has a lot of low-level code and then is ported\index{software!porting} from iOS to tvOS\index{operating system!tvOS}\index{trademark!tvOS} for example, how much of that OS-sensitive code is still applicable?
 
 Unit testing\index{testing!unit} a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in our code base.  It's a strategic play allowing us to get some confidence in our application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).
 

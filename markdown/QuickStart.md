@@ -12,7 +12,7 @@ In this chapter, we explore possible reasons for crashing due to a change in ope
 
 Sometimes our app crashes on startup due to a missing resource\index{crash!missing resource} issue.
 
-We should try compiling and running other Xcode targets within the same project.  Sometimes a specific target is the one that sets up the needed environment as part of the build.  If so, we can make a note to address that later.
+We should try compiling and running other Xcode\index{trademark!Xcode} targets within the same project.  Sometimes a specific target is the one that sets up the needed environment as part of the build.  If so, we can make a note to address that later.
 
 ### Binary compatibility issue
 
@@ -23,7 +23,7 @@ If we've recently updated Xcode, or pulled code updates on top of a compiled pro
 ### Simulator only issue
 Sometimes our app crashes only on simulator\index{crash!simulator only}.
 
-Here we should try Simulator Hardware->Reset all content and settings.  We can try iPad simulator instead of iPhone simulator or vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.
+Here we should try Simulator Hardware->Reset all content and settings.  We can try iPad\index{trademark!iPad} simulator instead of iPhone\index{trademark!iPhone} simulator or vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.
 
 ### Site specific issues
 
@@ -36,7 +36,7 @@ We can check Wi-Fi\index{Wi-Fi} settings or try hot-spotting our iPad to an iPho
 Sometimes our app only crashes when deploying on a customer device gives problems.
 
 If we cable up our laptop to the customer's device, we're probably doing a
-Debug\index{deployment!debug} release deployment.  This means push notification tokens will be the development tokens not the production tokens.  It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version).
+Debug\index{deployment!debug} release deployment.  This means push notification tokens will be the development tokens not the production tokens.  It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight\index{trademark!TestFlight} or App Store version of the app previously (production version).
 
 We should try switching deployment configuration via Command-< selecting Run in the left panel, Info tab in the right panel, Build Configuration setting
 Release\index{deployment!release}
@@ -89,7 +89,7 @@ A computer was crashing each day at a different time.
 
 The actual problem was the computer was near a window next to an estuary where ships passed by.  At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.
 
-This folklore story was told to Sun Microsystems Answer Center engineers in the UK during Kepner-Tregoe formal problem solving training.
+This folklore story was told to Sun Microsystems\index{trademark!Sun Microsystems} Answer Center engineers in the UK during Kepner-Tregoe\index{trademark!Kepner-Tregoe} formal problem solving training.
 
 
 ### Bus Noise Crash
