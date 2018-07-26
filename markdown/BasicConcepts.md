@@ -54,7 +54,7 @@ Now lets consider the case of taking a photo using the camera.
 
 Introduced in iOS 10, when we want to access the Camera, a privacy sensitive feature, we need to define human readable text that is presented inside the system permission dialogue before access to the Camera is granted.
 
-If we don't define the text in our `Info.plist` for `NSCameraUsageDescription` we still see the following code evaluating true and then attempting to present the image picker.
+If we don't define the text in our `Info.plist`\index{Info.plist} for `NSCameraUsageDescription`\index{API!camera} we still see the following code evaluating true and then attempting to present the image picker.
 
 ```
 if UIImagePickerController.isSourceTypeAvailable(
@@ -81,24 +81,24 @@ Message from debugger: Terminated due to signal 9
 
 ### Lessons Learnt
 
-Note the contrast here.  In both cases there was a privacy sensitive API.  However, in the camera case, Apple chose a policy of crashing our app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a `false` value to indicate the source type was not available.
+Note the contrast here.  In both cases there was a privacy sensitive API\index{API!privacy}.  However, in the camera case, Apple chose a policy of crashing our app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a `false` value to indicate the source type was not available.
 
-This underlies the point about there being two entities involved, the program and the operating environment (which includes its policies).  Having correct source code does not guarantee crash free running.  When we see a crash we need to think about the operating environment as much as the code itself.
+This underlies the point about there being two entities involved, the program and the operating environment\index{operating environment} (which includes its policies).  Having correct source code does not guarantee crash free running.  When we see a crash we need to think about the operating environment as much as the code itself.
 
 ## Application policies
 
-The application we are writing can also request a crash.  This is typically done via `assert` calls in our code.  These calls ask the Operating Environment to terminate our app if the assert has failed.  The Operating Environment then aborts our app.
+The application we are writing can also request a crash.  This is typically done via `assert`\index{assert} calls in our code.  These calls ask the Operating Environment to terminate our app if the assert has failed.  The Operating Environment then aborts our app.
 In the crash report we get a
 
-`Exception Type:  EXC_CRASH (SIGABRT)`
+`Exception Type:  EXC_CRASH (SIGABRT)`\index{signal!SIGABRT}
 
 to indicate it was the application that requested the crash in the first place.
 
 ### When should we crash?
 
-WE can apply similar standards as the Operating Environment for our crash policy.
+We can apply similar standards as the Operating Environment for our crash policy.
 
-If our code detects a data integrity issue, we could crash to prevent further data corruption.
+If our code detects a data integrity issue\index{crash!data integrity}, we could crash to prevent further data corruption\index{crash!data corruption}.
 
 ### When should we not crash?
 
@@ -115,11 +115,11 @@ The thing to keep in mind is that any code that touches upon the policies the Op
 
 In the `icdab_sample` project we have created Unit tests and UI tests.
 
-Test cases always feel over-the-top when applied to trivial programs.  But consider a large program which has an extensive `Info.plist` file.  A new version of the app is called for so another `Info.plist` is created.  Then keeping the privilege settings in sync between the different build targets becomes an issue.  The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.  
+Test cases always feel over-the-top when applied to trivial programs.  But consider a large program which has an extensive `Info.plist`\index{Info.plist} file.  A new version of the app is called for so another `Info.plist` is created.  Then keeping the privilege settings in sync between the different build targets becomes an issue.  The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.  
 
-Similarly if our app has a lot of low level code and then is ported from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?
+Similarly if our app has a lot of low level code and then is ported\index{software!porting} from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?
 
-Unit testing a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in our code base.  It's a strategic play allowing us to get some confidence in our application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).
+Unit testing\index{testing!unit} a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in our code base.  It's a strategic play allowing us to get some confidence in our application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).
 
 ### Unit Testing the MAC Address
 
@@ -162,7 +162,7 @@ In fact, the last test fails because the OS returns a local address.
 
 ### UI Testing Camera access
 
-For testing camera access we have written a simple UI test case which just presses the Take Photo button (by means of an accessibility identifier `takePhotoButton`)
+For testing camera access we have written a simple UI test case\index{testing!UI} which just presses the Take Photo button (by means of an accessibility identifier `takePhotoButton`)
 
 ```
 func testTakePhoto() {
