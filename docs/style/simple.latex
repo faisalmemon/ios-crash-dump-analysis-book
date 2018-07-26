@@ -426,4 +426,7 @@ $for(include-after)$
 $include-after$
 
 $endfor$
+
+\printindex
+
 \end{document}
