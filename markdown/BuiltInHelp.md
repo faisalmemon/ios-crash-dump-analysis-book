@@ -1,4 +1,4 @@
-# Xcode Built In Help
+# Xcode Built-In Help
 
 Xcode provides a lot of help to developers in understanding and preventing crashes.
 
