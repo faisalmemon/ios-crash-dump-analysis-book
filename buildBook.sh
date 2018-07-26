@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm foo.*
+
 # We allow first person in the preface and second person in the Introduction.
 # Elsewhere it is third person only.
 
