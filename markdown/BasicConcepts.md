@@ -2,15 +2,15 @@
 
 ## What is a crash?
 
-An application crash is something the Operating Environment does to our application in response to what we have done (or failed to do) in the Operating Environment that violates some _policy_ of the platform we are running on.
+An application crash\index{crash!definition} is something the Operating Environment does to our application in response to what we have done (or failed to do) in the Operating Environment that violates some _policy_ of the platform we are running on.
 
 ## Operating Environment Policies
 
-The policies of the operating environment are there to ensure security, data safety, performance, and privacy of the environment to the user.
+The policies\index{policy} of the operating environment are there to ensure security, data safety, performance, and privacy of the environment to the user.
 
 ### Nil Handling Example
 
-Newcomers to the Apple ecosystem are often surprised to learn that Objective-C allows us to message a nil object.  It silently ignores the failed dispatch.  For example,
+Newcomers to the Apple ecosystem are often surprised to learn that Objective-C allows us to message a nil object.  It silently ignores the failed dispatch\index{nil dispatch}.  For example,
 the following method runs ok.
 
 ```
@@ -24,7 +24,7 @@ the following method runs ok.
 The Objective-C runtime authors made a judgement call, and decided it was better for an application to ignore such problems.
 
 
-However if we deference a C pointer we get a crash.
+However if we deference a C pointer\index{NULL dereference} we get a crash.
 ```
 void nullDereferenceCrash() {
     char *nullPointer = NULL;
@@ -32,7 +32,7 @@ void nullDereferenceCrash() {
 }
 ```
 
-The authors of the operating system have setup the system so access to this and other low memory addresses causes the hardware to trap on this illegal access and abort our program.
+The authors of the operating system have setup the system so access to this and other low memory addresses causes the hardware to trap on this illegal access\index{illegal access} and abort\index{abort} our program.
 
 This area of memory is set aside by the operating system because it indicates a programming error of not setting up an object or data structure properly.
 
@@ -40,13 +40,13 @@ When things go wrong, we don't always get a crash.  Only if it is Operating Envi
 
 ### MAC Address Example
 
-Consider the example of getting the MAC address of our iPhone.  The Media Access Control (MAC) address is a unique code allocated to network cards to allow machines to talk to each other without duplication at the Data Link layer of the communication stack.
+Consider the example of getting the MAC address\index{MAC address} of our iPhone.  The Media Access Control (MAC) address is a unique code allocated to network cards to allow machines to talk to each other without duplication at the Data Link\index{network!Data Link Layer} layer of the communication stack.
 
-Prior to iOS 7, the MAC address was not considered a sensitive API.  So requesting the MAC address using the `sysctl` API gave the real address.  To see this in action, see the `icdab_sample` app @icdabgithub.
+Prior to iOS 7\index{iOS!iOS 7}, the MAC address was not considered a sensitive API\index{API!sensitive}.  So requesting the MAC address using the `sysctl` API gave the real address.  To see this in action, see the `icdab_sample` app @icdabgithub.
 
-Unfortunately, the API was abused as a way of tracking the user - a privacy violation.  Therefore, Apple introduced a policy from iOS 7 where they would return a fixed MAC address always.
+Unfortunately, the API was abused as a way of tracking the user - a privacy violation\index{violation!privacy}.  Therefore, Apple introduced a policy from iOS 7 where they would return a fixed MAC address always.
 
-Apple could have chosen to crash our app when any call to `sysctl` was made.  However, `sysctl` is a general-purpose low level call which can be used for other valid purposes.  Therefore the policy set by iOS was to return a fixed MAC address `02:00:00:00:00:00` whenever that was requested.
+Apple could have chosen to crash our app when any call to `sysctl`\index{command!sysctl} was made.  However, `sysctl` is a general-purpose low level call which can be used for other valid purposes.  Therefore the policy set by iOS was to return a fixed MAC address `02:00:00:00:00:00`\index{02:00:00:00:00:00} whenever that was requested.
 
 ### Camera Example
 

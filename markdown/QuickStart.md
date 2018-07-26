@@ -44,13 +44,13 @@ Release\index{deployment!release}
 
 ### Locale specific issues
 
-Sometimes deploying with the customer's locale causes a crash.
+Sometimes deploying with the customer's locale\index{crash!locale} causes a crash.
 
 Resource files might be absent in the wrong locale.  Furthermore, locale handling is rife with undocumented special cases.  We should try changing the locale temporarily to a known working one.  Make a note to return to the issue when back in the office.
 
 ## The Crash Mindset
 
-One take away lesson from the above examples is that we need to think of our code in a wider context.  We should think of the operating environment of our app.  This comprises:
+One take away lesson from the above examples is that we need to think of our code in a wider context.  We should think of the operating environment\index{operating environment} of our app.  This comprises:
 
 - the compiled code
 - binary incompatibilities between code modules (different language versions, compilers and toolchains)
