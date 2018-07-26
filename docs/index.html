@@ -114,37 +114,19 @@
 </ul>
 </nav>
 <h1 id="preface">Preface</h1>
-<p>This book grew from an inspiration gained back in the late 1990s. Latex support appears not to be available directly in brew so I used the recommended MacTex and this was installed via a brew cask install brew cask install mactex</p>
-<p>Class Dump</p>
-<p>For analysing binaries I used class-dump. Whilst previously this was available from Brew, it seems now you have to directly download it.</p>
-<p>Download class-dump</p>
-<p>Recommended Software</p>
-<p>Package Purpose Atom Edits and understands markdown and can preview render it BibDesk Eases the definition of Citations for the Biliography Calibre Tool</p>
-<p>I sometimes use the Calibre tool to convert MS Word documents into EPUB format files so I can then import them into Kindle Direct Publishing and iBooks Author.</p>
-<p>I tried various combinations but the MS Word format works best as an input source for Calibre. The output seen in iBook is impressive.</p>
-<p>I’ve tried various “official” E-book tools but Calibre seems the best: doesn’t crash, it’s automatic, the default results look great.</p>
-<p>From learning about ebook css, I’ve been able to make pandoc generated e-books much better so I have decided not to actively use Calibre at the moment.</p>
-<p>Essential Mac Configuration</p>
-<p>Screenshots</p>
-<p>I have discovered the standard screenshot on Mac only does low resolution (screen resolution) images. Print books need to have higher resolution.</p>
-<p>I saw an answer at: https://apple.stackexchange.com/a/110206</p>
-<p>I need to experiment in this area. Maybe putting my screen in large scale mode will give me screenshots with effectively a higher ppi when shrunk down for print.</p>
-<p>Build System</p>
-<p>The book is built using buildBook.sh</p>
-<p>The build outputs are:</p>
-<p>File Purpose foo.html Intermediate used for GitHub Pages documentation foo.pdf For the Hard Copy Paper Edition foo.docx For further conversion into EPUB, and internally for spelling and grammar checking foo.pandoc.epub For E-book readers (Apple and Amazon) directly from pandoc docs/* Final destination for GitHub Pages documentation The output are foo.* files locally for ease of inspection. They are ignored by version control.</p>
-<p>For github pages, the GitHub documentation facility, the HTML documentation and supporting resources is copied into the docs directory and then they are checked in (the branch is required to be master).</p>
-<p>The build system also checks for uses of “you” - they should be “we” in all cases apart from the Introduction.</p>
-<p>The main purpose of the docx version was I could not get a good quality E-book generated automatically from pandoc. But going via Calibre sorts out the problem.</p>
-<p>The reason why I am not using docx for the Paperback edition is because there is no filter that will allow me to convert embedded index references in the markdown into docx references. Creating the index would then be a manual task. For a 300 page book, that’s one week of work!</p>
-<p>Ignore this section I tried to install fonts to get a latex template working but keep hitting problems. My original instructions were:</p>
-<p>Font Support</p>
-<p>For the document template I wanted to use I needed sourcesanspro.sty so I downloaded SourceSansPro.zip</p>
-<p>sudo cp -Rfp sourcesanspro/* /opt/local/share/texmf-texlive to overlay the downloaded font into the existing system tree. sudo vi /opt/local/var/db/texmf/web2c/updmap.cfg to append the line Map SourceSansPro.map Update indexes sudo mktexlsr Install the fonts with sudo -H updmap-sys In fact I needed a collection of fonts and resources:</p>
-<p>Resource Location SansPro http://mirrors.ctan.org/install/fonts/sourcesanspro.tds.zip Ly1 http://mirrors.ctan.org/fonts/psfonts/ly1.zip MWeights http://mirrors.ctan.org/macros/latex/contrib/mweights.zip No results found for ’page’Finding with Options: Case Insensitive</p>
-<p>page</p>
-<p>no results Find Find All</p>
-<p>Replace in current buffer Replace Replace All</p>
+<p>This book grew from an inspiration gained back in the late 1990s.</p>
+<p>It’s hard to overstate the euphoria of the moment. The Internet was the next Industrial Revolution. Investors saw it as the best place to put their money. Hardware, software and services were all experiencing a Cambrian explosion of diversity and innovation.</p>
+<p>I found myself at the center of things. I was newly recruited to Sun Microsystems. At that time, if you had a great idea for a website and wanted to start serving your customers, Sun Microsystems computers were an essential purchase. These were servers which you would either house yourself or place with a co-location provider.</p>
+<p>Computer technology was already well developed by then, but existing solutions were now being put to use in new scenarios, and at Internet-scale. What was a perfectly good implementation of Unix, SunOS, from the rarefied halls of Stanford University was now running on E-Bay and had to be up and running without a glitch.</p>
+<p>We had an electronic board showing the status of our critical customers. Saudi Aramco was permanently lit in red to the extent that I wondered if that was a fault on the board itself.</p>
+<p>My first day was somewhat ignominious. I wasn’t even given my own cubicle. My desk looked like a school table. My keyboard had several faulty and inoperative keys. I sat in one corner of a vast cube-farm and actually forgot which corner it was at on the first day. After lunch, I returned to my desk after an extensive walk around the other corners.</p>
+<p>One thing struck me was that there was a book sitting on the desk of about a quarter of the 500 odd engineers. It proudly said on the front cover, “Panic!” <span class="citation" data-cites="cite">(<span class="citeproc-not-found" data-reference-id="cite"><strong>???</strong></span>)</span> panicbook. It was a book on SunOS crash dump analysis.</p>
+<p>After acquiring a proper cubicle and getting to know my colleagues I noticed that the engineers with the Panic book just seemed to have that extract edge in low level issues reported by Customers. Collectively it lifted the problem solving IQ of the Answer Center where I worked.</p>
+<p>At Sun there was a deep culture of learning. We were given such extensive training and support it was often the case we’d be doing 7 courses per year, each a week long.</p>
+<p>All was good until one course came up. It was called Analytical Troubleshooting (ATS). This caused great controversy within the Answer Center. It was a formal methodology for solving problems. It could not tell you the answers, but it would ensure you were forced to ask the right questions. It turned out that on our hardest problems, we were missing asking the right questions.</p>
+<p>This was a major step forwards again in productivity. But some engineers, quite out of character, were loudly critical. It turned out that these techniques were just things experienced engineers had learnt as part of their craft and they didn’t want the magic to be laid bare for anyone to pick up cheaply.</p>
+<p>One day Chris Drake was in town and popped into our office. He was the x86 architecture specialist that collaborated with Kimberley Brown to produce the “Panic!” book. They arranged a workshop to educate us on SunOS crashes on x86 architecture. It was something of a novelty at the time, prior to the remarkable rise of Linux and the GNU/Linux system.</p>
+<p>I remember one time, as an undergraduate student during an Operating Systems lecture, I looked across at the Sun Microsystems logo and dreamed of one day working there. It came true. So in my workshop on x86 panics, I had another idea. One day I would write a book. Something that could be a point solution to help people with a technical problem. Something that could convey the experiences I had obtained in my career. It turns out that came true as well in the book you are reading now.</p>
 <h1 id="introduction">Introduction</h1>
 <p>This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs. The mindset of the Application developer is largely understanding high-level concepts and abstractions. When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.</p>
 <p>We focus exclusively on the Apple ecosystem.</p>
