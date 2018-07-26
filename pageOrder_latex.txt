@@ -1,4 +1,4 @@
-markdown/Preface_heading.md
+markdown/Preface_heading_latex.md
 markdown/Preface_body.md
 markdown/Introduction.md
 markdown/QuickStart.md
