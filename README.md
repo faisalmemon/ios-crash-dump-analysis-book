@@ -85,20 +85,22 @@ For analysing binaries I used `class-dump`.  Whilst previously this was availabl
 [Download class-dump](http://stevenygard.com/projects/class-dump/)
 
 
-#### Calibre Tool
-
-I use the [Calibre](https://calibre-ebook.com/dist/osx) tool to convert MS Word documents into EPUB format files so I can then import them into Kindle Direct Publishing and iBooks Author.
-
-I tried various combinations but the MS Word format works best as an input source for Calibre.  The output seen in iBook is impressive.  The output seen in KDP is faulty - it shows the blue color everywhere.  I need to fix that.
-
-I've tried various "official" E-book tools but Calibre seems the best: doesn't crash, it's automatic, the default results look great.
-
 ### Recommended Software
 
 Package | Purpose
 --|--
 Atom|Edits and understands markdown and can preview render it
 BibDesk | Eases the definition of Citations for the Biliography
+
+#### Calibre Tool
+
+I sometimes use the [Calibre](https://calibre-ebook.com/dist/osx) tool to convert MS Word documents into EPUB format files so I can then import them into Kindle Direct Publishing and iBooks Author.
+
+I tried various combinations but the MS Word format works best as an input source for Calibre.  The output seen in iBook is impressive.  
+
+I've tried various "official" E-book tools but Calibre seems the best: doesn't crash, it's automatic, the default results look great.
+
+From learning about ebook css, I've been able to make `pandoc` generated e-books much better so I have decided not to actively use Calibre at the moment.
 
 ## Essential Mac Configuration
 
@@ -121,7 +123,7 @@ File | Purpose
 `foo.html` | Intermediate used for GitHub Pages documentation
 `foo.pdf` | For the Hard Copy Paper Edition
 `foo.docx` | For further conversion into EPUB, and internally for spelling and grammar checking
-`foo.epub` | For E-book readers (Apple and Amazon)
+`foo.pandoc.epub` | For E-book readers (Apple and Amazon) directly from pandoc
 `docs/*` | Final destination for GitHub Pages documentation
 
 The output are `foo.*` files locally for ease of inspection.  They are ignored by version control.
