@@ -676,16 +676,16 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 There can be many pixel formats for images. An <code>assert</code> might lead us to notice it was the format that was asserting. Therefore, we could just try a different pixel format.</p>
 <p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details. A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
 <h1 id="the-crash-report">The Crash Report</h1>
-<p>In this chapter we get into the details of what comprises a crash report. Our main focus is the iOS crash report. We also cover the macOS crash report, which caries a slightly different structure but serves the same purpose.</p>
+<p>In this chapter, we get into the details of what comprises a crash report. Our main focus is the iOS crash report. We also cover the macOS crash report, which caries a slightly different structure but serves the same purpose.</p>
 <p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
 <p>When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
-<p>Apple have a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
+<p>Apple have produced a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
 <h2 id="system-diagnostics">System Diagnostics</h2>
 <p>Crash Reports are just one part of a much bigger diagnostic reporting story.</p>
-<p>Ordinarily as application developers we don’t need to look much further. However, if our problems are potentially triggered by a unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our crash reports, we need to study the system diagnostics.</p>
+<p>Ordinarily as application developers, we don’t need to look much further. However, if our problems are potentially triggered by an unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our crash reports, we need to study the system diagnostics.</p>
 <h3 id="extracting-system-diagnostic-information">Extracting System Diagnostic Information</h3>
-<p>When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple have a great web page covering each scenario. <span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” n.d.)</span></p>
-<p>On iOS, the basic idea is that we install a profile which alters our device to produce more logging, then we reproduce the crash (or get the customer to do that). Then we press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code> which extracts many log files. Then we use iTunes to sync our device to retrieve the resultant <code>sysdiagnose_date_name.tar.gz</code> file. Inside this archive file are many system and subsystem logs, and we can see when crashes occur and the context that gave rise to them.</p>
+<p>When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple provide a great web page covering each scenario. <span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” n.d.)</span></p>
+<p>On iOS, the basic idea is that we install a profile, which alters our device to produce more logging, and then we reproduce the crash (or get the customer to do that). Then we press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code>, which extracts many log files. Then we use iTunes to synchronize our device to retrieve the resultant <code>sysdiagnose_date_name.tar.gz</code> file. Inside this archive file are many system and subsystem logs, and we can see when crashes occur and the context that gave rise to them.</p>
 <p>An equivalent approach is available on macOS as well.</p>
 <h2 id="guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</h2>
 <p>Here we go through each section of an iOS crash report and explain the fields. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
@@ -755,7 +755,7 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 </tr>
 <tr class="even">
 <td>Parent Process</td>
-<td>Which process created the crashing process. <code>launchd</code> is a process launcher and is often the parent.</td>
+<td>Parent of the crashing process. <code>launchd</code> is a process launcher and is often the parent.</td>
 </tr>
 <tr class="odd">
 <td>Coalition</td>
@@ -764,11 +764,11 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 </tbody>
 </table>
 <p>The first thing to look at is the version. Typically if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.</p>
-<p>If we have got a lot of crashes then we might see it being a problem to one customer (common CrashReporter key seen) or lots of customers (so different CrashReporter keys are seen). This may affect how we rank the priority of the crash.</p>
+<p>If we have a lot of crashes then we might see it being a problem to one customer (common CrashReporter key seen) or lots of customers (so different CrashReporter keys are seen). This may affect how we rank the priority of the crash.</p>
 <p>The hardware model could be interesting. It is iPad only devices, or iPhone only, or both? Maybe our code has less testing or unique code paths for a given platform.</p>
 <p>The hardware model might indicate an older device, which we have not tested on.</p>
 <p>Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested when they are backgrounded. For example, we might receive a phone call, or have task switched between apps.</p>
-<p>The Code Type (target architecture) is now mostly 64-bit ARM. But we might see ARM being reported - the original 32-bit ARM.</p>
+<p>The Code Type (target architecture) is now mostly 64-bit ARM. However, we might see ARM being reported - the original 32-bit ARM.</p>
 <h3 id="crash-report-date-and-version-section">Crash Report Date and Version Section</h3>
 <p>A Crash Report will continue with date and version information:</p>
 <pre><code>Date/Time:           2018-07-16 10:15:31.4746 +0100
@@ -814,7 +814,7 @@ Report Version:      104</code></pre>
 <p>The first thing to check is the OS Version. Is it newer or older than we’ve tested? Is it a beta version of the operating system?</p>
 <p>The next thing to check is the difference between the launch time and the time of the crash. Did the app crash immediately or after a long time? Early start crashes can sometimes be a packaging and deployment problem. We shall visit some techniques to tackle those later on.</p>
 <p>Is the date a sensible value? Sometimes a device is set back or forwards in time, perhaps to trigger date checks on security certificates or license keys. Make sure the date is a realistic looking one.</p>
-<p>Normally the baseband version is not interesting. The presence of the baseband means we could get interrupted by a phone call (of course there is VOIP calling as well in any case). iPad software is generally written to assume we’re not going to get a phone call but iPads can be purchased with a cellular modem option.</p>
+<p>Normally the baseband version is not interesting. The presence of the baseband means we could be interrupted by a phone call (of course there is VOIP calling as well in any case). iPad software is generally written to assume we’re not going to get a phone call but iPads can be purchased with a cellular modem option.</p>
 <h3 id="crash-report-exception-section">Crash Report Exception Section</h3>
 <p>A Crash Report will next have exception information:</p>
 <pre><code>Exception Type:  EXC_CRASH (SIGABRT)
