@@ -1,0 +1,542 @@
+I am developing one iphone application in which i am scanning finger print in iphone from external finger print scanning device.I am using one external library for that.When i am trying to connect to that device using
+
+        [[SICIFMID sharedIFMIDController] connect];
+
+     The delegate method device is connected is called
+
+        - (void)ifmidDidConnect:(SICIFMID *)ifmid
+        {
+            self.textView.text = @"IFMID Connected";
+            [self.indicatorView showGreenLight];
+        }
+
+    After printing the text ifmid connected application crashes.The crash log is below:
+
+
+
+        Incident Identifier: A67773C0-028B-4BE3-8F36-C4F55ABDC833
+        CrashReporter Key:   b7de7102ccd5bff84ba82f922cd13f70ea81b2f2
+        Hardware Model:      iPhone3,2
+        Process:         Crescent [5903]
+        Path:            /var/mobile/Applications/E4415CD2-ED21-40D2-A79B-5BE229238D64/Crescent.app/Crescent
+        Identifier:      Crescent
+        Version:         ??? (???)
+        Code Type:       ARM (Native)
+        Parent Process:  launchd [1]
+
+        Date/Time:       2014-02-03 16:36:22.722 +0530
+        OS Version:      iOS 6.1.3 (10B329)
+        Report Version:  104
+
+        Exception Type:  EXC_GUARD
+        Exception Codes: 0x0000000100000000, 0x08fd4dbfade2dead
+        Crashed Thread:  5
+
+
+
+        Thread 5 name:  Dispatch queue: com.apple.root.default-priority
+        Thread 5 Crashed:
+        0   libsystem_kernel.dylib          0x3a287294 close + 8
+        1   ExternalAccessory               0x32951be2 -[EASession dealloc] + 226
+        2   ExternalAccessory               0x32951ae0 -[EASession initWithAccessory:forProtocol:] + 764
+        3   Crescent                        0x00061f24 -[EADAccessoryController openSession] (EADAccessoryController.m:227)
+        4   Crescent                        0x000611d6 -[EADAccessoryController open] (EADAccessoryController.m:14)
+        5   Crescent                        0x000613e2 -[EADAccessoryController runStreams] (EADAccessoryController.m:41)
+        6   CoreFoundation                  0x320f69c0 __invoking___ + 64
+        7   CoreFoundation                  0x3204dfe6 -[NSInvocation invoke] + 282
+        8   Foundation                      0x329f6b60 -[NSInvocationOperation main] + 108
+        9   Foundation                      0x329805bc -[__NSOperationInternal start] + 836
+        10  Foundation                      0x329f8bde __block_global_6 + 98
+        11  libdispatch.dylib               0x3a1b011c _dispatch_call_block_and_release + 8
+        12  libdispatch.dylib               0x3a1be254 _dispatch_root_queue_drain + 256
+        13  libdispatch.dylib               0x3a1be3b4 _dispatch_worker_thread2 + 80
+        14  libsystem_c.dylib               0x3a1e4a0e _pthread_wqthread + 358
+        15  libsystem_c.dylib               0x3a1e48a0 start_wqthread + 4
+
+
+
+        Thread 5 crashed with ARM Thread State (32-bit):
+            r0: 0x00000001    r1: 0x00000000      r2: 0xfffffffd      r3: 0x1f154000
+            r4: 0x1ed7f320    r5: 0x0000001c      r6: 0x00000004      r7: 0x2fff1a0c
+            r8: 0x3a4bfa84    r9: 0x00000018     r10: 0x1ed494e0     r11: 0x00000008
+            ip: 0x00000006    sp: 0x2fff19ec      lr: 0x32951be7      pc: 0x3a287294
+          cpsr: 0x20000010
+
+        Binary Images:
+           0x58000 -    0x6cfff +Crescent armv7  <248dc94b39673cec80d75d4475e3eba3> /var/mobile/Applications/E4415CD2-ED21-40D2-A79B-5BE229238D64/Crescent.app/Crescent
+        0x2fe84000 - 0x2fea4fff  dyld armv7  <280610df5ed43ec7aa00629a27009302> /usr/lib/dyld
+        0x312fb000 - 0x312fbfff  Accelerate armv7  <b68ff92e404931f3bcb6361720f77724> /System/Library/Frameworks/Accelerate.framework/Accelerate
+        0x312fc000 - 0x3143afff  vImage armv7  <30522b92940d3dd184c8e46780594048> /System/Library/Frameworks/Accelerate.framework/Frameworks/vImage.framework/vImage
+        0x3143b000 - 0x3151efff  libBLAS.dylib armv7  <d8edada1cea133458ca779e34a3a7f88> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libBLAS.dylib
+        0x3151f000 - 0x317d4fff  libLAPACK.dylib armv7  <9e08aead79d13043bab622402a270fba> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libLAPACK.dylib
+        0x317d5000 - 0x3182efff  libvDSP.dylib armv7  <09e2a5e3e9203950890ba57592523132> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libvDSP.dylib
+        0x3182f000 - 0x31840fff  libvMisc.dylib armv7  <7b7d4ccc9f2b364cb0da4251e745545d> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libvMisc.dylib
+        0x31841000 - 0x31841fff  vecLib armv7  <a7751c047dcc35ba8885212e1938b93f> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/vecLib
+        0x31854000 - 0x31854fff  AdSupport armv7  <583bf32d959735949952a2595c86ed20> /System/Library/Frameworks/AdSupport.framework/AdSupport
+        0x31d48000 - 0x31e0dfff  CFNetwork armv7  <4771a5e4f9b83bceb252f0f3d166aaca> /System/Library/Frameworks/CFNetwork.framework/CFNetwork
+        0x31e0e000 - 0x31e64fff  CoreAudio armv7  <5d534dbf76ff30f4a628f25f56c5f26a> /System/Library/Frameworks/CoreAudio.framework/CoreAudio
+        0x31e65000 - 0x31e77fff  CoreBluetooth armv7  <5c67d50325a0372ba2621f5a95efabc9> /System/Library/Frameworks/CoreBluetooth.framework/CoreBluetooth
+        0x32031000 - 0x32163fff  CoreFoundation armv7  <fcb8d4e838543bcb9a52c9f232b8b4eb> /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation
+        0x32164000 - 0x3229cfff  CoreGraphics armv7  <81e213f810a034d4ba411f9b505da2a6> /System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+        0x3229e000 - 0x322d9fff  libCGFreetype.A.dylib armv7  <a5d20b80ab1532d8831027a66d2d9eb5> /System/Library/Frameworks/CoreGraphics.framework/Resources/libCGFreetype.A.dylib
+        0x324bd000 - 0x324d8fff  libRIP.A.dylib armv7  <ec1487f9bdb93597a3f8d434406ad9bf> /System/Library/Frameworks/CoreGraphics.framework/Resources/libRIP.A.dylib
+        0x324d9000 - 0x3258efff  CoreImage armv7  <6ae4ae2461313e3f84c6a8102d5b1b0e> /System/Library/Frameworks/CoreImage.framework/CoreImage
+        0x3261c000 - 0x32681fff  CoreMedia armv7  <8592bdc268b83b8886acfc1fdab649ed> /System/Library/Frameworks/CoreMedia.framework/CoreMedia
+        0x3270b000 - 0x32761fff  CoreTelephony armv7  <bea09dbe25363c3b8e8016b5b5148055> /System/Library/Frameworks/CoreTelephony.framework/CoreTelephony
+        0x32762000 - 0x327c4fff  CoreText armv7  <e135debbc8f937299f4986fc3e9459e3> /System/Library/Frameworks/CoreText.framework/CoreText
+        0x327c5000 - 0x327d4fff  CoreVideo armv7  <00f18bb26e663da9ae251a6ec36a19ec> /System/Library/Frameworks/CoreVideo.framework/CoreVideo
+        0x3294b000 - 0x32958fff  ExternalAccessory armv7  <3a9d8965b7e73eda9301a7eee0aee35c> /System/Library/Frameworks/ExternalAccessory.framework/ExternalAccessory
+        0x32959000 - 0x32b1cfff  Foundation armv7  <0179934581d13346aa7583165108b95c> /System/Library/Frameworks/Foundation.framework/Foundation
+        0x32cd7000 - 0x32d20fff  IOKit armv7  <a98ba9fefc7333e4a5a9169198848c62> /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+        0x32d21000 - 0x32ef9fff  ImageIO armv7  <b5ce84bb074d3de4b07b55da9fd8bfd1> /System/Library/Frameworks/ImageIO.framework/ImageIO
+        0x33410000 - 0x33469fff  MobileCoreServices armv7  <77da8a9e7f813f5baf37eaa4a87fae84> /System/Library/Frameworks/MobileCoreServices.framework/MobileCoreServices
+        0x33558000 - 0x3355ffff  OpenGLES armv7  <f2ede6b206f336de82cc38619692e762> /System/Library/Frameworks/OpenGLES.framework/OpenGLES
+        0x33561000 - 0x33561fff  libCVMSPluginSupport.dylib armv7  <2506af1c983f3f09ac69aca44f67e863> /System/Library/Frameworks/OpenGLES.framework/libCVMSPluginSupport.dylib
+        0x33565000 - 0x33567fff  libCoreVMClient.dylib armv7  <af6ff28dce6031baaa850ccc79e5699b> /System/Library/Frameworks/OpenGLES.framework/libCoreVMClient.dylib
+        0x33568000 - 0x3356cfff  libGFXShared.dylib armv7  <a6ac1673a088379aa512ba5cac301f5b> /System/Library/Frameworks/OpenGLES.framework/libGFXShared.dylib
+        0x3356d000 - 0x335aafff  libGLImage.dylib armv7  <b8b8f3a1bfd0345e86aa0c2952534949> /System/Library/Frameworks/OpenGLES.framework/libGLImage.dylib
+        0x33ca5000 - 0x33dbafff  QuartzCore armv7  <c086b6e6cd9d341399bcc3675c82f1fe> /System/Library/Frameworks/QuartzCore.framework/QuartzCore
+        0x33e09000 - 0x33e37fff  Security armv7  <fbc24f15bd9e37539cdd6e3576bde938> /System/Library/Frameworks/Security.framework/Security
+        0x33eb6000 - 0x33ef5fff  SystemConfiguration armv7  <410d69b356e533d6a1d538cf33059634> /System/Library/Frameworks/SystemConfiguration.framework/SystemConfiguration
+        0x33ef8000 - 0x3444cfff  UIKit armv7  <ad8b3ad23f413187a178179db39cfa6b> /System/Library/Frameworks/UIKit.framework/UIKit
+        0x3444d000 - 0x3448bfff  VideoToolbox armv7  <d2e8067306d9346ab4a448f10f336894> /System/Library/Frameworks/VideoToolbox.framework/VideoToolbox
+        0x34779000 - 0x3477cfff  AggregateDictionary armv7  <c2a6c1ff89a9318d8b74fc5dfc8847b8> /System/Library/PrivateFrameworks/AggregateDictionary.framework/AggregateDictionary
+        0x34ba8000 - 0x34be3fff  AppSupport armv7  <921794b7d82a3558a0eb860979be199c> /System/Library/PrivateFrameworks/AppSupport.framework/AppSupport
+        0x34c56000 - 0x34c5ffff  AssetsLibraryServices armv7  <de7ca29cd47433cd8eca9c04102f5508> /System/Library/PrivateFrameworks/AssetsLibraryServices.framework/AssetsLibraryServices
+        0x34c7a000 - 0x34c91fff  BackBoardServices armv7  <772912697ec23e5199a452e97f075dd9> /System/Library/PrivateFrameworks/BackBoardServices.framework/BackBoardServices
+        0x34c94000 - 0x34c9afff  BluetoothManager armv7  <fe002961c52538eb8c959e7c1c58467a> /System/Library/PrivateFrameworks/BluetoothManager.framework/BluetoothManager
+        0x34c9b000 - 0x34cbffff  Bom armv7  <b5315d733e123a0781683efdc734064b> /System/Library/PrivateFrameworks/Bom.framework/Bom
+        0x34ef5000 - 0x34efafff  CommonUtilities armv7  <f8fea9ee6ca236b0a7fa6c00eb8a0d24> /System/Library/PrivateFrameworks/CommonUtilities.framework/CommonUtilities
+        0x351c0000 - 0x351c1fff  CoreSurface armv7  <6065f7e040e93d6ea2837e929592cc30> /System/Library/PrivateFrameworks/CoreSurface.framework/CoreSurface
+        0x3522e000 - 0x35233fff  CrashReporterSupport armv7  <03ee46e3ca3f3920a7174e62096723fb> /System/Library/PrivateFrameworks/CrashReporterSupport.framework/CrashReporterSupport
+        0x3545a000 - 0x35473fff  DictionaryServices armv7  <84669055e3e63d6ab56b8fe7b0476aaa> /System/Library/PrivateFrameworks/DictionaryServices.framework/DictionaryServices
+        0x354e6000 - 0x358f9fff  FaceCoreLight armv7  <43de0b31da3b39e4acf85ec2c8d5c65c> /System/Library/PrivateFrameworks/FaceCoreLight.framework/FaceCoreLight
+        0x35af1000 - 0x35afdfff  GenerationalStorage armv7  <d77ad2367fff37d485480aa39df7d325> /System/Library/PrivateFrameworks/GenerationalStorage.framework/GenerationalStorage
+        0x35bf8000 - 0x35c03fff  GraphicsServices armv7  <d4b7fd6509753bff9525fef374ddc359> /System/Library/PrivateFrameworks/GraphicsServices.framework/GraphicsServices
+        0x35cee000 - 0x35cf8fff  IAP armv7  <a9554a91bbb9308f96fcd9fddf596275> /System/Library/PrivateFrameworks/IAP.framework/IAP
+        0x35eef000 - 0x35f3bfff  IMFoundation armv7  <797535fc363c3f818bcd1424251393bf> /System/Library/PrivateFrameworks/IMFoundation.framework/IMFoundation
+        0x35f42000 - 0x35f43fff  IOAccelerator armv7  <9655464326203d258d3d0fc7e94651e2> /System/Library/PrivateFrameworks/IOAccelerator.framework/IOAccelerator
+        0x35f44000 - 0x35f49fff  IOMobileFramebuffer armv7  <f38c374982a931d5a47458dd3c34ac59> /System/Library/PrivateFrameworks/IOMobileFramebuffer.framework/IOMobileFramebuffer
+        0x35f4a000 - 0x35f4efff  IOSurface armv7  <a55bf03c35de3fd9b56dce82083c3d10> /System/Library/PrivateFrameworks/IOSurface.framework/IOSurface
+        0x35f98000 - 0x3613efff  JavaScriptCore armv7  <a5780997f4b738659172f40877c9a7d9> /System/Library/PrivateFrameworks/JavaScriptCore.framework/JavaScriptCore
+        0x36439000 - 0x36466fff  MobileAsset armv7  <3a9e6258ae1230f5b12f1638b09cb974> /System/Library/PrivateFrameworks/MobileAsset.framework/MobileAsset
+        0x36489000 - 0x36491fff  MobileBluetooth armv7  <e558fe2c504833cba4b89bd76178c1a9> /System/Library/PrivateFrameworks/MobileBluetooth.framework/MobileBluetooth
+        0x364ab000 - 0x364aefff  MobileInstallation armv7  <c63e4b1ae40635cd9c6a7de851c80d10> /System/Library/PrivateFrameworks/MobileInstallation.framework/MobileInstallation
+        0x364af000 - 0x364b5fff  MobileKeyBag armv7  <35882c57076334aeb0641969a9b69ff3> /System/Library/PrivateFrameworks/MobileKeyBag.framework/MobileKeyBag
+        0x36512000 - 0x36515fff  MobileSystemServices armv7  <10b4eee2739c353183ac2cfe4e39a443> /System/Library/PrivateFrameworks/MobileSystemServices.framework/MobileSystemServices
+        0x36e02000 - 0x36e27fff  OpenCL armv7  <9baf655cae4e3f9f99a5c6a99207099d> /System/Library/PrivateFrameworks/OpenCL.framework/OpenCL
+        0x3743b000 - 0x37463fff  PrintKit armv7  <3f0b9c58a458358eb506858e8ff9e1fe> /System/Library/PrivateFrameworks/PrintKit.framework/PrintKit
+        0x37464000 - 0x374d8fff  ProofReader armv7  <9cb25467554637bcb268ba30527d3c0f> /System/Library/PrivateFrameworks/ProofReader.framework/ProofReader
+        0x3761d000 - 0x3762efff  SpringBoardServices armv7  <0e48e91ad40f34aab3323c7c4157ce52> /System/Library/PrivateFrameworks/SpringBoardServices.framework/SpringBoardServices
+        0x377b9000 - 0x377bbfff  TCC armv7  <d5bef30a5bda315194173b862975f9fb> /System/Library/PrivateFrameworks/TCC.framework/TCC
+        0x377da000 - 0x377e7fff  TelephonyUtilities armv7  <803d7a92439238ee942086999c481eb6> /System/Library/PrivateFrameworks/TelephonyUtilities.framework/TelephonyUtilities
+        0x37c6a000 - 0x37d0afff  UIFoundation armv7  <9a464526e26634bc834537e5ac3abf1f> /System/Library/PrivateFrameworks/UIFoundation.framework/UIFoundation
+        0x3800e000 - 0x3802dfff  WebBookmarks armv7  <77b65bc9c87b367ebea9a5b7984b13a5> /System/Library/PrivateFrameworks/WebBookmarks.framework/WebBookmarks
+        0x3802e000 - 0x3895dfff  WebCore armv7  <06c849df1ad435aeb8b6130d85cee5df> /System/Library/PrivateFrameworks/WebCore.framework/WebCore
+        0x3895e000 - 0x38a3bfff  WebKit armv7  <e0768dbdbdf13c769af7959497e24024> /System/Library/PrivateFrameworks/WebKit.framework/WebKit
+        0x38ae6000 - 0x38aedfff  XPCObjects armv7  <723fe314ab95381cbfa69a0000005692> /System/Library/PrivateFrameworks/XPCObjects.framework/XPCObjects
+        0x3960d000 - 0x39613fff  libAccessibility.dylib armv7  <f40705b5e9c43ce3b1f185fe690b9ac8> /usr/lib/libAccessibility.dylib
+        0x39614000 - 0x3962afff  libCRFSuite.dylib armv7  <5a8a3d18a1ff3c97bd773705fef2d81c> /usr/lib/libCRFSuite.dylib
+        0x39642000 - 0x3964efff  libMobileGestalt.dylib armv7  <d0dce72a604b37309b8714fb35d74468> /usr/lib/libMobileGestalt.dylib
+        0x3a16f000 - 0x3a171fff  libcompiler_rt.dylib armv7  <6ac449c92d743640a23d9d1ebe0b48a9> /usr/lib/system/libcompiler_rt.dylib
+        0x3a172000 - 0x3a177fff  libcopyfile.dylib armv7  <87bcae8743ab35c8a070ac95b7d57acb> /usr/lib/system/libcopyfile.dylib
+        0x3a178000 - 0x3a1adfff  libcorecrypto.dylib armv7  <04b464137fc2304b84eeed1a5418f4a8> /usr/lib/system/libcorecrypto.dylib
+        0x3a1ae000 - 0x3a1cbfff  libdispatch.dylib armv7  <9323bb560d4e3a3fb41efdc78bd0cf94> /usr/lib/system/libdispatch.dylib
+        0x3a1cc000 - 0x3a1cdfff  libdnsinfo.dylib armv7  <c25502085c833181b2a12cf525cffde6> /usr/lib/system/libdnsinfo.dylib
+
+        What is wrong  here,How can i resolve this?
+
+        Code in .h file
+
+    #import <UIKit/UIKit.h>
+    #import  <Adsupport/ASIdentifierManager.h>
+    #import "SICIFMID.h"
+    #import "SICIndicatorView.h"
+
+    @interface FingerPrintScannerVC : UIViewController<UITextFieldDelegate,SICIFMIDDelegate>
+    {
+        IBOutlet UITextField *txtFirstName;
+        IBOutlet UITextField *txtLastName;
+        IBOutlet UITextField *txtMiddelName;
+        IBOutlet UIScrollView *svInfo;
+        NSMutableData *webData;
+        NSMutableString *soapResults;
+        NSXMLParser *xmlParser;
+        BOOL *recordResults;
+        bool iscrescent;
+        UITextView *textView;
+        UIImageView *imageView;
+        UIProgressView *progressView;
+        SICIndicatorView *indicatorView;
+
+    }
+    @property(nonatomic,retain) IBOutlet UITextView *textView;
+    @property(nonatomic,retain) IBOutlet UIImageView *imageView;
+    @property(nonatomic,retain) IBOutlet UIProgressView *progressView;
+    @property(nonatomic,retain) IBOutlet SICIndicatorView *indicatorView;
+
+    - (IBAction)doGetBatteryLevelAction:(id)sender;
+    - (IBAction)doGetDataAction:(id)sender;
+
+    -(IBAction)sendToFuneralHomeClicked:(id)sender;
+    -(IBAction)sendToFHandCrescentClicked:(id)sender;
+    -(IBAction)navigateToConfig:(id)sender;
+
+    in .m file
+
+        -(void)viewWillAppear:(BOOL)animated
+        {
+
+
+
+            [SICIFMID sharedIFMIDController].delegate = self;
+
+            [self performSelectorOnMainThread:@selector(connectDevice) withObject:nil waitUntilDone:YES];
+
+            if ([[SICIFMID sharedIFMIDController] isConnected])
+            {
+                [self.indicatorView showGreenLight];
+
+            }
+            else
+            {
+                [self.indicatorView showGrayLight];
+
+
+            }
+
+
+
+    }
+
+
+
+    #pragma mark -
+    #pragma mark IFMID Delegate Protocol Implementation
+
+    - (void)ifmidDidConnect:(SICIFMID *)ifmid
+    {
+
+    //    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert" message:@"IFMID connected" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    //    [alert show];
+    //
+        // UI
+        self.textView.text = @"IFMID Connected";
+        [self.indicatorView showGreenLight];
+
+       // [[SICIFMID sharedIFMIDController] startAquireImage];
+
+      //  self.textView.text = @"Place your finger on the reader.";
+
+    }
+
+    - (void)ifmidDidDisconnect:(SICIFMID *)ifmid
+    {
+    //    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Alert" message:@"IFMID Disconnected" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    //    [alert show];
+    //
+
+        // UI
+        self.textView.text = @"IFMID Disconnected";
+        [self.indicatorView showGrayLight];
+    }
+
+    - (void)ifmidDidGetBatteryLevel:(NSUInteger)level {
+
+        // UI
+
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Battery Level" message:[NSString stringWithFormat:@"Battery Level: %u mV", level] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+
+        self.textView.text = [NSString stringWithFormat:@"Battery Level: %u mV", level];
+        [self.indicatorView showGreenLight];
+    }
+
+
+
+    Here after device is connected then it calls - (void)ifmidDidConnect:(SICIFMID *)ifmid
+    {
+        self.textView.text = @"IFMID Connected";
+        [self.indicatorView showGreenLight];
+    }
+
+
+
+
+
+    delegate method and print text IFMid connected after print that it immediately crashes
+
+
+I have used library created by someone else: .h file is
+
+
+//
+//  SICIFMID.h
+//
+//  Copyright 2010-2011 Microchip Technology. All rights reserved.
+//
+//  Version 1.2.0
+//
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+
+/**
+ IFMID Error Code Support
+ */
+extern NSString *const SIFMIDErrorDomain;
+
+typedef enum {
+    // Available Starting in IFMID SDK 1.1.0
+    IFMIDErrorCodeUnknowError,
+    IFMIDErrorCodeConnectionFailed,
+    IFMIDErrorCodeFingerprintCaptureFailed,
+    IFMIDErrorCodeConvertingFingerprintToANSI378TemplateFailed
+} IFMIDErrorCode;
+
+
+@class SICIFMIDInternal;
+@protocol SICIFMIDDelegate;
+
+/**
+ A singleton object that handles all communication to the SIC IFMID Fingerprint Reader Accessory.
+ */
+@interface SICIFMID : NSObject {
+@private
+    SICIFMIDInternal *_internal;
+}
+
+/**
+ Returns the singleton object for this class.
+ If the singleton has not yet been initialized, this will also initialize it.
+ */
++ (SICIFMID *)sharedIFMIDController;
+
+/**
+ The delegate object for the SIC IFMID.
+ This needs be set if you want to receive the delegate messages.
+ */
+@property(nonatomic, assign) id<SICIFMIDDelegate> delegate;
+
+
+
+/**
+ Requests a connection line to the IFMID Device.
+
+ On success, the delegate will be sent a -ifmidDidConnect: message.
+ On error, the delegate will be sent a -ifmidDidGetError: and -ifmidDidGetError:forState: message.
+ */
+- (void)connect;
+
+/**
+ Requests the disconnection to the IFMID Device.
+
+ On success, the delegate will be sent a -ifmidDidDisonnect: message.
+ On error, the delegate will be sent a -ifmidDidGetError: and -ifmidDidGetError:forState: message.
+ */
+- (void)disconnect;
+
+/**
+ Requests the status of the connection to the IFMID Device.
+ */
+- (BOOL)isConnected;
+
+
+
+/**
+ Requests the battery level of the IFMID Device.
+
+ On success, the delegate will be sent a -ifmidDidGetBatteryLevel: message.
+ On error, the delegate will be sent a -ifmidDidGetError: and -ifmidDidGetError:forState: message.
+ */
+- (void)getBatteryLevel;
+
+
+
+/**
+ Requests the start of a template acquisition process from the IFMID Device.
+
+ On success, the delegate will be sent a -ifmidDidGetTemplateSize: message.
+ On error, the delegate will be sent a -ifmidDidGetError: and -ifmidDidGetError:forState: message.
+ */
+- (void)startAquireTemplate;
+
+/**
+ Requests the aquired template data from the IFMID Device.
+
+ On success, the delegate will be sent a -ifmidDidGetTemplate: message.
+ On error, the delegate will be sent a -ifmidDidGetError: and -ifmidDidGetError:forState: message.
+ */
+- (void)startDownloadAquiredTemplate;
+
+- (void)clearTemplate;
+
+
+
+/**
+ Requests the start of an image acquisition process from the IFMID Device.
+
+ On success, the delegate will be sent a -ifmidDidGetImageSize: message.
+ On error, the delegate will be sent a -ifmidDidGetError: and -ifmidDidGetError:forState: message.
+ */
+- (void)startAquireImage;
+
+/**
+ Requests the aquired image data from the IFMID Device.
+
+ On success, the delegate will be sent a -ifmidDidGetImage: message.
+ On error, the delegate will be sent a -ifmidDidGetError: and -ifmidDidGetError:forState: message.
+ */
+- (void)startDownloadAquiredImage;
+
+- (void)clearImage;
+
+
+
+/**
+ Requests the start of a bar code acquisition process from the IFMID Device.
+
+ On success, the delegate will be sent a -ifmidDidGetBarCodeSize: message.
+ On error, the delegate will be sent a -ifmidDidGetError: and -ifmidDidGetError:forState: message.
+ */
+- (void)startAquireBarCode;
+
+/**
+ Requests the aquired bar code data from the IFMID Device.
+
+ On success, the delegate will be sent a -ifmidDidGetBarCode: message.
+ On error, the delegate will be sent a -ifmidDidGetError: and -ifmidDidGetError:forState: message.
+ */
+- (void)startDownloadAquiredBarCode;
+
+- (void)clearBarCode;
+
+
+
+- (void)reset;
+
+- (void)stopLED;
+
+- (void)getPresence;
+
+
+- (void)getCheckSum;
+
+-(void)didConnect:(NSNotification *)notification;
+
+@end
+
+/**
+ Protocol for SICIFMIDDelegate delegate objects
+ */
+@protocol SICIFMIDDelegate <NSObject>
+@optional
+
+/**
+ Sent when the SICIFMID has been connected to the iOS Device
+
+ @param ifmid the SICIFMID object sending the message
+ */
+- (void)ifmidDidConnect:(SICIFMID *)ifmid;
+
+/**
+ Sent when the SICIFMID has been disconnected to the iOS Device
+
+ @param ifmid the SICIFMID object sending the message
+ */
+- (void)ifmidDidDisconnect:(SICIFMID *)ifmid;
+
+
+/**
+ Sent in response to a -getBatteryLevel message.
+
+ @param level battery level in millivolt of the IFMID Device
+*/
+- (void)ifmidDidGetBatteryLevel:(NSUInteger)level;
+
+- (void)ifmidDidGetCheckSum:(NSData *)checkSumData;
+
+
+/**
+ Sent in response to a -startAquireTemplate message.
+
+ @param templateSize the size in bytes of the acquired template data
+ */
+- (void)ifmidDidGetTemplateSize:(NSUInteger)templateSize;
+
+/**
+ Sent in response to a -startDownloadAquiredTemplate message.
+
+ @param templateData the acquired template data bytes
+ */
+- (void)ifmidDidGetTemplate:(NSData *)templateData;
+
+
+
+/**
+ Sent in response to a -startAquireBarCode message.
+
+ @param barCodeSize the size in bytes of the acquired bar code data
+ */
+- (void)ifmidDidGetBarCodeSize:(NSUInteger)barCodeSize;
+
+/**
+ Sent in response to a -startDownloadAquiredBarCode message.
+
+ @param barCodeData the acquired bar code data bytes
+ */
+- (void)ifmidDidGetBarCode:(NSData *)barCodeData;
+
+
+
+/**
+ Sent in response to a -startAquireImage message.
+
+ @param imageSize the size in bytes of the acquired image data
+ */
+- (void)ifmidDidGetImageSize:(NSUInteger)imageSize;
+
+/**
+ Sent periodically after a -startDownloadAquiredImage message.
+ Sent until the image is completely available to the iOS device.
+ Will not be called after the -ifmidDidGetImage callback.
+
+ @param percentTransferred percentage of the image value is between 0.0 and 1.0
+ */
+- (void)ifmidDidGetImageProgress:(CGFloat)percentTransferred;
+
+/**
+ Sent in response to a -startDownloadAquiredImage message.
+
+ @param image the image ready to be used
+ */
+- (void)ifmidDidGetImage:(UIImage *)image;
+
+
+
+/**
+ Sent when an error or an unexpected condition occured after having sent a message to the IFMID Device.
+
+ @param error the error object describing the fault condition
+*/
+- (void)ifmidDidGetDeviceError:(NSError *)error;
+
+/**
+ Sent when an error or an unexpected condition occured after having sent a message to the IFMID Device.
+ DEPRECATED: ifmidDidGetError:forState: is prefered now.
+
+ @param errorMessage the error message describing the fault condition
+ */
+- (void)ifmidDidGetError:(NSString *)errorMessage;
+
+
+
+- (void)ifmidDidReset;
+
+- (void)ifmidDidStopLED:(NSUInteger)status;
+
+- (void)ifmidDidGetPresence:(NSUInteger)status;
+
+
+@end

@@ -151,6 +151,7 @@ Exception Type|Meaning
 `EXC_BAD_ACCESS` or `SIGSEGV` or `SIGBUS` |Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to due memory pressure.
 `EXC_BREAKPOINT (SIGTRAP)` |This is due to an `NSException` being raised (possibly by a library on our behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
 `EXC_BAD_INSTRUCTION (SIGILL)` |This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code.  On Simulator, it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).
+`EXC_GUARD`|This is when the program closed a file descriptor which was guarded.  An example is the SQLite database used by the system.
 
 When Termination Reason is present, we can look up the Code as follows:
 
@@ -189,6 +190,12 @@ When we have a `EXC_BREAKPOINT` it can seem confusing.  The program may have bee
 
 #### Illegal Instructions
 When we have a `EXC_BAD_INSTRUCTION` , the exception codes (second number) will be the problematic assembly code.  This should be a rare condition.  It is worthwhile adjusting the optimization level of the code at fault in the Build Settings because higher level optimizations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug.  Alternatively, the problem might be a lower level library which has hand assembly optimizations in it - such as a multimedia library.  Handwritten assembly can be the cause of bad instructions.
+
+#### Guard exceptions
+
+Certain files descriptors on the system are specially protected because they are used by the Operating System.
+When such file descriptors are closed (or otherwise modified) we can get a `EXC_GUARD` exception.
+0x08fd4dbfade2dead
 
 ### Crash Report Filtered Syslog Section
 
