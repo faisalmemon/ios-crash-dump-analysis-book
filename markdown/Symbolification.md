@@ -12,7 +12,7 @@ In order to understand how things all fit together it is best to start from firs
 Normally when we develop an app, we are deploying the Debug version of our app onto our device.  When we are deploying\index{software!deployment} our app for testers, app review, or app store release, we are deploying the Release version of our app.
 
 By default for Release builds, debug information from the `.o` object files is placed into a separate directory structure.
-It is called `your_app_name.DSYM`
+It is called `our_app_name.DSYM`
 
 The debugger can use debugging information when it sees a crash to
 help us understand where the program has gone wrong.
