@@ -11,13 +11,10 @@ In order to understand how things all fit together it is best to start from firs
 
 Normally when we develop an app, we are deploying the Debug version of our app onto our device.  When we are deploying\index{software!deployment} our app for testers, app review, or app store release, we are deploying the Release version of our app.
 
-In both scenarios debug information is placed into the binary being generated.
-This is called DWARF\index{DWARF} debugging information.
+By default for Release builds, debug information from the `.o` object files is placed into a separate directory structure.
+It is called `your_app_name.DSYM`
 
-For Release builds, that information is then stripped out and placed into a DSYM\index{DSYM} file.
-For Debug builds, it is left in.
-
-The debugger can use debugging information in the binary when it sees a crash to
+The debugger can use debugging information when it sees a crash to
 help us understand where the program has gone wrong.
 
 When a user sees our program crash, there is no debugger\index{debugger}.  Instead, a crash
@@ -30,32 +27,20 @@ In order for symbolification to occur, appropriate DSYM files must exist.
 Xcode is by default setup so that only DSYM files are generated for Release
 builds, and not for Debug builds.
 
-The advantages of a debug build are:
-
-- The debug information is never inconsistent or missing with the program code.
-- The debugger can always obtain the symbol information during debugging.
-
-The disadvantages of a debug build are:
-
-- The binary ends up much larger so takes up more bandwidth to download.
-- The binary takes up more disk space.
-- Reverse engineers can quite easily see how the program works from the binary.
-
-
 ## Build Settings
 
 From Xcode, in our build settings, searching for "Debug Information Format"\index{Xcode!Debug Information Format} we see the following settings:
 
 Setting|Meaning|Usually set for target
 --|--|--
-DWARF|Debugging information built into the binary itself|Debug
-DWARF with dSYM File|We get an extra file also generated with symbols|Release
+DWARF|Debugging information is in `.o` files only |Debug
+DWARF with dSYM File|As before but also collates the debug information into a DSYM file |Release
 
 In the default setup, if we run our debug binary on our device, launching it from the app icon itself then if it were to crash we would not have any symbols in the crash report.  This confuses many people.
 
-Whilst we may have all the source code for our program, and DWARF data in the crashed binary, ReportCrash crash reporter only looks for DSYM files on our Mac in order to perform symbolification.
+The problem is that the UUID of the binary and the DSYM need to match.
 
-To avoid this problem, the sample app `icdab_planets` has been configured to have `DWARF with dSYM File` set for both debug and release targets.
+To avoid this problem, the sample app `icdab_planets` has been configured to have `DWARF with dSYM File` set for both debug and release targets.  Then symbolification will work, because there will be a matching DSYM on our Mac.
 
 ## Observing a local crash
 
@@ -119,7 +104,7 @@ icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets
 icdab_planets.app.dSYM/Contents/Info.plist
 ```
 
-It is just the DWARF data normally put into the debug binary but copied into a separate file.
+It is just the DWARF data normally put into the intermediate `.o` files but copied into a separate file.
 
 From looking at our build log, we can see how the DSYM was generated.
 It is effectively just `dsymutil path_to_app_binary -o output_symbols_dir.dSYM`\index{command!dsymutil}

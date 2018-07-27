@@ -523,3 +523,99 @@ Therefore with the example stack frame we have:
  `_UICanvasLifecycleSettingsDiffAction` method
  `performActionsForCanvas:withUpdatedScene:
 settingsDiff:fromSettings:transitionContext:`
+
+### Crash Report Thread State Section
+
+iOS Crash Reports will be either from ARM-64 binaries (most common) or legacy ARM 32 bit binaries.
+
+In each case we get similar looking information describing the state of the ARM registers.
+
+One thing to look out for is the special hex code, `0xbaddc0dedeadbead` which means a non-initialized pointer.
+
+#### 32-bit thread state
+
+```
+Thread 0 crashed with ARM Thread State (32-bit):
+    r0: 0x00000000    r1: 0x00000000      r2: 0x00000000      r3: 0x00000000
+    r4: 0x00000006    r5: 0x3c42f000      r6: 0x3b66d304      r7: 0x002054c8
+    r8: 0x14d5f480    r9: 0x252348fd     r10: 0x90eecad7     r11: 0x14d5f4a4
+    ip: 0x00000148    sp: 0x002054bc      lr: 0x257d8733      pc: 0x2572ec5c
+  cpsr: 0x00000010
+```
+
+#### 64-bit thread state
+
+```
+Thread 0 crashed with ARM Thread State (64-bit):
+    x0: 0x0000000000000028   x1: 0x0000000000000029   x2: 0x0000000000000008   x3: 0x0000000183a4906c
+    x4: 0x0000000104440260   x5: 0x0000000000000047   x6: 0x000000000000000a   x7: 0x0000000138819df0
+    x8: 0x0000000000000000   x9: 0x0000000000000000  x10: 0x0000000000000003  x11: 0xbaddc0dedeadbead
+   x12: 0x0000000000000012  x13: 0x0000000000000002  x14: 0x0000000000000000  x15: 0x0000010000000100
+   x16: 0x0000000183b9b8cc  x17: 0x0000000000000100  x18: 0x0000000000000000  x19: 0x00000001b5c241c8
+   x20: 0x00000001c0071b00  x21: 0x0000000000000018  x22: 0x000000018e89b27a  x23: 0x0000000000000000
+   x24: 0x00000001c4033d60  x25: 0x0000000000000001  x26: 0x0000000000000288  x27: 0x00000000000000e0
+   x28: 0x0000000000000010   fp: 0x000000016bde54b0   lr: 0x000000010401ca04
+    sp: 0x000000016bde53e0   pc: 0x000000010401c6c8 cpsr: 0x80000000
+```
+
+
+### Crash Report Binary Images section
+
+The crash report has a section enumerating all the binary images loaded by the process that crashed.
+It is usually a long list.  It highlights the fact that there are many supporting frameworks for our apps.
+Most frameworks are private frameworks.  The iOS development kit might seem a huge set of APIs, but that is just the tip of the iceberg.
+
+Here is an example list, edited for ease of demonstration:
+
+```
+Binary Images:
+
+0x104018000 - 0x10401ffff icdab_as arm64
+  <b82579f401603481990d1c1c9a42b773>
+/var/containers/Bundle/Application/
+1A05BC59-491C-4D0A-B4F6-8A98A804F74D/icdab_as.app/icdab_as
+
+0x104030000 - 0x104037fff libswiftCoreFoundation.dylib arm64
+  <81f66e04bab133feb3369b4162a68afc>
+  /var/containers/Bundle/Application/
+1A05BC59-491C-4D0A-B4F6-8A98A804F74D/icdab_as.app/
+Frameworks/libswiftCoreFoundation.dylib
+
+
+0x104044000 - 0x104057fff libswiftCoreGraphics.dylib arm64
+  <f1f2287fb5153a28beea12ec2d547bf8>
+  /var/containers/Bundle/Application/
+1A05BC59-491C-4D0A-B4F6-8A98A804F74D/icdab_as.app/
+Frameworks/libswiftCoreGraphics.dylib
+
+0x104078000 - 0x10407ffff libswiftCoreImage.dylib arm64
+  <9433fc53f72630dc8c53851703dd440b>
+  /var/containers/Bundle/Application/
+1A05BC59-491C-4D0A-B4F6-8A98A804F74D/icdab_as.app/
+Frameworks/libswiftCoreImage.dylib
+
+0x104094000 - 0x1040cffff dyld arm64
+  <06dc98224ae03573bf72c78810c81a78> /usr/lib/dyld
+```
+
+The first part is where the image has been loaded into memory.
+Here `icdab_as` has been loaded into the range `0x104018000` - `0x10401ffff`
+
+The second part is the UUID of the binary.
+Here `icdab_as` has UUID `b82579f401603481990d1c1c9a42b773`
+
+This is important for matching a binary to its DSYM file in the Release Binary
+case where the DWARF symbols are stripped out the binary and placed into a
+separate DSYM file.
+
+Here is an example of corresponding UUIDs seen in DSYM and application binaries:
+
+```
+$ dwarfdump --uuid icdab_as.app/icdab_as
+icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as
+
+UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64) icdab_as.app/icdab_as
+
+UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64)
+icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as
+```
