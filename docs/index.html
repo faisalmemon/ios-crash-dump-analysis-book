@@ -559,7 +559,7 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 <p>In both scenarios debug information is placed into the binary being generated. This is called DWARF debugging information.</p>
 <p>For Release builds, that information is then stripped out and placed into a DSYM file. For Debug builds, it is left in.</p>
 <p>The debugger can use debugging information in the binary when it sees a crash to help us understand where the program has gone wrong.</p>
-<p>When a user sees our program crash, there is no debugger. Instead, a crash report is generated. This comprises the machine addresses where the problem was seen. A later phase, called symbolification, can convert these addresses into meaningful source code references.</p>
+<p>When a user sees our program crash, there is no debugger. Instead, a crash report is generated. This comprises the machine addresses where the problem was seen. Symbolification can convert these addresses into meaningful source code references.</p>
 <p>In order for symbolification to occur, appropriate DSYM files must exist.</p>
 <p>Xcode is by default setup so that only DSYM files are generated for Release builds, and not for Debug builds.</p>
 <p>The advantages of a debug build are:</p>
@@ -644,13 +644,13 @@ icdab_planets.app.dSYM/Contents/Resources/DWARF
 icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets
 icdab_planets.app.dSYM/Contents/Info.plist</code></pre>
 <p>It is just the DWARF data normally put into the debug binary but copied into a separate file.</p>
-<p>From looking at our build log we can see how the DSYM was generated. It is effectively just <code>dsymutil path_to_app_binary -o output_symbols_dir.dSYM</code></p>
+<p>From looking at our build log, we can see how the DSYM was generated. It is effectively just <code>dsymutil path_to_app_binary -o output_symbols_dir.dSYM</code></p>
 <h2 id="manual-symbolification">Manual Symbolification</h2>
 <p>In order to help us get comfortable with crash dump reports, we can demonstrate how the symbolification actually works. In the first crash dump, we want to understand:</p>
 <pre><code>4   icdab_planets                   0x00000001008e45bc 0x1008e0000 + 17852</code></pre>
-<p>If we knew accurately the version of our code at the time of the crash we can recompile our program but with the DSYM setting switched on and then get a DSYM file after the original crash. It should line up almost exactly.</p>
+<p>If we knew accurately the version of our code at the time of the crash, we can recompile our program, but with the DSYM setting switched on, and then get a DSYM file after the original crash. It should line up almost exactly.</p>
 <p>The crash dump program tells us where the program was loaded, in memory, at the time of the problem. That tells us the master base offset from which all other address (TEXT) locations are relative to.</p>
-<p>At the bottom of the crash dump we have line <code>0x1008e0000 - 0x1008ebfff icdab_planets</code> Therefore, the icdab_planets binary starts at location <code>0x1008e0000</code></p>
+<p>At the bottom of the crash dump, we have line <code>0x1008e0000 - 0x1008ebfff icdab_planets</code> Therefore, the icdab_planets binary starts at location <code>0x1008e0000</code></p>
 <p>Running the lookup command <code>atos</code> symbolicates the line of interest:</p>
 <pre><code># atos -arch arm64 -o ./icdab_planets.app.dSYM/Contents/Resources/DWARF/
 icdab_planets -l 0x1008e0000 0x00000001008e45bc
@@ -673,7 +673,7 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>This indeed shows the return address for the assert method. Further up, we see the test for Pluto’s volume being non-zero. This is just a very basic Hopper example. We shall revisit Hopper later to demonstrate its most interesting feature - that of being able to generate pseudocode from assembly code. This lowers the mental load of comprehending crashes. Most developers rarely look at assembly code nowadays so this feature is worth the cost of the software itself!</p>
 <p>Now at least for the current problem, we could formulate a bug report that said the code was crashing because Pluto’s volume was zero. That may be enough to unlock the problem from the framework vendor’s point of view.</p>
 <p>In a more complex case, imagine we were using an image conversion library that was crashing.<br />
-There can be many pixel formats for images. An <code>assert</code> might lead us to notice it was the format that was asserting. Therefore we could just try a different pixel format.</p>
+There can be many pixel formats for images. An <code>assert</code> might lead us to notice it was the format that was asserting. Therefore, we could just try a different pixel format.</p>
 <p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details. A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
 <h1 id="the-crash-report">The Crash Report</h1>
 <p>In this chapter we get into the details of what comprises a crash report. Our main focus is the iOS crash report. We also cover the macOS crash report, which caries a slightly different structure but serves the same purpose.</p>
