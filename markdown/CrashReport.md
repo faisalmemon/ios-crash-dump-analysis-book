@@ -547,13 +547,20 @@ Thread 0 crashed with ARM Thread State (32-bit):
 
 ```
 Thread 0 crashed with ARM Thread State (64-bit):
-    x0: 0x0000000000000028   x1: 0x0000000000000029   x2: 0x0000000000000008   x3: 0x0000000183a4906c
-    x4: 0x0000000104440260   x5: 0x0000000000000047   x6: 0x000000000000000a   x7: 0x0000000138819df0
-    x8: 0x0000000000000000   x9: 0x0000000000000000  x10: 0x0000000000000003  x11: 0xbaddc0dedeadbead
-   x12: 0x0000000000000012  x13: 0x0000000000000002  x14: 0x0000000000000000  x15: 0x0000010000000100
-   x16: 0x0000000183b9b8cc  x17: 0x0000000000000100  x18: 0x0000000000000000  x19: 0x00000001b5c241c8
-   x20: 0x00000001c0071b00  x21: 0x0000000000000018  x22: 0x000000018e89b27a  x23: 0x0000000000000000
-   x24: 0x00000001c4033d60  x25: 0x0000000000000001  x26: 0x0000000000000288  x27: 0x00000000000000e0
+    x0: 0x0000000000000028   x1: 0x0000000000000029   x2: 0x0000000000000008
+       x3: 0x0000000183a4906c
+    x4: 0x0000000104440260   x5: 0x0000000000000047   x6: 0x000000000000000a
+       x7: 0x0000000138819df0
+    x8: 0x0000000000000000   x9: 0x0000000000000000  x10: 0x0000000000000003
+      x11: 0xbaddc0dedeadbead
+   x12: 0x0000000000000012  x13: 0x0000000000000002  x14: 0x0000000000000000
+     x15: 0x0000010000000100
+   x16: 0x0000000183b9b8cc  x17: 0x0000000000000100  x18: 0x0000000000000000
+     x19: 0x00000001b5c241c8
+   x20: 0x00000001c0071b00  x21: 0x0000000000000018  x22: 0x000000018e89b27a
+     x23: 0x0000000000000000
+   x24: 0x00000001c4033d60  x25: 0x0000000000000001  x26: 0x0000000000000288
+     x27: 0x00000000000000e0
    x28: 0x0000000000000010   fp: 0x000000016bde54b0   lr: 0x000000010401ca04
     sp: 0x000000016bde53e0   pc: 0x000000010401c6c8 cpsr: 0x80000000
 ```
@@ -601,12 +608,15 @@ Frameworks/libswiftCoreImage.dylib
 The first part is where the image has been loaded into memory.
 Here `icdab_as` has been loaded into the range `0x104018000` - `0x10401ffff`
 
-The second part is the UUID of the binary.
+The second part is the name of the binary.  Here it is `icdab_as`.
+
+The third part is the architecture slice within the binary that was loaded.
+We generally expect to just see `arm64` here (ARM 64-bit).
+
+The fourth part is the UUID of the binary.
 Here `icdab_as` has UUID `b82579f401603481990d1c1c9a42b773`
 
-This is important for matching a binary to its DSYM file in the Release Binary
-case where the DWARF symbols are stripped out the binary and placed into a
-separate DSYM file.
+Symbolification will fail if our DSYM file UUID does not match the binary.
 
 Here is an example of corresponding UUIDs seen in DSYM and application binaries:
 
@@ -619,3 +629,10 @@ UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64) icdab_as.app/icdab_as
 UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64)
 icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as
 ```
+
+The fifth part is the path to the binary as it appears on the device.
+
+Most of the binaries have a self-explanatory name.  The `dyld` binary is the dynamic loader.
+It is seen at the bottom of all stack backtraces because it is responsible for commencing the loading of binaries before their execution.
+
+The dynamic loader does many tasks in preparing our binary for execution.  If our binary references libraries it will load them.  If there are absent, it will fail to load our app.  This is why it is possible to crash even before any code in `main.m` gets called.  Later on we shall study how to diagnose such problems.
