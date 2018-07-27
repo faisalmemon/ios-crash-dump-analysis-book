@@ -1,22 +1,27 @@
 # Hybrid Environments
 
-We have seen that Xcode offers many automatic facilities for crash dump analysis and crash avoidance.  But these can not get us all the answers we need.  A complementary design oriented viewpoint is needed.
+We have seen that Xcode offers many automatic facilities for crash dump analysis and crash avoidance.  However, these cannot get us all the answers we need.  A complementary design oriented viewpoint is needed.
 
-In this chapter we shall look at a sample app `icdab_planets` which uses hybrid of programming languages and paradigms.  It shows an example of why design insights must also be considered.
+In this chapter, we shall look at a sample app `icdab_planets` that uses hybrid of programming languages and paradigms.  It shows an example of why design insights must also be considered.
 
 ## Program structure
 
-The `icdab_planets` sample app uses a mixture of C++, and Objective-C++.  It relies on both STL data structures and traditional Objective-C data structures.  @icdabgithub
+The `icdab_planets` sample app uses a mixture of C++, and Objective-C++.  It relies on both STL\index{STL} data structures and traditional Objective-C data structures.  @icdabgithub
 
-The model layer of the app is written in C++.  The controller layer of the app is written in Objective-C++.
+The model layer of the app is written in C++.  The controller layer of the app is written in Objective-C++\index{Objective-C++}.
 
 The purpose of the app is to tell us how many Pluto sized planets would fit inside Jupiter.
 
 ## Paradigms
 
-Recall earlier we contrasted between Objective-C allowing messaging to nil objects versus C which crashes upon NULL dereference.  Here we show how the C++ Standard Template Library has a back-fill strategy.
+Recall earlier we demonstrated that:
 
-In the STL map abstraction (a Hash Table) when we query for an entry which does not exist, the STL will insert a new entry in the table for the key being queried, and then return that entry instead of returning an error or returning a nil.
+- Objective-C allows messaging to nil objects
+- C crashes upon NULL deference
+
+Here we show how the C++ Standard Template Library has a back-fill strategy.
+
+In the STL map\index{STL!map} abstraction (a Hash Table) when we query for an entry that does not exist, the STL will insert a new entry in the table for the key being queried, and then return that entry instead of returning an error or returning a nil.
 
 ## The Problem
 
@@ -41,7 +46,7 @@ From the file `planet_data.hpp` we see the API that we rely upon is:
 static planet get_planet_with_name(string name);
 ```
 
-So whatever name we pass in, we should always get a `planet` in response.  Never a NULL.
+Therefore, whatever name we pass in, we should always get a `planet` in response; never a NULL.
 
 The problem is that this API has not been thought deeply about.  It has just been put together as a thin wrapper around the underlying abstractions that do the work.
 
@@ -55,8 +60,8 @@ planet planet::get_planet_with_name(string name) {
 }
 ```
 
-At first glance it might be that the database failed to load data properly.
-In actual fact, the database is missing the entry for Pluto due to:
+At first glance, it might be that the database failed to load data properly.
+In fact, the database is missing the entry for Pluto due to:
 
 ```
 void planet_database::load_data() {
@@ -106,11 +111,11 @@ We see the constructor makes the diameter zero in this case.
 
 ## Solutions
 
-We see that the problem is not applying the paradigms of each framework and language properly and when we have a mixture of paradigms those different assumptions get masked by each layer of abstraction.
+We see that the problem is not applying the paradigms of each framework and language properly and when we have a mixture of paradigms, those different assumptions get masked by each layer of abstraction.
 
-In STL, we expect a `find` operation to be done, instead of the indexing operator.  This allows the abstraction to flag the absence of the item being found.
+In STL, we expect a `find`\index{STL!find} operation to be done, instead of the indexing operator.  This allows the abstraction to flag the absence of the item being found.
 
-In Objective-C we expect the lookup API to be a function which returns an index given the lookup name.  And the index would be `NSNotFound` when the operation failed.
+In Objective-C we expect the lookup API to be a function which returns an index given the lookup name.  In addition, the index would be `NSNotFound`\index{NSNotFound} when the operation failed.
 
 In this code example, each layer of abstraction assumes the other side will re-map the edge case into an appropriate form.
 
@@ -133,18 +138,18 @@ It is `example/planets_stl`.  On the consumer side, we have a helper method:
 }
 ```
 
-This is is hard to parse if we are mainly an Objective-C programmer.  If the
-project is mainly a C++ project with a thin platform-specific layer then perhaps
+This is hard to parse if we are mainly an Objective-C programmer.  If the
+project is mainly a C++ project, with a thin platform-specific layer, then perhaps
 that is acceptable.  If the code base just leverages C++ code from elsewhere,
 then a better solution is to confine the paradigms to their own files and apply
-the facade design pattern to give a version of the API following Objective-C
+the facade\index{software!facade} design pattern to give a version of the API following Objective-C
 paradigms on the platform-specific code side.
 
 Then Objective-C++ can be dispensed with in the ViewController code; it can be made an Objective-C file instead.
 
 ### Facade Solution
 
-Here is a facade implementation `example/facade_planets` that overcomes the mixing of paradigms problem.
+Here is a facade\index{software!facade} implementation `example/facade_planets` that overcomes the mixing of paradigms problem.
 
 The facade is:
 ```
@@ -225,4 +230,4 @@ The consumer then becomes a purely Objective-C class:
 
 ## Lessons Learnt
 
-The lesson here is that crashes can arise from special case handling.  Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out our code and use a Facade if possible to keep each paradigm cleanly separated.
+The lesson here is that crashes can arise from special case handling.  Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out our code and use a Facade\index{software!facade} if possible to keep each paradigm cleanly separated.

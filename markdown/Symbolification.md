@@ -22,13 +22,25 @@ help us understand where the program has gone wrong.
 
 When a user sees our program crash, there is no debugger.  Instead, a crash
 report is generated.  This comprises the machine addresses where the problem was
-seen.  A later phase, called symbolification, can convert the addresses
-into meaningful source code references so long as an appropriate DSYM file exists.
+seen.  A later phase, called symbolification, can convert these addresses
+into meaningful source code references.
+
+In order for symbolification to occur, appropriate DSYM files must exist.
 
 Xcode is by default setup so that only DSYM files are generated for Release
 builds, and not for Debug builds.
 
-The reason why Debug builds just use the application binary with all the debug information built in is that the information is always available and consistent with the rest of the binary.  However it makes the binary much larger and allows reverse engineers to peek into our binary quite easily as if we had published the source code together with the program.
+The advantages of a debug build are:
+
+- The debug information is never inconsistent or missing with the program code.
+- The debugger can always obtain the symbol information during debugging.
+
+The disadvantages of a debug build are:
+
+- The binary ends up much larger so takes up more bandwidth to download.
+- The binary takes up more disk space.
+- Reverse engineers can quite easily see how the program works from the binary.
+
 
 ## Build Settings
 
@@ -71,7 +83,7 @@ Binary Images:
    icdab_planets.app/icdab_planets
 ```
 
-However with the setting in place, a crash would instead be reported as:
+However, with the setting in place, a crash would instead be reported as:
 
 ```
 Thread 0 Crashed:
@@ -87,7 +99,7 @@ pthread_kill$VARIANT$mp + 376
 ```
 
 Lines 0, 1, 2, 5 are the same in both cases because our developer environment will
-have the symbols for the iOS release under test.  In the second case Xcode will
+have the symbols for the iOS release under test.  In the second case, Xcode will
 look up the DSYM file to clarify line 4.  It tells us this is line 33 in file
 PlanetViewController.mm.  This is:
 
@@ -115,7 +127,7 @@ It is effectively just `dsymutil path_to_app_binary -o output_symbols_dir.dSYM`
 ## Manual Symbolification
 
 In order to help us get comfortable with crash dump reports, we can demonstrate
-how the symbolification actually works.  In the first crash dump we want to understand:
+how the symbolification actually works.  In the first crash dump, we want to understand:
 
 ```
 4   icdab_planets                 	0x00000001008e45bc 0x1008e0000 + 17852
@@ -125,14 +137,15 @@ If we knew accurately the version of our code at the time of the crash we can
 recompile our program but with the DSYM setting switched on and then get a
 DSYM file after the original crash.  It should line up almost exactly.
 
-The crash dump program tells us where the program was loaded in memory at the
-time of the problem.  This is important because it is a master base offset from
-which all other address (TEXT) locations are relative to.  At the bottom of the crash
+The crash dump program tells us where the program was loaded, in memory, at the
+time of the problem.  That tells us the master base offset from
+which all other address (TEXT) locations are relative to.  
+
+At the bottom of the crash
 dump we have line `0x1008e0000 - 0x1008ebfff icdab_planets`
+Therefore, the icdab_planets binary starts at location `0x1008e0000`
 
-So the icdab_planets binary starts at location `0x1008e0000`
-
-Running the lookup command `atos` symbolicates the line of interest:
+Running the lookup command `atos`\index{command!atos} symbolicates the line of interest:
 ```
 # atos -arch arm64 -o ./icdab_planets.app.dSYM/Contents/Resources/DWARF/
 icdab_planets -l 0x1008e0000 0x00000001008e45bc
@@ -157,9 +170,9 @@ We shall demonstrate our approach using the Hopper tool mentioned in the Tooling
 
 Launching hopper, we choose File->Read Executable to Disassemble.  The binary in our case is `examples/assert_crash_ios/icdab_planets`
 
-We need to "rebase" our disassembly so the addresses it shows mirror those of the program when it crashed.  We choose Modify->Change File Base Address.  As before, we supply `0x1008e0000`.
+We need to "rebase" our disassembly so the addresses it shows mirror those of the program when it crashed.  We choose _Modify->Change File Base Address_.  As before, we supply `0x1008e0000`.
 
-Now we can visit the code which crashed.  The address `0x00000001008e45bc` is actually the address the device would _return_ to after performing the function call in the stack trace.  Nevertheless it puts us in the right part of the file.  We choose Navigate->Go To Address or Symbol and supply `0x00000001008e45bc`
+Now we can visit the code that crashed.  The address `0x00000001008e45bc` is actually the address the device would _return_ to after performing the function call in the stack trace.  Nevertheless, it puts us in the right part of the file.  We choose _Navigate->Go To Address or Symbol_ and supply `0x00000001008e45bc`
 
 The overall view we see is
 
@@ -169,10 +182,11 @@ Zooming in on the code line, we have
 
 ![](screenshots/hopperPlanetAbort.png)
 
-This indeed shows the return address for the assert method.  Further up we see the test for Pluto's volume being non-zero.  This is just a very basic Hopper example.  We shall revisit Hopper later to demonstrate its most interesting feature - that of being able to generate pseudocode from assembly code.  This lowers the mental load of comprehending crashes.  Most developers rarely look at assembly code nowadays so this feature is worth the cost of the software itself!
+This indeed shows the return address for the assert method.  Further up, we see the test for Pluto's volume being non-zero.  This is just a very basic Hopper example.  We shall revisit Hopper later to demonstrate its most interesting feature - that of being able to generate pseudocode from assembly code.  This lowers the mental load of comprehending crashes.  Most developers rarely look at assembly code nowadays so this feature is worth the cost of the software itself!
 
 Now at least for the current problem, we could formulate a bug report that said the code was crashing because Pluto's volume was zero.  That may be enough to unlock the problem from the framework vendor's point of view.
 
-In a more complex case, imagine we were using an image conversion library which was crashing.  Since there can be many pixel formats for images, an assert might lead us to notice it was the format that was asserting and we could just try a different pixel format.
+In a more complex case, imagine we were using an image conversion library that was crashing.  
+There can be many pixel formats for images. An `assert` might lead us to notice it was the format that was asserting.  Therefore we could just try a different pixel format.
 
 Another example would be a security library.  Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details.  A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.
