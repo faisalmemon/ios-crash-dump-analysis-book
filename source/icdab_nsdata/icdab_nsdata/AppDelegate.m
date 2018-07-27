@@ -20,12 +20,12 @@
     
     NSData *myToken = [[NSData alloc] initWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"SomeKey"]];
     
-    NSLog(@"My data is %@ - probably ok since we can handle a nil", myToken);
+    NSLog(@"My data is %@ - ok since we can handle a nil", myToken);
     
     id stringProperty = @"Some string";
     NSData *problemToken = [[NSData alloc] initWithData:stringProperty];
     
-    NSLog(@"My data is %@ - probably ok since we can handle a nil", problemToken);
+    NSLog(@"My data is %@ - we have probably crashed by now", problemToken);
     return YES;
 }
 
