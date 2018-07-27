@@ -891,6 +891,10 @@ Triggered by Thread:  0</code></pre>
 <td><code>EXC_BAD_INSTRUCTION (SIGILL)</code></td>
 <td>This is when the program code itself is faulty, not the memory it might be accessing. This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code. On Simulator, it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).</td>
 </tr>
+<tr class="odd">
+<td><code>EXC_GUARD</code></td>
+<td>This is when the program closed a file descriptor which was guarded. An example is the SQLite database used by the system.</td>
+</tr>
 </tbody>
 </table>
 <p>When Termination Reason is present, we can look up the Code as follows:</p>
@@ -977,6 +981,71 @@ Triggered by Thread:  0</code></pre>
 <p>When we have a <code>EXC_BREAKPOINT</code> it can seem confusing. The program may have been running standalone without a debugger so where did the breakpoint come from? Typically, we are running <code>NSException</code> code. This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging. So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception. In the case of normal app running, there is no debugger so we would just crash the app.</p>
 <h4 id="illegal-instructions">Illegal Instructions</h4>
 <p>When we have a <code>EXC_BAD_INSTRUCTION</code> , the exception codes (second number) will be the problematic assembly code. This should be a rare condition. It is worthwhile adjusting the optimization level of the code at fault in the Build Settings because higher level optimizations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug. Alternatively, the problem might be a lower level library which has hand assembly optimizations in it - such as a multimedia library. Handwritten assembly can be the cause of bad instructions.</p>
+<h4 id="guard-exceptions">Guard exceptions</h4>
+<p>Certain files descriptors on the system are specially protected because they are used by the Operating System. When such file descriptors are closed (or otherwise modified) we can get a <code>EXC_GUARD</code> exception.</p>
+<p>An example is:</p>
+<pre><code>Exception Type:  EXC_GUARD
+Exception Codes: 0x0000000100000000, 0x08fd4dbfade2dead
+Crashed Thread:  5</code></pre>
+<p>The exception code <code>0x08fd4dbfade2dead</code> indicates a database related file descriptor was modified (in our example it was closed). The hex string could be read as “Ate (8) File Descriptor (fd) for (4) Database (db)” in “hex speak”.</p>
+<p>When such problems occur, we look at the file operation of the crashed thread. In our example:</p>
+<pre><code>Thread 5 name:  Dispatch queue: com.apple.root.default-priority
+Thread 5 Crashed:
+0   libsystem_kernel.dylib          0x3a287294 close + 8
+1   ExternalAccessory               0x32951be2 -[EASession dealloc] + 226</code></pre>
+<p>Here a close operation was performed.</p>
+<p>If we have code talking to file descriptors, we should always check the return value for the close operation in particular.</p>
+<p>It is possible to infer the file operation from the first of the exception codes. It is a 64-bit flag, specified as follows:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Bit Range</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>63:61</td>
+<td>Guard Type where 0x2 means file descriptor</td>
+</tr>
+<tr class="even">
+<td>60:32</td>
+<td>Flavor</td>
+</tr>
+<tr class="odd">
+<td>31:00</td>
+<td>File descriptor number</td>
+</tr>
+</tbody>
+</table>
+<p>From observation, we think the Guard type is not used.</p>
+<p>The Flavor is a further bit vector:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Flavor Bit</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td><code>close()</code> attempted</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td><code>dup()</code>, <code>dup2()</code> or <code>fcntl()</code></td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td><code>sendmsg()</code> attempted via a socket</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>write()</code> attempted</td>
+</tr>
+</tbody>
+</table>
 <h3 id="crash-report-filtered-syslog-section">Crash Report Filtered Syslog Section</h3>
 <p>The Crash Report continues with the syslog section:</p>
 <pre><code>Filtered syslog:
@@ -1281,13 +1350,20 @@ settingsDiff:fromSettings:transitionContext:] + 248</code></pre>
   cpsr: 0x00000010</code></pre>
 <h4 id="bit-thread-state-1">64-bit thread state</h4>
 <pre><code>Thread 0 crashed with ARM Thread State (64-bit):
-    x0: 0x0000000000000028   x1: 0x0000000000000029   x2: 0x0000000000000008   x3: 0x0000000183a4906c
-    x4: 0x0000000104440260   x5: 0x0000000000000047   x6: 0x000000000000000a   x7: 0x0000000138819df0
-    x8: 0x0000000000000000   x9: 0x0000000000000000  x10: 0x0000000000000003  x11: 0xbaddc0dedeadbead
-   x12: 0x0000000000000012  x13: 0x0000000000000002  x14: 0x0000000000000000  x15: 0x0000010000000100
-   x16: 0x0000000183b9b8cc  x17: 0x0000000000000100  x18: 0x0000000000000000  x19: 0x00000001b5c241c8
-   x20: 0x00000001c0071b00  x21: 0x0000000000000018  x22: 0x000000018e89b27a  x23: 0x0000000000000000
-   x24: 0x00000001c4033d60  x25: 0x0000000000000001  x26: 0x0000000000000288  x27: 0x00000000000000e0
+    x0: 0x0000000000000028   x1: 0x0000000000000029   x2: 0x0000000000000008
+       x3: 0x0000000183a4906c
+    x4: 0x0000000104440260   x5: 0x0000000000000047   x6: 0x000000000000000a
+       x7: 0x0000000138819df0
+    x8: 0x0000000000000000   x9: 0x0000000000000000  x10: 0x0000000000000003
+      x11: 0xbaddc0dedeadbead
+   x12: 0x0000000000000012  x13: 0x0000000000000002  x14: 0x0000000000000000
+     x15: 0x0000010000000100
+   x16: 0x0000000183b9b8cc  x17: 0x0000000000000100  x18: 0x0000000000000000
+     x19: 0x00000001b5c241c8
+   x20: 0x00000001c0071b00  x21: 0x0000000000000018  x22: 0x000000018e89b27a
+     x23: 0x0000000000000000
+   x24: 0x00000001c4033d60  x25: 0x0000000000000001  x26: 0x0000000000000288
+     x27: 0x00000000000000e0
    x28: 0x0000000000000010   fp: 0x000000016bde54b0   lr: 0x000000010401ca04
     sp: 0x000000016bde53e0   pc: 0x000000010401c6c8 cpsr: 0x80000000</code></pre>
 <h3 id="crash-report-binary-images-section">Crash Report Binary Images section</h3>
@@ -1322,8 +1398,10 @@ Frameworks/libswiftCoreImage.dylib
 0x104094000 - 0x1040cffff dyld arm64
   &lt;06dc98224ae03573bf72c78810c81a78&gt; /usr/lib/dyld</code></pre>
 <p>The first part is where the image has been loaded into memory. Here <code>icdab_as</code> has been loaded into the range <code>0x104018000</code> - <code>0x10401ffff</code></p>
-<p>The second part is the UUID of the binary. Here <code>icdab_as</code> has UUID <code>b82579f401603481990d1c1c9a42b773</code></p>
-<p>This is important for matching a binary to its DSYM file in the Release Binary case where the DWARF symbols are stripped out the binary and placed into a separate DSYM file.</p>
+<p>The second part is the name of the binary. Here it is <code>icdab_as</code>.</p>
+<p>The third part is the architecture slice within the binary that was loaded. We generally expect to just see <code>arm64</code> here (ARM 64-bit).</p>
+<p>The fourth part is the UUID of the binary. Here <code>icdab_as</code> has UUID <code>b82579f401603481990d1c1c9a42b773</code></p>
+<p>Symbolification will fail if our DSYM file UUID does not match the binary.</p>
 <p>Here is an example of corresponding UUIDs seen in DSYM and application binaries:</p>
 <pre><code>$ dwarfdump --uuid icdab_as.app/icdab_as
 icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as
@@ -1332,6 +1410,9 @@ UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64) icdab_as.app/icdab_as
 
 UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64)
 icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as</code></pre>
+<p>The fifth part is the path to the binary as it appears on the device.</p>
+<p>Most of the binaries have a self-explanatory name. The <code>dyld</code> binary is the dynamic loader. It is seen at the bottom of all stack backtraces because it is responsible for commencing the loading of binaries before their execution.</p>
+<p>The dynamic loader does many tasks in preparing our binary for execution. If our binary references libraries it will load them. If there are absent, it will fail to load our app. This is why it is possible to crash even before any code in <code>main.m</code> gets called. Later on we shall study how to diagnose such problems.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
