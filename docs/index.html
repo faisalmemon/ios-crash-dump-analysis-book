@@ -559,7 +559,7 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 <p>In order to understand how things all fit together it is best to start from first principles and do the data conversion tasks ourselves so if we have to diagnose symbolification issues, we have some experience with the technologies at hand.</p>
 <h2 id="build-process">Build Process</h2>
 <p>Normally when we develop an app, we are deploying the Debug version of our app onto our device. When we are deploying our app for testers, app review, or app store release, we are deploying the Release version of our app.</p>
-<p>By default for Release builds, debug information from the <code>.o</code> object files is placed into a separate directory structure. It is called <code>your_app_name.DSYM</code></p>
+<p>By default for Release builds, debug information from the <code>.o</code> object files is placed into a separate directory structure. It is called <code>our_app_name.DSYM</code></p>
 <p>The debugger can use debugging information when it sees a crash to help us understand where the program has gone wrong.</p>
 <p>When a user sees our program crash, there is no debugger. Instead, a crash report is generated. This comprises the machine addresses where the problem was seen. Symbolification can convert these addresses into meaningful source code references.</p>
 <p>In order for symbolification to occur, appropriate DSYM files must exist.</p>
