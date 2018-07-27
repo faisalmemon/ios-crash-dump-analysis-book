@@ -1,6 +1,6 @@
 # Symbolification
 
-This chapter explains crash dump symbolification.
+This chapter explains crash dump symbolification\index{symbolification}.
 We use the `icdab_planets` sample app to demonstrate a crash. @icdabgithub
 
 When dealing with real world crashes, a number of different entities are involved.  These can be the end user device, the settings allowing the crash report to be sent back to Apple, the symbols held by Apple and our local development environment setup to mirror such a configuration.
@@ -9,18 +9,18 @@ In order to understand how things all fit together it is best to start from firs
 
 ## Build Process
 
-Normally when we develop an app, we are deploying the Debug version of our app onto our device.  When we are deploying our app for testers, app review, or app store release, we are deploying the Release version of our app.
+Normally when we develop an app, we are deploying the Debug version of our app onto our device.  When we are deploying\index{software!deployment} our app for testers, app review, or app store release, we are deploying the Release version of our app.
 
 In both scenarios debug information is placed into the binary being generated.
-This is called DWARF debugging information.
+This is called DWARF\index{DWARF} debugging information.
 
-For Release builds, that information is then stripped out and placed into a DSYM file.
+For Release builds, that information is then stripped out and placed into a DSYM\index{DSYM} file.
 For Debug builds, it is left in.
 
 The debugger can use debugging information in the binary when it sees a crash to
 help us understand where the program has gone wrong.
 
-When a user sees our program crash, there is no debugger.  Instead, a crash
+When a user sees our program crash, there is no debugger\index{debugger}.  Instead, a crash
 report is generated.  This comprises the machine addresses where the problem was
 seen.  A later phase, called symbolification, can convert these addresses
 into meaningful source code references.
@@ -44,7 +44,7 @@ The disadvantages of a debug build are:
 
 ## Build Settings
 
-From Xcode, in our build settings, searching for "Debug Information Format" we see the following settings:
+From Xcode, in our build settings, searching for "Debug Information Format"\index{Xcode!Debug Information Format} we see the following settings:
 
 Setting|Meaning|Usually set for target
 --|--|--
@@ -63,7 +63,7 @@ The `icdab_planets` program is designed to crash upon launch due to an assertion
 
 If the `DWARF with dSYM File` setting had not been made, we would get a partially symbolicated crash.
 
-The crash report, seen from Windows->Devices and Simulators->View Device Logs,
+The crash report, seen from _Windows->Devices and Simulators->View Device Logs_,
 would look like this (truncated for ease of demonstration)
 
 ```
@@ -109,7 +109,7 @@ assert(pluto_volume != 0.0);
 
 ## DSYM structure
 
-The DSYM file is strictly speaking a directory hierarchy:
+The DSYM file\index{DSYM!file structure} is strictly speaking a directory hierarchy:
 ```
 icdab_planets.app.dSYM
 icdab_planets.app.dSYM/Contents
@@ -122,7 +122,7 @@ icdab_planets.app.dSYM/Contents/Info.plist
 It is just the DWARF data normally put into the debug binary but copied into a separate file.
 
 From looking at our build log we can see how the DSYM was generated.
-It is effectively just `dsymutil path_to_app_binary -o output_symbols_dir.dSYM`
+It is effectively just `dsymutil path_to_app_binary -o output_symbols_dir.dSYM`\index{command!dsymutil}
 
 ## Manual Symbolification
 
@@ -138,7 +138,7 @@ recompile our program but with the DSYM setting switched on and then get a
 DSYM file after the original crash.  It should line up almost exactly.
 
 The crash dump program tells us where the program was loaded, in memory, at the
-time of the problem.  That tells us the master base offset from
+time of the problem.  That tells us the master base offset\index{base offset} from
 which all other address (TEXT) locations are relative to.  
 
 At the bottom of the crash
@@ -168,7 +168,7 @@ When working with third parties there is typically a much larger turnaround time
 
 We shall demonstrate our approach using the Hopper tool mentioned in the Tooling chapter.
 
-Launching hopper, we choose File->Read Executable to Disassemble.  The binary in our case is `examples/assert_crash_ios/icdab_planets`
+Launching hopper, we choose _File->Read Executable to Disassemble_.  The binary in our case is `examples/assert_crash_ios/icdab_planets`
 
 We need to "rebase" our disassembly so the addresses it shows mirror those of the program when it crashed.  We choose _Modify->Change File Base Address_.  As before, we supply `0x1008e0000`.
 
