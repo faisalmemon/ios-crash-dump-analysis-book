@@ -383,15 +383,20 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <li>For Team-based Product Development, add in the Process Methodology. Start becoming comprehensive with Testing.</li>
 </ul>
 <h1 id="hybrid-environments">Hybrid Environments</h1>
-<p>We have seen that Xcode offers many automatic facilities for crash dump analysis and crash avoidance. But these can not get us all the answers we need. A complementary design oriented viewpoint is needed.</p>
-<p>In this chapter we shall look at a sample app <code>icdab_planets</code> which uses hybrid of programming languages and paradigms. It shows an example of why design insights must also be considered.</p>
+<p>We have seen that Xcode offers many automatic facilities for crash dump analysis and crash avoidance. However, these cannot get us all the answers we need. A complementary design oriented viewpoint is needed.</p>
+<p>In this chapter, we shall look at a sample app <code>icdab_planets</code> that uses hybrid of programming languages and paradigms. It shows an example of why design insights must also be considered.</p>
 <h2 id="program-structure">Program structure</h2>
 <p>The <code>icdab_planets</code> sample app uses a mixture of C++, and Objective-C++. It relies on both STL data structures and traditional Objective-C data structures. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <p>The model layer of the app is written in C++. The controller layer of the app is written in Objective-C++.</p>
 <p>The purpose of the app is to tell us how many Pluto sized planets would fit inside Jupiter.</p>
 <h2 id="paradigms">Paradigms</h2>
-<p>Recall earlier we contrasted between Objective-C allowing messaging to nil objects versus C which crashes upon NULL dereference. Here we show how the C++ Standard Template Library has a back-fill strategy.</p>
-<p>In the STL map abstraction (a Hash Table) when we query for an entry which does not exist, the STL will insert a new entry in the table for the key being queried, and then return that entry instead of returning an error or returning a nil.</p>
+<p>Recall earlier we demonstrated that:</p>
+<ul>
+<li>Objective-C allows messaging to nil objects</li>
+<li>C crashes upon NULL deference</li>
+</ul>
+<p>Here we show how the C++ Standard Template Library has a back-fill strategy.</p>
+<p>In the STL map abstraction (a Hash Table) when we query for an entry that does not exist, the STL will insert a new entry in the table for the key being queried, and then return that entry instead of returning an error or returning a nil.</p>
 <h2 id="the-problem">The Problem</h2>
 <p>In our sample app, which crashes upon launch, we have an assert that gets triggered.</p>
 <pre><code>double pluto_volume = pluto.get_volume();
@@ -403,7 +408,7 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 <p>Pluto’s volume is 0.0 because the code <code>planet pluto = planet::get_planet_with_name(&quot;Pluto&quot;);</code> returns a planet with zero diameter.</p>
 <p>From the file <code>planet_data.hpp</code> we see the API that we rely upon is:</p>
 <pre><code>static planet get_planet_with_name(string name);</code></pre>
-<p>So whatever name we pass in, we should always get a <code>planet</code> in response. Never a NULL.</p>
+<p>Therefore, whatever name we pass in, we should always get a <code>planet</code> in response; never a NULL.</p>
 <p>The problem is that this API has not been thought deeply about. It has just been put together as a thin wrapper around the underlying abstractions that do the work.</p>
 <p>We have</p>
 <pre><code>planet planet::get_planet_with_name(string name) {
@@ -412,7 +417,7 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
     }
     return database.planets[name];
 }</code></pre>
-<p>At first glance it might be that the database failed to load data properly. In actual fact, the database is missing the entry for Pluto due to:</p>
+<p>At first glance, it might be that the database failed to load data properly. In fact, the database is missing the entry for Pluto due to:</p>
 <pre><code>void planet_database::load_data() {
     planet planet_Mercury = planet(&quot;Mercury&quot;, 4878.0, 57.9 * millionKm);
     planets[&quot;Mercury&quot;] = planet_Mercury;
@@ -452,9 +457,9 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 }</code></pre>
 <p>We see the constructor makes the diameter zero in this case.</p>
 <h2 id="solutions">Solutions</h2>
-<p>We see that the problem is not applying the paradigms of each framework and language properly and when we have a mixture of paradigms those different assumptions get masked by each layer of abstraction.</p>
+<p>We see that the problem is not applying the paradigms of each framework and language properly and when we have a mixture of paradigms, those different assumptions get masked by each layer of abstraction.</p>
 <p>In STL, we expect a <code>find</code> operation to be done, instead of the indexing operator. This allows the abstraction to flag the absence of the item being found.</p>
-<p>In Objective-C we expect the lookup API to be a function which returns an index given the lookup name. And the index would be <code>NSNotFound</code> when the operation failed.</p>
+<p>In Objective-C we expect the lookup API to be a function which returns an index given the lookup name. In addition, the index would be <code>NSNotFound</code> when the operation failed.</p>
 <p>In this code example, each layer of abstraction assumes the other side will re-map the edge case into an appropriate form.</p>
 <h3 id="stl-solution">STL Solution</h3>
 <p>We have a variant of the code which does things “properly” from an STL point of view. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> It is <code>example/planets_stl</code>. On the consumer side, we have a helper method:</p>
@@ -469,7 +474,7 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
     jupiter = jupiter_by_find-&gt;second;
     return YES;
 }</code></pre>
-<p>This is is hard to parse if we are mainly an Objective-C programmer. If the project is mainly a C++ project with a thin platform-specific layer then perhaps that is acceptable. If the code base just leverages C++ code from elsewhere, then a better solution is to confine the paradigms to their own files and apply the facade design pattern to give a version of the API following Objective-C paradigms on the platform-specific code side.</p>
+<p>This is hard to parse if we are mainly an Objective-C programmer. If the project is mainly a C++ project, with a thin platform-specific layer, then perhaps that is acceptable. If the code base just leverages C++ code from elsewhere, then a better solution is to confine the paradigms to their own files and apply the facade design pattern to give a version of the API following Objective-C paradigms on the platform-specific code side.</p>
 <p>Then Objective-C++ can be dispensed with in the ViewController code; it can be made an Objective-C file instead.</p>
 <h3 id="facade-solution">Facade Solution</h3>
 <p>Here is a facade implementation <code>example/facade_planets</code> that overcomes the mixing of paradigms problem.</p>
@@ -880,7 +885,7 @@ Triggered by Thread:  0</code></pre>
 <td>This is due to an <code>NSException</code> being raised (possibly by a library on our behalf) or <code>_NSLockError</code> or <code>objc_exception_throw</code> being called. For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional</td>
 </tr>
 <tr class="even">
-<td>EXC_BAD_INSTRUCTION (SIGILL)</td>
+<td><code>EXC_BAD_INSTRUCTION (SIGILL)</code></td>
 <td>This is when the program code itself is faulty, not the memory it might be accessing. This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code. On Simulator it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).</td>
 </tr>
 </tbody>
@@ -888,47 +893,75 @@ Triggered by Thread:  0</code></pre>
 <p>When Termination Reason is present, we can look up the Code as follows:</p>
 <table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col style="width: 50%" />
+<col style="width: 50%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>Termination Code</th>
-<th>Spoken As</th>
 <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td><code>0xdead10cc</code></td>
-<td>Deadlock</td>
 <td>We held a file lock or sqlite database lock before suspending. We should release locks before suspending.</td>
 </tr>
 <tr class="even">
 <td><code>0xbaaaaaad</code></td>
-<td>Bad</td>
 <td>A stackshot was done of the entire system via the side and both volume buttons. See earlier section on System Diagnostics</td>
 </tr>
 <tr class="odd">
 <td><code>0xbad22222</code></td>
-<td>Bad too (two) many times</td>
 <td>VOIP was terminated as it resumed too frequently. Also see with code using networking whilst in the background. If our TCP connection is woken up too many times (say 15 wakes in 300 seconds) we get this crash.</td>
 </tr>
 <tr class="even">
 <td><code>0x8badf00d</code></td>
-<td>Ate (eight) bad food</td>
 <td>Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.). The watchdog timer noticed the policy violation and caused the termination. The most common culprit is doing synchronous networking on the main thread.</td>
 </tr>
 <tr class="odd">
 <td><code>0xc00010ff</code></td>
-<td>Cool Off</td>
 <td>The system detected a thermal event and kill off our app. If it’s just one device it could be a hardware issue, not a software problem in our app. If it happens on other devices, check our app’s power usage using Instruments.</td>
 </tr>
 <tr class="even">
 <td><code>0x2bad45ec</code></td>
-<td>Too bad for security</td>
 <td>There was a security violation. If the Termination Description says “Process detected doing insecure drawing while in secure mode” it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="magic-numbers-and-their-hexspeak">Magic Numbers and their Hexspeak</h4>
+<p>With a certain geek humor, the termination codes, when discussed, are spoken as follows:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Magic Number</th>
+<th>Spoken Phrase</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>0xdead10cc</code></td>
+<td>Deadlock</td>
+</tr>
+<tr class="even">
+<td><code>0xbaaaaaad</code></td>
+<td>Bad</td>
+</tr>
+<tr class="odd">
+<td><code>0xbad22222</code></td>
+<td>Bad too (two) many times</td>
+</tr>
+<tr class="even">
+<td><code>0x8badf00d</code></td>
+<td>Ate (eight) bad food</td>
+</tr>
+<tr class="odd">
+<td><code>0xc00010ff</code></td>
+<td>Cool Off</td>
+</tr>
+<tr class="even">
+<td><code>0x2bad45ec</code></td>
+<td>Too bad for security</td>
 </tr>
 </tbody>
 </table>
