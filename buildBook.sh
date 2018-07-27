@@ -16,7 +16,7 @@ pdflatex foo.latex > foo.pass.0.log
 pdflatex foo.latex > foo.pass.1.log
 pdflatex foo.latex > foo.pass.2.log
 
-pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --css=style/ebook.css -o foo.pandoc.epub
+pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --css=style/ebook.css -o foo.epub
 
 #pandoc $(cat pageOrder.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib -o foo.docx  ## This gets you a docx file which you can style edit, save and then run the reference-doc command instead to use the style of that document.
 pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --reference-doc=style/referenceWordDocumentTemplate.docx -o foo.docx
