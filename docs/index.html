@@ -1445,8 +1445,10 @@ Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
 ___CFXRegistrationPost_block_invoke + 63
 3   com.apple.CoreFoundation        0x00007fff42e228cc
  __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
-4   com.apple.CoreFoundation        0x00007fff42e052a3 __CFRunLoopDoBlocks + 275
-5   com.apple.CoreFoundation        0x00007fff42e0492e __CFRunLoopRun + 1278
+4   com.apple.CoreFoundation        0x00007fff42e052a3
+__CFRunLoopDoBlocks + 275
+5   com.apple.CoreFoundation        0x00007fff42e0492e
+ __CFRunLoopRun + 1278
 6   com.apple.CoreFoundation        0x00007fff42e041a3
 CFRunLoopRunSpecific + 483
 7   com.apple.HIToolbox             0x00007fff420ead96
@@ -1457,11 +1459,15 @@ ReceiveNextEventCommon + 613
 _BlockUntilNextEventMatchingListInModeWithFilter + 64
 10  com.apple.AppKit                0x00007fff4039ca73 _DPSNextEvent + 2085
 11  com.apple.AppKit                0x00007fff40b32e34
--[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:inMode:dequeue:] + 3044
+-[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:inMode:
+dequeue:] + 3044
 12  com.apple.ViewBridge            0x00007fff67859df0
--[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:dequeue:] + 92
-13  com.apple.AppKit                0x00007fff40391885 -[NSApplication run] + 764
-14  com.apple.AppKit                0x00007fff40360a72 NSApplicationMain + 804
+-[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:
+dequeue:] + 92
+13  com.apple.AppKit                0x00007fff40391885
+-[NSApplication run] + 764
+14  com.apple.AppKit                0x00007fff40360a72
+NSApplicationMain + 804
 15  libxpc.dylib                    0x00007fff6af6cdc7 _xpc_objc_main + 580
 16  libxpc.dylib                    0x00007fff6af6ba1a xpc_main + 433
 17  com.apple.ViewBridge            0x00007fff67859c15
