@@ -22,7 +22,7 @@ help us understand where the program has gone wrong.
 
 When a user sees our program crash, there is no debugger\index{debugger}.  Instead, a crash
 report is generated.  This comprises the machine addresses where the problem was
-seen.  A later phase, called symbolification, can convert these addresses
+seen.  Symbolification can convert these addresses
 into meaningful source code references.
 
 In order for symbolification to occur, appropriate DSYM files must exist.
@@ -121,7 +121,7 @@ icdab_planets.app.dSYM/Contents/Info.plist
 
 It is just the DWARF data normally put into the debug binary but copied into a separate file.
 
-From looking at our build log we can see how the DSYM was generated.
+From looking at our build log, we can see how the DSYM was generated.
 It is effectively just `dsymutil path_to_app_binary -o output_symbols_dir.dSYM`\index{command!dsymutil}
 
 ## Manual Symbolification
@@ -133,8 +133,8 @@ how the symbolification actually works.  In the first crash dump, we want to und
 4   icdab_planets                 	0x00000001008e45bc 0x1008e0000 + 17852
 ```
 
-If we knew accurately the version of our code at the time of the crash we can
-recompile our program but with the DSYM setting switched on and then get a
+If we knew accurately the version of our code at the time of the crash, we can
+recompile our program, but with the DSYM setting switched on, and then get a
 DSYM file after the original crash.  It should line up almost exactly.
 
 The crash dump program tells us where the program was loaded, in memory, at the
@@ -142,7 +142,7 @@ time of the problem.  That tells us the master base offset\index{base offset} fr
 which all other address (TEXT) locations are relative to.  
 
 At the bottom of the crash
-dump we have line `0x1008e0000 - 0x1008ebfff icdab_planets`
+dump, we have line `0x1008e0000 - 0x1008ebfff icdab_planets`
 Therefore, the icdab_planets binary starts at location `0x1008e0000`
 
 Running the lookup command `atos`\index{command!atos} symbolicates the line of interest:
@@ -187,6 +187,6 @@ This indeed shows the return address for the assert method.  Further up, we see 
 Now at least for the current problem, we could formulate a bug report that said the code was crashing because Pluto's volume was zero.  That may be enough to unlock the problem from the framework vendor's point of view.
 
 In a more complex case, imagine we were using an image conversion library that was crashing.  
-There can be many pixel formats for images. An `assert` might lead us to notice it was the format that was asserting.  Therefore we could just try a different pixel format.
+There can be many pixel\index{pixel} formats for images. An `assert` might lead us to notice it was the format that was asserting.  Therefore, we could just try a different pixel format.
 
 Another example would be a security library.  Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details.  A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.
