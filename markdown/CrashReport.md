@@ -195,7 +195,48 @@ When we have a `EXC_BAD_INSTRUCTION` , the exception codes (second number) will 
 
 Certain files descriptors on the system are specially protected because they are used by the Operating System.
 When such file descriptors are closed (or otherwise modified) we can get a `EXC_GUARD` exception.
-0x08fd4dbfade2dead
+
+An example is:
+```
+Exception Type:  EXC_GUARD
+Exception Codes: 0x0000000100000000, 0x08fd4dbfade2dead
+Crashed Thread:  5
+```
+
+The exception code `0x08fd4dbfade2dead` indicates a database related file descriptor was modified (in our example it was closed).  The hex string could be read as "Ate (8) File Descriptor (fd) for (4) Database (db)" in "hex speak".
+
+When such problems occur, we look at the file operation of the crashed thread.
+In our example:
+```
+Thread 5 name:  Dispatch queue: com.apple.root.default-priority
+Thread 5 Crashed:
+0   libsystem_kernel.dylib          0x3a287294 close + 8
+1   ExternalAccessory               0x32951be2 -[EASession dealloc] + 226
+```
+
+Here a close operation was performed.
+
+If we have code talking to file descriptors, we should always check the return value for the close operation in particular.
+
+It is possible to infer the file operation from the first of the exception codes.
+It is a 64-bit flag, specified as follows:
+
+Bit Range|Meaning
+--|--
+63:61|Guard Type where 0x2 means file descriptor
+60:32|Flavor
+31:00|File descriptor number
+
+From observation, we think the Guard type is not used.
+
+The Flavor is a further bit vector:
+
+Flavor Bit|Meaning
+--|--
+0|`close()` attempted
+1|`dup()`, `dup2()` or `fcntl()`
+2|`sendmsg()` attempted via a socket
+4|`write()` attempted
 
 ### Crash Report Filtered Syslog Section
 
