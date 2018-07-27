@@ -1,0 +1,15 @@
+default	13:36:58.000000 +0000	icdab_nsdata	 My data is <> - ok since we can handle a nil
+
+default	13:36:58.000000 +0100	icdab_nsdata	 -[__NSCFConstantString _isDispatchData]: unrecognized selector sent to instance 0x3f054
+
+default	13:36:58.000000 +0100	icdab_nsdata	 *** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to instance 0x3f054'
+	*** First throw call stack:
+	(0x25aa391b 0x2523ee17 0x25aa92b5 0x25aa6ee1 0x259d2238 0x2627e9a5 0x3d997 0x2a093785 0x2a2bb2d1 0x2a2bf285 0x2a2d383d 0x2a2bc7b3 0x27146c07 0x27146ab9 0x27146db9 0x25a65dff 0x25a659ed 0x25a63d5b 0x259b3229 0x259b3015 0x2a08cc3d 0x2a087189 0x3d80d 0x2565b873)
+
+default	13:36:58.000000 +0100	SpringBoard	 Application 'UIKitApplication:www.perivalebluebell.icdab-nsdata[0x51b9]' crashed.
+
+default	13:36:58.000000 +0100	UserEventAgent	 2769630555571: id=www.perivalebluebell.icdab-nsdata pid=386, state=0
+
+default	13:36:58.000000 +0000	ReportCrash	 Formulating report for corpse[386] icdab_nsdata
+
+default	13:36:58.000000 +0000	ReportCrash	 Saved type '109(109_icdab_nsdata)' report (2 of max 25) at /var/mobile/Library/Logs/CrashReporter/icdab_nsdata-2018-07-27-133658.ips
