@@ -356,10 +356,14 @@ Thread 0 Crashed:
 1   libsystem_pthread.dylib       	0x257d8732 pthread_kill + 62
 2   libsystem_c.dylib             	0x256c30ac abort + 108
 3   libc++abi.dylib               	0x2521aae4 __cxa_bad_cast + 0
-4   libc++abi.dylib               	0x2523369e default_terminate_handler+ 104094 () + 266
-5   libobjc.A.dylib               	0x2523f0b0 _objc_terminate+ 28848 () + 192
-6   libc++abi.dylib               	0x25230e16 std::__terminate(void (*)+ 93718 ()) + 78
-7   libc++abi.dylib               	0x252308f8 __cxa_increment_exception_refcount + 0
+4   libc++abi.dylib               	0x2523369e
+default_terminate_handler+ 104094 () + 266
+5   libobjc.A.dylib               	0x2523f0b0
+_objc_terminate+ 28848 () + 192
+6   libc++abi.dylib               	0x25230e16
+std::__terminate(void (*)+ 93718 ()) + 78
+7   libc++abi.dylib               	0x252308f8
+__cxa_increment_exception_refcount + 0
 8   libobjc.A.dylib               	0x2523ef5e objc_exception_rethrow + 42
 9   CoreFoundation                	0x259b32ae CFRunLoopRunSpecific + 654
 10  CoreFoundation                	0x259b3014 CFRunLoopRunInMode + 108
@@ -571,8 +575,8 @@ Therefore with the example stack frame we have:
 - `0x000000018db14c88` return address after frames 0 - 19 return.
 - Call site is 248 bytes from the beginning of class
  `_UICanvasLifecycleSettingsDiffAction` method
- `performActionsForCanvas:withUpdatedScene:
-settingsDiff:fromSettings:transitionContext:`
+ `performActionsForCanvas:withUpdatedScene:`
+ `settingsDiff:fromSettings:transitionContext:`
 
 ### Crash Report Thread State Section
 
