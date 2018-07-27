@@ -99,7 +99,10 @@
 <li><a href="#crash-report-date-and-version-section">Crash Report Date and Version Section</a></li>
 <li><a href="#crash-report-exception-section">Crash Report Exception Section</a></li>
 <li><a href="#crash-report-filtered-syslog-section">Crash Report Filtered Syslog Section</a></li>
+<li><a href="#crash-report-exception-backtrace-section">Crash Report Exception Backtrace section</a></li>
 <li><a href="#crash-report-thread-section">Crash Report Thread Section</a></li>
+<li><a href="#crash-report-thread-state-section">Crash Report Thread State Section</a></li>
+<li><a href="#crash-report-binary-images-section">Crash Report Binary Images section</a></li>
 </ul></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
@@ -556,23 +559,11 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 <p>In order to understand how things all fit together it is best to start from first principles and do the data conversion tasks ourselves so if we have to diagnose symbolification issues, we have some experience with the technologies at hand.</p>
 <h2 id="build-process">Build Process</h2>
 <p>Normally when we develop an app, we are deploying the Debug version of our app onto our device. When we are deploying our app for testers, app review, or app store release, we are deploying the Release version of our app.</p>
-<p>In both scenarios debug information is placed into the binary being generated. This is called DWARF debugging information.</p>
-<p>For Release builds, that information is then stripped out and placed into a DSYM file. For Debug builds, it is left in.</p>
-<p>The debugger can use debugging information in the binary when it sees a crash to help us understand where the program has gone wrong.</p>
+<p>By default for Release builds, debug information from the <code>.o</code> object files is placed into a separate directory structure. It is called <code>your_app_name.DSYM</code></p>
+<p>The debugger can use debugging information when it sees a crash to help us understand where the program has gone wrong.</p>
 <p>When a user sees our program crash, there is no debugger. Instead, a crash report is generated. This comprises the machine addresses where the problem was seen. Symbolification can convert these addresses into meaningful source code references.</p>
 <p>In order for symbolification to occur, appropriate DSYM files must exist.</p>
 <p>Xcode is by default setup so that only DSYM files are generated for Release builds, and not for Debug builds.</p>
-<p>The advantages of a debug build are:</p>
-<ul>
-<li>The debug information is never inconsistent or missing with the program code.</li>
-<li>The debugger can always obtain the symbol information during debugging.</li>
-</ul>
-<p>The disadvantages of a debug build are:</p>
-<ul>
-<li>The binary ends up much larger so takes up more bandwidth to download.</li>
-<li>The binary takes up more disk space.</li>
-<li>Reverse engineers can quite easily see how the program works from the binary.</li>
-</ul>
 <h2 id="build-settings">Build Settings</h2>
 <p>From Xcode, in our build settings, searching for “Debug Information Format” we see the following settings:</p>
 <table>
@@ -591,19 +582,19 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 <tbody>
 <tr class="odd">
 <td>DWARF</td>
-<td>Debugging information built into the binary itself</td>
+<td>Debugging information is in <code>.o</code> files only</td>
 <td>Debug</td>
 </tr>
 <tr class="even">
 <td>DWARF with dSYM File</td>
-<td>We get an extra file also generated with symbols</td>
+<td>As before but also collates the debug information into a DSYM file</td>
 <td>Release</td>
 </tr>
 </tbody>
 </table>
 <p>In the default setup, if we run our debug binary on our device, launching it from the app icon itself then if it were to crash we would not have any symbols in the crash report. This confuses many people.</p>
-<p>Whilst we may have all the source code for our program, and DWARF data in the crashed binary, ReportCrash crash reporter only looks for DSYM files on our Mac in order to perform symbolification.</p>
-<p>To avoid this problem, the sample app <code>icdab_planets</code> has been configured to have <code>DWARF with dSYM File</code> set for both debug and release targets.</p>
+<p>The problem is that the UUID of the binary and the DSYM need to match.</p>
+<p>To avoid this problem, the sample app <code>icdab_planets</code> has been configured to have <code>DWARF with dSYM File</code> set for both debug and release targets. Then symbolification will work, because there will be a matching DSYM on our Mac.</p>
 <h2 id="observing-a-local-crash">Observing a local crash</h2>
 <p>The <code>icdab_planets</code> program is designed to crash upon launch due to an assertion.</p>
 <p>If the <code>DWARF with dSYM File</code> setting had not been made, we would get a partially symbolicated crash.</p>
@@ -643,7 +634,7 @@ icdab_planets.app.dSYM/Contents/Resources
 icdab_planets.app.dSYM/Contents/Resources/DWARF
 icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets
 icdab_planets.app.dSYM/Contents/Info.plist</code></pre>
-<p>It is just the DWARF data normally put into the debug binary but copied into a separate file.</p>
+<p>It is just the DWARF data normally put into the intermediate <code>.o</code> files but copied into a separate file.</p>
 <p>From looking at our build log, we can see how the DSYM was generated. It is effectively just <code>dsymutil path_to_app_binary -o output_symbols_dir.dSYM</code></p>
 <h2 id="manual-symbolification">Manual Symbolification</h2>
 <p>In order to help us get comfortable with crash dump reports, we can demonstrate how the symbolification actually works. In the first crash dump, we want to understand:</p>
@@ -882,7 +873,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="even">
 <td><code>EXC_CRASH (SIGQUIT)</code></td>
-<td>A process received a quit signal from another process that is managing it. Typically this means a Keyboard extension took too long or used up too much memory. App extensions are only only limited amounts of memory.</td>
+<td>A process received a quit signal from another process that is managing it. Typically, this means a Keyboard extension took too long or used up too much memory. App extensions are given only limited amounts of memory.</td>
 </tr>
 <tr class="odd">
 <td><code>EXC_CRASH (SIGKILL)</code></td>
@@ -898,7 +889,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="even">
 <td><code>EXC_BAD_INSTRUCTION (SIGILL)</code></td>
-<td>This is when the program code itself is faulty, not the memory it might be accessing. This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code. On Simulator it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).</td>
+<td>This is when the program code itself is faulty, not the memory it might be accessing. This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code. On Simulator, it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).</td>
 </tr>
 </tbody>
 </table>
@@ -933,11 +924,11 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="odd">
 <td><code>0xc00010ff</code></td>
-<td>The system detected a thermal event and kill off our app. If it’s just one device it could be a hardware issue, not a software problem in our app. If it happens on other devices, check our app’s power usage using Instruments.</td>
+<td>The system detected a thermal event and kill off our app. If it’s just on one device it could be a hardware issue, not a software problem in our app. If it happens on other devices, check our app’s power usage using Instruments.</td>
 </tr>
 <tr class="even">
 <td><code>0x2bad45ec</code></td>
-<td>There was a security violation. If the Termination Description says “Process detected doing insecure drawing while in secure mode” it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.</td>
+<td>There was a security violation. If the Termination Description says, “Process detected doing insecure drawing while in secure mode” it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.</td>
 </tr>
 </tbody>
 </table>
@@ -980,17 +971,120 @@ Triggered by Thread:  0</code></pre>
 <h4 id="aborts">Aborts</h4>
 <p>When we have a <code>SIGABRT</code> , we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.</p>
 <h4 id="memory-issues">Memory Issues</h4>
-<p>When we have a memory issue, <code>EXC_BAD_ACCESS</code> , <code>SIGSEGV</code> or <code>SIGBUS</code>. The faulty memory reference is the second number of the Exception Codes number pair. For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant. The address sanitiser should be switched on to see if it can spot the error. If that cannot detect the issue, try each of the memory management settings, one at a time.</p>
+<p>When we have a memory issue, <code>EXC_BAD_ACCESS</code> , <code>SIGSEGV</code> or <code>SIGBUS</code>. The faulty memory reference is the second number of the Exception Codes number pair. For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant. The address sanitizer should be switched on to see if it can spot the error. If that cannot detect the issue, try each of the memory management settings, one at a time.</p>
 <p>If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system. For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History. Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.</p>
 <h4 id="exceptions">Exceptions</h4>
-<p>When we have a <code>EXC_BREAKPOINT</code> it can seem confusing. The program may have been running standalone without a debugger so where did the breakpoint come from? Typically we are running <code>NSException</code> code. This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging. So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception. In the case of normal app running, there is no debugger so we would just crash the app.</p>
+<p>When we have a <code>EXC_BREAKPOINT</code> it can seem confusing. The program may have been running standalone without a debugger so where did the breakpoint come from? Typically, we are running <code>NSException</code> code. This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging. So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception. In the case of normal app running, there is no debugger so we would just crash the app.</p>
 <h4 id="illegal-instructions">Illegal Instructions</h4>
-<p>When we have a <code>EXC_BAD_INSTRUCTION</code> , the exception codes (second number) will be the problematic assembly code. This should be a rare condition. It is worthwhile adjusting the optimisation level of the code at fault in the Build Settings because higher level optimisations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug. Alternatively the problem might be a lower level library which has hand assembly optimisations in it - such as a multimedia library. Handwritten assembly can be the cause of bad instructions.</p>
+<p>When we have a <code>EXC_BAD_INSTRUCTION</code> , the exception codes (second number) will be the problematic assembly code. This should be a rare condition. It is worthwhile adjusting the optimization level of the code at fault in the Build Settings because higher level optimizations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug. Alternatively, the problem might be a lower level library which has hand assembly optimizations in it - such as a multimedia library. Handwritten assembly can be the cause of bad instructions.</p>
 <h3 id="crash-report-filtered-syslog-section">Crash Report Filtered Syslog Section</h3>
 <p>The Crash Report continues with the syslog section:</p>
 <pre><code>Filtered syslog:
 None found</code></pre>
 <p>This is an anomalous section because it is supposed to look at the process ID of the crashed process and then look to see if there are any syslog (System Log) entries for that process. We have never seen filtered entries in a crash, and only see <code>None found</code> reported.</p>
+<h3 id="crash-report-exception-backtrace-section">Crash Report Exception Backtrace section</h3>
+<p>When our app has detected a problem and has asked the Operating System to terminate the app, we get an Exception Backtrace section of the report. This covers the cases of calling <code>abort</code>, <code>NSException</code>, <code>_NSLockError</code>, or <code>objc_exception_throw</code> either ourselves or indirectly through the Swift, Objective-C or C runtime support libraries.</p>
+<p>What we don’t get is the text of the actual assertion that had occurred. One presumes that the prior section for filtered syslog information was supposed to do that job. Nevertheless, <em>Window-&gt;Devices and Simulators-&gt;Open Console</em> will allow us to recover that information.</p>
+<p>When we see an Exception Backtrace in a customer crash report, we should ask if we can get the device console log for the crashing device.</p>
+<p>We would for example see:</p>
+<pre><code>default 13:36:58.000000 +0000   icdab_nsdata     My data is &lt;&gt; - ok since we can
+ handle a nil
+
+default 13:36:58.000000 +0100   icdab_nsdata     
+-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to
+instance 0x3f054
+
+default 13:36:58.000000 +0100   icdab_nsdata     *** Terminating app due to
+uncaught exception &#39;NSInvalidArgumentException&#39;, reason:
+&#39;-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to
+instance 0x3f054&#39;
+    *** First throw call stack:
+    (0x25aa391b 0x2523ee17 0x25aa92b5 0x25aa6ee1 0x259d2238 0x2627e9a5 0x3d997
+    0x2a093785 0x2a2bb2d1 0x2a2bf285 0x2a2d383d 0x2a2bc7b3 0x27146c07
+    0x27146ab9 0x27146db9 0x25a65dff 0x25a659ed 0x25a63d5b 0x259b3229
+     0x259b3015 0x2a08cc3d 0x2a087189 0x3d80d 0x2565b873)
+
+default 13:36:58.000000 +0100   SpringBoard  Application
+&#39;UIKitApplication:www.perivalebluebell.icdab-nsdata[0x51b9]&#39; crashed.
+
+default 13:36:58.000000 +0100   UserEventAgent   2769630555571:
+ id=www.perivalebluebell.icdab-nsdata pid=386, state=0
+
+default 13:36:58.000000 +0000   ReportCrash  Formulating report for
+corpse[386] icdab_nsdata
+
+default 13:36:58.000000 +0000   ReportCrash  Saved type &#39;109(109_icdab_nsdata)&#39;
+ report (2 of max 25) at
+ /var/mobile/Library/Logs/CrashReporter/icdab_nsdata-2018-07-27-133658.ips</code></pre>
+<p>The line of interest is:</p>
+<pre><code>&#39;-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to
+instance 0x3f054&#39;</code></pre>
+<p>This means the <code>NSString</code> class was sent the <code>_isDispatchData</code> method. No such method exists.</p>
+<p>The matching exception backtrace seen in the Crash Report is:</p>
+<pre><code>Last Exception Backtrace:
+0   CoreFoundation                  0x25aa3916 __exceptionPreprocess + 122
+1   libobjc.A.dylib                 0x2523ee12 objc_exception_throw + 33
+2   CoreFoundation                  0x25aa92b0
+-[NSObject+ 1045168 (NSObject) doesNotRecognizeSelector:] + 183
+3   CoreFoundation                  0x25aa6edc ___forwarding___ + 695
+4   CoreFoundation                  0x259d2234 _CF_forwarding_prep_0 + 19
+5   Foundation                      0x2627e9a0
+-[_NSPlaceholderData initWithData:] + 123
+6   icdab_nsdata                    0x000f89ba
+-[AppDelegate application:didFinishLaunchingWithOptions:]
+ + 27066 (AppDelegate.m:26)
+7   UIKit                           0x2a093780
+-[UIApplication _handleDelegateCallbacksWithOptions:isSuspended:restoreState:]
+ + 387
+8   UIKit                           0x2a2bb2cc
+-[UIApplication _callInitializationDelegatesForMainScene:transitionContext:]
+ + 3075
+9   UIKit                           0x2a2bf280
+-[UIApplication _runWithMainScene:transitionContext:completion:] + 1583
+10  UIKit                           0x2a2d3838
+__84-[UIApplication _handleApplicationActivationWithScene:transitionContext:
+completion:]_block_invoke3286 + 31
+11  UIKit                           0x2a2bc7ae
+-[UIApplication workspaceDidEndTransaction:] + 129
+12  FrontBoardServices              0x27146c02
+__FBSSERIALQUEUE_IS_CALLING_OUT_TO_A_BLOCK__ + 13
+13  FrontBoardServices              0x27146ab4
+-[FBSSerialQueue _performNext] + 219
+14  FrontBoardServices              0x27146db4
+-[FBSSerialQueue _performNextFromRunLoopSource] + 43
+15  CoreFoundation                  0x25a65dfa
+__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 9
+16  CoreFoundation                  0x25a659e8 __CFRunLoopDoSources0 + 447
+17  CoreFoundation                  0x25a63d56 __CFRunLoopRun + 789
+18  CoreFoundation                  0x259b3224 CFRunLoopRunSpecific + 515
+19  CoreFoundation                  0x259b3010 CFRunLoopRunInMode + 103
+20  UIKit                           0x2a08cc38 -[UIApplication _run] + 519
+21  UIKit                           0x2a087184 UIApplicationMain + 139
+22  icdab_nsdata                    0x000f8830 main + 26672 (main.m:14)
+23  libdyld.dylib                   0x2565b86e tlv_get_addr + 41</code></pre>
+<p>The format of this backtrace is the same as the thread backtrace, described later.</p>
+<p>The purpose of the exception back trace section is to give more detail than that provided by the crashing thread.</p>
+<p>The crashing thread in the above scenario had the thread backtrace:</p>
+<pre><code>Thread 0 name:  Dispatch queue: com.apple.main-thread
+Thread 0 Crashed:
+0   libsystem_kernel.dylib          0x2572ec5c __pthread_kill + 8
+1   libsystem_pthread.dylib         0x257d8732 pthread_kill + 62
+2   libsystem_c.dylib               0x256c30ac abort + 108
+3   libc++abi.dylib                 0x2521aae4 __cxa_bad_cast + 0
+4   libc++abi.dylib                 0x2523369e default_terminate_handler+ 104094 () + 266
+5   libobjc.A.dylib                 0x2523f0b0 _objc_terminate+ 28848 () + 192
+6   libc++abi.dylib                 0x25230e16 std::__terminate(void (*)+ 93718 ()) + 78
+7   libc++abi.dylib                 0x252308f8 __cxa_increment_exception_refcount + 0
+8   libobjc.A.dylib                 0x2523ef5e objc_exception_rethrow + 42
+9   CoreFoundation                  0x259b32ae CFRunLoopRunSpecific + 654
+10  CoreFoundation                  0x259b3014 CFRunLoopRunInMode + 108
+11  UIKit                           0x2a08cc3c -[UIApplication _run] + 524
+12  UIKit                           0x2a087188 UIApplicationMain + 144
+13  icdab_nsdata                    0x000f8834 main + 26676 (main.m:14)
+14  libdyld.dylib                   0x2565b872 start + 2</code></pre>
+<p>If we only had the thread backtrace, we would know there was a casting problem <code>__cxa_bad_cast</code> but not much more.</p>
+<p>A little bit of Internet searching reveals that <code>NSData</code> has a private helper class <code>_NSPlaceholderData</code></p>
+<p>What has happened here is that an <code>NSString</code> object was provided where an <code>NSData</code> object was expected.</p>
 <h3 id="crash-report-thread-section">Crash Report Thread Section</h3>
 <p>The Crash Report continues with a dump of the thread backtraces as follows (formatted for ease of demonstration)</p>
 <pre><code>Thread 0 name:  Dispatch queue: com.apple.main-thread
@@ -1130,16 +1224,114 @@ Thread 7:
 <pre><code>Thread 0 name:  Dispatch queue: com.apple.main-thread</code></pre>
 <p>Most of our focus should be on the crashed thread; it is often thread 0. Take note of the thread name. Note no long duration tasks such as networking may be done on the main thread, <code>com.apple.main-thread</code>, because that thread is used to handle user interactions.</p>
 <p>The references to <code>__workq_kernreturn</code> just indicate a thread waiting for work so can be ignored unless there are a huge number of them.</p>
-<p>Similarly the reference to <code>mach_msg_trap</code> just indicate waiting for a message to come in.</p>
-<p>When looking at stack backtraces, stack frame 0, the top of the stack, comes first, and then calling frames are listed. So the last thing being done is in frame 0. The frame number is the first number in the stack backtrace line for a given thread. The second frame, numbered 1, is code that called the function being executed in stack frame 0. This repeats until reach the original code that was running when the thread commenced.</p>
-<p>The second column in a back trace is the binary file. We focus on our own binary mostly because framework code from Apple is generally very reliable. Faults usually occur either directly in our code, or by faults caused by incorrect usage of Apple APIs. Just because the code crashed in Apple provided code does not mean the fault is in Apple code.</p>
-<p>The fourth column onwards is the address in memory after the code from the higher up stacks would leave the program once they have returned to the particular stack frame in question. If in our binary, and our libraries we do not see a symbolic address, but just hex offsets, then we have not got a symbolicated crash report. See earlier chapter on Symbolification.</p>
-<p>The fifth column is the calling function relative to the parent function it is in. The plus sign followed by an offset tells us how far into the parent function the call to the next function is.</p>
-<p>Therefore with the example stack frame:</p>
+<p>Similarly, the reference to <code>mach_msg_trap</code> just indicate waiting for a message to come in.</p>
+<p>When looking at stack backtraces, stack frame 0, the top of the stack, comes first, and then calling frames are listed. Therefore, the last thing being done is in frame 0.</p>
+<h4 id="stack-backtrace-items">Stack backtrace items</h4>
+<p>Let us now focus on backtrace items for each thread. For example:</p>
 <pre><code>20  UIKit                           0x000000018db14c88
 -[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:withUpdatedScene:
 settingsDiff:fromSettings:transitionContext:] + 248</code></pre>
-<p>We see :</p>
+<table>
+<thead>
+<tr class="header">
+<th>Column number</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Stack frame number. Ordered with 0 is most recently executed.</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Binary file executing.</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Execution position (frame 0), or return position (frame 1 onwards)</td>
+</tr>
+<tr class="even">
+<td>4+</td>
+<td>Symbolic function name or address with offset within the function</td>
+</tr>
+</tbody>
+</table>
+<p>The frame numbers, as they could upwards takes us backwards in time in terms of program execution order. The top of stack, or most recently run code is in frame 0. One reason for writing code with meaningful function names is that the call stack describes what is going on conceptually. Lots of small single-purpose functions will serve the needs of both diagnostics and maintainability and are highly recommended.</p>
+<p>The second column in a back trace is the binary file. We focus on our own binary mostly because framework code from Apple is generally very reliable. Faults usually occur either directly in our code, or by faults caused by incorrect usage of Apple APIs. Just because the code crashed in Apple provided code does not mean the fault is in Apple code.</p>
+<p>The third column, the execution position is slightly tricky. If it is for frame 0, it is the actual position in the code that was running. If it is for any later frame, it is the position in the code we shall resume from once the child functions have returned.</p>
+<p>The fourth column is the site at which the code is running (for frame 0), or the site which is making a function call (for later frames). For symbolicated crashes, we will see the symbolic form for the address. This will include a positional offset from the start of a function to reach the code calling the child function. If we have only short functions, this offset will be a small value. It means much less stepping through code, or much less reading through assembly code when performing diagnosis. That is another reason for keeping our functions short. If our crash is not symbolicated then we shall just see a memory address value.</p>
+<p>Therefore with the example stack frame we have:</p>
+<ul>
+<li>Stack Frame 20.</li>
+<li>UIKit Binary File.</li>
+<li><code>0x000000018db14c88</code> return address after frames 0 - 19 return.</li>
+<li>Call site is 248 bytes from the beginning of class <code>_UICanvasLifecycleSettingsDiffAction</code> method <code>performActionsForCanvas:withUpdatedScene: settingsDiff:fromSettings:transitionContext:</code></li>
+</ul>
+<h3 id="crash-report-thread-state-section">Crash Report Thread State Section</h3>
+<p>iOS Crash Reports will be either from ARM-64 binaries (most common) or legacy ARM 32 bit binaries.</p>
+<p>In each case we get similar looking information describing the state of the ARM registers.</p>
+<p>One thing to look out for is the special hex code, <code>0xbaddc0dedeadbead</code> which means a non-initialized pointer.</p>
+<h4 id="bit-thread-state">32-bit thread state</h4>
+<pre><code>Thread 0 crashed with ARM Thread State (32-bit):
+    r0: 0x00000000    r1: 0x00000000      r2: 0x00000000      r3: 0x00000000
+    r4: 0x00000006    r5: 0x3c42f000      r6: 0x3b66d304      r7: 0x002054c8
+    r8: 0x14d5f480    r9: 0x252348fd     r10: 0x90eecad7     r11: 0x14d5f4a4
+    ip: 0x00000148    sp: 0x002054bc      lr: 0x257d8733      pc: 0x2572ec5c
+  cpsr: 0x00000010</code></pre>
+<h4 id="bit-thread-state-1">64-bit thread state</h4>
+<pre><code>Thread 0 crashed with ARM Thread State (64-bit):
+    x0: 0x0000000000000028   x1: 0x0000000000000029   x2: 0x0000000000000008   x3: 0x0000000183a4906c
+    x4: 0x0000000104440260   x5: 0x0000000000000047   x6: 0x000000000000000a   x7: 0x0000000138819df0
+    x8: 0x0000000000000000   x9: 0x0000000000000000  x10: 0x0000000000000003  x11: 0xbaddc0dedeadbead
+   x12: 0x0000000000000012  x13: 0x0000000000000002  x14: 0x0000000000000000  x15: 0x0000010000000100
+   x16: 0x0000000183b9b8cc  x17: 0x0000000000000100  x18: 0x0000000000000000  x19: 0x00000001b5c241c8
+   x20: 0x00000001c0071b00  x21: 0x0000000000000018  x22: 0x000000018e89b27a  x23: 0x0000000000000000
+   x24: 0x00000001c4033d60  x25: 0x0000000000000001  x26: 0x0000000000000288  x27: 0x00000000000000e0
+   x28: 0x0000000000000010   fp: 0x000000016bde54b0   lr: 0x000000010401ca04
+    sp: 0x000000016bde53e0   pc: 0x000000010401c6c8 cpsr: 0x80000000</code></pre>
+<h3 id="crash-report-binary-images-section">Crash Report Binary Images section</h3>
+<p>The crash report has a section enumerating all the binary images loaded by the process that crashed. It is usually a long list. It highlights the fact that there are many supporting frameworks for our apps. Most frameworks are private frameworks. The iOS development kit might seem a huge set of APIs, but that is just the tip of the iceberg.</p>
+<p>Here is an example list, edited for ease of demonstration:</p>
+<pre><code>Binary Images:
+
+0x104018000 - 0x10401ffff icdab_as arm64
+  &lt;b82579f401603481990d1c1c9a42b773&gt;
+/var/containers/Bundle/Application/
+1A05BC59-491C-4D0A-B4F6-8A98A804F74D/icdab_as.app/icdab_as
+
+0x104030000 - 0x104037fff libswiftCoreFoundation.dylib arm64
+  &lt;81f66e04bab133feb3369b4162a68afc&gt;
+  /var/containers/Bundle/Application/
+1A05BC59-491C-4D0A-B4F6-8A98A804F74D/icdab_as.app/
+Frameworks/libswiftCoreFoundation.dylib
+
+
+0x104044000 - 0x104057fff libswiftCoreGraphics.dylib arm64
+  &lt;f1f2287fb5153a28beea12ec2d547bf8&gt;
+  /var/containers/Bundle/Application/
+1A05BC59-491C-4D0A-B4F6-8A98A804F74D/icdab_as.app/
+Frameworks/libswiftCoreGraphics.dylib
+
+0x104078000 - 0x10407ffff libswiftCoreImage.dylib arm64
+  &lt;9433fc53f72630dc8c53851703dd440b&gt;
+  /var/containers/Bundle/Application/
+1A05BC59-491C-4D0A-B4F6-8A98A804F74D/icdab_as.app/
+Frameworks/libswiftCoreImage.dylib
+
+0x104094000 - 0x1040cffff dyld arm64
+  &lt;06dc98224ae03573bf72c78810c81a78&gt; /usr/lib/dyld</code></pre>
+<p>The first part is where the image has been loaded into memory. Here <code>icdab_as</code> has been loaded into the range <code>0x104018000</code> - <code>0x10401ffff</code></p>
+<p>The second part is the UUID of the binary. Here <code>icdab_as</code> has UUID <code>b82579f401603481990d1c1c9a42b773</code></p>
+<p>This is important for matching a binary to its DSYM file in the Release Binary case where the DWARF symbols are stripped out the binary and placed into a separate DSYM file.</p>
+<p>Here is an example of corresponding UUIDs seen in DSYM and application binaries:</p>
+<pre><code>$ dwarfdump --uuid icdab_as.app/icdab_as
+icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as
+
+UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64) icdab_as.app/icdab_as
+
+UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64)
+icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as</code></pre>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
