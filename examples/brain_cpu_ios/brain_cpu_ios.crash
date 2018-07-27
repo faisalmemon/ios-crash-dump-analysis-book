@@ -1,0 +1,169 @@
+{"app_name":"com.apple.MobileSoftwareUpdate.UpdateBrainService","app_version":"1.0","bundleID":"com.apple.MobileSoftwareUpdate.UpdateBrainService","os_version":"iPhone OS 8.1.2 (12B440)","slice_uuid":"865e9aa3-dce0-3923-93a2-445e115bc26f","share_with_app_devs":true,"build_version":"1","is_first_party":false,"bug_type":"185","name":"com.apple.MobileSoftwareUpdate.UpdateBrainService"}
+Incident Identifier: 92F40C53-6BB8-4E13-A4C2-CF2F1C85E8DF
+CrashReporter Key:   69face25f1299fdcbbe337b89e6a9f649818ba13
+Hardware Model:      iPad4,4
+Process:             com.apple.MobileSoftwareUpdate.UpdateBrainService [147]
+Path:                /private/var/run/com.apple.xpcproxy.RoleAccount.staging/com.apple.MobileSoftwareUpdate.UpdateBrainService.16777219.47335.xpc/com.apple.MobileSoftwareUpdate.UpdateBrainService
+Identifier:          com.apple.MobileSoftwareUpdate.UpdateBrainService
+Version:             1 (1.0)
+Code Type:           ARM-64 (Native)
+Parent Process:      launchd [1]
+
+Date/Time:           2015-02-03 20:14:05.504 -0800
+Launch Time:         2015-02-03 20:11:35.306 -0800
+OS Version:          iOS 8.1.2 (12B440)
+Report Version:      105
+
+Exception Type:  EXC_RESOURCE
+Exception Subtype: CPU
+Exception Message: (Limit 50%) Observed 60% over 180 secs
+Triggered by Thread:  2
+
+Thread 0 name:  Dispatch queue: com.apple.main-thread
+Thread 0:
+0   libsystem_kernel.dylib        	0x0000000196b98e7c 0x196b98000 + 3708
+1   libsystem_kernel.dylib        	0x0000000196b98cf4 0x196b98000 + 3316
+2   CoreFoundation                	0x00000001859c9ecc 0x1858ec000 + 909004
+3   CoreFoundation                	0x00000001859c7e20 0x1858ec000 + 900640
+4   CoreFoundation                	0x00000001858f50a0 0x1858ec000 + 37024
+5   Foundation                    	0x00000001867fd800 0x1867f0000 + 55296
+6   Foundation                    	0x0000000186857ef4 0x1867f0000 + 425716
+7   libxpc.dylib                  	0x0000000196c8022c 0x196c70000 + 66092
+8   libxpc.dylib                  	0x0000000196c81f50 0x196c70000 + 73552
+9   ...reUpdate.UpdateBrainService	0x000000010008ea04 0x100080000 + 59908
+10  libdyld.dylib                 	0x0000000196a9aa04 0x196a98000 + 10756
+
+Thread 1 name:  Dispatch queue: com.apple.libdispatch-manager
+Thread 1:
+0   libsystem_kernel.dylib        	0x0000000196b98c94 0x196b98000 + 3220
+1   libdispatch.dylib             	0x0000000196a8097c 0x196a70000 + 67964
+2   libdispatch.dylib             	0x0000000196a733b0 0x196a70000 + 13232
+
+Thread 2 name:  Dispatch queue: com.apple.root.default-qos
+Thread 2 Attributed:
+0   libsystem_kernel.dylib        	0x0000000196b9b1ec 0x196b98000 + 12780
+1   ...reUpdate.UpdateBrainService	0x000000010008ac70 0x100080000 + 44144
+2   ...reUpdate.UpdateBrainService	0x0000000100083678 0x100080000 + 13944
+3   ...reUpdate.UpdateBrainService	0x000000010008b8e0 0x100080000 + 47328
+4   ...reUpdate.UpdateBrainService	0x00000001000831e8 0x100080000 + 12776
+5   ...reUpdate.UpdateBrainService	0x0000000100093478 0x100080000 + 78968
+6   ...reUpdate.UpdateBrainService	0x000000010008e368 0x100080000 + 58216
+7   ...reUpdate.UpdateBrainService	0x0000000100094548 0x100080000 + 83272
+8   ...reUpdate.UpdateBrainService	0x000000010008ebb0 0x100080000 + 60336
+9   libdispatch.dylib             	0x0000000196a713a8 0x196a70000 + 5032
+10  libdispatch.dylib             	0x0000000196a71368 0x196a70000 + 4968
+11  libdispatch.dylib             	0x0000000196a7d408 0x196a70000 + 54280
+12  libdispatch.dylib             	0x0000000196a7e758 0x196a70000 + 59224
+13  libsystem_pthread.dylib       	0x0000000196c4d2e0 0x196c4c000 + 4832
+14  libsystem_pthread.dylib       	0x0000000196c4cfa4 0x196c4c000 + 4004
+
+Thread 3:
+0   libsystem_kernel.dylib        	0x0000000196bb3c78 0x196b98000 + 113784
+1   libsystem_pthread.dylib       	0x0000000196c4d390 0x196c4c000 + 5008
+2   libsystem_pthread.dylib       	0x0000000196c4cfa4 0x196c4c000 + 4004
+
+Thread 2 crashed with ARM Thread State (64-bit):
+    x0: 0x0000000000000000   x1: 0x0000000000000000   x2: 0xffffffffffffffe8   x3: 0x00000001004991c8
+    x4: 0x0000000000000007   x5: 0x0000000000000018   x6: 0x0000000000000000   x7: 0x0000000000000000
+    x8: 0x2f6a6f72706c2e73   x9: 0x6166654448435354  x10: 0x5361746144746c75  x11: 0x614264656b636174
+   x12: 0x6166654448435354  x13: 0x5361746144746c75  x14: 0x614264656b636174  x15: 0x007473696c702e72
+   x16: 0x0000000000000154  x17: 0x00000001000cd2b1  x18: 0x0000000000000000  x19: 0x000000010049963c
+   x20: 0x0000000100499630  x21: 0x0000000000000000  x22: 0x000000014f001280  x23: 0x0000000100499640
+   x24: 0x000000014f001330  x25: 0x00000001004991a7  x26: 0x0000000100498c70  x27: 0x000000019a75d0a8
+   x28: 0x000000014f001330  fp: 0x0000000100499600   lr: 0x000000010008ac74
+    sp: 0x0000000100498c50   pc: 0x0000000196b9b1ec cpsr: 0x80000000
+
+Bad magic 0x86857EF8
+Microstackshots: 1 (from 1969-12-31 20:33:03 -0800 to 1969-12-31 20:33:03 -0800)
+  1 ??? [0x16fd7fab0]
+    1 CoreFoundation 0x1858ec000 + 37028 [0x1858f50a4]
+      1 ??? [0x16fd7f970]
+        1 CoreFoundation 0x1858ec000 + 900644 [0x1859c7e24]
+          1 ??? [0x16fd7ec60]
+            1 CoreFoundation 0x1858ec000 + 909008 [0x1859c9ed0]
+              1 ??? [0x16fd7ec00]
+                1 libsystem_kernel.dylib 0x196b98000 + 3320 [0x196b98cf8]
+                  1 ??? [0x16fd7ebb0]
+                    1 libsystem_kernel.dylib 0x196b98000 + 3708 [0x196b98e7c]
+                     *1 ??? [0xffffff8002012f08]
+
+Binary Images:
+0x100080000 - 0x1000dbfff com.apple.MobileSoftwareUpdate.UpdateBrainService arm64  <865e9aa3dce0392393a2445e115bc26f> /var/run/com.apple.xpcproxy.RoleAccount.staging/com.apple.MobileSoftwareUpdate.UpdateBrainService.16777219.47335.xpc/com.apple.MobileSoftwareUpdate.UpdateBrainService
+0x1200a8000 - 0x1200cffff dyld arm64  <36eff49275c23d2d815e48af33eea471> /usr/lib/dyld
+0x184428000 - 0x184428fff Accelerate arm64  <e9ba7838f51634a7b59ed392be50e86f> /System/Library/Frameworks/Accelerate.framework/Accelerate
+0x184440000 - 0x18465ffff vImage arm64  <da44067fc79931c7aef1b7e88bf82a83> /System/Library/Frameworks/Accelerate.framework/Frameworks/vImage.framework/vImage
+0x184660000 - 0x184707fff libBLAS.dylib arm64  <e5276e7784ef34a4baca480264978ea0> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libBLAS.dylib
+0x184708000 - 0x184a82fff libLAPACK.dylib arm64  <165b05f9f75736d5ae8f5f39293bd6e7> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libLAPACK.dylib
+0x184a84000 - 0x184a99fff libLinearAlgebra.dylib arm64  <5574ec3bd4e537e1b662d38a63aec58b> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libLinearAlgebra.dylib
+0x184a9c000 - 0x184b04fff libvDSP.dylib arm64  <004f5668574139bc906c5fa4fdced3b1> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libvDSP.dylib
+0x184b08000 - 0x184b2bfff libvMisc.dylib arm64  <5790e7ace143367ea6f2428852be384e> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/libvMisc.dylib
+0x184b2c000 - 0x184b2cfff vecLib arm64  <211d7711a6e93fe8ae6d6b42585cad2d> /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/vecLib
+0x18535c000 - 0x185567fff CFNetwork arm64  <68adcebf440d30769bd2d67adc7932a2> /System/Library/Frameworks/CFNetwork.framework/CFNetwork
+0x1858ec000 - 0x185c48fff CoreFoundation arm64  <83a9627362333366a8543e8c2d28166e> /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation
+0x185c4c000 - 0x185daefff CoreGraphics arm64  <783a6b9356ed3b41beba516b483affb1> /System/Library/Frameworks/CoreGraphics.framework/CoreGraphics
+0x186380000 - 0x1863f1fff CoreTelephony arm64  <f99cf601387938d3808c32e97a9a30cf> /System/Library/Frameworks/CoreTelephony.framework/CoreTelephony
+0x1867f0000 - 0x186a44fff Foundation arm64  <fb0544132648377c8d2683d597a3583d> /System/Library/Frameworks/Foundation.framework/Foundation
+0x186b5c000 - 0x186bc8fff IOKit arm64  <1cd3da5151d03be5a0ba0c30c19228ea> /System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+0x188304000 - 0x1883b0fff MobileCoreServices arm64  <19505cbb66af328785e293c3b2810b00> /System/Library/Frameworks/MobileCoreServices.framework/MobileCoreServices
+0x189f24000 - 0x189f76fff Security arm64  <823c0a3088543396bef1e351da74c835> /System/Library/Frameworks/Security.framework/Security
+0x18a13c000 - 0x18a1affff SystemConfiguration arm64  <cbcb5237ab8637aebf0cb493aaa4af92> /System/Library/Frameworks/SystemConfiguration.framework/SystemConfiguration
+0x18b42c000 - 0x18b431fff AggregateDictionary arm64  <2f9120e6400835f08bd7bfd2d4ada020> /System/Library/PrivateFrameworks/AggregateDictionary.framework/AggregateDictionary
+0x18b8b0000 - 0x18b8fafff AppSupport arm64  <f35ee13bec64354d9044e2a5ea519640> /System/Library/PrivateFrameworks/AppSupport.framework/AppSupport
+0x18ba30000 - 0x18ba3afff AppleFSCompression arm64  <134926fd08113669af7bd52350cf24a4> /System/Library/PrivateFrameworks/AppleFSCompression.framework/AppleFSCompression
+0x18bbe8000 - 0x18bc18fff Bom arm64  <2724021b087139bcaa636d640e9b4127> /System/Library/PrivateFrameworks/Bom.framework/Bom
+0x18bcb4000 - 0x18bcbcfff CacheDelete arm64  <81d93e7702c3390dbf003caa716dc3fb> /System/Library/PrivateFrameworks/CacheDelete.framework/CacheDelete
+0x18c6cc000 - 0x18c6defff CommonUtilities arm64  <1cb495ce473a3127bb291cc541762fb3> /System/Library/PrivateFrameworks/CommonUtilities.framework/CommonUtilities
+0x18cd0c000 - 0x18cd30fff CoreServicesInternal arm64  <1a7d2fa9a1df316b8f974b8df3a3a407> /System/Library/PrivateFrameworks/CoreServicesInternal.framework/CoreServicesInternal
+0x18ea50000 - 0x18ea63fff GraphicsServices arm64  <b5078b39bd36372190e4ad5e7d991f68> /System/Library/PrivateFrameworks/GraphicsServices.framework/GraphicsServices
+0x18f7a0000 - 0x18f7a3fff MobileSystemServices arm64  <9b2bbc93fbb231baa08b41c6aee209ed> /System/Library/PrivateFrameworks/MobileSystemServices.framework/MobileSystemServices
+0x195724000 - 0x19573ffff libCRFSuite.dylib arm64  <a41a2f95f1ff30d9a4ab2d6145480db2> /usr/lib/libCRFSuite.dylib
+0x195748000 - 0x195771fff libFDR.dylib arm64  <a7fadc8b09a53e7db115a8ed48a6c50d> /usr/lib/libFDR.dylib
+0x1958dc000 - 0x1958f6fff libMobileGestalt.dylib arm64  <77de2524f3a1353c9d3d69c0eae234cc> /usr/lib/libMobileGestalt.dylib
+0x195920000 - 0x195925fff libReverseProxyDevice.dylib arm64  <387060ad01c132c39ee49d524566dbb3> /usr/lib/libReverseProxyDevice.dylib
+0x195928000 - 0x195929fff libSystem.B.dylib arm64  <bb7dbbf6e1eb307da700a0d7b1bab1f4> /usr/lib/libSystem.B.dylib
+0x1959ac000 - 0x1959fafff libTelephonyUtilDynamic.dylib arm64  <a84c6f652ea63a52921b96b6185c531c> /usr/lib/libTelephonyUtilDynamic.dylib
+0x195b14000 - 0x195b21fff libamsupport.dylib arm64  <cfb3a91fb340350a977967cbbb8fdcbe> /usr/lib/libamsupport.dylib
+0x195b24000 - 0x195b4efff libarchive.2.dylib arm64  <6e7ce417e487309c8acc744b1b6b523f> /usr/lib/libarchive.2.dylib
+0x195b90000 - 0x195ba0fff libbsm.0.dylib arm64  <6651c9abc7b6353c8343d7f0f4e09a23> /usr/lib/libbsm.0.dylib
+0x195ba4000 - 0x195bb4fff libbz2.1.0.dylib arm64  <f6ec1b6a4719369aa059ee3269823a2d> /usr/lib/libbz2.1.0.dylib
+0x195bb8000 - 0x195c0efff libc++.1.dylib arm64  <c8e65982941e374c95463384e600181d> /usr/lib/libc++.1.dylib
+0x195c10000 - 0x195c32fff libc++abi.dylib arm64  <fd49f85cb61d31b582895366ea6c2d01> /usr/lib/libc++abi.dylib
+0x195c90000 - 0x195cacfff libextension.dylib arm64  <e8ead22587533875b26071dda1330ce1> /usr/lib/libextension.dylib
+0x195dd8000 - 0x195fbffff libicucore.A.dylib arm64  <02e9eb5b92473df89af04da09371417a> /usr/lib/libicucore.A.dylib
+0x195fd4000 - 0x195fd5fff liblangid.dylib arm64  <80e626200785352a8d5e98a061ca19b8> /usr/lib/liblangid.dylib
+0x195fe8000 - 0x196001fff liblzma.5.dylib arm64  <717d1cd1e6f0343b859370862cce58d6> /usr/lib/liblzma.5.dylib
+0x196424000 - 0x196620fff libobjc.A.dylib arm64  <e6224d745a023588af8e5bb67498139a> /usr/lib/libobjc.A.dylib
+0x196758000 - 0x196829fff libsqlite3.dylib arm64  <286839512b673f7c938aa79ac70bde15> /usr/lib/libsqlite3.dylib
+0x1968c4000 - 0x1969b2fff libxml2.2.dylib arm64  <dbcfe4d423bb3ae48174394f298ad244> /usr/lib/libxml2.2.dylib
+0x1969e0000 - 0x1969f1fff libz.1.dylib arm64  <2a347410b967358289e8256c913714de> /usr/lib/libz.1.dylib
+0x1969f4000 - 0x1969f8fff libcache.dylib arm64  <d322f485769b3fd5a11bc2aff7265fdf> /usr/lib/system/libcache.dylib
+0x1969fc000 - 0x196a08fff libcommonCrypto.dylib arm64  <6cb05550a33e392189c0d88e951f00f9> /usr/lib/system/libcommonCrypto.dylib
+0x196a0c000 - 0x196a0ffff libcompiler_rt.dylib arm64  <65f2a15e126435769154e2a7b44b942e> /usr/lib/system/libcompiler_rt.dylib
+0x196a10000 - 0x196a17fff libcopyfile.dylib arm64  <1f428d2df193398e9e72250952f08953> /usr/lib/system/libcopyfile.dylib
+0x196a18000 - 0x196a6dfff libcorecrypto.dylib arm64  <c4022dca81eb3632a6d7f69bc6f083a1> /usr/lib/system/libcorecrypto.dylib
+0x196a70000 - 0x196a96fff libdispatch.dylib arm64  <e19d74563485344485b6d4457a93e89d> /usr/lib/system/libdispatch.dylib
+0x196a98000 - 0x196a9afff libdyld.dylib arm64  <7387fcdff0b93cbcab450356edc79b67> /usr/lib/system/libdyld.dylib
+0x196a9c000 - 0x196a9cfff liblaunch.dylib arm64  <8224fcd7ddf93c0d81826478dfe9de27> /usr/lib/system/liblaunch.dylib
+0x196aa0000 - 0x196aa5fff libmacho.dylib arm64  <cddfd20412643baeb9023095eb2cf29f> /usr/lib/system/libmacho.dylib
+0x196aa8000 - 0x196aa9fff libremovefile.dylib arm64  <e8124da88b1131f2ac005b75d8559ca7> /usr/lib/system/libremovefile.dylib
+0x196aac000 - 0x196ac1fff libsystem_asl.dylib arm64  <17448aec6f7d3498aebcabc8a1598c9a> /usr/lib/system/libsystem_asl.dylib
+0x196ac4000 - 0x196ac5fff libsystem_blocks.dylib arm64  <f38b7145bed330d98d8d79b8362b03de> /usr/lib/system/libsystem_blocks.dylib
+0x196ac8000 - 0x196b48fff libsystem_c.dylib arm64  <0fd40ab9115536e3843b8064b1748c7a> /usr/lib/system/libsystem_c.dylib
+0x196b4c000 - 0x196b4efff libsystem_configuration.dylib arm64  <37655cc87bb3391b946955b0fbc4384a> /usr/lib/system/libsystem_configuration.dylib
+0x196b50000 - 0x196b51fff libsystem_coreservices.dylib arm64  <a8e2019df4123295bf71800fa1bd73be> /usr/lib/system/libsystem_coreservices.dylib
+0x196b54000 - 0x196b64fff libsystem_coretls.dylib arm64  <e837369c4d623fc7adb19a892b03aba8> /usr/lib/system/libsystem_coretls.dylib
+0x196b68000 - 0x196b70fff libsystem_dnssd.dylib arm64  <18b39491d06c3fa18c810118f03143ee> /usr/lib/system/libsystem_dnssd.dylib
+0x196b74000 - 0x196b95fff libsystem_info.dylib arm64  <72514f76b03335729f18da536331df97> /usr/lib/system/libsystem_info.dylib
+0x196b98000 - 0x196bb8fff libsystem_kernel.dylib arm64  <c9a63d5247363e37917b9202cd05b13f> /usr/lib/system/libsystem_kernel.dylib
+0x196bbc000 - 0x196bd8fff libsystem_m.dylib arm64  <5b5fb8f53a2a3ebd9696d92758148322> /usr/lib/system/libsystem_m.dylib
+0x196bdc000 - 0x196bf5fff libsystem_malloc.dylib arm64  <bb0250acb085340ea6689a755edc5515> /usr/lib/system/libsystem_malloc.dylib
+0x196bf8000 - 0x196c2ffff libsystem_network.dylib arm64  <2f8dd27634de3f66b15dc96981143ad0> /usr/lib/system/libsystem_network.dylib
+0x196c30000 - 0x196c36fff libsystem_networkextension.dylib arm64  <fed7dcc5e8db37249addf5b14210492d> /usr/lib/system/libsystem_networkextension.dylib
+0x196c38000 - 0x196c42fff libsystem_notify.dylib arm64  <4a9bcea2df8d351f987d0e9f84406427> /usr/lib/system/libsystem_notify.dylib
+0x196c44000 - 0x196c48fff libsystem_platform.dylib arm64  <03902be9733b35d2b193cf8724a8d95a> /usr/lib/system/libsystem_platform.dylib
+0x196c4c000 - 0x196c54fff libsystem_pthread.dylib arm64  <ddb19a684b2d3281a81fb6688c7e5a78> /usr/lib/system/libsystem_pthread.dylib
+0x196c58000 - 0x196c5afff libsystem_sandbox.dylib arm64  <d8c82f4047333b93ae88ae4f71a1ce8c> /usr/lib/system/libsystem_sandbox.dylib
+0x196c5c000 - 0x196c5ffff libsystem_stats.dylib arm64  <e2b3982965873f27b542a1a81f212b5b> /usr/lib/system/libsystem_stats.dylib
+0x196c60000 - 0x196c66fff libsystem_trace.dylib arm64  <122df0fd03b43a8f82ed69916c95524a> /usr/lib/system/libsystem_trace.dylib
+0x196c68000 - 0x196c6dfff libunwind.dylib arm64  <0c07617876a43cacbde6104a2b75f4f2> /usr/lib/system/libunwind.dylib
+0x196c70000 - 0x196c93fff libxpc.dylib arm64  <a4f17798f3de3fbc85e3f569762f0eb9> /usr/lib/system/libxpc.dylib
