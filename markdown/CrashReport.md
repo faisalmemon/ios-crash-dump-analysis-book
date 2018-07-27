@@ -150,18 +150,32 @@ Exception Type|Meaning
 `EXC_CRASH (SIGKILL)` |The system killed our app (or app extension), usually because some resource limit had been reached.  The Termination Reason needs to be looked at to work out what policy violation was the reason for termination.
 `EXC_BAD_ACCESS` or `SIGSEGV` or `SIGBUS` |Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to due memory pressure.
 `EXC_BREAKPOINT (SIGTRAP)` |This is due to an `NSException` being raised (possibly by a library on our behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
-EXC_BAD_INSTRUCTION (SIGILL)|This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code.  On Simulator it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).
+`EXC_BAD_INSTRUCTION (SIGILL)` |This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code.  On Simulator it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).
 
 When Termination Reason is present, we can look up the Code as follows:
 
-Termination Code | Spoken As | Meaning
---|--|--
-`0xdead10cc`  | Deadlock |We held a file lock or sqlite database lock before suspending.  We should release locks before suspending.
-`0xbaaaaaad` | Bad | A stackshot was done of the entire system via the side and both volume buttons.  See earlier section on System Diagnostics
-`0xbad22222` | Bad too (two) many times | VOIP was terminated as it resumed too frequently.  Also see with code using networking whilst in the background.  If our TCP connection is woken up too many times (say 15 wakes in 300 seconds) we get this crash.
-`0x8badf00d` | Ate (eight) bad food | Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.).  The watchdog timer noticed the policy violation and caused the termination.  The most common culprit is doing synchronous networking on the main thread.
-`0xc00010ff` | Cool Off | The system detected a thermal event and kill off our app.  If it's just one device it could be a hardware issue, not a software problem in our app.  If it happens on other devices, check our app's power usage using Instruments.
-`0x2bad45ec` | Too bad for security | There was a security violation. If the Termination Description says "Process detected doing insecure drawing while in secure mode" it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.
+Termination Code | Meaning
+--|--
+`0xdead10cc`  |We held a file lock or sqlite database lock before suspending.  We should release locks before suspending.
+`0xbaaaaaad` | A stackshot was done of the entire system via the side and both volume buttons.  See earlier section on System Diagnostics
+`0xbad22222` | VOIP was terminated as it resumed too frequently.  Also see with code using networking whilst in the background.  If our TCP connection is woken up too many times (say 15 wakes in 300 seconds) we get this crash.
+`0x8badf00d` | Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.).  The watchdog timer noticed the policy violation and caused the termination.  The most common culprit is doing synchronous networking on the main thread.
+`0xc00010ff` | The system detected a thermal event and kill off our app.  If it's just one device it could be a hardware issue, not a software problem in our app.  If it happens on other devices, check our app's power usage using Instruments.
+`0x2bad45ec` | There was a security violation. If the Termination Description says "Process detected doing insecure drawing while in secure mode" it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.
+
+#### Magic Numbers and their Hexspeak
+
+With a certain geek humor, the termination codes, when discussed, are spoken as follows:
+
+Magic Number | Spoken Phrase
+--|--
+`0xdead10cc` | Deadlock
+`0xbaaaaaad` | Bad
+`0xbad22222` | Bad too (two) many times
+`0x8badf00d` | Ate (eight) bad food
+`0xc00010ff` | Cool Off
+`0x2bad45ec` | Too bad for security
+
 #### Aborts
 When we have a `SIGABRT` , we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.
 
