@@ -11,3 +11,4 @@ Show opengl crash
 Map out the crashes to how they fit in terms of covering tvos,macos,ios, etc. and languages.
 Show crashes that use each of the xcode memory diagnostics.
 Explain Mac crash report
+Explore existing tools for crash enumeration https://www.crashprobe.com/ios/05/ and catching https://github.com/kstenerud/KSCrash

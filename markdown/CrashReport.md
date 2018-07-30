@@ -4,6 +4,8 @@ In this chapter, we get into the details of what comprises a crash report.
 Our main focus is the iOS crash report.  We also cover the macOS crash report,
 which caries a slightly different structure but serves the same purpose.
 
+Note, it is possible to install crash handlers from third parties, either to get enhanced crash reporting diagnostics or to link application crashes to a web-based service for managing crash reports across your population of users.  We shall defer such discussions to a later chapter.
+
 When a crash occurs the `ReportCrash`\index{command!ReportCrash} program extracts information from the crashing process from the Operating System.  The result is a text file with a `.crash`\index{extension!.crash} extension.
 
 When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses.  This improves the comprehensibility of the report.
@@ -27,10 +29,12 @@ An equivalent approach is available on macOS as well.
 
 Here we go through each section of an iOS crash report and explain the fields. @tn2151
 
+tvOS and watchOS may be just considered subsets of iOS for our purposes and have similar crash reports.
+
 Note here iOS Crash Report means a crash report that came from a physical target device.
 After a crash, apps are often debugged on the Simulator.  The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.
 
-### Crash Report Header Section
+### iOS Crash Report Header Section
 
 A Crash Report starts with the following header:
 
@@ -78,7 +82,7 @@ Whether the app crashed in the Foreground or Background (the Role) is interestin
 
 The Code Type (target architecture) is now mostly 64-bit ARM.  However, we might see ARM being reported - the original 32-bit ARM.
 
-### Crash Report Date and Version Section
+### iOS Crash Report Date and Version Section
 
 A Crash Report will continue with date and version information:
 
@@ -108,7 +112,7 @@ Is the date a sensible value?  Sometimes a device is set back or forwards in tim
 
 Normally the baseband version is not interesting.  The presence of the baseband means we could be interrupted by a phone call (of course there is VOIP calling as well in any case).  iPad software is generally written to assume we're not going to get a phone call but iPads can be purchased with a cellular modem\index{iPad!cellular modem} option.
 
-### Crash Report Exception Section
+### iOS Crash Report Exception Section
 
 A Crash Report will next have exception\index{exception} information:
 
@@ -238,7 +242,7 @@ Flavor Bit|Meaning
 2|`sendmsg()` attempted via a socket
 4|`write()` attempted
 
-### Crash Report Filtered Syslog Section
+### iOS Crash Report Filtered Syslog Section
 
 The Crash Report continues with the syslog section:
 
@@ -249,7 +253,7 @@ None found
 
 This is an anomalous section because it is supposed to look at the process ID of the crashed process and then look to see if there are any syslog (System Log) entries for that process.  We have never seen filtered entries in a crash, and only see `None found` reported.
 
-### Crash Report Exception Backtrace section
+### iOS Crash Report Exception Backtrace section
 
 When our app has detected a problem and has asked the Operating System to terminate the app, we get an Exception Backtrace section of the report.  This covers the cases of calling `abort`, `NSException`,  `_NSLockError`, or `objc_exception_throw` either ourselves or indirectly through the Swift, Objective-C or C runtime support libraries.
 
@@ -379,7 +383,7 @@ A little bit of Internet searching reveals that `NSData` has a private helper cl
 
 What has happened here is that an `NSString` object was provided where an `NSData` object was expected.
 
-### Crash Report Thread Section
+### iOS Crash Report Thread Section
 
 The Crash Report continues with a dump of the thread backtraces as follows (formatted for ease of demonstration)
 
@@ -577,7 +581,7 @@ Therefore with the example stack frame we have:
   `performActionsForCanvas:::::`
 - Class is `_UICanvasLifecycleSettingsDiffAction`
 
-### Crash Report Thread State Section
+### iOS Crash Report Thread State Section
 
 iOS Crash Reports will be either from ARM-64 binaries (most common) or legacy ARM 32 bit binaries.
 
@@ -619,7 +623,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
 ```
 
 
-### Crash Report Binary Images section
+### iOS Crash Report Binary Images section
 
 The crash report has a section enumerating all the binary images loaded by the process that crashed.
 It is usually a long list.  It highlights the fact that there are many supporting frameworks for our apps.
@@ -689,3 +693,88 @@ Most of the binaries have a self-explanatory name.  The `dyld` binary is the dyn
 It is seen at the bottom of all stack backtraces because it is responsible for commencing the loading of binaries before their execution.
 
 The dynamic loader does many tasks in preparing our binary for execution.  If our binary references libraries it will load them.  If there are absent, it will fail to load our app.  This is why it is possible to crash even before any code in `main.m` gets called.  Later on we shall study how to diagnose such problems.
+
+
+## Guided tour of a macOS Crash Report
+
+The macOS crash report is similar to an iOS crash report even though macOS CrashReport and iOS CrashReport are distinctly different programs.  At the cost of brevity, we just highlight notable differences from iOS.
+
+### macOS Crash Report Header Section
+
+The crash dump starts with the header:
+
+```
+Process:               SiriNCService [1045]
+Path:                  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+Identifier:            com.apple.SiriNCService
+Version:               146.4.5.1 (146.4.5.1)
+Build Info:            AssistantUIX-146004005001000~1
+Code Type:             X86-64 (Native)
+Parent Process:        ??? [1]
+Responsible:           Siri [863]
+User ID:               501
+```
+
+Here we see familiar information describing the binary at fault
+Whilst iOS is a system that runs the user experience as one user, the macOS system exposes the fact that there are multiple User IDs in the system.
+
+### macOS Crash Report Date and Version Section
+
+We continue with version information:
+
+```
+Date/Time:             2018-06-24 09:52:01.419 +0100
+OS Version:            Mac OS X 10.13.5 (17F77)
+Report Version:        12
+Anonymous UUID:        00CC683B-425F-ABF0-515A-3ED73BACDDB5
+
+Sleep/Wake UUID:       10AE8838-17A9-4405-B03D-B680DDC84436
+
+```
+
+The Anonymous UUID will uniquely identify the computer.  The Sleep/Wake UUID is used to match up sleep and wake events.  Failed wakeup is a common cause of a system crash (in contrast to the application crashes we have been discussing).  Further information can be obtained using the `pmset` power management command.
+
+### macOS duration information
+
+The macOS crash report show how soon the application crash occurred.
+```
+Time Awake Since Boot: 100000 seconds
+Time Since Wake:       2000 seconds
+```
+
+We use this as a broad indication only because the numbers seen always rounded to a convenient number.
+
+### macOS Crash Report System Integrity Section
+
+```
+System Integrity Protection: enabled
+```
+
+Modern macOS by default runs as "rootless".  This means that even if you are logged in as the superuser you cannot change system binaries.  Those are protected with the help of firmware.  It is possible to boot macOS with System Integrity Protection switched Off.  If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.
+
+### macOS Crash Report Exception Section
+
+We next get an exceptions section.
+
+```
+Crashed Thread:        0  Dispatch queue: com.apple.main-thread
+
+Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
+Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000018
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Termination Signal:    Segmentation fault: 11
+Termination Reason:    Namespace SIGNAL, Code 0xb
+Terminating Process:   exc handler [0]
+
+VM Regions Near 0x18:
+-->
+    __TEXT                 0000000100238000-0000000100247000 [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+
+Application Specific Information:
+objc_msgSend() selector name: didUnlockScreen:
+```
+
+This is similar to iOS.  However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator may model the same programming error differently.  We can get a different exception on x86 hardware than its arm counterpart.
+
+XXXX continue here with how swift handles undefined instruction and how mac handles semaphore on released object.
