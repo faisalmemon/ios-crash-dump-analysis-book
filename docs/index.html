@@ -645,7 +645,7 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 -[PlanetViewController viewDidLoad] (in icdab_planets)
  (PlanetViewController.mm:33)</code></pre>
 <p>The crash reporter tool fundamentally just uses <code>atos</code> to symbolicate the crash report, as well as providing other system related information.</p>
-<p>Symbolification is described further by an Apple Technote in case we want to get into it in more detail. <span class="citation" data-cites="tn2123">(“CrashReport Technote 2123” 2018)</span></p>
+<p>Symbolification is described further by an Apple Technote in case we want to get into it in more detail. <span class="citation" data-cites="tn2123">(“CrashReport Technote 2123” 2004)</span></p>
 <h2 id="reverse-engineering-approach">Reverse Engineering Approach</h2>
 <p>In the above example we have the source code and symbols for the crash dump so can do Symbolification.</p>
 <p>Sometimes we may have included a third party binary framework in our project for which we do not have the source code. It is good practice for the vendor to supply symbol information for their framework to allow crash dump analysis. When symbol information is not available, it is still possible to make progress by applying some reverse engineering.</p>
@@ -1338,8 +1338,10 @@ withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 248</code></pre
 <li>Stack Frame 20.</li>
 <li>UIKit Binary File.</li>
 <li><code>0x000000018db14c88</code> return address after frames 0 - 19 return.</li>
-<li>Call site is 248 bytes from the beginning of class <code>_UICanvasLifecycleSettingsDiffAction</code> method <code>performActionsForCanvas:withUpdatedScene:</code> <code>settingsDiff:fromSettings:transitionContext:</code></li>
+<li>Call site is 248 bytes from the beginning of class <code>_UICanvasLifecycleSettingsDiffAction</code> method</li>
 </ul>
+<pre><code>performActionsForCanvas:withUpdatedScene:
+settingsDiff:fromSettings:transitionContext:</code></pre>
 <h3 id="crash-report-thread-state-section">Crash Report Thread State Section</h3>
 <p>iOS Crash Reports will be either from ARM-64 binaries (most common) or legacy ARM 32 bit binaries.</p>
 <p>In each case we get similar looking information describing the state of the ARM registers.</p>
@@ -1527,7 +1529,7 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <p>“Apple Crash Dump Technote 2151.” 2018. <a href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2151/_index.html</a>.</p>
 </div>
 <div id="ref-tn2123">
-<p>“CrashReport Technote 2123.” 2018. <a href="https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html</a>.</p>
+<p>“CrashReport Technote 2123.” 2004. <a href="https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html</a>.</p>
 </div>
 <div id="ref-apple-sysdiag">
 <p>“Diagnostic Profiles and Logs.” 2018. <a href="https://developer.apple.com/bug-reporting/profiles-and-logs/" class="uri">https://developer.apple.com/bug-reporting/profiles-and-logs/</a>.</p>
