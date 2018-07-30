@@ -8,12 +8,11 @@ We assume you have at least an introductory knowledge of iOS programming and sof
 
 The approach we take is to combine three different perspectives on the problem to give a rounded and robust view of the situation and how to resolve it.
 
-Our three perspectives are:
+Our first perspective is to deliver a HOW-TO guide for using the excellent tooling available from Apple.
 
-1. A practical HOW-TO guide for using the excellent tooling available from Apple.
-1. A discussion of software engineering concepts tailored to preventing and resolving crashes.
-1. A formal problem-solving approach but applied to crash analysis.
+Our second perspective is to provide a discussion of software engineering concepts tailored to preventing and resolving crashes.
 
+Our third perspective is to offer a formal problem-solving approach but applied to crash analysis.
 
 Programming literature comprehensively has documented software engineering concepts, and Apple has documented their crash dump tooling via Guides and WWDC videos.  
 
@@ -23,4 +22,4 @@ Our goal is not the shy away from repeating knowledge we’ve probably seen or r
 
 To complement the book, there is a website of resources which is intended to be used alongside the printed material so example projects can be setup and run by yourself and experimented with.  All references in this book are collected into the Bibliography Chapter at the end of the book.  There you will find URLs to resources for example.
 
-The GitHub website supporting the book at @icdabgithub
+The GitHub website supporting the book is at @icdabgithub
