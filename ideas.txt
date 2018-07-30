@@ -1,6 +1,6 @@
 Explain heuristic concepts before going in examples of each
 x Explain the choice of tooling (free = to communicate without prop tooling, just starting out, hopper = paid ios pro, irda = pen tester/rev eng/enterprise)
-Possible to have a website to analyse crashes and promote the book.
+x Possible to have a website to analyse crashes and promote the book.
 Explain Kepner Tregoe
 Explain Mach, mach_msg etc. and History
 Look at structure of iBook and Technical books - need Acknowledgements and Copyright/Trademarks Section
@@ -10,3 +10,4 @@ x Add Preface
 Show opengl crash
 Map out the crashes to how they fit in terms of covering tvos,macos,ios, etc. and languages.
 Show crashes that use each of the xcode memory diagnostics.
+Explain Mac crash report

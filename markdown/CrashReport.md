@@ -573,10 +573,9 @@ Therefore with the example stack frame we have:
 - Stack Frame 20.
 - UIKit Binary File.
 - `0x000000018db14c88` return address after frames 0 - 19 return.
-- Call site is 248 bytes from the beginning of class
- `_UICanvasLifecycleSettingsDiffAction` method
- `performActionsForCanvas:withUpdatedScene:`
- `settingsDiff:fromSettings:transitionContext:`
+- Call site is 248 bytes from the beginning of method
+  `performActionsForCanvas:::::`
+- Class is `_UICanvasLifecycleSettingsDiffAction`
 
 ### Crash Report Thread State Section
 
