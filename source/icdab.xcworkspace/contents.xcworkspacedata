@@ -8,10 +8,10 @@
       location = "group:icdab_planets/icdab_planets.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:planets_facade/icdab_planets.xcodeproj">
+      location = "group:/Users/faisalm/dev/icdab/source/planets_facade/icdab_planets_facade.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:planets_stl/icdab_planets.xcodeproj">
+      location = "group:/Users/faisalm/dev/icdab/source/planets_stl/icdab_planets_stl.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:icdab_wrap/icdab_wrap.xcodeproj">
