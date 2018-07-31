@@ -27,6 +27,6 @@ class icdab_wrapUITests: XCTestCase {
         plutoButton.tap()
         let backButton = app.navigationBars.buttons.element(matching: .button, identifier: "Back")
         backButton.tap()
-        sleep(200)
+        sleep(3)
     }
 }
