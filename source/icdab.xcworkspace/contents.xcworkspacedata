@@ -32,9 +32,6 @@
       location = "group:icdab_as/icdab_as.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:icdab_align/icdab_align.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:icdab_asl/icdab_asl.xcodeproj">
    </FileRef>
    <FileRef
