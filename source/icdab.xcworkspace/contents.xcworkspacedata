@@ -17,16 +17,7 @@
       location = "group:icdab_wrap/icdab_wrap.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:icdab_mem/icdab_mem.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:icdab_sema/icdab_sema.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:icdab_pfuser/icdab_pfuser.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:icdab_lock/icdab_lock.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:icdab_as/icdab_as.xcodeproj">
