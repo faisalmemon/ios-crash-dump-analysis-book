@@ -7,8 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39303F3321106ACA009226AD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39303F3221106ACA009226AD /* AppDelegate.m */; };
+		39303F3621106ACA009226AD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39303F3521106ACA009226AD /* ViewController.m */; };
+		39303F3921106ACA009226AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39303F3721106ACA009226AD /* Main.storyboard */; };
+		39303F3B21106ACC009226AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39303F3A21106ACC009226AD /* Assets.xcassets */; };
+		39303F3E21106ACC009226AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39303F3C21106ACC009226AD /* LaunchScreen.storyboard */; };
+		39303F4121106ACC009226AD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39303F4021106ACC009226AD /* main.m */; };
+		39303F4B21106ACC009226AD /* icdab_sema_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39303F4A21106ACC009226AD /* icdab_sema_iosTests.m */; };
+		39303F5621106ACC009226AD /* icdab_sema_iosUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39303F5521106ACC009226AD /* icdab_sema_iosUITests.m */; };
 		397F79402102078A00809273 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 397F793F2102078A00809273 /* main.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		39303F4721106ACC009226AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 397F79342102078A00809273 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 39303F2E21106ACA009226AD;
+			remoteInfo = icdab_sema_ios;
+		};
+		39303F5221106ACC009226AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 397F79342102078A00809273 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 39303F2E21106ACA009226AD;
+			remoteInfo = icdab_sema_ios;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		397F793A2102078A00809273 /* CopyFiles */ = {
@@ -23,11 +48,48 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		397F793C2102078A00809273 /* icdab_sema */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = icdab_sema; sourceTree = BUILT_PRODUCTS_DIR; };
+		39303F2F21106ACA009226AD /* icdab_sema_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = icdab_sema_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		39303F3121106ACA009226AD /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		39303F3221106ACA009226AD /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		39303F3421106ACA009226AD /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		39303F3521106ACA009226AD /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		39303F3821106ACA009226AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		39303F3A21106ACC009226AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		39303F3D21106ACC009226AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		39303F3F21106ACC009226AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39303F4021106ACC009226AD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		39303F4621106ACC009226AD /* icdab_sema_iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_sema_iosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39303F4A21106ACC009226AD /* icdab_sema_iosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_sema_iosTests.m; sourceTree = "<group>"; };
+		39303F4C21106ACC009226AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39303F5121106ACC009226AD /* icdab_sema_iosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_sema_iosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39303F5521106ACC009226AD /* icdab_sema_iosUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_sema_iosUITests.m; sourceTree = "<group>"; };
+		39303F5721106ACC009226AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		397F793C2102078A00809273 /* icdab_sema_mac */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = icdab_sema_mac; sourceTree = BUILT_PRODUCTS_DIR; };
 		397F793F2102078A00809273 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		39303F2C21106ACA009226AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39303F4321106ACC009226AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39303F4E21106ACC009226AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		397F79392102078A00809273 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,10 +100,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39303F3021106ACA009226AD /* icdab_sema_ios */ = {
+			isa = PBXGroup;
+			children = (
+				39303F3121106ACA009226AD /* AppDelegate.h */,
+				39303F3221106ACA009226AD /* AppDelegate.m */,
+				39303F3421106ACA009226AD /* ViewController.h */,
+				39303F3521106ACA009226AD /* ViewController.m */,
+				39303F3721106ACA009226AD /* Main.storyboard */,
+				39303F3A21106ACC009226AD /* Assets.xcassets */,
+				39303F3C21106ACC009226AD /* LaunchScreen.storyboard */,
+				39303F3F21106ACC009226AD /* Info.plist */,
+				39303F4021106ACC009226AD /* main.m */,
+			);
+			path = icdab_sema_ios;
+			sourceTree = "<group>";
+		};
+		39303F4921106ACC009226AD /* icdab_sema_iosTests */ = {
+			isa = PBXGroup;
+			children = (
+				39303F4A21106ACC009226AD /* icdab_sema_iosTests.m */,
+				39303F4C21106ACC009226AD /* Info.plist */,
+			);
+			path = icdab_sema_iosTests;
+			sourceTree = "<group>";
+		};
+		39303F5421106ACC009226AD /* icdab_sema_iosUITests */ = {
+			isa = PBXGroup;
+			children = (
+				39303F5521106ACC009226AD /* icdab_sema_iosUITests.m */,
+				39303F5721106ACC009226AD /* Info.plist */,
+			);
+			path = icdab_sema_iosUITests;
+			sourceTree = "<group>";
+		};
 		397F79332102078A00809273 = {
 			isa = PBXGroup;
 			children = (
 				397F793E2102078A00809273 /* icdab_sema */,
+				39303F3021106ACA009226AD /* icdab_sema_ios */,
+				39303F4921106ACC009226AD /* icdab_sema_iosTests */,
+				39303F5421106ACC009226AD /* icdab_sema_iosUITests */,
 				397F793D2102078A00809273 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,7 +148,10 @@
 		397F793D2102078A00809273 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				397F793C2102078A00809273 /* icdab_sema */,
+				397F793C2102078A00809273 /* icdab_sema_mac */,
+				39303F2F21106ACA009226AD /* icdab_sema_ios.app */,
+				39303F4621106ACC009226AD /* icdab_sema_iosTests.xctest */,
+				39303F5121106ACC009226AD /* icdab_sema_iosUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -65,9 +167,62 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		397F793B2102078A00809273 /* icdab_sema */ = {
+		39303F2E21106ACA009226AD /* icdab_sema_ios */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 397F79432102078A00809273 /* Build configuration list for PBXNativeTarget "icdab_sema" */;
+			buildConfigurationList = 39303F5821106ACC009226AD /* Build configuration list for PBXNativeTarget "icdab_sema_ios" */;
+			buildPhases = (
+				39303F2B21106ACA009226AD /* Sources */,
+				39303F2C21106ACA009226AD /* Frameworks */,
+				39303F2D21106ACA009226AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = icdab_sema_ios;
+			productName = icdab_sema_ios;
+			productReference = 39303F2F21106ACA009226AD /* icdab_sema_ios.app */;
+			productType = "com.apple.product-type.application";
+		};
+		39303F4521106ACC009226AD /* icdab_sema_iosTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39303F5B21106ACC009226AD /* Build configuration list for PBXNativeTarget "icdab_sema_iosTests" */;
+			buildPhases = (
+				39303F4221106ACC009226AD /* Sources */,
+				39303F4321106ACC009226AD /* Frameworks */,
+				39303F4421106ACC009226AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				39303F4821106ACC009226AD /* PBXTargetDependency */,
+			);
+			name = icdab_sema_iosTests;
+			productName = icdab_sema_iosTests;
+			productReference = 39303F4621106ACC009226AD /* icdab_sema_iosTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		39303F5021106ACC009226AD /* icdab_sema_iosUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39303F5E21106ACC009226AD /* Build configuration list for PBXNativeTarget "icdab_sema_iosUITests" */;
+			buildPhases = (
+				39303F4D21106ACC009226AD /* Sources */,
+				39303F4E21106ACC009226AD /* Frameworks */,
+				39303F4F21106ACC009226AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				39303F5321106ACC009226AD /* PBXTargetDependency */,
+			);
+			name = icdab_sema_iosUITests;
+			productName = icdab_sema_iosUITests;
+			productReference = 39303F5121106ACC009226AD /* icdab_sema_iosUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		397F793B2102078A00809273 /* icdab_sema_mac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 397F79432102078A00809273 /* Build configuration list for PBXNativeTarget "icdab_sema_mac" */;
 			buildPhases = (
 				397F79382102078A00809273 /* Sources */,
 				397F79392102078A00809273 /* Frameworks */,
@@ -77,9 +232,9 @@
 			);
 			dependencies = (
 			);
-			name = icdab_sema;
+			name = icdab_sema_mac;
 			productName = icdab_sema;
-			productReference = 397F793C2102078A00809273 /* icdab_sema */;
+			productReference = 397F793C2102078A00809273 /* icdab_sema_mac */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -91,6 +246,17 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Faisal Memon";
 				TargetAttributes = {
+					39303F2E21106ACA009226AD = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					39303F4521106ACC009226AD = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 39303F2E21106ACA009226AD;
+					};
+					39303F5021106ACC009226AD = {
+						CreatedOnToolsVersion = 9.4.1;
+						TestTargetID = 39303F2E21106ACA009226AD;
+					};
 					397F793B2102078A00809273 = {
 						CreatedOnToolsVersion = 9.3;
 					};
@@ -102,18 +268,75 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 397F79332102078A00809273;
 			productRefGroup = 397F793D2102078A00809273 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				397F793B2102078A00809273 /* icdab_sema */,
+				397F793B2102078A00809273 /* icdab_sema_mac */,
+				39303F2E21106ACA009226AD /* icdab_sema_ios */,
+				39303F4521106ACC009226AD /* icdab_sema_iosTests */,
+				39303F5021106ACC009226AD /* icdab_sema_iosUITests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		39303F2D21106ACA009226AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39303F3E21106ACC009226AD /* LaunchScreen.storyboard in Resources */,
+				39303F3B21106ACC009226AD /* Assets.xcassets in Resources */,
+				39303F3921106ACA009226AD /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39303F4421106ACC009226AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39303F4F21106ACC009226AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		39303F2B21106ACA009226AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39303F3621106ACA009226AD /* ViewController.m in Sources */,
+				39303F4121106ACC009226AD /* main.m in Sources */,
+				39303F3321106ACA009226AD /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39303F4221106ACC009226AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39303F4B21106ACC009226AD /* icdab_sema_iosTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39303F4D21106ACC009226AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39303F5621106ACC009226AD /* icdab_sema_iosUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		397F79382102078A00809273 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +347,171 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		39303F4821106ACC009226AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 39303F2E21106ACA009226AD /* icdab_sema_ios */;
+			targetProxy = 39303F4721106ACC009226AD /* PBXContainerItemProxy */;
+		};
+		39303F5321106ACC009226AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 39303F2E21106ACA009226AD /* icdab_sema_ios */;
+			targetProxy = 39303F5221106ACC009226AD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		39303F3721106ACA009226AD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39303F3821106ACA009226AD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		39303F3C21106ACC009226AD /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39303F3D21106ACC009226AD /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		39303F5921106ACC009226AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_sema_ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-sema-ios";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		39303F5A21106ACC009226AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_sema_ios/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-sema-ios";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		39303F5C21106ACC009226AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_sema_iosTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-sema-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_sema_ios.app/icdab_sema_ios";
+			};
+			name = Debug;
+		};
+		39303F5D21106ACC009226AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_sema_iosTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-sema-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_sema_ios.app/icdab_sema_ios";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		39303F5F21106ACC009226AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_sema_iosUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-sema-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = icdab_sema_ios;
+			};
+			name = Debug;
+		};
+		39303F6021106ACC009226AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_sema_iosUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-sema-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = icdab_sema_ios;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		397F79412102078A00809273 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -258,6 +645,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		39303F5821106ACC009226AD /* Build configuration list for PBXNativeTarget "icdab_sema_ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39303F5921106ACC009226AD /* Debug */,
+				39303F5A21106ACC009226AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39303F5B21106ACC009226AD /* Build configuration list for PBXNativeTarget "icdab_sema_iosTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39303F5C21106ACC009226AD /* Debug */,
+				39303F5D21106ACC009226AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39303F5E21106ACC009226AD /* Build configuration list for PBXNativeTarget "icdab_sema_iosUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39303F5F21106ACC009226AD /* Debug */,
+				39303F6021106ACC009226AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		397F79372102078A00809273 /* Build configuration list for PBXProject "icdab_sema" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -267,7 +681,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		397F79432102078A00809273 /* Build configuration list for PBXNativeTarget "icdab_sema" */ = {
+		397F79432102078A00809273 /* Build configuration list for PBXNativeTarget "icdab_sema_mac" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				397F79442102078A00809273 /* Debug */,
