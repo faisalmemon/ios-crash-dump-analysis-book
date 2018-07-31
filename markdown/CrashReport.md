@@ -715,7 +715,10 @@ Responsible:           Siri [863]
 User ID:               501
 ```
 
-Here we see familiar information describing the binary at fault
+Here we see familiar information describing the binary at fault.
+The process that crashed was SiriNCService, and the process responsible for that was Siri.
+There was a cross process communication at the time of the crash (XPC) between Siri and SiriNCService.
+
 Whilst iOS is a system that runs the user experience as one user, the macOS system exposes the fact that there are multiple User IDs in the system.
 
 ### macOS Crash Report Date and Version Section
