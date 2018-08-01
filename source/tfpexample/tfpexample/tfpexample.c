@@ -44,7 +44,7 @@ int main()
 {
   int infoPid;
   kern_return_t kret;
-  mach_port_t task;
+  mach_port_t task = 0;
   thread_act_port_array_t threadList;
   mach_msg_type_number_t threadCount;
   x86_thread_state64_t state;
@@ -57,13 +57,14 @@ int main()
       exit(0);
     }
 
+    for (int i = 0; i < 200; ++i) {
   kret = task_for_pid(mach_task_self(), infoPid, &task);
   if (kret!=KERN_SUCCESS)
     {
       printf("task_for_pid() failed with message %s!\n",mach_error_string(kret));
       exit(0);
     }
-
+    }
   kret = task_threads(task, &threadList, &threadCount);
   if (kret!=KERN_SUCCESS)
     {
