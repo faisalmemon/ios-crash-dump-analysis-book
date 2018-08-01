@@ -778,6 +778,154 @@ Application Specific Information:
 objc_msgSend() selector name: didUnlockScreen:
 ```
 
-This is similar to iOS.  However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator may model the same programming error differently.  We can get a different exception on x86 hardware than its arm counterpart.
+This is similar to iOS.  However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator may model the same programming error differently.  We can get a different exception on x86 hardware than its ARM counterpart.
 
-XXXX continue here with how swift handles undefined instruction and how mac handles semaphore on released object.
+Consider the following code, setup with legacy manual reference counting (MRC) instead of automatic reference counting (ARC)
+
+```
+void use_sema() {
+    dispatch_semaphore_t aSemaphore = dispatch_semaphore_create(1);
+    dispatch_semaphore_wait(aSemaphore, DISPATCH_TIME_FOREVER);
+    dispatch_release(aSemaphore);
+}
+```
+
+This code causes a crash because a semaphore was manually released whilst we were waiting on it.
+
+When it runs on iOS on ARM hardware we get the crash,
+```
+Exception Type:  EXC_BREAKPOINT (SIGTRAP)
+Exception Codes: 0x0000000000000001, 0x00000001814076b8
+Termination Signal: Trace/BPT trap: 5
+Termination Reason: Namespace SIGNAL, Code 0x5
+Terminating Process: exc handler [0]
+Triggered by Thread:  0
+
+Application Specific Information:
+BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
+Abort Cause 1
+```
+
+When it runs on the iOS simulator, we get the debugger attaching with
+```
+Thread 1: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)
+```
+
+The simulator uses a bad assembly instruction to trigger the crash.
+
+Furthermore, if we write a macOS app which runs the same code, we get the crash:
+
+```
+Crashed Thread:        0  Dispatch queue: com.apple.main-thread
+
+Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
+Exception Codes:       0x0000000000000001, 0x0000000000000000
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Termination Signal:    Illegal instruction: 4
+Termination Reason:    Namespace SIGNAL, Code 0x4
+Terminating Process:   exc handler [0]
+
+Application Specific Information:
+BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
+```
+
+The take away message is when iOS ARM crashes are being reproduced on x86 hardware, either via the Simulator or via equivalent macOS code, expect the runtime environment to be different and cause a slightly different looking crash.
+
+Fortunately here it is clear that a semaphore was deallocated whilst it was in use in both crash reports.
+
+### macOS Crash Report Thread Section
+
+We next have the thread section.  This is similar to iOS.
+
+Here is an example thread in a macOS crash report:
+
+```
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libobjc.A.dylib               	0x00007fff69feae9d objc_msgSend + 29
+1   com.apple.CoreFoundation      	0x00007fff42e19f2c __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
+2   com.apple.CoreFoundation      	0x00007fff42e19eaf
+___CFXRegistrationPost_block_invoke + 63
+3   com.apple.CoreFoundation      	0x00007fff42e228cc __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
+4   com.apple.CoreFoundation      	0x00007fff42e052a3
+__CFRunLoopDoBlocks + 275
+5   com.apple.CoreFoundation      	0x00007fff42e0492e
+__CFRunLoopRun + 1278
+6   com.apple.CoreFoundation      	0x00007fff42e041a3
+CFRunLoopRunSpecific + 483
+7   com.apple.HIToolbox           	0x00007fff420ead96
+RunCurrentEventLoopInMode + 286
+8   com.apple.HIToolbox           	0x00007fff420eab06
+ReceiveNextEventCommon + 613
+9   com.apple.HIToolbox           	0x00007fff420ea884
+ _BlockUntilNextEventMatchingListInModeWithFilter + 64
+10  com.apple.AppKit              	0x00007fff4039ca73
+_DPSNextEvent + 2085
+11  com.apple.AppKit              	0x00007fff40b32e34
+-[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:
+inMode:dequeue:] + 3044
+12  com.apple.ViewBridge          	0x00007fff67859df0
+-[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:
+dequeue:] + 92
+13  com.apple.AppKit              	0x00007fff40391885
+-[NSApplication run] + 764
+14  com.apple.AppKit              	0x00007fff40360a72
+NSApplicationMain + 804
+15  libxpc.dylib                  	0x00007fff6af6cdc7 _xpc_objc_main + 580
+16  libxpc.dylib                  	0x00007fff6af6ba1a xpc_main + 433
+17  com.apple.ViewBridge          	0x00007fff67859c15
+-[NSXPCSharedListener resume] + 16
+18  com.apple.ViewBridge          	0x00007fff67857abe
+ NSViewServiceApplicationMain + 2903
+19  com.apple.SiriNCService       	0x00000001002396e0 main + 180
+20  libdyld.dylib                 	0x00007fff6ac12015 start + 1
+```
+
+### macOS Crash Report Thread State Section
+
+The macOS crash report shows details on the X86 registers of the crashed thread.
+
+```
+Thread 0 crashed with X86 Thread State (64-bit):
+  rax: 0x0000600000249bd0  rbx: 0x0000600000869ac0  rcx: 0x00007fe798f55320
+    rdx: 0x0000600000249bd0
+  rdi: 0x00007fe798f55320  rsi: 0x00007fff642de919  rbp: 0x00007ffeef9c6220
+    rsp: 0x00007ffeef9c6218
+   r8: 0x0000000000000000   r9: 0x21eb0d26c23ae422  r10: 0x0000000000000000
+     r11: 0x00007fff642de919
+  r12: 0x00006080001e8700  r13: 0x0000600000869ac0  r14: 0x0000600000448910
+    r15: 0x0000600000222e60
+  rip: 0x00007fff69feae9d  rfl: 0x0000000000010246  cr2: 0x0000000000000018
+
+Logical CPU:     2
+Error Code:      0x00000004
+Trap Number:     14
+```
+
+In addition to the iOS equivalent, we get further information on the CPU was running the thread.  The trap number can be looked up in the Darwin XNU source code if needed.
+
+A convenient mirror of the Darwin XNU source code is hosted by GitHub
+https://github.com/apple/darwin-xnu
+
+The traps can be searched for.  Here we have `osfmk/x86_64/idt_table.h` indicating Trap 14 is a page fault.  The Error Code is a bit vector to describe the mach error code.  @macherror
+
+### macOS Crash Report Binary Images section
+
+Next we have the binary images loaded by the crashing app.
+
+Here is an example of the first few binaries in a crash report, truncated for ease of demonstration:
+
+```
+Binary Images:
+       0x100238000 -        0x100246fff
+         com.apple.SiriNCService (146.4.5.1 - 146.4.5.1)
+          <5730AE18-4DF0-3D47-B4F7-EAA84456A9F7>
+           /System/Library/CoreServices/Siri.app/Contents/
+           XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+
+       0x101106000 -        0x10110affb
+         com.apple.audio.AppleHDAHALPlugIn (281.52 - 281.52)
+          <23C7DDE6-A44B-3BE4-B47C-EB3045B267D9>
+           /System/Library/Extensions/AppleHDA.kext/Contents/
+           PlugIns/AppleHDAHALPlugIn.bundle/Contents/MacOS/AppleHDAHALPlugIn
+```

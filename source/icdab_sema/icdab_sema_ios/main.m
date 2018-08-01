@@ -14,7 +14,6 @@ void use_sema() {
     dispatch_semaphore_t aSemaphore = dispatch_semaphore_create(1);
     dispatch_semaphore_wait(aSemaphore, DISPATCH_TIME_FOREVER);
     dispatch_release(aSemaphore);
-    
 }
 
 int main(int argc, char * argv[]) {
