@@ -99,7 +99,7 @@ void start_threads() {
         printf("set state thread 1 rip 44 failed with Mach error: %d", kr);
         return;
     }
-    sleep(5);
+    sleep(60);
     
     
     abort();
