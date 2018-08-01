@@ -38,7 +38,7 @@ int main()
   mach_port_t task = 0;
   thread_act_port_array_t threadList;
   mach_msg_type_number_t threadCount;
-  x86_thread_state64_t state;
+  x86_thread_state64_t state, state2;
 
   printf("Enter pid: \n");
   scanf("%d", &infoPid);
@@ -80,12 +80,23 @@ int main()
     printf("RIP: %llx\nRAX: %llx\nRBX: %llx\nRCX: %llx\nRDX: %llx\n", state.__rip, state.__rax, state.__rbx, state.__rcx, state.__rdx);
     
   state.__rax = state.__rax - 200;
+  state.__rip = 0xdead;
   kret = thread_set_state(threadList[0], x86_THREAD_STATE64, (thread_state_t)&state, stateCount);
     if (kret!=KERN_SUCCESS)
     {
         printf("thread_set_state() failed with message %s!\n", mach_error_string(kret));
         exit(0);
     }
+    
+    kret = thread_get_state( threadList[0], x86_THREAD_STATE64, (thread_state_t)&state2, &stateCount);
+    if (kret!=KERN_SUCCESS)
+    {
+        printf("thread_get_state() failed with message %s!\n", mach_error_string(kret));
+        exit(0);
+    }
+    printf("revised RIP: %llx\nrivised RAX: %llx\nRBX: %llx\nRCX: %llx\nRDX: %llx\n", state2.__rip, state2.__rax, state2.__rbx, state2.__rcx, state2.__rdx);
+
+    
   return 0;
     
     
