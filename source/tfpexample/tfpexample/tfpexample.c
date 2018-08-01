@@ -31,15 +31,6 @@ int acquireTaskportRight()
   return 0;
 }
 
-void check(int cond, char* msg)
-{
-  if (!cond)
-    {
-      printf("%s\n", msg);
-      exit(-1);
-    }
-}
-
 int main()
 {
   int infoPid;
@@ -51,6 +42,11 @@ int main()
 
   printf("Enter pid: \n");
   scanf("%d", &infoPid);
+    
+    if (geteuid() != 0) {
+        printf("You need to be superuser (root) to run this program\n");
+        exit(1);
+    }
   if (acquireTaskportRight() != 0)
     {
       printf("acquireTaskportRight() failed!\n");
