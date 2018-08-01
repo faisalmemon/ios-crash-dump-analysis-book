@@ -4,7 +4,7 @@ In this chapter, we get into the details of what comprises a crash report.
 Our main focus is the iOS crash report.  We also cover the macOS crash report,
 which caries a slightly different structure but serves the same purpose.
 
-Note, it is possible to install crash handlers from third parties, either to get enhanced crash reporting diagnostics or to link application crashes to a web-based service for managing crash reports across your population of users.  We shall defer such discussions to a later chapter.
+Note, it is possible to install crash handlers from third parties, either to get enhanced crash reporting diagnostics or to link application crashes to a web-based service for managing crash reports across a potentially large population of users.  We shall defer such discussions to a later chapter.
 
 When a crash occurs the `ReportCrash`\index{command!ReportCrash} program extracts information from the crashing process from the Operating System.  The result is a text file with a `.crash`\index{extension!.crash} extension.
 
@@ -753,7 +753,7 @@ We use this as a broad indication only because the numbers seen always rounded t
 System Integrity Protection: enabled
 ```
 
-Modern macOS by default runs as "rootless".  This means that even if you are logged in as the superuser you cannot change system binaries.  Those are protected with the help of firmware.  It is possible to boot macOS with System Integrity Protection switched Off.  If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.
+Modern macOS by default runs as "rootless".  This means that even if we are logged in as the superuser we cannot change system binaries.  Those are protected with the help of firmware.  It is possible to boot macOS with System Integrity Protection switched Off.  If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.
 
 ### macOS Crash Report Exception Section
 
@@ -952,4 +952,36 @@ External Modification Summary:
 
 macOS is a more open platform than iOS.  This permits under certain conditions modification of our process.  We need to know if such a thing happened because it can invalidate any design assumption in the code because registers can be modified of the process and thus a crash can be induced.
 
-Ordinarily the above snapshot would be seen.  We expla
+Ordinarily the above snapshot would be seen.  Notably `thread_set_state` is zero in all cases.  This means no process has directly attached to the process to change the state of a register.  Such actions would be acceptable for implementations of managed runtimes or debuggers.  Outside of these scenarios, such actions would be suspicious and need further investigation.
+
+In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 `task_for_pid` calls.
+
+```
+External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 201
+    thread_create: 0
+    thread_set_state: 1
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 6184
+    thread_create: 0
+    thread_set_state: 1
+```
+
+Such data would normally make us suspicious of the environment the program ran in before  crashing.
+
+Ordinarily only first party (Apple provided) programs have privilege to perform the above modifications.  It is possible to install software that also does this.
+
+The requirements for accessing process modification APIs are:
+
+- System Integrity Protection needs to be disabled.
+- The process making the modification must run as root.
+- The program making the modifications must be code signed.
+- The entitlement assigned to the program must have `SecTaskAccess` with `allowed` and `debug`
+- The user must agree to trust the program in their security settings.
+
+The example code `tfpexample` demonstrates this.  @icdabgithub
