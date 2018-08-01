@@ -82,6 +82,14 @@ int main()
 
   printf("Thread %d has %d threads. Thread 0 state: \n", infoPid, threadCount);
     printf("RIP: %llx\nRAX: %llx\nRBX: %llx\nRCX: %llx\nRDX: %llx\n", state.__rip, state.__rax, state.__rbx, state.__rcx, state.__rdx);
+    
+  state.__rax = state.__rax - 200;
+  kret = thread_set_state(threadList[0], x86_THREAD_STATE64, (thread_state_t)&state, stateCount);
+    if (kret!=KERN_SUCCESS)
+    {
+        printf("thread_set_state() failed with message %s!\n", mach_error_string(kret));
+        exit(0);
+    }
   return 0;
     
     
