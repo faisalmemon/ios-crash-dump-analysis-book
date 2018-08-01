@@ -44,7 +44,7 @@ void *threaded_task(long t) {
 #import <mach/thread_act.h>
 
 // These two functions are declared in mach/thread_policy.h, but are commented out.
-// They are documented here: https://developer.apple.com/library/mac/#releasenotes/Performance/RN-AffinityAPI/_index.html
+// They are documented here: https://developer.apple.com/library/archive/releasenotes/Performance/RN-AffinityAPI/index.html
 kern_return_t    thread_policy_set(
                                    thread_t            thread,
                                    thread_policy_flavor_t        flavor,
