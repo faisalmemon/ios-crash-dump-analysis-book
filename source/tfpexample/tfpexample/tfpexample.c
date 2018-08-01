@@ -47,7 +47,7 @@ int main()
   mach_port_t task;
   thread_act_port_array_t threadList;
   mach_msg_type_number_t threadCount;
-  x86_thread_state32_t state;
+  x86_thread_state64_t state;
 
   printf("Enter pid: \n");
   scanf("%d", &infoPid);
@@ -71,8 +71,8 @@ int main()
       exit(0);
     }
 
-  mach_msg_type_number_t stateCount = x86_THREAD_STATE32_COUNT;
-  kret = thread_get_state( threadList[0], x86_THREAD_STATE32, (thread_state_t)&state, &stateCount);
+  mach_msg_type_number_t stateCount = x86_THREAD_STATE64_COUNT;
+  kret = thread_get_state( threadList[0], x86_THREAD_STATE64, (thread_state_t)&state, &stateCount);
   if (kret!=KERN_SUCCESS)
     {
       printf("thread_get_state() failed with message %s!\n", mach_error_string(kret));
@@ -80,6 +80,12 @@ int main()
     }
 
   printf("Thread %d has %d threads. Thread 0 state: \n", infoPid, threadCount);
-    printf("EIP: %x\nEAX: %x\nEBX: %x\nECX: %x\nEDX: %x\nSS: %x\n", state.__eip, state.__eax, state.__ebx, state.__ecx, state.__edx, state.__ss);
+    printf("RIP: %llx\nRAX: %llx\nRBX: %llx\nRCX: %llx\nRDX: %llx\n", state.__rip, state.__rax, state.__rbx, state.__rcx, state.__rdx);
   return 0;
+    
+    
+    
+    
+    
+    
 }
