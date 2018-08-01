@@ -930,6 +930,8 @@ Binary Images:
            PlugIns/AppleHDAHALPlugIn.bundle/Contents/MacOS/AppleHDAHALPlugIn
 ```
 
+When a plus sign appears next to the binary it is meant to mean the binary is part of the OS.  However, we see examples of the plus sign present in third party binaries and absent in system binaries, so the plus sign is not a reliable indicator (last tested on OS X 10.13.6).  
+
 ### macOS Crash Report Modification Summary
 
 Next we have a section describing any external modifications to our crashed process:
