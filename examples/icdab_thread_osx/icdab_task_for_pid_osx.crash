@@ -1,19 +1,19 @@
-Process:               icdab_thread [1648]
+Process:               icdab_thread [1894]
 Path:                  /Users/USER/Library/Developer/Xcode/DerivedData/icdab-fykctzpbqphrgbcodzyliukxohdx/Build/Products/Debug/icdab_thread
 Identifier:            icdab_thread
 Version:               0
 Code Type:             X86-64 (Native)
 Parent Process:        bash [435]
-Responsible:           icdab_thread [1648]
+Responsible:           icdab_thread [1894]
 User ID:               502
 
-Date/Time:             2018-08-01 20:36:37.586 +0100
+Date/Time:             2018-08-01 20:52:37.188 +0100
 OS Version:            Mac OS X 10.13.4 (17E199)
 Report Version:        12
 Anonymous UUID:        6C1D2091-02B7-47C4-5BF9-E99AD5C45875
 
 
-Time Awake Since Boot: 1500 seconds
+Time Awake Since Boot: 2500 seconds
 
 System Integrity Protection: disabled
 
@@ -30,20 +30,27 @@ Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
 0   libsystem_kernel.dylib        	0x00007fff74fd1b6e __pthread_kill + 10
 1   libsystem_pthread.dylib       	0x00007fff7519c080 pthread_kill + 333
 2   libsystem_c.dylib             	0x00007fff74f2d1ae abort + 127
-3   icdab_thread                  	0x0000000103861d45 start_threads + 405 (pthread_helper.c:106)
-4   icdab_thread                  	0x0000000103861d74 main + 36 (main.m:15)
+3   icdab_thread                  	0x000000010b70ad45 start_threads + 405 (pthread_helper.c:106)
+4   icdab_thread                  	0x000000010b70ad74 main + 36 (main.m:15)
 5   libdyld.dylib                 	0x00007fff74e81015 start + 1
 
 Thread 1:
-0   libsystem_c.dylib             	0x00007fff74f1276a printf + 90
-1   icdab_thread                  	0x0000000103861ae3 task + 147 (pthread_helper.c:27)
-2   icdab_thread                  	0x0000000103861b55 threaded_task + 53 (pthread_helper.c:37)
-3   icdab_thread                  	0x0000000103861b94 thread_routine_1 + 20 (pthread_helper.c:63)
-4   libsystem_pthread.dylib       	0x00007fff7519cae0 _pthread_suspended_body + 229
+0   libsystem_kernel.dylib        	0x00007fff74fd22c2 __write_nocancel + 10
+1   libsystem_c.dylib             	0x00007fff74f13796 _swrite + 87
+2   libsystem_c.dylib             	0x00007fff74f0c3bd __sflush + 87
+3   libsystem_c.dylib             	0x00007fff74f0ea4b __sfvwrite + 723
+4   libsystem_c.dylib             	0x00007fff74f185ff __vfprintf + 15845
+5   libsystem_c.dylib             	0x00007fff74f3d059 __v2printf + 473
+6   libsystem_c.dylib             	0x00007fff74f14742 vfprintf_l + 54
+7   libsystem_c.dylib             	0x00007fff74f127cb printf + 187
+8   icdab_thread                  	0x000000010b70aae3 task + 147 (pthread_helper.c:27)
+9   icdab_thread                  	0x000000010b70ab55 threaded_task + 53 (pthread_helper.c:37)
+10  icdab_thread                  	0x000000010b70ab94 thread_routine_1 + 20 (pthread_helper.c:63)
+11  libsystem_pthread.dylib       	0x00007fff7519cae0 _pthread_suspended_body + 229
 
 Thread 0 crashed with X86 Thread State (64-bit):
-  rax: 0x0000000000000000  rbx: 0x00007fffad180380  rcx: 0x00007ffeec39e868  rdx: 0x0000000000000000
-  rdi: 0x0000000000000307  rsi: 0x0000000000000006  rbp: 0x00007ffeec39e8a0  rsp: 0x00007ffeec39e868
+  rax: 0x0000000000000000  rbx: 0x00007fffad180380  rcx: 0x00007ffee44f5868  rdx: 0x0000000000000000
+  rdi: 0x0000000000000307  rsi: 0x0000000000000006  rbp: 0x00007ffee44f58a0  rsp: 0x00007ffee44f5868
    r8: 0x000000000000003c   r9: 0x0000000000000000  r10: 0x0000000000000000  r11: 0x0000000000000206
   r12: 0x0000000000000307  r13: 0x0000000000000000  r14: 0x0000000000000006  r15: 0x000000000000002d
   rip: 0x00007fff74fd1b6e  rfl: 0x0000000000000206  cr2: 0x00007fffad15d168
@@ -54,8 +61,8 @@ Trap Number:     133
 
 
 Binary Images:
-       0x103861000 -        0x103861ffb +icdab_thread (0) <50A66FB5-F999-3AEA-BBEB-F02F9BA7247D> /Users/USER/Library/Developer/Xcode/DerivedData/icdab-fykctzpbqphrgbcodzyliukxohdx/Build/Products/Debug/icdab_thread
-       0x1119db000 -        0x111a259df  dyld (551.3) <AFAB4EFA-7020-34B1-BBEF-0F26C6D3CA36> /usr/lib/dyld
+       0x10b70a000 -        0x10b70affb +icdab_thread (0) <50A66FB5-F999-3AEA-BBEB-F02F9BA7247D> /Users/USER/Library/Developer/Xcode/DerivedData/icdab-fykctzpbqphrgbcodzyliukxohdx/Build/Products/Debug/icdab_thread
+       0x111446000 -        0x1114909df  dyld (551.3) <AFAB4EFA-7020-34B1-BBEF-0F26C6D3CA36> /usr/lib/dyld
     0x7fff48d2c000 -     0x7fff48d2cfff  com.apple.Accelerate (1.11 - Accelerate 1.11) <2EF00EFE-06E8-3082-85C3-2988B422A19D> /System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate
     0x7fff48d45000 -     0x7fff49493ffb  com.apple.vImage (8.1 - ???) <56C275C1-459F-37CD-BF29-2E6D81C29E53> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vImage.framework/Versions/A/vImage
     0x7fff49494000 -     0x7fff49634ff3  libBLAS.dylib (1211.50.2) <93259222-2D94-333D-A1EB-09C6FC4A64B4> /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
@@ -236,7 +243,7 @@ Binary Images:
 
 External Modification Summary:
   Calls made by other processes targeting this process:
-    task_for_pid: 3
+    task_for_pid: 201
     thread_create: 0
     thread_set_state: 0
   Calls made by this process:
@@ -244,20 +251,20 @@ External Modification Summary:
     thread_create: 0
     thread_set_state: 0
   Calls made by all processes on this machine:
-    task_for_pid: 3560
+    task_for_pid: 5089
     thread_create: 0
     thread_set_state: 0
 
 VM Region Summary:
 ReadOnly portion of Libraries: Total=296.9M resident=0K(0%) swapped_out_or_unallocated=296.9M(100%)
-Writable regions: Total=28.1M written=0K(0%) resident=0K(0%) swapped_out=0K(0%) unallocated=28.1M(100%)
+Writable regions: Total=36.1M written=0K(0%) resident=0K(0%) swapped_out=0K(0%) unallocated=36.1M(100%)
  
                                 VIRTUAL   REGION 
 REGION TYPE                        SIZE    COUNT (non-coalesced) 
 ===========                     =======  ======= 
 Activity Tracing                   256K        2 
 Kernel Alloc Once                    8K        2 
-MALLOC                            19.1M       12 
+MALLOC                            27.1M       12 
 MALLOC guard page                   32K        9 
 STACK GUARD                       56.0M        3 
 Stack                             8712K        3 
@@ -268,6 +275,6 @@ __TEXT                           104.3M      180
 __UNICODE                          560K        2 
 shared memory                       12K        4 
 ===========                     =======  ======= 
-TOTAL                            395.4M      387 
+TOTAL                            403.4M      387 
 
 
