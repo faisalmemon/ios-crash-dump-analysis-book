@@ -737,7 +737,7 @@ Sleep/Wake UUID:       10AE8838-17A9-4405-B03D-B680DDC84436
 
 The Anonymous UUID will uniquely identify the computer.  The Sleep/Wake UUID is used to match up sleep and wake events.  Failed wakeup is a common cause of a system crash (in contrast to the application crashes we have been discussing).  Further information can be obtained using the `pmset` power management command.
 
-### macOS duration information
+### macOS Duration Section
 
 The macOS crash report show how soon the application crash occurred.
 ```
