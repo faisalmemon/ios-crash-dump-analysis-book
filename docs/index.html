@@ -114,6 +114,8 @@
 <li><a href="#macos-crash-report-thread-state-section">macOS Crash Report Thread State Section</a></li>
 <li><a href="#macos-crash-report-binary-images-section">macOS Crash Report Binary Images section</a></li>
 <li><a href="#macos-crash-report-modification-summary">macOS Crash Report Modification Summary</a></li>
+<li><a href="#macos-crash-report-virtual-memory-section">macOS Crash Report Virtual Memory Section</a></li>
+<li><a href="#macos-crash-report-system-profile-section">macOS Crash Report System Profile section</a></li>
 </ul></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
@@ -676,7 +678,7 @@ There can be many pixel formats for images. An <code>assert</code> might lead us
 <p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details. A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
 <h1 id="the-crash-report">The Crash Report</h1>
 <p>In this chapter, we get into the details of what comprises a crash report. Our main focus is the iOS crash report. We also cover the macOS crash report, which caries a slightly different structure but serves the same purpose.</p>
-<p>Note, it is possible to install crash handlers from third parties, either to get enhanced crash reporting diagnostics or to link application crashes to a web-based service for managing crash reports across your population of users. We shall defer such discussions to a later chapter.</p>
+<p>Note, it is possible to install crash handlers from third parties, either to get enhanced crash reporting diagnostics or to link application crashes to a web-based service for managing crash reports across a potentially large population of users. We shall defer such discussions to a later chapter.</p>
 <p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
 <p>When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
 <p>Apple have produced a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
@@ -1462,7 +1464,7 @@ Time Since Wake:       2000 seconds</code></pre>
 <p>We use this as a broad indication only because the numbers seen always rounded to a convenient number.</p>
 <h3 id="macos-crash-report-system-integrity-section">macOS Crash Report System Integrity Section</h3>
 <pre><code>System Integrity Protection: enabled</code></pre>
-<p>Modern macOS by default runs as “rootless”. This means that even if you are logged in as the superuser you cannot change system binaries. Those are protected with the help of firmware. It is possible to boot macOS with System Integrity Protection switched Off. If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.</p>
+<p>Modern macOS by default runs as “rootless”. This means that even if we are logged in as the superuser we cannot change system binaries. Those are protected with the help of firmware. It is possible to boot macOS with System Integrity Protection switched Off. If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.</p>
 <h3 id="macos-crash-report-exception-section">macOS Crash Report Exception Section</h3>
 <p>We next get an exceptions section.</p>
 <pre><code>Crashed Thread:        0  Dispatch queue: com.apple.main-thread
@@ -1593,6 +1595,7 @@ Trap Number:     14</code></pre>
           &lt;23C7DDE6-A44B-3BE4-B47C-EB3045B267D9&gt;
            /System/Library/Extensions/AppleHDA.kext/Contents/
            PlugIns/AppleHDAHALPlugIn.bundle/Contents/MacOS/AppleHDAHALPlugIn</code></pre>
+<p>When a plus sign appears next to the binary it is meant to mean the binary is part of the OS. However, we see examples of the plus sign present in third party binaries and absent in system binaries, so the plus sign is not a reliable indicator (last tested on OS X 10.13.6).</p>
 <h3 id="macos-crash-report-modification-summary">macOS Crash Report Modification Summary</h3>
 <p>Next we have a section describing any external modifications to our crashed process:</p>
 <pre><code>External Modification Summary:
@@ -1635,6 +1638,74 @@ Trap Number:     14</code></pre>
 <li>The user must agree to trust the program in their security settings.</li>
 </ul>
 <p>The example code <code>tfpexample</code> demonstrates this. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<h3 id="macos-crash-report-virtual-memory-section">macOS Crash Report Virtual Memory Section</h3>
+<p>The next section of the crash report is the virtual memory summary and region type breakdown. If we have a graphics heavy app which renders pages of a document, we might look at how big the CoreUI image data region is, for example. Virtual memory statistics are only meaningful when the app has already been studied in the Instruments memory profiler because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.</p>
+<p>Here is an example of the VM Region Section of the report:</p>
+<pre><code>VM Region Summary:
+ReadOnly portion of Libraries: Total=544.2M resident=0K(0%)
+swapped_out_or_unallocated=544.2M(100%)
+Writable regions: Total=157.9M written=0K(0%) resident=0K(0%)
+swapped_out=0K(0%) unallocated=157.9M(100%)
+
+                                VIRTUAL   REGION
+REGION TYPE                        SIZE    COUNT (non-coalesced)
+===========                     =======  =======
+Accelerate framework               128K        2
+Activity Tracing                   256K        2
+CoreAnimation                      700K       16
+CoreGraphics                         8K        2
+CoreImage                           20K        4
+CoreServices                      11.9M        3
+CoreUI image data                  764K        6
+CoreUI image file                  364K        8
+Foundation                          24K        3
+IOKit                             7940K        2
+Image IO                           144K        2
+Kernel Alloc Once                    8K        2
+MALLOC                           133.1M       36
+MALLOC guard page                   48K       13
+Memory Tag 242                      12K        2
+Memory Tag 251                      16K        2
+OpenGL GLSL                        256K        4
+SQLite page cache                   64K        2
+STACK GUARD                       56.0M        6
+Stack                             10.0M        8
+VM_ALLOCATE                        640K        8
+__DATA                            58.3M      514
+__FONT_DATA                          4K        2
+__GLSLBUILTINS                    2588K        2
+__LINKEDIT                       194.0M       26
+__TEXT                           350.2M      516
+__UNICODE                          560K        2
+mapped file                       78.2M       29
+shared memory                     2824K       11
+===========                     =======  =======
+TOTAL                            908.7M     1206</code></pre>
+<h3 id="macos-crash-report-system-profile-section">macOS Crash Report System Profile section</h3>
+<p>The next part of the crash report is a summary of the hardware in place:</p>
+<pre><code>System Profile:
+Network Service: Wi-Fi, AirPort, en1
+Thunderbolt Bus: iMac, Apple Inc., 26.1
+Boot Volume File System Type: apfs
+Memory Module: BANK 0/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C, 0x31364B544631473634485A2D314736453220
+Memory Module: BANK 1/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C, 0x31364B544631473634485A2D314736453220
+USB Device: USB 3.0 Bus
+USB Device: BRCM20702 Hub
+USB Device: Bluetooth USB Host Controller
+USB Device: FaceTime HD Camera (Built-in)
+USB Device: iPod
+USB Device: USB Keyboard
+Serial ATA Device: APPLE SSD SM0512F, 500.28 GB
+Model: iMac15,1, BootROM IM151.0217.B00, 4 processors, Intel Core i5, 3.5 GHz, 16 GB, SMC 2.22f16
+Graphics: AMD Radeon R9 M290X, AMD Radeon R9 M290X, PCIe
+AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142), Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
+Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</code></pre>
+<p>Sometimes our app closely interacts with a hardware peripheral and if that is via a standards based interface such as USB, then a lot of variability is possible. Consider disk drives. Many vendors provide disk drives, and they may be directly powered, or independently powered. They may be directly attached, attached via a USB cable, or via a USB hub.</p>
+<p>Sometimes newer hardware, such as a new type of MacBook comes with its own hardware issues, so crashes unrelated to our app can be seen.</p>
+<p>The key to understanding whether the hardware environment comes into play is to see a number of crashes to look for patterns.</p>
+<p>As application developers we only see crashes in our app. If we have contact with the user who has provided a crash, we can ask if any other crashes in other apps or any system stability issues are present.</p>
+<p>Another interesting aspect is that not all hardware is actively used by the system all the time. For example, when a MacBook Pro is connected to an external display, different graphics RAM is used and a different graphics card is used (external versus on internal GPU). If our app does something special when connected to an external display the fault may still be in the hardware instead of our code due to triggering a latent fault in the hardware.</p>
+<p>Running system diagnostics and looking to see if the problems are appearing against only specific Anonymous UUID crash reports are ways to try and understand if we have a machine specific hardware issue.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
