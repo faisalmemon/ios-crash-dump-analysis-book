@@ -705,7 +705,8 @@ The crash dump starts with the header:
 
 ```
 Process:               SiriNCService [1045]
-Path:                  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+Path:                  /System/Library/CoreServices/Siri.app/Contents/
+XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
 Identifier:            com.apple.SiriNCService
 Version:               146.4.5.1 (146.4.5.1)
 Build Info:            AssistantUIX-146004005001000~1
@@ -737,7 +738,7 @@ Sleep/Wake UUID:       10AE8838-17A9-4405-B03D-B680DDC84436
 
 The Anonymous UUID will uniquely identify the computer.  The Sleep/Wake UUID is used to match up sleep and wake events.  Failed wakeup is a common cause of a system crash (in contrast to the application crashes we have been discussing).  Further information can be obtained using the `pmset` power management command.
 
-### macOS Duration Section
+### macOS Duration Section  
 
 The macOS crash report show how soon the application crash occurred.
 ```
@@ -772,7 +773,9 @@ Terminating Process:   exc handler [0]
 
 VM Regions Near 0x18:
 -->
-    __TEXT                 0000000100238000-0000000100247000 [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+    __TEXT                 0000000100238000-0000000100247000
+     [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/
+     Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
 
 Application Specific Information:
 objc_msgSend() selector name: didUnlockScreen:
@@ -1056,9 +1059,11 @@ USB Device: FaceTime HD Camera (Built-in)
 USB Device: iPod
 USB Device: USB Keyboard
 Serial ATA Device: APPLE SSD SM0512F, 500.28 GB
-Model: iMac15,1, BootROM IM151.0217.B00, 4 processors, Intel Core i5, 3.5 GHz, 16 GB, SMC 2.22f16
+Model: iMac15,1, BootROM IM151.0217.B00, 4 processors,
+ Intel Core i5, 3.5 GHz, 16 GB, SMC 2.22f16
 Graphics: AMD Radeon R9 M290X, AMD Radeon R9 M290X, PCIe
-AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142), Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
+AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142),
+ Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
 Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports
 ```
 
