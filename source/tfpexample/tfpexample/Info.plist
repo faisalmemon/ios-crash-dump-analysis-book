@@ -13,6 +13,7 @@
     <key>SecTaskAccess</key>
     <array>
       <string>allowed</string>
+      <string>debug</string>
     </array>
   </dict>
 </plist>
