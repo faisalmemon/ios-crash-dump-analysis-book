@@ -846,10 +846,12 @@ Here is an example thread in a macOS crash report:
 ```
 Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
 0   libobjc.A.dylib               	0x00007fff69feae9d objc_msgSend + 29
-1   com.apple.CoreFoundation      	0x00007fff42e19f2c __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
+1   com.apple.CoreFoundation      	0x00007fff42e19f2c
+ __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
 2   com.apple.CoreFoundation      	0x00007fff42e19eaf
 ___CFXRegistrationPost_block_invoke + 63
-3   com.apple.CoreFoundation      	0x00007fff42e228cc __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
+3   com.apple.CoreFoundation      	0x00007fff42e228cc
+ __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
 4   com.apple.CoreFoundation      	0x00007fff42e052a3
 __CFRunLoopDoBlocks + 275
 5   com.apple.CoreFoundation      	0x00007fff42e0492e
@@ -1050,8 +1052,10 @@ System Profile:
 Network Service: Wi-Fi, AirPort, en1
 Thunderbolt Bus: iMac, Apple Inc., 26.1
 Boot Volume File System Type: apfs
-Memory Module: BANK 0/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C, 0x31364B544631473634485A2D314736453220
-Memory Module: BANK 1/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C, 0x31364B544631473634485A2D314736453220
+Memory Module: BANK 0/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C,
+ 0x31364B544631473634485A2D314736453220
+Memory Module: BANK 1/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C,
+ 0x31364B544631473634485A2D314736453220
 USB Device: USB 3.0 Bus
 USB Device: BRCM20702 Hub
 USB Device: Bluetooth USB Host Controller
