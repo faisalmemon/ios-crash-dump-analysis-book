@@ -20,8 +20,9 @@ void *task(long id) {
     printf("Task %ld started\n", id);
     int i;
     double result = 0.0;
-    for (i = 0; i < 1000000; i++) {
+    for (i = 0; i < 100000000; i++) {
         result = result + sin(i) * tan(i);
+        printf("intermediate result %f ", result);
     }
     printf("Task %ld completed with result %e\n", id, result);
     return NULL;
@@ -86,35 +87,31 @@ void start_threads() {
     mach_port_t mach_thread1 = pthread_mach_thread_np(thread1);
     thread_affinity_policy_data_t policyData1 = { 1 };
     thread_policy_set(mach_thread1, THREAD_AFFINITY_POLICY, (thread_policy_t)&policyData1, 1);
-
-    pthread_t thread2;
-    if(pthread_create_suspended_np(&thread2, NULL, thread_routine_2, NULL) != 0) abort();
-    mach_port_t mach_thread2 = pthread_mach_thread_np(thread1);
-    thread_affinity_policy_data_t policyData2 = { 2 };
-    thread_policy_set(mach_thread2, THREAD_AFFINITY_POLICY, (thread_policy_t)&policyData2, 1);
     
-    x86_thread_state64_t memory_area[6] = {0};
-    thread_state_t thread_state = (thread_state_t)memory_area;
-
-    mach_msg_type_number_t thread_state_count = 100;
-    thread_get_state(mach_thread1, MACHINE_THREAD_STATE, thread_state, &thread_state_count);
-
-    thread_set_state(mach_thread1, MACHINE_THREAD_STATE, thread_state, thread_state_count);
-    
-    thread_resume(mach_thread1);
-    thread_resume(mach_thread2);
-    
-    thread_set_state(mach_thread2, MACHINE_THREAD_STATE, thread_state, thread_state_count);
-
-    x86_thread_state_t x86_states[x86_THREAD_STATE64_COUNT];
-    
-    kr = thread_get_state(mach_thread1, x86_THREAD_STATE64, (thread_state_t) &x86_states, &state_count);
+    x86_thread_state_t x86_state;
+    kr = thread_get_state(mach_thread1, x86_THREAD_STATE64, (thread_state_t) &x86_state, &state_count);
     if (kr != KERN_SUCCESS) {
         printf("Fetch of x86 thread state failed with Mach error: %d", kr);
         return;
     }
-    kr = thread_set_state(mach_thread1, x86_THREAD_STATE64, <#thread_state_t new_state#>, <#mach_msg_type_number_t new_stateCnt#>)
-    
+    x86_state.uts.ts64.__rip = 33;
+
+    kr = thread_set_state(mach_thread1, x86_THREAD_STATE64, (thread_state_t) &x86_state, state_count);
+    if (kr != KERN_SUCCESS) {
+        printf("set state thread 1 failed with Mach error: %d", kr);
+        return;
+    }
+    kr = thread_resume(mach_thread1);
+    if (kr != KERN_SUCCESS) {
+        printf("resume thread 1 failed with Mach error: %d", kr);
+        return;
+    }
+    x86_state.uts.ts64.__rip = 44;
+    kr = thread_set_state(mach_thread1, x86_THREAD_STATE64, (thread_state_t) &x86_state, state_count);
+    if (kr != KERN_SUCCESS) {
+        printf("set state thread 1 rip 44 failed with Mach error: %d", kr);
+        return;
+    }
     sleep(5);
     abort();
 }
