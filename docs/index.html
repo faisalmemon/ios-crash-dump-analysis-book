@@ -107,7 +107,7 @@
 <li><a href="#guided-tour-of-a-macos-crash-report">Guided tour of a macOS Crash Report</a><ul>
 <li><a href="#macos-crash-report-header-section">macOS Crash Report Header Section</a></li>
 <li><a href="#macos-crash-report-date-and-version-section">macOS Crash Report Date and Version Section</a></li>
-<li><a href="#macos-duration-information">macOS duration information</a></li>
+<li><a href="#macos-duration-section">macOS Duration Section</a></li>
 <li><a href="#macos-crash-report-system-integrity-section">macOS Crash Report System Integrity Section</a></li>
 <li><a href="#macos-crash-report-exception-section">macOS Crash Report Exception Section</a></li>
 <li><a href="#macos-crash-report-thread-section">macOS Crash Report Thread Section</a></li>
@@ -1437,7 +1437,8 @@ icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as</code></pre>
 <h3 id="macos-crash-report-header-section">macOS Crash Report Header Section</h3>
 <p>The crash dump starts with the header:</p>
 <pre><code>Process:               SiriNCService [1045]
-Path:                  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+Path:                  /System/Library/CoreServices/Siri.app/Contents/
+XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
 Identifier:            com.apple.SiriNCService
 Version:               146.4.5.1 (146.4.5.1)
 Build Info:            AssistantUIX-146004005001000~1
@@ -1457,7 +1458,7 @@ Anonymous UUID:        00CC683B-425F-ABF0-515A-3ED73BACDDB5
 Sleep/Wake UUID:       10AE8838-17A9-4405-B03D-B680DDC84436
 </code></pre>
 <p>The Anonymous UUID will uniquely identify the computer. The Sleep/Wake UUID is used to match up sleep and wake events. Failed wakeup is a common cause of a system crash (in contrast to the application crashes we have been discussing). Further information can be obtained using the <code>pmset</code> power management command.</p>
-<h3 id="macos-duration-information">macOS duration information</h3>
+<h3 id="macos-duration-section">macOS Duration Section</h3>
 <p>The macOS crash report show how soon the application crash occurred.</p>
 <pre><code>Time Awake Since Boot: 100000 seconds
 Time Since Wake:       2000 seconds</code></pre>
@@ -1479,7 +1480,9 @@ Terminating Process:   exc handler [0]
 
 VM Regions Near 0x18:
 --&gt;
-    __TEXT                 0000000100238000-0000000100247000 [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+    __TEXT                 0000000100238000-0000000100247000
+     [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/
+     Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
 
 Application Specific Information:
 objc_msgSend() selector name: didUnlockScreen:</code></pre>
@@ -1696,9 +1699,11 @@ USB Device: FaceTime HD Camera (Built-in)
 USB Device: iPod
 USB Device: USB Keyboard
 Serial ATA Device: APPLE SSD SM0512F, 500.28 GB
-Model: iMac15,1, BootROM IM151.0217.B00, 4 processors, Intel Core i5, 3.5 GHz, 16 GB, SMC 2.22f16
+Model: iMac15,1, BootROM IM151.0217.B00, 4 processors,
+ Intel Core i5, 3.5 GHz, 16 GB, SMC 2.22f16
 Graphics: AMD Radeon R9 M290X, AMD Radeon R9 M290X, PCIe
-AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142), Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
+AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142),
+ Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
 Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</code></pre>
 <p>Sometimes our app closely interacts with a hardware peripheral and if that is via a standards based interface such as USB, then a lot of variability is possible. Consider disk drives. Many vendors provide disk drives, and they may be directly powered, or independently powered. They may be directly attached, attached via a USB cable, or via a USB hub.</p>
 <p>Sometimes newer hardware, such as a new type of MacBook comes with its own hardware issues, so crashes unrelated to our app can be seen.</p>
