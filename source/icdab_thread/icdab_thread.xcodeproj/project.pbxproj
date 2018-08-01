@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		39303FC72111B570009226AD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39303FC62111B570009226AD /* main.m */; };
 		39303FCF2111B591009226AD /* pthread_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 39303FCE2111B591009226AD /* pthread_helper.c */; };
+		39303FD721120483009226AD /* icdab_thread_test.m in Sources */ = {isa = PBXBuildFile; fileRef = 39303FD621120483009226AD /* icdab_thread_test.m */; };
+		39303FDC21120650009226AD /* pthread_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 39303FCE2111B591009226AD /* pthread_helper.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,10 +30,20 @@
 		39303FC62111B570009226AD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		39303FCD2111B591009226AD /* pthread_helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pthread_helper.h; sourceTree = "<group>"; };
 		39303FCE2111B591009226AD /* pthread_helper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pthread_helper.c; sourceTree = "<group>"; };
+		39303FD421120483009226AD /* icdab_thread_test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_thread_test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39303FD621120483009226AD /* icdab_thread_test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_thread_test.m; sourceTree = "<group>"; };
+		39303FD821120483009226AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		39303FC02111B570009226AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39303FD121120483009226AD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -45,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				39303FC52111B570009226AD /* icdab_thread */,
+				39303FD521120483009226AD /* icdab_thread_test */,
 				39303FC42111B570009226AD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				39303FC32111B570009226AD /* icdab_thread */,
+				39303FD421120483009226AD /* icdab_thread_test.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -65,6 +79,15 @@
 				39303FCE2111B591009226AD /* pthread_helper.c */,
 			);
 			path = icdab_thread;
+			sourceTree = "<group>";
+		};
+		39303FD521120483009226AD /* icdab_thread_test */ = {
+			isa = PBXGroup;
+			children = (
+				39303FD621120483009226AD /* icdab_thread_test.m */,
+				39303FD821120483009226AD /* Info.plist */,
+			);
+			path = icdab_thread_test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -87,6 +110,23 @@
 			productReference = 39303FC32111B570009226AD /* icdab_thread */;
 			productType = "com.apple.product-type.tool";
 		};
+		39303FD321120483009226AD /* icdab_thread_test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39303FD921120483009226AD /* Build configuration list for PBXNativeTarget "icdab_thread_test" */;
+			buildPhases = (
+				39303FD021120483009226AD /* Sources */,
+				39303FD121120483009226AD /* Frameworks */,
+				39303FD221120483009226AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = icdab_thread_test;
+			productName = icdab_thread_test;
+			productReference = 39303FD421120483009226AD /* icdab_thread_test.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -97,6 +137,9 @@
 				ORGANIZATIONNAME = "Faisal Memon";
 				TargetAttributes = {
 					39303FC22111B570009226AD = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					39303FD321120483009226AD = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
 				};
@@ -114,9 +157,20 @@
 			projectRoot = "";
 			targets = (
 				39303FC22111B570009226AD /* icdab_thread */,
+				39303FD321120483009226AD /* icdab_thread_test */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		39303FD221120483009226AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		39303FBF2111B570009226AD /* Sources */ = {
@@ -125,6 +179,15 @@
 			files = (
 				39303FCF2111B591009226AD /* pthread_helper.c in Sources */,
 				39303FC72111B570009226AD /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39303FD021120483009226AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39303FDC21120650009226AD /* pthread_helper.c in Sources */,
+				39303FD721120483009226AD /* icdab_thread_test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +322,40 @@
 			};
 			name = Release;
 		};
+		39303FDA21120483009226AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_thread_test/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-thread-test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		39303FDB21120483009226AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_thread_test/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-thread-test";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -276,6 +373,15 @@
 			buildConfigurations = (
 				39303FCB2111B570009226AD /* Debug */,
 				39303FCC2111B570009226AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39303FD921120483009226AD /* Build configuration list for PBXNativeTarget "icdab_thread_test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39303FDA21120483009226AD /* Debug */,
+				39303FDB21120483009226AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

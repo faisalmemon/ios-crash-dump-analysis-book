@@ -13,6 +13,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <math.h>
+#import <mach/thread_act.h>
+
 
 /* A task that takes some time to complete. The id identifies distinct
  tasks for printed messages. */
@@ -40,8 +42,6 @@ void *threaded_task(long t) {
 
 
 
-#import <pthread.h>
-#import <mach/thread_act.h>
 
 // These two functions are declared in mach/thread_policy.h, but are commented out.
 // They are documented here: https://developer.apple.com/library/archive/releasenotes/Performance/RN-AffinityAPI/index.html
@@ -61,11 +61,6 @@ kern_return_t    thread_policy_get(
 
 void * thread_routine_1() {
     threaded_task(500);
-    return NULL;
-}
-
-void * thread_routine_2() {
-    threaded_task(1000);
     return NULL;
 }
 
