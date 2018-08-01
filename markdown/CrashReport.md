@@ -1035,3 +1035,40 @@ shared memory                     2824K       11
 ===========                     =======  =======
 TOTAL                            908.7M     1206
 ```
+
+### macOS Crash Report System Profile section
+
+The next part of the crash report is a summary of the hardware in place:
+
+```
+System Profile:
+Network Service: Wi-Fi, AirPort, en1
+Thunderbolt Bus: iMac, Apple Inc., 26.1
+Boot Volume File System Type: apfs
+Memory Module: BANK 0/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C, 0x31364B544631473634485A2D314736453220
+Memory Module: BANK 1/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C, 0x31364B544631473634485A2D314736453220
+USB Device: USB 3.0 Bus
+USB Device: BRCM20702 Hub
+USB Device: Bluetooth USB Host Controller
+USB Device: FaceTime HD Camera (Built-in)
+USB Device: iPod
+USB Device: USB Keyboard
+Serial ATA Device: APPLE SSD SM0512F, 500.28 GB
+Model: iMac15,1, BootROM IM151.0217.B00, 4 processors, Intel Core i5, 3.5 GHz, 16 GB, SMC 2.22f16
+Graphics: AMD Radeon R9 M290X, AMD Radeon R9 M290X, PCIe
+AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142), Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
+Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports
+```
+
+Sometimes our app closely interacts with a hardware peripheral and if that is via a standards based interface such as USB, then a lot of variability is possible.  Consider disk drives.  Many vendors provide disk drives, and they may be directly powered, or independently powered.  They may be directly attached, attached via a USB cable, or via a USB hub.
+
+Sometimes newer hardware, such as a new type of MacBook comes with its own hardware issues, so crashes unrelated to our app can be seen.
+
+The key to understanding whether the hardware environment comes into play is to see a number of crashes to look for patterns.
+
+As application developers we only see crashes in our app.  If we have contact with the user who has provided a crash, we can ask if any other crashes in other apps or any system stability issues are present.
+
+Another interesting aspect is that not all hardware is actively used by the system all the time.  For example, when a MacBook Pro is connected to an external display, different graphics RAM is used and a different graphics card is used (external versus on internal GPU).
+If our app does something special when connected to an external display the fault may still be in the hardware instead of our code due to triggering a latent fault in the hardware.
+
+Running system diagnostics and looking to see if the problems are appearing against only specific Anonymous UUID crash reports are ways to try and understand if we have a machine specific hardware issue.
