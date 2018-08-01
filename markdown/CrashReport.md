@@ -985,3 +985,53 @@ The requirements for accessing process modification APIs are:
 - The user must agree to trust the program in their security settings.
 
 The example code `tfpexample` demonstrates this.  @icdabgithub
+
+### macOS Crash Report Virtual Memory Section
+
+The next section of the crash report is the virtual memory summary and region type breakdown.
+If we have a graphics heavy app which renders pages of a document, we might look at how big the CoreUI image data region is, for example.  Virtual memory statistics are only meaningful when the app has already been studied in the Instruments memory profiler because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.
+
+Here is an example of the VM Region Section of the report:
+
+```
+VM Region Summary:
+ReadOnly portion of Libraries: Total=544.2M resident=0K(0%)
+swapped_out_or_unallocated=544.2M(100%)
+Writable regions: Total=157.9M written=0K(0%) resident=0K(0%)
+swapped_out=0K(0%) unallocated=157.9M(100%)
+
+                                VIRTUAL   REGION
+REGION TYPE                        SIZE    COUNT (non-coalesced)
+===========                     =======  =======
+Accelerate framework               128K        2
+Activity Tracing                   256K        2
+CoreAnimation                      700K       16
+CoreGraphics                         8K        2
+CoreImage                           20K        4
+CoreServices                      11.9M        3
+CoreUI image data                  764K        6
+CoreUI image file                  364K        8
+Foundation                          24K        3
+IOKit                             7940K        2
+Image IO                           144K        2
+Kernel Alloc Once                    8K        2
+MALLOC                           133.1M       36
+MALLOC guard page                   48K       13
+Memory Tag 242                      12K        2
+Memory Tag 251                      16K        2
+OpenGL GLSL                        256K        4
+SQLite page cache                   64K        2
+STACK GUARD                       56.0M        6
+Stack                             10.0M        8
+VM_ALLOCATE                        640K        8
+__DATA                            58.3M      514
+__FONT_DATA                          4K        2
+__GLSLBUILTINS                    2588K        2
+__LINKEDIT                       194.0M       26
+__TEXT                           350.2M      516
+__UNICODE                          560K        2
+mapped file                       78.2M       29
+shared memory                     2824K       11
+===========                     =======  =======
+TOTAL                            908.7M     1206
+```
