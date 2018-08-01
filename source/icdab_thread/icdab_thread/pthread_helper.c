@@ -37,14 +37,6 @@ void *threaded_task(long t) {
     pthread_exit(0);
 }
 
-/* Run 'task' num_tasks times serially. */
-void *serial(int num_tasks) {
-    int i;
-    for (i = 0; i < num_tasks; i++) {
-        task(i);
-    }
-    pthread_exit(NULL);
-}
 
 
 
@@ -113,5 +105,7 @@ void start_threads() {
         return;
     }
     sleep(5);
+    
+    
     abort();
 }
