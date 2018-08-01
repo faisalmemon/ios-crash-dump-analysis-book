@@ -929,3 +929,27 @@ Binary Images:
            /System/Library/Extensions/AppleHDA.kext/Contents/
            PlugIns/AppleHDAHALPlugIn.bundle/Contents/MacOS/AppleHDAHALPlugIn
 ```
+
+### macOS Crash Report Modification Summary
+
+Next we have a section describing any external modifications to our crashed process:
+
+```
+External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 184
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 72970
+    thread_create: 0
+    thread_set_state: 0
+```
+
+macOS is a more open platform than iOS.  This permits under certain conditions modification of our process.  We need to know if such a thing happened because it can invalidate any design assumption in the code because registers can be modified of the process and thus a crash can be induced.
+
+Ordinarily the above snapshot would be seen.  We expla
