@@ -95,14 +95,25 @@
 <li><a href="#extracting-system-diagnostic-information">Extracting System Diagnostic Information</a></li>
 </ul></li>
 <li><a href="#guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</a><ul>
-<li><a href="#crash-report-header-section">Crash Report Header Section</a></li>
-<li><a href="#crash-report-date-and-version-section">Crash Report Date and Version Section</a></li>
-<li><a href="#crash-report-exception-section">Crash Report Exception Section</a></li>
-<li><a href="#crash-report-filtered-syslog-section">Crash Report Filtered Syslog Section</a></li>
-<li><a href="#crash-report-exception-backtrace-section">Crash Report Exception Backtrace section</a></li>
-<li><a href="#crash-report-thread-section">Crash Report Thread Section</a></li>
-<li><a href="#crash-report-thread-state-section">Crash Report Thread State Section</a></li>
-<li><a href="#crash-report-binary-images-section">Crash Report Binary Images section</a></li>
+<li><a href="#ios-crash-report-header-section">iOS Crash Report Header Section</a></li>
+<li><a href="#ios-crash-report-date-and-version-section">iOS Crash Report Date and Version Section</a></li>
+<li><a href="#ios-crash-report-exception-section">iOS Crash Report Exception Section</a></li>
+<li><a href="#ios-crash-report-filtered-syslog-section">iOS Crash Report Filtered Syslog Section</a></li>
+<li><a href="#ios-crash-report-exception-backtrace-section">iOS Crash Report Exception Backtrace section</a></li>
+<li><a href="#ios-crash-report-thread-section">iOS Crash Report Thread Section</a></li>
+<li><a href="#ios-crash-report-thread-state-section">iOS Crash Report Thread State Section</a></li>
+<li><a href="#ios-crash-report-binary-images-section">iOS Crash Report Binary Images section</a></li>
+</ul></li>
+<li><a href="#guided-tour-of-a-macos-crash-report">Guided tour of a macOS Crash Report</a><ul>
+<li><a href="#macos-crash-report-header-section">macOS Crash Report Header Section</a></li>
+<li><a href="#macos-crash-report-date-and-version-section">macOS Crash Report Date and Version Section</a></li>
+<li><a href="#macos-duration-information">macOS duration information</a></li>
+<li><a href="#macos-crash-report-system-integrity-section">macOS Crash Report System Integrity Section</a></li>
+<li><a href="#macos-crash-report-exception-section">macOS Crash Report Exception Section</a></li>
+<li><a href="#macos-crash-report-thread-section">macOS Crash Report Thread Section</a></li>
+<li><a href="#macos-crash-report-thread-state-section">macOS Crash Report Thread State Section</a></li>
+<li><a href="#macos-crash-report-binary-images-section">macOS Crash Report Binary Images section</a></li>
+<li><a href="#macos-crash-report-modification-summary">macOS Crash Report Modification Summary</a></li>
 </ul></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
@@ -665,6 +676,7 @@ There can be many pixel formats for images. An <code>assert</code> might lead us
 <p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details. A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
 <h1 id="the-crash-report">The Crash Report</h1>
 <p>In this chapter, we get into the details of what comprises a crash report. Our main focus is the iOS crash report. We also cover the macOS crash report, which caries a slightly different structure but serves the same purpose.</p>
+<p>Note, it is possible to install crash handlers from third parties, either to get enhanced crash reporting diagnostics or to link application crashes to a web-based service for managing crash reports across your population of users. We shall defer such discussions to a later chapter.</p>
 <p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
 <p>When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
 <p>Apple have produced a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
@@ -677,8 +689,9 @@ There can be many pixel formats for images. An <code>assert</code> might lead us
 <p>An equivalent approach is available on macOS as well.</p>
 <h2 id="guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</h2>
 <p>Here we go through each section of an iOS crash report and explain the fields. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
+<p>tvOS and watchOS may be just considered subsets of iOS for our purposes and have similar crash reports.</p>
 <p>Note here iOS Crash Report means a crash report that came from a physical target device. After a crash, apps are often debugged on the Simulator. The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.</p>
-<h3 id="crash-report-header-section">Crash Report Header Section</h3>
+<h3 id="ios-crash-report-header-section">iOS Crash Report Header Section</h3>
 <p>A Crash Report starts with the following header:</p>
 <pre><code>Incident Identifier: E030D9E4-32B5-4C11-8B39-C12045CABE26
 CrashReporter Key:   b544a32d592996e0efdd7f5eaafd1f4164a2e13c
@@ -757,7 +770,7 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 <p>The hardware model might indicate an older device, which we have not tested on.</p>
 <p>Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested when they are backgrounded. For example, we might receive a phone call, or have task switched between apps.</p>
 <p>The Code Type (target architecture) is now mostly 64-bit ARM. However, we might see ARM being reported - the original 32-bit ARM.</p>
-<h3 id="crash-report-date-and-version-section">Crash Report Date and Version Section</h3>
+<h3 id="ios-crash-report-date-and-version-section">iOS Crash Report Date and Version Section</h3>
 <p>A Crash Report will continue with date and version information:</p>
 <pre><code>Date/Time:           2018-07-16 10:15:31.4746 +0100
 Launch Time:         2018-07-16 10:15:31.3763 +0100
@@ -803,7 +816,7 @@ Report Version:      104</code></pre>
 <p>The next thing to check is the difference between the launch time and the time of the crash. Did the app crash immediately or after a long time? Early start crashes can sometimes be a packaging and deployment problem. We shall visit some techniques to tackle those later on.</p>
 <p>Is the date a sensible value? Sometimes a device is set back or forwards in time, perhaps to trigger date checks on security certificates or license keys. Make sure the date is a realistic looking one.</p>
 <p>Normally the baseband version is not interesting. The presence of the baseband means we could be interrupted by a phone call (of course there is VOIP calling as well in any case). iPad software is generally written to assume we’re not going to get a phone call but iPads can be purchased with a cellular modem option.</p>
-<h3 id="crash-report-exception-section">Crash Report Exception Section</h3>
+<h3 id="ios-crash-report-exception-section">iOS Crash Report Exception Section</h3>
 <p>A Crash Report will next have exception information:</p>
 <pre><code>Exception Type:  EXC_CRASH (SIGABRT)
 Exception Codes: 0x0000000000000000, 0x0000000000000000
@@ -1043,12 +1056,12 @@ Thread 5 Crashed:
 </tr>
 </tbody>
 </table>
-<h3 id="crash-report-filtered-syslog-section">Crash Report Filtered Syslog Section</h3>
+<h3 id="ios-crash-report-filtered-syslog-section">iOS Crash Report Filtered Syslog Section</h3>
 <p>The Crash Report continues with the syslog section:</p>
 <pre><code>Filtered syslog:
 None found</code></pre>
 <p>This is an anomalous section because it is supposed to look at the process ID of the crashed process and then look to see if there are any syslog (System Log) entries for that process. We have never seen filtered entries in a crash, and only see <code>None found</code> reported.</p>
-<h3 id="crash-report-exception-backtrace-section">Crash Report Exception Backtrace section</h3>
+<h3 id="ios-crash-report-exception-backtrace-section">iOS Crash Report Exception Backtrace section</h3>
 <p>When our app has detected a problem and has asked the Operating System to terminate the app, we get an Exception Backtrace section of the report. This covers the cases of calling <code>abort</code>, <code>NSException</code>, <code>_NSLockError</code>, or <code>objc_exception_throw</code> either ourselves or indirectly through the Swift, Objective-C or C runtime support libraries.</p>
 <p>What we don’t get is the text of the actual assertion that had occurred. One presumes that the prior section for filtered syslog information was supposed to do that job. Nevertheless, <em>Window-&gt;Devices and Simulators-&gt;Open Console</em> will allow us to recover that information.</p>
 <p>When we see an Exception Backtrace in a customer crash report, we should ask if we can get the device console log for the crashing device.</p>
@@ -1155,7 +1168,7 @@ __cxa_increment_exception_refcount + 0
 <p>If we only had the thread backtrace, we would know there was a casting problem <code>__cxa_bad_cast</code> but not much more.</p>
 <p>A little bit of Internet searching reveals that <code>NSData</code> has a private helper class <code>_NSPlaceholderData</code></p>
 <p>What has happened here is that an <code>NSString</code> object was provided where an <code>NSData</code> object was expected.</p>
-<h3 id="crash-report-thread-section">Crash Report Thread Section</h3>
+<h3 id="ios-crash-report-thread-section">iOS Crash Report Thread Section</h3>
 <p>The Crash Report continues with a dump of the thread backtraces as follows (formatted for ease of demonstration)</p>
 <pre><code>Thread 0 name:  Dispatch queue: com.apple.main-thread
 Thread 0 Crashed:
@@ -1341,7 +1354,7 @@ withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 248</code></pre
 <li>Call site is 248 bytes from the beginning of method <code>performActionsForCanvas:::::</code></li>
 <li>Class is <code>_UICanvasLifecycleSettingsDiffAction</code></li>
 </ul>
-<h3 id="crash-report-thread-state-section">Crash Report Thread State Section</h3>
+<h3 id="ios-crash-report-thread-state-section">iOS Crash Report Thread State Section</h3>
 <p>iOS Crash Reports will be either from ARM-64 binaries (most common) or legacy ARM 32 bit binaries.</p>
 <p>In each case we get similar looking information describing the state of the ARM registers.</p>
 <p>One thing to look out for is the special hex code, <code>0xbaddc0dedeadbead</code> which means a non-initialized pointer.</p>
@@ -1370,7 +1383,7 @@ withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 248</code></pre
      x27: 0x00000000000000e0
    x28: 0x0000000000000010   fp: 0x000000016bde54b0   lr: 0x000000010401ca04
     sp: 0x000000016bde53e0   pc: 0x000000010401c6c8 cpsr: 0x80000000</code></pre>
-<h3 id="crash-report-binary-images-section">Crash Report Binary Images section</h3>
+<h3 id="ios-crash-report-binary-images-section">iOS Crash Report Binary Images section</h3>
 <p>The crash report has a section enumerating all the binary images loaded by the process that crashed. It is usually a long list. It highlights the fact that there are many supporting frameworks for our apps. Most frameworks are private frameworks. The iOS development kit might seem a huge set of APIs, but that is just the tip of the iceberg.</p>
 <p>Here is an example list, edited for ease of demonstration:</p>
 <pre><code>Binary Images:
@@ -1417,6 +1430,211 @@ icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as</code></pre>
 <p>The fifth part is the path to the binary as it appears on the device.</p>
 <p>Most of the binaries have a self-explanatory name. The <code>dyld</code> binary is the dynamic loader. It is seen at the bottom of all stack backtraces because it is responsible for commencing the loading of binaries before their execution.</p>
 <p>The dynamic loader does many tasks in preparing our binary for execution. If our binary references libraries it will load them. If there are absent, it will fail to load our app. This is why it is possible to crash even before any code in <code>main.m</code> gets called. Later on we shall study how to diagnose such problems.</p>
+<h2 id="guided-tour-of-a-macos-crash-report">Guided tour of a macOS Crash Report</h2>
+<p>The macOS crash report is similar to an iOS crash report even though macOS CrashReport and iOS CrashReport are distinctly different programs. At the cost of brevity, we just highlight notable differences from iOS.</p>
+<h3 id="macos-crash-report-header-section">macOS Crash Report Header Section</h3>
+<p>The crash dump starts with the header:</p>
+<pre><code>Process:               SiriNCService [1045]
+Path:                  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+Identifier:            com.apple.SiriNCService
+Version:               146.4.5.1 (146.4.5.1)
+Build Info:            AssistantUIX-146004005001000~1
+Code Type:             X86-64 (Native)
+Parent Process:        ??? [1]
+Responsible:           Siri [863]
+User ID:               501</code></pre>
+<p>Here we see familiar information describing the binary at fault. The process that crashed was SiriNCService, and the process responsible for that was Siri. There was a cross process communication at the time of the crash (XPC) between Siri and SiriNCService.</p>
+<p>Whilst iOS is a system that runs the user experience as one user, the macOS system exposes the fact that there are multiple User IDs in the system.</p>
+<h3 id="macos-crash-report-date-and-version-section">macOS Crash Report Date and Version Section</h3>
+<p>We continue with version information:</p>
+<pre><code>Date/Time:             2018-06-24 09:52:01.419 +0100
+OS Version:            Mac OS X 10.13.5 (17F77)
+Report Version:        12
+Anonymous UUID:        00CC683B-425F-ABF0-515A-3ED73BACDDB5
+
+Sleep/Wake UUID:       10AE8838-17A9-4405-B03D-B680DDC84436
+</code></pre>
+<p>The Anonymous UUID will uniquely identify the computer. The Sleep/Wake UUID is used to match up sleep and wake events. Failed wakeup is a common cause of a system crash (in contrast to the application crashes we have been discussing). Further information can be obtained using the <code>pmset</code> power management command.</p>
+<h3 id="macos-duration-information">macOS duration information</h3>
+<p>The macOS crash report show how soon the application crash occurred.</p>
+<pre><code>Time Awake Since Boot: 100000 seconds
+Time Since Wake:       2000 seconds</code></pre>
+<p>We use this as a broad indication only because the numbers seen always rounded to a convenient number.</p>
+<h3 id="macos-crash-report-system-integrity-section">macOS Crash Report System Integrity Section</h3>
+<pre><code>System Integrity Protection: enabled</code></pre>
+<p>Modern macOS by default runs as “rootless”. This means that even if you are logged in as the superuser you cannot change system binaries. Those are protected with the help of firmware. It is possible to boot macOS with System Integrity Protection switched Off. If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.</p>
+<h3 id="macos-crash-report-exception-section">macOS Crash Report Exception Section</h3>
+<p>We next get an exceptions section.</p>
+<pre><code>Crashed Thread:        0  Dispatch queue: com.apple.main-thread
+
+Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
+Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000018
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Termination Signal:    Segmentation fault: 11
+Termination Reason:    Namespace SIGNAL, Code 0xb
+Terminating Process:   exc handler [0]
+
+VM Regions Near 0x18:
+--&gt;
+    __TEXT                 0000000100238000-0000000100247000 [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+
+Application Specific Information:
+objc_msgSend() selector name: didUnlockScreen:</code></pre>
+<p>This is similar to iOS. However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator may model the same programming error differently. We can get a different exception on x86 hardware than its ARM counterpart.</p>
+<p>Consider the following code, setup with legacy manual reference counting (MRC) instead of automatic reference counting (ARC)</p>
+<pre><code>void use_sema() {
+    dispatch_semaphore_t aSemaphore = dispatch_semaphore_create(1);
+    dispatch_semaphore_wait(aSemaphore, DISPATCH_TIME_FOREVER);
+    dispatch_release(aSemaphore);
+}</code></pre>
+<p>This code causes a crash because a semaphore was manually released whilst we were waiting on it.</p>
+<p>When it runs on iOS on ARM hardware we get the crash,</p>
+<pre><code>Exception Type:  EXC_BREAKPOINT (SIGTRAP)
+Exception Codes: 0x0000000000000001, 0x00000001814076b8
+Termination Signal: Trace/BPT trap: 5
+Termination Reason: Namespace SIGNAL, Code 0x5
+Terminating Process: exc handler [0]
+Triggered by Thread:  0
+
+Application Specific Information:
+BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
+Abort Cause 1</code></pre>
+<p>When it runs on the iOS simulator, we get the debugger attaching with</p>
+<pre><code>Thread 1: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)</code></pre>
+<p>The simulator uses a bad assembly instruction to trigger the crash.</p>
+<p>Furthermore, if we write a macOS app which runs the same code, we get the crash:</p>
+<pre><code>Crashed Thread:        0  Dispatch queue: com.apple.main-thread
+
+Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
+Exception Codes:       0x0000000000000001, 0x0000000000000000
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Termination Signal:    Illegal instruction: 4
+Termination Reason:    Namespace SIGNAL, Code 0x4
+Terminating Process:   exc handler [0]
+
+Application Specific Information:
+BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use</code></pre>
+<p>The take away message is when iOS ARM crashes are being reproduced on x86 hardware, either via the Simulator or via equivalent macOS code, expect the runtime environment to be different and cause a slightly different looking crash.</p>
+<p>Fortunately here it is clear that a semaphore was deallocated whilst it was in use in both crash reports.</p>
+<h3 id="macos-crash-report-thread-section">macOS Crash Report Thread Section</h3>
+<p>We next have the thread section. This is similar to iOS.</p>
+<p>Here is an example thread in a macOS crash report:</p>
+<pre><code>Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libobjc.A.dylib                 0x00007fff69feae9d objc_msgSend + 29
+1   com.apple.CoreFoundation        0x00007fff42e19f2c __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
+2   com.apple.CoreFoundation        0x00007fff42e19eaf
+___CFXRegistrationPost_block_invoke + 63
+3   com.apple.CoreFoundation        0x00007fff42e228cc __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
+4   com.apple.CoreFoundation        0x00007fff42e052a3
+__CFRunLoopDoBlocks + 275
+5   com.apple.CoreFoundation        0x00007fff42e0492e
+__CFRunLoopRun + 1278
+6   com.apple.CoreFoundation        0x00007fff42e041a3
+CFRunLoopRunSpecific + 483
+7   com.apple.HIToolbox             0x00007fff420ead96
+RunCurrentEventLoopInMode + 286
+8   com.apple.HIToolbox             0x00007fff420eab06
+ReceiveNextEventCommon + 613
+9   com.apple.HIToolbox             0x00007fff420ea884
+ _BlockUntilNextEventMatchingListInModeWithFilter + 64
+10  com.apple.AppKit                0x00007fff4039ca73
+_DPSNextEvent + 2085
+11  com.apple.AppKit                0x00007fff40b32e34
+-[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:
+inMode:dequeue:] + 3044
+12  com.apple.ViewBridge            0x00007fff67859df0
+-[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:
+dequeue:] + 92
+13  com.apple.AppKit                0x00007fff40391885
+-[NSApplication run] + 764
+14  com.apple.AppKit                0x00007fff40360a72
+NSApplicationMain + 804
+15  libxpc.dylib                    0x00007fff6af6cdc7 _xpc_objc_main + 580
+16  libxpc.dylib                    0x00007fff6af6ba1a xpc_main + 433
+17  com.apple.ViewBridge            0x00007fff67859c15
+-[NSXPCSharedListener resume] + 16
+18  com.apple.ViewBridge            0x00007fff67857abe
+ NSViewServiceApplicationMain + 2903
+19  com.apple.SiriNCService         0x00000001002396e0 main + 180
+20  libdyld.dylib                   0x00007fff6ac12015 start + 1</code></pre>
+<h3 id="macos-crash-report-thread-state-section">macOS Crash Report Thread State Section</h3>
+<p>The macOS crash report shows details on the X86 registers of the crashed thread.</p>
+<pre><code>Thread 0 crashed with X86 Thread State (64-bit):
+  rax: 0x0000600000249bd0  rbx: 0x0000600000869ac0  rcx: 0x00007fe798f55320
+    rdx: 0x0000600000249bd0
+  rdi: 0x00007fe798f55320  rsi: 0x00007fff642de919  rbp: 0x00007ffeef9c6220
+    rsp: 0x00007ffeef9c6218
+   r8: 0x0000000000000000   r9: 0x21eb0d26c23ae422  r10: 0x0000000000000000
+     r11: 0x00007fff642de919
+  r12: 0x00006080001e8700  r13: 0x0000600000869ac0  r14: 0x0000600000448910
+    r15: 0x0000600000222e60
+  rip: 0x00007fff69feae9d  rfl: 0x0000000000010246  cr2: 0x0000000000000018
+
+Logical CPU:     2
+Error Code:      0x00000004
+Trap Number:     14</code></pre>
+<p>In addition to the iOS equivalent, we get further information on the CPU was running the thread. The trap number can be looked up in the Darwin XNU source code if needed.</p>
+<p>A convenient mirror of the Darwin XNU source code is hosted by GitHub https://github.com/apple/darwin-xnu</p>
+<p>The traps can be searched for. Here we have <code>osfmk/x86_64/idt_table.h</code> indicating Trap 14 is a page fault. The Error Code is a bit vector to describe the mach error code. <span class="citation" data-cites="macherror">(“Making Sense of I/O Kit Error Codes” n.d.)</span></p>
+<h3 id="macos-crash-report-binary-images-section">macOS Crash Report Binary Images section</h3>
+<p>Next we have the binary images loaded by the crashing app.</p>
+<p>Here is an example of the first few binaries in a crash report, truncated for ease of demonstration:</p>
+<pre><code>Binary Images:
+       0x100238000 -        0x100246fff
+         com.apple.SiriNCService (146.4.5.1 - 146.4.5.1)
+          &lt;5730AE18-4DF0-3D47-B4F7-EAA84456A9F7&gt;
+           /System/Library/CoreServices/Siri.app/Contents/
+           XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+
+       0x101106000 -        0x10110affb
+         com.apple.audio.AppleHDAHALPlugIn (281.52 - 281.52)
+          &lt;23C7DDE6-A44B-3BE4-B47C-EB3045B267D9&gt;
+           /System/Library/Extensions/AppleHDA.kext/Contents/
+           PlugIns/AppleHDAHALPlugIn.bundle/Contents/MacOS/AppleHDAHALPlugIn</code></pre>
+<h3 id="macos-crash-report-modification-summary">macOS Crash Report Modification Summary</h3>
+<p>Next we have a section describing any external modifications to our crashed process:</p>
+<pre><code>External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 184
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 72970
+    thread_create: 0
+    thread_set_state: 0</code></pre>
+<p>macOS is a more open platform than iOS. This permits under certain conditions modification of our process. We need to know if such a thing happened because it can invalidate any design assumption in the code because registers can be modified of the process and thus a crash can be induced.</p>
+<p>Ordinarily the above snapshot would be seen. Notably <code>thread_set_state</code> is zero in all cases. This means no process has directly attached to the process to change the state of a register. Such actions would be acceptable for implementations of managed runtimes or debuggers. Outside of these scenarios, such actions would be suspicious and need further investigation.</p>
+<p>In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 <code>task_for_pid</code> calls.</p>
+<pre><code>External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 201
+    thread_create: 0
+    thread_set_state: 1
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 6184
+    thread_create: 0
+    thread_set_state: 1</code></pre>
+<p>Such data would normally make us suspicious of the environment the program ran in before crashing.</p>
+<p>Ordinarily only first party (Apple provided) programs have privilege to perform the above modifications. It is possible to install software that also does this.</p>
+<p>The requirements for accessing process modification APIs are:</p>
+<ul>
+<li>System Integrity Protection needs to be disabled.</li>
+<li>The process making the modification must run as root.</li>
+<li>The program making the modifications must be code signed.</li>
+<li>The entitlement assigned to the program must have <code>SecTaskAccess</code> with <code>allowed</code> and <code>debug</code></li>
+<li>The user must agree to trust the program in their security settings.</li>
+</ul>
+<p>The example code <code>tfpexample</code> demonstrates this. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
@@ -1544,6 +1762,9 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 </div>
 <div id="ref-exception-types">
 <p>“Mach Exception Types.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68" class="uri">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68</a>.</p>
+</div>
+<div id="ref-macherror">
+<p>“Making Sense of I/O Kit Error Codes.” n.d. Accessed 2018.</p>
 </div>
 <div id="ref-class-dump-tool">
 <p>Nygard, Steve. 2018. “Class Dump Tool.” <a href="http://stevenygard.com/projects/class-dump/" class="uri">http://stevenygard.com/projects/class-dump/</a>.</p>
