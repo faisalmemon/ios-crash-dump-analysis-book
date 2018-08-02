@@ -697,7 +697,7 @@ The dynamic loader does many tasks in preparing our binary for execution.  If ou
 
 ## Guided tour of a macOS Crash Report
 
-The macOS crash report is similar to an iOS crash report even though macOS CrashReport and iOS CrashReport are distinctly different programs.  At the cost of brevity, we just highlight notable differences from iOS.
+The macOS crash report is similar to an iOS crash report even though macOS CrashReport and iOS CrashReport are distinctly different programs.  To avoid repetition, we just highlight notable differences from iOS.
 
 ### macOS Crash Report Header Section
 
@@ -754,7 +754,7 @@ We use this as a broad indication only because the numbers seen always rounded t
 System Integrity Protection: enabled
 ```
 
-Modern macOS by default runs as "rootless".  This means that even if we are logged in as the superuser we cannot change system binaries.  Those are protected with the help of firmware.  It is possible to boot macOS with System Integrity Protection switched Off.  If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.
+Modern macOS by default runs as "rootless".  This means that even if we are logged in as the superuser we cannot change system binaries.  Those are protected with the help of firmware.  It is possible to boot macOS with System Integrity Protection disabled.  If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.
 
 ### macOS Crash Report Exception Section
 
@@ -781,7 +781,7 @@ Application Specific Information:
 objc_msgSend() selector name: didUnlockScreen:
 ```
 
-This is similar to iOS.  However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator may model the same programming error differently.  We can get a different exception on x86 hardware than its ARM counterpart.
+This is similar to iOS.  However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator might model the same programming error differently.  We can get a different exception on x86 hardware than its ARM counterpart.
 
 Consider the following code, setup with legacy manual reference counting (MRC) instead of automatic reference counting (ARC)
 
@@ -816,7 +816,7 @@ Thread 1: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)
 
 The simulator uses a bad assembly instruction to trigger the crash.
 
-Furthermore, if we write a macOS app which runs the same code, we get the crash:
+Furthermore, if we write a macOS app that runs the same code, we get the crash:
 
 ```
 Crashed Thread:        0  Dispatch queue: com.apple.main-thread
@@ -835,7 +835,7 @@ BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
 
 The take away message is when iOS ARM crashes are being reproduced on x86 hardware, either via the Simulator or via equivalent macOS code, expect the runtime environment to be different and cause a slightly different looking crash.
 
-Fortunately here it is clear that a semaphore was deallocated whilst it was in use in both crash reports.
+Fortunately, here it is clear that a semaphore was deallocated whilst it was in use in both crash reports.
 
 ### macOS Crash Report Thread Section
 
@@ -916,7 +916,7 @@ The traps can be searched for.  Here we have `osfmk/x86_64/idt_table.h` indicati
 
 ### macOS Crash Report Binary Images section
 
-Next we have the binary images loaded by the crashing app.
+Next, we have the binary images loaded by the crashing app.
 
 Here is an example of the first few binaries in a crash report, truncated for ease of demonstration:
 
@@ -939,7 +939,7 @@ When a plus sign appears next to the binary it is meant to mean the binary is pa
 
 ### macOS Crash Report Modification Summary
 
-Next we have a section describing any external modifications to our crashed process:
+Next, we have a section describing any external modifications to our crashed process:
 
 ```
 External Modification Summary:
@@ -996,7 +996,7 @@ The example code `tfpexample` demonstrates this.  @icdabgithub
 ### macOS Crash Report Virtual Memory Section
 
 The next section of the crash report is the virtual memory summary and region type breakdown.
-If we have a graphics heavy app which renders pages of a document, we might look at how big the CoreUI image data region is, for example.  Virtual memory statistics are only meaningful when the app has already been studied in the Instruments memory profiler because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.
+If we have a graphics heavy app that renders pages of a document, we might look at how big the CoreUI image data region is, for example.  Virtual memory statistics are only meaningful when the app has already been studied in the Instruments memory profiler because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.
 
 Here is an example of the VM Region Section of the report:
 
@@ -1071,15 +1071,15 @@ AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142),
 Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports
 ```
 
-Sometimes our app closely interacts with a hardware peripheral and if that is via a standards based interface such as USB, then a lot of variability is possible.  Consider disk drives.  Many vendors provide disk drives, and they may be directly powered, or independently powered.  They may be directly attached, attached via a USB cable, or via a USB hub.
+Sometimes our app closely interacts with a hardware peripheral, and if that is via a standards based interface such as USB, then a lot of variability is possible.  Consider disk drives.  Many vendors provide disk drives, and they may be directly powered, or independently powered.  They may be directly attached, attached via a USB cable, or via a USB hub.
 
 Sometimes newer hardware, such as a new type of MacBook comes with its own hardware issues, so crashes unrelated to our app can be seen.
 
 The key to understanding whether the hardware environment comes into play is to see a number of crashes to look for patterns.
 
-As application developers we only see crashes in our app.  If we have contact with the user who has provided a crash, we can ask if any other crashes in other apps or any system stability issues are present.
+As application developers, we only see crashes in our app.  If we have contact with the user who has provided a crash, we can ask if any other apps are crashing, or if any system stability issues are present.
 
 Another interesting aspect is that not all hardware is actively used by the system all the time.  For example, when a MacBook Pro is connected to an external display, different graphics RAM is used and a different graphics card is used (external versus on internal GPU).
-If our app does something special when connected to an external display the fault may still be in the hardware instead of our code due to triggering a latent fault in the hardware.
+If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.
 
 Running system diagnostics and looking to see if the problems are appearing against only specific Anonymous UUID crash reports are ways to try and understand if we have a machine specific hardware issue.
