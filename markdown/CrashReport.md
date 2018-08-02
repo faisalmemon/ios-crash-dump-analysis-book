@@ -781,9 +781,9 @@ Application Specific Information:
 objc_msgSend() selector name: didUnlockScreen:
 ```
 
-This is similar to iOS.  However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator might model the same programming error differently.  We can get a different exception on x86 hardware than its ARM counterpart.
+This is similar to iOS.  However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator might model the same programming error differently.  We can get a different exception\index{exception} on x86 hardware than its ARM counterpart.
 
-Consider the following code, setup with legacy manual reference counting (MRC) instead of automatic reference counting (ARC)
+Consider the following code, setup with legacy manual reference counting (MRC)\index{software!manual reference counting} instead of automatic reference counting\index{software!automatic reference counting} (ARC)
 
 ```
 void use_sema() {
@@ -793,7 +793,7 @@ void use_sema() {
 }
 ```
 
-This code causes a crash because a semaphore was manually released whilst we were waiting on it.
+This code causes a crash because a semaphore\index{semaphore} was manually released whilst we were waiting on it.
 
 When it runs on iOS on ARM hardware we get the crash,
 ```
@@ -814,7 +814,7 @@ When it runs on the iOS simulator, we get the debugger attaching with
 Thread 1: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)
 ```
 
-The simulator uses a bad assembly instruction to trigger the crash.
+The simulator uses a bad assembly\index{CPU!bad assembly instruction} instruction to trigger the crash.
 
 Furthermore, if we write a macOS app that runs the same code, we get the crash:
 
@@ -888,7 +888,7 @@ NSApplicationMain + 804
 
 ### macOS Crash Report Thread State Section
 
-The macOS crash report shows details on the X86 registers of the crashed thread.
+The macOS crash report shows details on the X86 registers\index{CPU!X86 register} of the crashed thread.
 
 ```
 Thread 0 crashed with X86 Thread State (64-bit):
