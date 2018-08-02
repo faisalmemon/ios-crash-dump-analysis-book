@@ -125,7 +125,14 @@
 <li><a href="#prioritizing-based-upon-trend">Prioritizing based upon trend</a></li>
 </ul></li>
 <li><a href="#stating-the-problem">Stating the problem</a></li>
-<li><a href="#specifying-the-problem">Specifying the problem</a></li>
+<li><a href="#specifying-the-problem">Specifying the problem</a><ul>
+<li><a href="#what-is-questions">“What IS” questions</a></li>
+<li><a href="#what-is-not-questions">“What IS NOT” questions</a></li>
+<li><a href="#what-isnot-strategy">“What IS/NOT” strategy</a></li>
+<li><a href="#where-is-questions">“Where IS” questions</a></li>
+<li><a href="#where-is-not-questions">“Where IS NOT” questions</a></li>
+<li><a href="#when-isnot-strategy">“When IS/NOT” strategy</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
@@ -1762,13 +1769,8 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>First we state the object; that is the app or product that is failing. Then, we state the defect; that is the symptom that is undesirable. It should be as simple as “CameraApp Lite crashes during when Apple Share button event used”. The problem should be tracked in a bug management system.</p>
 <h2 id="specifying-the-problem">Specifying the problem</h2>
 <p>Specifying the problem is the most important step in the Analytic Troubleshooting methodology because here we see the gaps in our knowledge, and that prompts the questions that lead us forwards to a resolution.</p>
-<p>We write out a grid with four rows and two columns as follows:</p>
+<p>We write out a large grid with four rows and two columns as follows:</p>
 <table>
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th>Item</th>
@@ -1779,14 +1781,53 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <tbody>
 <tr class="odd">
 <td>WHAT</td>
-<td>What things have a problem? What is wrong with them?</td>
-<td>What things could have a problem but don’t? What could be wrong but is not?</td>
+<td>Seen</td>
+<td>Not Seen</td>
+</tr>
+<tr class="even">
+<td>WHERE</td>
+<td>Seen</td>
+<td>Not Seen</td>
+</tr>
+<tr class="odd">
+<td>WHEN</td>
+<td>Seen</td>
+<td>Not Seen</td>
+</tr>
+<tr class="even">
+<td>EXTENT</td>
+<td>Seen</td>
+<td>Not Seen</td>
 </tr>
 </tbody>
 </table>
-<p>WHERE|When the problem was noticed, where was it geographically? Where is the problem on the thing?|Where could the thing be when we should have seen the problem but did not? Where could be problem be on the thing but isn’t?</p>
-<p>WHEN|When was the problem first noticed? When has the problem been seen again? Any pattern? When in the lifecycle of the thing was the problem first noticed?|When could the problem have been noticed but wasn’t? When could it have been seen again but wasn’t? When else in the lifecycle of the thing could the problem be seen but wasn’t?</p>
-<p>EXTENT|How many things have the problem? What is the extent of the defect? How many defects are on the thing? What is the trend?|How many things could have the problem but don’t? What could be the extent of the problem but isn’t? How many defects could be present but aren’t? What could the trend be but isn’t?</p>
+<p>We fill out details in the IS column first. Then we fill out the IS NOT column. Often we notice a big blank area in the grid where we have no data. That is a signal for us to go and collect more data or do research. The idea is to make the relevant differences between the IS and IS NOT columns as small as possible. This allows us to develop a good hypothesis that we can test, or perhaps a number of hypotheses we can prioritize for testing.</p>
+<h3 id="what-is-questions">“What IS” questions</h3>
+<ul>
+<li>What things have a problem?</li>
+<li>What is wrong with them?</li>
+</ul>
+<p>Examples: Version 1.4.5 of CameraApp has the problem. The problem is on iOS 10.1, 10.2, 10.3. The problem is the main thread. The function is isAllowedToShare. The Camera App crashing when you press the share button.</p>
+<h3 id="what-is-not-questions">“What IS NOT” questions</h3>
+<ul>
+<li>What things could have a problem but don’t?</li>
+<li>What could be wrong but is not?</li>
+</ul>
+<p>Examples: Version 1.4.4 of Camera App does not crash on iOS 9.3.5. Taking a photo is not broken.</p>
+<h3 id="what-isnot-strategy">“What IS/NOT” strategy</h3>
+<p>In our example, we don’t know if version 1.4.5 of CameraApp runs on iOS 9.3.5, or if version 1.4.4 of Camera App runs on iOS 10.1, 10.2, 10.3. Doing such experiments and then filling out the grid with more answers allows us to try and see patterns and develop a hypothesis. Maybe sharing in iOS 10.x requires our app to data fill an Info.plist or obtain an entitlement or other artefact.</p>
+<h3 id="where-is-questions">“Where IS” questions</h3>
+<ul>
+<li>When the problem was noticed, where was it geographically?</li>
+<li>Where is the problem on the thing?</li>
+</ul>
+<h3 id="where-is-not-questions">“Where IS NOT” questions</h3>
+<ul>
+<li>Where could the thing be when we should have seen the problem but did not?</li>
+<li>Where could be problem be on the thing but isn’t?</li>
+</ul>
+<h3 id="when-isnot-strategy">“When IS/NOT” strategy</h3>
+<p>WHEN|When was the problem first noticed? When has the problem been seen again? Any pattern? When in the lifecycle of the thing was the problem first noticed?|When could the problem have been noticed but wasn’t? When could it have been seen again but wasn’t? When else in the lifecycle of the thing could the problem be seen but wasn’t? EXTENT|How many things have the problem? What is the extent of the defect? How many defects are on the thing? What is the trend?|How many things could have the problem but don’t? What could be the extent of the problem but isn’t? How many defects could be present but aren’t? What could the trend be but isn’t?</p>
 <p>At first reading, the above questions seem strangely worded. The magic in the approach is the IS NOT column because by asking what could be there, but isn’t there, reveals something about the nature of what we actually see.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
