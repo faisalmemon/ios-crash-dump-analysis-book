@@ -1421,7 +1421,7 @@ Frameworks/libswiftCoreImage.dylib
 <p>The third part is the architecture slice within the binary that was loaded. We generally expect to just see <code>arm64</code> here (ARM 64-bit).</p>
 <p>The fourth part is the UUID of the binary. Here <code>icdab_as</code> has UUID <code>b82579f401603481990d1c1c9a42b773</code></p>
 <p>Symbolification will fail if our DSYM file UUID does not match the binary.</p>
-<p>Here is an example of corresponding UUIDs seen in DSYM and application binaries:</p>
+<p>Here is an example of corresponding UUIDs seen in DSYM and application binaries using the <code>dwarfdump</code> command:</p>
 <pre><code>$ dwarfdump --uuid icdab_as.app/icdab_as
 icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as
 
