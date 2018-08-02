@@ -252,11 +252,11 @@ Filtered syslog:
 None found
 ```
 
-This is an anomalous section because it is supposed to look at the process ID of the crashed process and then look to see if there are any syslog (System Log) entries for that process.  We have never seen filtered entries in a crash, and only see `None found` reported.
+This is an anomalous section because it is supposed to look at the process ID of the crashed process and then look to see if there are any syslog \index{command!syslog}(System Log) entries for that process.  We have never seen filtered entries in a crash, and only see `None found` reported.
 
 ### iOS Crash Report Exception Backtrace section
 
-When our app has detected a problem and has asked the Operating System to terminate the app, we get an Exception Backtrace section of the report.  This covers the cases of calling `abort`, `NSException`,  `_NSLockError`, or `objc_exception_throw` either ourselves or indirectly through the Swift, Objective-C or C runtime support libraries.
+When our app has detected a problem and has asked the Operating System to terminate the app, we get an Exception Backtrace\index{exception!backtrace} section of the report.  This covers the cases of calling `abort`, `NSException`,  `_NSLockError`, or `objc_exception_throw` either ourselves or indirectly through the Swift, Objective-C or C runtime support libraries.
 
 What we don't get is the text of the actual assertion that had occurred.  One presumes that the prior section for filtered syslog information was supposed to do that job.  Nevertheless, _Window->Devices and Simulators->Open Console_ will allow us to recover that information.
 
@@ -529,20 +529,20 @@ The crash report will explicitly tell us which thread crashed.
 Thread 0 Crashed:
 ```
 
-Threads are numbered, and if they have a name, we are told this:
+Threads are numbered\index{thread!number}, and if they have a name, we are told this:
 ```
 Thread 0 name:  Dispatch queue: com.apple.main-thread
 ```
 
 Most of our focus should be on the crashed thread; it is often thread 0.
-Take note of the thread name.  Note no long duration tasks such as networking
-may be done on the main thread, `com.apple.main-thread`, because that thread
+Take note of the thread name\index{thread!name}.  Note no long duration tasks such as networking
+may be done on the main thread\index{thread!main}, `com.apple.main-thread`, because that thread
 is used to handle user interactions.
 
-The references to `__workq_kernreturn` just indicate a thread waiting for work
+The references to `__workq_kernreturn`\index{thread!waiting for work} just indicate a thread waiting for work
 so can be ignored unless there are a huge number of them.
 
-Similarly, the references to `mach_msg_trap` just indicate the thread is waiting for a message to come in.
+Similarly, the references to `mach_msg_trap`\index{thread!waiting for message} just indicate the thread is waiting for a message to come in.
 
 When looking at stack backtraces, stack frame 0, the top of the stack, comes first, and then calling frames are listed.
 Therefore, the last thing being done is in frame 0.  
@@ -563,14 +563,14 @@ Column number | Meaning
 3 | Execution position (frame 0), or return position (frame 1 onwards)
 4+ | Symbolic function name or address with offset within the function
 
-The frame numbers, as they count upwards takes us backwards in time in terms of program execution order.  The top of stack, or most recently run code, is in frame 0.  One reason for writing code with meaningful function names is that the call stack describes what is going on conceptually.  Using small single-purpose functions is good practice.  It serves the needs of both diagnostics and maintainability.
+The frame numbers\index{stack!frame number}, as they count upwards takes us backwards in time in terms of program execution order.  The top of stack, or most recently run code, is in frame 0.  One reason for writing code with meaningful function names is that the call stack describes what is going on conceptually.  Using small single-purpose functions\index{software!function}\index{function!best practice} is good practice.  It serves the needs of both diagnostics and maintainability.
 
-The second column in a back trace is the binary file.  We focus on our own binary mostly because framework code from Apple is generally very reliable.  Faults usually occur either directly in our code, or by faults caused by incorrect usage of Apple APIs.
+The second column in a back trace is the binary file\index{file!binary}.  We focus on our own binary mostly because framework code from Apple is generally very reliable.  Faults usually occur either directly in our code, or by faults caused by incorrect usage of Apple APIs.
 Just because the code crashed in Apple provided code does not mean the fault is in Apple code.
 
-The third column, the execution position is slightly tricky.  If it is for frame 0, it is the actual position in the code that was running.  If it is for any later frame, it is the position in the code we shall resume from once the child functions have returned.
+The third column, the execution position\index{CPU!execution position} is slightly tricky.  If it is for frame 0, it is the actual position in the code that was running.  If it is for any later frame, it is the position in the code we shall resume from once the child functions have returned.
 
-The fourth column is the site at which the code is running (for frame 0), or the site that is making a function call (for later frames).  For symbolicated crashes, we will see the symbolic form for the address.  This will include a positional offset from the start of a function to reach the code calling the child function.  If we have only short functions, this offset will be a small value.  It means much less stepping through code, or much less reading assembly code when performing diagnosis.  That is another reason for keeping our functions short.  If our crash is not symbolicated then we shall just see a memory address value.
+The fourth column is the site at which the code is running (for frame 0), or the site\index{function!call site} that is making a function call (for later frames).  For symbolicated crashes, we will see the symbolic form for the address.  This will include a positional offset from the start of a function to reach the code calling the child function.  If we have only short functions, this offset will be a small value.  It means much less stepping through code, or much less reading assembly code when performing diagnosis.  That is another reason for keeping our functions short.  If our crash is not symbolicated then we shall just see a memory address\index{CPU!memory address} value.
 
 Therefore, with the example stack frame we have:
 
