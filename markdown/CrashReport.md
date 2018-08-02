@@ -10,7 +10,7 @@ When a crash occurs the `ReportCrash`\index{command!ReportCrash} program extract
 
 When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses.  This improves the comprehensibility of the report.
 
-Apple have produced a detailed document explaining the anatomy of a crash dump.  @tn2151
+Apple has produced a detailed document explaining the anatomy of a crash dump.  @tn2151
 
 ## System Diagnostics
 
@@ -19,7 +19,7 @@ Crash Reports are just one part of a much bigger diagnostic reporting story.
 Ordinarily as application developers, we don't need to look much further.  However, if our problems are potentially triggered by an unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our crash reports, we need to study the system diagnostics.
 
 ### Extracting System Diagnostic Information
-When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing).  Apple provide a great web page covering each scenario.  @apple-sysdiag  
+When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing).  Apple provides a great web page covering each scenario.  @apple-sysdiag  
 
 On iOS, the basic idea is that we install a profile, which alters our device to produce more logging, and then we reproduce the crash (or get the customer to do that).  Then we press a special key sequence on the device (for example, both volume buttons and the side button).  The system vibrates briefly to indicate it is running a program, `sysdiagnose`\index{command!sysdiagnose}, which extracts many log files.  Then we use iTunes to synchronize our device to retrieve the resultant `sysdiagnose_date_name.tar.gz` file.  Inside this archive file are many system and subsystem logs, and we can see when crashes occur and the context that gave rise to them.
 
@@ -69,16 +69,17 @@ Role\index{task!role}|The process `task_role`.  An indicator if we were in the b
 Parent Process|Parent of the crashing process. `launchd`\index{command!launchd} is a process launcher and is often the parent.
 Coalition\index{task!coalition}|Tasks are grouped into coalitions so they can pool together their consumption of resources @resource-management
 
-The first thing to look at is the version.  Typically if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.
+The first thing to look at is the version.  Typically, if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.
 
-If we have a lot of crashes then we might see it being a problem to one customer (common CrashReporter key seen) or lots of customers (so different CrashReporter keys are seen).  This may affect how we rank the priority of the crash.
+If we have many crashes then a pattern may emerge.  It could be one customer (common CrashReporter key seen), or many customers (different CrashReporter keys seen).
+This may affect how we rank the priority of the crash.
 
 The hardware model could be interesting.  It is iPad only devices, or iPhone only, or both?
 Maybe our code has less testing or unique code paths for a given platform.
 
 The hardware model might indicate an older device, which we have not tested on.
 
-Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested when they are backgrounded.  For example, we might receive a phone call, or have task switched between apps.
+Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested whilst they are in the background.  For example, we might receive a phone call, or have task switched between apps.
 
 The Code Type (target architecture) is now mostly 64-bit ARM.  However, we might see ARM being reported - the original 32-bit ARM.
 
@@ -145,7 +146,7 @@ Termination Reason|Optionally present, this gives a Namespace (number or subsyst
 Triggered by Thread|The thread in the process that caused the crash
 
 
-In this section the most important item is the exception type.
+In this section, the most important item is the exception type.
 
 Exception Type|Meaning
 --|--
@@ -155,7 +156,7 @@ Exception Type|Meaning
 `EXC_BAD_ACCESS` or `SIGSEGV` or `SIGBUS` |Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to due memory pressure.
 `EXC_BREAKPOINT (SIGTRAP)` |This is due to an `NSException` being raised (possibly by a library on our behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
 `EXC_BAD_INSTRUCTION (SIGILL)` |This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code.  On Simulator, it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).
-`EXC_GUARD`|This is when the program closed a file descriptor which was guarded.  An example is the SQLite database used by the system.
+`EXC_GUARD`|This is when the program closed a file descriptor that was guarded.  An example is the SQLite database used by the system.
 
 When Termination Reason is present, we can look up the Code as follows:
 
@@ -163,7 +164,7 @@ Termination Code | Meaning
 --|--
 `0xdead10cc`  |We held a file lock or sqlite database lock before suspending.  We should release locks before suspending.
 `0xbaaaaaad` | A stackshot was done of the entire system via the side and both volume buttons.  See earlier section on System Diagnostics
-`0xbad22222` | VOIP was terminated as it resumed too frequently.  Also see with code using networking whilst in the background.  If our TCP connection is woken up too many times (say 15 wakes in 300 seconds) we get this crash.
+`0xbad22222` | VOIP was terminated as it resumed too frequently.  Also seen with code using networking whilst in the background.  If our TCP connection is woken up too many times (say 15 wakes in 300 seconds) we get this crash.
 `0x8badf00d` | Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.).  The watchdog timer noticed the policy violation and caused the termination.  The most common culprit is doing synchronous networking on the main thread.
 `0xc00010ff` | The system detected a thermal event and kill off our app.  If it's just on one device it could be a hardware issue, not a software problem in our app.  If it happens on other devices, check our app's power usage using Instruments.
 `0x2bad45ec` | There was a security violation. If the Termination Description says, "Process detected doing insecure drawing while in secure mode" it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.
@@ -182,10 +183,10 @@ Magic Number | Spoken Phrase
 `0x2bad45ec` | Too bad for security
 
 #### Aborts
-When we have a `SIGABRT` , we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.
+When we have a `SIGABRT`, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.
 
 #### Memory Issues
-When we have a memory issue, `EXC_BAD_ACCESS` , `SIGSEGV` or `SIGBUS`.  The faulty memory reference is the second number of the Exception Codes number pair.  For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant.  The address sanitizer should be switched on to see if it can spot the error.  If that cannot detect the issue, try each of the memory management settings, one at a time.
+When we have a memory issue, `EXC_BAD_ACCESS`, `SIGSEGV` or `SIGBUS`, the faulty memory reference is the second number of the Exception Codes number pair.  For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant.  The address sanitizer should be switched on to see if it could spot the error.  If that cannot detect the issue, try each of the memory management settings, one at a time.
 
 If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system.  For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History.  Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.
 
@@ -193,7 +194,7 @@ If Xcode shows a lot of memory is being used by the app, then it might be that m
 When we have a `EXC_BREAKPOINT` it can seem confusing.  The program may have been running standalone without a debugger so where did the breakpoint come from?  Typically, we are running `NSException` code.  This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging.  So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception.  In the case of normal app running, there is no debugger so we would just crash the app.
 
 #### Illegal Instructions
-When we have a `EXC_BAD_INSTRUCTION` , the exception codes (second number) will be the problematic assembly code.  This should be a rare condition.  It is worthwhile adjusting the optimization level of the code at fault in the Build Settings because higher level optimizations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug.  Alternatively, the problem might be a lower level library which has hand assembly optimizations in it - such as a multimedia library.  Handwritten assembly can be the cause of bad instructions.
+When we have a `EXC_BAD_INSTRUCTION`, the exception codes (second number) will be the problematic assembly code.  This should be a rare condition.  It is worthwhile adjusting the optimization level of the code at fault in the Build Settings because higher level optimizations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug.  Alternatively, the problem might be a lower level library that has hand assembly optimizations in it - such as a multimedia library.  Handwritten assembly can be the cause of bad instructions.
 
 #### Guard exceptions
 
@@ -259,7 +260,7 @@ When our app has detected a problem and has asked the Operating System to termin
 
 What we don't get is the text of the actual assertion that had occurred.  One presumes that the prior section for filtered syslog information was supposed to do that job.  Nevertheless, _Window->Devices and Simulators->Open Console_ will allow us to recover that information.
 
-When we see an Exception Backtrace in a customer crash report, we should ask if we can get the device console log for the crashing device.
+When we see an Exception Backtrace in a customer crash report, we should ask for the device console log of the crashing device.
 
 We would for example see:
 ```
@@ -528,7 +529,7 @@ The crash report will explicitly tell us which thread crashed.
 Thread 0 Crashed:
 ```
 
-Threads are numbered, and if they have a name we are told this:
+Threads are numbered, and if they have a name, we are told this:
 ```
 Thread 0 name:  Dispatch queue: com.apple.main-thread
 ```
@@ -541,8 +542,7 @@ is used to handle user interactions.
 The references to `__workq_kernreturn` just indicate a thread waiting for work
 so can be ignored unless there are a huge number of them.
 
-Similarly, the reference to `mach_msg_trap` just indicate waiting for a message
-to come in.
+Similarly, the references to `mach_msg_trap` just indicate the thread is waiting for a message to come in.
 
 When looking at stack backtraces, stack frame 0, the top of the stack, comes first, and then calling frames are listed.
 Therefore, the last thing being done is in frame 0.  
@@ -563,16 +563,16 @@ Column number | Meaning
 3 | Execution position (frame 0), or return position (frame 1 onwards)
 4+ | Symbolic function name or address with offset within the function
 
-The frame numbers, as they could upwards takes us backwards in time in terms of program execution order.  The top of stack, or most recently run code is in frame 0.  One reason for writing code with meaningful function names is that the call stack describes what is going on conceptually.  Lots of small single-purpose functions will serve the needs of both diagnostics and maintainability and are highly recommended.
+The frame numbers, as they count upwards takes us backwards in time in terms of program execution order.  The top of stack, or most recently run code, is in frame 0.  One reason for writing code with meaningful function names is that the call stack describes what is going on conceptually.  Using small single-purpose functions is good practice.  It serves the needs of both diagnostics and maintainability.
 
 The second column in a back trace is the binary file.  We focus on our own binary mostly because framework code from Apple is generally very reliable.  Faults usually occur either directly in our code, or by faults caused by incorrect usage of Apple APIs.
 Just because the code crashed in Apple provided code does not mean the fault is in Apple code.
 
 The third column, the execution position is slightly tricky.  If it is for frame 0, it is the actual position in the code that was running.  If it is for any later frame, it is the position in the code we shall resume from once the child functions have returned.
 
-The fourth column is the site at which the code is running (for frame 0), or the site which is making a function call (for later frames).  For symbolicated crashes, we will see the symbolic form for the address.  This will include a positional offset from the start of a function to reach the code calling the child function.  If we have only short functions, this offset will be a small value.  It means much less stepping through code, or much less reading through assembly code when performing diagnosis.  That is another reason for keeping our functions short.  If our crash is not symbolicated then we shall just see a memory address value.
+The fourth column is the site at which the code is running (for frame 0), or the site that is making a function call (for later frames).  For symbolicated crashes, we will see the symbolic form for the address.  This will include a positional offset from the start of a function to reach the code calling the child function.  If we have only short functions, this offset will be a small value.  It means much less stepping through code, or much less reading assembly code when performing diagnosis.  That is another reason for keeping our functions short.  If our crash is not symbolicated then we shall just see a memory address value.
 
-Therefore with the example stack frame we have:
+Therefore, with the example stack frame we have:
 
 - Stack Frame 20.
 - UIKit Binary File.
@@ -585,7 +585,7 @@ Therefore with the example stack frame we have:
 
 iOS Crash Reports will be either from ARM-64 binaries (most common) or legacy ARM 32 bit binaries.
 
-In each case we get similar looking information describing the state of the ARM registers.
+In each case, we get similar looking information describing the state of the ARM registers.
 
 One thing to look out for is the special hex code, `0xbaddc0dedeadbead` which means a non-initialized pointer.
 
@@ -692,7 +692,7 @@ The fifth part is the path to the binary as it appears on the device.
 Most of the binaries have a self-explanatory name.  The `dyld` binary is the dynamic loader.
 It is seen at the bottom of all stack backtraces because it is responsible for commencing the loading of binaries before their execution.
 
-The dynamic loader does many tasks in preparing our binary for execution.  If our binary references libraries it will load them.  If there are absent, it will fail to load our app.  This is why it is possible to crash even before any code in `main.m` gets called.  Later on we shall study how to diagnose such problems.
+The dynamic loader does many tasks in preparing our binary for execution.  If our binary references libraries, it will load them.  If there are absent, it will fail to load our app.  This is why it is possible to crash even before any code in `main.m` is called.  Later on, we shall study how to diagnose such problems.
 
 
 ## Guided tour of a macOS Crash Report
