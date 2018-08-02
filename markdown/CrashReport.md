@@ -783,7 +783,7 @@ objc_msgSend() selector name: didUnlockScreen:
 
 This is similar to iOS.  However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator might model the same programming error differently.  We can get a different exception\index{exception} on x86 hardware than its ARM counterpart.
 
-Consider the following code, setup with legacy manual reference counting (MRC)\index{software!manual reference counting} instead of automatic reference counting\index{software!automatic reference counting} (ARC)
+Consider the following code, setup with legacy manual reference counting (MRC)\index{Objective-C!manual reference counting} instead of automatic reference counting\index{Objective-C!automatic reference counting} (ARC)
 
 ```
 void use_sema() {
@@ -907,7 +907,7 @@ Error Code:      0x00000004
 Trap Number:     14
 ```
 
-In addition to the iOS equivalent, we get further information on the CPU was running the thread.  The trap\index{software!trap number} number can be looked up in the Darwin XNU source code if needed.
+In addition to the iOS equivalent, we get further information on the CPU was running the thread.  The trap\index{operating system!trap number} number can be looked up in the Darwin XNU source code if needed.
 
 A convenient mirror of the Darwin XNU source code is hosted by GitHub
 https://github.com/apple/darwin-xnu
