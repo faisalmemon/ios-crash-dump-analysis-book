@@ -961,7 +961,7 @@ macOS is a more open platform than iOS.  This permits under certain conditions m
 
 Ordinarily the above snapshot would be seen.  Notably `thread_set_state`\index{thread!set state} is zero in all cases.  This means no process has directly attached to the process to change the state of a register.  Such actions would be acceptable for implementations of managed runtimes or debuggers.  Outside of these scenarios, such actions would be suspicious and need further investigation.
 
-In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 `task_for_pid` calls.
+In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 `task_for_pid`\index{task!for pid} calls.
 
 ```
 External Modification Summary:
@@ -985,9 +985,9 @@ Ordinarily only first party (Apple provided) programs have privilege to perform 
 
 The requirements for accessing process modification APIs are:
 
-- System Integrity Protection needs to be disabled.
+- System Integrity Protection\index{operating system!System Integrity Protection} needs to be disabled.
 - The process making the modification must run as root.
-- The program making the modifications must be code signed.
+- The program making the modifications must be code signed\index{software!code signing}.
 - The entitlement assigned to the program must have `SecTaskAccess` with `allowed` and `debug`
 - The user must agree to trust the program in their security settings.
 
@@ -995,8 +995,8 @@ The example code `tfpexample` demonstrates this.  @icdabgithub
 
 ### macOS Crash Report Virtual Memory Section
 
-The next section of the crash report is the virtual memory summary and region type breakdown.
-If we have a graphics heavy app that renders pages of a document, we might look at how big the CoreUI image data region is, for example.  Virtual memory statistics are only meaningful when the app has already been studied in the Instruments memory profiler because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.
+The next section of the crash report is the virtual memory\index{memory!virtual} summary and region type breakdown.
+If we have a graphics heavy app that renders pages of a document, we might look at how big the CoreUI image data region is, for example.  Virtual memory statistics are only meaningful when the app has already been studied in the Xcode Instruments\index{trademark!Xcode Instruments} memory profiler\index{test!memory profiling} because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.
 
 Here is an example of the VM Region Section of the report:
 
