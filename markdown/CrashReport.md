@@ -583,11 +583,11 @@ Therefore, with the example stack frame we have:
 
 ### iOS Crash Report Thread State Section
 
-iOS Crash Reports will be either from ARM-64 binaries (most common) or legacy ARM 32 bit binaries.
+iOS Crash Reports will be either from ARM-64 binaries\index{CPU!ARM-64} (most common) or legacy ARM 32\index{CPU!ARM-32} bit binaries.
 
-In each case, we get similar looking information describing the state of the ARM registers.
+In each case, we get similar looking information describing the state of the ARM registers\index{CPU!register}.
 
-One thing to look out for is the special hex code, `0xbaddc0dedeadbead` which means a non-initialized pointer.
+One thing to look out for is the special hex code, `0xbaddc0dedeadbead`\index{0xbaddc0dedeadbead} which means a non-initialized pointer.
 
 #### 32-bit thread state
 
@@ -625,9 +625,9 @@ Thread 0 crashed with ARM Thread State (64-bit):
 
 ### iOS Crash Report Binary Images section
 
-The crash report has a section enumerating all the binary images loaded by the process that crashed.
+The crash report has a section enumerating all the binary\index{file!binary} images loaded by the process that crashed.
 It is usually a long list.  It highlights the fact that there are many supporting frameworks for our apps.
-Most frameworks are private frameworks.  The iOS development kit might seem a huge set of APIs, but that is just the tip of the iceberg.
+Most frameworks are private frameworks\index{software!private framework}.  The iOS development kit might seem a huge set of APIs, but that is just the tip of the iceberg.
 
 Here is an example list, edited for ease of demonstration:
 
@@ -670,12 +670,12 @@ The second part is the name of the binary.  Here it is `icdab_as`.
 The third part is the architecture slice within the binary that was loaded.
 We generally expect to just see `arm64` here (ARM 64-bit).
 
-The fourth part is the UUID of the binary.
+The fourth part is the UUID\index{file!UUID} of the binary.
 Here `icdab_as` has UUID `b82579f401603481990d1c1c9a42b773`
 
 Symbolification will fail if our DSYM file UUID does not match the binary.
 
-Here is an example of corresponding UUIDs seen in DSYM and application binaries:
+Here is an example of corresponding UUIDs seen in DSYM and application binaries using the `dwarfdump`\index{command!dwarfdump} command:
 
 ```
 $ dwarfdump --uuid icdab_as.app/icdab_as
@@ -689,7 +689,7 @@ icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as
 
 The fifth part is the path to the binary as it appears on the device.
 
-Most of the binaries have a self-explanatory name.  The `dyld` binary is the dynamic loader.
+Most of the binaries have a self-explanatory name.  The `dyld` binary is the dynamic loader\index{file!dynamic loader}.
 It is seen at the bottom of all stack backtraces because it is responsible for commencing the loading of binaries before their execution.
 
 The dynamic loader does many tasks in preparing our binary for execution.  If our binary references libraries, it will load them.  If there are absent, it will fail to load our app.  This is why it is possible to crash even before any code in `main.m` is called.  Later on, we shall study how to diagnose such problems.
@@ -718,9 +718,9 @@ User ID:               501
 
 Here we see familiar information describing the binary at fault.
 The process that crashed was SiriNCService, and the process responsible for that was Siri.
-There was a cross process communication at the time of the crash (XPC) between Siri and SiriNCService.
+There was a cross process communication\index{software!cross process communication} at the time of the crash (XPC) between Siri\index{trademark!Siri} and SiriNCService.
 
-Whilst iOS is a system that runs the user experience as one user, the macOS system exposes the fact that there are multiple User IDs in the system.
+Whilst iOS is a system that runs the user experience as one user, the macOS system exposes the fact that there are multiple User IDs\index{User ID} in the system.
 
 ### macOS Crash Report Date and Version Section
 
@@ -736,7 +736,7 @@ Sleep/Wake UUID:       10AE8838-17A9-4405-B03D-B680DDC84436
 
 ```
 
-The Anonymous UUID will uniquely identify the computer.  The Sleep/Wake UUID is used to match up sleep and wake events.  Failed wakeup is a common cause of a system crash (in contrast to the application crashes we have been discussing).  Further information can be obtained using the `pmset` power management command.
+The Anonymous UUID\index{computer!anonymous UUID} will uniquely identify the computer.  The Sleep/Wake UUID is used to match up sleep and wake events.  Failed wakeup is a common cause of a system crash (in contrast to the application crashes we have been discussing).  Further information can be obtained using the `pmset`\index{command!pmset} power management\index{computer!power management} command.
 
 ### macOS Duration Section  
 
@@ -754,7 +754,7 @@ We use this as a broad indication only because the numbers seen always rounded t
 System Integrity Protection: enabled
 ```
 
-Modern macOS by default runs as "rootless".  This means that even if we are logged in as the superuser we cannot change system binaries.  Those are protected with the help of firmware.  It is possible to boot macOS with System Integrity Protection disabled.  If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.
+Modern macOS by default runs as "rootless"\index{computer!rootless}.  This means that even if we are logged in as the superuser we cannot change system binaries.  Those are protected with the help of firmware.  It is possible to boot macOS with System Integrity Protection\index{computer!System Integrity Protection} disabled.  If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.
 
 ### macOS Crash Report Exception Section
 
