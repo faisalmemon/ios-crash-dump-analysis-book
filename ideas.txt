@@ -12,3 +12,13 @@ Map out the crashes to how they fit in terms of covering tvos,macos,ios, etc. an
 Show crashes that use each of the xcode memory diagnostics.
 x Explain Mac crash report
 Explore existing tools for crash enumeration https://www.crashprobe.com/ios/05/ and catching https://github.com/kstenerud/KSCrash
+
+
+LATER WE SHALL references found from `grep -iR --color later markdown examples`
+
+Examples of using xcode diagnostic tools (e.g. memory allocator)
+x Using class-dump in an example [Siri Crash]
+Using hopper for pseudo-code
+Explain xcode instruments (memory profiler or VM usage)
+Explain third party crash report tooling
+Examples of early crash and showing diagnosis of the runtime loader
