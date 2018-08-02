@@ -959,7 +959,7 @@ External Modification Summary:
 
 macOS is a more open platform than iOS.  This permits under certain conditions modification of our process.  We need to know if such a thing happened because it can invalidate any design assumption in the code because registers can be modified of the process and thus a crash can be induced.
 
-Ordinarily the above snapshot would be seen.  Notably `thread_set_state` is zero in all cases.  This means no process has directly attached to the process to change the state of a register.  Such actions would be acceptable for implementations of managed runtimes or debuggers.  Outside of these scenarios, such actions would be suspicious and need further investigation.
+Ordinarily the above snapshot would be seen.  Notably `thread_set_state`\index{thread!set state} is zero in all cases.  This means no process has directly attached to the process to change the state of a register.  Such actions would be acceptable for implementations of managed runtimes or debuggers.  Outside of these scenarios, such actions would be suspicious and need further investigation.
 
 In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 `task_for_pid` calls.
 
