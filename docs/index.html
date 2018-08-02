@@ -1710,7 +1710,7 @@ AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142),
  Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
 Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</code></pre>
 <p>Sometimes our app closely interacts with a hardware peripheral, and if that is via a standards based interface such as USB, then a lot of variability is possible. Consider disk drives. Many vendors provide disk drives, and they may be directly powered, or independently powered. They may be directly attached, attached via a USB cable, or via a USB hub.</p>
-<p>Sometimes newer hardware, such as a new type of MacBook comes with its own hardware issues, so crashes unrelated to our app can be seen.</p>
+<p>Sometimes newer hardware, such as a new type of MacBook Pro comes with its own hardware issues, so crashes unrelated to our app can be seen.</p>
 <p>The key to understanding whether the hardware environment comes into play is to see a number of crashes to look for patterns.</p>
 <p>As application developers, we only see crashes in our app. If we have contact with the user who has provided a crash, we can ask if any other apps are crashing, or if any system stability issues are present.</p>
 <p>Another interesting aspect is that not all hardware is actively used by the system all the time. For example, when a MacBook Pro is connected to an external display, different graphics RAM is used and a different graphics card is used (external versus on internal GPU). If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.</p>
