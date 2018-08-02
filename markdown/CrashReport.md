@@ -907,7 +907,7 @@ Error Code:      0x00000004
 Trap Number:     14
 ```
 
-In addition to the iOS equivalent, we get further information on the CPU was running the thread.  The trap number can be looked up in the Darwin XNU source code if needed.
+In addition to the iOS equivalent, we get further information on the CPU was running the thread.  The trap\index{software!trap number} number can be looked up in the Darwin XNU source code if needed.
 
 A convenient mirror of the Darwin XNU source code is hosted by GitHub
 https://github.com/apple/darwin-xnu
@@ -935,11 +935,11 @@ Binary Images:
            PlugIns/AppleHDAHALPlugIn.bundle/Contents/MacOS/AppleHDAHALPlugIn
 ```
 
-When a plus sign appears next to the binary it is meant to mean the binary is part of the OS.  However, we see examples of the plus sign present in third party binaries and absent in system binaries, so the plus sign is not a reliable indicator (last tested on OS X 10.13.6).  
+When a plus sign appears next to the binary it is meant to mean the binary is part of the OS\index{file!operating system}.  However, we see examples of the plus sign present in third party binaries and absent in system binaries, so the plus sign is not a reliable indicator (last tested on OS X 10.13.6).  
 
 ### macOS Crash Report Modification Summary
 
-Next, we have a section describing any external modifications to our crashed process:
+Next, we have a section describing any external modifications\index{crash!process integrity} to our crashed process:
 
 ```
 External Modification Summary:
