@@ -1045,7 +1045,7 @@ TOTAL                            908.7M     1206
 
 ### macOS Crash Report System Profile section
 
-The next part of the crash report is a summary of the hardware in place:
+The next part of the crash report is a summary of the hardware\index{hardware!profile} in place:
 
 ```
 System Profile:
@@ -1071,15 +1071,15 @@ AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142),
 Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports
 ```
 
-Sometimes our app closely interacts with a hardware peripheral, and if that is via a standards based interface such as USB, then a lot of variability is possible.  Consider disk drives.  Many vendors provide disk drives, and they may be directly powered, or independently powered.  They may be directly attached, attached via a USB cable, or via a USB hub.
+Sometimes our app closely interacts with a hardware peripheral, and if that is via a standards based interface such as USB\index{hardware!USB}, then a lot of variability is possible.  Consider disk drives.  Many vendors provide disk drives, and they may be directly powered, or independently powered.  They may be directly attached, attached via a USB cable, or via a USB hub.
 
-Sometimes newer hardware, such as a new type of MacBook comes with its own hardware issues, so crashes unrelated to our app can be seen.
+Sometimes newer hardware, such as a new type of MacBook Pro\index{trademark!MacBook Pro} comes with its own hardware issues, so crashes unrelated to our app can be seen.
 
-The key to understanding whether the hardware environment comes into play is to see a number of crashes to look for patterns.
+The key to understanding whether the hardware environment\index{hardware!environment} comes into play is to see a number of crashes to look for patterns.
 
-As application developers, we only see crashes in our app.  If we have contact with the user who has provided a crash, we can ask if any other apps are crashing, or if any system stability issues are present.
+As application developers, we only see crashes in our app.  If we have contact with the user who has provided a crash, we can ask if any other apps are crashing, or if any system stability\index{hardware!stability} issues are present.
 
-Another interesting aspect is that not all hardware is actively used by the system all the time.  For example, when a MacBook Pro is connected to an external display, different graphics RAM is used and a different graphics card is used (external versus on internal GPU).
+Another interesting aspect is that not all hardware is actively used by the system all the time.  For example, when a MacBook Pro is connected to an external display\index{hardware!external display}, different graphics RAM\index{memory!graphics RAM} is used and a different graphics card\index{hardware!graphics card} is used (external versus on internal GPU).
 If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.
 
-Running system diagnostics and looking to see if the problems are appearing against only specific Anonymous UUID crash reports are ways to try and understand if we have a machine specific hardware issue.
+Running system diagnostics\index{hardware!diagnostics} and looking to see if the problems are appearing against only specific Anonymous UUID\index{computer!anonymous UUID} crash reports are ways to try and understand if we have a machine specific hardware issue.
