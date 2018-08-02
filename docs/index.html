@@ -1644,7 +1644,7 @@ Trap Number:     14</code></pre>
 </ul>
 <p>The example code <code>tfpexample</code> demonstrates this. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <h3 id="macos-crash-report-virtual-memory-section">macOS Crash Report Virtual Memory Section</h3>
-<p>The next section of the crash report is the virtual memory summary and region type breakdown. If we have a graphics heavy app that renders pages of a document, we might look at how big the CoreUI image data region is, for example. Virtual memory statistics are only meaningful when the app has already been studied in the Instruments memory profiler because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.</p>
+<p>The next section of the crash report is the virtual memory summary and region type breakdown. If we have a graphics heavy app that renders pages of a document, we might look at how big the CoreUI image data region is, for example. Virtual memory statistics are only meaningful when the app has already been studied in the Xcode Instruments memory profiler because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.</p>
 <p>Here is an example of the VM Region Section of the report:</p>
 <pre><code>VM Region Summary:
 ReadOnly portion of Libraries: Total=544.2M resident=0K(0%)
