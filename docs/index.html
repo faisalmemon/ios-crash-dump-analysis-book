@@ -118,7 +118,15 @@
 <li><a href="#macos-crash-report-system-profile-section">macOS Crash Report System Profile section</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#analytic-troubleshooting">Analytic Troubleshooting</a></li>
+<li><a href="#analytic-troubleshooting">Analytic Troubleshooting</a><ul>
+<li><a href="#prioritizing-our-problem">Prioritizing our problem</a><ul>
+<li><a href="#prioritizing-based-upon-impact">Prioritizing based upon impact</a></li>
+<li><a href="#prioritizing-based-upon-deadlines">Prioritizing based upon deadlines</a></li>
+<li><a href="#prioritizing-based-upon-trend">Prioritizing based upon trend</a></li>
+</ul></li>
+<li><a href="#stating-the-problem">Stating the problem</a></li>
+<li><a href="#specifying-the-problem">Specifying the problem</a></li>
+</ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
 <li><a href="#the-crash-report-1">The Crash report</a></li>
@@ -1718,6 +1726,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>Running system diagnostics and looking to see if the problems are appearing against only specific Anonymous UUID crash reports are ways to try and understand if we have a machine specific hardware issue.</p>
 <h1 id="analytic-troubleshooting">Analytic Troubleshooting</h1>
 <p>This chapter discusses a formal technique for solving problems. The idea is to provide a framework that prompts the right questions to be asked.</p>
+<p>There is a famous phrase cautioning us on taking an overzealous approach:</p>
 <blockquote>
 <p>“don’t use a sledgehammer to crack a nut”</p>
 </blockquote>
@@ -1728,7 +1737,63 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 </blockquote>
 <p>A hammer is best for hammering in nails, and smashing things generally, but not useful for other types of task. A hammer is a solution to a restricted set of problems. Furthermore, our way of thinking about problems is framed to the available tools at our disposal. If we increase the available tools, we can start thinking about problems in different ways, one of which may lead to the answers we desire.</p>
 <p>Suppose we had a spanner and a hack saw in our toolbox. We wanted to remove an old bathroom fitting held in place with rusty bolts. Using the spanner might not work, due to the bolts not turning. However, using a hack saw to remove the bolt heads might be a workable next best solution. Observing an experienced plumber, or mechanic, reveals such tricks of the trade.</p>
-<p>In this context we introduce “Analytic Troubleshooting”. This will help us move forwards on problems when the obvious things have already been tried, and we are running out of ideas.</p>
+<p>In this context we introduce “Analytic Troubleshooting”. <span class="citation" data-cites="kepnertregoe">(“Analytic Troubleshooting” n.d.)</span> This will help us move forwards on problems when the obvious things have already been tried, and we are running out of ideas.</p>
+<p>This methodology is a cut-down version of that taught by Kepner Tregoe.</p>
+<h2 id="prioritizing-our-problem">Prioritizing our problem</h2>
+<p>If we are a sole developer of an app, perhaps with a few customers, and receive a crash report, it can feel like we are being offered a curious intellectual challenge.</p>
+<p>In a professional software engineering context, the reality is starkly different. There is typically a team of people involved, we are some levels removed from the customer, and there are many different crash reports from different customers, for different products and product variants.</p>
+<p>We have to prioritize which crash to work on. We can consider three different aspects of the problem: Seriousness, Urgency and Growth.</p>
+<h3 id="prioritizing-based-upon-impact">Prioritizing based upon impact</h3>
+<p>In many development teams, crashes are considered top-priority “P1” bugs because the customer can no longer do anything further with the app. To judge the seriousness of the bug, we need to assess the <strong>impact</strong> of the bug. What use cases were being done at the time of the problem? If the customer is in the middle of doing an e-commerce purchase, then clearly revenue is at stake if the problem is not solved. If the customer is updating their privacy settings and see a crash, then privacy is a problem area.</p>
+<p>One way to assess impact is to build analytics into our app. Then the set of steps, and more broadly, the customer use case, can be studied alongside the crash. Crashes from the most important use cases can then be identified as high impact bugs to fix. One advantage of third party crash reporting services, described in a later chapter, is that they allow logs to be recorded that are delivered to the crash report server along with the crash.</p>
+<p>Any time a life-cycle event occurs, such as foregrounding, backgrounding, appearing, disappearing, button clicks, segues, notifications, alert pop ups, and launching helper components such as the photo picker, a log message should record the action.</p>
+<h3 id="prioritizing-based-upon-deadlines">Prioritizing based upon deadlines</h3>
+<p>To judge the urgency of a bug fix, we need to assess the <strong>deadline</strong> associated with the bug. Whenever Apple update their product line, for example historically iPhone is updated in September, then a natural product lifecycle cadence is seen in the market. New customers will come to the App Store to provision new apps. There will be a lot of discussion of Apple product features in the press. Consequently, it becomes a good market window to target. Any crash that prevents app store approval, or app first time use is becomes more important at this time. Occasionally, Apple introduce a new app category, for example watch apps, or sticker packs. Being available on the first day provides a first-mover advantage, and the possibility of being featured as part of the Apple launch event.</p>
+<h3 id="prioritizing-based-upon-trend">Prioritizing based upon trend</h3>
+<p>The growth in the number of crash reports we see can be alarming, and needs to be assessed by analysing the <strong>trend</strong>. We can see how many crash reports we get over time, and see if there is a spike, or an upward trend.</p>
+<p>If our app crashes due to features in a new major release of iOS then the first people to experience the problem are early adopters of the beta releases of iOS. After that, iOS devices will start being automatically upgraded. Sometimes the new version of iOS is released in geographic staggered updates. We would expect to see this reflected in the trend we see amongst our crash reports.</p>
+<p>If we see a spike (a sharp rise and then a sharp fall) in our crash reports, then there may be other factors of components of the system architecture in play. For example, if our app relies on a back-end server which is updated in a problematic way for our app, we could see crashes until the server has been fixed.</p>
+<p>The timing of problems can be awkward. For example, when dealing with security credentials such as certificates, it is best to set their expiry date not during traditional vacation periods (such as Christmas or Chinese New Year) because when they expire, there might be few staff available to rectify the problem.</p>
+<p>It is bad practice to release a major software update prior to a popular vacation period. If our market opportunity requires the product be released for a vacation period, staffing needs to be setup to accommodate potential problems.</p>
+<p>Keeping an eye on trends allows us to schedule work to fix problems before they become widespread amongst our customers. Different apps have different risk profiles. For example, a Mobile Device Management API sensitive app should be tested with Beta versions of iOS because at the systems level, subtle changes can have dramatic impact and need to be picked up early. If we have a graphics sensitive app, then we should keep an eye on new hardware devices, hardware specification updates, and we should have a test suite that exercises the key APIs in the platform we depend upon, so a new OS version ,or hardware platform, can be quickly assessed.</p>
+<p>The crash report trend need not be adverse. If an unusual crash is seen only on older hardware, then we expect the trend to be downwards over time, so it might be possible to de-prioritize such crashes.</p>
+<h2 id="stating-the-problem">Stating the problem</h2>
+<p>The information we have for a crash: the crash report, customer logs, analytic data etc. should be summarised into an OBJECT / DEFECT style short problem statement. This is often a critical first step in triaging a potentially large number of crash reports. This gives us a first level approximation of what is at hand and allows managers and other interested parties to get a feel for where we are with product quality, maturity, risks, etc.</p>
+<p>First we state the object; that is the app or product that is failing. Then, we state the defect; that is the symptom that is undesirable. It should be as simple as “CameraApp Lite crashes during when Apple Share button event used”. The problem should be tracked in a bug management system.</p>
+<h2 id="specifying-the-problem">Specifying the problem</h2>
+<p>Specifying the problem is the most important step in the Analytic Troubleshooting methodology because here we see the gaps in our knowledge, and that prompts the questions that lead us forwards to a resolution.</p>
+<p>We write out a grid with four rows and two columns as follows:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Aspect</th>
+<th>IS</th>
+<th>IS NOT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>WHAT</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>WHERE</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>WHEN</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>EXTENT</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
@@ -1836,6 +1901,9 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <p>We went from using HOWTO knowledge (understanding the crash report) to using tooling to get a baseline level of knowledge. Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem. This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis. It cannot be achieved by just focusing on the HOWTO of comprehending crash reports. We need to switch hats and see things from different perspectives in order to really make progress.</p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
+<div id="ref-kepnertregoe">
+<p>“Analytic Troubleshooting.” n.d. Accessed 2018.</p>
+</div>
 <div id="ref-tn2151">
 <p>“Apple Crash Dump Technote 2151.” 2018. <a href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2151/_index.html</a>.</p>
 </div>
