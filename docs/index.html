@@ -1584,7 +1584,7 @@ Error Code:      0x00000004
 Trap Number:     14</code></pre>
 <p>In addition to the iOS equivalent, we get further information on the CPU was running the thread. The trap number can be looked up in the Darwin XNU source code if needed.</p>
 <p>A convenient mirror of the Darwin XNU source code is hosted by GitHub https://github.com/apple/darwin-xnu</p>
-<p>The traps can be searched for. Here we have <code>osfmk/x86_64/idt_table.h</code> indicating Trap 14 is a page fault. The Error Code is a bit vector to describe the mach error code. <span class="citation" data-cites="macherror">(“Making Sense of I/O Kit Error Codes” n.d.)</span></p>
+<p>The traps can be searched for. Here we have <code>osfmk/x86_64/idt_table.h</code> indicating Trap 14 is a page fault. The Error Code is a bit vector to describe the mach error code. <span class="citation" data-cites="macherror">(“Making Sense of I/O Kit Error Codes” 2018)</span></p>
 <h3 id="macos-crash-report-binary-images-section">macOS Crash Report Binary Images section</h3>
 <p>Next, we have the binary images loaded by the crashing app.</p>
 <p>Here is an example of the first few binaries in a crash report, truncated for ease of demonstration:</p>
@@ -1844,7 +1844,7 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <p>“Mach Exception Types.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68" class="uri">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68</a>.</p>
 </div>
 <div id="ref-macherror">
-<p>“Making Sense of I/O Kit Error Codes.” n.d. Accessed 2018.</p>
+<p>“Making Sense of I/O Kit Error Codes.” 2018.</p>
 </div>
 <div id="ref-class-dump-tool">
 <p>Nygard, Steve. 2018. “Class Dump Tool.” <a href="http://stevenygard.com/projects/class-dump/" class="uri">http://stevenygard.com/projects/class-dump/</a>.</p>
