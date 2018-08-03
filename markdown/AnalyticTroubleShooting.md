@@ -220,26 +220,26 @@ Consider the problem "AlienGame performance issue/crash during playing different
 
 - EXTENT IS
   - How many things have the problem?
-    - 500 distinct installs of the app, out of 2000 in total.
+    - 500 distinct installs of the app, out of 2000 in total.  
   - What is the extent of the defect?
     - Sometimes severe; we get a crash. Sometimes mild; we get a dropped frames.
-    - Sometimes the frame rate stays good the whole time.
+    - Sometimes the frame rate stays good the whole time.  
   - How many defects are on the thing?
-    - 5 different types of game rendering thread end up crashing (different occasions)
+    - 5 different types of game rendering thread end up crashing (different occasions).  
   - What is the trend?
-    - A slight downward trend in number of crashes as our installed base grows.
+    - A slight downward trend in number of crashes as our installed base grows.  
 - EXTENT IS NOT
   -  How many things could have the problem but don't?
-    - It could be all installs, or no installs that have a problem, but we see 25%.
+    - It could be all installs, or no installs that have a problem, but we see 25%.  
   -  What could be the extent of the problem but isn't?
     - We never see the frame rate drop and then improve.
-    - We never see good installs ever hitting the crash problem or dropped frame problem.
+    - We never see good installs ever hitting the crash problem or dropped frame problem.  
   -  How many defects could be present but aren't?
     - We never see the main thread crash.
-    - Of the 6 types of rendering thread, one is special because it has never been seen in a crash or dropped frame rate.
+    - Of the 6 types of rendering thread, one is special because it has never been seen in a crash or dropped frame rate.  
   -  What could the trend be but isn't?
     - The trend could be the crashes become more commonplace (going above 25%) but we don't.
-    - The trend could be the crashes only occur on certain days, but that is not the case.
+    - The trend could be the crashes only occur on certain days, but that is not the case.  
 
 This example is harder to understand.  We need an understanding of the architecture of the app to ask good questions.  Some clues appear.  There are 6 types of rendering thread, one of whom is fine.  Also the main thread is fine.  We need to explore the relevant differences between them.
 
