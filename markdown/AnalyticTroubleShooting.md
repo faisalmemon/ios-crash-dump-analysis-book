@@ -229,6 +229,9 @@ Consider the problem "AlienGame performance issue/crash during playing different
   - What is the trend?
     - A slight downward trend in number of crashes as our installed base grows.  
 - EXTENT IS NOT
+  - How many things could have the problem but don't?
+    - It could be all installs, or no installs that have a problem, but we see 25%.  
+- EXTENT IS NOT
   -  How many things could have the problem but don't?
     - It could be all installs, or no installs that have a problem, but we see 25%.  
   -  What could be the extent of the problem but isn't?
