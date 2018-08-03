@@ -230,17 +230,14 @@ Consider the problem "AlienGame performance issue/crash during playing different
     - A slight downward trend in number of crashes as our installed base grows.  
 - EXTENT IS NOT
   - How many things could have the problem but don't?
-    - It could be all installs, or no installs that have a problem, but we see 25%.  
-- EXTENT IS NOT
-  -  How many things could have the problem but don't?
-    - It could be all installs, or no installs that have a problem, but we see 25%.  
-  -  What could be the extent of the problem but isn't?
+    - It could be all installs, or no installs that have a problem, but we see 25%.
+  - What could be the extent of the problem but isn't?
     - We never see the frame rate drop and then improve.
     - We never see good installs ever hitting the crash problem or dropped frame problem.  
-  -  How many defects could be present but aren't?
+  - How many defects could be present but aren't?
     - We never see the main thread crash.
     - Of the 6 types of rendering thread, one is special because it has never been seen in a crash or dropped frame rate.  
-  -  What could the trend be but isn't?
+  - What could the trend be but isn't?
     - The trend could be the crashes become more commonplace (going above 25%) but we don't.
     - The trend could be the crashes only occur on certain days, but that is not the case.  
 
