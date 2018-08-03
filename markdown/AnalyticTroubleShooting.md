@@ -171,12 +171,12 @@ Consider the problem "An iMac crashes regularly needing constant hardware repair
 
 - WHERE IS
   - When the problem was noticed, where was it geographically?
-    - The Apple iMac was sitting in the first floor corner office by the window.
+    - The Apple iMac was sitting in the first floor corner office by the window.  
   - Where is the problem on the thing?
     - The problems were electrical faults on the power supply, the screen, the main system board, and the memory chips (multiple instances of problems).  
 - WHERE IS NOT
   - Where could the thing be when we should have seen the problem but did not?
-    -  The same Apple iMac was fine when it was in the basement, when it was in the IT department staging area, and when it was tested at the Apple factory.
+    -  The same Apple iMac was fine when it was in the basement, when it was in the IT department staging area, and when it was tested at the Apple factory.  
   - Where could be problem be on the thing but isn't?
     - The problem could have been in software but wasn't.
     - The problem could have been the USB peripherals but wasn't.
@@ -188,3 +188,63 @@ In this example, we have many items in the IS NOT column.  Immediately it feels 
 We notice that only the iMac has a problem, not the printer.  If we swap the location of the printer and the iMac, since they are both sensitive electronic products, we could get a good contrast between IS and IS NOT.
 
 Electronic equipment can only operate within certain specified environmental conditions.  Correct voltage, current, temperature, humidity, limited electromagnetic interference, etc. are needed.  If we do a site survey with such a requirements specification in mind, we can discover what may be the reason for this location specific issue.  We could also try with and without surge protectors since it is known that power spikes can damage electronic equipment.
+
+### Database app When Is / Is Not Example
+
+Consider the problem "A database app crashes during app review"
+
+- WHEN IS
+  - When was the problem first noticed?
+    - App store review team was the first time we found out about the problem.  
+  - When has the problem been seen again?
+    - The second time we submitted the app for review.  
+  - Is there any pattern in the timing?
+    - The problem happens at the same amount of elapsed time since launch.  
+  - When in the lifecycle of the thing was the problem first noticed?
+    - The problem is always during app launch.  
+- WHEN IS NOT
+  - When could the problem have been noticed but wasn't?
+    - The problem was never seen on the developer environment.  
+  - When could it have been seen again but wasn't?
+    - Subsequent launches of the app we all fine also.  
+  - When else in the lifecycle of the thing could the problem be seen but wasn't?  
+    - When the Update button is pressed in the app, or the target database connection string is changed, the problem is not seen.  
+
+This is clearly an app start up issue.  This example highlights that sometimes questions in one area trigger questions and research in another area.  How clean the environment is and what configuration state it is launched with are obvious questions for the WHAT IS / IS NOT section.
+
+One clue is found in the WHEN IS NOT section.  Database connection strings can be setup and re-configured.  It could be that a null connection string, or absent setting, or first time use setup code is not being triggered.  Maybe the code for debug builds has a hack to skip first time use workflows to speed up development of features but such features are not present in the release deployment of the app used for App Store review.
+
+### Game app Extent Is / Is Not Example
+
+Consider the problem "AlienGame performance issue/crash during playing different game levels"
+
+- EXTENT IS
+  - How many things have the problem?
+    - 500 distinct installs of the app, out of 2000 in total.
+  - What is the extent of the defect?
+    - Sometimes severe; we get a crash. Sometimes mild; we get a dropped frames.
+    - Sometimes the frame rate stays good the whole time.
+  - How many defects are on the thing?
+    - 5 different types of game rendering thread end up crashing (different occasions)
+  - What is the trend?
+    - A slight downward trend in number of crashes as our installed base grows.
+- EXTENT IS NOT
+  -  How many things could have the problem but don't?
+    - It could be all installs, or no installs that have a problem, but we see 25%.
+  -  What could be the extent of the problem but isn't?
+    - We never see the frame rate drop and then improve.
+    - We never see good installs ever hitting the crash problem or dropped frame problem.
+  -  How many defects could be present but aren't?
+    - We never see the main thread crash.
+    - Of the 6 types of rendering thread, one is special because it has never been seen in a crash or dropped frame rate.
+  -  What could the trend be but isn't?
+    - The trend could be the crashes become more commonplace (going above 25%) but we don't.
+    - The trend could be the crashes only occur on certain days, but that is not the case.
+
+This example is harder to understand.  We need an understanding of the architecture of the app to ask good questions.  Some clues appear.  There are 6 types of rendering thread, one of whom is fine.  Also the main thread is fine.  We need to explore the relevant differences between them.
+
+When we have a problem that does not always happen, one strategy is to think about what could make the problem worse, and thus happen more frequently.  Then when we have a candidate solution we can set a confidence threshold for the fix given that we are able to induce the otherwise rare or less frequent problem.
+
+Another clue is that 25% of installs have the problem.  If the problem was due to the population of different hardware and thus varying hardware capability, we could see that about 25% of users are on iPad versus iPhone.  However, being strictly a 25% problem without it varying is a marker to tell us maybe something else in the environment is affecting the behaviour of the app.  Perhaps during installation, a server is picked in round-robin fashion amongst 4 servers that host the back-end for the game.  Furthermore, during development, perhaps the server used is a special development server different from production servers used by our customers.  Again, the IS NOT section provides the most revealing clues as to where to look for a potential solution.
+
+If we did not do Analytic Troubleshooting, in this example the first instinct would be to check for memory leaks, memory pressure, hardware limitations, etc.  That kind of analysis can easily consume a week of engineering effort.  Whilst it is possible for such issues to result in dropped frames they are only a portion of the problem scenario we are in; they would not explain why exactly 25% of users hit the problem.
