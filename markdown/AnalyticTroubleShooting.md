@@ -4,20 +4,20 @@ This chapter discusses a formal technique for solving problems.  The idea is to 
 
 There is a famous phrase cautioning us on taking an overzealous approach:
 
-> "don't use a sledgehammer to crack a nut"
+> "Don't use a sledgehammer to crack a nut."
 
 Most problems have a direct and obvious way forward to progress towards their resolution.  As engineers, developers, and testers, we are well acquainted with such problem solving.  This chapter does not concern those types of problems.
 
 There is another less well-known phrase:
 
-> "when you hold a hammer, everything looks like a nail"
+> "When you hold a hammer, everything looks like a nail."
 
 A hammer is best for hammering in nails, and smashing things generally, but not useful for other types of task.  A hammer is a solution to a restricted set of problems.
 Furthermore, our way of thinking about problems is framed to the available tools at our disposal.  If we increase the available tools, we can start thinking about problems in different ways, one of which may lead to the answers we desire.
 
-Suppose we had a spanner and a hack saw in our toolbox.  We wanted to remove an old bathroom fitting held in place with rusty bolts.  Using the spanner might not work, due to the bolts not turning.  However, using a hack saw to remove the bolt heads might be a workable next best solution.  Observing an experienced plumber, or mechanic, reveals such tricks of the trade.
+Suppose we had a spanner and a hacksaw in our toolbox.  We wanted to remove an old bathroom fitting held in place with rusty bolts.  Using the spanner might not work, due to the bolts not turning.  However, using a hack saw to remove the bolt heads might be a workable next best solution.  Observing an experienced plumber, or mechanic, reveals such tricks of the trade.
 
-In this context we introduce "Analytic Troubleshooting".  @kepnertregoe
+In this context, we introduce "Analytic Troubleshooting".  @kepnertregoe
 This will help us move forwards on problems when the obvious things have already been tried, and we are running out of ideas.
 
 This methodology is a cut-down version of that taught by Kepner Tregoe.
@@ -32,7 +32,11 @@ We have to prioritize which crash to work on.  We can consider three different a
 
 ### Prioritizing based upon impact
 
-In many development teams, crashes are considered top-priority "P1" bugs because the customer can no longer do anything further with the app.  To judge the seriousness of the bug, we need to assess the **impact** of the bug.  What use cases were being done at the time of the problem?  If the customer is in the middle of doing an e-commerce purchase, then clearly revenue is at stake if the problem is not solved.  If the customer is updating their privacy settings and see a crash, then privacy is a problem area.  
+In many development teams, crashes are considered top-priority "P1" bugs because the customer can no longer do anything further with the app.  To judge the seriousness of the bug, we need to assess the **impact** of the bug.  What use cases were being done at the time of the problem?  
+
+If the customer is in the middle of doing an e-commerce purchase, then clearly revenue is at stake if the problem is not solved.  
+
+If whilst updating our privacy settings, we see a crash, we have a privacy issue.  Depending on the type of market we are operating in, that could be a major problem.
 
 One way to assess impact is to build analytics into our app.  Then the set of steps, and more broadly, the customer use case, can be studied alongside the crash.  Crashes from the most important use cases can then be identified as high impact bugs to fix.  One advantage of third party crash reporting services, described in a later chapter, is that they allow logs to be recorded that are delivered to the crash report server along with the crash.
 
@@ -40,29 +44,29 @@ Any time a life-cycle event occurs, such as foregrounding, backgrounding, appear
 
 ### Prioritizing based upon deadlines
 
-To judge the urgency of a bug fix, we need to assess the **deadline** associated with the bug.  Whenever Apple update their product line, for example historically iPhone\index{trademark!iPhone} is updated in September, then a natural product lifecycle cadence is seen in the market.  New customers will come to the App Store to provision new apps.  There will be a lot of discussion of Apple product features in the press.  Consequently, it becomes a good market window to target.  Any crash that prevents app store approval, or app first time use is becomes more important at this time.  Occasionally, Apple introduce a new app category, for example watch apps, or sticker packs.  Being available on the first day provides a first-mover advantage, and the possibility of being featured as part of the Apple launch event.
+To judge the urgency of a bug fix, we need to assess the **deadline** associated with the bug.  Whenever Apple updates their product line, for example, historically iPhone\index{trademark!iPhone} is updated in September, then a natural product lifecycle cadence is seen in the market.  New customers will come to the App Store to provision new apps.  There will be a lot of discussion of Apple product features in the press.  Consequently, it becomes a good market window to target.  Any crash that prevents app store approval or app first time use issues becomes more important at this time.  Occasionally, Apple introduces a new app category, for example watch apps, or sticker packs.  Being available on the first day provides a first-mover advantage, and the possibility of being featured as part of the Apple launch event.
 
 ### Prioritizing based upon trend
 
-The growth in the number of crash reports we see can be alarming, and needs to be assessed by analysing the **trend**.  We can see how many crash reports we get over time, and see if there is a spike, or an upward trend.  
+The growth in the number of crash reports we see can be alarming, and needs to be assessed by analyzing the **trend**.  We can see how many crash reports we get over time, and see if there is a spike, or an upward trend.  
 
 If our app crashes due to features in a new major release of iOS then the first people to experience the problem are early adopters of the beta releases of iOS.  After that, iOS devices will start being automatically upgraded.  Sometimes the new version of iOS is released in geographic staggered updates.  We would expect to see this reflected in the trend we see amongst our crash reports.  
 
-If we see a spike (a sharp rise and then a sharp fall) in our crash reports, then there may be other factors of components of the system architecture in play.  For example, if our app relies on a back-end server which is updated in a problematic way for our app, we could see crashes until the server has been fixed.
+If we see a spike (a sharp rise and then a sharp fall) in our crash reports, then there may be other factors of components of the system architecture in play.  For example, if our app relies on a back-end server that is updated in a problematic way for our app, we could see crashes until the server has been fixed.
 
 The timing of problems can be awkward.  For example, when dealing with security credentials such as certificates, it is best to set their expiry date not during traditional vacation periods (such as Christmas or Chinese New Year) because when they expire, there might be few staff available to rectify the problem.
 
 It is bad practice to release a major software update prior to a popular vacation period.  If our market opportunity requires the product be released for a vacation period, staffing needs to be setup to accommodate potential problems.
 
-Keeping an eye on trends allows us to schedule work to fix problems before they become widespread amongst our customers.  Different apps have different risk profiles.  For example, a Mobile Device Management API sensitive app should be tested with Beta versions of iOS because at the systems level, subtle changes can have dramatic impact and need to be picked up early.  If we have a graphics sensitive app, then we should keep an eye on new hardware devices, hardware specification updates, and we should have a test suite that exercises the key APIs in the platform we depend upon, so a new OS version ,or hardware platform, can be quickly assessed.
+Keeping an eye on trends allows us to schedule work to fix problems before they become widespread amongst our customers.  Different apps have different risk profiles.  For example, a Mobile Device Management API sensitive app should be tested with Beta versions of iOS because at the systems level, subtle changes can have dramatic impact and need to be picked up early.  If we have a graphics sensitive app, then we should keep an eye on new hardware devices, hardware specification updates, and we should have a test suite that exercises the key APIs in the platform we depend upon, so a new OS version, or hardware platform, can be quickly assessed.
 
 The crash report trend need not be adverse.  If an unusual crash is seen only on older hardware, then we expect the trend to be downwards over time, so it might be possible to de-prioritize such crashes.
 
 ## Stating the problem
 
-The information we have for a crash: the crash report, customer logs, analytic data etc. should be summarised into an OBJECT / DEFECT style short problem statement.  This is often a critical first step in triaging a potentially large number of crash reports.  This gives us a first level approximation of what is at hand and allows managers and other interested parties to get a feel for where we are with product quality, maturity, risks, etc.
+The information we have for a crash: the crash report, customer logs, analytic data etc. should be summarized into an OBJECT / DEFECT style short problem statement.  This is often a critical first step in triaging a potentially large number of crash reports.  This gives us a first level approximation of what is at hand and allows managers and other interested parties to get a feel for where we are with product quality, maturity, risks, etc.
 
-First we state the object; that is the app or product that is failing.  Then, we state the defect; that is the symptom that is undesirable.  It should be as simple as "CameraApp Lite  crashes during when Apple Share button event used".  The problem should be tracked in a bug management system.
+First, we state the object of the problem. That is the app, or product, that is failing.  Then, we state the defect. That is the "undesirable behavior" we see.  It should be as simple as "CameraApp Lite  crashes during when Apple Share button event used".  The problem should be tracked in a bug management system.
 
 ## Specifying the problem
 
@@ -77,7 +81,7 @@ WHERE|Seen|Not Seen
 WHEN|Seen|Not Seen
 EXTENT|Seen|Not Seen
 
-Analytical Troubleshooting works well in a team setting.  Having some domain experts together with people from other disciplines and non-technical staff makes for a good troubleshooting team.  Experts sometimes overlook asking the basic questions, and less informed staff can ask good clarifying questions that further shake out implicit assumptions in the problem specification.  Hot customer problems can cause anxiety, so having the team come together to troubleshoot can ease tensions and build morale.  Sometimes our customer can be invited to participate; that can often speed up the process and shake out even more assumptions.
+Analytical Troubleshooting works well in a team setting.  By having some domain experts, together with people from other disciplines, and non-technical staff, makes for a good troubleshooting team.  Experts sometimes overlook asking the basic questions, and less informed staff could ask good clarifying questions that further shake out implicit assumptions in the problem specification.  Hot customer problems can cause anxiety, so having the team come together to troubleshoot can ease tensions and build morale.  Sometimes our customer can be invited to participate; that can often speed up the process and shake out even more assumptions.
 
 When troubleshooting as a team, we can just use a whiteboard divided up into a grid as above.  Each person can be given a handout that enumerates the questions to ask for each box within the grid.
 
