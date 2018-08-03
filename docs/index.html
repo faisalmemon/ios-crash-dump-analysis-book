@@ -131,6 +131,8 @@
 <li><a href="#example-problem-specifications">Example problem specifications</a><ul>
 <li><a href="#cameraapp-what-is-is-not-example">CameraApp What Is / Is Not Example</a></li>
 <li><a href="#imac-where-is-is-not-example">iMac Where Is / Is Not Example</a></li>
+<li><a href="#database-app-when-is-is-not-example">Database app When Is / Is Not Example</a></li>
+<li><a href="#game-app-extent-is-is-not-example">Game app Extent Is / Is Not Example</a></li>
 </ul></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
@@ -1916,7 +1918,8 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <ul>
 <li>When the problem was noticed, where was it geographically?
 <ul>
-<li>The Apple iMac was sitting in the first floor corner office by the window.</li>
+<li>The Apple iMac was sitting in the first floor corner office by the window.<br />
+</li>
 </ul></li>
 <li>Where is the problem on the thing?
 <ul>
@@ -1928,7 +1931,8 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <ul>
 <li>Where could the thing be when we should have seen the problem but did not?
 <ul>
-<li>The same Apple iMac was fine when it was in the basement, when it was in the IT department staging area, and when it was tested at the Apple factory.</li>
+<li>The same Apple iMac was fine when it was in the basement, when it was in the IT department staging area, and when it was tested at the Apple factory.<br />
+</li>
 </ul></li>
 <li>Where could be problem be on the thing but isn’t?
 <ul>
@@ -1942,6 +1946,94 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>In this example, we have many items in the IS NOT column. Immediately it feels like we can think about good hypotheses as a consequence. Contrast this with the WHAT IS NOT section in the earlier example where we had to do a lot more research before suggesting a hypothesis.</p>
 <p>We notice that only the iMac has a problem, not the printer. If we swap the location of the printer and the iMac, since they are both sensitive electronic products, we could get a good contrast between IS and IS NOT.</p>
 <p>Electronic equipment can only operate within certain specified environmental conditions. Correct voltage, current, temperature, humidity, limited electromagnetic interference, etc. are needed. If we do a site survey with such a requirements specification in mind, we can discover what may be the reason for this location specific issue. We could also try with and without surge protectors since it is known that power spikes can damage electronic equipment.</p>
+<h3 id="database-app-when-is-is-not-example">Database app When Is / Is Not Example</h3>
+<p>Consider the problem “A database app crashes during app review”</p>
+<ul>
+<li>WHEN IS
+<ul>
+<li>When was the problem first noticed?
+<ul>
+<li>App store review team was the first time we found out about the problem.<br />
+</li>
+</ul></li>
+<li>When has the problem been seen again?
+<ul>
+<li>The second time we submitted the app for review.<br />
+</li>
+</ul></li>
+<li>Is there any pattern in the timing?
+<ul>
+<li>The problem happens at the same amount of elapsed time since launch.<br />
+</li>
+</ul></li>
+<li>When in the lifecycle of the thing was the problem first noticed?
+<ul>
+<li>The problem is always during app launch.<br />
+</li>
+</ul></li>
+</ul></li>
+<li>WHEN IS NOT
+<ul>
+<li>When could the problem have been noticed but wasn’t?
+<ul>
+<li>The problem was never seen on the developer environment.<br />
+</li>
+</ul></li>
+<li>When could it have been seen again but wasn’t?
+<ul>
+<li>Subsequent launches of the app we all fine also.<br />
+</li>
+</ul></li>
+<li>When else in the lifecycle of the thing could the problem be seen but wasn’t?
+<ul>
+<li>When the Update button is pressed in the app, or the target database connection string is changed, the problem is not seen.</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>This is clearly an app start up issue. This example highlights that sometimes questions in one area trigger questions and research in another area. How clean the environment is and what configuration state it is launched with are obvious questions for the WHAT IS / IS NOT section.</p>
+<p>One clue is found in the WHEN IS NOT section. Database connection strings can be setup and re-configured. It could be that a null connection string, or absent setting, or first time use setup code is not being triggered. Maybe the code for debug builds has a hack to skip first time use workflows to speed up development of features but such features are not present in the release deployment of the app used for App Store review.</p>
+<h3 id="game-app-extent-is-is-not-example">Game app Extent Is / Is Not Example</h3>
+<p>Consider the problem “AlienGame performance issue/crash during playing different game levels”</p>
+<ul>
+<li>EXTENT IS
+<ul>
+<li>How many things have the problem?
+<ul>
+<li>500 distinct installs of the app, out of 2000 in total.</li>
+</ul></li>
+<li>What is the extent of the defect?
+<ul>
+<li>Sometimes severe; we get a crash. Sometimes mild; we get a dropped frames.</li>
+<li>Sometimes the frame rate stays good the whole time.</li>
+</ul></li>
+<li>How many defects are on the thing?
+<ul>
+<li>5 different types of game rendering thread end up crashing (different occasions)</li>
+</ul></li>
+<li>What is the trend?
+<ul>
+<li>A slight downward trend in number of crashes as our installed base grows.</li>
+</ul></li>
+</ul></li>
+<li>EXTENT IS NOT
+<ul>
+<li>How many things could have the problem but don’t?</li>
+<li>It could be all installs, or no installs that have a problem, but we see 25%.</li>
+<li>What could be the extent of the problem but isn’t?</li>
+<li>We never see the frame rate drop and then improve.</li>
+<li>We never see good installs ever hitting the crash problem or dropped frame problem.</li>
+<li>How many defects could be present but aren’t?</li>
+<li>We never see the main thread crash.</li>
+<li>Of the 6 types of rendering thread, one is special because it has never been seen in a crash or dropped frame rate.</li>
+<li>What could the trend be but isn’t?</li>
+<li>The trend could be the crashes become more commonplace (going above 25%) but we don’t.</li>
+<li>The trend could be the crashes only occur on certain days, but that is not the case.</li>
+</ul></li>
+</ul>
+<p>This example is harder to understand. We need an understanding of the architecture of the app to ask good questions. Some clues appear. There are 6 types of rendering thread, one of whom is fine. Also the main thread is fine. We need to explore the relevant differences between them.</p>
+<p>When we have a problem that does not always happen, one strategy is to think about what could make the problem worse, and thus happen more frequently. Then when we have a candidate solution we can set a confidence threshold for the fix given that we are able to induce the otherwise rare or less frequent problem.</p>
+<p>Another clue is that 25% of installs have the problem. If the problem was due to the population of different hardware and thus varying hardware capability, we could see that about 25% of users are on iPad versus iPhone. However, being strictly a 25% problem without it varying is a marker to tell us maybe something else in the environment is affecting the behaviour of the app. Perhaps during installation, a server is picked in round-robin fashion amongst 4 servers that host the back-end for the game. Furthermore, during development, perhaps the server used is a special development server different from production servers used by our customers. Again, the IS NOT section provides the most revealing clues as to where to look for a potential solution.</p>
+<p>If we did not do Analytic Troubleshooting, in this example the first instinct would be to check for memory leaks, memory pressure, hardware limitations, etc. That kind of analysis can easily consume a week of engineering effort. Whilst it is possible for such issues to result in dropped frames they are only a portion of the problem scenario we are in; they would not explain why exactly 25% of users hit the problem.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
