@@ -89,7 +89,7 @@ We fill out details in the IS column first.  Then we fill out the IS NOT column.
 
 Any potential solution to the problem must entirely explain **all** the IS and IS NOT parts of the problem specification.  Often the first solution we think of only explains part of the pattern of defects seen in the problem specification.  Spending a little more time thinking about potential causes, or doing a little more research can be a good investment of time particularly if it is difficult or time-consuming to try out different candidate solutions.
 
-Quite often, the reason for unexpected behavior is our lack of knowledge about how things ought to be setup and prepared for the Operating System.  Doing research in the technology space around the problem area is critical to do alongside the actual problem solving.  This allows us to discover good questions, and allows us to develop a hypothesis.  There is normally a positive feedback loop here between asking questions, learning about our system, and then discovering new relevant questions.
+Quite often, the reason for unexpected behavior is our lack of knowledge about how things ought to be setup and prepared for the Operating System.  Doing research in the technology space around the problem area is critical to do alongside the actual problem solving.  We need a strong understanding of the requirements specification for the subsystem being exercised during our problem.  This allows us to discover good questions, and allows us to develop a hypothesis.  There is normally a positive feedback loop here between asking questions, learning about our system, and then discovering new relevant questions.
 
 ### Questions to ask
 
@@ -127,7 +127,9 @@ Quite often, the reason for unexpected behavior is our lack of knowledge about h
 
 ## Example problem specifications
 
-### CameraApp What Example
+The problem specification questions seem unusual at first, and awkwardly phrased.  Looking at some practical examples helps explain things more clearly.  Here will use different hypothetical examples to focus in on particular questions but we don't do the full suite of questions on any given example, for the sake of brevity.
+
+### CameraApp What Is / Is Not Example
 
 Consider the problem "The Camera App crashes when the customer presses the Apple Share Button"
 
@@ -144,7 +146,7 @@ Consider the problem "The Camera App crashes when the customer presses the Apple
     - Version 1.4.4 of CameraApp on iOS 9.3.5
     - The background thread never has a crash.
     - Other functions for startup and photo taking work ok.
-    - Taking a photo button works.
+    - Taking a photo button works.  
   - What could be wrong but is not?
     - Other buttons could cause a crash but those work ok.
     - We don't see any system pop up errors.
@@ -153,38 +155,36 @@ To make progress we need to match up and tighten the IS and IS NOT answers.  We 
 
 The obvious thing to find out is if app version 1.4.4 works on iOS 10.x.
 
-iOS 10.x is a major update to iOS 9.3.5, so its specification and requirements on apps will differ.  The next thing to look at is the "What's New" section in the Apple documentation to see at a high level what is new in iOS 10.x over 9.x.  That will prompt us to ask clarifying questions.  If 10.x requires apps to have certain `Info.plist` settings then in our grid above we can explain any `Info.plist` differences in our Camera App, as well as `Info.plist` differences with other Apps known to work on iOS 10.x and 9.x that do sharing.
+iOS 10.x is a major update to iOS 9.3.5, so its specification and requirements on apps will differ.  Therefore, the next thing to look at is the "What's New" section in the Apple documentation to see at a high level what is new in iOS 10.x over 9.x.  That will prompt us to ask clarifying questions.  
+
+If 10.x requires apps to have certain `Info.plist` settings then in our grid above we can explain any `Info.plist` differences in our Camera App, as well as `Info.plist` differences with other Apps known to work on iOS 10.x and 9.x that do sharing.
+
 In this example the share button is broken.  We could get some sample code that uses the share button and see if it crashes in a similar environment to our problem.  We could test the code in a standalone app, as well as grafted into our Camera App to see if it works there.
+
 In this example, we only said system pop ups did not appear.  How about console messages?  We might find that tell us the reason why the system is crashing our app.
 
 A candidate solution would be "iOS 10.x requires different `Info.plist` settings in order for sharing to work otherwise the system is specified to crash our app as we have seen."
 
+### iMac Where Is / Is Not Example
 
-### "What IS/NOT" strategy
+Consider the problem "An iMac crashes regularly needing constant hardware repair."
 
-In our example, we don't know if version 1.4.5 of CameraApp runs on iOS 9.3.5, or if version 1.4.4 of Camera App runs on iOS 10.1, 10.2, 10.3.  Doing such experiments and then filling out the grid with more answers allows us to try and see patterns and develop a hypothesis.  Maybe sharing in iOS 10.x requires our app to data fill an Info.plist or obtain an entitlement or other artefact.
+- WHERE IS
+  - When the problem was noticed, where was it geographically?
+    - The Apple iMac was sitting in the first floor corner office by the window.
+  - Where is the problem on the thing?
+    - The problems were electrical faults on the power supply, the screen, the main system board, and the memory chips (multiple instances of problems).  
+- WHERE IS NOT
+  - Where could the thing be when we should have seen the problem but did not?
+    -  The same Apple iMac was fine when it was in the basement, when it was in the IT department staging area, and when it was tested at the Apple factory.
+  - Where could be problem be on the thing but isn't?
+    - The problem could have been in software but wasn't.
+    - The problem could have been the USB peripherals but wasn't.
+    - The problem could have been electrical faults in the printer, desk lamp, lights or air conditioning but wasn't.
+    - The problem could have been the laptop computer in the desk drawer but wasn't.  
 
-### "Where IS" questions
+In this example, we have many items in the IS NOT column.  Immediately it feels like we can think about good hypotheses as a consequence.  Contrast this with the WHAT IS NOT section in the earlier example where we had to do a lot more research before suggesting a hypothesis.
 
-- When the problem was noticed, where was it geographically?
-- Where is the problem on the thing?
+We notice that only the iMac has a problem, not the printer.  If we swap the location of the printer and the iMac, since they are both sensitive electronic products, we could get a good contrast between IS and IS NOT.
 
-Examples: The Apple iMac was sitting in the first floor corner office by the window.  The problems were electrical faults on the power supply, the screen, the main system board, and the memory chips.
-
-### "Where IS NOT" questions
-
-- Where could the thing be when we should have seen the problem but did not?
-- Where could be problem be on the thing but isn't?
-
-Examples: The same Apple iMac was fine when it was in the basement, when it was in the IT department staging area, and when it was tested at the Apple factory.  The problem could have been in software but wasn't.  The problem could have been the USB peripherals but wasn't.  The problem could have been electrical faults in the printer, desk lamp, lights or air conditioning but wasn't.  The problem could have been the laptop computer in the desk but wasn't.
-
-### "Where IS/NOT" strategy
-
-In the examples given we have an extensive and relevant set of IS and IS NOT answers.  Our ideas would be to move the iMac within the first floor corner office, and to different electrical outlets, and with and without power bar surge protectors would be relevant ways to tighten the IS and IS NOT answers to converge on a hypothesis.
-
-
-
-WHEN|When was the problem first noticed?  When has the problem been seen again? Any pattern? When in the lifecycle of the thing was the problem first noticed?|When could the problem have been noticed but wasn't? When could it have been seen again but wasn't?  When else in the lifecycle of the thing could the problem be seen but wasn't?
-EXTENT|How many things have the problem?  What is the extent of the defect?  How many defects are on the thing?  What is the trend?|How many things could have the problem but don't?  What could be the extent of the problem but isn't?  How many defects could be present but aren't?  What could the trend be but isn't?
-
-At first reading, the above questions seem strangely worded.  The magic in the approach is the IS NOT column because by asking what could be there, but isn't there, reveals something about the nature of what we actually see.
+Electronic equipment can only operate within certain specified environmental conditions.  Correct voltage, current, temperature, humidity, limited electromagnetic interference, etc. are needed.  If we do a site survey with such a requirements specification in mind, we can discover what may be the reason for this location specific issue.  We could also try with and without surge protectors since it is known that power spikes can damage electronic equipment.
