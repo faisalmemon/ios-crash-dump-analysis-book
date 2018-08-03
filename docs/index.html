@@ -2025,17 +2025,23 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <ul>
 <li>It could be all installs, or no installs that have a problem, but we see 25%.</li>
 </ul></li>
-<li>What could be the extent of the problem but isn’t?</li>
+<li>What could be the extent of the problem but isn’t?
+<ul>
 <li>We never see the frame rate drop and then improve.</li>
 <li>We never see good installs ever hitting the crash problem or dropped frame problem.<br />
 </li>
-<li>How many defects could be present but aren’t?</li>
+</ul></li>
+<li>How many defects could be present but aren’t?
+<ul>
 <li>We never see the main thread crash.</li>
 <li>Of the 6 types of rendering thread, one is special because it has never been seen in a crash or dropped frame rate.<br />
 </li>
-<li>What could the trend be but isn’t?</li>
+</ul></li>
+<li>What could the trend be but isn’t?
+<ul>
 <li>The trend could be the crashes become more commonplace (going above 25%) but we don’t.</li>
 <li>The trend could be the crashes only occur on certain days, but that is not the case.</li>
+</ul></li>
 </ul></li>
 </ul>
 <p>This example is harder to understand. We need an understanding of the architecture of the app to ask good questions. Some clues appear. There are 6 types of rendering thread, one of whom is fine. Also the main thread is fine. We need to explore the relevant differences between them.</p>
