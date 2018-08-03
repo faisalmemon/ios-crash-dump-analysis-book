@@ -77,14 +77,59 @@ WHERE|Seen|Not Seen
 WHEN|Seen|Not Seen
 EXTENT|Seen|Not Seen
 
-We fill out details in the IS column first.  Then we fill out the IS NOT column.  Often we notice a big blank area in the grid where we have no data.  That is a signal for us to go and collect more data or do research.  The idea is to make the relevant differences between the IS and IS NOT columns as small as possible.  This allows us to develop a good hypothesis that we can test, or perhaps a number of hypotheses we can prioritize for testing.
+Analytical Troubleshooting works well in a team setting.  Having some domain experts together with people from other disciplines and non-technical staff makes for a good troubleshooting team.  Experts sometimes overlook asking the basic questions, and less informed staff can ask good clarifying questions that further shake out implicit assumptions in the problem specification.  Hot customer problems can cause anxiety, so having the team come together to troubleshoot can ease tensions and build morale.  Sometimes our customer can be invited to participate; that can often speed up the process and shake out even more assumptions.
+
+When troubleshooting as a team, we can just use a whiteboard divided up into a grid as above.  Each person can be given a handout that enumerates the questions to ask for each box within the grid.
+
+On the web site associated with this book are support materials and handouts for Analytic Troubleshooting.  @icdabgithub
+
+When troubleshooting on our own, having a print out of the questions and writing up a grid of answers is a good approach.  It seems that holding a pen gives us more creative freedom when sketching out possible causes to a problem.  It is even better to take ourselves away from our computer at this point.  We can always make notes on items to chase up. Once we have our list of items, immediately it can become clear the best way to spend our time.
+
+We fill out details in the IS column first.  Then we fill out the IS NOT column.  Often we notice a big blank area in the grid where we have no data.  That is a signal for us to go and collect more data or do research.  The idea is to make  _relevant_ differences between the IS and IS NOT columns as small as possible.  This allows us to develop a good hypothesis that we can test, or perhaps a number of hypotheses we can prioritize for testing.
+
+Any potential solution to the problem must entirely explain **all** the IS and IS NOT parts of the problem specification.  Often the first solution we think of only explains part of the pattern of defects seen in the problem specification.  Spending a little more time thinking about potential causes, or doing a little more research can be a good investment of time particularly if it is difficult or time-consuming to try out different candidate solutions.
+
+### Questions to ask
+
+- WHAT IS
+  - What things have a problem?
+  - What is wrong with them?
+- WHAT IS NOT
+  - What things could have a problem but don't?
+  - What could be wrong but is not?
+- WHERE IS
+  - When the problem was noticed, where was it geographically?
+  - Where is the problem on the thing?
+- WHERE IS NOT
+  - Where could the thing be when we should have seen the problem but did not?
+  - Where could be problem be on the thing but isn't?
+- WHEN IS
+  - When was the problem first noticed?
+  - When has the problem been seen again?
+  - Is there any pattern in the timing?
+  - When in the lifecycle of the thing was the problem first noticed?
+- WHEN IS NOT
+  - When could the problem have been noticed but wasn't?
+  - When could it have been seen again but wasn't?
+  - When else in the lifecycle of the thing could the problem be seen but wasn't?
+- EXTENT IS
+  - How many things have the problem?
+  - What is the extent of the defect?
+  - How many defects are on the thing?  
+  - What is the trend?
+- EXTENT IS NOT
+  -  How many things could have the problem but don't?
+  -  What could be the extent of the problem but isn't?
+  -  How many defects could be present but aren't?
+  -  What could the trend be but isn't?
+
 
 ### "What IS" questions
 
 - What things have a problem?
 - What is wrong with them?
 
-Examples: Version 1.4.5 of CameraApp has the problem.  The problem is on iOS 10.1, 10.2, 10.3.  The problem is the main thread.  The function is isAllowedToShare. The Camera App crashing when you press the share button.
+Examples: Version 1.4.5 of CameraApp has the problem.  The problem is on iOS 10.1, 10.2, 10.3.  The problem is the main thread.  The function is isAllowedToShare. The Camera App crashing when the customer presses the share button.
 
 ### "What IS NOT" questions
 
@@ -102,12 +147,19 @@ In our example, we don't know if version 1.4.5 of CameraApp runs on iOS 9.3.5, o
 - When the problem was noticed, where was it geographically?
 - Where is the problem on the thing?
 
+Examples: The Apple iMac was sitting in the first floor corner office by the window.  The problems were electrical faults on the power supply, the screen, the main system board, and the memory chips.
+
 ### "Where IS NOT" questions
 
 - Where could the thing be when we should have seen the problem but did not?
 - Where could be problem be on the thing but isn't?
 
-### "When IS/NOT" strategy
+Examples: The same Apple iMac was fine when it was in the basement, when it was in the IT department staging area, and when it was tested at the Apple factory.  The problem could have been in software but wasn't.  The problem could have been the USB peripherals but wasn't.  The problem could have been electrical faults in the printer, desk lamp, lights or air conditioning but wasn't.  The problem could have been the laptop computer in the desk but wasn't.
+
+### "Where IS/NOT" strategy
+
+In the examples given we have an extensive and relevant set of IS and IS NOT answers.  Our ideas would be to move the iMac within the first floor corner office, and to different electrical outlets, and with and without power bar surge protectors would be relevant ways to tighten the IS and IS NOT answers to converge on a hypothesis.
+
 
 
 WHEN|When was the problem first noticed?  When has the problem been seen again? Any pattern? When in the lifecycle of the thing was the problem first noticed?|When could the problem have been noticed but wasn't? When could it have been seen again but wasn't?  When else in the lifecycle of the thing could the problem be seen but wasn't?
