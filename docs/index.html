@@ -127,8 +127,9 @@
 <li><a href="#stating-the-problem">Stating the problem</a></li>
 <li><a href="#specifying-the-problem">Specifying the problem</a><ul>
 <li><a href="#questions-to-ask">Questions to ask</a></li>
-<li><a href="#what-is-questions">“What IS” questions</a></li>
-<li><a href="#what-is-not-questions">“What IS NOT” questions</a></li>
+</ul></li>
+<li><a href="#example-problem-specifications">Example problem specifications</a><ul>
+<li><a href="#cameraapp-what-example">CameraApp What Example</a></li>
 <li><a href="#what-isnot-strategy">“What IS/NOT” strategy</a></li>
 <li><a href="#where-is-questions">“Where IS” questions</a></li>
 <li><a href="#where-is-not-questions">“Where IS NOT” questions</a></li>
@@ -1808,6 +1809,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>When troubleshooting on our own, having a print out of the questions and writing up a grid of answers is a good approach. It seems that holding a pen gives us more creative freedom when sketching out possible causes to a problem. It is even better to take ourselves away from our computer at this point. We can always make notes on items to chase up. Once we have our list of items, immediately it can become clear the best way to spend our time.</p>
 <p>We fill out details in the IS column first. Then we fill out the IS NOT column. Often we notice a big blank area in the grid where we have no data. That is a signal for us to go and collect more data or do research. The idea is to make <em>relevant</em> differences between the IS and IS NOT columns as small as possible. This allows us to develop a good hypothesis that we can test, or perhaps a number of hypotheses we can prioritize for testing.</p>
 <p>Any potential solution to the problem must entirely explain <strong>all</strong> the IS and IS NOT parts of the problem specification. Often the first solution we think of only explains part of the pattern of defects seen in the problem specification. Spending a little more time thinking about potential causes, or doing a little more research can be a good investment of time particularly if it is difficult or time-consuming to try out different candidate solutions.</p>
+<p>Quite often, the reason for unexpected behavior is our lack of knowledge about how things ought to be setup and prepared for the Operating System. Doing research in the technology space around the problem area is critical to do alongside the actual problem solving. This allows us to discover good questions, and allows us to develop a hypothesis. There is normally a positive feedback loop here between asking questions, learning about our system, and then discovering new relevant questions.</p>
 <h3 id="questions-to-ask">Questions to ask</h3>
 <ul>
 <li>WHAT IS
@@ -1865,18 +1867,46 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <li>What could the trend be but isn’t?</li>
 </ul></li>
 </ul>
-<h3 id="what-is-questions">“What IS” questions</h3>
+<h2 id="example-problem-specifications">Example problem specifications</h2>
+<h3 id="cameraapp-what-example">CameraApp What Example</h3>
+<p>Consider the problem “The Camera App crashes when the customer presses the Apple Share Button”</p>
 <ul>
-<li>What things have a problem?</li>
-<li>What is wrong with them?</li>
-</ul>
-<p>Examples: Version 1.4.5 of CameraApp has the problem. The problem is on iOS 10.1, 10.2, 10.3. The problem is the main thread. The function is isAllowedToShare. The Camera App crashing when the customer presses the share button.</p>
-<h3 id="what-is-not-questions">“What IS NOT” questions</h3>
+<li>WHAT IS
 <ul>
-<li>What things could have a problem but don’t?</li>
-<li>What could be wrong but is not?</li>
+<li>What things have a problem?
+<ul>
+<li>Version 1.4.5 of CameraApp on iOS 10.1, 10.2, 10.3.</li>
+<li>On the main thread.</li>
+<li>Function isAllowedToShare()</li>
+<li>Apple Share Button<br />
+</li>
+</ul></li>
+<li>What is wrong with them?
+<ul>
+<li>The share button causes the app to crash.<br />
+</li>
+</ul></li>
+</ul></li>
+<li>WHAT IS NOT
+<ul>
+<li>What things could have a problem but don’t?
+<ul>
+<li>Version 1.4.4 of CameraApp on iOS 9.3.5</li>
+<li>The background thread never has a crash.</li>
+<li>Other functions for startup and photo taking work ok.</li>
+<li>Taking a photo button works.</li>
+</ul></li>
+<li>What could be wrong but is not?
+<ul>
+<li>Other buttons could cause a crash but those work ok.</li>
+<li>We don’t see any system pop up errors.</li>
+</ul></li>
+</ul></li>
 </ul>
-<p>Examples: Version 1.4.4 of Camera App does not crash on iOS 9.3.5. Taking a photo is not broken.</p>
+<p>To make progress we need to match up and tighten the IS and IS NOT answers. We look at the IS NOT section first as this is often the side of the grid that is fairly empty and requires some thought and inspiration to come up with extra IS NOT answers that are relevant to the IS section.</p>
+<p>The obvious thing to find out is if app version 1.4.4 works on iOS 10.x.</p>
+<p>iOS 10.x is a major update to iOS 9.3.5, so its specification and requirements on apps will differ. The next thing to look at is the “What’s New” section in the Apple documentation to see at a high level what is new in iOS 10.x over 9.x. That will prompt us to ask clarifying questions. If 10.x requires apps to have certain <code>Info.plist</code> settings then in our grid above we can explain any <code>Info.plist</code> differences in our Camera App, as well as <code>Info.plist</code> differences with other Apps known to work on iOS 10.x and 9.x that do sharing. In this example the share button is broken. We could get some sample code that uses the share button and see if it crashes in a similar environment to our problem. We could test the code in a standalone app, as well as grafted into our Camera App to see if it works there. In this example, we only said system pop ups did not appear. How about console messages? We might find that tell us the reason why the system is crashing our app.</p>
+<p>A candidate solution would be “iOS 10.x requires different <code>Info.plist</code> settings in order for sharing to work otherwise the system is specified to crash our app as we have seen.”</p>
 <h3 id="what-isnot-strategy">“What IS/NOT” strategy</h3>
 <p>In our example, we don’t know if version 1.4.5 of CameraApp runs on iOS 9.3.5, or if version 1.4.4 of Camera App runs on iOS 10.1, 10.2, 10.3. Doing such experiments and then filling out the grid with more answers allows us to try and see patterns and develop a hypothesis. Maybe sharing in iOS 10.x requires our app to data fill an Info.plist or obtain an entitlement or other artefact.</p>
 <h3 id="where-is-questions">“Where IS” questions</h3>
