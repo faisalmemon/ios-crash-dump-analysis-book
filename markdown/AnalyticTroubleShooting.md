@@ -89,54 +89,76 @@ We fill out details in the IS column first.  Then we fill out the IS NOT column.
 
 Any potential solution to the problem must entirely explain **all** the IS and IS NOT parts of the problem specification.  Often the first solution we think of only explains part of the pattern of defects seen in the problem specification.  Spending a little more time thinking about potential causes, or doing a little more research can be a good investment of time particularly if it is difficult or time-consuming to try out different candidate solutions.
 
+Quite often, the reason for unexpected behavior is our lack of knowledge about how things ought to be setup and prepared for the Operating System.  Doing research in the technology space around the problem area is critical to do alongside the actual problem solving.  This allows us to discover good questions, and allows us to develop a hypothesis.  There is normally a positive feedback loop here between asking questions, learning about our system, and then discovering new relevant questions.
+
 ### Questions to ask
 
 - WHAT IS
   - What things have a problem?
-  - What is wrong with them?
+  - What is wrong with them?  
 - WHAT IS NOT
   - What things could have a problem but don't?
-  - What could be wrong but is not?
+  - What could be wrong but is not?  
 - WHERE IS
   - When the problem was noticed, where was it geographically?
-  - Where is the problem on the thing?
+  - Where is the problem on the thing?  
 - WHERE IS NOT
   - Where could the thing be when we should have seen the problem but did not?
-  - Where could be problem be on the thing but isn't?
+  - Where could be problem be on the thing but isn't?  
 - WHEN IS
   - When was the problem first noticed?
   - When has the problem been seen again?
   - Is there any pattern in the timing?
-  - When in the lifecycle of the thing was the problem first noticed?
+  - When in the lifecycle of the thing was the problem first noticed?  
 - WHEN IS NOT
   - When could the problem have been noticed but wasn't?
   - When could it have been seen again but wasn't?
-  - When else in the lifecycle of the thing could the problem be seen but wasn't?
+  - When else in the lifecycle of the thing could the problem be seen but wasn't?  
 - EXTENT IS
   - How many things have the problem?
   - What is the extent of the defect?
-  - How many defects are on the thing?  
-  - What is the trend?
+  - How many defects are on the thing?
+  - What is the trend?  
 - EXTENT IS NOT
   -  How many things could have the problem but don't?
   -  What could be the extent of the problem but isn't?
   -  How many defects could be present but aren't?
-  -  What could the trend be but isn't?
+  -  What could the trend be but isn't?  
 
+## Example problem specifications
 
-### "What IS" questions
+### CameraApp What Example
 
-- What things have a problem?
-- What is wrong with them?
+Consider the problem "The Camera App crashes when the customer presses the Apple Share Button"
 
-Examples: Version 1.4.5 of CameraApp has the problem.  The problem is on iOS 10.1, 10.2, 10.3.  The problem is the main thread.  The function is isAllowedToShare. The Camera App crashing when the customer presses the share button.
+- WHAT IS
+  - What things have a problem?
+    - Version 1.4.5 of CameraApp on iOS 10.1, 10.2, 10.3.
+    - On the main thread.
+    - Function isAllowedToShare()
+    - Apple Share Button  
+  - What is wrong with them?
+    - The share button causes the app to crash.  
+- WHAT IS NOT
+  - What things could have a problem but don't?
+    - Version 1.4.4 of CameraApp on iOS 9.3.5
+    - The background thread never has a crash.
+    - Other functions for startup and photo taking work ok.
+    - Taking a photo button works.
+  - What could be wrong but is not?
+    - Other buttons could cause a crash but those work ok.
+    - We don't see any system pop up errors.
 
-### "What IS NOT" questions
+To make progress we need to match up and tighten the IS and IS NOT answers.  We look at the IS NOT section first as this is often the side of the grid that is fairly empty and requires some thought and inspiration to come up with extra IS NOT answers that are relevant to the IS section.
 
-- What things could have a problem but don't?
-- What could be wrong but is not?
+The obvious thing to find out is if app version 1.4.4 works on iOS 10.x.
 
-Examples: Version 1.4.4 of Camera App does not crash on iOS 9.3.5.  Taking a photo is not broken.
+iOS 10.x is a major update to iOS 9.3.5, so its specification and requirements on apps will differ.  The next thing to look at is the "What's New" section in the Apple documentation to see at a high level what is new in iOS 10.x over 9.x.  That will prompt us to ask clarifying questions.  If 10.x requires apps to have certain `Info.plist` settings then in our grid above we can explain any `Info.plist` differences in our Camera App, as well as `Info.plist` differences with other Apps known to work on iOS 10.x and 9.x that do sharing.
+In this example the share button is broken.  We could get some sample code that uses the share button and see if it crashes in a similar environment to our problem.  We could test the code in a standalone app, as well as grafted into our Camera App to see if it works there.
+In this example, we only said system pop ups did not appear.  How about console messages?  We might find that tell us the reason why the system is crashing our app.
+
+A candidate solution would be "iOS 10.x requires different `Info.plist` settings in order for sharing to work otherwise the system is specified to crash our app as we have seen."
+
 
 ### "What IS/NOT" strategy
 
