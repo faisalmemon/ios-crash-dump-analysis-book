@@ -1,0 +1,14 @@
+{"caused_by":"macos","macos_system_state":"running","bug_type":"210","os_version ":"Bridge OS 2.3.1 (15P5064)","timestamp":"2018-06-10 19:29:54.48 +0000","incident_id":"A6E6A47A-C0D1-4548-9846-B839CF4B"}
+{
+  "build" : "Bridge OS 2.3.1 (15P5064)",
+  "product" : "iBridge2,1",
+  "kernel" : "Darwin Kernel Version 17.6.0: Sat May  5 19:46:24 PDT 2018; root:xnu-4570.60.21~23\/RELEASE_ARM64_T8010",
+  "incident" : "A6E6A94A-C0D1-45r8-98r6-B8394CF0B",
+  "crashReporterKey" : "c0dec0dec0dec0dec0dec0dec0dec0dec0de0001",
+  "date" : "2018-06-10 19:29:54.41 +0000",
+  "panicString" : "panic(cpu 0 caller 0xfffffff014aae984): x86 CPU CATERR detected\nDebugger message: panic\nMemory ID: 0xff\nOS version: 15P5064\nKernel version: Darwin Kernel Version 17.6.0: Sat May  5 19:46:24 PDT 2018; root:xnu-4570.60.21~23\/RELEASE_ARM64_T8010\nKernelCache UUID: 82688F4A0C28C17581768EF79472E265\niBoot version: iBoot-4076.60.11\nsecure boot?: YES\nx86 EFI Boot State: 0xd\nx86 System State: 0x0\nx86 Power State: 0x0\nPaniclog version: 9\nKernel slide:     0x000000000e200000\nKernel text base: 0xfffffff015204000\nEpoch Time:        sec       usec\n  Boot    : 0x5b1d599e 0x000b79e9\n  Sleep   : 0x00000000 0x00000000\n  Wake    : 0x00000000 0x00000000\n  Calendar: 0x5b1d7c15 0x0007eca4\n\nPanicked task 0xffffffe0007c85c8: 2461 pages, 166 threads: pid 0: kernel_task\nPanicked thread: 0xffffffe000b72370, backtrace: 0xffffffe01738b530, tid: 337\n\t\t  lr: 0xfffffff0153f96bc  fp: 0xffffffe01738b670\n\t\t  lr: 0xfffffff0152e15f4  fp: 0xffffffe01738b680\n\t\t  lr: 0xfffffff015313a44  fp: 0xffffffe01738b9f0\n\t\t  lr: 0xfffffff015313dd4  fp: 0xffffffe01738ba50\n\t\t  lr: 0xfffffff015315914  fp: 0xffffffe01738ba70\n\t\t  lr: 0xfffffff014aae984  fp: 0xffffffe01738bae0\n\t\t  lr: 0xfffffff014ab0bc8  fp: 0xffffffe01738bb80\n\t\t  lr: 0xfffffff014aae13c  fp: 0xffffffe01738bc00\n\t\t  lr: 0xfffffff014a6daa4  fp: 0xffffffe01738bc30\n\t\t  lr: 0xfffffff0157710b8  fp: 0xffffffe01738bc60\n\t\t  lr: 0xfffffff015770a10  fp: 0xffffffe01738bc90\n\t\t  lr: 0xfffffff0152ec500  fp: 0x0000000000000000\n\n",
+  "panicFlags" : "0x102",
+  "otherString" : "\n** Stackshot Succeeded ** Bytes Traced 76416 **\n",
+  "macOSPanicFlags" : "0x0",
+  "macOSPanicString" : "BAD MAGIC! (flag set in iBoot panic header), no macOS panic log available",
+  "memoryStatus" : {"compressorSize":0,"compressions":0,"decompressions":0,"busyBufferCount":0,"pa geSize":16384,"memoryPressure":false,"memoryPages":{"active":4806,"throttled":0, "fileBacked":7096,"wired":4084,"purgeable":20,"inactive":1389,"free":16903,"spec ulative":2696}},
