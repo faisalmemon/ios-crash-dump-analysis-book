@@ -87,13 +87,14 @@ When troubleshooting as a team, we can just use a whiteboard divided up into a g
 
 On the web site associated with this book are support materials and handouts for Analytic Troubleshooting.  @icdabgithub
 
-When troubleshooting on our own, having a print out of the questions and writing up a grid of answers is a good approach.  It seems that holding a pen gives us more creative freedom when sketching out possible causes to a problem.  It is even better to take ourselves away from our computer at this point.  We can always make notes on items to chase up. Once we have our list of items, immediately it can become clear the best way to spend our time.
+When troubleshooting on our own, having a print out of the questions and writing up a grid of answers is a good approach.
+Being away from our computer, and making a list of items to check is good because it can remove the immediate impulse to dive into details.  Instead, once we have our list of items for follow up, we can prioritize our work.
 
 We fill out details in the IS column first.  Then we fill out the IS NOT column.  Often we notice a big blank area in the grid where we have no data.  That is a signal for us to go and collect more data or do research.  The idea is to make  _relevant_ differences between the IS and IS NOT columns as small as possible.  This allows us to develop a good hypothesis that we can test, or perhaps a number of hypotheses we can prioritize for testing.
 
 Any potential solution to the problem must entirely explain **all** the IS and IS NOT parts of the problem specification.  Often the first solution we think of only explains part of the pattern of defects seen in the problem specification.  Spending a little more time thinking about potential causes, or doing a little more research can be a good investment of time particularly if it is difficult or time-consuming to try out different candidate solutions.
 
-Quite often, the reason for unexpected behavior is our lack of knowledge about how things ought to be setup and prepared for the Operating System.  Doing research in the technology space around the problem area is critical to do alongside the actual problem solving.  We need a strong understanding of the requirements specification for the subsystem being exercised during our problem.  This allows us to discover good questions, and allows us to develop a hypothesis.  There is normally a positive feedback loop here between asking questions, learning about our system, and then discovering new relevant questions.
+We have an understanding of the system specification and its behavior when operating within those constraints.  In practice, the system evolves over time with new software and hardware releases.  Therefore, we must keep going back to primary information sources, and perform experimentation to refine this understanding.  This allows us to discover good questions, and allows us to develop a hypothesis.  There is normally a positive feedback loop here between asking questions, learning about our system, and then discovering new relevant questions.
 
 ### Questions to ask
 
