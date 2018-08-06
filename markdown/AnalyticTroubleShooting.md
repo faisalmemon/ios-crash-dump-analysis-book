@@ -275,8 +275,7 @@ and media reports @appleinsiderimacpro
     - A configuration instance with xboxcontroller removed (less frequent crash)
     - macOS high sierra 10.13.6, with supplemental update, from erase disk and clean install
     - Crash during sleep
-    - `panic: ANS2 Recoverable Panic - assert failed`: for
-`src/drivers/apple/aspcore/nandeng/ans2/pre_nand_eng.c:506`
+    - `panic: ANS2 Recoverable Panic - assert failed`
     - `panic: macOS watchdog detected`
     - `panic: x86 global reset detected`
     - `panic: x86 CPU CATERR detected`
@@ -294,7 +293,7 @@ and media reports @appleinsiderimacpro
   - What things could have a problem but don't?
     - MacBook Pro Mid 2017 models or older MacBook Pros
     - iBridge1,1
-    - MacBookPro booted in Safe Mode
+    - MacBook Pro booted in Safe Mode
     - iPad, iPhone, Apple Watch
   - What could be wrong but is not?  
     - It's never a panic whilst the computer is actively running
@@ -360,15 +359,15 @@ The key first conclusion is that the problem must be the newer T2 chip used in i
 
 The second point is that the volume of failures is low.  The iMac Pro is a low volume computer compared to the MacBook Pro so the problem most likely could have been seen during iMac Pro production but wasn't due to it being a low probability failure.
 
-We see the problem is never during boot up, orderly shutdown, heavy usage.  This is interesting because during hardware validation computers are generally stress tested to shake out problems.  They are not normally left in a sleep state to see if they still perform wake up functions.  So it is possible that there is a testing strategy gap.
+We see the problem is never during boot up, orderly shutdown, heavy usage.  This is interesting because during hardware validation computers are generally stress tested to shake out problems.  They are not normally left in a sleep state to see if they still perform wake up functions.  Therefore, it is possible that there is a testing strategy gap.
 
-Replacement hardware still has the same problem for customers.  This is a helpful sign because it shows the stability of the defect.  Over time Apple will collect computers known to have the problem, so their faulty batch of computers, to do validation on, improves dramatically.
+Replacement hardware still has the same problem for customers.  This is a helpful sign because it shows the stability of the defect.  Over time, Apple will collect computers known to have the problem, so their faulty batch of computers, to do validation on, improves dramatically.
 
 A major gap in the above data set is there are no `pmset` logs.  These provide detailed sleep/wake behavior logs.
 
-A potentially key data point is that a customer, using Safe Mode boot, never saw the problem.  Is there something special about Safe Mode boot in respect of how Bridge OS behaves.
+A potentially key data point is that a customer, using Safe Mode boot, never saw the problem.  Is there something special about Safe Mode boot in respect of how Bridge OS behaves?
 
-It seems that 30 minutes is a key figure in the sleep time.  There may be thresholding involved at 30 minutes, perhaps to go into a deep sleep rather than a quick nap.
+It seems that 30 minutes is a key figure in the sleep time.  There may be a threshold at 30 minutes, perhaps to go into a deep sleep rather than a quick nap.
 
 One strategy for understanding the problem is to make it occur more frequently.  For example, it might be possible to make the computer very quickly go into deep sleep.  That may make the problem appear after say 30 seconds, instead of randomly after 30 minutes of sleeping.
 
@@ -377,9 +376,9 @@ If the problem can be made more frequent then an automated system test could be 
 We do not have the source code of the Bridge OS.  It would be interesting to discern the different between the three crashes seen.
 For example, sometimes there is a case statement of 20 possible faults, and only one is being entered.  This reveals something about WHERE IS NOT in the problem specification.
 
-Also, we do not have machine fault register information.  When a low level problem occurs, the processor documentation will allow the system architect to look up exactly the kind of failure (timeouts, parity errors, etc.)  In our problem specification, we need to be more precise WHERE the problem is.  The BridgeOS may just be a canary telling us of a problem elsewhere.  Given that some customers have had a full hardware replacement and still see the problem, it indicates a software problem.
+We do not have machine fault register information.  When a low level problem occurs, the processor documentation will allow the system architect to look up exactly the kind of failure (timeouts, parity errors, etc.)  In our problem specification, we need to be more precise WHERE the problem is.  The BridgeOS may just be a canary telling us of a problem elsewhere.  Some customers have received a full hardware replacement, but still see the problem.  It indicates a software problem.
 
 Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. @intelrob
-So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.  This is just a theory with the available data but would match the pattern in the above problem specification.
+So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.
 
 An approach would be to follow the Intel debugging guide @intelrob.  It has many good suggestions.  When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.
