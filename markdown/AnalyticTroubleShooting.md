@@ -256,10 +256,11 @@ If we did not do Analytic Troubleshooting, in this example the first instinct wo
 
 ## The 2018 MacBook Pro T2 Problem
 
-This section describes a now fixed problem with 2018 MacBook Pro computers which were crashing.
-The narrative has been built up from discussion group postings of affected users. @macbookproT2
+This section describes a problem with 2018 MacBook Pro computers that were crashing.
+The narrative has been built up from discussion group postings of affected users @macbookproT2
+and media reports @appleinsiderimacpro
 
-**Problem Description:** 2018 MacBook Pro computers crash with a Bridge OS Error.
+**Problem Description:** 2018 MacBook Pro computers crash during sleep with a Bridge OS Error.
 
 - WHAT IS
   - What things have a problem?
@@ -269,14 +270,21 @@ The narrative has been built up from discussion group postings of affected users
     - iBridge2,3
     - A configuration instance with USB devices connected
     - A configuration instance with no USB devices, waking from sleep
+    - A configuration instance with no USB devices but the power adapter, waking from sleep
     - A configuration instance with legacy kernel extensions (xboxcontroller)
     - A configuration instance with xboxcontroller removed (less frequent crash)
+    - macOS high sierra 10.13.6, with supplemental update, from erase disk and clean install
     - Crash during sleep
     - `panic: ANS2 Recoverable Panic - assert failed`: for
 `src/drivers/apple/aspcore/nandeng/ans2/pre_nand_eng.c:506`
     - `panic: macOS watchdog detected`
     - `panic: x86 global reset detected`
-    - DiskUtility->First Aid crypto_val errors  
+    - `panic: x86 CPU CATERR detected`
+    - An instance with DiskUtility->First Aid crypto_val errors
+    - An instance with erased disk to remove crypto_val errors
+    - Fully replaced MacBook Pro hardware with same customer configuration
+    - Mid 2018 MacBook Pro with Power Nap disabled
+    - Not touching the Touch Bar still has the sleep/wake problem
   - What is wrong with them?
     - System restarts following a Bridge OS panic
     - Computer gets hot
@@ -284,33 +292,94 @@ The narrative has been built up from discussion group postings of affected users
     - Peripherals are woken up spuriously
 - WHAT IS NOT
   - What things could have a problem but don't?
-    - MacBook Pro Mid 2017 models
+    - MacBook Pro Mid 2017 models or older MacBook Pros
     - iBridge1,1
     - MacBookPro booted in Safe Mode
+    - iPad, iPhone, Apple Watch
   - What could be wrong but is not?  
+    - It's never a panic whilst the computer is actively running
+    - It's never a problem during booting
+    - It's never a problem when the system is being shutdown by user
 - WHERE IS
   - When the problem was noticed, where was it geographically?
-  - Where is the problem on the thing?  
+    - At customer premises
+    - On desks, and in laptop bags
+  - Where is the problem on the thing?
+    - In the T2 chip (watchOS-derived) BridgeOS operating system software
 - WHERE IS NOT
   - Where could the thing be when we should have seen the problem but did not?
+    - Apple hardware validation facilities (presumably - only Apple knows)
   - Where could be problem be on the thing but isn't?  
+    - On the main CPU/board
+    - On boot loaders
+    - On Multimedia chips and Network chips (these have their own OS)
 - WHEN IS
   - When was the problem first noticed?
     - After about 30 minutes of sleep, then waking the computer
   - When has the problem been seen again?
+    - Randomly, say 5 instances in a day or week
   - Is there any pattern in the timing?
-  - When in the lifecycle of the thing was the problem first noticed?  
+    - Always after a sleep, after at least around 30 minutes
+  - When in the lifecycle of the thing was the problem first noticed?
+    - After customer purchase and installation of software
+    - After re-installs
+    - After re-erase and install
 - WHEN IS NOT
   - When could the problem have been noticed but wasn't?
+    - At Apple assembly and validation facilities (presumably - only Apple knows)
   - When could it have been seen again but wasn't?
-  - When else in the lifecycle of the thing could the problem be seen but wasn't?  
+    - At returns department for handed back equipment (presumably - only Apple knows)
+  - When else in the lifecycle of the thing could the problem be seen but wasn't?
+    - Never during active use of the computer
 - EXTENT IS
   - How many things have the problem?
+    - By indirect measurement, amongst iMac Pro service returns, 4 of 103 see the problem
   - What is the extent of the defect?
+    - Kernel panic, likely only one type of panic, maybe three
   - How many defects are on the thing?
-  - What is the trend?  
+    - Single instance kernel panic failure
+  - What is the trend?
+    - Repeats again after a random future sleep period, sometimes less frequent without peripherals
 - EXTENT IS NOT
   -  How many things could have the problem but don't?
+    - There is a boot loader, main Operating System, and other electronic parts which never see a problem
   -  What could be the extent of the problem but isn't?
+    - It could be sustained panic after panic crashes but this is not seen.
+    - It could be a one time panic per machine, but panics are seen again
   -  How many defects could be present but aren't?
-  -  What could the trend be but isn't?  
+    - It could be warning or informational messages but we instead only have a panic
+  -  What could the trend be but isn't?
+    - The problem for each customer is randomly frequent but never increasing or decreasing
+
+
+### Analysis of failures
+
+The above information resembles what we often see in hard problems.  There is a lot of data in the WHAT IS column.
+
+The key first conclusion is that the problem must be the newer T2 chip used in iMac Pro and MacBook Pro.  The pattern of defects and the actual panic (in Bridge OS that runs on the T2 chip) make this clear.
+
+The second point is that the volume of failures is low.  The iMac Pro is a low volume computer compared to the MacBook Pro so the problem most likely could have been seen during iMac Pro production but wasn't due to it being a low probability failure.
+
+We see the problem is never during boot up, orderly shutdown, heavy usage.  This is interesting because during hardware validation computers are generally stress tested to shake out problems.  They are not normally left in a sleep state to see if they still perform wake up functions.  So it is possible that there is a testing strategy gap.
+
+Replacement hardware still has the same problem for customers.  This is a helpful sign because it shows the stability of the defect.  Over time Apple will collect computers known to have the problem, so their faulty batch of computers, to do validation on, improves dramatically.
+
+A major gap in the above data set is there are no `pmset` logs.  These provide detailed sleep/wake behavior logs.
+
+A potentially key data point is that a customer, using Safe Mode boot, never saw the problem.  Is there something special about Safe Mode boot in respect of how Bridge OS behaves.
+
+It seems that 30 minutes is a key figure in the sleep time.  There may be thresholding involved at 30 minutes, perhaps to go into a deep sleep rather than a quick nap.
+
+One strategy for understanding the problem is to make it occur more frequently.  For example, it might be possible to make the computer very quickly go into deep sleep.  That may make the problem appear after say 30 seconds, instead of randomly after 30 minutes of sleeping.
+
+If the problem can be made more frequent then an automated system test could be written.  Then any fix to the Bridge OS would have a robust test suite to validate it.
+
+We do not have the source code of the Bridge OS.  It would be interesting to discern the different between the three crashes seen.
+For example, sometimes there is a case statement of 20 possible faults, and only one is being entered.  This reveals something about WHERE IS NOT in the problem specification.
+
+Also, we do not have machine fault register information.  When a low level problem occurs, the processor documentation will allow the system architect to look up exactly the kind of failure (timeouts, parity errors, etc.)  In our problem specification, we need to be more precise WHERE the problem is.  The BridgeOS may just be a canary telling us of a problem elsewhere.  Given that some customers have had a full hardware replacement and still see the problem, it indicates a software problem.
+
+Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. @intelrob
+So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.  This is just a theory with the available data but would match the pattern in the above problem specification.
+
+An approach would be to follow the Intel debugging guide @intelrob.  It has many good suggestions.  When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.
