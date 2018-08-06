@@ -253,3 +253,64 @@ When we have a problem that does not always happen, one strategy is to think abo
 Another clue is that 25% of installs have the problem.  If the problem was due to the population of different hardware and thus varying hardware capability, we could see that about 25% of users are on iPad versus iPhone.  However, being strictly a 25% problem without it varying is a marker to tell us maybe something else in the environment is affecting the behavior of the app.  Perhaps during installation, a server is picked in round-robin fashion amongst four servers that host the back-end for the game.  Furthermore, during development, perhaps the server used is a special development server different from production servers used by our customers.  Again, the IS NOT section provides the most revealing clues as to where to look for a potential solution.
 
 If we did not do Analytic Troubleshooting, in this example the first instinct would be to check for memory leaks, memory pressure, hardware limitations, etc.  That kind of analysis can easily consume a week of engineering effort.  Whilst it is possible for such issues to result in dropped frames that would not fully explain the pattern of defects we see; they would not explain why exactly 25% of users hit the problem.
+
+## The 2018 MacBook Pro T2 Problem
+
+This section describes a now fixed problem with 2018 MacBook Pro computers which were crashing.
+The narrative has been built up from discussion group postings of affected users. @macbookproT2
+
+**Problem Description:** 2018 MacBook Pro computers crash with a Bridge OS Error.
+
+- WHAT IS
+  - What things have a problem?
+    - MacBook Pro Mid 2018 (13-inch, 15-inch)
+    - iMac Pro
+    - iBridge2,1
+    - iBridge2,3
+    - A configuration instance with USB devices connected
+    - A configuration instance with no USB devices, waking from sleep
+    - A configuration instance with legacy kernel extensions (xboxcontroller)
+    - A configuration instance with xboxcontroller removed (less frequent crash)
+    - Crash during sleep
+    - `panic: ANS2 Recoverable Panic - assert failed`: for
+`src/drivers/apple/aspcore/nandeng/ans2/pre_nand_eng.c:506`
+    - `panic: macOS watchdog detected`
+    - `panic: x86 global reset detected`
+    - DiskUtility->First Aid crypto_val errors  
+  - What is wrong with them?
+    - System restarts following a Bridge OS panic
+    - Computer gets hot
+    - Disk checking fails
+    - Peripherals are woken up spuriously
+- WHAT IS NOT
+  - What things could have a problem but don't?
+    - MacBook Pro Mid 2017 models
+    - iBridge1,1
+    - MacBookPro booted in Safe Mode
+  - What could be wrong but is not?  
+- WHERE IS
+  - When the problem was noticed, where was it geographically?
+  - Where is the problem on the thing?  
+- WHERE IS NOT
+  - Where could the thing be when we should have seen the problem but did not?
+  - Where could be problem be on the thing but isn't?  
+- WHEN IS
+  - When was the problem first noticed?
+    - After about 30 minutes of sleep, then waking the computer
+  - When has the problem been seen again?
+  - Is there any pattern in the timing?
+  - When in the lifecycle of the thing was the problem first noticed?  
+- WHEN IS NOT
+  - When could the problem have been noticed but wasn't?
+  - When could it have been seen again but wasn't?
+  - When else in the lifecycle of the thing could the problem be seen but wasn't?  
+- EXTENT IS
+  - How many things have the problem?
+  - What is the extent of the defect?
+  - How many defects are on the thing?
+  - What is the trend?  
+- EXTENT IS NOT
+  -  How many things could have the problem but don't?
+  -  What could be the extent of the problem but isn't?
+  -  How many defects could be present but aren't?
+  -  What could the trend be but isn't?  
