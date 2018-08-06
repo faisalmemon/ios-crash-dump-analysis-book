@@ -134,7 +134,9 @@
 <li><a href="#database-app-when-is-is-not-example">Database app When Is / Is Not Example</a></li>
 <li><a href="#game-app-extent-is-is-not-example">Game app Extent Is / Is Not Example</a></li>
 </ul></li>
-<li><a href="#the-2018-macbook-pro-t2-problem">The 2018 MacBook Pro T2 Problem</a></li>
+<li><a href="#the-2018-macbook-pro-t2-problem">The 2018 MacBook Pro T2 Problem</a><ul>
+<li><a href="#analysis-of-failures">Analysis of failures</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
@@ -2052,8 +2054,8 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>Another clue is that 25% of installs have the problem. If the problem was due to the population of different hardware and thus varying hardware capability, we could see that about 25% of users are on iPad versus iPhone. However, being strictly a 25% problem without it varying is a marker to tell us maybe something else in the environment is affecting the behavior of the app. Perhaps during installation, a server is picked in round-robin fashion amongst four servers that host the back-end for the game. Furthermore, during development, perhaps the server used is a special development server different from production servers used by our customers. Again, the IS NOT section provides the most revealing clues as to where to look for a potential solution.</p>
 <p>If we did not do Analytic Troubleshooting, in this example the first instinct would be to check for memory leaks, memory pressure, hardware limitations, etc. That kind of analysis can easily consume a week of engineering effort. Whilst it is possible for such issues to result in dropped frames that would not fully explain the pattern of defects we see; they would not explain why exactly 25% of users hit the problem.</p>
 <h2 id="the-2018-macbook-pro-t2-problem">The 2018 MacBook Pro T2 Problem</h2>
-<p>This section describes a now fixed problem with 2018 MacBook Pro computers which were crashing. The narrative has been built up from discussion group postings of affected users. <span class="citation" data-cites="macbookproT2">(“2018 Macbook Pros Bridge Os Error” n.d.)</span></p>
-<p><strong>Problem Description:</strong> 2018 MacBook Pro computers crash with a Bridge OS Error.</p>
+<p>This section describes a problem with 2018 MacBook Pro computers that were crashing. The narrative has been built up from discussion group postings of affected users <span class="citation" data-cites="macbookproT2">(“2018 Macbook Pros Bridge Os Error” 2018)</span> and media reports <span class="citation" data-cites="appleinsiderimacpro">(“Apple’s T2 Chip May Be Behind iMac Pro, Macbook Pro Crashes” 2018)</span></p>
+<p><strong>Problem Description:</strong> 2018 MacBook Pro computers crash during sleep with a Bridge OS Error.</p>
 <ul>
 <li>WHAT IS
 <ul>
@@ -2062,67 +2064,156 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <li>MacBook Pro Mid 2018 (13-inch, 15-inch)</li>
 <li>iMac Pro</li>
 <li>iBridge2,1</li>
+<li>iBridge2,3</li>
 <li>A configuration instance with USB devices connected</li>
 <li>A configuration instance with no USB devices, waking from sleep</li>
+<li>A configuration instance with no USB devices but the power adapter, waking from sleep</li>
+<li>A configuration instance with legacy kernel extensions (xboxcontroller)</li>
+<li>A configuration instance with xboxcontroller removed (less frequent crash)</li>
+<li>macOS high sierra 10.13.6, with supplemental update, from erase disk and clean install</li>
 <li>Crash during sleep</li>
-<li>panic: ANS2 Recoverable Panic - assert failed: [11993], src/drivers/apple/aspcore/nandeng/ans2/pre_nand_eng.c:506</li>
+<li><code>panic: ANS2 Recoverable Panic - assert failed</code>: for <code>src/drivers/apple/aspcore/nandeng/ans2/pre_nand_eng.c:506</code></li>
+<li><code>panic: macOS watchdog detected</code></li>
+<li><code>panic: x86 global reset detected</code></li>
+<li><code>panic: x86 CPU CATERR detected</code></li>
+<li>An instance with DiskUtility-&gt;First Aid crypto_val errors</li>
+<li>An instance with erased disk to remove crypto_val errors</li>
+<li>Fully replaced MacBook Pro hardware with same customer configuration</li>
+<li>Mid 2018 MacBook Pro with Power Nap disabled</li>
+<li>Not touching the Touch Bar still has the sleep/wake problem</li>
 </ul></li>
-<li>What is wrong with them?<br />
-</li>
+<li>What is wrong with them?
+<ul>
+<li>System restarts following a Bridge OS panic</li>
+<li>Computer gets hot</li>
+<li>Disk checking fails</li>
+<li>Peripherals are woken up spuriously</li>
+</ul></li>
 </ul></li>
 <li>WHAT IS NOT
 <ul>
 <li>What things could have a problem but don’t?
 <ul>
-<li>MacBook Pro Mid 2017 models</li>
+<li>MacBook Pro Mid 2017 models or older MacBook Pros</li>
 <li>iBridge1,1</li>
+<li>MacBookPro booted in Safe Mode</li>
+<li>iPad, iPhone, Apple Watch</li>
 </ul></li>
-<li>What could be wrong but is not?<br />
-</li>
+<li>What could be wrong but is not?
+<ul>
+<li>It’s never a panic whilst the computer is actively running</li>
+<li>It’s never a problem during booting</li>
+<li>It’s never a problem when the system is being shutdown by user</li>
+</ul></li>
 </ul></li>
 <li>WHERE IS
 <ul>
-<li>When the problem was noticed, where was it geographically?</li>
-<li>Where is the problem on the thing?<br />
-</li>
+<li>When the problem was noticed, where was it geographically?
+<ul>
+<li>At customer premises</li>
+<li>On desks, and in laptop bags</li>
+</ul></li>
+<li>Where is the problem on the thing?
+<ul>
+<li>In the T2 chip (watchOS-derived) BridgeOS operating system software</li>
+</ul></li>
 </ul></li>
 <li>WHERE IS NOT
 <ul>
-<li>Where could the thing be when we should have seen the problem but did not?</li>
-<li>Where could be problem be on the thing but isn’t?<br />
-</li>
+<li>Where could the thing be when we should have seen the problem but did not?
+<ul>
+<li>Apple hardware validation facilities (presumably - only Apple knows)</li>
+</ul></li>
+<li>Where could be problem be on the thing but isn’t?
+<ul>
+<li>On the main CPU/board</li>
+<li>On boot loaders</li>
+<li>On Multimedia chips and Network chips (these have their own OS)</li>
+</ul></li>
 </ul></li>
 <li>WHEN IS
 <ul>
-<li>When was the problem first noticed?</li>
-<li>When has the problem been seen again?</li>
-<li>Is there any pattern in the timing?</li>
-<li>When in the lifecycle of the thing was the problem first noticed?<br />
-</li>
+<li>When was the problem first noticed?
+<ul>
+<li>After about 30 minutes of sleep, then waking the computer</li>
+</ul></li>
+<li>When has the problem been seen again?
+<ul>
+<li>Randomly, say 5 instances in a day or week</li>
+</ul></li>
+<li>Is there any pattern in the timing?
+<ul>
+<li>Always after a sleep, after at least around 30 minutes</li>
+</ul></li>
+<li>When in the lifecycle of the thing was the problem first noticed?
+<ul>
+<li>After customer purchase and installation of software</li>
+<li>After re-installs</li>
+<li>After re-erase and install</li>
+</ul></li>
 </ul></li>
 <li>WHEN IS NOT
 <ul>
-<li>When could the problem have been noticed but wasn’t?</li>
-<li>When could it have been seen again but wasn’t?</li>
-<li>When else in the lifecycle of the thing could the problem be seen but wasn’t?<br />
-</li>
+<li>When could the problem have been noticed but wasn’t?
+<ul>
+<li>At Apple assembly and validation facilities (presumably - only Apple knows)</li>
+</ul></li>
+<li>When could it have been seen again but wasn’t?
+<ul>
+<li>At returns department for handed back equipment (presumably - only Apple knows)</li>
+</ul></li>
+<li>When else in the lifecycle of the thing could the problem be seen but wasn’t?
+<ul>
+<li>Never during active use of the computer</li>
+</ul></li>
 </ul></li>
 <li>EXTENT IS
 <ul>
-<li>How many things have the problem?</li>
-<li>What is the extent of the defect?</li>
-<li>How many defects are on the thing?</li>
-<li>What is the trend?<br />
-</li>
+<li>How many things have the problem?
+<ul>
+<li>By indirect measurement, amongst iMac Pro service returns, 4 of 103 see the problem</li>
+</ul></li>
+<li>What is the extent of the defect?
+<ul>
+<li>Kernel panic, likely only one type of panic, maybe three</li>
+</ul></li>
+<li>How many defects are on the thing?
+<ul>
+<li>Single instance kernel panic failure</li>
+</ul></li>
+<li>What is the trend?
+<ul>
+<li>Repeats again after a random future sleep period, sometimes less frequent without peripherals</li>
+</ul></li>
 </ul></li>
 <li>EXTENT IS NOT
 <ul>
 <li>How many things could have the problem but don’t?</li>
+<li>There is a boot loader, main Operating System, and other electronic parts which never see a problem</li>
 <li>What could be the extent of the problem but isn’t?</li>
+<li>It could be sustained panic after panic crashes but this is not seen.</li>
+<li>It could be a one time panic per machine, but panics are seen again</li>
 <li>How many defects could be present but aren’t?</li>
+<li>It could be warning or informational messages but we instead only have a panic</li>
 <li>What could the trend be but isn’t?</li>
+<li>The problem for each customer is randomly frequent but never increasing or decreasing</li>
 </ul></li>
 </ul>
+<h3 id="analysis-of-failures">Analysis of failures</h3>
+<p>The above information resembles what we often see in hard problems. There is a lot of data in the WHAT IS column.</p>
+<p>The key first conclusion is that the problem must be the newer T2 chip used in iMac Pro and MacBook Pro. The pattern of defects and the actual panic (in Bridge OS that runs on the T2 chip) make this clear.</p>
+<p>The second point is that the volume of failures is low. The iMac Pro is a low volume computer compared to the MacBook Pro so the problem most likely could have been seen during iMac Pro production but wasn’t due to it being a low probability failure.</p>
+<p>We see the problem is never during boot up, orderly shutdown, heavy usage. This is interesting because during hardware validation computers are generally stress tested to shake out problems. They are not normally left in a sleep state to see if they still perform wake up functions. So it is possible that there is a testing strategy gap.</p>
+<p>Replacement hardware still has the same problem for customers. This is a helpful sign because it shows the stability of the defect. Over time Apple will collect computers known to have the problem, so their faulty batch of computers, to do validation on, improves dramatically.</p>
+<p>A major gap in the above data set is there are no <code>pmset</code> logs. These provide detailed sleep/wake behavior logs.</p>
+<p>A potentially key data point is that a customer, using Safe Mode boot, never saw the problem. Is there something special about Safe Mode boot in respect of how Bridge OS behaves.</p>
+<p>It seems that 30 minutes is a key figure in the sleep time. There may be thresholding involved at 30 minutes, perhaps to go into a deep sleep rather than a quick nap.</p>
+<p>One strategy for understanding the problem is to make it occur more frequently. For example, it might be possible to make the computer very quickly go into deep sleep. That may make the problem appear after say 30 seconds, instead of randomly after 30 minutes of sleeping.</p>
+<p>If the problem can be made more frequent then an automated system test could be written. Then any fix to the Bridge OS would have a robust test suite to validate it.</p>
+<p>We do not have the source code of the Bridge OS. It would be interesting to discern the different between the three crashes seen. For example, sometimes there is a case statement of 20 possible faults, and only one is being entered. This reveals something about WHERE IS NOT in the problem specification.</p>
+<p>Also, we do not have machine fault register information. When a low level problem occurs, the processor documentation will allow the system architect to look up exactly the kind of failure (timeouts, parity errors, etc.) In our problem specification, we need to be more precise WHERE the problem is. The BridgeOS may just be a canary telling us of a problem elsewhere. Given that some customers have had a full hardware replacement and still see the problem, it indicates a software problem.</p>
+<p>Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span> So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating. This is just a theory with the available data but would match the pattern in the above problem specification.</p>
+<p>An approach would be to follow the Intel debugging guide <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span>. It has many good suggestions. When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
@@ -2231,7 +2322,7 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-macbookproT2">
-<p>“2018 Macbook Pros Bridge Os Error.” n.d. Accessed 2018.</p>
+<p>“2018 Macbook Pros Bridge Os Error.” 2018. <a href="https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/" class="uri">https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/</a>.</p>
 </div>
 <div id="ref-kepnertregoe">
 <p>“Analytic Troubleshooting.” 2018. <a href="https://www.kepner-tregoe.com" class="uri">https://www.kepner-tregoe.com</a>.</p>
@@ -2239,8 +2330,14 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <div id="ref-tn2151">
 <p>“Apple Crash Dump Technote 2151.” 2018. <a href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2151/_index.html</a>.</p>
 </div>
+<div id="ref-appleinsiderimacpro">
+<p>“Apple’s T2 Chip May Be Behind iMac Pro, Macbook Pro Crashes.” 2018. <a href="https://appleinsider.com/articles/18/07/26/apples-t2-chip-could-be-behind-small-number-of-crashes-in-imac-pro-new-macbook-pro" class="uri">https://appleinsider.com/articles/18/07/26/apples-t2-chip-could-be-behind-small-number-of-crashes-in-imac-pro-new-macbook-pro</a>.</p>
+</div>
 <div id="ref-tn2123">
 <p>“CrashReport Technote 2123.” 2004. <a href="https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html</a>.</p>
+</div>
+<div id="ref-intelrob">
+<p>“Debugging Processor Reorder Buffer Timeout: Guide.” 2018. <a href="https://www.intel.co.uk/content/www/uk/en/embedded/training/rob-timeout-debug-guide-paper.html?wapkw=caterr" class="uri">https://www.intel.co.uk/content/www/uk/en/embedded/training/rob-timeout-debug-guide-paper.html?wapkw=caterr</a>.</p>
 </div>
 <div id="ref-apple-sysdiag">
 <p>“Diagnostic Profiles and Logs.” 2018. <a href="https://developer.apple.com/bug-reporting/profiles-and-logs/" class="uri">https://developer.apple.com/bug-reporting/profiles-and-logs/</a>.</p>
