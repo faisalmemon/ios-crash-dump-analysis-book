@@ -138,6 +138,11 @@
 <li><a href="#analysis-of-failures">Analysis of failures</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#unwrapping-a-nil-optional">Unwrapping a Nil Optional</a><ul>
+<li><a href="#ios-uikit-outlets">iOS UIKit Outlets</a></li>
+<li><a href="#ownership-rules">Ownership rules</a></li>
+<li><a href="#crash-report-for-unwrapped-nil-optionals">Crash Report for unwrapped nil optionals</a></li>
+</ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
 <li><a href="#the-crash-report-1">The Crash report</a></li>
@@ -2217,6 +2222,68 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>We do not have machine fault register information. When a low level problem occurs, the processor documentation will allow the system architect to look up exactly the kind of failure (timeouts, parity errors, etc.) In our problem specification, we need to be more precise WHERE the problem is. The BridgeOS may just be a canary telling us of a problem elsewhere. Some customers have received a full hardware replacement, but still see the problem. It indicates a software problem.</p>
 <p>Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span> So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.</p>
 <p>An approach would be to follow the Intel debugging guide <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span>. It has many good suggestions. When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.</p>
+<h1 id="unwrapping-a-nil-optional">Unwrapping a Nil Optional</h1>
+<p>The Swift Programming Language is a significant step forward towards writing safe-by-default code.</p>
+<p>A central concept within Swift is explicitly handling optionality. In type declarations, a trailing <code>?</code> indicates the value could absent as represented by <code>nil</code>. These types need explicit unwrapping to access the value they store.</p>
+<p>When a value is not available at object initialization time, but later in the lifecycle of the object, then a trailing <code>!</code> is used for types that hold the value. This means the value can be treated in code without the need for explicit unwrapping. It is called an implicitly unwrapped optional. Note, from Swift 4.2, at the implementation level, it is an optional with an annotation that indicates it can be used without explicit unwrapping.</p>
+<p>This chapter discusses crashes that can arise through the faulty use of such optionals. We use the <code>icdab_wrap</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<h2 id="ios-uikit-outlets">iOS UIKit Outlets</h2>
+<p>It is a standard paradigm to use a storyboard to declare the User Interface, and associate <code>UIViews</code> with <code>UIViewControllers</code>.</p>
+<p>When the user interface updates, such as when launching our app or performing a segue between scenes, the storyboard instantiates supporting <code>UIViewControllers</code> and sets up fields in our <code>UIViewController</code> objects to <code>UIViews</code> that have been created.</p>
+<p>We will have a field declaration automatically generated when we link the storyboard to our controller code such as:</p>
+<pre><code>@IBOutlet weak var planetImageOutlet: UIImageView!</code></pre>
+<h2 id="ownership-rules">Ownership rules</h2>
+<p>If we did not explicitly create an object, and we did not have ownership passed to us, we should not shorten the lifecycle of the object we are passed.</p>
+<p>In our <code>icdab_wrap</code> example we have a parent screen, and you can tap into a child screen that has a large image of Pluto.<br />
+The image is downloaded from the Internet. When that screen is left, and the original screen visited the code tries to reduce memory by letting go of the memory associated with the image.</p>
+<p>There is a separate argument about whether such a image clean up strategy is helpful or desirable. A profiling tool should be used to inform us when to try to economise our memory footprint.</p>
+<p>Our code has a bug:</p>
+<pre><code>override func viewWillDisappear(_ animated: Bool) {
+        planetImageOutlet = nil // BUG; should be planetImageOutlet.image = nil
+    }</code></pre>
+<p>Instead of setting the image of the image view to nil, we set the image view itself to <code>nil</code></p>
+<p>This means when we re-visit the Pluto scene, we crash when trying to store the downloaded image since our <code>planetImageOutlet</code> is <code>nil</code></p>
+<pre><code>func imageDownloaded(_ image: UIImage) {
+        self.planetImageOutlet.image = image
+    }</code></pre>
+<p>This code will crash, since it implicitly unwraps the optional which has been set to <code>nil</code>.</p>
+<h2 id="crash-report-for-unwrapped-nil-optionals">Crash Report for unwrapped nil optionals</h2>
+<p>When we get a crash from the swift runtime force unwrapping a nil optional we see:</p>
+<pre><code>Exception Type:  EXC_BREAKPOINT (SIGTRAP)
+Exception Codes: 0x0000000000000001, 0x00000001011f7ff8
+Termination Signal: Trace/BPT trap: 5
+Termination Reason: Namespace SIGNAL, Code 0x5
+Terminating Process: exc handler [0]
+Triggered by Thread:  0</code></pre>
+<p>The item to notice is the Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code></p>
+<p>We see that the runtime environment raised a breakpoint exception because it saw a problem. This is identified by seeing the swift core library at the top of the stack.</p>
+<pre><code>Thread 0 name:  Dispatch queue: com.apple.main-thread
+Thread 0 Crashed:
+0   libswiftCore.dylib              0x00000001011f7ff8 0x101050000 + 1736696
+1   libswiftCore.dylib              0x00000001011f7ff8 0x101050000 + 1736696
+2   libswiftCore.dylib              0x00000001010982b8 0x101050000 + 295608
+3   icdab_wrap                      0x0000000100d3d404
+ PlanetViewController.imageDownloaded(_:)
+  + 37892 (PlanetViewController.swift:45)
+</code></pre>
+<p>Another subtle cue that there is an uninitialized pointer is that a machine registers has the special value <code>0xbaddc0dedeadbead</code>. This is set by the compiler to indicate an uninitialized pointer:</p>
+<pre><code>Thread 0 crashed with ARM Thread State (64-bit):
+    x0: 0x0000000100ecc100   x1: 0x00000001c005b9f0   x2: 0x0000000000000008
+       x3: 0x0000000183a4906c
+    x4: 0x0000000000000080   x5: 0x0000000000000020   x6: 0x0048000004210103
+       x7: 0x00000000000010ff
+    x8: 0x00000001c00577f0   x9: 0x0000000000000000  x10: 0x0000000000000002
+      x11: 0xbaddc0dedeadbead
+   x12: 0x0000000000000001  x13: 0x0000000000000002  x14: 0x0000000000000000
+     x15: 0x000a65756c617620
+   x16: 0x0000000183b9b8cc  x17: 0x0000000000000000  x18: 0x0000000000000000
+     x19: 0x0000000000000000
+   x20: 0x0000000000000002  x21: 0x0000000000000039  x22: 0x0000000100d3f3d0
+     x23: 0x0000000000000002
+   x24: 0x000000000000000b  x25: 0x0000000100d3f40a  x26: 0x0000000000000014
+     x27: 0x0000000000000000
+   x28: 0x0000000002ffffff   fp: 0x000000016f0ca8e0   lr: 0x00000001011f7ff8
+    sp: 0x000000016f0ca8a0   pc: 0x00000001011f7ff8 cpsr: 0x60000000</code></pre>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
