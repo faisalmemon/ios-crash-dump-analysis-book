@@ -166,7 +166,7 @@
 <h1 id="introduction">Introduction</h1>
 <p>This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs. The mindset of the Application developer is largely understanding high-level concepts and abstractions. When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.</p>
 <p>We focus exclusively on the Apple ecosystem.</p>
-<p>We cover macOS, tvOS, watchOS platforms, ARM Assembly, and C (CoreFoundation), Objective-C, and Objective-C++ and Swift programming languages. This is because the older languages are more prone to crash bugs. Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.</p>
+<p>We cover macOS, tvOS, watchOS and BridgeOS platforms, ARM Assembly, and C (CoreFoundation), Objective-C, and Objective-C++ and Swift programming languages. This is because the older languages are more prone to crash bugs. Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.</p>
 <p>We assume you have at least an introductory knowledge of iOS programming and software engineering, and have access to a Mac with Xcode.</p>
 <p>The approach we take is to combine three different perspectives on the problem to give a rounded and robust view of the situation and how to resolve it.</p>
 <p>Our first perspective is to deliver a HOW-TO guide for using the excellent tooling available from Apple.</p>
@@ -238,7 +238,10 @@
 <p>This was seen during the development of Sun Volume Systems Group prototype hardware build.</p>
 <h1 id="basic-concepts">Basic Concepts</h1>
 <h2 id="what-is-a-crash">What is a crash?</h2>
+<p>Inside our computers is an Operating Environment. This comprises one or more running Operating Systems, and Application Software. Operating Systems and Application Software are distinguished by the fact that OS software runs with higher CPU privileges (kernel mode) than Application Software (user mode).</p>
+<p>The basic conceptual model of our application software sitting on an Operating System which itself sits on hardware is normally sufficient. However, modern computer systems have multiple co-operating subsystems. For example, a MacBook Pro with TouchBar will have the main operating system, macOS, but also Bridge OS providing the TouchBar interface, disk encryption and “Hey Siri!” support. The multimedia and networking chips in our computers are advanced components and can have their own real-time Operating Systems running on them. Our Mac software will be just one of many applications running on macOS.</p>
 <p>An application crash is something the Operating Environment does to our application in response to what we have done (or failed to do) in the Operating Environment that violates some <em>policy</em> of the platform we are running on.</p>
+<p>When the Operating System detects a problem in the Operating System, it can crash itself. This is called a kernel panic.</p>
 <h2 id="operating-environment-policies">Operating Environment Policies</h2>
 <p>The policies of the operating environment are there to ensure security, data safety, performance, and privacy of the environment to the user.</p>
 <h3 id="nil-handling-example">Nil Handling Example</h3>
@@ -2096,7 +2099,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <ul>
 <li>MacBook Pro Mid 2017 models or older MacBook Pros</li>
 <li>iBridge1,1</li>
-<li>MacBookPro booted in Safe Mode</li>
+<li>MacBook Pro booted in Safe Mode</li>
 <li>iPad, iPhone, Apple Watch</li>
 </ul></li>
 <li>What could be wrong but is not?
@@ -2203,16 +2206,16 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>The above information resembles what we often see in hard problems. There is a lot of data in the WHAT IS column.</p>
 <p>The key first conclusion is that the problem must be the newer T2 chip used in iMac Pro and MacBook Pro. The pattern of defects and the actual panic (in Bridge OS that runs on the T2 chip) make this clear.</p>
 <p>The second point is that the volume of failures is low. The iMac Pro is a low volume computer compared to the MacBook Pro so the problem most likely could have been seen during iMac Pro production but wasn’t due to it being a low probability failure.</p>
-<p>We see the problem is never during boot up, orderly shutdown, heavy usage. This is interesting because during hardware validation computers are generally stress tested to shake out problems. They are not normally left in a sleep state to see if they still perform wake up functions. So it is possible that there is a testing strategy gap.</p>
-<p>Replacement hardware still has the same problem for customers. This is a helpful sign because it shows the stability of the defect. Over time Apple will collect computers known to have the problem, so their faulty batch of computers, to do validation on, improves dramatically.</p>
+<p>We see the problem is never during boot up, orderly shutdown, heavy usage. This is interesting because during hardware validation computers are generally stress tested to shake out problems. They are not normally left in a sleep state to see if they still perform wake up functions. Therefore, it is possible that there is a testing strategy gap.</p>
+<p>Replacement hardware still has the same problem for customers. This is a helpful sign because it shows the stability of the defect. Over time, Apple will collect computers known to have the problem, so their faulty batch of computers, to do validation on, improves dramatically.</p>
 <p>A major gap in the above data set is there are no <code>pmset</code> logs. These provide detailed sleep/wake behavior logs.</p>
-<p>A potentially key data point is that a customer, using Safe Mode boot, never saw the problem. Is there something special about Safe Mode boot in respect of how Bridge OS behaves.</p>
-<p>It seems that 30 minutes is a key figure in the sleep time. There may be thresholding involved at 30 minutes, perhaps to go into a deep sleep rather than a quick nap.</p>
+<p>A potentially key data point is that a customer, using Safe Mode boot, never saw the problem. Is there something special about Safe Mode boot in respect of how Bridge OS behaves?</p>
+<p>It seems that 30 minutes is a key figure in the sleep time. There may be a threshold at 30 minutes, perhaps to go into a deep sleep rather than a quick nap.</p>
 <p>One strategy for understanding the problem is to make it occur more frequently. For example, it might be possible to make the computer very quickly go into deep sleep. That may make the problem appear after say 30 seconds, instead of randomly after 30 minutes of sleeping.</p>
 <p>If the problem can be made more frequent then an automated system test could be written. Then any fix to the Bridge OS would have a robust test suite to validate it.</p>
 <p>We do not have the source code of the Bridge OS. It would be interesting to discern the different between the three crashes seen. For example, sometimes there is a case statement of 20 possible faults, and only one is being entered. This reveals something about WHERE IS NOT in the problem specification.</p>
-<p>Also, we do not have machine fault register information. When a low level problem occurs, the processor documentation will allow the system architect to look up exactly the kind of failure (timeouts, parity errors, etc.) In our problem specification, we need to be more precise WHERE the problem is. The BridgeOS may just be a canary telling us of a problem elsewhere. Given that some customers have had a full hardware replacement and still see the problem, it indicates a software problem.</p>
-<p>Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span> So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating. This is just a theory with the available data but would match the pattern in the above problem specification.</p>
+<p>We do not have machine fault register information. When a low level problem occurs, the processor documentation will allow the system architect to look up exactly the kind of failure (timeouts, parity errors, etc.) In our problem specification, we need to be more precise WHERE the problem is. The BridgeOS may just be a canary telling us of a problem elsewhere. Some customers have received a full hardware replacement, but still see the problem. It indicates a software problem.</p>
+<p>Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span> So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.</p>
 <p>An approach would be to follow the Intel debugging guide <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span>. It has many good suggestions. When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
