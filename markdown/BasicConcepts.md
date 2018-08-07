@@ -2,7 +2,15 @@
 
 ## What is a crash?
 
-An application crash\index{crash!definition} is something the Operating Environment does to our application in response to what we have done (or failed to do) in the Operating Environment that violates some _policy_ of the platform we are running on.
+Inside our computers is an Operating Environment.  This comprises one or more running Operating Systems, and Application Software.
+Operating Systems and Application Software are distinguished by the fact that OS software runs with higher CPU privileges (kernel mode) than Application Software (user mode).
+
+The basic conceptual model of our application software sitting on an Operating System which itself sits on hardware is normally sufficient.
+However, modern computer systems have multiple co-operating subsystems.  For example, a MacBook Pro with TouchBar will have the main operating system, macOS, but also Bridge OS providing the TouchBar interface, disk encryption and "Hey Siri!" support.  The multimedia and networking chips in our computers are advanced components and can have their own real-time Operating Systems running on them.  Our Mac software will be just one of many applications running on macOS.
+
+An application crash\index{crash!application crash} is something the Operating Environment does to our application in response to what we have done (or failed to do) in the Operating Environment that violates some _policy_ of the platform we are running on.
+
+When the Operating System detects a problem in the Operating System, it can crash itself.  This is called a kernel panic\index{crash!kernel panic}.
 
 ## Operating Environment Policies
 
