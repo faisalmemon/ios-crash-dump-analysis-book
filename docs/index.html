@@ -2231,24 +2231,24 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span> So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.</p>
 <p>An approach would be to follow the Intel debugging guide <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span>. It has many good suggestions. When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.</p>
 <h1 id="runtime-environment-crashes">Runtime Environment Crashes</h1>
-<p>In this chapter we show examples of where the runtime libraries have detected a problem and have caused a crash.</p>
+<p>In this chapter, we show examples of where the runtime libraries have detected a problem and have caused a crash.</p>
 <p>These crashes are distinguished by reporting Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code></p>
 <p>We consider two examples. Our first example shows how the runtime handles force unwrapping a nil optional. Our second example shows how the runtime handles releasing a semaphore that is being waited on.</p>
 <h2 id="unwrapping-a-nil-optional">Unwrapping a Nil Optional</h2>
 <p>The Swift Programming Language is a significant step forward towards writing safe-by-default code.</p>
 <p>A central concept within Swift is explicitly handling optionality. In type declarations, a trailing <code>?</code> indicates the value could absent as represented by <code>nil</code>. These types need explicit unwrapping to access the value they store.</p>
-<p>When a value is not available at object initialization time, but later in the lifecycle of the object, then a trailing <code>!</code> is used for types that hold the value. This means the value can be treated in code without the need for explicit unwrapping. It is called an implicitly unwrapped optional. Note, from Swift 4.2, at the implementation level, it is an optional with an annotation that indicates it can be used without explicit unwrapping.</p>
+<p>When a value is not available at object initialization time, but later in the lifecycle of the object, then a trailing <code>!</code> is used for types that hold the value. This means the value can be treated in code without the need for explicit unwrapping. It is called an implicitly unwrapped optional. Note, from Swift 4.2, at the implementation level, it is an optional, with an annotation that indicates it can be used without explicit unwrapping.</p>
 <p>We use the <code>icdab_wrap</code> example program to demonstrate crashes that can arise through the faulty use of optionals. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <h3 id="ios-uikit-outlets">iOS UIKit Outlets</h3>
 <p>It is a standard paradigm to use a storyboard to declare the User Interface, and associate <code>UIViews</code> with <code>UIViewControllers</code>.</p>
-<p>When the user interface updates, such as when launching our app or performing a segue between scenes, the storyboard instantiates supporting <code>UIViewControllers</code> and sets up fields in our <code>UIViewController</code> objects to <code>UIViews</code> that have been created.</p>
+<p>When the user interface updates, such as when launching our app, or performing a segue between scenes, the storyboard instantiates supporting <code>UIViewControllers</code> and sets up fields in our <code>UIViewController</code> objects to <code>UIViews</code> that have been created.</p>
 <p>We will have a field declaration automatically generated when we link the storyboard to our controller code such as:</p>
 <pre><code>@IBOutlet weak var planetImageOutlet: UIImageView!</code></pre>
 <h3 id="ownership-rules">Ownership rules</h3>
 <p>If we did not explicitly create an object, and we did not have ownership passed to us, we should not shorten the lifecycle of the object we are passed.</p>
 <p>In our <code>icdab_wrap</code> example we have a parent screen, and we can tap into a child screen that has a large image of Pluto.<br />
-The image is downloaded from the Internet. When that screen is left, and the original screen visited the code tries to reduce memory by letting go of the memory associated with the image.</p>
-<p>There is a separate argument about whether such a image clean up strategy is helpful or desirable. A profiling tool should be used to inform us when to try to economise our memory footprint.</p>
+The image is downloaded from the Internet. When that screen is left, and the original screen is visited the code tries to reduce memory by letting go of the memory associated with the image.</p>
+<p>There is a separate argument about whether such an image clean up strategy is helpful or desirable. A profiling tool should be used to inform us when to try to economize our memory footprint.</p>
 <p>Our code has a bug:</p>
 <pre><code>override func viewWillDisappear(_ animated: Bool) {
         planetImageOutlet = nil // BUG; should be planetImageOutlet.image = nil
@@ -2258,7 +2258,7 @@ The image is downloaded from the Internet. When that screen is left, and the ori
 <pre><code>func imageDownloaded(_ image: UIImage) {
         self.planetImageOutlet.image = image
     }</code></pre>
-<p>This code will crash, since it implicitly unwraps the optional which has been set to <code>nil</code>.</p>
+<p>This code will crash, since it implicitly unwraps the optional, which has been set to <code>nil</code>.</p>
 <h3 id="crash-report-for-unwrapped-nil-optionals">Crash Report for unwrapped nil optionals</h3>
 <p>When we get a crash from the swift runtime force unwrapping a nil optional we see:</p>
 <pre><code>Exception Type:  EXC_BREAKPOINT (SIGTRAP)
@@ -2300,7 +2300,7 @@ Thread 0 Crashed:
 <p>The <code>libdispatch</code> library has support for identifying runtime issues. When such problems arise, the app is crashed with Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code></p>
 <p>We use the <code>icdab_sema</code> example program to demonstrate a crash detected by <code>libdispatch</code> for the faulty use of semaphores. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <p>The <code>libdispatch</code> library is the operating system library for managing concurrency (known as Grand Central Dispatch or GCD). The library is available as Open Source from Apple. <span class="citation" data-cites="libdispatchtar">(“Libdispatch Open Source” 2018)</span></p>
-<p>The library abstracts away the details of how the Operating System provides access to multi-core CPU resources. During a crash it supplies extra information to the crash report. This means that if we wish to do so, we can find the code which detected the runtime issue.</p>
+<p>The library abstracts away the details of how the Operating System provides access to multi-core CPU resources. During a crash, it supplies extra information to the crash report. This means that if we wish to do so, we can find the code that detected the runtime issue.</p>
 <h3 id="crash-example-releasing-a-semaphore">Crash example releasing a semaphore</h3>
 <p>The <code>icdab_sema</code> example program results in a crash upon launch. The crash report is as follows (truncated for ease of demonstration):</p>
 <pre><code>Exception Type:  EXC_BREAKPOINT (SIGTRAP)
@@ -2350,7 +2350,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
     sp: 0x000000016f71ba40   pc: 0x00000001814076b8
      cpsr: 0x80000000</code></pre>
 <h3 id="faulty-semaphore-code">Faulty semaphore code</h3>
-<p>The code to reproduce the semaphore problem is based upon an Xcode project that uses Manual Reference Counting (MRC). This is a legacy setting but one which can be encountered whilst integrating with legacy code bases. At the project level, it is option “Objective-C Automatic Reference Counting” set to NO. This allows us to then make direct calls to the <code>dispatch_release</code> API.</p>
+<p>The code to reproduce the semaphore problem is based upon an Xcode project that uses Manual Reference Counting (MRC). This is a legacy setting but one that can be encountered whilst integrating with legacy code bases. At the project level, it is option “Objective-C Automatic Reference Counting” set to NO. This allows us to then make direct calls to the <code>dispatch_release</code> API.</p>
 <p>The code is as follows:</p>
 <pre><code>#import &lt;Foundation/Foundation.h&gt;
 
@@ -2371,7 +2371,7 @@ int main(int argc, const char * argv[]) {
 <p>In our example, the <code>Application Specific Information</code> section of the crash report directly explains the problem.</p>
 <pre><code>BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use</code></pre>
 <p>We just need to signal the semaphore to avoid the problem.</p>
-<p>If we had a more unusual problem or wanted to understand it at a deeper level would could look up the source code of the library and find the diagnostic message in the code.</p>
+<p>If we had a more unusual problem or wanted to understand it at a deeper level, would could look up the source code of the library and find the diagnostic message in the code.</p>
 <p>Here is the relevant library code:</p>
 <pre><code>void
 _dispatch_semaphore_dispose(dispatch_object_t dou,
@@ -2390,8 +2390,8 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
 <h3 id="semaphore-crash-lessons-learnt">Semaphore Crash Lessons Learnt</h3>
 <p>Manual Reference Counting should be avoided in modern application code.</p>
 <p>When crashes occur via runtime libraries, we need to go back to the API specification to find out how we are violating the API contract that resulted in a crash. The Application Specific Information in the Crash Report should help focus our attention when re-reading the API document, studying working sample code, and looking into the detail level of the source code of the runtime library (when available).</p>
-<p>Where MRC code has been carried forwards from a legacy code base, a design pattern should be used to wrap the code which is MRC based, and offer a clean API into it. Then the rest of the program can use Automatic Reference Counting (ARC). This will contain the problem, and allow the new code to benefit from ARC. It is possible also to mark specific files as being MRC. The compiler flag option, <code>-fno-objc-arc</code>, needs to be set for the file. It is found within <em>Build Phases -&gt; Compile Sources</em> area of Xcode.</p>
-<p>If the legacy code does not need enhancement, it is best to leave it alone, and just wrap it with a facade API. We can then write some test cases for that API. Code that is not actively updated tends to only give rise to bugs when it is used in new ways. Sometimes the staff with knowledge of legacy code have left the project, so making updates can be risky by less knowledgeable staff.</p>
+<p>Where MRC code has been carried forwards from a legacy code base, a design pattern should be used to wrap the code that is MRC based, and offer a clean API into it. Then the rest of the program can use Automatic Reference Counting (ARC). This will contain the problem, and allow the new code to benefit from ARC. It is possible also to mark specific files as being MRC. The compiler flag option, <code>-fno-objc-arc</code>, needs to be set for the file. It is found within <em>Build Phases -&gt; Compile Sources</em> area of Xcode.</p>
+<p>If the legacy code does not need enhancement, it is best to leave it alone, and just wrap it with a facade API. We can then write some test cases for that API. Code that is not actively updated tends to only give rise to bugs when it is used in new ways. Sometimes the staff with knowledge of legacy code has left the project, so making updates can be risky by less knowledgeable staff.</p>
 <p>It is great if legacy code can be replaced over time. Normally a business justification is needed. One strategy is to break down a legacy module into smaller pieces. If this is done strategically, then one of the smaller pieces can be re-worked, with modern coding practices. It becomes a win-win when such a module is enhanced to solve a new customer need as well.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
