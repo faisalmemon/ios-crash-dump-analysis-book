@@ -7,7 +7,7 @@ We use the `icdab_sema` example program to demonstrate a crash detected by `libd
 
 The `libdispatch` library is the operating system library for managing concurrency (known as Grand Central Dispatch or GCD).  The library is available as Open Source from Apple.  @libdispatchtar
 
-The library abstracts away the details of how the Operating System provides access to multi-core  CPU resources.  During a crash it supplies extra information to the crash report.  This means that if we wish to do so, we can find the code which detected the runtime issue.
+The library abstracts away the details of how the Operating System provides access to multi-core  CPU resources.  During a crash, it supplies extra information to the crash report.  This means that if we wish to do so, we can find the code that detected the runtime issue.
 
 ### Crash example releasing a semaphore
 
@@ -65,7 +65,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
 
 ### Faulty semaphore code
 
-The code to reproduce the semaphore problem is based upon an Xcode project that uses Manual Reference Counting (MRC).  This is a legacy setting but one which can be encountered whilst integrating with legacy code bases.  At the project level, it is option "Objective-C Automatic Reference Counting" set to NO.  This allows us to then make direct calls to the `dispatch_release` API.
+The code to reproduce the semaphore problem is based upon an Xcode project that uses Manual Reference Counting (MRC).  This is a legacy setting but one that can be encountered whilst integrating with legacy code bases.  At the project level, it is option "Objective-C Automatic Reference Counting" set to NO.  This allows us to then make direct calls to the `dispatch_release` API.
 
 The code is as follows:
 
@@ -97,7 +97,7 @@ BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
 
 We just need to signal the semaphore to avoid the problem.
 
-If we had a more unusual problem or wanted to understand it at a deeper level would could look up the source code of the library and find the diagnostic message in the code.
+If we had a more unusual problem or wanted to understand it at a deeper level, would could look up the source code of the library and find the diagnostic message in the code.
 
 Here is the relevant library code:
 
@@ -125,7 +125,7 @@ Manual Reference Counting should be avoided in modern application code.
 
 When crashes occur via runtime libraries, we need to go back to the API specification to find out how we are violating the API contract that resulted in a crash.  The Application Specific Information in the Crash Report should help focus our attention when re-reading the API document, studying working sample code, and looking into the detail level of the source code of the runtime library (when available).
 
-Where MRC code has been carried forwards from a legacy code base, a design pattern should be used to wrap the code which is MRC based, and offer a clean API into it.  Then the rest of the program can use Automatic Reference Counting (ARC).  This will contain the problem, and allow the new code to benefit from ARC.  It is possible also to mark specific files as being MRC.  The compiler flag option, `-fno-objc-arc`, needs to be set for the file.  It is found within _Build Phases -> Compile Sources_ area of Xcode.
+Where MRC code has been carried forwards from a legacy code base, a design pattern should be used to wrap the code that is MRC based, and offer a clean API into it.  Then the rest of the program can use Automatic Reference Counting (ARC).  This will contain the problem, and allow the new code to benefit from ARC.  It is possible also to mark specific files as being MRC.  The compiler flag option, `-fno-objc-arc`, needs to be set for the file.  It is found within _Build Phases -> Compile Sources_ area of Xcode.
 
 If the legacy code does not need enhancement, it is best to leave it alone, and just wrap it with a facade API. We can then write some test cases for that API.  Code that is not actively updated tends to only give rise to bugs when it is used in new ways.  Sometimes the staff with knowledge of legacy code have left the project, so making updates can be risky by less knowledgeable staff.
 

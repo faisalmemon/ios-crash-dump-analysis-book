@@ -4,7 +4,8 @@ The Swift Programming Language is a significant step forward towards writing saf
 
 A central concept within Swift is explicitly handling optionality.  In type declarations, a trailing `?` indicates the value could absent as represented by `nil`.  These types need explicit unwrapping to access the value they store.
 
-When a value is not available at object initialization time, but later in the lifecycle of the object, then a trailing `!` is used for types that hold the value.  This means the value can be treated in code without the need for explicit unwrapping.  It is called an implicitly unwrapped optional.  Note, from Swift 4.2, at the implementation level, it is an optional with an annotation that indicates it can be used without explicit unwrapping.
+When a value is not available at object initialization time, but later in the lifecycle of the object, then a trailing `!` is used for types that hold the value.  This means the value can be treated in code without the need for explicit unwrapping.  It is called an implicitly unwrapped optional.
+Note, from Swift 4.2, at the implementation level, it is an optional, with an annotation that indicates it can be used without explicit unwrapping.
 
 We use the `icdab_wrap` example program to demonstrate crashes that can arise through the faulty use of optionals. @icdabgithub
 
@@ -12,7 +13,7 @@ We use the `icdab_wrap` example program to demonstrate crashes that can arise th
 
 It is a standard paradigm to use a storyboard to declare the User Interface, and associate `UIViews` with `UIViewControllers`.
 
-When the user interface updates, such as when launching our app or performing a segue between scenes, the storyboard instantiates
+When the user interface updates, such as when launching our app, or performing a segue between scenes, the storyboard instantiates
 supporting `UIViewControllers` and sets up fields in our `UIViewController` objects to `UIViews` that have been created.
 
 We will have a field declaration automatically generated when we link the storyboard to our controller code such as:
@@ -25,9 +26,9 @@ We will have a field declaration automatically generated when we link the storyb
 If we did not explicitly create an object, and we did not have ownership passed to us, we should not shorten the lifecycle of the object we are passed.  
 
 In our `icdab_wrap` example we have a parent screen, and we can tap into a child screen that has a large image of Pluto.  
-The image is downloaded from the Internet.  When that screen is left, and the original screen visited the code tries to reduce memory by letting go of the memory associated with the image.
+The image is downloaded from the Internet.  When that screen is left, and the original screen is visited the code tries to reduce memory by letting go of the memory associated with the image.
 
-There is a separate argument about whether such a image clean up strategy is helpful or desirable.  A profiling tool should be used to inform us when to try to economise our memory footprint.
+There is a separate argument about whether such an image clean up strategy is helpful or desirable.  A profiling tool should be used to inform us when to try to economize our memory footprint.
 
 Our code has a bug:
 ```
@@ -46,7 +47,7 @@ func imageDownloaded(_ image: UIImage) {
     }
 ```
 
-This code will crash, since it implicitly unwraps the optional which has been set to `nil`.
+This code will crash, since it implicitly unwraps the optional, which has been set to `nil`.
 
 ### Crash Report for unwrapped nil optionals
 
