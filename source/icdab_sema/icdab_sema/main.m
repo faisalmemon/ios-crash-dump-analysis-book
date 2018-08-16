@@ -11,12 +11,12 @@
 void use_sema() {
     dispatch_semaphore_t aSemaphore = dispatch_semaphore_create(1);
     dispatch_semaphore_wait(aSemaphore, DISPATCH_TIME_FOREVER);
+    // dispatch_semaphore_signal(aSemaphore);
     dispatch_release(aSemaphore);
-    
 }
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-
         use_sema();
     }
     return 0;
