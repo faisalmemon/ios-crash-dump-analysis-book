@@ -18,12 +18,6 @@ SIGSEGV (segment violation) means the memory address is not even mapped into the
 
 ## Segment Violation (SEGV) crashes
 
-
-
-EXC_BAD_ACCESS (SIGSEGV)
-
-EXC_BAD_ACCESS
-fud_crash_osx
 kiosk_startup
 
 SIGSEGV
