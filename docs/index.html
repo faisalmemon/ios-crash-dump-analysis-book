@@ -157,6 +157,7 @@
 <li><a href="#fud-crash">fud crash</a></li>
 <li><a href="#leakagent-crash">LeakAgent crash</a></li>
 </ul></li>
+<li><a href="#bus-error-sigbus-crashes">Bus error (SIGBUS) crashes</a></li>
 </ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
@@ -2409,9 +2410,6 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
 <p>SIGBUS (bus error) means the memory address is correctly mapped into the address space of the process, but the process is not allowed to access the memory.</p>
 <p>SIGSEGV (segment violation) means the memory address is not even mapped into the process address space.</p>
 <h2 id="segment-violation-segv-crashes">Segment Violation (SEGV) crashes</h2>
-<p>kiosk_startup</p>
-<p>SIGSEGV leak_agent_crash siri_crash</p>
-<p>SIGBUS xmbc_sigbus jablotron_sigbus_align_ios</p>
 <h3 id="fud-crash">fud crash</h3>
 <p>The <code>fud</code> program is an undocumented process within the private framework <code>MobileAccessoryUpdater</code> From looking at the binary it appears to be a firmware update program.</p>
 <p>Here we show the Crash Report of process <code>fud</code> on macOS, truncated for ease of demonstration:</p>
@@ -2554,9 +2552,6 @@ Termination Reason: Namespace SIGNAL, Code 0xb
 Terminating Process: exc handler [0]
 Triggered by Thread:  4
 
-Thread 3:
-0   libsystem_pthread.dylib         0x0000000183b9fb04 start_wqthread + 0
-
 Thread 4 name:  Dispatch queue: DTXChannel serializer queue [x1.c0]
 Thread 4 Crashed:
 0   libswiftDemangle.dylib          0x0000000104f871dc 0x104f70000 + 94684
@@ -2624,6 +2619,8 @@ Thread 4 crashed with ARM Thread State (64-bit):
     sp: 0x000000016b6d1930   pc: 0x0000000104f871dc cpsr: 0x60000000</code></pre>
 <p>We can see that the kernel address at fault is <code>0x0000000000000000</code> so it’s a NULL pointer dereference. We call site where we crash is a Swift library which demangles symbols. The Xcode instrument is trying to provide human readable object type definitions from the activity it has seen on the iPad.</p>
 <p>There is not much we can explore further in this crash report. Since the problem is due to symbolification, it may be wise to to clear our build directory and then do a clean build. Sometimes an Xcode update switches us to a new object file format that is incompatible. It is worthwhile checking profiling with another project, perhaps a trivial test program. There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running. So memory analysis could be done in a different way.</p>
+<h2 id="bus-error-sigbus-crashes">Bus error (SIGBUS) crashes</h2>
+<p>SIGBUS xmbc_sigbus jablotron_sigbus_align_ios</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
