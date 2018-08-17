@@ -151,6 +151,12 @@
 <li><a href="#semaphore-crash-lessons-learnt">Semaphore Crash Lessons Learnt</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#bad-memory-crashes">Bad Memory Crashes</a><ul>
+<li><a href="#general-principles">General principles</a></li>
+<li><a href="#segment-violation-segv-crashes">Segment Violation (SEGV) crashes</a><ul>
+<li><a href="#fud-crash">fud crash</a></li>
+</ul></li>
+</ul></li>
 <li><a href="#a-siri-crash">A Siri Crash</a><ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
 <li><a href="#the-crash-report-1">The Crash report</a></li>
@@ -928,7 +934,7 @@ Triggered by Thread:  0</code></pre>
 <td>The system killed our app (or app extension), usually because some resource limit had been reached. The Termination Reason needs to be looked at to work out what policy violation was the reason for termination.</td>
 </tr>
 <tr class="even">
-<td><code>EXC_BAD_ACCESS</code> or <code>SIGSEGV</code> or <code>SIGBUS</code></td>
+<td><code>EXC_BAD_ACCESS (SIGSEGV)</code> or <code>EXC_BAD_ACCESS (SIGBUS)</code></td>
 <td>Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it. The memory might have been deallocated due to due memory pressure.</td>
 </tr>
 <tr class="odd">
@@ -1023,7 +1029,7 @@ Triggered by Thread:  0</code></pre>
 <h4 id="aborts">Aborts</h4>
 <p>When we have a <code>SIGABRT</code>, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.</p>
 <h4 id="memory-issues">Memory Issues</h4>
-<p>When we have a memory issue, <code>EXC_BAD_ACCESS</code>, <code>SIGSEGV</code> or <code>SIGBUS</code>, the faulty memory reference is the second number of the Exception Codes number pair. For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant. The address sanitizer should be switched on to see if it could spot the error. If that cannot detect the issue, try each of the memory management settings, one at a time.</p>
+<p>When we have a memory issue, <code>EXC_BAD_ACCESS</code>, with <code>SIGSEGV</code> or <code>SIGBUS</code>, the faulty memory reference is the second number of the Exception Codes number pair. For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant. The address sanitizer should be switched on to see if it could spot the error. If that cannot detect the issue, try each of the memory management settings, one at a time.</p>
 <p>If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system. For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History. Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.</p>
 <h4 id="exceptions">Exceptions</h4>
 <p>When we have a <code>EXC_BREAKPOINT</code> it can seem confusing. The program may have been running standalone without a debugger so where did the breakpoint come from? Typically, we are running <code>NSException</code> code. This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging. So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception. In the case of normal app running, there is no debugger so we would just crash the app.</p>
@@ -2232,7 +2238,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>An approach would be to follow the Intel debugging guide <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span>. It has many good suggestions. When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.</p>
 <h1 id="runtime-environment-crashes">Runtime Environment Crashes</h1>
 <p>In this chapter, we show examples of where the runtime libraries have detected a problem and have caused a crash.</p>
-<p>These crashes are distinguished by reporting Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code></p>
+<p>These crashes are distinguished by reporting Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code> in their Crash Report.</p>
 <p>We consider two examples. Our first example shows how the runtime handles force unwrapping a nil optional. Our second example shows how the runtime handles releasing a semaphore that is being waited on.</p>
 <h2 id="unwrapping-a-nil-optional">Unwrapping a Nil Optional</h2>
 <p>The Swift Programming Language is a significant step forward towards writing safe-by-default code.</p>
@@ -2393,6 +2399,121 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
 <p>Where MRC code has been carried forwards from a legacy code base, a design pattern should be used to wrap the code that is MRC based, and offer a clean API into it. Then the rest of the program can use Automatic Reference Counting (ARC). This will contain the problem, and allow the new code to benefit from ARC. It is possible also to mark specific files as being MRC. The compiler flag option, <code>-fno-objc-arc</code>, needs to be set for the file. It is found within <em>Build Phases -&gt; Compile Sources</em> area of Xcode.</p>
 <p>If the legacy code does not need enhancement, it is best to leave it alone, and just wrap it with a facade API. We can then write some test cases for that API. Code that is not actively updated tends to only give rise to bugs when it is used in new ways. Sometimes the staff with knowledge of legacy code has left the project, so making updates can be risky by less knowledgeable staff.</p>
 <p>It is great if legacy code can be replaced over time. Normally a business justification is needed. One strategy is to break down a legacy module into smaller pieces. If this is done strategically, then one of the smaller pieces can be re-worked, with modern coding practices. It becomes a win-win when such a module is enhanced to solve a new customer need as well.</p>
+<h1 id="bad-memory-crashes">Bad Memory Crashes</h1>
+<p>In this chapter, we study bad memory crashes.</p>
+<p>These crashes are distinguished by reporting Exception Type, <code>EXC_BAD_ACCESS (SIGSEGV)</code>, or <code>EXC_BAD_ACCESS (SIGBUS)</code> in their Crash Report.</p>
+<p>We look at a range of crashes obtained by searching the Internet.</p>
+<h2 id="general-principles">General principles</h2>
+<p>In operating systems, memory is managed by first collating contiguous memory into memory pages, and then collating pages into segments. This allows meta data properties to be assigned to a segment that applies to all pages within the segment. This allows the code of your program (the program <em>TEXT</em>) to be set to read only but executable. This improves performance and security.</p>
+<p>SIGBUS (bus error) means the memory address is correctly mapped into the address space of the process, but the process is not allowed to access the memory.</p>
+<p>SIGSEGV (segment violation) means the memory address is not even mapped into the process address space.</p>
+<h2 id="segment-violation-segv-crashes">Segment Violation (SEGV) crashes</h2>
+<p>EXC_BAD_ACCESS (SIGSEGV)</p>
+<p>EXC_BAD_ACCESS fud_crash_osx kiosk_startup</p>
+<p>SIGSEGV leak_agent_crash siri_crash</p>
+<p>SIGBUS xmbc_sigbus jablotron_sigbus_align_ios</p>
+<h3 id="fud-crash">fud crash</h3>
+<p>The <code>fud</code> program is an undocumented process within the private framework <code>MobileAccessoryUpdater</code> From looking at the binary it appears to be a firmware update program.</p>
+<p>Here we show the Crash Report of process <code>fud</code> on macOS, truncated for ease of demonstration:</p>
+<pre><code>Process:               fud [84641]
+Path:                  /System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/Support/fud
+Identifier:            fud
+Version:               106.50.4
+Code Type:             X86-64 (Native)
+Parent Process:        launchd [1]
+Responsible:           fud [84641]
+User ID:               0
+
+Date/Time:             2018-06-12 08:34:15.054 +0100
+OS Version:            Mac OS X 10.13.4 (17E199)
+Report Version:        12
+Anonymous UUID:        6C1D2091-02B7-47C4-5BF9-E99AD5C45875
+
+Sleep/Wake UUID:       369D13CB-F0D3-414B-A177-38B1E560EEC7
+
+Time Awake Since Boot: 240000 seconds
+Time Since Wake:       47 seconds
+
+System Integrity Protection: enabled
+
+Crashed Thread:        1  Dispatch queue: com.apple.fud.processing.queue
+
+Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
+Exception Codes:       EXC_I386_GPFLT
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Termination Signal:    Segmentation fault: 11
+Termination Reason:    Namespace SIGNAL, Code 0xb
+Terminating Process:   exc handler [0]
+
+Thread 1 Crashed:: Dispatch queue: com.apple.fud.processing.queue
+0   libdispatch.dylib               0x00007fff67fc6cbd
+ _dispatch_continuation_push + 4
+1   fud                             0x0000000101d3ce57
+ __38-[FudController handleXPCStreamEvent:]_block_invoke + 593
+2   libdispatch.dylib               0x00007fff67fbb64a
+ _dispatch_call_block_and_release + 12
+3   libdispatch.dylib               0x00007fff67fb3e08
+ _dispatch_client_callout + 8
+4   libdispatch.dylib               0x00007fff67fc8377
+ _dispatch_queue_serial_drain + 907
+5   libdispatch.dylib               0x00007fff67fbb1b6
+ _dispatch_queue_invoke + 373
+6   libdispatch.dylib               0x00007fff67fc8f5d
+ _dispatch_root_queue_drain_deferred_wlh + 332
+7   libdispatch.dylib               0x00007fff67fccd71
+ _dispatch_workloop_worker_thread + 880
+8   libsystem_pthread.dylib         0x00007fff68304fd2
+ _pthread_wqthread + 980
+9   libsystem_pthread.dylib         0x00007fff68304be9
+ start_wqthread + 13
+
+Thread 1 crashed with X86 Thread State (64-bit):
+  rax: 0xe00007f80bd22039  rbx: 0x00007f80bd2202e0  rcx: 0x7fffffffffffffff
+    rdx: 0x011d800101d66da1
+  rdi: 0x00007f80bd21a250  rsi: 0x0000000102c01000  rbp: 0x0000700007e096c0
+    rsp: 0x0000700007e09670
+   r8: 0x0000000102c00010   r9: 0x0000000000000001  r10: 0x0000000102c01000
+     r11: 0x00000f80b5300430
+  r12: 0x00007f80ba70c670  r13: 0x00007fff673c8e80  r14: 0x00007f80bd201e00
+    r15: 0x00007f80ba70cf30
+  rip: 0x00007fff67fc6cbd  rfl: 0x0000000000010202  cr2: 0x00007fff9b2f11b8
+
+Logical CPU:     3
+Error Code:      0x00000004
+Trap Number:     14</code></pre>
+<p>We clearly have a bad memory issue, since we have a <code>EXC_BAD_ACCESS (SIGSEGV)</code> exception. The Trap Number we see is 14, which from https://github.com/apple/darwin-xnu is a Page Fault.</p>
+<p>We can even look up the function that triggered the crash since <code>libdispatch</code> is Apple Open Source. <span class="citation" data-cites="libdispatchtar">(“Libdispatch Open Source” 2018)</span></p>
+<p>We see:</p>
+<pre><code>#define dx_push(x, y, z) dx_vtable(x)-&gt;do_push(x, y, z)
+
+DISPATCH_NOINLINE
+static void
+_dispatch_continuation_push(dispatch_queue_t dq, dispatch_continuation_t dc)
+{
+    dx_push(dq, dc, _dispatch_continuation_override_qos(dq, dc));
+}</code></pre>
+<p>We are dereferencing memory from a data structure which has a bad memory location.</p>
+<p>We can dissassemble the macOS binary, <code>/usr/lib/system/libdispatch.dylib</code> for the problem call site.</p>
+<p>Here we use the Hopper tool to do the dissassembly:</p>
+<pre><code>__dispatch_continuation_push:
+0000000000014c69         push       rbx
+                                         ; CODE XREF=__dispatch_async_f2+112,
+                                          j___dispatch_continuation_push
+0000000000014c6a         mov        rax, qword [rdi]
+0000000000014c6d         mov        r8, qword [rax+0x40]
+0000000000014c71         mov        rax, qword [rsi+8]
+0000000000014c75         mov        edx, eax
+0000000000014c77         shr        edx, 0x8
+0000000000014c7a         and        edx, 0x3fff
+0000000000014c80         mov        ebx, dword [rdi+0x58]
+0000000000014c83         movzx      ecx, bh
+0000000000014c86         je         loc_14ca3</code></pre>
+<p>There seems to be a problem with the <code>rdi</code> register value, address <code>0x00007f80bd21a250</code></p>
+<p>We need to take a step back, and understand why we have a memory access problem.</p>
+<p>Looking at the stack backtrace we can see that this program uses cross process communication (XPC)  to do its work. It has a <code>handleXPCStreamEvent</code> function.</p>
+<p>It is a common programming problem that when we receive a data payload, there is a problem unpacking the payload and interpreting the data. We speculate that there is a bug in the deserialization code. That would give us a potentially bad data structure which we dereference causing a crash.</p>
+<p>If we were the author of the <code>fud</code> program we could update it to check the XPC data it gets and ensure best practices are followed for serialization/deserialization of data, such as the use interface definition layer generators.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
