@@ -9,5 +9,6 @@ markdown/AnalyticTroubleShooting.md
 markdown/RuntimeEnvironmentCrashes.md
 examples/icdab_wrap_ios/NilOptionalUnwrap.md
 examples/icdab_sema_crash_osx/ReleasingAnInUseSemaphore.md
+markdown/BadMemory.md
 examples/siri_crash_osx/siriCrashExplanation.md
 markdown/Bibliography.md

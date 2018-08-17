@@ -82,7 +82,7 @@ Contents/MacOS/SiriNCService
 ```
 
 This is interesting because normally its applications that crash.  Here we see a software component crashing.
-The Siri service is a distributed app which uses cross process communication (xpc) to do its work.
+The Siri service is a distributed app which uses cross process communication\index{operating system!cross process communication} (xpc)\index{XPC} to do its work.
 We see that from references to xpc as above.
 
 What method were we trying to call on an object that no longer exists?
