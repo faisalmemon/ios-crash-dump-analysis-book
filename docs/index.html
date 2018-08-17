@@ -2404,7 +2404,7 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
 <p>These crashes are distinguished by reporting Exception Type, <code>EXC_BAD_ACCESS (SIGSEGV)</code>, or <code>EXC_BAD_ACCESS (SIGBUS)</code> in their Crash Report.</p>
 <p>We look at a range of crashes obtained by searching the Internet.</p>
 <h2 id="general-principles">General principles</h2>
-<p>In operating systems, memory is managed by first collating contiguous memory into memory pages, and then collating pages into segments. This allows meta data properties to be assigned to a segment that applies to all pages within the segment. This allows the code of your program (the program <em>TEXT</em>) to be set to read only but executable. This improves performance and security.</p>
+<p>In operating systems, memory is managed by first collating contiguous memory into memory pages, and then collating pages into segments. This allows meta data properties to be assigned to a segment that applies to all pages within the segment. This allows the code of our program (the program <em>TEXT</em>) to be set to read only but executable. This improves performance and security.</p>
 <p>SIGBUS (bus error) means the memory address is correctly mapped into the address space of the process, but the process is not allowed to access the memory.</p>
 <p>SIGSEGV (segment violation) means the memory address is not even mapped into the process address space.</p>
 <h2 id="segment-violation-segv-crashes">Segment Violation (SEGV) crashes</h2>
