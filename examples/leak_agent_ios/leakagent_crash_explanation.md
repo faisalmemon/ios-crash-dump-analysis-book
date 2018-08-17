@@ -41,9 +41,6 @@ Termination Reason: Namespace SIGNAL, Code 0xb
 Terminating Process: exc handler [0]
 Triggered by Thread:  4
 
-Thread 3:
-0   libsystem_pthread.dylib       	0x0000000183b9fb04 start_wqthread + 0
-
 Thread 4 name:  Dispatch queue: DTXChannel serializer queue [x1.c0]
 Thread 4 Crashed:
 0   libswiftDemangle.dylib        	0x0000000104f871dc 0x104f70000 + 94684

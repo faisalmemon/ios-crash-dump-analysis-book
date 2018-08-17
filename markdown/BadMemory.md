@@ -15,15 +15,3 @@ In operating systems, memory is managed by first collating contiguous memory int
 SIGBUS (bus error) means the memory address is correctly mapped into the address space of the process, but the process is not allowed to access the memory.
 
 SIGSEGV (segment violation) means the memory address is not even mapped into the process address space.
-
-## Segment Violation (SEGV) crashes
-
-kiosk_startup
-
-SIGSEGV
-leak_agent_crash
-siri_crash
-
-SIGBUS
-xmbc_sigbus
-jablotron_sigbus_align_ios

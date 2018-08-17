@@ -10,7 +10,9 @@ markdown/RuntimeEnvironmentCrashes.md
 examples/icdab_wrap_ios/NilOptionalUnwrap.md
 examples/icdab_sema_crash_osx/ReleasingAnInUseSemaphore.md
 markdown/BadMemory.md
+markdown/BadMemorySegv.md
 examples/fud_crash_osx/fud_crash_explanation.md
 examples/leak_agent_ios/leakagent_crash_explanation.md
+markdown/BadMemoryBus.md
 examples/siri_crash_osx/siriCrashExplanation.md
 markdown/Bibliography.md
