@@ -1,0 +1,73 @@
+_dyld_get_image_slide(0x10a1e4000)
+_dyld_register_func_for_add_image(0x10ef26a59)
+_dyld_get_image_slide(0x10a1e4000)
+_dyld_get_image_slide(0x10a1e4000)
+_dyld_register_func_for_add_image(0x10f27924a)
+dlopen(/usr/lib/system/introspection/libdispatch.dylib, 0x00000010)
+  dlopen(/usr/lib/system/introspection/libdispatch.dylib) ==> 0x10a22c0c8
+dlsym(0x10a22c0c8, dispatch_introspection_versions)
+  dlsym(0x10a22c0c8, dispatch_introspection_versions) ==> 0x10eed5020
+dlsym(0x10a22c0c8, dispatch_introspection_hooks_install)
+  dlsym(0x10a22c0c8, dispatch_introspection_hooks_install) ==> 0x10eed3208
+dlsym(0x10a22c0c8, dispatch_get_current_queue)
+  dlsym(0x10a22c0c8, dispatch_get_current_queue) ==> 0x10eea998a
+dlsym(0x10a22c0c8, dispatch_queue_get_label)
+  dlsym(0x10a22c0c8, dispatch_queue_get_label) ==> 0x10eeab0b4
+dlsym(0x10a22c0c8, dispatch_queue_offsets)
+  dlsym(0x10a22c0c8, dispatch_queue_offsets) ==> 0x10eed4bd8
+dlopen(/usr/lib/system/libsystem_platform.dylib, 0x00000010)
+  dlopen(/usr/lib/system/libsystem_platform.dylib) ==> 0x10a22efb8
+dlsym(0x10a22efb8, os_unfair_lock_lock_with_options)
+  dlsym(0x10a22efb8, os_unfair_lock_lock_with_options) ==> 0x10f35f735
+dlsym(0x10a22efb8, os_unfair_lock_trylock)
+  dlsym(0x10a22efb8, os_unfair_lock_trylock) ==> 0x10f35f74f
+dlsym(0x10a22efb8, os_unfair_lock_unlock)
+  dlsym(0x10a22efb8, os_unfair_lock_unlock) ==> 0x10f35f761
+dlclose(0x10a22efb8)
+dlclose(0x10a22c0c8)
+_NSGetExecutablePath(...)
+_dyld_image_count()
+_dyld_get_image_name(0)
+_dyld_get_image_name(1)
+_dyld_get_image_name(2)
+_dyld_get_image_name(3)
+_dyld_get_image_name(4)
+_dyld_get_image_name(5)
+_dyld_get_image_name(6)
+_dyld_get_image_name(7)
+_dyld_get_image_name(8)
+_dyld_get_image_name(9)
+dlsym(0xfffffffffffffffd, __main_thread_checker_on_report)
+  dlsym(RTLD_SELF, __main_thread_checker_on_report) ==> 0x10a2a9c6f
+_dyld_get_image_slide(0x10a1e4000)
+dlopen(NULL, 0x00000110)
+_dyld_get_image_slide(0x10a1e4000)
+s/QuartzCore.framework/QuartzCore, 0x00000002)
+  dlopen(/System/Library/Frameworks/QuartzCore.framework/QuartzCore) ==> 0x10a232030
+dlopen(/System/Library/PrivateFrameworks/ColorSync.framework/ColorSync, 0x00000005)
+_dyld_register_func_for_add_image(0x10f23883e)
+  dlopen(/System/Library/PrivateFrameworks/ColorSync.framework/ColorSync) ==> 0x10a234d68
+ff285, 54)
+dlsym(0x10a234d68, ColorSyncProfileCreateWithName)
+  dlsym(0x10a234d68, ColorSyncProfileCreateWithName) ==> 0x1133602f3
+_dyld_register_func_for_remove_image(0x10f238854)
+dlsym(0x10a234d68, ColorSyncProfileCopyData)
+  dlsym(0x10a234d68, ColorSyncProfileCopyData) ==> 0x113334abf
+2018-08-18 12:26:51.989237+0100 ios-dynamic-loading-framework[2962:109722] App started
+dlsym(0x10a234d68, ColorSyncProfileCreateWithName)
+  dlsym(0x10a234d68, ColorSyncProfileCreateWithName) ==> 0x1133602f3
+2018-08-18 12:26:51.992187+0100 ios-dynamic-loading-framework[2962:109722] Before referencing CASHello in DynamicFramework1
+dlopen(DynamicFramework1.framework/DynamicFramework1, 0x00000001)
+2018-08-18 12:26:52.002234+0100 ios-dynamic-loading-framework[2962:109722] Loading CASHello in dynamic-framework-1
+  dlopen(DynamicFramework1.framework/DynamicFramework1) ==> 0x600000157ce0
+2018-08-18 12:26:52.002398+0100 ios-dynamic-loading-framework[2962:109722] Loaded CASHello in DynamicFramework1
+dlclose(0x600000157ce0)
+2018-08-18 12:26:52.002560+0100 ios-dynamic-loading-framework[2962:109722] CASHello from DynamicFramework1 still loaded after dlclose()
+2018-08-18 12:26:52.002642+0100 ios-dynamic-loading-framework[2962:109722] Before referencing CASHello in DynamicFramework2
+dlopen(DynamicFramework2.framework/DynamicFramework2, 0x00000001)
+objc[2962]: Class CASHello is implemented in both /Users/faisalm/Library/Developer/Xcode/DerivedData/ios-dynamic-loading-framework-ednexaanxalgpudjcqeuejsdmhlq/Build/Products/Debug-iphonesimulator/DynamicFramework1.framework/DynamicFramework1 (0x1229cb178) and /Users/faisalm/Library/Developer/Xcode/DerivedData/ios-dynamic-loading-framework-ednexaanxalgpudjcqeuejsdmhlq/Build/Products/Debug-iphonesimulator/DynamicFramework2.framework/DynamicFramework2 (0x1229d3178). One of the two will be used. Which one is undefined.
+2018-08-18 12:26:52.012601+0100 ios-dynamic-loading-framework[2962:109722] Loading CASHello in dynamic-framework-2
+  dlopen(DynamicFramework2.framework/DynamicFramework2) ==> 0x600000157d90
+2018-08-18 12:26:52.012792+0100 ios-dynamic-loading-framework[2962:109722] Loaded CASHello in DynamicFramework2
+dlclose(0x600000157d90)
+2018-08-18 12:26:52.012921+0100 ios-dynamic-loading-framework[2962:109722] CASHello from DynamicFramework2 still loaded after dlclose()

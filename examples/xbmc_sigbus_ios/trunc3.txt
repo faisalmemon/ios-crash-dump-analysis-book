@@ -1,0 +1,282 @@
+_dyld_get_image_slide(0x10a1e4000)
+_dyld_register_func_for_add_image(0x10ef26a59)
+_dyld_get_image_slide(0x10a1e4000)
+_dyld_get_image_slide(0x10a1e4000)
+_dyld_register_func_for_add_image(0x10f27924a)
+dlopen(/usr/lib/system/introspection/libdispatch.dylib, 0x00000010)
+  dlopen(/usr/lib/system/introspection/libdispatch.dylib) ==> 0x10a22c0c8
+dlsym(0x10a22c0c8, dispatch_introspection_versions)
+  dlsym(0x10a22c0c8, dispatch_introspection_versions) ==> 0x10eed5020
+dlsym(0x10a22c0c8, dispatch_introspection_hooks_install)
+  dlsym(0x10a22c0c8, dispatch_introspection_hooks_install) ==> 0x10eed3208
+dlsym(0x10a22c0c8, dispatch_get_current_queue)
+  dlsym(0x10a22c0c8, dispatch_get_current_queue) ==> 0x10eea998a
+dlsym(0x10a22c0c8, dispatch_queue_get_label)
+  dlsym(0x10a22c0c8, dispatch_queue_get_label) ==> 0x10eeab0b4
+dlsym(0x10a22c0c8, dispatch_queue_offsets)
+  dlsym(0x10a22c0c8, dispatch_queue_offsets) ==> 0x10eed4bd8
+dlopen(/usr/lib/system/libsystem_platform.dylib, 0x00000010)
+  dlopen(/usr/lib/system/libsystem_platform.dylib) ==> 0x10a22efb8
+dlsym(0x10a22efb8, os_unfair_lock_lock_with_options)
+  dlsym(0x10a22efb8, os_unfair_lock_lock_with_options) ==> 0x10f35f735
+dlsym(0x10a22efb8, os_unfair_lock_trylock)
+  dlsym(0x10a22efb8, os_unfair_lock_trylock) ==> 0x10f35f74f
+dlsym(0x10a22efb8, os_unfair_lock_unlock)
+  dlsym(0x10a22efb8, os_unfair_lock_unlock) ==> 0x10f35f761
+dlclose(0x10a22efb8)
+dlclose(0x10a22c0c8)
+_NSGetExecutablePath(...)
+_dyld_image_count()
+_dyld_get_image_name(0)
+_dyld_get_image_name(1)
+_dyld_get_image_name(2)
+_dyld_get_image_name(3)
+_dyld_get_image_name(4)
+_dyld_get_image_name(5)
+_dyld_get_image_name(6)
+_dyld_get_image_name(7)
+_dyld_get_image_name(8)
+_dyld_get_image_name(9)
+dlsym(0xfffffffffffffffd, __main_thread_checker_on_report)
+  dlsym(RTLD_SELF, __main_thread_checker_on_report) ==> 0x10a2a9c6f
+_dyld_get_image_slide(0x10a1e4000)
+dlopen(NULL, 0x00000110)
+_dyld_get_image_slide(0x10a1e4000)
+s/QuartzCore.framework/QuartzCore, 0x00000002)
+  dlopen(/System/Library/Frameworks/QuartzCore.framework/QuartzCore) ==> 0x10a232030
+dlopen(/System/Library/PrivateFrameworks/ColorSync.framework/ColorSync, 0x00000005)
+_dyld_register_func_for_add_image(0x10f23883e)
+  dlopen(/System/Library/PrivateFrameworks/ColorSync.framework/ColorSync) ==> 0x10a234d68
+ff285, 54)
+dlsym(0x10a234d68, ColorSyncProfileCreateWithName)
+  dlsym(0x10a234d68, ColorSyncProfileCreateWithName) ==> 0x1133602f3
+_dyld_register_func_for_remove_image(0x10f238854)
+dlsym(0x10a234d68, ColorSyncProfileCopyData)
+  dlsym(0x10a234d68, ColorSyncProfileCopyData) ==> 0x113334abf
+dlsym(0x10a234d68, ColorSyncProfileGetMD5)
+  dlsym(0x10a234d68, ColorSyncProfileGetMD5) ==> 0x1133347d6
+dlsym(0x10a234d68, ColorSyncProfileIsWideGamut)
+  dlsym(0x10a234d68, ColorSyncProfileIsWideGamut) ==> 0x113336c4f
+dlsym(0x10a234d68, ColorSyncProfileContainsTag)
+  dlsym(0x10a234d68, ColorSyncProfileContainsTag) ==> 0x1133367f8
+dlsym(0xfffffffffffffffb, _os_debug_log_redirect_func)
+  dlsym(RTLD_MAIN_ONLY, _os_debug_log_redirect_func) ==> NULL
+dlopen(/System/Library/Frameworks/QuartzCore.framework/QuartzCore, 0x00000002)
+  dlopen(/System/Library/Frameworks/QuartzCore.framework/QuartzCore) ==> 0x10a232030
+dlsym(0x10a232030, kCADisplayOrientationRotation90)
+  dlsym(0x10a232030, kCADisplayOrientationRotation90) ==> 0x111416030
+dlsym(0x10a232030, kCADisplayOrientationRotation180)
+  dlsym(0x10a232030, kCADisplayOrientationRotation180) ==> 0x111416038
+dlsym(0x10a232030, kCADisplayOrientationRotation270)
+  dlsym(0x10a232030, kCADisplayOrientationRotation270) ==> 0x111416040
+dlopen(/usr/lib/libMobileGestaltExtensions.dylib, 0x00000001)
+  dlopen(/usr/lib/libMobileGestaltExtensions.dylib) ==> 0x600000170b00
+dlsym(0x600000170b00, _MGSSetLazyFuncs)
+  dlsym(0x600000170b00, _MGSSetLazyFuncs) ==> 0x122972f15
+dlsym(0x10a232030, kCADisplayModeGamutP3)
+  dlsym(0x10a232030, kCADisplayModeGamutP3) ==> 0x111416070
+dlsym(0x10a232030, kCADisplayModeHDR10)
+  dlsym(0x10a232030, kCADisplayModeHDR10) ==> 0x111416058
+dlsym(0x10a232030, kCADisplayModeDolby)
+  dlsym(0x10a232030, kCADisplayModeDolby) ==> 0x111416050
+dlsym(0x10a232030, kCADisplayScaleContent)
+  dlsym(0x10a232030, kCADisplayScaleContent) ==> 0x111416018
+dlsym(0x10a232030, kCADisplayInsetBounds)
+  dlsym(0x10a232030, kCADisplayInsetBounds) ==> 0x111416020
+ss(0x10fc35000)
+dlsym(0x10a234d68, ColorSyncProfileCreateWithName)
+  dlsym(0x10a234d68, ColorSyncProfileCreateWithName) ==> 0x1133602f3
+dlsym(0x10a234d68, ColorSyncProfileCreateWithName)
+  dlsym(0x10a234d68, ColorSyncProfileCreateWithName) ==> 0x1133602f3
+dlsym(0x10a234d68, ColorSyncTransformCreate)
+  dlsym(0x10a234d68, ColorSyncTransformCreate) ==> 0x113333270
+dlsym(0x10a234d68, ColorSyncTransformCopyProperty)
+  dlsym(0x10a234d68, ColorSyncTransformCopyProperty) ==> 0x113332b78
+dlsym(0x10a234d68, ColorSyncTransformCopyProperty)
+  dlsym(0x10a234d68, ColorSyncTransformCopyProperty) ==> 0x113332b78
+dlopen(/System/Library/Frameworks/Accelerate.framework/Frameworks/vImage.framework/Libraries/libCGInterfaces.dylib, 0x00000005)
+  dlopen(/System/Library/Frameworks/Accelerate.framework/Frameworks/vImage.framework/Libraries/libCGInterfaces.dylib) ==> 0x608000171640
+dlsym(0x608000171640, Init_CGInterfaces)
+  dlsym(0x608000171640, Init_CGInterfaces) ==> 0x1229a5ee0
+dlsym(0x10a234d68, ColorSyncProfileCreateWithName)
+  dlsym(0x10a234d68, ColorSyncProfileCreateWithName) ==> 0x1133602f3
+2018-08-18 12:26:51.989237+0100 ios-dynamic-loading-framework[2962:109722] App started
+dlsym(0x10a234d68, ColorSyncProfileCreateWithName)
+  dlsym(0x10a234d68, ColorSyncProfileCreateWithName) ==> 0x1133602f3
+2018-08-18 12:26:51.992187+0100 ios-dynamic-loading-framework[2962:109722] Before referencing CASHello in DynamicFramework1
+dlopen(DynamicFramework1.framework/DynamicFramework1, 0x00000001)
+2018-08-18 12:26:52.002234+0100 ios-dynamic-loading-framework[2962:109722] Loading CASHello in dynamic-framework-1
+  dlopen(DynamicFramework1.framework/DynamicFramework1) ==> 0x600000157ce0
+2018-08-18 12:26:52.002398+0100 ios-dynamic-loading-framework[2962:109722] Loaded CASHello in DynamicFramework1
+dlclose(0x600000157ce0)
+2018-08-18 12:26:52.002560+0100 ios-dynamic-loading-framework[2962:109722] CASHello from DynamicFramework1 still loaded after dlclose()
+2018-08-18 12:26:52.002642+0100 ios-dynamic-loading-framework[2962:109722] Before referencing CASHello in DynamicFramework2
+dlopen(DynamicFramework2.framework/DynamicFramework2, 0x00000001)
+objc[2962]: Class CASHello is implemented in both /Users/faisalm/Library/Developer/Xcode/DerivedData/ios-dynamic-loading-framework-ednexaanxalgpudjcqeuejsdmhlq/Build/Products/Debug-iphonesimulator/DynamicFramework1.framework/DynamicFramework1 (0x1229cb178) and /Users/faisalm/Library/Developer/Xcode/DerivedData/ios-dynamic-loading-framework-ednexaanxalgpudjcqeuejsdmhlq/Build/Products/Debug-iphonesimulator/DynamicFramework2.framework/DynamicFramework2 (0x1229d3178). One of the two will be used. Which one is undefined.
+2018-08-18 12:26:52.012601+0100 ios-dynamic-loading-framework[2962:109722] Loading CASHello in dynamic-framework-2
+  dlopen(DynamicFramework2.framework/DynamicFramework2) ==> 0x600000157d90
+2018-08-18 12:26:52.012792+0100 ios-dynamic-loading-framework[2962:109722] Loaded CASHello in DynamicFramework2
+dlclose(0x600000157d90)
+2018-08-18 12:26:52.012921+0100 ios-dynamic-loading-framework[2962:109722] CASHello from DynamicFramework2 still loaded after dlclose()
+dlopen(/System/Library/Frameworks/CoreText.framework/CoreText, 0x00000002)
+  dlopen(/System/Library/Frameworks/CoreText.framework/CoreText) ==> 0x10a232520
+dlsym(0x10a232520, CTFontCreateWithGraphicsFont)
+  dlsym(0x10a232520, CTFontCreateWithGraphicsFont) ==> 0x11164ef4a
+dlsym(0x10a232520, CTFontGetGlyphsAndAdvancesForCharacterRange)
+  dlsym(0x10a232520, CTFontGetGlyphsAndAdvancesForCharacterRange) ==> 0x111650583
+dlsym(0x10a232520, CTFontCopyAvailableTables)
+  dlsym(0x10a232520, CTFontCopyAvailableTables) ==> 0x111651f02
+dlsym(0x10a232520, CTFontCopyCharacterSet)
+  dlsym(0x10a232520, CTFontCopyCharacterSet) ==> 0x11165016d
+dlsym(0x10a232520, CTFontCopyGraphicsFont)
+  dlsym(0x10a232520, CTFontCopyGraphicsFont) ==> 0x11164fa7c
+dlsym(0x10a232520, CTFontGetUnitsPerEm)
+  dlsym(0x10a232520, CTFontGetUnitsPerEm) ==> 0x111650bff
+dlsym(0x10a232520, CTFontGetAscent)
+  dlsym(0x10a232520, CTFontGetAscent) ==> 0x11165081f
+dlsym(0x10a232520, CTFontGetDescent)
+  dlsym(0x10a232520, CTFontGetDescent) ==> 0x1116508a9
+dlsym(0x10a232520, CTFontGetLeading)
+  dlsym(0x10a232520, CTFontGetLeading) ==> 0x111650934
+dlsym(0x10a232520, CTFontIsLastResort)
+  dlsym(0x10a232520, CTFontIsLastResort) ==> 0x1116523e6
+dlsym(0x10a232520, CTFontGetSymbolicTraits)
+  dlsym(0x10a232520, CTFontGetSymbolicTraits) ==> 0x11164f946
+dlsym(0x10a232520, CTFontGetSize)
+  dlsym(0x10a232520, CTFontGetSize) ==> 0x11164f659
+dlsym(0x10a232520, CTFontCopyFamilyName)
+  dlsym(0x10a232520, CTFontCopyFamilyName) ==> 0x11164fc44
+dlsym(0x10a232520, CTFontCopyFullName)
+  dlsym(0x10a232520, CTFontCopyFullName) ==> 0x11164fcf3
+dlsym(0x10a232520, CTFontSwapDefaultSize)
+  dlsym(0x10a232520, CTFontSwapDefaultSize) ==> 0x111652278
+dlsym(0x10a232520, CTFontGetClientObject)
+  dlsym(0x10a232520, CTFontGetClientObject) ==> 0x1116522a4
+dlsym(0x10a232520, CTFontSetClientObject)
+  dlsym(0x10a232520, CTFontSetClientObject) ==> 0x111652367
+dlsym(0x10a232520, CTFontDescriptorCreateForUIType)
+  dlsym(0x10a232520, CTFontDescriptorCreateForUIType) ==> 0x11164e695
+dlsym(0x10a232520, CTFontDescriptorCreateCopyWithSymbolicTraits)
+  dlsym(0x10a232520, CTFontDescriptorCreateCopyWithSymbolicTraits) ==> 0x11164e2d1
+dlsym(0x10a232520, CTFontCreateWithFontDescriptorAndOptions)
+  dlsym(0x10a232520, CTFontCreateWithFontDescriptorAndOptions) ==> 0x11164ecc0
+dlsym(0x10a232520, CTFontCopyFontDescriptor)
+  dlsym(0x10a232520, CTFontCopyFontDescriptor) ==> 0x11164ee69
+dlsym(0x10a232520, CTFontDescriptorIsSystemUIFont)
+  dlsym(0x10a232520, CTFontDescriptorIsSystemUIFont) ==> 0x11164e21a
+dlsym(0x10a232520, CTFontManagerInstalledFontsChanged)
+  dlsym(0x10a232520, CTFontManagerInstalledFontsChanged) ==> 0x111714303
+dlsym(0x10a232520, CTFontRemoveFromCaches)
+  dlsym(0x10a232520, CTFontRemoveFromCaches) ==> 0x111659796
+dlopen(/System/Library/PrivateFrameworks/UIFoundation.framework/UIFoundation, 0x00000002)
+  dlopen(/System/Library/PrivateFrameworks/UIFoundation.framework/UIFoundation) ==> 0x10a230bf8
+dlsym(0x10a230bf8, UINewFont)
+  dlsym(0x10a230bf8, UINewFont) ==> 0x10fad2f7e
+dlopen(/System/Library/PrivateFrameworks/FontServices.framework/libGSFontCache.dylib, 0x00000002)
+  dlopen(/System/Library/PrivateFrameworks/FontServices.framework/libGSFontCache.dylib) ==> 0x608000171d00
+dlsym(0x608000171d00, GSFontCacheGetDictionary)
+  dlsym(0x608000171d00, GSFontCacheGetDictionary) ==> 0x1229ef29d
+dlopen(/System/Library/Frameworks/UIKit.framework/UIKit, 0x00000002)
+  dlopen(/System/Library/Frameworks/UIKit.framework/UIKit) ==> 0x10a22a168
+dlsym(0x10a22a168, UIApplicationDidEnterBackgroundNotification)
+  dlsym(0x10a22a168, UIApplicationDidEnterBackgroundNotification) ==> 0x10ca4f418
+dlopen(/System/Library/Frameworks/UIKit.framework/UIKit, 0x00000002)
+  dlopen(/System/Library/Frameworks/UIKit.framework/UIKit) ==> 0x10a22a168
+dlsym(0x10a22a168, _UIApplicationUsesAlternateUI)
+  dlsym(0x10a22a168, _UIApplicationUsesAlternateUI) ==> 0x10b901916
+dlopen(/usr/lib/libAccessibility.dylib, 0x00000005)
+  dlopen(/usr/lib/libAccessibility.dylib) ==> 0x10a232a38
+dlsym(0x10a232a38, _AXSEnhanceTextLegibilityEnabled)
+  dlsym(0x10a232a38, _AXSEnhanceTextLegibilityEnabled) ==> 0x111c052c4
+dlopen(/System/Library/PrivateFrameworks/FontServices.framework/libFontParser.dylib, 0x00000005)
+  dlopen(/System/Library/PrivateFrameworks/FontServices.framework/libFontParser.dylib) ==> 0x10a2347d8
+dlsym(0x10a2347d8, FPFontCreateFontsWithPath)
+  dlsym(0x10a2347d8, FPFontCreateFontsWithPath) ==> 0x112f7d580
+dlsym(0x10a2347d8, FPFontRetain)
+  dlsym(0x10a2347d8, FPFontRetain) ==> 0x112f7f827
+dlsym(0x10a2347d8, FPFontCopyPostScriptName)
+  dlsym(0x10a2347d8, FPFontCopyPostScriptName) ==> 0x112f83d74
+dlsym(0x10a2347d8, FPFontCopyFullName)
+  dlsym(0x10a2347d8, FPFontCopyFullName) ==> 0x112fcd997
+dlsym(0x10a2347d8, FPFontGetFontInfo)
+  dlsym(0x10a2347d8, FPFontGetFontInfo) ==> 0x112fcda2c
+dlopen(/System/Library/PrivateFrameworks/FontServices.framework/libTrueTypeScaler.dylib, 0x00000005)
+  dlopen(/System/Library/PrivateFrameworks/FontServices.framework/libTrueTypeScaler.dylib) ==> 0x60c0001717c0
+dlsym(0x60c0001717c0, TTScalerOpen)
+  dlsym(0x60c0001717c0, TTScalerOpen) ==> 0x122fb49b0
+dlsym(0x10a2347d8, FPFontCopyTable)
+  dlsym(0x10a2347d8, FPFontCopyTable) ==> 0x112f7f9fc
+dlsym(0x10a2347d8, FPFontIsBitmapOnly)
+  dlsym(0x10a2347d8, FPFontIsBitmapOnly) ==> 0x112f83910
+dlsym(0x10a2347d8, FPFontGetGlyphIdealAdvanceWidths)
+  dlsym(0x10a2347d8, FPFontGetGlyphIdealAdvanceWidths) ==> 0x112f83a7f
+dlsym(0x10a2347d8, FPFontGetUnitsPerEm)
+  dlsym(0x10a2347d8, FPFontGetUnitsPerEm) ==> 0x112f815fe
+dlsym(0x10a22a168, _UIApplicationLinkedOnOrAfter)
+  dlsym(0x10a22a168, _UIApplicationLinkedOnOrAfter) ==> 0x10b8de20f
+dlopen(/System/Library/PrivateFrameworks/FontServices.framework/libFontParser.dylib, 0x00000005)
+  dlopen(/System/Library/PrivateFrameworks/FontServices.framework/libFontParser.dylib) ==> 0x10a2347d8
+dlsym(0x10a2347d8, FPFontGetVariationScalars)
+  dlsym(0x10a2347d8, FPFontGetVariationScalars) ==> 0x112fcfa7d
+dlopen(/System/Library/Frameworks/UIKit.framework/UIKit, 0x00000002)
+  dlopen(/System/Library/Frameworks/UIKit.framework/UIKit) ==> 0x10a22a168
+dlsym(0x10a22a168, UIGraphicsGetCurrentContext)
+  dlsym(0x10a22a168, UIGraphicsGetCurrentContext) ==> 0x10b928cf6
+dlsym(0x10a22a168, _UIApplicationLinkedOnOrAfter)
+  dlsym(0x10a22a168, _UIApplicationLinkedOnOrAfter) ==> 0x10b8de20f
+dlsym(0x10a2347d8, FPFontIsBitmapOnly)
+  dlsym(0x10a2347d8, FPFontIsBitmapOnly) ==> 0x112f83910
+dlsym(0x10a2347d8, FPFontCopyGlyphPath)
+  dlsym(0x10a2347d8, FPFontCopyGlyphPath) ==> 0x112f84219
+dlopen(/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics, 0x00000009)
+  dlopen(/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics) ==> 0x10a231d18
+dlsym(0x10a231d18, CGPathCreateMutable)
+  dlsym(0x10a231d18, CGPathCreateMutable) ==> 0x110847be0
+dlsym(0x10a231d18, CGPathRelease)
+  dlsym(0x10a231d18, CGPathRelease) ==> 0x11084860b
+dlsym(0x10a231d18, CGPathMoveToPoint)
+  dlsym(0x10a231d18, CGPathMoveToPoint) ==> 0x1108486d1
+dlsym(0x10a231d18, CGPathAddLineToPoint)
+  dlsym(0x10a231d18, CGPathAddLineToPoint) ==> 0x11084877f
+dlsym(0x10a231d18, CGPathAddCurveToPoint)
+  dlsym(0x10a231d18, CGPathAddCurveToPoint) ==> 0x110848970
+dlsym(0x10a231d18, CGPathAddQuadCurveToPoint)
+  dlsym(0x10a231d18, CGPathAddQuadCurveToPoint) ==> 0x110848863
+dlsym(0x10a231d18, CGPathCloseSubpath)
+  dlsym(0x10a231d18, CGPathCloseSubpath) ==> 0x110848aa2
+dlsym(0x10a231d18, CGFontIndexMapAddRange)
+  dlsym(0x10a231d18, CGFontIndexMapAddRange) ==> 0x110929296
+dlsym(0x10a231d18, CGPathCreateByNormalizingGlyphPath)
+  dlsym(0x10a231d18, CGPathCreateByNormalizingGlyphPath) ==> 0x11084a00c
+dlsym(0x10a231d18, CGPathCreateCopyByTransformingPath)
+  dlsym(0x10a231d18, CGPathCreateCopyByTransformingPath) ==> 0x110847fed
+dlsym(0x10a231d18, CGPathRetain)
+  dlsym(0x10a231d18, CGPathRetain) ==> 0x1108485eb
+dlsym(0x10a231d18, CGPathIsEmpty)
+  dlsym(0x10a231d18, CGPathIsEmpty) ==> 0x1108497ef
+dlsym(0x10a231d18, CGPathGetBoundingBox)
+  dlsym(0x10a231d18, CGPathGetBoundingBox) ==> 0x110849d9a
+dlopen(/System/Library/PrivateFrameworks/ManagedConfiguration.framework/ManagedConfiguration, 0x00000002)
+  dlopen(/System/Library/PrivateFrameworks/ManagedConfiguration.framework/ManagedConfiguration) ==> 0x10a237d30
+dlsym(0x10a237d30, MCEffectiveSettingsChangedNotification)
+  dlsym(0x10a237d30, MCEffectiveSettingsChangedNotification) ==> 0x1155fbf38
+dlopen(/System/Library/PrivateFrameworks/ManagedConfiguration.framework/ManagedConfiguration, 0x00000002)
+  dlopen(/System/Library/PrivateFrameworks/ManagedConfiguration.framework/ManagedConfiguration) ==> 0x10a237d30
+dlsym(0x10a237d30, MCKeyboardSettingsChangedNotification)
+  dlsym(0x10a237d30, MCKeyboardSettingsChangedNotification) ==> 0x1155fbf60
+dlopen(/System/Library/PrivateFrameworks/GraphicsServices.framework/GraphicsServices, 0x00000002)
+  dlopen(/System/Library/PrivateFrameworks/GraphicsServices.framework/GraphicsServices) ==> 0x10a231b88
+dlsym(0x10a231b88, GSSystemRootDirectory)
+  dlsym(0x10a231b88, GSSystemRootDirectory) ==> 0x11050d4cd
+00232a00, 31)
+dlsym(0x10a22a168, UIContentSizeCategoryDidChangeNotification)
+  dlsym(0x10a22a168, UIContentSizeCategoryDidChangeNotification) ==> 0x10ca60e18
+dlsym(0x10a22a168, UIApplicationDidEnterBackgroundNotification)
+  dlsym(0x10a22a168, UIApplicationDidEnterBackgroundNotification) ==> 0x10ca4f418
+dlsym(0x10a22a168, UIContentSizeCategoryUnspecified)
+  dlsym(0x10a22a168, UIContentSizeCategoryUnspecified) ==> 0x10ca60db0
+dlopen(/System/Library/Frameworks/UIKit.framework/UIKit, 0x00000002)
+  dlopen(/System/Library/Frameworks/UIKit.framework/UIKit) ==> 0x10a22a168
+dlsym(0x10a22a168, UIContentSizeCategoryUnspecified)
+  dlsym(0x10a22a168, UIContentSizeCategoryUnspecified) ==> 0x10ca60db0
+_dyld_get_image_slide(0x10a1e4000)
