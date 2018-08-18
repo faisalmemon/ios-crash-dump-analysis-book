@@ -100,14 +100,14 @@ Thread 0 Crashed:
 35  libdyld.dylib                        0x3a719ab7 start + 0
 ```
 
-We can see the crash is in the Swift Core runtime library.
-When we see a crash in common code, from Apple, it usually indicates a misuse of APIs.  In those cases, we expect to see a descriptive error.
+We can see the crash is in the Swift Core runtime library\index{Swift!core runtime library}.
+When we see a crash in common code, from Apple, it usually indicates a misuse of APIs\index{API!misuse}.  In those cases, we expect to see a descriptive error.
 
-In this example, we get a bus alignment error.  Apple's library code accessed a memory address improperly for the CPU architecture.
+In this example, we get a bus alignment error\index{bus!alignment error}.  Apple's library code accessed a memory address improperly for the CPU architecture.
 
 This is a surprise.  Sometimes when we use an advanced feature, or set compiler optimization settings, we can trigger errors in special cases or lesser used code paths.
 
-We see that the problem is during object initialization time:
+We see that the problem is during object initialization\index{object!initialization} time:
 
 ```
 6   MyJablotron_dev                      0x00614a6c
@@ -123,8 +123,8 @@ We see that the problem is during object initialization time:
  MyJablotron.ChartThermoPlotSpace (ChartThermoPlotSpace.swift:0)
 ```
 
-The "metadata accessor" phrase is interesting as it implies we are running code that the compiler generates rather than code we have directly written.  Perhaps, as a workaround, we could simplify the code to use simpler language features.
+The "metadata accessor"\index{object!metadata accessor} phrase is interesting as it implies we are running code that the compiler generates rather than code we have directly written.  Perhaps, as a workaround, we could simplify the code to use simpler language features.
 
 Here we should aim to write a simple test case by taking the `ChartThermoPlotSpace` class and simplifying it until we get the essential code for the crash to occur.
 
-This crash was resolved by Apple updating their compiler to correct a Swift Generics bug.
+This crash was resolved by Apple updating their compiler to correct a Swift Generics\index{Swift!generics} bug.
