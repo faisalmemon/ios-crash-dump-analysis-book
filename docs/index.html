@@ -2409,12 +2409,12 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
 <p>These crashes are distinguished by reporting Exception Type, <code>EXC_BAD_ACCESS (SIGSEGV)</code>, or <code>EXC_BAD_ACCESS (SIGBUS)</code> in their Crash Report.</p>
 <p>We look at a range of crashes obtained by searching the Internet.</p>
 <h2 id="general-principles">General principles</h2>
-<p>In operating systems, memory is managed by first collating contiguous memory into memory pages, and then collating pages into segments. This allows meta data properties to be assigned to a segment that applies to all pages within the segment. This allows the code of our program (the program <em>TEXT</em>) to be set to read only but executable. This improves performance and security.</p>
+<p>In operating systems, memory is managed by first collating contiguous memory into memory pages, and then collating pages into segments. This allows metadata properties to be assigned to a segment that applies to all pages within the segment. This allows the code of our program (the program <em>TEXT</em>) to be set to read only but executable. This improves performance and security.</p>
 <p>SIGBUS (bus error) means the memory address is correctly mapped into the address space of the process, but the process is not allowed to access the memory.</p>
 <p>SIGSEGV (segment violation) means the memory address is not even mapped into the process address space.</p>
 <h2 id="segment-violation-segv-crashes">Segment Violation (SEGV) crashes</h2>
 <h3 id="fud-crash">fud crash</h3>
-<p>The <code>fud</code> program is an undocumented process within the private framework <code>MobileAccessoryUpdater</code> From looking at the binary it appears to be a firmware update program.</p>
+<p>The <code>fud</code> program is an undocumented process within the private framework <code>MobileAccessoryUpdater</code>. From looking at the binary it appears to be a firmware update program.</p>
 <p>Here we show the Crash Report of process <code>fud</code> on macOS, truncated for ease of demonstration:</p>
 <pre><code>Process:               fud [84641]
 Path:                  /System/Library/PrivateFrameworks/
@@ -2495,9 +2495,9 @@ _dispatch_continuation_push(dispatch_queue_t dq, dispatch_continuation_t dc)
 {
     dx_push(dq, dc, _dispatch_continuation_override_qos(dq, dc));
 }</code></pre>
-<p>We are dereferencing memory from a data structure which has a bad memory location.</p>
-<p>We can dissassemble the macOS binary, <code>/usr/lib/system/libdispatch.dylib</code> for the problem call site.</p>
-<p>Here we use the Hopper tool to do the dissassembly:</p>
+<p>We are dereferencing memory from a data structure that has a bad memory location.</p>
+<p>We can disassemble the macOS binary, <code>/usr/lib/system/libdispatch.dylib</code> for the problem call site.</p>
+<p>Here we use the Hopper tool to do the disassembly:</p>
 <pre><code>__dispatch_continuation_push:
 0000000000014c69         push       rbx
                                          ; CODE XREF=__dispatch_async_f2+112,
@@ -2513,9 +2513,9 @@ _dispatch_continuation_push(dispatch_queue_t dq, dispatch_continuation_t dc)
 0000000000014c86         je         loc_14ca3</code></pre>
 <p>There seems to be a problem with the <code>rdi</code> register value, address <code>0x00007f80bd21a250</code></p>
 <p>We need to take a step back, and understand why we have a memory access problem.</p>
-<p>Looking at the stack backtrace we can see that this program uses cross process communication (XPC)  to do its work. It has a <code>handleXPCStreamEvent</code> function.</p>
+<p>Looking at the stack backtrace we can see that this program uses cross process communication (XPC) to do its work. It has a <code>handleXPCStreamEvent</code> function.</p>
 <p>It is a common programming problem that when we receive a data payload, there is a problem unpacking the payload and interpreting the data. We speculate that there is a bug in the deserialization code. That would give us a potentially bad data structure which we dereference causing a crash.</p>
-<p>If we were the author of the <code>fud</code> program we could update it to check the XPC data it gets and ensure best practices are followed for serialization/deserialization of data, such as the using interface definition layer generators.</p>
+<p>If we were the authors of the <code>fud</code> program we could update it to check the XPC data it gets and ensure best practices are followed for serialization/deserialization of data, such as the using interface definition layer generators.</p>
 <h3 id="leakagent-crash">LeakAgent crash</h3>
 <p>The <code>LeakAgent</code> program is provided by Apple as part of its memory diagnostics tools. It is used in Xcode Instruments.</p>
 <p>Here is an Crash Report where it has crashed, truncated for ease of demonstration:</p>
@@ -2620,8 +2620,8 @@ Thread 4 crashed with ARM Thread State (64-bit):
      x27: 0x0000000000000000
    x28: 0x0000000000000009   fp: 0x000000016b6d19c0   lr: 0x0000000104f8717c
     sp: 0x000000016b6d1930   pc: 0x0000000104f871dc cpsr: 0x60000000</code></pre>
-<p>We can see that the kernel address at fault is <code>0x0000000000000000</code> so it’s a NULL pointer dereference. We call site where we crash is a Swift library which demangles symbols. The Xcode instrument is trying to provide human readable object type definitions from the activity it has seen on the iPad.</p>
-<p>There is not much we can explore further in this crash report. Since the problem is due to symbolification, it may be wise to to clear our build directory and then do a clean build. Sometimes an Xcode update switches us to a new object file format that is incompatible. It is worthwhile checking profiling with another project, perhaps a trivial test program. There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running. So memory analysis could be done in a different way.</p>
+<p>We can see that the kernel address at fault is <code>0x0000000000000000</code> so it’s a NULL pointer dereference. The call site where we crash is a Swift library that demangles symbols. The Xcode instrument is trying to provide human readable object type definitions from the activity it has seen on the iPad.</p>
+<p>Since the problem is due to symbolification, it may be wise to to clear our build directory and then do a clean build. Sometimes an Xcode update switches us to a new object file format that is incompatible. It is worthwhile checking profiling with another project, perhaps a trivial test program. There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running, so memory analysis could be done in a different way.</p>
 <h2 id="bus-error-sigbus-crashes">Bus error (SIGBUS) crashes</h2>
 <h3 id="xmbmc-crash">xmbmc crash</h3>
 <p>The <code>xmbc</code> app is a utility app which behaves like a television media player remote control.</p>
