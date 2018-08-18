@@ -2730,7 +2730,7 @@ Binary Images:
 <p>Note, this also appears as the value for register <code>r0</code> (often this is the case)</p>
 <p>This is higher than the XBMC app binary image range, and lower than the dyld range according to the binary images section of the Crash Report.</p>
 <p>This address must be mapped in, but we do not know what segment it is mapped into from the Crash Report.</p>
-<p>We can see this application can dynamically configure. From the backtrace we see</p>
+<p>We can see this application can dynamically configure. From the backtrace we see:</p>
 <pre><code>13  libdyld.dylib                   0x3678b4ae dlopen + 30
 14  XBMC                            0x002276d4
  SoLoader::Load() (SoLoader.cpp:57)</code></pre>
@@ -2764,8 +2764,8 @@ objc[2962]: Class CASHello is implemented in both /Users/faisalm/Library/
 Developer/Xcode/DerivedData/
 ios-dynamic-loading-framework-ednexaanxalgpudjcqeuejsdmhlq/Build
 /Products/Debug-iphonesimulator/
-DynamicFramework1.framework/DynamicFramework1 (0x1229cb178) and /Users/faisalm/Library/
-Developer/Xcode/DerivedData/
+DynamicFramework1.framework/DynamicFramework1 (0x1229cb178) and
+ /Users/faisalm/Library/Developer/Xcode/DerivedData/
 ios-dynamic-loading-framework-ednexaanxalgpudjcqeuejsdmhlq/Build
 /Products/Debug-iphonesimulator/DynamicFramework2.framework/DynamicFramework2
  (0x1229d3178). One of the two will be used. Which one is undefined.
@@ -2817,10 +2817,11 @@ dlclose(0x600000157d90)
      that both classes will be loaded and referencing the class will result
      in undefined behavior.
     */
-    
+
     NSLog(@&quot;Before referencing CASHello in DynamicFramework2&quot;);
     [self loadCASHelloFromDynamicFramework2];
 }</code></pre>
+<p>In general, if our app crashes before it even has run any code in our app, then it is good to switch on the Dynamic Loader diagnostic flags. There might be a deployment issue (not bundling the correct libraries) or code signing issue.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
