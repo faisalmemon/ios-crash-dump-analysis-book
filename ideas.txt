@@ -13,6 +13,7 @@ Show crashes that use each of the xcode memory diagnostics.
 x Explain Mac crash report
 Explore existing tools for crash enumeration https://www.crashprobe.com/ios/05/ and catching https://github.com/kstenerud/KSCrash
 
+Cover chapters for illegal instructions, guard exceptions, and termination codes.
 
 LATER WE SHALL references found from `grep -iR --color later markdown examples`
 
@@ -21,4 +22,4 @@ x Using class-dump in an example [Siri Crash]
 Using hopper for pseudo-code
 Explain xcode instruments (memory profiler or VM usage)
 Explain third party crash report tooling
-Examples of early crash and showing diagnosis of the runtime loader
+x Examples of early crash and showing diagnosis of the runtime loader
