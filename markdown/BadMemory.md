@@ -10,7 +10,7 @@ We look at a range of crashes obtained by searching the Internet.
 
 ## General principles
 
-In operating systems, memory is managed by first collating contiguous memory into memory pages, and then collating pages into segments.  This allows meta data properties to be assigned to a segment that applies to all pages within the segment.  This allows the code of our program (the program _TEXT_) to be set to read only but executable.  This improves performance and security.
+In operating systems, memory is managed by first collating contiguous memory into memory pages, and then collating pages into segments.  This allows metadata properties to be assigned to a segment that applies to all pages within the segment.  This allows the code of our program (the program _TEXT_) to be set to read only but executable.  This improves performance and security.
 
 SIGBUS (bus error) means the memory address is correctly mapped into the address space of the process, but the process is not allowed to access the memory.
 

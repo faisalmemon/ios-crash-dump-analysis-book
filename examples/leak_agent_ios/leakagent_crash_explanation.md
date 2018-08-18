@@ -109,7 +109,7 @@ Thread 4 crashed with ARM Thread State (64-bit):
 ```
 
 We can see that the kernel address at fault is `0x0000000000000000` so it's a NULL pointer dereference.
-We call site where we crash is a Swift library which demangles\index{Swift!symbol demangle} symbols.  The Xcode instrument is trying to provide human readable object type definitions from the activity it has seen on the iPad.
+The call site where we crash is a Swift library that demangles\index{Swift!symbol demangle} symbols.  The Xcode instrument is trying to provide human readable object type definitions from the activity it has seen on the iPad.
 
-There is not much we can explore further in this crash report.  Since the problem is due to symbolification, it may be wise to to clear our build directory and then do a clean build.  Sometimes an Xcode update switches us to a new object file format that is incompatible.  It is worthwhile checking profiling with another project, perhaps a trivial test program.  There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running.
-So memory analysis could be done in a different way.
+Since the problem is due to symbolification, it may be wise to clear our build directory and then do a clean build.  Sometimes an Xcode update switches us to a new object file format that is incompatible.  It is worthwhile checking profiling with another project, perhaps a trivial test program.  There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running, 
+so memory analysis could be done in a different way.

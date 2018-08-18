@@ -105,7 +105,7 @@ When we see a crash in common code, from Apple, it usually indicates a misuse of
 
 In this example, we get a bus alignment error.  Apple's library code accessed a memory address improperly for the CPU architecture.
 
-This is a surprise.  Sometimes when we use an advanced feature, or set higher level compiler optimization settings, we can trigger errors in special cases or lesser used code paths.
+This is a surprise.  Sometimes when we use an advanced feature, or set compiler optimization settings, we can trigger errors in special cases or lesser used code paths.
 
 We see that the problem is during object initialization time:
 

@@ -1,6 +1,6 @@
 ### xmbmc crash
 
-The `xmbc` app is a utility app which behaves like a television media player remote control.
+The `xmbc` app is a utility app that behaves like a television media player remote control.
 
 During startup the application crashed with the following Crash Report, truncated for ease of demonstration:
 
@@ -113,7 +113,7 @@ Exception Codes: 0x00000032, 0x047001b0
 
 Note, this also appears as the value for register `r0` (often this is the case)
 
-This is higher than the XBMC app binary image range, and lower than the dyld range
+This is higher than the XBMC app binary image range, and lower than the `dyld` range
 according to the binary images section of the Crash Report.
 
 This address must be mapped in, but we do not know what segment it is mapped into from the Crash Report.
@@ -131,19 +131,19 @@ It is calling the dynamic loader to load extra code based upon a configuration d
  ADDON::CAddonMgr::Init() (AddonManager.cpp:215)
 ```
 
-The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime.  It might be the case that the configuration is correct but the application bundle is missing the library we desire.
+The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime.  Possibly, application bundle is missing the library we desire.
 
-Sometimes we are integrating third party libraries which have dynamic code loading within them.  In such cases, we need to use the Xcode diagnostics facilities.
+Sometimes we are integrating third party libraries that have dynamic code loading within them.  In such cases, we need to use the Xcode diagnostics facilities.
 
 We do not have the source code for the XBMC application.  However, there is an open source example demonstrating the use of the dynamic loader.
 @dynamicloadingeg
 
-When we run this program we can see informative messages in its use of the dynamic loader, as coded by the app.
-We can switch on _Dynamic Linker API Usage_ by editing the Scheme settings as follows:
+When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app.
+Furthermore, can switch on _Dynamic Linker API Usage_ by editing the Scheme settings as follows:
 
 ![](screenshots/dynamic_loading.png)
 
-When this program is launched, we can see how it dynamically loads modules.  We get system generated messages in addition to our app messages.  The system messages do not have a timestamp prefix, but the app messages do.
+When this program is launched, we can see how it dynamically loads modules.  We get system-generated messages in addition to our app messages.  The system messages do not have a timestamp prefix, but the app messages do.
 
 Here is a trimmed debug log to show the kind of output we see:
 
@@ -213,7 +213,7 @@ Here is the relevant source code for loading `DynamicFramework1`
 }
 ```
 
-Here is the `viewDidLoad` code which calls it:
+Here is the `viewDidLoad` code that calls it:
 ```
 - (void)viewDidLoad
 {

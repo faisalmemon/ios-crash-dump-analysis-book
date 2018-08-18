@@ -1,6 +1,6 @@
 ### fud crash
 
-The `fud`\index{command!fud} program is an undocumented process within the private framework `MobileAccessoryUpdater`
+The `fud`\index{command!fud} program is an undocumented process within the private framework `MobileAccessoryUpdater`.
 From looking at the binary it appears to be a firmware update program.
 
 Here we show the Crash Report of process `fud` on macOS, truncated for ease of demonstration:
@@ -93,11 +93,11 @@ _dispatch_continuation_push(dispatch_queue_t dq, dispatch_continuation_t dc)
 }
 ```
 
-We are dereferencing memory from a data structure which has a bad memory location.
+We are dereferencing memory from a data structure that has a bad memory location.
 
-We can dissassemble the macOS binary, `/usr/lib/system/libdispatch.dylib` for the problem call site.
+We can disassemble the macOS binary, `/usr/lib/system/libdispatch.dylib` for the problem call site.
 
-Here we use the Hopper tool to do the dissassembly:
+Here we use the Hopper tool to do the disassembly:
 ```
 __dispatch_continuation_push:
 0000000000014c69         push       rbx
@@ -118,8 +118,9 @@ There seems to be a problem with the `rdi` register value, address `0x00007f80bd
 
 We need to take a step back, and understand why we have a memory access problem.
 
-Looking at the stack backtrace we can see that this program uses cross process communication (XPC) \index{XPC} to do its work.  It has a `handleXPCStreamEvent` function.
+Looking at the stack backtrace we can see that this program uses cross process communication
+(XPC)\index{XPC} to do its work.  It has a `handleXPCStreamEvent` function.
 
 It is a common programming problem that when we receive a data payload, there is a problem unpacking the payload and interpreting the data.  We speculate that there is a bug in the deserialization code.  That would give us a potentially bad data structure which we dereference causing a crash.
 
-If we were the author of the `fud` program we could update it to check the XPC data it gets and ensure best practices are followed for serialization/deserialization of data, such as the using interface definition layer generators.
+If we were the authors of the `fud` program we could update it to check the XPC data it gets and ensure best practices are followed for serialization/deserialization of data, such as the using interface definition layer generators.
