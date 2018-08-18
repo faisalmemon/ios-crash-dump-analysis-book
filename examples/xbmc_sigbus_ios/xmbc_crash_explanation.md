@@ -118,7 +118,7 @@ according to the binary images section of the Crash Report.
 
 This address must be mapped in, but we do not know what segment it is mapped into from the Crash Report.
 
-We can see this application can dynamically configure.  From the backtrace we see
+We can see this application can dynamically configure.  From the backtrace we see:
 ```
 13  libdyld.dylib                 	0x3678b4ae dlopen + 30
 14  XBMC                          	0x002276d4
@@ -168,8 +168,8 @@ objc[2962]: Class CASHello is implemented in both /Users/faisalm/Library/
 Developer/Xcode/DerivedData/
 ios-dynamic-loading-framework-ednexaanxalgpudjcqeuejsdmhlq/Build
 /Products/Debug-iphonesimulator/
-DynamicFramework1.framework/DynamicFramework1 (0x1229cb178) and /Users/faisalm/Library/
-Developer/Xcode/DerivedData/
+DynamicFramework1.framework/DynamicFramework1 (0x1229cb178) and
+ /Users/faisalm/Library/Developer/Xcode/DerivedData/
 ios-dynamic-loading-framework-ednexaanxalgpudjcqeuejsdmhlq/Build
 /Products/Debug-iphonesimulator/DynamicFramework2.framework/DynamicFramework2
  (0x1229d3178). One of the two will be used. Which one is undefined.
@@ -228,8 +228,10 @@ Here is the `viewDidLoad` code which calls it:
      that both classes will be loaded and referencing the class will result
      in undefined behavior.
     */
-    
+
     NSLog(@"Before referencing CASHello in DynamicFramework2");
     [self loadCASHelloFromDynamicFramework2];
 }
 ```
+
+In general, if our app crashes before it even has run any code in our app, then it is good to switch on the Dynamic Loader diagnostic flags.  There might be a deployment issue (not bundling the correct libraries) or code signing issue.
