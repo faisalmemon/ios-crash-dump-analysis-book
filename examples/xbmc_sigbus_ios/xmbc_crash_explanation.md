@@ -111,7 +111,10 @@ In this crash, we accessed bad memory at location `0x047001b0` as reported by th
 Exception Codes: 0x00000032, 0x047001b0
 ```
 
-This is higher than the XBMC app binary image range, and lower than the dyld range according to the binary images section of the Crash Report.
+Note, this also appears as the value for register `r0` (often this is the case)
+
+This is higher than the XBMC app binary image range, and lower than the dyld range
+according to the binary images section of the Crash Report.
 
 This address must be mapped in, but we do not know what segment it is mapped into from the Crash Report.
 
@@ -128,20 +131,21 @@ It is calling the dynamic loader to load extra code based upon a configuration d
  ADDON::CAddonMgr::Init() (AddonManager.cpp:215)
 ```
 
-The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime.
+The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime.  It might be the case that the configuration is correct but the application bundle is missing the library we desire.
 
 Sometimes we are integrating third party libraries which have dynamic code loading within them.  In such cases, we need to use the Xcode diagnostics facilities.
 
 We do not have the source code for the XBMC application.  However, there is an open source example demonstrating the use of the dynamic loader.
 @dynamicloadingeg
 
-When we run this program we can see informative messages in its use of the dynamic loader.
+When we run this program we can see informative messages in its use of the dynamic loader, as coded by the app.
 We can switch on _Dynamic Linker API Usage_ by editing the Scheme settings as follows:
 
 ![](screenshots/dynamic_loading.png)
 
-When this program is launched we can see how it dynamically loads modules.
-Here is a truncated debug log to show the kind of output we see:
+When this program is launched, we can see how it dynamically loads modules.  We get system generated messages in addition to our app messages.  The system messages do not have a timestamp prefix, but the app messages do.
+
+Here is a trimmed debug log to show the kind of output we see:
 
 ```
 2018-08-18 12:26:51.989237+0100 ios-dynamic-loading-framework[2962:109722]
@@ -209,6 +213,23 @@ Here is the relevant source code for loading `DynamicFramework1`
 }
 ```
 
+Here is the `viewDidLoad` code which calls it:
 ```
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
 
+    //Loading the first dynamic library here works fine :)
+    NSLog(@"Before referencing CASHello in DynamicFramework1");
+    [self loadCASHelloFromDynamicFramework1];
+
+    /*
+     Loading the second framework will give a message in the console saying
+     that both classes will be loaded and referencing the class will result
+     in undefined behavior.
+    */
+    
+    NSLog(@"Before referencing CASHello in DynamicFramework2");
+    [self loadCASHelloFromDynamicFramework2];
+}
 ```
