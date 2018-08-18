@@ -901,7 +901,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="odd">
 <td>Exception Note</td>
-<td>Either this says <code>SIMULATED (this is NOT a crash)</code> because the process will killed by the watchdog timer, or it says <code>EXC_CORPSE_NOTIFY</code> because the process crashed</td>
+<td>Either this says <code>SIMULATED (this is NOT a crash)</code> because the process was killed by the watchdog timer, or it says <code>EXC_CORPSE_NOTIFY</code> because the process crashed</td>
 </tr>
 <tr class="even">
 <td>Termination Reason</td>
@@ -2621,10 +2621,10 @@ Thread 4 crashed with ARM Thread State (64-bit):
    x28: 0x0000000000000009   fp: 0x000000016b6d19c0   lr: 0x0000000104f8717c
     sp: 0x000000016b6d1930   pc: 0x0000000104f871dc cpsr: 0x60000000</code></pre>
 <p>We can see that the kernel address at fault is <code>0x0000000000000000</code> so it’s a NULL pointer dereference. The call site where we crash is a Swift library that demangles symbols. The Xcode instrument is trying to provide human readable object type definitions from the activity it has seen on the iPad.</p>
-<p>Since the problem is due to symbolification, it may be wise to to clear our build directory and then do a clean build. Sometimes an Xcode update switches us to a new object file format that is incompatible. It is worthwhile checking profiling with another project, perhaps a trivial test program. There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running, so memory analysis could be done in a different way.</p>
+<p>Since the problem is due to symbolification, it may be wise to clear our build directory and then do a clean build. Sometimes an Xcode update switches us to a new object file format that is incompatible. It is worthwhile checking profiling with another project, perhaps a trivial test program. There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running, so memory analysis could be done in a different way.</p>
 <h2 id="bus-error-sigbus-crashes">Bus error (SIGBUS) crashes</h2>
 <h3 id="xmbmc-crash">xmbmc crash</h3>
-<p>The <code>xmbc</code> app is a utility app which behaves like a television media player remote control.</p>
+<p>The <code>xmbc</code> app is a utility app that behaves like a television media player remote control.</p>
 <p>During startup the application crashed with the following Crash Report, truncated for ease of demonstration:</p>
 <pre><code>Incident Identifier: 396B3641-5F74-4B01-9E62-FE24A2C12E92
 CrashReporter Key:   14aa0286b8b087d8b6a1ca75201a3f7d8c52d5bd
@@ -2728,7 +2728,7 @@ Binary Images:
 <p>In this crash, we accessed bad memory at location <code>0x047001b0</code> as reported by the second value in the crash report Exception Codes section:</p>
 <pre><code>Exception Codes: 0x00000032, 0x047001b0</code></pre>
 <p>Note, this also appears as the value for register <code>r0</code> (often this is the case)</p>
-<p>This is higher than the XBMC app binary image range, and lower than the dyld range according to the binary images section of the Crash Report.</p>
+<p>This is higher than the XBMC app binary image range, and lower than the <code>dyld</code> range according to the binary images section of the Crash Report.</p>
 <p>This address must be mapped in, but we do not know what segment it is mapped into from the Crash Report.</p>
 <p>We can see this application can dynamically configure. From the backtrace we see:</p>
 <pre><code>13  libdyld.dylib                   0x3678b4ae dlopen + 30
@@ -2737,12 +2737,12 @@ Binary Images:
 <p>It is calling the dynamic loader to load extra code based upon a configuration determined by an “AddOn” manager:</p>
 <pre><code>20  XBMC                            0x002096c6
  ADDON::CAddonMgr::Init() (AddonManager.cpp:215)</code></pre>
-<p>The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime. It might be the case that the configuration is correct but the application bundle is missing the library we desire.</p>
-<p>Sometimes we are integrating third party libraries which have dynamic code loading within them. In such cases, we need to use the Xcode diagnostics facilities.</p>
+<p>The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime. Possibly, application bundle is missing the library we desire.</p>
+<p>Sometimes we are integrating third party libraries that have dynamic code loading within them. In such cases, we need to use the Xcode diagnostics facilities.</p>
 <p>We do not have the source code for the XBMC application. However, there is an open source example demonstrating the use of the dynamic loader. <span class="citation" data-cites="dynamicloadingeg">(“Dynamic Loading Example” 2018)</span></p>
-<p>When we run this program we can see informative messages in its use of the dynamic loader, as coded by the app. We can switch on <em>Dynamic Linker API Usage</em> by editing the Scheme settings as follows:</p>
+<p>When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app. Furthermore, can switch on <em>Dynamic Linker API Usage</em> by editing the Scheme settings as follows:</p>
 <p><img src="screenshots/dynamic_loading.png" /></p>
-<p>When this program is launched, we can see how it dynamically loads modules. We get system generated messages in addition to our app messages. The system messages do not have a timestamp prefix, but the app messages do.</p>
+<p>When this program is launched, we can see how it dynamically loads modules. We get system-generated messages in addition to our app messages. The system messages do not have a timestamp prefix, but the app messages do.</p>
 <p>Here is a trimmed debug log to show the kind of output we see:</p>
 <pre><code>2018-08-18 12:26:51.989237+0100 ios-dynamic-loading-framework[2962:109722]
  App started
@@ -2803,7 +2803,7 @@ dlclose(0x600000157d90)
         NSLog(@&quot;Unloaded DynamicFramework1&quot;);
     }
 }</code></pre>
-<p>Here is the <code>viewDidLoad</code> code which calls it:</p>
+<p>Here is the <code>viewDidLoad</code> code that calls it:</p>
 <pre><code>- (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -2920,7 +2920,7 @@ Thread 0 Crashed:
 35  libdyld.dylib                        0x3a719ab7 start + 0</code></pre>
 <p>We can see the crash is in the Swift Core runtime library. When we see a crash in common code, from Apple, it usually indicates a misuse of APIs. In those cases, we expect to see a descriptive error.</p>
 <p>In this example, we get a bus alignment error. Apple’s library code accessed a memory address improperly for the CPU architecture.</p>
-<p>This is a surprise. Sometimes when we use an advanced feature, or set higher level compiler optimization settings, we can trigger errors in special cases or lesser used code paths.</p>
+<p>This is a surprise. Sometimes when we use an advanced feature, or set compiler optimization settings, we can trigger errors in special cases or lesser used code paths.</p>
 <p>We see that the problem is during object initialization time:</p>
 <pre><code>6   MyJablotron_dev                      0x00614a6c
  type metadata accessor for
