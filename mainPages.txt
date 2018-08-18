@@ -14,6 +14,6 @@ markdown/BadMemorySegv.md
 examples/fud_crash_osx/fud_crash_explanation.md
 examples/leak_agent_ios/leakagent_crash_explanation.md
 markdown/BadMemoryBus.md
-examples/xmbc_sigbus_ios/xmbc_crash_explanation.md
+examples/xbmc_sigbus_ios/xmbc_crash_explanation.md
 examples/siri_crash_osx/siriCrashExplanation.md
 markdown/Bibliography.md
