@@ -113,10 +113,10 @@ Exception Codes: 0x00000032, 0x047001b0
 
 Note, this also appears as the value for register `r0` (often this is the case)
 
-This is higher than the XBMC app binary image range, and lower than the `dyld` range
+This is higher than the XBMC app binary image range, and lower than the `dyld`\index{command!dyld} range
 according to the binary images section of the Crash Report.
 
-This address must be mapped in, but we do not know what segment it is mapped into from the Crash Report.
+This address must be mapped in, but we do not know what segment\index{memory!segment} it is mapped into from the Crash Report.
 
 We can see this application can dynamically configure.  From the backtrace we see:
 ```
@@ -125,13 +125,13 @@ We can see this application can dynamically configure.  From the backtrace we se
  SoLoader::Load() (SoLoader.cpp:57)
 ```
 
-It is calling the dynamic loader to load extra code based upon a configuration determined by an "AddOn" manager:
+It is calling the dynamic loader\index{file!dynamic loader} to load extra code based upon a configuration determined by an "AddOn" manager:
 ```
 20  XBMC                          	0x002096c6
  ADDON::CAddonMgr::Init() (AddonManager.cpp:215)
 ```
 
-The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime.  Possibly, application bundle is missing the library we desire.
+The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime.  Possibly, application bundle\index{application!bundle} is missing the library we desire.
 
 Sometimes we are integrating third party libraries that have dynamic code loading within them.  In such cases, we need to use the Xcode diagnostics facilities.
 
@@ -234,4 +234,4 @@ Here is the `viewDidLoad` code that calls it:
 }
 ```
 
-In general, if our app crashes before it even has run any code in our app, then it is good to switch on the Dynamic Loader diagnostic flags.  There might be a deployment issue (not bundling the correct libraries) or code signing issue.
+In general, if our app crashes before it even has run any code in our app, then it is good to switch on the Dynamic Loader diagnostic flags.  There might be a deployment\index{software!deployment} issue (not bundling the correct libraries) or code signing\index{software!code signing} issue.

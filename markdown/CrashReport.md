@@ -6,7 +6,7 @@ which caries a slightly different structure but serves the same purpose.
 
 Note, it is possible to install crash handlers from third parties, either to get enhanced crash reporting diagnostics or to link application crashes to a web-based service for managing crash reports across a potentially large population of users.  We shall defer such discussions to a later chapter.
 
-When a crash occurs the `ReportCrash`\index{command!ReportCrash} program extracts information from the crashing process from the Operating System.  The result is a text file with a `.crash`\index{extension!.crash} extension.
+When a crash occurs the `ReportCrash`\index{command!ReportCrash} program extracts information from the crashing process\index{process} from the Operating System.  The result is a text file with a `.crash`\index{extension!.crash} extension.
 
 When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses.  This improves the comprehensibility of the report.
 
@@ -60,13 +60,13 @@ Entry|Meaning
 Incident Identifier|Unique report number of crash
 CrashReporter Key|Unique identifier for the device that crashed
 Hardware Model|Apple Hardware Model @ios-devices
-Process|Process name (number) that crashed
+Process|Process\index{process} name (number) that crashed
 Path|Full pathname of crashing program on the device file system
 Identifier|Bundle identifier from `Info.plist`\index{Info.plist}
 Version|CFBundleVersion; also CFBundleVersionString in brackets
 Code Type|Target architecture of the process that crashed
 Role\index{task!role}|The process `task_role`.  An indicator if we were in the background, foreground, or was a console app.  Mainly affects the scheduling priority of the process.
-Parent Process|Parent of the crashing process. `launchd`\index{command!launchd} is a process launcher and is often the parent.
+Parent Process|Parent of the crashing process\index{process}. `launchd`\index{command!launchd} is a process launcher and is often the parent.
 Coalition\index{task!coalition}|Tasks are grouped into coalitions so they can pool together their consumption of resources @resource-management
 
 The first thing to look at is the version.  Typically, if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.
@@ -100,7 +100,7 @@ These items are explained by the following table:
 Entry|Meaning
 --|--
 Date/Time|When the crash occurred
-Launch Time|When the process was originally launched before crashing
+Launch Time|When the process\index{process} was originally launched before crashing
 OS Version| Operating System Version (Build number).  @ios-versions
 Baseband Version| Version number of the firmware of the cellular modem (used for phone calls) or `n/a` if the device has no cellular modem (most iPads, iPod Touch, etc.)
 Report Version|The version of ReportCrash used to produce the report
@@ -133,7 +133,7 @@ Termination Reason: Namespace <0xF>, Code 0xdead10cc
 Triggered by Thread:  0
 ```
 
-What has happened is that the MachOS\index{MachOS} kernel has raised an Operating System Exception on the problematic process, which terminates the process.  The ReportCrash program then retrieves from the OS details of such an exception.
+What has happened is that the MachOS\index{MachOS} kernel has raised an Operating System Exception on the problematic process\index{process}, which terminates the process.  The ReportCrash program then retrieves from the OS details of such an exception.
 
 These items are explained by the following table:
 
@@ -141,9 +141,9 @@ Entry|Meaning
 --|--
 Exception Type|The type of exception in Mach OS. @exception-types
 Exception Codes|These codes encode the kind of exception, such as trying to trying to access an invalid address, and supporting information.  @exception-types
-Exception Note|Either this says `SIMULATED (this is NOT a crash)` because the process will killed by the watchdog timer, or it says `EXC_CORPSE_NOTIFY` because the process crashed
+Exception Note|Either this says `SIMULATED (this is NOT a crash)` because the process\index{process!killed} was killed by the watchdog timer, or it says `EXC_CORPSE_NOTIFY` because the process\index{process!crashed} crashed
 Termination Reason|Optionally present, this gives a Namespace (number or subsystem name) and a magic number Code (normally a hex number that looks like a English word).  See below for details on each Termination Codes.
-Triggered by Thread|The thread in the process that caused the crash
+Triggered by Thread|The thread in the process\index{process} that caused the crash
 
 
 In this section, the most important item is the exception type\index{exception!type}.
@@ -167,7 +167,7 @@ Termination Code | Meaning
 `0xbad22222`\index{0xbad22222} | VOIP was terminated as it resumed too frequently.  Also seen with code using networking whilst in the background.  If our TCP connection is woken up too many times (say 15 wakes in 300 seconds) we get this crash.
 `0x8badf00d`\index{0x8badf00d} | Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.).  The watchdog timer noticed the policy violation and caused the termination.  The most common culprit is doing synchronous networking on the main thread.
 `0xc00010ff`\index{0xc00010ff} | The system detected a thermal event and kill off our app.  If it's just on one device it could be a hardware issue, not a software problem in our app.  If it happens on other devices, check our app's power usage using Instruments.
-`0x2bad45ec`\index{0x2bad45ec} | There was a security violation. If the Termination Description says, "Process detected doing insecure drawing while in secure mode" it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.
+`0x2bad45ec`\index{0x2bad45ec} | There was a security violation. If the Termination Description says, "Process\index{process} detected doing insecure drawing while in secure mode" it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.
 
 #### Magic Numbers and their Hexspeak
 
@@ -191,7 +191,7 @@ When we have a memory issue, `EXC_BAD_ACCESS`, with `SIGSEGV` or `SIGBUS`, the f
 If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system.  For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History.  Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.
 
 #### Exceptions
-When we have a `EXC_BREAKPOINT` it can seem confusing.  The program may have been running standalone without a debugger so where did the breakpoint come from?  Typically, we are running `NSException` code.  This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging.  So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception.  In the case of normal app running, there is no debugger so we would just crash the app.
+When we have a `EXC_BREAKPOINT` it can seem confusing.  The program may have been running standalone without a debugger so where did the breakpoint come from?  Typically, we are running `NSException` code.  This will make the system signal the process\index{process} with the trace trap signal and this makes any available debugger attach to the process to aid debugging.  So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception.  In the case of normal app running, there is no debugger so we would just crash the app.
 
 #### Illegal Instructions
 When we have a `EXC_BAD_INSTRUCTION`, the exception codes (second number) will be the problematic assembly code.  This should be a rare condition.  It is worthwhile adjusting the optimization level of the code at fault in the Build Settings because higher level optimizations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug.  Alternatively, the problem might be a lower level library that has hand assembly optimizations in it - such as a multimedia library.  Handwritten assembly can be the cause of bad instructions.
@@ -252,7 +252,7 @@ Filtered syslog:
 None found
 ```
 
-This is an anomalous section because it is supposed to look at the process ID of the crashed process and then look to see if there are any syslog \index{command!syslog}(System Log) entries for that process.  We have never seen filtered entries in a crash, and only see `None found` reported.
+This is an anomalous section because it is supposed to look at the process\index{process!ID} ID of the crashed process and then look to see if there are any syslog \index{command!syslog}(System Log) entries for that process.  We have never seen filtered entries in a crash, and only see `None found` reported.
 
 ### iOS Crash Report Exception Backtrace section
 
@@ -959,7 +959,7 @@ External Modification Summary:
 
 macOS is a more open platform than iOS.  This permits under certain conditions modification of our process.  We need to know if such a thing happened because it can invalidate any design assumption in the code because registers can be modified of the process and thus a crash can be induced.
 
-Ordinarily the above snapshot would be seen.  Notably `thread_set_state`\index{thread!set state} is zero in all cases.  This means no process has directly attached to the process to change the state of a register.  Such actions would be acceptable for implementations of managed runtimes or debuggers.  Outside of these scenarios, such actions would be suspicious and need further investigation.
+Ordinarily the above snapshot would be seen.  Notably `thread_set_state`\index{thread!set state} is zero in all cases.  This means no process has directly attached to the process\index{process!attachment} to change the state of a register.  Such actions would be acceptable for implementations of managed runtimes or debuggers.  Outside of these scenarios, such actions would be suspicious and need further investigation.
 
 In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 `task_for_pid`\index{task!for pid} calls.
 
@@ -983,7 +983,7 @@ Such data would normally make us suspicious of the environment the program ran i
 
 Ordinarily only first party (Apple provided) programs have privilege to perform the above modifications.  It is possible to install software that also does this.
 
-The requirements for accessing process modification APIs are:
+The requirements for accessing process\index{process!modification requirements} modification APIs are:
 
 - System Integrity Protection\index{operating system!System Integrity Protection} needs to be disabled.
 - The process making the modification must run as root.
