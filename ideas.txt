@@ -1,17 +1,19 @@
 Explain heuristic concepts before going in examples of each
 x Explain the choice of tooling (free = to communicate without prop tooling, just starting out, hopper = paid ios pro, irda = pen tester/rev eng/enterprise)
 x Possible to have a website to analyse crashes and promote the book.
-Explain Kepner Tregoe
+x Explain Kepner Tregoe
 Explain Mach, mach_msg etc. and History
 Look at structure of iBook and Technical books - need Acknowledgements and Copyright/Trademarks Section
 x Look at smashbooks
 Include example of WTFCrash (WebKit)
 x Add Preface
 Show opengl crash
+Show Core Foundation crash
 Map out the crashes to how they fit in terms of covering tvos,macos,ios, etc. and languages.
 Show crashes that use each of the xcode memory diagnostics.
 x Explain Mac crash report
 Explore existing tools for crash enumeration https://www.crashprobe.com/ios/05/ and catching https://github.com/kstenerud/KSCrash
+Show commercial crash services
 
 Cover chapters for illegal instructions, guard exceptions, and termination codes.
 
