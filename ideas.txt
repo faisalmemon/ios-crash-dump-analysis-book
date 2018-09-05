@@ -3,6 +3,7 @@ x Explain the choice of tooling (free = to communicate without prop tooling, jus
 x Possible to have a website to analyse crashes and promote the book.
 x Explain Kepner Tregoe
 Explain Mach, mach_msg etc. and History
+Do Kepner Tregoe worksheets
 Look at structure of iBook and Technical books - need Acknowledgements and Copyright/Trademarks Section
 x Look at smashbooks
 Include example of WTFCrash (WebKit)
@@ -11,6 +12,7 @@ Show opengl crash
 Show Core Foundation crash
 Map out the crashes to how they fit in terms of covering tvos,macos,ios, etc. and languages.
 Show crashes that use each of the xcode memory diagnostics.
+Show deserialization and dynamic binding crashes, and zone copying bug.
 x Explain Mac crash report
 Explore existing tools for crash enumeration https://www.crashprobe.com/ios/05/ and catching https://github.com/kstenerud/KSCrash
 Show commercial crash services
