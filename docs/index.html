@@ -173,6 +173,11 @@
 <li><a href="#application-abort-crashes">Application Abort Crashes</a><ul>
 <li><a href="#general-principles-1">General principles</a></li>
 <li><a href="#kindle-create-crash">Kindle Create Crash</a></li>
+<li><a href="#type-confusion">Type confusion</a><ul>
+<li><a href="#extracting-nsdata-from-a-configuration-file">Extracting NSData from a configuration file</a></li>
+<li><a href="#deserialization-crash-report">Deserialization Crash Report</a></li>
+</ul></li>
+<li><a href="#not-a-number-errors">Not A Number Errors</a></li>
 </ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
@@ -3193,6 +3198,354 @@ By locating the binary on our Mac, we can ask Hopper to not only dissemble the c
 Graphics kernel error: 0xfffffffb</code></pre>
 <p>Unfortunately it is not clear what this error means. We need the author of the app to switch on OpenGL command level logging in order to understand what drawing command got rejected by the graphics driver.</p>
 <p>Using a different Mac with a different graphics card would be an interesting experiment to understand if we have a driver-specific issue or a general OpenGL problem.</p>
+<h2 id="type-confusion">Type confusion</h2>
+<p>The compiler does an excellent job of static type checking. When types are inferred dynamically problems can arise. Configuration files are further troublesome in this area. It can be easy to set the wrong type for a configuration parameter.</p>
+<p>We use the example code, <code>icdab_nsdata</code>, to illustrate our point. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<h3 id="extracting-nsdata-from-a-configuration-file">Extracting NSData from a configuration file</h3>
+<p>Consider the example code:</p>
+<pre><code>- (BOOL)application:(UIApplication *)application
+ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // Override point for customization after application launch.
+
+    NSData *myToken = [[NSData alloc] initWithData:
+    [[NSUserDefaults standardUserDefaults] objectForKey:@&quot;SomeKey&quot;]];
+
+    NSLog(@&quot;My data is %@ - ok since we can handle a nil&quot;, myToken);
+
+    id stringProperty = @&quot;Some string&quot;;
+    NSData *problemToken = [[NSData alloc] initWithData:stringProperty];
+
+    NSLog(@&quot;My data is %@ - we have probably crashed by now&quot;, problemToken);
+    return YES;
+}</code></pre>
+<p>This code tries to do two things. Firstly, it tries to get a data token from its configuration. We assume from a previous run, the user defaults saved an <code>NSData</code> token under the key <code>SomeKey</code></p>
+<p>By design, the <code>NSData</code> abstraction can handle whether the supplied data is <code>nil</code>. So if no token has yet been set, we are still ok.</p>
+<p>It might be the case that the token data is just a simple hex string like <code>7893883873a705aec69e2942901f20d7b1e28dec</code></p>
+<p>The above code has <code>stringProperty</code> which is supposed to model the case where the data token was recorded as a string in the user defaults instead of as <code>NSData</code>. Perhaps it was manually copy-pasted into the <code>.plist</code> file of the user defaults. If the <code>initWithData</code> method is passed a <code>NSString</code> it cannot create an <code>NSData</code> object. We get a crash.</p>
+<p>If we run the code, we get the following Crash Report, truncated for ease of demonstration:</p>
+<h3 id="deserialization-crash-report">Deserialization Crash Report</h3>
+<pre><code>Incident Identifier: 12F72C5C-E9BD-495F-A017-832E3BBF285E
+CrashReporter Key:   56ec2b40764a1453466998785343f1e51c8b3849
+Hardware Model:      iPod5,1
+Process:             icdab_nsdata [324]
+Path:                /private/var/containers/Bundle/Application/
+98F79023-562D-4A76-BC72-5E56D378AD98/icdab_nsdata.app/icdab_nsdata
+Identifier:          www.perivalebluebell.icdab-nsdata
+Version:             1 (1.0)
+Code Type:           ARM (Native)
+Parent Process:      launchd [1]
+Exception Type:  EXC_CRASH (SIGABRT)
+Exception Codes: 0x0000000000000000, 0x0000000000000000
+Exception Note:  EXC_CORPSE_NOTIFY
+Triggered by Thread:  0
+
+Filtered syslog:
+None found
+
+Last Exception Backtrace:
+0   CoreFoundation                  0x25aa3916 __exceptionPreprocess + 122
+1   libobjc.A.dylib                 0x2523ee12 objc_exception_throw + 33
+2   CoreFoundation                  0x25aa92b0
+-[NSObject+ 1045168 (NSObject) doesNotRecognizeSelector:] + 183
+3   CoreFoundation                  0x25aa6edc ___forwarding___ + 695
+4   CoreFoundation                  0x259d2234 _CF_forwarding_prep_0 + 19
+5   Foundation                      0x2627e9a0
+-[_NSPlaceholderData initWithData:] + 123
+6   icdab_nsdata                    0x000f89ba
+-[AppDelegate application:
+didFinishLaunchingWithOptions:] + 27066 (AppDelegate.m:26)
+7   UIKit                           0x2a093780 -[UIApplication _handleDelegateCallbacksWithOptions:isSuspended:restoreState:] + 387
+8   UIKit                           0x2a2bb2cc -[UIApplication _callInitializationDelegatesForMainScene:transitionContext:] + 3075
+9   UIKit                           0x2a2bf280
+-[UIApplication _runWithMainScene:transitionContext:completion:] + 1583
+10  UIKit                           0x2a2d3838
+__84-[UIApplication _handleApplicationActivationWithScene:
+transitionContext:completion:]_block_invoke3286 + 31
+11  UIKit                           0x2a2bc7ae
+ -[UIApplication workspaceDidEndTransaction:] + 129
+12  FrontBoardServices              0x27146c02
+ __FBSSERIALQUEUE_IS_CALLING_OUT_TO_A_BLOCK__ + 13
+13  FrontBoardServices              0x27146ab4
+-[FBSSerialQueue _performNext] + 219
+14  FrontBoardServices              0x27146db4
+-[FBSSerialQueue _performNextFromRunLoopSource] + 43
+15  CoreFoundation                  0x25a65dfa
+__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 9
+16  CoreFoundation                  0x25a659e8 __CFRunLoopDoSources0 + 447
+17  CoreFoundation                  0x25a63d56 __CFRunLoopRun + 789
+18  CoreFoundation                  0x259b3224 CFRunLoopRunSpecific + 515
+19  CoreFoundation                  0x259b3010 CFRunLoopRunInMode + 103
+20  UIKit                           0x2a08cc38 -[UIApplication _run] + 519
+21  UIKit                           0x2a087184 UIApplicationMain + 139
+22  icdab_nsdata                    0x000f8830 main + 26672 (main.m:14)
+23  libdyld.dylib                   0x2565b86e tlv_get_addr + 41</code></pre>
+<p>Unfortunately this type of crash does not inject further helpful information, such as <code>Application Specific Information</code>, into the Crash Report.</p>
+<p>We do, however, get information in the system log (console log of the app):</p>
+<pre><code>default 13:36:58.000000 +0000   icdab_nsdata     
+My data is &lt;&gt; - ok since we can handle a nil
+
+default 13:36:58.000000 +0100   icdab_nsdata     
+-[__NSCFConstantString _isDispatchData]:
+unrecognized selector sent to instance 0x3f054
+
+default 13:36:58.000000 +0100   icdab_nsdata
+     *** Terminating app due to uncaught exception
+    &#39;NSInvalidArgumentException&#39;, reason:
+    &#39;-[__NSCFConstantString _isDispatchData]:
+     unrecognized selector sent to instance 0x3f054&#39;
+
+    *** First throw call stack:
+    (0x25aa391b 0x2523ee17 0x25aa92b5 0x25aa6ee1 0x259d2238 0x2627e9a5 0x3d997
+     0x2a093785 0x2a2bb2d1 0x2a2bf285 0x2a2d383d 0x2a2bc7b3 0x27146c07
+      0x27146ab9 0x27146db9 0x25a65dff 0x25a659ed 0x25a63d5b 0x259b3229
+      0x259b3015 0x2a08cc3d 0x2a087189 0x3d80d 0x2565b873)
+
+default 13:36:58.000000 +0100   SpringBoard
+     Application &#39;UIKitApplication:www.perivalebluebell.icdab-nsdata[0x51b9]&#39;
+    crashed.
+
+default 13:36:58.000000 +0100   UserEventAgent
+     2769630555571: id=www.perivalebluebell.icdab-nsdata pid=386, state=0
+
+default 13:36:58.000000 +0000   ReportCrash
+     Formulating report for corpse[386] icdab_nsdata
+
+default 13:36:58.000000 +0000   ReportCrash
+     Saved type &#39;109(109_icdab_nsdata)&#39; report (2 of max 25) at
+    /var/mobile/Library/Logs/CrashReporter/icdab_nsdata-2018-07-27-133658.ips</code></pre>
+<p>From here we can see the problem is that <code>__NSCFConstantString</code> is unable to respond to <code>_isDispatchData</code> because <code>NSString</code> is not a data providing object.</p>
+<p>Error reports will refer to the concrete classes that support the abstractions we program against. So their names can be unfamiliar.</p>
+<p>An easy way to gather our compass, and figure out what concrete representations map to which abstraction is to search for the class type definition.</p>
+<p>The Apple Software Development Kits only publish the public interfaces we may program to. This is a small fraction of what is present.</p>
+<p>Conveniently, other engineers have run a tool over all frameworks to generate the Objective-C class definitions and have stored them on github. They use the <code>class-dump</code> tool. This makes all private framework symbols for Objective-C easily searchable.</p>
+<p>We can find the definition of <code>_isDispatchData</code> at the following link, for example: https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/Foundation.framework/_NSDispatchData.h</p>
+<pre><code>/* Generated by RuntimeBrowser
+   Image: /System/Library/Frameworks/Foundation.framework/Foundation
+ */
+
+@interface _NSDispatchData : NSData
+
++ (bool)supportsSecureCoding;
+
+- (bool)_allowsDirectEncoding;
+- (id)_createDispatchData;
+- (bool)_isDispatchData;
+- (Class)classForCoder;
+- (id)copyWithZone:(struct _NSZone { }*)arg1;
+- (void)encodeWithCoder:(id)arg1;
+- (void)enumerateByteRangesUsingBlock:(id /* block */)arg1;
+- (void)getBytes:(void*)arg1;
+- (void)getBytes:(void*)arg1 length:(unsigned long long)arg2;
+- (void)getBytes:(void*)arg1 range:(struct _NSRange
+   { unsigned long long x1; unsigned long long x2; })arg2;
+- (unsigned long long)hash;
+- (id)initWithCoder:(id)arg1;
+- (id)subdataWithRange:(struct _NSRange
+  { unsigned long long x1; unsigned long long x2; })arg1;
+
+@end</code></pre>
+<p>Similarly, we can look up <code>__NSCFConstantString</code>:</p>
+<p>https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/1501f5e689fda4644df0adbffc50c0f737c4ab96/Frameworks/CoreFoundation.framework/__NSCFConstantString.h</p>
+<pre><code>/* Generated by RuntimeBrowser
+   Image: /System/Library/Frameworks/CoreFoundation.framework/
+   CoreFoundation
+ */
+
+@interface __NSCFConstantString : __NSCFString
+
+- (id)autorelease;
+- (id)copyWithZone:(struct _NSZone { }*)arg1;
+- (bool)isNSCFConstantString__;
+- (oneway void)release;
+- (id)retain;
+- (unsigned long long)retainCount;
+
+@end</code></pre>
+<h2 id="not-a-number-errors">Not A Number Errors</h2>
+<p>In this section we show an abort arising from bad floating point data.</p>
+<p>We use an example of the <code>securityAgent</code> crashing on macOS.</p>
+<p>The Crash Report we see is as follows, truncated for ease of demonstration:</p>
+<pre><code>Process:               SecurityAgent [99429]
+Path:                  /System/Library/Frameworks/Security.framework/
+Versions/A/MachServices/SecurityAgent.bundle/Contents/MacOS/SecurityAgent
+Identifier:            com.apple.SecurityAgent
+Version:               9.0 (55360.50.13)
+Build Info:            SecurityAgent-55360050013000000~642
+Code Type:             X86-64 (Native)
+Parent Process:        launchd [1]
+Responsible:           SecurityAgent [99429]
+User ID:               92
+
+Date/Time:             2018-06-18 21:39:08.261 +0100
+OS Version:            Mac OS X 10.13.4 (17E202)
+Report Version:        12
+Anonymous UUID:        00CC683B-425F-ABF0-515A-3ED73BACDDB5
+
+Sleep/Wake UUID:       8D3EF33B-B78C-4C76-BB7B-2F2AC3A11CEB
+
+Time Awake Since Boot: 350000 seconds
+Time Since Wake:       42 seconds
+
+System Integrity Protection: enabled
+
+Crashed Thread:        0  Dispatch queue: com.apple.main-thread
+
+Exception Type:        EXC_CRASH (SIGABRT)
+Exception Codes:       0x0000000000000000, 0x0000000000000000
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Application Specific Information:
+*** Terminating app due to uncaught exception
+&#39;CALayerInvalidGeometry&#39;, reason:
+ &#39;CALayer bounds contains NaN: [nan nan; 1424 160]&#39;
+terminating with uncaught exception of type NSException
+abort() called
+
+Application Specific Backtrace 1:
+0   CoreFoundation                      0x00007fff4590132b
+ __exceptionPreprocess + 171
+1   libobjc.A.dylib                     0x00007fff6cf7bc76
+objc_exception_throw + 48
+2   CoreFoundation                      0x00007fff45992dcd
++[NSException raise:format:] + 205
+3   QuartzCore                          0x00007fff50ba1a72
+_ZN2CA5Layer10set_boundsERKNS_4RectEb + 230
+4   QuartzCore                          0x00007fff50ba190b
+-[CALayer setBounds:] + 251
+5   AppKit                              0x00007fff42e5ccad
+-[_NSClipViewBackingLayer setBounds:] + 105
+6   AppKit                              0x00007fff42e20bf0 -[NSView(NSInternal) _updateLayerGeometryFromView] + 712
+7   AppKit                              0x00007fff42eef7a2
+-[NSView translateOriginToPoint:] + 191
+8   AppKit                              0x00007fff42eef383
+-[NSClipView _immediateScrollToPoint:] + 536
+9   AppKit                              0x00007fff432c4de9
+-[NSScrollAnimationHelper _doFinalAnimationStep] + 147
+10  AppKit                              0x00007fff43226da2
+-[NSAnimationHelper _stopRun] + 44
+11  AppKit                              0x00007fff42eef089
+-[NSClipView scrollToPoint:] + 202
+12  AppKit                              0x00007fff42f2ab7f
+-[NSScrollView scrollClipView:toPoint:] + 75
+13  AppKit                              0x00007fff42ed5929
+-[NSClipView _scrollTo:animateScroll:flashScrollerKnobs:] + 1273
+14  AppKit                              0x00007fff434d5750 -[_NSScrollingConcurrentMainThreadSynchronizer
+_scrollToCanonicalOrigin] + 935
+15  AppKit                              0x00007fff43071d74 -[_NSScrollingConcurrentMainThreadSynchronizer
+_synchronize:completionHandler:] + 174
+16  AppKit                              0x00007fff43071c94 __80-[_NSScrollingConcurrentMainThreadSynchronizer
+initWithSharedData:constantData:]_block_invoke + 145
+17  libdispatch.dylib                   0x00007fff6db5be08
+_dispatch_client_callout + 8
+18  libdispatch.dylib                   0x00007fff6db6eed1
+_dispatch_continuation_pop + 472
+19  libdispatch.dylib                   0x00007fff6db5e0d1
+_dispatch_source_invoke + 620
+20  libdispatch.dylib                   0x00007fff6db67271
+_dispatch_main_queue_callback_4CF + 776
+21  CoreFoundation                      0x00007fff458b9c69
+ __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__ + 9
+22  CoreFoundation                      0x00007fff4587be4a
+ __CFRunLoopRun + 2586
+23  CoreFoundation                      0x00007fff4587b1a3
+CFRunLoopRunSpecific + 483
+24  HIToolbox                           0x00007fff44b63d96
+RunCurrentEventLoopInMode + 286
+25  HIToolbox                           0x00007fff44b63b06
+ReceiveNextEventCommon + 613
+26  HIToolbox                           0x00007fff44b63884 _BlockUntilNextEventMatchingListInModeWithFilter + 64
+27  AppKit                              0x00007fff42e16a73 _DPSNextEvent + 2085
+28  AppKit                              0x00007fff435ace34
+ -[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:
+ inMode:dequeue:] + 3044
+29  AppKit                              0x00007fff42e0b885
+ -[NSApplication run] + 764
+30  AppKit                              0x00007fff42ddaa72
+ NSApplicationMain + 804
+31  SecurityAgent                       0x00000001007bb8b8 main + 475
+32  libdyld.dylib                       0x00007fff6db95015 start + 1
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib          0x00007fff6dce5b6e __pthread_kill + 10
+1   libsystem_pthread.dylib         0x00007fff6deb0080 pthread_kill + 333
+2   libsystem_c.dylib               0x00007fff6dc411ae abort + 127
+3   libc++abi.dylib                 0x00007fff6bb45f8f abort_message + 245
+4   libc++abi.dylib                 0x00007fff6bb4612b
+default_terminate_handler() + 265
+5   libobjc.A.dylib                 0x00007fff6cf7dea3 _objc_terminate() + 97
+6   libc++abi.dylib                 0x00007fff6bb617c9
+ std::__terminate(void (*)()) + 8
+7   libc++abi.dylib                 0x00007fff6bb61843 std::terminate() + 51
+8   libdispatch.dylib               0x00007fff6db5be1c
+_dispatch_client_callout + 28
+9   libdispatch.dylib               0x00007fff6db6eed1
+ _dispatch_continuation_pop + 472
+10  libdispatch.dylib               0x00007fff6db5e0d1
+_dispatch_source_invoke + 620
+11  libdispatch.dylib               0x00007fff6db67271
+_dispatch_main_queue_callback_4CF + 776
+12  com.apple.CoreFoundation        0x00007fff458b9c69
+ __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__ + 9
+13  com.apple.CoreFoundation        0x00007fff4587be4a __CFRunLoopRun + 2586
+14  com.apple.CoreFoundation        0x00007fff4587b1a3
+CFRunLoopRunSpecific + 483
+15  com.apple.HIToolbox             0x00007fff44b63d96
+RunCurrentEventLoopInMode + 286
+16  com.apple.HIToolbox             0x00007fff44b63b06
+ReceiveNextEventCommon + 613
+17  com.apple.HIToolbox             0x00007fff44b63884
+ _BlockUntilNextEventMatchingListInModeWithFilter + 64
+18  com.apple.AppKit                0x00007fff42e16a73 _DPSNextEvent + 2085
+19  com.apple.AppKit                0x00007fff435ace34 -[NSApplication(NSEvent)
+ _nextEventMatchingEventMask:untilDate:inMode:dequeue:] + 3044
+20  com.apple.AppKit                0x00007fff42e0b885
+-[NSApplication run] + 764
+21  com.apple.AppKit                0x00007fff42ddaa72 NSApplicationMain + 804
+22  com.apple.SecurityAgent         0x00000001007bb8b8 main + 475
+23  libdyld.dylib                   0x00007fff6db95015 start + 1</code></pre>
+<p>This crash shows an excellent example of placing informative information into the Crash Report. We know immediately we have NAN (Not A Number) floating point values in our layer bounds, and this is the reason for aborting.</p>
+<pre><code>&#39;CALayer bounds contains NaN: [nan nan; 1424 160]&#39;</code></pre>
+<p>Perhaps a data structure has not been initialized, or a division by zero has occurred. Often geometry code creates ratios of width / height. During startup or corner cases our frames might be zero sized, thus leading to divide by zero errors resulting in NAN values in our data structures.</p>
+<p>We notice that some fairly long functions are used by Quartz (the Geometric Drawing Framework). In the stack backtrace we see:</p>
+<pre><code>3   QuartzCore                          0x00007fff50ba1a72
+_ZN2CA5Layer10set_boundsERKNS_4RectEb + 230</code></pre>
+<p>As an academic exercise we can pin point which of the many error handle cases is the one in play here. Our backtrace here is not the leaf call, so the offset is the address where computation will resume after the function call has returned.</p>
+<p>Using the Hopper tool, we can search for symbol <code>__ZN2CA5Layer10set_boundsERKNS_4RectEb</code> in the binary <code>/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore</code></p>
+<p>Note how we introduce an additional leading underscore to the function name when searching for it. This is due to the C Language Linker.</p>
+<p>We see:</p>
+<pre><code>__ZN2CA5Layer10set_boundsERKNS_4RectEb:        
+// CA::Layer::set_bounds(CA::Rect const&amp;, bool)
+0000000000008e36         push       rbp
+                                    ; CODE XREF=-[CALayer setBounds:]+246,
+                                    __ZN2CA5Layer10set_boundsERKNS_4RectEb+750
+0000000000008e37         mov        rbp, rsp
+0000000000008e3a         push       r15</code></pre>
+<p>From hex address 8e36, if we add decimal 230, we get 0x8f1c. Looking at the disassembly:</p>
+<pre><code>0000000000008edd  mov        rdi, qword [objc_cls_ref_NSException]
+       ; argument &quot;instance&quot; for method _objc_msgSend
+0000000000008ee4  movsd      xmm0, qword [r12]
+0000000000008eea  movsd      xmm1, qword [r12+8]
+0000000000008ef1  movsd      xmm2, qword [r12+0x10]
+0000000000008ef8  movsd      xmm3, qword [r12+0x18]
+0000000000008eff  mov        rsi, qword [0x27a338]
+                       ; @selector(raise:format:), argument &quot;selector&quot;
+                        for method _objc_msgSend
+0000000000008f06  lea        rdx, qword [cfstring_CALayerInvalidGeometry]
+                       ; @&quot;CALayerInvalidGeometry&quot;
+0000000000008f0d         lea        rcx, qword [cfstring_CALayer_bounds_contains_NaN____g__g___g__g_]
+                       ; @&quot;CALayer bounds contains NaN: [%g %g; %g %g]&quot;
+0000000000008f14         mov        al, 0x4
+0000000000008f16         call       qword [_objc_msgSend_24d4f8]
+                       ; _objc_msgSend
+
+                     loc_8f1c:
+0000000000008f1c  call       __ZN2CA11Transaction13ensure_compatEv
+       ; CA::Transaction::ensure_compat(),
+        CODE XREF=__ZN2CA5Layer10set_boundsERKNS_4RectEb+61,
+         __ZN2CA5Layer10set_boundsERKNS_4RectEb+70,
+          __ZN2CA5Layer10set_boundsERKNS_4RectEb+137,
+           __ZN2CA5Layer10set_boundsERKNS_4RectEb+147</code></pre>
+<p>We can see that 8f1c is the next function call (after returning). The problem function call was done at address 8f16. We can also see the text of the string supplied to the Crash Report. <code>&quot;CALayer bounds contains NaN: [%g %g; %g %g]&quot;</code></p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-macbookproT2">
