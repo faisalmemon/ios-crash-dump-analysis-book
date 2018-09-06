@@ -1,0 +1,26 @@
+int _gpusGenerateCrashLog(int arg0, int arg1, int arg2) {
+ rdi = arg0;
+ r14 = arg2;
+ rbx = arg1;
+ if (*0xc678 != 0x0) {
+   rax = *___stack_chk_guard;
+   if (rax != *___stack_chk_guard) {
+     rax = __stack_chk_fail();
+   }
+ }
+ else {
+   if (rdi != 0x0) {
+     IOAccelDeviceGetName(*(rdi + 0x230), 0x0, 0x14);
+   }
+   if ((rbx & 0x20000000) == 0x0) {
+     rdx = "Graphics kernel error: 0x%08x\n";
+   }
+   else {
+     rdx = "Graphics hardware encountered an error and was reset: 0x%08x\n";
+   }
+   sprintf_l(var_A0, 0x0, rdx);
+   *0xc680 = var_A0;
+   rax = abort();
+ }
+ return rax;
+}
