@@ -1,0 +1,1 @@
+Having gone to _gpusGenerateCrashLog with default tab settings for the /System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/libGPUSupportMercury.dylib file

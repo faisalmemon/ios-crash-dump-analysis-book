@@ -170,6 +170,10 @@
 <li><a href="#software-engineering-insights">Software Engineering Insights</a></li>
 <li><a href="#lessons-learnt-2">Lessons Learnt</a></li>
 </ul></li>
+<li><a href="#application-abort-crashes">Application Abort Crashes</a><ul>
+<li><a href="#general-principles-1">General principles</a></li>
+<li><a href="#kindle-create-crash">Kindle Create Crash</a></li>
+</ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </nav>
@@ -3041,6 +3045,154 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <p>It seems that this component can be prepared and made ready and has a variety of levels of initialisation and de-initialisation. Maybe this complexity is to make the user interface responsive. But it sends us a message that this component needs an integration test suite that codifies the state machine so we know the lifecycle of the service.</p>
 <h2 id="lessons-learnt-2">Lessons Learnt</h2>
 <p>We went from using HOWTO knowledge (understanding the crash report) to using tooling to get a baseline level of knowledge. Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem. This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis. It cannot be achieved by just focusing on the HOWTO of comprehending crash reports. We need to switch hats and see things from different perspectives in order to really make progress.</p>
+<h1 id="application-abort-crashes">Application Abort Crashes</h1>
+<p>In this chapter, we study application abort crashes.</p>
+<p>These crashes are distinguished by reporting Exception Type, <code>EXC_CRASH (SIGABRT)</code> in their Crash Report.</p>
+<p>We look at a range of crashes obtained by searching the Internet.</p>
+<h2 id="general-principles-1">General principles</h2>
+<p>Many Operating System, language support modules, and libraries have code to detect fatal programming errors. In such circumstances, the application requests that the Operating System terminate the app. This gives rise to a <code>SIGABRT</code> crash.</p>
+<p>There is not one particular reason for <code>SIGABRT</code>. Instead, we look at a variety of examples so that we can see the kinds of situation where they arise.</p>
+<p>Sometimes the particular abort also supplies information in the <code>Application Specific Information</code> area of the crash report. If this does not reveal the detail we require, it is often possible to locate the module which raised the abort, and reverse engineer the code to understand what specifically was the syndrome.</p>
+<h2 id="kindle-create-crash">Kindle Create Crash</h2>
+<p>Kindle Create is an application used by authors to create e-books from manuscripts, such as <code>docx</code> files. It makes heavy use of graphics via the QuartzCore library.</p>
+<p>When previewing for publication it crashed with the following crash report, truncated for ease of demonstration:</p>
+<pre><code>Process:               Kindle Create [3010]
+Path:                  /Applications/Kindle Create.app/
+Contents/MacOS/Kindle Create
+Identifier:            com.amazon.kc
+Version:               1.10 (1.10)
+Code Type:             X86 (Native)
+Parent Process:        ??? [1]
+Responsible:           Kindle Create [3010]
+User ID:               501
+
+Crashed Thread:        16  Dispatch queue: com.apple.root.default-qos
+
+Exception Type:        EXC_CRASH (SIGABRT)
+Exception Codes:       0x0000000000000000, 0x0000000000000000
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Application Specific Information:
+abort() called
+
+Application Specific Signatures:
+Graphics kernel error: 0xfffffffb
+
+Thread 16 Crashed:: Dispatch queue: com.apple.root.default-qos
+0   libsystem_kernel.dylib          0xa73e7ed6 __pthread_kill + 10
+1   libsystem_pthread.dylib         0xa75a0427 pthread_kill + 363
+2   libsystem_c.dylib               0xa7336956 abort + 133
+3   libGPUSupportMercury.dylib      0xa2aa342d gpusGenerateCrashLog + 160
+4   com.apple.AMDRadeonX4000GLDriver    0x180cbb00 gpusKillClientExt + 23
+5   libGPUSupportMercury.dylib      0xa2aa4857 gpusSubmitDataBuffers + 157
+6   com.apple.AMDRadeonX4000GLDriver    0x180a293c
+ glrATI_Hwl_SubmitPacketsWithToken + 143
+7   com.apple.AMDRadeonX4000GLDriver    0x180fd9b0 glrFlushContextToken + 68
+8   libGPUSupportMercury.dylib      0xa2aa88c8 gldFlushContext + 24
+9   GLEngine                        0x9b416f5b glFlushRender_Exec + 37
+10  com.apple.QuartzCore            0x9c1c8412
+ CA::(anonymous namespace)::IOSurface::detach() + 166
+11  com.apple.QuartzCore            0x9c1c7631
+ CAOpenGLLayerDraw(CAOpenGLLayer*, double, CVTimeStamp const*,
+    unsigned int) + 1988
+12  com.apple.QuartzCore            0x9c1c6c9a -[CAOpenGLLayer _display] + 618
+13  com.apple.QuartzCore            0x9c179f62 -[CALayer display] + 158
+14  com.apple.AppKit                0x916106ac -[NSOpenGLLayer display] + 305
+15  com.apple.QuartzCore            0x9c1c9f77
+ display_callback(void*, void*) + 59
+16  com.apple.QuartzCore            0x9c1c9efa
+ CA::DispatchGroup::dispatch(bool) + 88
+17  com.apple.QuartzCore            0x9c1c9e9a
+ CA::DispatchGroup::callback_0(void*) + 16
+18  libdispatch.dylib               0xa72565dd _dispatch_client_callout + 50
+19  libdispatch.dylib               0xa7263679
+ _dispatch_queue_override_invoke + 779
+20  libdispatch.dylib               0xa725818b _dispatch_root_queue_drain + 660
+21  libdispatch.dylib               0xa7257ea5 _dispatch_worker_thread3 + 100
+22  libsystem_pthread.dylib         0xa759cfa5 _pthread_wqthread + 1356
+23  libsystem_pthread.dylib         0xa759ca32 start_wqthread + 34
+
+Thread 16 crashed with X86 Thread State (32-bit):
+  eax: 0x00000000  ebx: 0xb0a79000  ecx: 0xb0a78acc  edx: 0x00000000
+  edi: 0xa75a02ca  esi: 0x0000002d  ebp: 0xb0a78af8  esp: 0xb0a78acc
+   ss: 0x00000023  efl: 0x00000206  eip: 0xa73e7ed6   cs: 0x0000000b
+   ds: 0x00000023   es: 0x00000023   fs: 0x00000023   gs: 0x0000000f
+  cr2: 0xa9847340
+
+Logical CPU:     0
+Error Code:      0x00080148
+Trap Number:     132
+
+Binary Images:
+
+0x18099000 - 0x1815efff  com.apple.AMDRadeonX4000GLDriver (1.68.20 - 1.6.8)
+ &lt;DF3BB959-0C0A-3B6C-8E07-11B332128555&gt;
+  /System/Library/Extensions/AMDRadeonX4000GLDriver.bundle/
+  Contents/MacOS/AMDRadeonX4000GLDriver
+
+0xa2aa2000 - 0xa2aacfff  libGPUSupportMercury.dylib (16.7.4)
+ &lt;C71E29CF-D4C5-391D-8B7B-739FB0536387&gt;
+  /System/Library/PrivateFrameworks/GPUSupport.framework/
+  Versions/A/Libraries/libGPUSupportMercury.dylib
+</code></pre>
+<p>From the stack backtrace we see that the OpenGL pipeline was flushed. This caused <code>com.apple.AMDRadeonX4000GLDriver</code> to detect a problem with the commands and trigger a crash. We see that the code contributes custom information to the crash report.</p>
+<pre><code>3   libGPUSupportMercury.dylib      0xa2aa342d gpusGenerateCrashLog + 160</code></pre>
+<p>We can use the Hopper Disassembler and reverse engineering tool here.<br />
+By locating the binary on our Mac, we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode. For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code is rarely hand written nowadays. This is way the pseudocode output is most valuable.</p>
+<p>We first find the location of the binary from the <code>Binary Images</code> section of the crash report.</p>
+<pre><code>/System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
+<p>Traversing the file hierarchy can be cumbersome for system binaries as they are deeply nested in the filesystem.</p>
+<p>If Hopper is <strong>already running</strong>, a quick way to select the correct file is to use the command line.</p>
+<pre><code>&#39;/Applications/Hopper Disassembler v4.app/Contents/MacOS/hopper&#39; \
+ -e /System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/
+ Libraries/libGPUSupportMercury.dylib</code></pre>
+<p>If Hopper is not running, we can launch it. Alongside we can launch the Finder program and select ‘Go To Folder’ to select the folder <code>/System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/</code></p>
+<p><img src="screenshots/finder_support_mercury.png" /></p>
+<p>Then we can simply drag <code>libGPUSupportMercury.dylib</code> from the Finder into the main panel of the Hopper App and it will start processing the file.</p>
+<p><img src="screenshots/drag_file_to_hopper.png" /></p>
+<p>We need to select the architecture to disassemble. It must match what we are diagnosing. From the crash report, we can see that it is a <code>Code Type</code> <code>X86 (Native)</code> This means we need to select the 32-bit architecture option in Hopper.</p>
+<p><img src="screenshots/hopper_32bit.png" /></p>
+<p>The we click Next, and then OK.</p>
+<p>After a moment, the file will be processed. Then we can select <em>Navigate -&gt; Go To Address or Symbol</em> and provide the address <code>_gpusGenerateCrashLog</code> Note, we have a leading underscore. The Linker phase will put that in for C programming language code.</p>
+<p>In the default view, Hopper will show the disassembly for the function.</p>
+<p><img src="screenshots/hopper_diss.png" /></p>
+<p>By selecting the pseudocode button (shown circled in red) we get Hopper to produce a more easily understandable description of the function.</p>
+<p><img src="screenshots/hopper_pseudocode.png" /></p>
+<p>Here is the output of hopper:</p>
+<pre><code>int _gpusGenerateCrashLog(int arg0, int arg1, int arg2) {
+ rdi = arg0;
+ r14 = arg2;
+ rbx = arg1;
+ if (*0xc678 != 0x0) {
+   rax = *___stack_chk_guard;
+   if (rax != *___stack_chk_guard) {
+     rax = __stack_chk_fail();
+   }  
+ }
+ else {
+   if (rdi != 0x0) {
+     IOAccelDeviceGetName(*(rdi + 0x230), 0x0, 0x14);
+   }  
+   if ((rbx &amp; 0x20000000) == 0x0) {
+     rdx = &quot;Graphics kernel error: 0x%08x\n&quot;;
+   }  
+   else {
+     rdx = &quot;Graphics hardware encountered an error and was reset: 0x%08x\n&quot;;
+   }  
+   sprintf_l(var_A0, 0x0, rdx);
+   *0xc680 = var_A0;
+   rax = abort();
+ }
+ return rax;
+}
+</code></pre>
+<p>Here we can see two alternatives. Either we just report: <code>&quot;Graphics kernel error: 0x%08x\n&quot;</code></p>
+<p>or we report: <code>&quot;Graphics hardware encountered an error and was reset: 0x%08x\n&quot;</code></p>
+<p>In fact, we see the following in the crash report:</p>
+<pre><code>Application Specific Signatures:
+Graphics kernel error: 0xfffffffb</code></pre>
+<p>Unfortunately it is not clear what this error means. We need the author of the app to switch on OpenGL command level logging in order to understand what drawing command got rejected by the graphics driver.</p>
+<p>Using a different Mac with a different graphics card would be an interesting experiment to understand if we have a driver-specific issue or a general OpenGL problem.</p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-macbookproT2">
