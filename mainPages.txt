@@ -20,4 +20,5 @@ examples/siri_crash_osx/siriCrashExplanation.md
 markdown/Aborts.md
 examples/kdp_crash_osx/kdp_graphics_crash_explanation.md
 examples/nsdata_crash_ios/type_confusion.md
+examples/securityAgent_crash_osx/geometry.md
 markdown/Bibliography.md
