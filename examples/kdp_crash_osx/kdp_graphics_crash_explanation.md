@@ -104,6 +104,44 @@ We first find the location of the binary from the `Binary Images` section of the
 ```
 /System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/libGPUSupportMercury.dylib
 ```
+
+Traversing the file hierarchy can be cumbersome for system binaries as they are deeply nested in the filesystem.
+
+If Hopper is **already running**, a quick way to select the correct file is to use the command line.
+
+```
+'/Applications/Hopper Disassembler v4.app/Contents/MacOS/hopper' \
+ -e /System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/
+ Libraries/libGPUSupportMercury.dylib
+```
+
+If Hopper is not running, we can launch it.  Alongside we can launch the Finder program and select 'Go To Folder' to select the folder `/System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/`
+
+![](screenshots/finder_support_mercury.png)
+
+Then we can simply drag `libGPUSupportMercury.dylib` from the Finder into the main panel of the Hopper App and it will start processing the file.
+
+![](screenshots/drag_file_to_hopper.png)
+
+We need to select the architecture to disassemble.  It must match what we are diagnosing.
+From the crash report, we can see that it is a `Code Type` `X86 (Native)`
+This means we need to select the 32-bit architecture option in Hopper.
+
+![](screenshots/hopper_32bit.png)
+
+The we click Next, and then OK.
+
+After a moment, the file will be processed.  Then we can select _Navigate -> Go To Address or Symbol_
+and provide the address `_gpusGenerateCrashLog`  Note, we have a leading underscore.  The Linker phase will put that in for C programming language code.
+
+In the default view, Hopper will show the disassembly for the function.
+
+![](screenshots/hopper_diss.png)
+
+By selecting the pseudocode button (shown circled in red) we get Hopper to produce a more easily understandable description of the function.
+
+![](screenshots/hopper_pseudocode.png)
+
 Here is the output of hopper:
 
 ```

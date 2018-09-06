@@ -1,1 +1,2 @@
 Select the pseudocode option in the toolbar.
+Use Preview to place a red rounded rect around the pseudocode button.
