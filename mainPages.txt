@@ -21,4 +21,6 @@ markdown/Aborts.md
 examples/kdp_crash_osx/kdp_graphics_crash_explanation.md
 examples/nsdata_crash_ios/type_confusion.md
 examples/securityAgent_crash_osx/geometry.md
+markdown/ResourceCrashes.md
+examples/brain_cpu_ios/cpu_usage_explanation.md
 markdown/Bibliography.md
