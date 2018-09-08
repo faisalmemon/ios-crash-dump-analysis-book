@@ -138,6 +138,14 @@
 <li><a href="#analysis-of-failures">Analysis of failures</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#a-siri-crash">A Siri Crash</a><ul>
+<li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
+<li><a href="#the-crash-report-1">The Crash report</a></li>
+<li><a href="#the-crash-details">The Crash details</a></li>
+<li><a href="#applying-our-tool-box">Applying our Tool Box</a></li>
+<li><a href="#software-engineering-insights">Software Engineering Insights</a></li>
+<li><a href="#lessons-learnt-2">Lessons Learnt</a></li>
+</ul></li>
 <li><a href="#runtime-environment-crashes">Runtime Environment Crashes</a><ul>
 <li><a href="#unwrapping-a-nil-optional">Unwrapping a Nil Optional</a><ul>
 <li><a href="#ios-uikit-outlets">iOS UIKit Outlets</a></li>
@@ -162,14 +170,6 @@
 <li><a href="#jablotron-crash">Jablotron crash</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#a-siri-crash">A Siri Crash</a><ul>
-<li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
-<li><a href="#the-crash-report-1">The Crash report</a></li>
-<li><a href="#the-crash-details">The Crash details</a></li>
-<li><a href="#applying-our-tool-box">Applying our Tool Box</a></li>
-<li><a href="#software-engineering-insights">Software Engineering Insights</a></li>
-<li><a href="#lessons-learnt-2">Lessons Learnt</a></li>
-</ul></li>
 <li><a href="#application-abort-crashes">Application Abort Crashes</a><ul>
 <li><a href="#general-principles-1">General principles</a></li>
 <li><a href="#kindle-create-crash">Kindle Create Crash</a></li>
@@ -184,6 +184,10 @@
 <li><a href="#wake-up-crash">Wake Up Crash</a></li>
 <li><a href="#wake-up-crash-exception">Wake Up crash exception</a></li>
 <li><a href="#temperature-crash">Temperature Crash</a></li>
+</ul></li>
+<li><a href="#application-termination-crashes">Application Termination Crashes</a><ul>
+<li><a href="#deadlock-crash">Deadlock Crash</a></li>
+<li><a href="#insecure-drawing-crash">Insecure Drawing Crash</a></li>
 </ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
@@ -2256,6 +2260,111 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>We do not have machine fault register information. When a low level problem occurs, the processor documentation will allow the system architect to look up exactly the kind of failure (timeouts, parity errors, etc.) In our problem specification, we need to be more precise WHERE the problem is. The BridgeOS may just be a canary telling us of a problem elsewhere. Some customers have received a full hardware replacement, but still see the problem. It indicates a software problem.</p>
 <p>Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span> So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.</p>
 <p>An approach would be to follow the Intel debugging guide <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span>. It has many good suggestions. When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.</p>
+<h1 id="a-siri-crash">A Siri Crash</h1>
+<h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
+<p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
+<h2 id="the-crash-report-1">The Crash report</h2>
+<p>Here is the crash report, suitably truncated for ease of demonstration:</p>
+<pre><code>Process:               SiriNCService [1045]
+Path:                  
+/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
+Contents/MacOS/SiriNCService
+Identifier:            com.apple.SiriNCService
+Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
+Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000018
+Exception Note:        EXC_CORPSE_NOTIFY
+VM Regions Near 0x18:
+--&gt;
+    __TEXT                 0000000100238000-0000000100247000
+    [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/
+    XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+
+Application Specific Information:
+objc_msgSend() selector name: didUnlockScreen:
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libobjc.A.dylib                 0x00007fff69feae9d objc_msgSend + 29
+1   com.apple.CoreFoundation        0x00007fff42e19f2c
+ __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
+2   com.apple.CoreFoundation        0x00007fff42e19eaf
+___CFXRegistrationPost_block_invoke + 63
+3   com.apple.CoreFoundation        0x00007fff42e228cc
+ __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
+4   com.apple.CoreFoundation        0x00007fff42e052a3
+__CFRunLoopDoBlocks + 275
+5   com.apple.CoreFoundation        0x00007fff42e0492e
+ __CFRunLoopRun + 1278
+6   com.apple.CoreFoundation        0x00007fff42e041a3
+CFRunLoopRunSpecific + 483
+7   com.apple.HIToolbox             0x00007fff420ead96
+RunCurrentEventLoopInMode + 286
+8   com.apple.HIToolbox             0x00007fff420eab06
+ReceiveNextEventCommon + 613
+9   com.apple.HIToolbox             0x00007fff420ea884
+_BlockUntilNextEventMatchingListInModeWithFilter + 64
+10  com.apple.AppKit                0x00007fff4039ca73 _DPSNextEvent + 2085
+11  com.apple.AppKit                0x00007fff40b32e34
+-[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:inMode:
+dequeue:] + 3044
+12  com.apple.ViewBridge            0x00007fff67859df0
+-[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:
+dequeue:] + 92
+13  com.apple.AppKit                0x00007fff40391885
+-[NSApplication run] + 764
+14  com.apple.AppKit                0x00007fff40360a72
+NSApplicationMain + 804
+15  libxpc.dylib                    0x00007fff6af6cdc7 _xpc_objc_main + 580
+16  libxpc.dylib                    0x00007fff6af6ba1a xpc_main + 433
+17  com.apple.ViewBridge            0x00007fff67859c15
+-[NSXPCSharedListener resume] + 16
+18  com.apple.ViewBridge            0x00007fff67857abe
+NSViewServiceApplicationMain + 2903
+19  com.apple.SiriNCService         0x00000001002396e0 main + 180
+20  libdyld.dylib                   0x00007fff6ac12015 start + 1</code></pre>
+<h2 id="the-crash-details">The Crash details</h2>
+<p>Looking at the 09:52 crash we see</p>
+<p><code>Exception Type:        EXC_BAD_ACCESS (SIGSEGV)</code></p>
+<p>This means we are accessing memory which does not exist. The program that was running (known as the TEXT) was</p>
+<pre><code>/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
+Contents/MacOS/SiriNCService</code></pre>
+<p>This is interesting because normally its applications that crash. Here we see a software component crashing. The Siri service is a distributed app which uses cross process communication (xpc) to do its work. We see that from references to xpc as above.</p>
+<p>What method were we trying to call on an object that no longer exists? Helpfully, the crash dump provides the answer:</p>
+<p><code>Application Specific Information: objc_msgSend() selector name: didUnlockScreen:</code></p>
+<p>Now we have to a first level approximation answered the <em>what</em>, <em>where</em> and <em>when</em> aspect of the crash. It was a Siri component that crashed, in <code>SiriNCService</code> when <code>didUnlockScreen</code> was called on a non-existent object.</p>
+<h2 id="applying-our-tool-box">Applying our Tool Box</h2>
+<p>Now to understand further we need to reach for the <code>class-dump</code> tool.</p>
+<p><code>class-dump SiriNCService &gt; SiriNCService.classdump.txt</code></p>
+<p>Looking at a portion of the output is the following:</p>
+<pre><code>@property __weak SiriNCService *service; // @synthesize service=_service;
+- (void).cxx_destruct;
+- (BOOL)isSiriListening;
+- (void)_didUnlockScreen:(id)arg1;
+- (void)_didLockScreen:(id)arg1;</code></pre>
+<p>We see that there is indeed a method, <code>didUnlockScreen</code>, and we see that there is a service object which is owned <strong>weakly</strong>. This means that the object is not retained and could get freed. It typically means we a user of the <code>SiriNCService</code> but not the owner. We do not own the lifecycle of the object.</p>
+<h2 id="software-engineering-insights">Software Engineering Insights</h2>
+<p>The underlying software engineering problem here is one of lifecycle. Part of the application has a object lifecycle we were not expecting. The consumer should have been written to detect the absence of the service as a robustness and defensive programming best practice. What can happen is that the software is maintained over time, and the lifecycles of objects grow more complex over time as new functionality is added but the old code using the objects is not updated in sync.</p>
+<p>Taking one step further back we should ask what weak properties are used by this component? From that we can create some simple unit test cases which test the code whilst those objects are nil. Then we can go back and add robustness to the code paths that assumed the object were non-nil.</p>
+<p>Taking a further step back, is there anything unusual in the design of this component that calls for integration testing?</p>
+<pre><code>grep -i heat SiriNCService.classdump.txt
+@protocol SiriUXHeaterDelegate &lt;NSObject&gt;
+- (void)heaterSuggestsPreheating:(SiriUXHeater *)arg1;
+- (void)heaterSuggestsDefrosting:(SiriUXHeater *)arg1;
+@interface SiriNCAlertViewController : NSViewController
+&lt;SiriUXHeaterDelegate, AFUISiriViewControllerDataSource,
+ AFUISiriViewControllerDelegate&gt;
+    SiriUXHeater *_heater;
+@property(readonly, nonatomic)
+SiriUXHeater *heater; // @synthesize heater=_heater;
+- (void)heaterSuggestsPreheating:(id)arg1;
+- (void)heaterSuggestsDefrosting:(id)arg1;
+@interface SiriUXHeater : NSObject
+    id &lt;SiriUXHeaterDelegate&gt; _delegate;
+@property(nonatomic)
+__weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delegate;
+- (void)_suggestPreheat;</code></pre>
+<p>It seems that this component can be prepared and made ready and has a variety of levels of initialisation and de-initialisation. Maybe this complexity is to make the user interface responsive. But it sends us a message that this component needs an integration test suite that codifies the state machine so we know the lifecycle of the service.</p>
+<h2 id="lessons-learnt-2">Lessons Learnt</h2>
+<p>We went from using HOWTO knowledge (understanding the crash report) to using tooling to get a baseline level of knowledge. Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem. This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis. It cannot be achieved by just focusing on the HOWTO of comprehending crash reports. We need to switch hats and see things from different perspectives in order to really make progress.</p>
 <h1 id="runtime-environment-crashes">Runtime Environment Crashes</h1>
 <p>In this chapter, we show examples of where the runtime libraries have detected a problem and have caused a crash.</p>
 <p>These crashes are distinguished by reporting Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code> in their Crash Report.</p>
@@ -2951,111 +3060,6 @@ Thread 0 Crashed:
 <p>The “metadata accessor” phrase is interesting as it implies we are running code that the compiler generates rather than code we have directly written. Perhaps, as a workaround, we could simplify the code to use simpler language features.</p>
 <p>Here we should aim to write a simple test case by taking the <code>ChartThermoPlotSpace</code> class and simplifying it until we get the essential code for the crash to occur.</p>
 <p>This crash was resolved by Apple updating their compiler to correct a Swift Generics bug.</p>
-<h1 id="a-siri-crash">A Siri Crash</h1>
-<h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
-<p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
-<h2 id="the-crash-report-1">The Crash report</h2>
-<p>Here is the crash report, suitably truncated for ease of demonstration:</p>
-<pre><code>Process:               SiriNCService [1045]
-Path:                  
-/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
-Contents/MacOS/SiriNCService
-Identifier:            com.apple.SiriNCService
-Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
-Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000018
-Exception Note:        EXC_CORPSE_NOTIFY
-VM Regions Near 0x18:
---&gt;
-    __TEXT                 0000000100238000-0000000100247000
-    [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/
-    XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
-
-Application Specific Information:
-objc_msgSend() selector name: didUnlockScreen:
-
-Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
-0   libobjc.A.dylib                 0x00007fff69feae9d objc_msgSend + 29
-1   com.apple.CoreFoundation        0x00007fff42e19f2c
- __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
-2   com.apple.CoreFoundation        0x00007fff42e19eaf
-___CFXRegistrationPost_block_invoke + 63
-3   com.apple.CoreFoundation        0x00007fff42e228cc
- __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 12
-4   com.apple.CoreFoundation        0x00007fff42e052a3
-__CFRunLoopDoBlocks + 275
-5   com.apple.CoreFoundation        0x00007fff42e0492e
- __CFRunLoopRun + 1278
-6   com.apple.CoreFoundation        0x00007fff42e041a3
-CFRunLoopRunSpecific + 483
-7   com.apple.HIToolbox             0x00007fff420ead96
-RunCurrentEventLoopInMode + 286
-8   com.apple.HIToolbox             0x00007fff420eab06
-ReceiveNextEventCommon + 613
-9   com.apple.HIToolbox             0x00007fff420ea884
-_BlockUntilNextEventMatchingListInModeWithFilter + 64
-10  com.apple.AppKit                0x00007fff4039ca73 _DPSNextEvent + 2085
-11  com.apple.AppKit                0x00007fff40b32e34
--[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:inMode:
-dequeue:] + 3044
-12  com.apple.ViewBridge            0x00007fff67859df0
--[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:
-dequeue:] + 92
-13  com.apple.AppKit                0x00007fff40391885
--[NSApplication run] + 764
-14  com.apple.AppKit                0x00007fff40360a72
-NSApplicationMain + 804
-15  libxpc.dylib                    0x00007fff6af6cdc7 _xpc_objc_main + 580
-16  libxpc.dylib                    0x00007fff6af6ba1a xpc_main + 433
-17  com.apple.ViewBridge            0x00007fff67859c15
--[NSXPCSharedListener resume] + 16
-18  com.apple.ViewBridge            0x00007fff67857abe
-NSViewServiceApplicationMain + 2903
-19  com.apple.SiriNCService         0x00000001002396e0 main + 180
-20  libdyld.dylib                   0x00007fff6ac12015 start + 1</code></pre>
-<h2 id="the-crash-details">The Crash details</h2>
-<p>Looking at the 09:52 crash we see</p>
-<p><code>Exception Type:        EXC_BAD_ACCESS (SIGSEGV)</code></p>
-<p>This means we are accessing memory which does not exist. The program that was running (known as the TEXT) was</p>
-<pre><code>/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
-Contents/MacOS/SiriNCService</code></pre>
-<p>This is interesting because normally its applications that crash. Here we see a software component crashing. The Siri service is a distributed app which uses cross process communication (xpc) to do its work. We see that from references to xpc as above.</p>
-<p>What method were we trying to call on an object that no longer exists? Helpfully, the crash dump provides the answer:</p>
-<p><code>Application Specific Information: objc_msgSend() selector name: didUnlockScreen:</code></p>
-<p>Now we have to a first level approximation answered the <em>what</em>, <em>where</em> and <em>when</em> aspect of the crash. It was a Siri component that crashed, in <code>SiriNCService</code> when <code>didUnlockScreen</code> was called on a non-existent object.</p>
-<h2 id="applying-our-tool-box">Applying our Tool Box</h2>
-<p>Now to understand further we need to reach for the <code>class-dump</code> tool.</p>
-<p><code>class-dump SiriNCService &gt; SiriNCService.classdump.txt</code></p>
-<p>Looking at a portion of the output is the following:</p>
-<pre><code>@property __weak SiriNCService *service; // @synthesize service=_service;
-- (void).cxx_destruct;
-- (BOOL)isSiriListening;
-- (void)_didUnlockScreen:(id)arg1;
-- (void)_didLockScreen:(id)arg1;</code></pre>
-<p>We see that there is indeed a method, <code>didUnlockScreen</code>, and we see that there is a service object which is owned <strong>weakly</strong>. This means that the object is not retained and could get freed. It typically means we a user of the <code>SiriNCService</code> but not the owner. We do not own the lifecycle of the object.</p>
-<h2 id="software-engineering-insights">Software Engineering Insights</h2>
-<p>The underlying software engineering problem here is one of lifecycle. Part of the application has a object lifecycle we were not expecting. The consumer should have been written to detect the absence of the service as a robustness and defensive programming best practice. What can happen is that the software is maintained over time, and the lifecycles of objects grow more complex over time as new functionality is added but the old code using the objects is not updated in sync.</p>
-<p>Taking one step further back we should ask what weak properties are used by this component? From that we can create some simple unit test cases which test the code whilst those objects are nil. Then we can go back and add robustness to the code paths that assumed the object were non-nil.</p>
-<p>Taking a further step back, is there anything unusual in the design of this component that calls for integration testing?</p>
-<pre><code>grep -i heat SiriNCService.classdump.txt
-@protocol SiriUXHeaterDelegate &lt;NSObject&gt;
-- (void)heaterSuggestsPreheating:(SiriUXHeater *)arg1;
-- (void)heaterSuggestsDefrosting:(SiriUXHeater *)arg1;
-@interface SiriNCAlertViewController : NSViewController
-&lt;SiriUXHeaterDelegate, AFUISiriViewControllerDataSource,
- AFUISiriViewControllerDelegate&gt;
-    SiriUXHeater *_heater;
-@property(readonly, nonatomic)
-SiriUXHeater *heater; // @synthesize heater=_heater;
-- (void)heaterSuggestsPreheating:(id)arg1;
-- (void)heaterSuggestsDefrosting:(id)arg1;
-@interface SiriUXHeater : NSObject
-    id &lt;SiriUXHeaterDelegate&gt; _delegate;
-@property(nonatomic)
-__weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delegate;
-- (void)_suggestPreheat;</code></pre>
-<p>It seems that this component can be prepared and made ready and has a variety of levels of initialisation and de-initialisation. Maybe this complexity is to make the user interface responsive. But it sends us a message that this component needs an integration test suite that codifies the state machine so we know the lifecycle of the service.</p>
-<h2 id="lessons-learnt-2">Lessons Learnt</h2>
-<p>We went from using HOWTO knowledge (understanding the crash report) to using tooling to get a baseline level of knowledge. Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem. This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis. It cannot be achieved by just focusing on the HOWTO of comprehending crash reports. We need to switch hats and see things from different perspectives in order to really make progress.</p>
 <h1 id="application-abort-crashes">Application Abort Crashes</h1>
 <p>In this chapter, we study application abort crashes.</p>
 <p>These crashes are distinguished by reporting Exception Type, <code>EXC_CRASH (SIGABRT)</code> in their Crash Report.</p>
@@ -3826,6 +3830,170 @@ Unknown thread crashed with unknown flavor: 5, state_count: 1</code></pre>
 <pre><code>#define THREAD_STATE_NONE       5</code></pre>
 <p><span class="citation" data-cites="threadstatus">(“Thread Status Values in Mach” 2018)</span></p>
 <p>So it just means that this is not something of concern. The Crash Report tool could do with improvement to catch this case.</p>
+<h1 id="application-termination-crashes">Application Termination Crashes</h1>
+<p>In this chapter, we study application termination crashes.</p>
+<p>These crashes are distinguished by reporting Exception Type, <code>EXC_CRASH (SIGKILL)</code> in their Crash Report.</p>
+<p>An application can be designed to catch signals sent to it. Typically in UNIX systems, when a SIGHUP was sent it would make the program re-read its configuration file, by convention. By design, SIGSTOP and SIGKILL signals cannot be caught.</p>
+<h2 id="deadlock-crash">Deadlock Crash</h2>
+<p>If a SQLite file is locked before an app suspends, the app is crashed. A Deadlock Termination Reason is supplied in the Crash Report.</p>
+<p>As an example we show the OneMessenger app crash with the following Crash Report, truncated for ease of demonstration:</p>
+<pre><code>Incident Identifier: A176CFB8-6BB7-4515-A4A2-82D2B962E097
+CrashReporter Key:   f02957b828fe4090389c1282ca8e38393b4e133d
+Hardware Model:      iPhone9,4
+Process:             OneMessenger [10627]
+Path:                /private/var/containers/Bundle/Application/03E067E9-E2C1-43F4-AC53-4E4F58131FF3/OneMessenger.app/OneMessenger
+Identifier:          com.onem.adhoc
+Version:             158 (1.0.4)
+Code Type:           ARM-64 (Native)
+Role:                Non UI
+Parent Process:      launchd [1]
+Coalition:           com.onem.adhoc [3747]
+
+
+Date/Time:           2017-05-10 17:37:48.6201 -0700
+Launch Time:         2017-05-10 17:37:46.7161 -0700
+OS Version:          iPhone OS 10.3.1 (14E304)
+Report Version:      104
+
+Exception Type:  EXC_CRASH (SIGKILL)
+Exception Codes: 0x0000000000000000, 0x0000000000000000
+Exception Note:  EXC_CORPSE_NOTIFY
+Termination Reason: Namespace SPRINGBOARD, Code 0xdead10cc
+Triggered by Thread:  0
+
+Thread 0 name:
+Thread 0 Crashed:
+0   libsystem_kernel.dylib          0x000000018a337224 mach_msg_trap + 8
+1   libsystem_kernel.dylib          0x000000018a33709c mach_msg + 72 (mach_msg.c:103)
+2   CoreFoundation                  0x000000018b308e88 __CFRunLoopServiceMachPort + 192 (CFRunLoop.c:2527)
+3   CoreFoundation                  0x000000018b306adc __CFRunLoopRun + 1060 (CFRunLoop.c:2870)
+4   CoreFoundation                  0x000000018b236d94 CFRunLoopRunSpecific + 424 (CFRunLoop.c:3113)
+5   GraphicsServices                0x000000018cca0074 GSEventRunModal + 100 (GSEvent.c:2245)
+6   UIKit                           0x00000001914ef130 UIApplicationMain + 208 (UIApplication.m:4089)
+7   OneMessenger                    0x00000001004ff1b0 main + 88 (main.m:16)
+8   libdyld.dylib                   0x000000018a24559c start + 4
+
+Thread 16 name:
+Thread 16:
+0   libsystem_kernel.dylib          0x000000018a3394dc fsync + 8
+1   libsqlite3.dylib                0x000000018b8b704c unixSync + 220 (sqlite3.c:33772)
+2   libsqlite3.dylib                0x000000018b8b6a5c sqlite3PagerCommitPhaseOne + 1428 (sqlite3.c:18932)
+3   libsqlite3.dylib                0x000000018b8a35a0 sqlite3BtreeCommitPhaseOne + 180 (sqlite3.c:66409)
+4   libsqlite3.dylib                0x000000018b872d68 sqlite3VdbeHalt + 2508 (sqlite3.c:77161)
+5   libsqlite3.dylib                0x000000018b89cb7c sqlite3VdbeExec + 56292 (sqlite3.c:82886)
+6   libsqlite3.dylib                0x000000018b88e0e0 sqlite3_step + 528 (sqlite3.c:80263)
+7   OneMessenger                    0x00000001003fc2bc __25+[DataBase executeQuery:]_block_invoke + 72 (DataBase.m:1072)
+8   libdispatch.dylib               0x000000018a2129e0 _dispatch_call_block_and_release + 24 (init.c:963)
+9   libdispatch.dylib               0x000000018a2129a0 _dispatch_client_callout + 16 (object.m:473)
+10  libdispatch.dylib               0x000000018a220ad4 _dispatch_queue_serial_drain + 928 (inline_internal.h:2431)
+11  libdispatch.dylib               0x000000018a2162cc _dispatch_queue_invoke + 884 (queue.c:4853)
+12  libdispatch.dylib               0x000000018a220fa8 _dispatch_queue_override_invoke + 344 (queue.c:4890)
+13  libdispatch.dylib               0x000000018a222a50 _dispatch_root_queue_drain + 540 (inline_internal.h:2468)
+14  libdispatch.dylib               0x000000018a2227d0 _dispatch_worker_thread3 + 124 (queue.c:5550)
+15  libsystem_pthread.dylib         0x000000018a41b1d0 _pthread_wqthread + 1096 (pthread.c:2196)
+16  libsystem_pthread.dylib         0x000000018a41ad7c start_wqthread + 4</code></pre>
+<p>Here we can see, in Thread 16, the app clearly uses SQLite. We see the termination reason:</p>
+<pre><code>Termination Reason: Namespace SPRINGBOARD, Code 0xdead10cc</code></pre>
+<p>Note how the word Deadlock is written as hexspeak 0xdead10cc.</p>
+<h2 id="insecure-drawing-crash">Insecure Drawing Crash</h2>
+<p>We can get an insecure drawing crash if our app tried to write to the screen when it was not allowed because, for example, the Lock Screen was being shown.</p>
+<p>As an example we show the MobileSMS app crash with the following Crash Report, truncated for ease of demonstration:</p>
+<pre><code>Incident Identifier: B076D47C-165E-4515-8E24-2C00CD307E2E
+CrashReporter Key:   475d4ae82bdeca1824ec71225197c429060bb0e3
+Hardware Model:      iPhone9,3
+Process:             MobileSMS [3093]
+Path:                /Applications/MobileSMS.app/MobileSMS
+Identifier:          com.apple.MobileSMS
+Version:             1.0 (5.0)
+Code Type:           ARM-64 (Native)
+Role:                Foreground
+Parent Process:      launchd [1]
+Coalition:           com.apple.MobileSMS [799]
+
+
+Date/Time:           2018-05-06 10:26:42.2201 +0300
+Launch Time:         2018-05-06 10:25:13.9579 +0300
+OS Version:          iPhone OS 11.1.2 (15B202)
+Baseband Version:    2.01.03
+Report Version:      104
+
+Exception Type:  EXC_CRASH (SIGKILL)
+Exception Codes: 0x0000000000000000, 0x0000000000000000
+Exception Note:  EXC_CORPSE_NOTIFY
+Termination Reason: Namespace SPRINGBOARD, Code 0x2bad45ec
+Termination Description:
+ SPRINGBOARD, Process detected doing insecure drawing while in secure mode
+Triggered by Thread:  0
+
+Filtered syslog:
+None found
+
+Thread 0 name:  Dispatch queue: com.apple.main-thread
+Thread 0 Crashed:
+0       CoreUI                          0x189699354 0x189622000 + 0x77354
+    // -[CUICatalog _resolvedRenditionKeyFromThemeRef:withBaseKey:scaleFactor:
+  deviceIdiom:deviceSubtype:displayGamut:layoutDirection:sizeClassHorizontal:
+  sizeClassVertical:memoryClass:graphicsClass:
+  graphicsFallBackOrder:iconSizeIndex:] + 0x824
+1       CoreUI                          0x1896993c0 0x189622000 + 0x773c0
+    // -[CUICatalog _resolvedRenditionKeyFromThemeRef:withBaseKey:scaleFactor:
+  deviceIdiom:deviceSubtype:displayGamut:layoutDirection:sizeClassHorizontal:
+  sizeClassVertical:memoryClass:graphicsClass:graphicsFallBackOrder:
+  iconSizeIndex:] + 0x890
+2       CoreUI                          0x189698b2c 0x189622000 + 0x76b2c
+    // -[CUICatalog _resolvedRenditionKeyForName:scaleFactor:
+  deviceIdiom:deviceSubtype:displayGamut:layoutDirection:sizeClassHorizontal:
+  sizeClassVertical:memoryClass:graphicsClass:graphicsFallBackOrder:
+  withBaseKeySelector:] + 0x134
+
+.
+.
+.
+
+
+55      UIKit                           0x18b6982e8 0x18b625000 + 0x732e8
+    // UIApplicationMain + 0xd0
+56      MobileSMS (*)                   0x10004cdd8 0x10002c000 + 0x20dd8
+    // 0x00020d58 + 0x80
+57      libdyld.dylib                   0x181be656c 0x181be5000 + 0x156c
+    // start + 0x4
+
+Binary Images (dpkg):
+0x1000a8000 - 0x1000affff + TweakInject.dylib arm64
+  &lt;5e43b90a0c4336c38fe56ac76a7ec1d9&gt; /usr/lib/TweakInject.dylib
+   {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,
+   &quot;name&quot;:&quot;Tweak Injector&quot;,&quot;identifier&quot;:&quot;org.coolstar.tweakinject&quot;,
+   &quot;version&quot;:&quot;1.0.6&quot;}
+0x100224000 - 0x100237fff + libcolorpicker.dylib arm64
+  &lt;62b3bd5a87e03646a7feda66fc69a70c&gt; /usr/lib/libcolorpicker.dylib
+   {&quot;install_date&quot;:&quot;2018-04-25 23:17:08 +0300&quot;,&quot;name&quot;:&quot;libcolorpicker&quot;,
+   &quot;identifier&quot;:&quot;org.thebigboss.libcolorpicker&quot;,&quot;version&quot;:&quot;1.6-1&quot;}
+0x100244000 - 0x10024bfff + CydiaSubstrate arm64
+  &lt;766a34171a3c362cae719390c6a8d715&gt;
+  /Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate
+   {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,&quot;name&quot;:
+   &quot;Substrate Compatibility Layer&quot;,&quot;identifier&quot;:&quot;mobilesubstrate&quot;,
+   &quot;version&quot;:&quot;99.0&quot;}
+0x100254000 - 0x100267fff + libsubstitute.0.dylib arm64
+  &lt;4aa77c47f1ec362dab77d70748383ef3&gt; /usr/lib/libsubstitute.0.dylib
+   {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,&quot;name&quot;:&quot;Substitute&quot;,
+   &quot;identifier&quot;:&quot;com.ex.libsubstitute&quot;,
+   &quot;version&quot;:&quot;0.0.6-coolstar&quot;}
+0x1002c0000 - 0x1002c7fff + librocketbootstrap.dylib arm64
+  &lt;937a654a197136fda4826d3943045632&gt; /usr/lib/librocketbootstrap.dylib
+   {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,&quot;name&quot;:&quot;RocketBootstrap&quot;,
+   &quot;identifier&quot;:&quot;com.rpetrich.rocketbootstrap&quot;,&quot;version&quot;:&quot;1.0.6&quot;}
+
+Binary Images (App Store):
+
+Binary Images (Other):
+0x10002c000 - 0x10007bfff   MobileSMS arm64
+  &lt;38a8f6a396ce3d5f99600cacce041555&gt; /Applications/MobileSMS.app/MobileSMS
+0x100104000 - 0x100143fff   dyld arm64  
+&lt;92368d6f78863cc88239f2e3ec79bba8&gt; /usr/lib/dyld</code></pre>
+<p>Clearly we can see the Termination Code <code>0x2bad45ec</code> (spoken as “Too Bad For Security”) and the <code>Termination Description</code></p>
+<pre><code>SPRINGBOARD, Process detected doing insecure drawing while in secure mode</code></pre>
+<p>We would not expect an Apple provided app, MobileSMS, to crash. Looking carefully at the <code>Binary Images</code> section we can see that the Operating System has been “tweaked”. This phone has been jailbroken due to the reference to <code>CydiaSubstrate</code>. We cannot safely rely on any of the apps as having their original design integrity. Perhaps on this phone the MobileSMS app was tweaked to add extra functionality but has introduced a drawing related bug.</p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-macbookproT2">
