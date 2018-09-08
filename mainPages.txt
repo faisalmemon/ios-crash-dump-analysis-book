@@ -6,6 +6,7 @@ markdown/HybridEnvironments.md
 markdown/Symbolification.md
 markdown/CrashReport.md
 markdown/AnalyticTroubleShooting.md
+examples/siri_crash_osx/siriCrashExplanation.md
 markdown/RuntimeEnvironmentCrashes.md
 examples/icdab_wrap_ios/NilOptionalUnwrap.md
 examples/icdab_sema_crash_osx/ReleasingAnInUseSemaphore.md
@@ -16,7 +17,6 @@ examples/leak_agent_ios/leakagent_crash_explanation.md
 markdown/BadMemoryBus.md
 examples/xbmc_sigbus_ios/xmbc_crash_explanation.md
 examples/jablotron_sigbus_align_ios/jablotron_crash_explanation.md
-examples/siri_crash_osx/siriCrashExplanation.md
 markdown/Aborts.md
 examples/kdp_crash_osx/kdp_graphics_crash_explanation.md
 examples/nsdata_crash_ios/type_confusion.md

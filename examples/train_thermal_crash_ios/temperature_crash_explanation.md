@@ -61,12 +61,13 @@ Finally, the Crash Report notes:
 Unknown thread crashed with unknown flavor: 5, state_count: 1
 ```
 
-This has been seen for cases where the system terminates the app for resource related reasons.
+This can been seen for cases where the system terminates the app for resource related reasons.
 
 From looking up the thread flavor in the Darwin XNU code, we see:
 ```
 #define THREAD_STATE_NONE		5
 ```
+
 @threadstatus
 
 So it just means that this is not something of concern.  The Crash Report tool could do with improvement to catch this case.
