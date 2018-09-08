@@ -3145,13 +3145,14 @@ Binary Images:
 <p>We can use the Hopper Disassembler and reverse engineering tool here.<br />
 By locating the binary on our Mac, we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode. For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code is rarely hand written nowadays. This is why the pseudocode output is most valuable.</p>
 <p>We first find the location of the binary from the <code>Binary Images</code> section of the crash report.</p>
-<pre><code>/System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
+<pre><code>/System/Library/PrivateFrameworks/GPUSupport.framework/
+Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
 <p>Traversing the file hierarchy can be cumbersome for system binaries as they are deeply nested in the file system.</p>
 <p>If Hopper is <strong>already running</strong>, a quick way to select the correct file is to use the command line.</p>
 <pre><code>&#39;/Applications/Hopper Disassembler v4.app/Contents/MacOS/hopper&#39; \
  -e /System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/
  Libraries/libGPUSupportMercury.dylib</code></pre>
-<p>If Hopper is not running, we can launch it. Alongside we can launch the Finder program and select ‘Go To Folder’ to select the folder <code>/System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/</code></p>
+<p>If Hopper is not running, we can launch it. Alongside we can launch the Finder program and select ‘Go To Folder’ to select the folder <code>/System/Library/PrivateFrameworks/GPUSupport.framework``/Versions/A/Libraries/</code></p>
 <p><img src="screenshots/finder_support_mercury.png" /></p>
 <p>Then we can simply drag <code>libGPUSupportMercury.dylib</code> from the Finder into the main panel of the Hopper App and it will start processing the file.</p>
 <p><img src="screenshots/drag_file_to_hopper.png" /></p>
@@ -3413,7 +3414,8 @@ _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230
 -[CALayer setBounds:] + 251
 5   AppKit                              0x00007fff42e5ccad
 -[_NSClipViewBackingLayer setBounds:] + 105
-6   AppKit                              0x00007fff42e20bf0 -[NSView(NSInternal) _updateLayerGeometryFromView] + 712
+6   AppKit                              0x00007fff42e20bf0
+ -[NSView(NSInternal) _updateLayerGeometryFromView] + 712
 7   AppKit                              0x00007fff42eef7a2
 -[NSView translateOriginToPoint:] + 191
 8   AppKit                              0x00007fff42eef383
@@ -3428,11 +3430,14 @@ _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230
 -[NSScrollView scrollClipView:toPoint:] + 75
 13  AppKit                              0x00007fff42ed5929
 -[NSClipView _scrollTo:animateScroll:flashScrollerKnobs:] + 1273
-14  AppKit                              0x00007fff434d5750 -[_NSScrollingConcurrentMainThreadSynchronizer
+14  AppKit                              0x00007fff434d5750
+ -[_NSScrollingConcurrentMainThreadSynchronizer
 _scrollToCanonicalOrigin] + 935
-15  AppKit                              0x00007fff43071d74 -[_NSScrollingConcurrentMainThreadSynchronizer
+15  AppKit                              0x00007fff43071d74
+ -[_NSScrollingConcurrentMainThreadSynchronizer
 _synchronize:completionHandler:] + 174
-16  AppKit                              0x00007fff43071c94 __80-[_NSScrollingConcurrentMainThreadSynchronizer
+16  AppKit                              0x00007fff43071c94
+ __80-[_NSScrollingConcurrentMainThreadSynchronizer
 initWithSharedData:constantData:]_block_invoke + 145
 17  libdispatch.dylib                   0x00007fff6db5be08
 _dispatch_client_callout + 8
@@ -3452,8 +3457,10 @@ CFRunLoopRunSpecific + 483
 RunCurrentEventLoopInMode + 286
 25  HIToolbox                           0x00007fff44b63b06
 ReceiveNextEventCommon + 613
-26  HIToolbox                           0x00007fff44b63884 _BlockUntilNextEventMatchingListInModeWithFilter + 64
-27  AppKit                              0x00007fff42e16a73 _DPSNextEvent + 2085
+26  HIToolbox                           0x00007fff44b63884
+ _BlockUntilNextEventMatchingListInModeWithFilter + 64
+27  AppKit                              0x00007fff42e16a73
+ _DPSNextEvent + 2085
 28  AppKit                              0x00007fff435ace34
  -[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:
  inMode:dequeue:] + 3044
@@ -3531,7 +3538,8 @@ _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230</code></pre>
                         for method _objc_msgSend
 0000000000008f06  lea        rdx, qword [cfstring_CALayerInvalidGeometry]
                        ; @&quot;CALayerInvalidGeometry&quot;
-0000000000008f0d         lea        rcx, qword [cfstring_CALayer_bounds_contains_NaN____g__g___g__g_]
+0000000000008f0d         lea        rcx, qword
+ [cfstring_CALayer_bounds_contains_NaN____g__g___g__g_]
                        ; @&quot;CALayer bounds contains NaN: [%g %g; %g %g]&quot;
 0000000000008f14         mov        al, 0x4
 0000000000008f16         call       qword [_objc_msgSend_24d4f8]
