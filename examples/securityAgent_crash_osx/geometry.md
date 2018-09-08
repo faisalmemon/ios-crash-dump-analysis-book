@@ -1,6 +1,6 @@
-## Not A Number Errors
+## 'Not A Number' Errors
 
-In this section we show an abort arising from bad floating point data.
+In this section, we show an abort arising from bad floating point data.
 
 We use an example of the `securityAgent` crashing on macOS.
 
@@ -155,7 +155,7 @@ This crash shows an excellent example of placing informative information into th
 
 Perhaps a data structure has not been initialized, or a division by zero has occurred.  Often geometry code creates ratios of width / height.  During startup or corner cases our frames might be zero sized, thus leading to divide by zero errors resulting in NAN values in our data structures.
 
-We notice that some fairly long functions are used by Quartz (the Geometric Drawing Framework).  In the stack backtrace we see:
+We notice that some long functions are used by Quartz (the Geometric Drawing Framework).  In the stack backtrace we see:
 
 ```
 3   QuartzCore                          0x00007fff50ba1a72
@@ -167,7 +167,7 @@ As an academic exercise we can pin point which of the many error handle cases is
 Using the Hopper tool, we can search for symbol `__ZN2CA5Layer10set_boundsERKNS_4RectEb`
 in the binary `/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore`
 
-Note how we introduce an additional leading underscore to the function name when searching for it.  This is due to the C Language Linker.
+Note how we introduce an additional leading underscore to the function name when searching for it.  This is due to the C Language Compiler\index{linker!underscore policy}.
 
 We see:
 ```

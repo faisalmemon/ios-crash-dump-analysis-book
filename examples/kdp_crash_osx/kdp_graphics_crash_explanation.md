@@ -132,13 +132,13 @@ This means we need to select the 32-bit architecture option in Hopper.
 The we click Next, and then OK.
 
 After a moment, the file will be processed.  Then we can select _Navigate -> Go To Address or Symbol_
-and provide the address `_gpusGenerateCrashLog`  Note, we have a leading underscore.  The Linker phase will put that in for C programming language code.
+and provide the address `_gpusGenerateCrashLog`  Note, we have a leading underscore.  The C compiler puts that in automatically before generating the object file.  Historically it was done that way so that hand written assembly code would not conflict with C programming language symbols during linking\index{linker!underscore policy}.
 
 In the default view, Hopper will show the disassembly for the function.
 
 ![](screenshots/hopper_diss.png)
 
-By selecting the pseudocode button (shown circled in red) we get Hopper to produce a more easily understandable description of the function.
+By selecting the pseudocode button, shown circled in red, we get Hopper to produce a more easily understandable description of the function.
 
 ![](screenshots/hopper_pseudocode.png)
 
@@ -186,6 +186,6 @@ Application Specific Signatures:
 Graphics kernel error: 0xfffffffb
 ```
 
-Unfortunately it is not clear what this error means.  We need the author of the app to switch on OpenGL command level logging in order to understand what drawing command got rejected by the graphics driver.
+Unfortunately, it is not clear what this error means.  We need the author of the app to switch on OpenGL command level logging in order to understand what drawing command was rejected by the graphics driver.
 
 Using a different Mac with a different graphics card would be an interesting experiment to understand if we have a driver-specific issue or a general OpenGL problem.

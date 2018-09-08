@@ -14,4 +14,4 @@ In such circumstances, the application requests that the Operating System termin
 
 There is not one particular reason for `SIGABRT`.  Instead, we look at a variety of examples so that we can see the kinds of situation where they arise.
 
-Sometimes the particular abort also supplies information in the `Application Specific Information` area of the crash report.  If this does not reveal the detail we require, it is often possible to locate the module which raised the abort, and reverse engineer the code to understand what specifically was the syndrome.
+Sometimes the particular abort also supplies information in the `Application Specific Information` area of the crash report.  If this does not reveal the detail we require, it is often possible to locate the module that raised the abort, and reverse engineer the code to understand what specifically was the syndrome.

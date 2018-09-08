@@ -33,8 +33,8 @@ By design, the `NSData` abstraction can handle whether the supplied data is `nil
 
 It might be the case that the token data is just a simple hex string like `7893883873a705aec69e2942901f20d7b1e28dec`
 
-The above code has `stringProperty` which is supposed to model the case where the data token was recorded as a string in the user defaults instead of as `NSData`.
-Perhaps it was manually copy-pasted into the `.plist` file of the user defaults.  If the `initWithData` method is passed a `NSString` it cannot create an `NSData` object.  We get a crash.
+The above code has `stringProperty` that is supposed to model the case where the data token was recorded as a string in the user defaults instead of as `NSData`.
+Perhaps it was manually copy-pasted into the `plist` file of the user defaults.  If the `initWithData` method is passed an `NSString` it cannot create an `NSData` object.  We get a crash.
 
 If we run the code, we get the following Crash Report, truncated for ease of demonstration:
 
@@ -98,9 +98,9 @@ __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 9
 23  libdyld.dylib                 	0x2565b86e tlv_get_addr + 41
 ```
 
-Unfortunately this type of crash does not inject further helpful information, such as `Application Specific Information`, into the Crash Report.
+Unfortunately, this type of crash does not inject further helpful information, such as `Application Specific Information`, into the Crash Report.
 
-We do, however, get information in the system log (console log of the app):
+However, we do get information in the system log (console log of the app):
 
 ```
 default	13:36:58.000000 +0000	icdab_nsdata	 
@@ -139,13 +139,11 @@ default	13:36:58.000000 +0000	ReportCrash
 
 From here we can see the problem is that `__NSCFConstantString` is unable to respond to `_isDispatchData` because `NSString` is not a data providing object.
 
-Error reports will refer to the concrete classes that support the abstractions we program against.  So their names can be unfamiliar.
+The Apple SDKs have private implementation classes to support the public abstractions we consume.  Error reports will refer to these private classes.  Therefore, their names can be unfamiliar.
 
 An easy way to gather our compass, and figure out what concrete representations map to which abstraction is to search for the class type definition.
 
-The Apple Software Development Kits only publish the public interfaces we may program to.  This is a small fraction of what is present.
-
-Conveniently, other engineers have run a tool over all frameworks to generate the Objective-C class definitions and have stored them on github.  They use the `class-dump`\index{command!class-dump} tool. This makes all private framework symbols for Objective-C easily searchable.
+Conveniently, other engineers have run a tool over all frameworks to generate the Objective-C class definitions and have stored them on GitHub\index{trademark!GitHub}.  They use the `class-dump`\index{command!class-dump} tool. This makes all private framework symbols for Objective-C easily searchable.
 
 We can find the definition of `_isDispatchData` at the following link, for example:
 https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/Foundation.framework/_NSDispatchData.h
