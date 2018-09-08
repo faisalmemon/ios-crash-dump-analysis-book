@@ -177,7 +177,7 @@
 <li><a href="#extracting-nsdata-from-a-configuration-file">Extracting NSData from a configuration file</a></li>
 <li><a href="#deserialization-crash-report">Deserialization Crash Report</a></li>
 </ul></li>
-<li><a href="#not-a-number-errors">Not A Number Errors</a></li>
+<li><a href="#not-a-number-errors">‘Not A Number’ Errors</a></li>
 </ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
@@ -3057,7 +3057,7 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <h2 id="general-principles-1">General principles</h2>
 <p>Many Operating System, language support modules, and libraries have code to detect fatal programming errors. In such circumstances, the application requests that the Operating System terminate the app. This gives rise to a <code>SIGABRT</code> crash.</p>
 <p>There is not one particular reason for <code>SIGABRT</code>. Instead, we look at a variety of examples so that we can see the kinds of situation where they arise.</p>
-<p>Sometimes the particular abort also supplies information in the <code>Application Specific Information</code> area of the crash report. If this does not reveal the detail we require, it is often possible to locate the module which raised the abort, and reverse engineer the code to understand what specifically was the syndrome.</p>
+<p>Sometimes the particular abort also supplies information in the <code>Application Specific Information</code> area of the crash report. If this does not reveal the detail we require, it is often possible to locate the module that raised the abort, and reverse engineer the code to understand what specifically was the syndrome.</p>
 <h2 id="kindle-create-crash">Kindle Create Crash</h2>
 <p>Kindle Create is an application used by authors to create e-books from manuscripts, such as <code>docx</code> files. It makes heavy use of graphics via the QuartzCore library.</p>
 <p>When previewing for publication it crashed with the following crash report, truncated for ease of demonstration:</p>
@@ -3143,10 +3143,10 @@ Binary Images:
 <p>From the stack backtrace we see that the OpenGL pipeline was flushed. This caused <code>com.apple.AMDRadeonX4000GLDriver</code> to detect a problem with the commands and trigger a crash. We see that the code contributes custom information to the crash report.</p>
 <pre><code>3   libGPUSupportMercury.dylib      0xa2aa342d gpusGenerateCrashLog + 160</code></pre>
 <p>We can use the Hopper Disassembler and reverse engineering tool here.<br />
-By locating the binary on our Mac, we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode. For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code is rarely hand written nowadays. This is way the pseudocode output is most valuable.</p>
+By locating the binary on our Mac, we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode. For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code is rarely hand written nowadays. This is why the pseudocode output is most valuable.</p>
 <p>We first find the location of the binary from the <code>Binary Images</code> section of the crash report.</p>
 <pre><code>/System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
-<p>Traversing the file hierarchy can be cumbersome for system binaries as they are deeply nested in the filesystem.</p>
+<p>Traversing the file hierarchy can be cumbersome for system binaries as they are deeply nested in the file system.</p>
 <p>If Hopper is <strong>already running</strong>, a quick way to select the correct file is to use the command line.</p>
 <pre><code>&#39;/Applications/Hopper Disassembler v4.app/Contents/MacOS/hopper&#39; \
  -e /System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/
@@ -3155,13 +3155,13 @@ By locating the binary on our Mac, we can ask Hopper to not only dissemble the c
 <p><img src="screenshots/finder_support_mercury.png" /></p>
 <p>Then we can simply drag <code>libGPUSupportMercury.dylib</code> from the Finder into the main panel of the Hopper App and it will start processing the file.</p>
 <p><img src="screenshots/drag_file_to_hopper.png" /></p>
-<p>We need to select the architecture to disassemble. It must match what we are diagnosing. From the crash report, we can see that it is a <code>Code Type</code> <code>X86 (Native)</code> This means we need to select the 32-bit architecture option in Hopper.</p>
+<p>We need to select the architecture to disassemble. It must match what we are diagnosing. From the crash report, we can see that it is a <code>Code Type</code> <code>X86 (Native)</code>. This means we need to select the 32-bit architecture option in Hopper.</p>
 <p><img src="screenshots/hopper_32bit.png" /></p>
 <p>The we click Next, and then OK.</p>
-<p>After a moment, the file will be processed. Then we can select <em>Navigate -&gt; Go To Address or Symbol</em> and provide the address <code>_gpusGenerateCrashLog</code> Note, we have a leading underscore. The Linker phase will put that in for C programming language code.</p>
+<p>After a moment, the file will be processed. Then we can select <em>Navigate -&gt; Go To Address or Symbol</em> and provide the address <code>_gpusGenerateCrashLog</code> Note, we have a leading underscore. The C compiler puts that in automatically before generating the object file. Historically it was done that way so that hand written assembly code would not conflict with C programming language symbols during linking.</p>
 <p>In the default view, Hopper will show the disassembly for the function.</p>
 <p><img src="screenshots/hopper_diss.png" /></p>
-<p>By selecting the pseudocode button (shown circled in red) we get Hopper to produce a more easily understandable description of the function.</p>
+<p>By selecting the pseudocode button, shown circled in red, we get Hopper to produce a more easily understandable description of the function.</p>
 <p><img src="screenshots/hopper_pseudocode.png" /></p>
 <p>Here is the output of hopper:</p>
 <pre><code>int _gpusGenerateCrashLog(int arg0, int arg1, int arg2) {
@@ -3196,7 +3196,7 @@ By locating the binary on our Mac, we can ask Hopper to not only dissemble the c
 <p>In fact, we see the following in the crash report:</p>
 <pre><code>Application Specific Signatures:
 Graphics kernel error: 0xfffffffb</code></pre>
-<p>Unfortunately it is not clear what this error means. We need the author of the app to switch on OpenGL command level logging in order to understand what drawing command got rejected by the graphics driver.</p>
+<p>Unfortunately, it is not clear what this error means. We need the author of the app to switch on OpenGL command level logging in order to understand what drawing command was rejected by the graphics driver.</p>
 <p>Using a different Mac with a different graphics card would be an interesting experiment to understand if we have a driver-specific issue or a general OpenGL problem.</p>
 <h2 id="type-confusion">Type confusion</h2>
 <p>The compiler does an excellent job of static type checking. When types are inferred dynamically problems can arise. Configuration files are further troublesome in this area. It can be easy to set the wrong type for a configuration parameter.</p>
@@ -3221,7 +3221,7 @@ Graphics kernel error: 0xfffffffb</code></pre>
 <p>This code tries to do two things. Firstly, it tries to get a data token from its configuration. We assume from a previous run, the user defaults saved an <code>NSData</code> token under the key <code>SomeKey</code></p>
 <p>By design, the <code>NSData</code> abstraction can handle whether the supplied data is <code>nil</code>. So if no token has yet been set, we are still ok.</p>
 <p>It might be the case that the token data is just a simple hex string like <code>7893883873a705aec69e2942901f20d7b1e28dec</code></p>
-<p>The above code has <code>stringProperty</code> which is supposed to model the case where the data token was recorded as a string in the user defaults instead of as <code>NSData</code>. Perhaps it was manually copy-pasted into the <code>.plist</code> file of the user defaults. If the <code>initWithData</code> method is passed a <code>NSString</code> it cannot create an <code>NSData</code> object. We get a crash.</p>
+<p>The above code has <code>stringProperty</code> that is supposed to model the case where the data token was recorded as a string in the user defaults instead of as <code>NSData</code>. Perhaps it was manually copy-pasted into the <code>plist</code> file of the user defaults. If the <code>initWithData</code> method is passed an <code>NSString</code> it cannot create an <code>NSData</code> object. We get a crash.</p>
 <p>If we run the code, we get the following Crash Report, truncated for ease of demonstration:</p>
 <h3 id="deserialization-crash-report">Deserialization Crash Report</h3>
 <pre><code>Incident Identifier: 12F72C5C-E9BD-495F-A017-832E3BBF285E
@@ -3279,8 +3279,8 @@ __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 9
 21  UIKit                           0x2a087184 UIApplicationMain + 139
 22  icdab_nsdata                    0x000f8830 main + 26672 (main.m:14)
 23  libdyld.dylib                   0x2565b86e tlv_get_addr + 41</code></pre>
-<p>Unfortunately this type of crash does not inject further helpful information, such as <code>Application Specific Information</code>, into the Crash Report.</p>
-<p>We do, however, get information in the system log (console log of the app):</p>
+<p>Unfortunately, this type of crash does not inject further helpful information, such as <code>Application Specific Information</code>, into the Crash Report.</p>
+<p>However, we do get information in the system log (console log of the app):</p>
 <pre><code>default 13:36:58.000000 +0000   icdab_nsdata     
 My data is &lt;&gt; - ok since we can handle a nil
 
@@ -3314,10 +3314,9 @@ default 13:36:58.000000 +0000   ReportCrash
      Saved type &#39;109(109_icdab_nsdata)&#39; report (2 of max 25) at
     /var/mobile/Library/Logs/CrashReporter/icdab_nsdata-2018-07-27-133658.ips</code></pre>
 <p>From here we can see the problem is that <code>__NSCFConstantString</code> is unable to respond to <code>_isDispatchData</code> because <code>NSString</code> is not a data providing object.</p>
-<p>Error reports will refer to the concrete classes that support the abstractions we program against. So their names can be unfamiliar.</p>
+<p>The Apple SDKs have private implementation classes to support the public abstractions we consume. Error reports will refer to these private classes. Therefore, their names can be unfamiliar.</p>
 <p>An easy way to gather our compass, and figure out what concrete representations map to which abstraction is to search for the class type definition.</p>
-<p>The Apple Software Development Kits only publish the public interfaces we may program to. This is a small fraction of what is present.</p>
-<p>Conveniently, other engineers have run a tool over all frameworks to generate the Objective-C class definitions and have stored them on github. They use the <code>class-dump</code> tool. This makes all private framework symbols for Objective-C easily searchable.</p>
+<p>Conveniently, other engineers have run a tool over all frameworks to generate the Objective-C class definitions and have stored them on GitHub. They use the <code>class-dump</code> tool. This makes all private framework symbols for Objective-C easily searchable.</p>
 <p>We can find the definition of <code>_isDispatchData</code> at the following link, for example: https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/Foundation.framework/_NSDispatchData.h</p>
 <pre><code>/* Generated by RuntimeBrowser
    Image: /System/Library/Frameworks/Foundation.framework/Foundation
@@ -3361,8 +3360,8 @@ default 13:36:58.000000 +0000   ReportCrash
 - (unsigned long long)retainCount;
 
 @end</code></pre>
-<h2 id="not-a-number-errors">Not A Number Errors</h2>
-<p>In this section we show an abort arising from bad floating point data.</p>
+<h2 id="not-a-number-errors">‘Not A Number’ Errors</h2>
+<p>In this section, we show an abort arising from bad floating point data.</p>
 <p>We use an example of the <code>securityAgent</code> crashing on macOS.</p>
 <p>The Crash Report we see is as follows, truncated for ease of demonstration:</p>
 <pre><code>Process:               SecurityAgent [99429]
@@ -3506,12 +3505,12 @@ ReceiveNextEventCommon + 613
 <p>This crash shows an excellent example of placing informative information into the Crash Report. We know immediately we have NAN (Not A Number) floating point values in our layer bounds, and this is the reason for aborting.</p>
 <pre><code>&#39;CALayer bounds contains NaN: [nan nan; 1424 160]&#39;</code></pre>
 <p>Perhaps a data structure has not been initialized, or a division by zero has occurred. Often geometry code creates ratios of width / height. During startup or corner cases our frames might be zero sized, thus leading to divide by zero errors resulting in NAN values in our data structures.</p>
-<p>We notice that some fairly long functions are used by Quartz (the Geometric Drawing Framework). In the stack backtrace we see:</p>
+<p>We notice that some long functions are used by Quartz (the Geometric Drawing Framework). In the stack backtrace we see:</p>
 <pre><code>3   QuartzCore                          0x00007fff50ba1a72
 _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230</code></pre>
 <p>As an academic exercise we can pin point which of the many error handle cases is the one in play here. Our backtrace here is not the leaf call, so the offset is the address where computation will resume after the function call has returned.</p>
 <p>Using the Hopper tool, we can search for symbol <code>__ZN2CA5Layer10set_boundsERKNS_4RectEb</code> in the binary <code>/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore</code></p>
-<p>Note how we introduce an additional leading underscore to the function name when searching for it. This is due to the C Language Linker.</p>
+<p>Note how we introduce an additional leading underscore to the function name when searching for it. This is due to the C Language Compiler.</p>
 <p>We see:</p>
 <pre><code>__ZN2CA5Layer10set_boundsERKNS_4RectEb:        
 // CA::Layer::set_bounds(CA::Rect const&amp;, bool)
