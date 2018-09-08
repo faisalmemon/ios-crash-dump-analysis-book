@@ -26,4 +26,7 @@ examples/brain_cpu_ios/cpu_usage_explanation.md
 examples/snapchat_wake_ios/wake_up_explanation.md
 examples/too_many_wakes_ios/BadTooManyTimes_explanation.md
 examples/train_thermal_crash_ios/temperature_crash_explanation.md
+markdown/TerminationCrashes.md
+examples/one_messenger_sql_crash_ios/Deadlock_explanation.md
+examples/security_violation_ios/insecure_drawing_explanation.md
 markdown/Bibliography.md
