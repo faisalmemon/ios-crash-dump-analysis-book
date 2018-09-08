@@ -23,4 +23,7 @@ examples/nsdata_crash_ios/type_confusion.md
 examples/securityAgent_crash_osx/geometry.md
 markdown/ResourceCrashes.md
 examples/brain_cpu_ios/cpu_usage_explanation.md
+examples/snapchat_wake_ios/wake_up_explanation.md
+examples/too_many_wakes_ios/BadTooManyTimes_explanation.md
+examples/train_thermal_crash_ios/temperature_crash_explanation.md
 markdown/Bibliography.md

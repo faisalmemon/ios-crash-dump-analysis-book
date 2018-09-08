@@ -5,12 +5,13 @@ The iOS platform can update itself.  Here is an example where it has used up too
 The following crash report, truncated for ease of demonstration, shows the `UpdateBrainService` being terminated:
 
 ```
-{"app_name":"com.apple.MobileSoftwareUpdate.UpdateBrainService","app_version":"1.0","bundleID":"com.apple.MobileSoftwareUpdate.UpdateBrainService","os_version":"iPhone OS 8.1.2 (12B440)","slice_uuid":"865e9aa3-dce0-3923-93a2-445e115bc26f","share_with_app_devs":true,"build_version":"1","is_first_party":false,"bug_type":"185","name":"com.apple.MobileSoftwareUpdate.UpdateBrainService"}
 Incident Identifier: 92F40C53-6BB8-4E13-A4C2-CF2F1C85E8DF
 CrashReporter Key:   69face25f1299fdcbbe337b89e6a9f649818ba13
 Hardware Model:      iPad4,4
 Process:             com.apple.MobileSoftwareUpdate.UpdateBrainService [147]
-Path:                /private/var/run/com.apple.xpcproxy.RoleAccount.staging/com.apple.MobileSoftwareUpdate.UpdateBrainService.16777219.47335.xpc/com.apple.MobileSoftwareUpdate.UpdateBrainService
+Path:                /private/var/run/com.apple.xpcproxy.RoleAccount.staging/
+com.apple.MobileSoftwareUpdate.UpdateBrainService.16777219.47335.xpc/
+com.apple.MobileSoftwareUpdate.UpdateBrainService
 Identifier:          com.apple.MobileSoftwareUpdate.UpdateBrainService
 Version:             1 (1.0)
 Code Type:           ARM-64 (Native)
@@ -45,18 +46,26 @@ Thread 2 Attributed:
 14  libsystem_pthread.dylib       	0x0000000196c4cfa4 0x196c4c000 + 4004
 
 Thread 2 crashed with ARM Thread State (64-bit):
-    x0: 0x0000000000000000   x1: 0x0000000000000000   x2: 0xffffffffffffffe8   x3: 0x00000001004991c8
-    x4: 0x0000000000000007   x5: 0x0000000000000018   x6: 0x0000000000000000   x7: 0x0000000000000000
-    x8: 0x2f6a6f72706c2e73   x9: 0x6166654448435354  x10: 0x5361746144746c75  x11: 0x614264656b636174
-   x12: 0x6166654448435354  x13: 0x5361746144746c75  x14: 0x614264656b636174  x15: 0x007473696c702e72
-   x16: 0x0000000000000154  x17: 0x00000001000cd2b1  x18: 0x0000000000000000  x19: 0x000000010049963c
-   x20: 0x0000000100499630  x21: 0x0000000000000000  x22: 0x000000014f001280  x23: 0x0000000100499640
-   x24: 0x000000014f001330  x25: 0x00000001004991a7  x26: 0x0000000100498c70  x27: 0x000000019a75d0a8
+    x0: 0x0000000000000000   x1: 0x0000000000000000   x2: 0xffffffffffffffe8
+       x3: 0x00000001004991c8
+    x4: 0x0000000000000007   x5: 0x0000000000000018   x6: 0x0000000000000000
+       x7: 0x0000000000000000
+    x8: 0x2f6a6f72706c2e73   x9: 0x6166654448435354  x10: 0x5361746144746c75
+      x11: 0x614264656b636174
+   x12: 0x6166654448435354  x13: 0x5361746144746c75  x14: 0x614264656b636174
+     x15: 0x007473696c702e72
+   x16: 0x0000000000000154  x17: 0x00000001000cd2b1  x18: 0x0000000000000000
+     x19: 0x000000010049963c
+   x20: 0x0000000100499630  x21: 0x0000000000000000  x22: 0x000000014f001280
+     x23: 0x0000000100499640
+   x24: 0x000000014f001330  x25: 0x00000001004991a7  x26: 0x0000000100498c70
+     x27: 0x000000019a75d0a8
    x28: 0x000000014f001330  fp: 0x0000000100499600   lr: 0x000000010008ac74
     sp: 0x0000000100498c50   pc: 0x0000000196b9b1ec cpsr: 0x80000000
 
 Bad magic 0x86857EF8
-Microstackshots: 1 (from 1969-12-31 20:33:03 -0800 to 1969-12-31 20:33:03 -0800)
+Microstackshots: 1
+(from 1969-12-31 20:33:03 -0800 to 1969-12-31 20:33:03 -0800)
   1 ??? [0x16fd7fab0]
     1 CoreFoundation 0x1858ec000 + 37028 [0x1858f50a4]
       1 ??? [0x16fd7f970]
@@ -69,3 +78,13 @@ Microstackshots: 1 (from 1969-12-31 20:33:03 -0800 to 1969-12-31 20:33:03 -0800)
                     1 libsystem_kernel.dylib 0x196b98000 + 3708 [0x196b98e7c]
                      *1 ??? [0xffffff8002012f08]
 ```
+
+Here it is quite clear that too much CPU resource was taken up by the `UpdateBrainService` program.
+```
+Exception Type:  EXC_RESOURCE
+Exception Subtype: CPU
+Exception Message: (Limit 50%) Observed 60% over 180 secs
+```
+
+The `Microstackshots` section of the report presumably tells us a sample of the stack at the time of termination.
+It seems that the `Bad magic` value reported varies but generally seems to be present with `EXC_RESOURCE` crashes.
