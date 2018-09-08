@@ -9,7 +9,7 @@ x Look at smashbooks
 Include example of WTFCrash (WebKit)
 x Add Preface
 Show opengl crash
-Show Core Foundation crash
+x Show Core Foundation crash
 x Map out the crashes to how they fit in terms of covering tvos,macos,ios, etc. and languages.
 Show crashes that use each of the xcode memory diagnostics.
 Show deserialization and dynamic binding crashes, and zone copying bug.
