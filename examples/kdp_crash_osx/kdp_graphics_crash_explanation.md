@@ -102,7 +102,8 @@ For most developers, keeping an understanding of assembly code fresh in the mind
 
 We first find the location of the binary from the `Binary Images` section of the crash report.
 ```
-/System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/libGPUSupportMercury.dylib
+/System/Library/PrivateFrameworks/GPUSupport.framework/
+Versions/A/Libraries/libGPUSupportMercury.dylib
 ```
 
 Traversing the file hierarchy can be cumbersome for system binaries as they are deeply nested in the file system.
@@ -115,7 +116,11 @@ If Hopper is **already running**, a quick way to select the correct file is to u
  Libraries/libGPUSupportMercury.dylib
 ```
 
-If Hopper is not running, we can launch it.  Alongside we can launch the Finder program and select 'Go To Folder' to select the folder `/System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/Libraries/`
+If Hopper is not running, we can launch it.  Alongside we can launch the Finder program and select 'Go To Folder' to select the folder
+```
+/System/Library/PrivateFrameworks/GPUSupport.framework/
+Versions/A/Libraries/
+```
 
 ![](screenshots/finder_support_mercury.png)
 

@@ -56,7 +56,8 @@ _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230
 -[CALayer setBounds:] + 251
 5   AppKit                              0x00007fff42e5ccad
 -[_NSClipViewBackingLayer setBounds:] + 105
-6   AppKit                              0x00007fff42e20bf0 -[NSView(NSInternal) _updateLayerGeometryFromView] + 712
+6   AppKit                              0x00007fff42e20bf0
+ -[NSView(NSInternal) _updateLayerGeometryFromView] + 712
 7   AppKit                              0x00007fff42eef7a2
 -[NSView translateOriginToPoint:] + 191
 8   AppKit                              0x00007fff42eef383
@@ -71,11 +72,14 @@ _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230
 -[NSScrollView scrollClipView:toPoint:] + 75
 13  AppKit                              0x00007fff42ed5929
 -[NSClipView _scrollTo:animateScroll:flashScrollerKnobs:] + 1273
-14  AppKit                              0x00007fff434d5750 -[_NSScrollingConcurrentMainThreadSynchronizer
+14  AppKit                              0x00007fff434d5750
+ -[_NSScrollingConcurrentMainThreadSynchronizer
 _scrollToCanonicalOrigin] + 935
-15  AppKit                              0x00007fff43071d74 -[_NSScrollingConcurrentMainThreadSynchronizer
+15  AppKit                              0x00007fff43071d74
+ -[_NSScrollingConcurrentMainThreadSynchronizer
 _synchronize:completionHandler:] + 174
-16  AppKit                              0x00007fff43071c94 __80-[_NSScrollingConcurrentMainThreadSynchronizer
+16  AppKit                              0x00007fff43071c94
+ __80-[_NSScrollingConcurrentMainThreadSynchronizer
 initWithSharedData:constantData:]_block_invoke + 145
 17  libdispatch.dylib                   0x00007fff6db5be08
 _dispatch_client_callout + 8
@@ -95,8 +99,10 @@ CFRunLoopRunSpecific + 483
 RunCurrentEventLoopInMode + 286
 25  HIToolbox                           0x00007fff44b63b06
 ReceiveNextEventCommon + 613
-26  HIToolbox                           0x00007fff44b63884 _BlockUntilNextEventMatchingListInModeWithFilter + 64
-27  AppKit                              0x00007fff42e16a73 _DPSNextEvent + 2085
+26  HIToolbox                           0x00007fff44b63884
+ _BlockUntilNextEventMatchingListInModeWithFilter + 64
+27  AppKit                              0x00007fff42e16a73
+ _DPSNextEvent + 2085
 28  AppKit                              0x00007fff435ace34
  -[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:
  inMode:dequeue:] + 3044
@@ -194,7 +200,8 @@ From hex address 8e36, if we add decimal 230, we get 0x8f1c.  Looking at the dis
                         for method _objc_msgSend
 0000000000008f06  lea        rdx, qword [cfstring_CALayerInvalidGeometry]
                        ; @"CALayerInvalidGeometry"
-0000000000008f0d         lea        rcx, qword [cfstring_CALayer_bounds_contains_NaN____g__g___g__g_]
+0000000000008f0d         lea        rcx, qword
+ [cfstring_CALayer_bounds_contains_NaN____g__g___g__g_]
                        ; @"CALayer bounds contains NaN: [%g %g; %g %g]"
 0000000000008f14         mov        al, 0x4
 0000000000008f16         call       qword [_objc_msgSend_24d4f8]
