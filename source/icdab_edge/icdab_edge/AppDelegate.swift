@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+        setupCrashReporting()
         return true
     }
 
@@ -41,7 +41,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+}
 
-
+extension AppDelegate {
+    func setupCrashReporting() {
+        guard let crashReporter = PLCrashReporter.shared() else {
+            return
+        }
+        
+        if crashReporter.hasPendingCrashReport() {
+            handleCrashReport(crashReporter)
+        }
+        
+        if !crashReporter.enable() {
+            print("Could not enable crash reporter")
+        }
+    }
+    
+    func handleCrashReport(_ crashReporter: PLCrashReporter) {
+        guard let crashData = try? crashReporter.loadPendingCrashReportDataAndReturnError(), let report = try? PLCrashReport(data: crashData), !report.isKind(of: NSNull.classForCoder()) else {
+            crashReporter.purgePendingCrashReport()
+            return
+        }
+        
+        let crash: NSString = PLCrashReportTextFormatter.stringValue(for: report, with: PLCrashReportTextFormatiOS)! as NSString
+        // process the crash report, send it to a server, log it, etc
+        print("CRASH REPORT:\n \(crash)")
+        crashReporter.purgePendingCrashReport()
+    }
 }
 

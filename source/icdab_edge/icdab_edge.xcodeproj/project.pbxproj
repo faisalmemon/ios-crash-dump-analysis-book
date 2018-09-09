@@ -14,8 +14,6 @@
 		39D1578621450A450010E29E /* icdab_edgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D1578521450A450010E29E /* icdab_edgeTests.swift */; };
 		39D1579121450A450010E29E /* icdab_edgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D1579021450A450010E29E /* icdab_edgeUITests.swift */; };
 		39D157A021450B2C0010E29E /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D1579F21450B2C0010E29E /* CrashReporter.framework */; };
-		39D157A221450BD90010E29E /* CrashHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D157A121450BD90010E29E /* CrashHelper.swift */; };
-		39D157A521450D220010E29E /* CrashHelper2.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D157A421450D220010E29E /* CrashHelper2.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,9 +47,7 @@
 		39D1579021450A450010E29E /* icdab_edgeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = icdab_edgeUITests.swift; sourceTree = "<group>"; };
 		39D1579221450A450010E29E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39D1579F21450B2C0010E29E /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
-		39D157A121450BD90010E29E /* CrashHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashHelper.swift; sourceTree = "<group>"; };
 		39D157A321450D220010E29E /* icdab_edge-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "icdab_edge-Bridging-Header.h"; sourceTree = "<group>"; };
-		39D157A421450D220010E29E /* CrashHelper2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrashHelper2.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,12 +101,10 @@
 			children = (
 				39D1579E21450B100010E29E /* Libraries */,
 				39D1577321450A430010E29E /* AppDelegate.swift */,
-				39D157A121450BD90010E29E /* CrashHelper.swift */,
 				39D1577521450A430010E29E /* ViewController.swift */,
 				39D1577721450A430010E29E /* Main.storyboard */,
 				39D1577A21450A450010E29E /* Assets.xcassets */,
 				39D1577C21450A450010E29E /* Info.plist */,
-				39D157A421450D220010E29E /* CrashHelper2.m */,
 				39D157A321450D220010E29E /* icdab_edge-Bridging-Header.h */,
 			);
 			path = icdab_edge;
@@ -273,8 +267,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39D157A521450D220010E29E /* CrashHelper2.m in Sources */,
-				39D157A221450BD90010E29E /* CrashHelper.swift in Sources */,
 				39D1577621450A430010E29E /* ViewController.swift in Sources */,
 				39D1577421450A430010E29E /* AppDelegate.swift in Sources */,
 			);
