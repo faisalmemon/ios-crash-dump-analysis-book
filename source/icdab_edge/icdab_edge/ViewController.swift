@@ -16,6 +16,9 @@ class ViewController: UIViewController {
         ViewController.crash.corruptMalloc()
     }
     
+    @IBAction func overshootAllocatedButtonPressed(_ sender: Any) {
+        ViewController.crash.overshootAllocated()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

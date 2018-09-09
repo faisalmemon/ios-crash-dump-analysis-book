@@ -41,6 +41,14 @@
 
 @implementation Crash: NSObject
 
+- (void)overshootAllocated
+{
+    uint8_t *memory = malloc(16);
+    for (int i = 0; i < 16 + 1 + 1; i++) {
+        *(memory + i) = 0xff;
+    }
+}
+
 - (void)corruptMalloc {
     /* Smash the heap, and keep smashing it until we eventually hit something non-writable, or trigger
      * a malloc error (e.g., in NSLog). */

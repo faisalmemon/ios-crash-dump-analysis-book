@@ -14,6 +14,7 @@
 @interface Crash : NSObject
 
 - (void)corruptMalloc;
+- (void)overshootAllocated;
 
 @end
 

@@ -18,14 +18,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="b6d-CL-be9">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="b6d-CL-be9">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mr0-2N-2Vo">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="323.5"/>
                                         <state key="normal" title="CrashCorruptMalloc"/>
                                         <connections>
                                             <action selector="crashCorruptMallocButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YFy-v1-I7X"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlr-3Q-VZp">
+                                        <rect key="frame" x="0.0" y="323.5" width="375" height="323.5"/>
+                                        <state key="normal" title="OvershootAllocated"/>
+                                        <connections>
+                                            <action selector="overshootAllocatedButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eea-UN-2LV"/>
                                         </connections>
                                     </button>
                                 </subviews>
