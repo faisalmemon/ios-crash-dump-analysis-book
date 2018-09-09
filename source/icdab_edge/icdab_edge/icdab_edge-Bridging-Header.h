@@ -3,3 +3,4 @@
 //
 
 #import "plcrashreporter-1.2/Source/CrashReporter.h"
+#import "Crash.h"

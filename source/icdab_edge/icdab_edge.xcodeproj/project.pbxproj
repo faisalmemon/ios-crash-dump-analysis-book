@@ -14,9 +14,9 @@
 		398035F521451EA700B54D89 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 398035F321451EA700B54D89 /* LaunchScreen.storyboard */; };
 		3980360021451EA700B54D89 /* icdab_edgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398035FF21451EA700B54D89 /* icdab_edgeTests.swift */; };
 		3980360B21451EA700B54D89 /* icdab_edgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3980360A21451EA700B54D89 /* icdab_edgeUITests.swift */; };
-		3980364C21456C5A00B54D89 /* Bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 3980364B21456C5A00B54D89 /* Bridge.m */; };
 		3980365F21456D9900B54D89 /* libCrashReporter-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3980363221451ED400B54D89 /* libCrashReporter-iphoneos.a */; };
 		3980366021456D9900B54D89 /* libCrashReporter-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3980363421451ED400B54D89 /* libCrashReporter-iphonesimulator.a */; };
+		3980366221456FAC00B54D89 /* Crash.m in Sources */ = {isa = PBXBuildFile; fileRef = 3980366121456FAC00B54D89 /* Crash.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,7 +157,8 @@
 		3980360C21451EA700B54D89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3980361821451ED400B54D89 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = "icdab_edge/plcrashreporter-1.2/CrashReporter.xcodeproj"; sourceTree = "<group>"; };
 		3980364A21456C5A00B54D89 /* icdab_edge-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "icdab_edge-Bridging-Header.h"; sourceTree = "<group>"; };
-		3980364B21456C5A00B54D89 /* Bridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bridge.m; sourceTree = "<group>"; };
+		3980366121456FAC00B54D89 /* Crash.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Crash.m; sourceTree = "<group>"; };
+		398036632145705500B54D89 /* Crash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Crash.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,8 +214,9 @@
 			isa = PBXGroup;
 			children = (
 				398035EA21451EA600B54D89 /* AppDelegate.swift */,
-				3980364B21456C5A00B54D89 /* Bridge.m */,
 				398035EC21451EA600B54D89 /* ViewController.swift */,
+				398036632145705500B54D89 /* Crash.h */,
+				3980366121456FAC00B54D89 /* Crash.m */,
 				398035EE21451EA600B54D89 /* Main.storyboard */,
 				398035F121451EA700B54D89 /* Assets.xcassets */,
 				398035F321451EA700B54D89 /* LaunchScreen.storyboard */,
@@ -504,8 +506,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				398035ED21451EA600B54D89 /* ViewController.swift in Sources */,
-				3980364C21456C5A00B54D89 /* Bridge.m in Sources */,
 				398035EB21451EA600B54D89 /* AppDelegate.swift in Sources */,
+				3980366221456FAC00B54D89 /* Crash.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

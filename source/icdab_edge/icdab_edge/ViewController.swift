@@ -10,6 +10,13 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    static let crash = Crash()
+    
+    @IBAction func crashCorruptMallocButtonPressed(_ sender: UIButton) {
+        ViewController.crash.corruptMalloc()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
