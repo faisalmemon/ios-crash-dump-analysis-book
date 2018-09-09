@@ -17,7 +17,7 @@ x Explain Mac crash report
 Explore existing tools for crash enumeration https://www.crashprobe.com/ios/05/ and catching https://github.com/kstenerud/KSCrash
 Show commercial crash services
 
-Cover chapters for illegal instructions, guard exceptions, and termination codes.
+x Cover chapters for illegal instructions, guard exceptions, and termination codes.
 
 LATER WE SHALL references found from `grep -iR --color later markdown examples`
 
