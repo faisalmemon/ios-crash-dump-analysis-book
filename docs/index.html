@@ -189,6 +189,7 @@
 <li><a href="#deadlock-crash">Deadlock Crash</a></li>
 <li><a href="#insecure-drawing-crash">Insecure Drawing Crash</a></li>
 </ul></li>
+<li><a href="#third-party-crash-reporting">Third Party Crash Reporting</a></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </nav>
@@ -4016,6 +4017,16 @@ Binary Images (Other):
 <p>Clearly we can see the Termination Code <code>0x2bad45ec</code> (spoken as “Too Bad For Security”) and the <code>Termination Description</code></p>
 <pre><code>SPRINGBOARD, Process detected doing insecure drawing while in secure mode</code></pre>
 <p>We would not expect an Apple provided app, MobileSMS, to crash. Looking carefully at the <code>Binary Images</code> section we can see that the Operating System has been “tweaked”. This phone has been jailbroken due to the reference to <code>CydiaSubstrate</code>. We cannot safely rely on any of the apps as having their original design integrity. Perhaps on this phone the MobileSMS app was tweaked to add extra functionality but has introduced a drawing related bug.</p>
+<h1 id="third-party-crash-reporting">Third Party Crash Reporting</h1>
+<p>This chapter discusses alternatives to the Apple provided Crash Reporting solution.</p>
+<p>The Apple Crash Reporter tool, and supporting infrastructure in iTunes Connect is excellent but has some room for improvement.</p>
+<p>A formidable piece of Open Source software, plcrashreporter, has been written by Landon Fuller, of Plausible Labs.</p>
+<p><span class="citation" data-cites="plcrashreporter">(“Plausible Labs Crash Reporter” n.d.)</span></p>
+<p>The idea is to make our app handle all the possible signals and exceptions that can occur that would otherwise be unimplemented by the app and thus lead to the underlying Operating System to handle the crash.</p>
+<p>With this solution, the crash data can be recorded, and then later communicated to a server of our own choice.</p>
+<p>There are two benefits. Firstly, the crash handler can be fixed to handle edge cases not already handled by the Apple ReportCrash tool. Secondly, a more comprehensive server side solution can be employed.</p>
+<p>When an company has many apps, many app variants, and has apps based on competitor platforms such as Android, a more powerful multi-platform solution is needed. Handling crash reports soon becomes a management problem. Which crash is the most serious? How many customers are affected? What are my metrics for quality and stability?</p>
+<p>A number of commercial solutions are available, largely based upon the above Open Source project.</p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-macbookproT2">
@@ -4074,6 +4085,9 @@ Binary Images (Other):
 </div>
 <div id="ref-panicbook">
 <p><em>Panic! Unix System Crash Dump Analysis</em>. 1995. 1st ed. Vol. 1. 0-13-149386-8. Prentice Hall.</p>
+</div>
+<div id="ref-plcrashreporter">
+<p>“Plausible Labs Crash Reporter.” n.d. Accessed 2018.</p>
 </div>
 <div id="ref-resource-management">
 <p>“Resource Management.” 2015. <a href="http://newosxbook.com/files/MSAse2015.pdf" class="uri">http://newosxbook.com/files/MSAse2015.pdf</a>.</p>
