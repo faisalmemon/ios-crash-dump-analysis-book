@@ -190,6 +190,11 @@
 <li><a href="#deadlock-crash">Deadlock Crash</a></li>
 <li><a href="#insecure-drawing-crash">Insecure Drawing Crash</a></li>
 </ul></li>
+<li><a href="#memory-diagnostics">Memory diagnostics</a><ul>
+<li><a href="#basics-of-memory-allocation">Basics of memory allocation</a></li>
+<li><a href="#address-sanitizer">Address Sanitizer</a></li>
+<li><a href="#memory-overshoot-example">Memory overshoot example</a></li>
+</ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </nav>
@@ -4028,6 +4033,66 @@ Binary Images (Other):
 <p>Clearly we can see the Termination Code <code>0x2bad45ec</code> (spoken as “Too Bad For Security”) and the <code>Termination Description</code></p>
 <pre><code>SPRINGBOARD, Process detected doing insecure drawing while in secure mode</code></pre>
 <p>We would not expect an Apple provided app, MobileSMS, to crash. Looking carefully at the <code>Binary Images</code> section we can see that the Operating System has been “tweaked”. This phone has been jailbroken due to the reference to <code>CydiaSubstrate</code>. We cannot safely rely on any of the apps as having their original design integrity. Perhaps on this phone the MobileSMS app was tweaked to add extra functionality but has introduced a drawing related bug.</p>
+<h1 id="memory-diagnostics">Memory diagnostics</h1>
+<p>In this chapter, we look at different diagnostic options for resolving memory problems.</p>
+<h2 id="basics-of-memory-allocation">Basics of memory allocation</h2>
+<p>The iOS platform allocates memory for our app either on the stack or from the heap.</p>
+<p>Memory is allocated on the stack as a result of creating locally scoped variables within functions. Memory is allocated from the heap as a result of calling malloc (or its variants).</p>
+<p>The minimum granularity of allocation on the heap is 16 bytes (an implementation detail we are not to rely upon). This means a small overshoot can sometimes go undetected when we are accidentally overwriting past the number of bytes we have allocated.</p>
+<p>When memory is allocated, it is placed into a Virtual Memory region. There are virtual memory regions for allocations of approximately the same size. For example, MALLOC_LARGE, MALLOC_SMALL, MALLOC_TINY. This strategy tends to reduce the amount of fragmentation of memory. Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimise the performance of the system.</p>
+<p>The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used to different purposes, so one logical area of the system can interfere with an unrelated area of the system. Furthermore, there can be a delay (or latency) so the problem is discovered much after the problem was introduced.</p>
+<h2 id="address-sanitizer">Address Sanitizer</h2>
+<p>A very powerful tool can assist with memory diagnostics, called the Address Sanitizer. It requires us to recompile our code with the Schema setting for Address Sanitizer set:</p>
+<p><img src="screenshots/diagnostic_santizer_setting.png" /></p>
+<p>Address sanitizer does memory accounting (called Shadow Memory). It knows which memory locations are “poisoned”. That is, memory which has not been allocated (or was allocated, and then freed).</p>
+<p>Address sanitizer directly makes use of the compiler so that when code is compiled, any access to memory entails a check against the Shadow Memory to see if the memory location is poisoned. If so, an error report is generated.</p>
+<p>This is a very powerful tool because it tackles two of the most important class of programming error. Firstly, using more bytes than we were allocated. Secondly, using memory after it has been freed.</p>
+<p>The cost of this convenience is that our program can be x2 to x5 slower. It is something worth switching on in our continuous integration systems to shake out problems.</p>
+<h2 id="memory-overshoot-example">Memory overshoot example</h2>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<pre><code>- (void)overshootAllocated
+{
+    uint8_t *memory = malloc(16);
+    for (int i = 0; i &lt; 16 + 1; i++) {
+        *(memory + i) = 0xff;
+    }
+}</code></pre>
+<p>This code allocates the minimum amount of memory, 16 bytes. Then it writes to 17 consecutive memory locations. We get a heap overflow bug.</p>
+<p>This problem, itself, does not make our app crash immediately. If we rotate the device, the latent fault is triggered and we get a crash. By enabling the address sanitizer, we immediately get a crash. This is a huge benefit. Otherwise, we might have wasted a lot of time in debugging screen rotation related code.</p>
+<p>The error report from Address Sanitizer is extensive. We only show selected portions of the report for ease of demonstration.</p>
+<p>The error report begins with:</p>
+<pre><code>==21803==ERROR: AddressSanitizer: heap-buffer-overflow on address
+ 0x60200003a5e0 at pc 0x00010394461b bp 0x7ffeec2b8f00 sp 0x7ffeec2b8ef8
+WRITE of size 1 at 0x60200003a5e0 thread T0
+#0 0x10394461a in -[Crash overshootAllocated] Crash.m:48</code></pre>
+<p>This is enough context to be able to switch to the code and start understanding the problem.</p>
+<p>Further details are supplied:</p>
+<pre><code>0x60200003a5e0 is located 0 bytes to the right of 16-byte region
+ [0x60200003a5d0,0x60200003a5e0)
+allocated by thread T0 here:
+#0 0x103bcdaa3 in wrap_malloc
+(libclang_rt.asan_iossim_dynamic.dylib:x86_64+0x54aa3)
+#1 0x1039445ae in -[Crash overshootAllocated] Crash.m:46</code></pre>
+<p>and we also get a “map” of the memory around the problem:</p>
+<pre><code>SUMMARY: AddressSanitizer: heap-buffer-overflow Crash.m:48 in
+ -[Crash overshootAllocated]
+Shadow bytes around the buggy address:
+  0x1c0400007460: fa fa 00 00 fa fa fd fd fa fa fd fa fa fa fd fa
+  0x1c0400007470: fa fa 00 00 fa fa fd fa fa fa 00 00 fa fa fd fd
+  0x1c0400007480: fa fa fd fa fa fa fd fd fa fa fd fa fa fa fd fa
+  0x1c0400007490: fa fa fd fd fa fa fd fd fa fa fd fa fa fa fd fa
+  0x1c04000074a0: fa fa 00 fa fa fa 00 00 fa fa fd fd fa fa 00 00
+=&gt;0x1c04000074b0: fa fa 00 00 fa fa 00 00 fa fa 00 00[fa]fa fa fa
+  0x1c04000074c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000074d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000074e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c04000074f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x1c0400007500: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07
+  Heap left redzone:       fa</code></pre>
+<p>From <code>[fa]</code> we see we hit the first byte of the “redzone” (poisoned memory).</p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-macbookproT2">
