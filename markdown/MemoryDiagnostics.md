@@ -18,7 +18,7 @@ The hard part about memory allocation errors is that the symptoms can be confusi
 ## Address Sanitizer
 
 A very powerful tool can assist with memory diagnostics, called the Address Sanitizer.
-@asanchecker
+(See @asanchecker)
 
 It requires us to recompile our code with the Schema setting for Address Sanitizer set:
 
@@ -26,9 +26,11 @@ It requires us to recompile our code with the Schema setting for Address Sanitiz
 
 Address sanitizer does memory accounting (called Shadow Memory).  It knows which memory locations are "poisoned".  That is, memory which has not been allocated (or was allocated, and then freed).
 
+@wwdc2015_413
+
 Address sanitizer directly makes use of the compiler so that when code is compiled, any access to memory entails a check against the Shadow Memory to see if the memory location is poisoned.  If so, an error report is generated.
 
-This is a very powerful tool because it tackles two of the most important class of programming error.  Firstly, using more bytes than we were allocated.  Secondly, using memory after it has been freed.
+This is a very powerful tool because it tackles the two most important classes of memory error.  Firstly, using more bytes than we were allocated.  Secondly, using memory after it has been freed.  It goes much further to address other classes of memory error but those are less often encountered: Stack buffer overflow, Global variable overflow, Overflows in C++ containers, and Use after return bugs.
 
 The cost of this convenience is that our program can be x2 to x5 slower.  It is something worth switching on in our continuous integration systems to shake out problems.
 
@@ -96,3 +98,17 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
 ```
 
 From `[fa]` we see we hit the first byte of the "redzone" (poisoned memory).
+
+## Memory Management tools
+
+There are a collection of tools complementary to the Address Sanitizer tool.  These are to be used when Address Sanitizer is off.  They catch certain causes of failure that Address Sanitizer would miss.
+
+The memory management tools do not require a re-compilation of the project.  That is their main advantage.
+
+## Guard Malloc Tool
+
+This tool is only available on simulator targets, a major disadvantage.
+Every allocation is placed into its own memory page with guard pages before and after.
+This tool is largely superseded by Address Sanitizer.
+
+##
