@@ -15,6 +15,7 @@
 		39D1579121450A450010E29E /* icdab_edgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D1579021450A450010E29E /* icdab_edgeUITests.swift */; };
 		39D157A021450B2C0010E29E /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D1579F21450B2C0010E29E /* CrashReporter.framework */; };
 		39D157A221450BD90010E29E /* CrashHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D157A121450BD90010E29E /* CrashHelper.swift */; };
+		39D157A521450D220010E29E /* CrashHelper2.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D157A421450D220010E29E /* CrashHelper2.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,8 @@
 		39D1579221450A450010E29E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		39D1579F21450B2C0010E29E /* CrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CrashReporter.framework; sourceTree = "<group>"; };
 		39D157A121450BD90010E29E /* CrashHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashHelper.swift; sourceTree = "<group>"; };
+		39D157A321450D220010E29E /* icdab_edge-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "icdab_edge-Bridging-Header.h"; sourceTree = "<group>"; };
+		39D157A421450D220010E29E /* CrashHelper2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrashHelper2.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,8 @@
 				39D1577721450A430010E29E /* Main.storyboard */,
 				39D1577A21450A450010E29E /* Assets.xcassets */,
 				39D1577C21450A450010E29E /* Info.plist */,
+				39D157A421450D220010E29E /* CrashHelper2.m */,
+				39D157A321450D220010E29E /* icdab_edge-Bridging-Header.h */,
 			);
 			path = icdab_edge;
 			sourceTree = "<group>";
@@ -205,6 +210,7 @@
 				TargetAttributes = {
 					39D1576F21450A430010E29E = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 0940;
 					};
 					39D1578021450A450010E29E = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -267,6 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39D157A521450D220010E29E /* CrashHelper2.m in Sources */,
 				39D157A221450BD90010E29E /* CrashHelper.swift in Sources */,
 				39D1577621450A430010E29E /* ViewController.swift in Sources */,
 				39D1577421450A430010E29E /* AppDelegate.swift in Sources */,
@@ -433,6 +440,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Y3322JWHB;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -446,6 +454,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.perivalebluebell.icdab-edge";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "icdab_edge/icdab_edge-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
 			};
@@ -456,6 +466,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Y3322JWHB;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -469,6 +480,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.perivalebluebell.icdab-edge";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "icdab_edge/icdab_edge-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
 			};
