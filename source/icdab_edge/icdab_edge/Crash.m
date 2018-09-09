@@ -44,6 +44,11 @@
 - (void)corruptMalloc {
     /* Smash the heap, and keep smashing it until we eventually hit something non-writable, or trigger
      * a malloc error (e.g., in NSLog). */
+    
+    
+    /*
+     Diagnose with Guard Malloc on Simulator.
+     */
     uint8_t *memory = malloc(10);
     while (true) {
         NSLog(@"Smashing [%p - %p]", memory, memory + PAGE_SIZE);
