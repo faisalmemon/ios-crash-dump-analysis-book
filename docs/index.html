@@ -4042,7 +4042,8 @@ Binary Images (Other):
 <p>When memory is allocated, it is placed into a Virtual Memory region. There are virtual memory regions for allocations of approximately the same size. For example, MALLOC_LARGE, MALLOC_SMALL, MALLOC_TINY. This strategy tends to reduce the amount of fragmentation of memory. Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimise the performance of the system.</p>
 <p>The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used to different purposes, so one logical area of the system can interfere with an unrelated area of the system. Furthermore, there can be a delay (or latency) so the problem is discovered much after the problem was introduced.</p>
 <h2 id="address-sanitizer">Address Sanitizer</h2>
-<p>A very powerful tool can assist with memory diagnostics, called the Address Sanitizer. It requires us to recompile our code with the Schema setting for Address Sanitizer set:</p>
+<p>A very powerful tool can assist with memory diagnostics, called the Address Sanitizer. <span class="citation" data-cites="asanchecker">Serebryany et al. (2012)</span></p>
+<p>It requires us to recompile our code with the Schema setting for Address Sanitizer set:</p>
 <p><img src="screenshots/diagnostic_santizer_setting.png" /></p>
 <p>Address sanitizer does memory accounting (called Shadow Memory). It knows which memory locations are “poisoned”. That is, memory which has not been allocated (or was allocated, and then freed).</p>
 <p>Address sanitizer directly makes use of the compiler so that when code is compiled, any access to memory entails a check against the Shadow Memory to see if the memory location is poisoned. If so, an error report is generated.</p>
@@ -4160,6 +4161,9 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
 </div>
 <div id="ref-resource-management">
 <p>“Resource Management.” 2015. <a href="http://newosxbook.com/files/MSAse2015.pdf" class="uri">http://newosxbook.com/files/MSAse2015.pdf</a>.</p>
+</div>
+<div id="ref-asanchecker">
+<p>Serebryany, Konstantin, Derek Bruening, Alexander Potapenko, and Dmitry Vyukov. 2012. “AddressSanitizer: A Fast Address Sanity Checker.” In <em>USENIX Atc 2012</em>. <a href="https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker" class="uri">https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker</a>.</p>
 </div>
 <div id="ref-threadstatus">
 <p>“Thread Status Values in Mach.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h" class="uri">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h</a>.</p>
