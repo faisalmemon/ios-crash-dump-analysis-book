@@ -18,6 +18,8 @@ The hard part about memory allocation errors is that the symptoms can be confusi
 ## Address Sanitizer
 
 A very powerful tool can assist with memory diagnostics, called the Address Sanitizer.
+@asanchecker
+
 It requires us to recompile our code with the Schema setting for Address Sanitizer set:
 
 ![](screenshots/diagnostic_santizer_setting.png)
