@@ -29,4 +29,5 @@ examples/train_thermal_crash_ios/temperature_crash_explanation.md
 markdown/TerminationCrashes.md
 examples/one_messenger_sql_crash_ios/Deadlock_explanation.md
 examples/security_violation_ios/insecure_drawing_explanation.md
+markdown/MemoryDiagnostics.md
 markdown/Bibliography.md

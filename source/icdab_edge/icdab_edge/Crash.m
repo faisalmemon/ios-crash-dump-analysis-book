@@ -44,7 +44,7 @@
 - (void)overshootAllocated
 {
     uint8_t *memory = malloc(16);
-    for (int i = 0; i < 16 + 1 + 1; i++) {
+    for (int i = 0; i < 16 + 1; i++) {
         *(memory + i) = 0xff;
     }
 }
