@@ -1,0 +1,2 @@
+Set the Malloc Scribble and reset the Address Sanitizer setting for the icdab_edge project.
+Breakpoint into the uninitializedMemory function, looping around until i = 2.

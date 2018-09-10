@@ -194,6 +194,10 @@
 <li><a href="#basics-of-memory-allocation">Basics of memory allocation</a></li>
 <li><a href="#address-sanitizer">Address Sanitizer</a></li>
 <li><a href="#memory-overshoot-example">Memory overshoot example</a></li>
+<li><a href="#use-after-free-example">Use after free example</a></li>
+<li><a href="#memory-management-tools">Memory Management tools</a></li>
+<li><a href="#guard-malloc-tool">Guard Malloc Tool</a></li>
+<li><a href="#malloc-scribble">Malloc Scribble</a></li>
 </ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
@@ -4042,12 +4046,13 @@ Binary Images (Other):
 <p>When memory is allocated, it is placed into a Virtual Memory region. There are virtual memory regions for allocations of approximately the same size. For example, MALLOC_LARGE, MALLOC_SMALL, MALLOC_TINY. This strategy tends to reduce the amount of fragmentation of memory. Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimise the performance of the system.</p>
 <p>The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used to different purposes, so one logical area of the system can interfere with an unrelated area of the system. Furthermore, there can be a delay (or latency) so the problem is discovered much after the problem was introduced.</p>
 <h2 id="address-sanitizer">Address Sanitizer</h2>
-<p>A very powerful tool can assist with memory diagnostics, called the Address Sanitizer. <span class="citation" data-cites="asanchecker">Serebryany et al. (2012)</span></p>
+<p>A very powerful tool can assist with memory diagnostics, called the Address Sanitizer. (See <span class="citation" data-cites="asanchecker">Serebryany et al. (2012)</span>)</p>
 <p>It requires us to recompile our code with the Schema setting for Address Sanitizer set:</p>
 <p><img src="screenshots/diagnostic_santizer_setting.png" /></p>
 <p>Address sanitizer does memory accounting (called Shadow Memory). It knows which memory locations are “poisoned”. That is, memory which has not been allocated (or was allocated, and then freed).</p>
+<p><span class="citation" data-cites="wwdc2015_413">(“Advanced Debugging with Address Sanitizer” 2015)</span></p>
 <p>Address sanitizer directly makes use of the compiler so that when code is compiled, any access to memory entails a check against the Shadow Memory to see if the memory location is poisoned. If so, an error report is generated.</p>
-<p>This is a very powerful tool because it tackles two of the most important class of programming error. Firstly, using more bytes than we were allocated. Secondly, using memory after it has been freed.</p>
+<p>This is a very powerful tool because it tackles the two most important classes of memory error. Firstly, using more bytes than we were allocated. Secondly, using memory after it has been freed. It goes much further to address other classes of memory error but those are less often encountered: stack buffer overflow, global variable overflow, overflows in C++ containers, and use after return bugs.</p>
 <p>The cost of this convenience is that our program can be x2 to x5 slower. It is something worth switching on in our continuous integration systems to shake out problems.</p>
 <h2 id="memory-overshoot-example">Memory overshoot example</h2>
 <p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
@@ -4067,7 +4072,7 @@ Binary Images (Other):
 WRITE of size 1 at 0x60200003a5e0 thread T0
 #0 0x10394461a in -[Crash overshootAllocated] Crash.m:48</code></pre>
 <p>This is enough context to be able to switch to the code and start understanding the problem.</p>
-<p>Further details are supplied:</p>
+<p>Further details are supplied showing we off the end of a 16-byte allocation:</p>
 <pre><code>0x60200003a5e0 is located 0 bytes to the right of 16-byte region
  [0x60200003a5d0,0x60200003a5e0)
 allocated by thread T0 here:
@@ -4094,10 +4099,83 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
   Partially addressable: 01 02 03 04 05 06 07
   Heap left redzone:       fa</code></pre>
 <p>From <code>[fa]</code> we see we hit the first byte of the “redzone” (poisoned memory).</p>
+<h2 id="use-after-free-example">Use after free example</h2>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<pre><code>- (void)useAfterFree
+{
+    uint8_t *memory = malloc(16);         // line 54
+    for (int i = 0; i &lt; 16; i++) {
+        *(memory + i) = 0xff;
+    }
+    free(memory);                         // line 58
+    for (int i = 0; i &lt; 16; i++) {
+        *(memory + i) = 0xee;             // line 60
+    }
+}</code></pre>
+<p>This code allocates the minimum amount of memory, 16 bytes, writes to it, frees it and then tries a second time to write to the same memory.</p>
+<p>Address Sanitizer reports where we accessed memory that has already been freed:</p>
+<pre><code>35711==ERROR: AddressSanitizer: heap-use-after-free on address 0x602000037270 at pc 0x000106d34381 bp 0x7ffee8ec9ef0 sp 0x7ffee8ec9ee8
+WRITE of size 1 at 0x602000037270 thread T0
+    #0 0x106d34380 in -[Crash useAfterFree] Crash.m:60</code></pre>
+<p>It tells us where the free was done:</p>
+<pre><code>0x602000037270 is located 0 bytes inside of 16-byte region [0x602000037270,0x602000037280)
+freed by thread T0 here:
+    #0 0x106fbdc6d in wrap_free (libclang_rt.asan_iossim_dynamic.dylib:x86_64+0x54c6d)
+    #1 0x106d34318 in -[Crash useAfterFree] Crash.m:58</code></pre>
+<p>It tells us where the memory was originally allocated:</p>
+<pre><code>previously allocated by thread T0 here:
+    #0 0x106fbdaa3 in wrap_malloc (libclang_rt.asan_iossim_dynamic.dylib:x86_64+0x54aa3)
+    #1 0x106d3428e in -[Crash useAfterFree] Crash.m:54
+    SUMMARY: AddressSanitizer: heap-use-after-free Crash.m:60 in -[Crash useAfterFree]</code></pre>
+<p>Finally, it shows us a picture of memory around the faulty address:</p>
+<pre><code>    Shadow bytes around the buggy address:
+      0x1c0400006df0: fa fa fd fd fa fa 00 00 fa fa fd fd fa fa fd fa
+      0x1c0400006e00: fa fa fd fa fa fa 00 00 fa fa fd fa fa fa 00 00
+      0x1c0400006e10: fa fa fd fd fa fa fd fa fa fa fd fd fa fa fd fa
+      0x1c0400006e20: fa fa fd fa fa fa fd fd fa fa fd fd fa fa fd fa
+      0x1c0400006e30: fa fa fd fa fa fa 00 fa fa fa 00 00 fa fa fd fd
+    =&gt;0x1c0400006e40: fa fa 00 00 fa fa 00 00 fa fa 00 00 fa fa[fd]fd
+      0x1c0400006e50: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+      0x1c0400006e60: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+      0x1c0400006e70: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+      0x1c0400006e80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+      0x1c0400006e90: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+    Shadow byte legend (one shadow byte represents 8 application bytes):
+      Addressable:           00
+      Partially addressable: 01 02 03 04 05 06 07
+      Heap left redzone:       fa
+      Freed heap region:       fd</code></pre>
+<p>We see the entry, <code>[fd]</code> indicating a write to memory that has been freed already.</p>
+<h2 id="memory-management-tools">Memory Management tools</h2>
+<p>There are a collection of tools complementary to the Address Sanitizer tool. These are to be used when Address Sanitizer is off. They catch certain causes of failure that Address Sanitizer would miss.</p>
+<p>The memory management tools do not require a re-compilation of the project. That is their main advantage.</p>
+<h2 id="guard-malloc-tool">Guard Malloc Tool</h2>
+<p>This tool is only available on simulator targets, a major disadvantage. Every allocation is placed into its own memory page with guard pages before and after. This tool is largely superseded by Address Sanitizer.</p>
+<h2 id="malloc-scribble">Malloc Scribble</h2>
+<p>The purpose of Malloc Scribble is to make the symptoms of memory errors predictable by having <code>malloc</code>ed or <code>free</code>ed memory assigned to fixed known values. Allocated memory is given <code>0xAA</code> and deallocated memory is given <code>0x55</code>. It does not affect the behavior of data allocated on the stack. It is not compatible with Address Sanitizer.</p>
+<p>If we have an app that keeps crashing different ways each time it is run, then Malloc Scribble is a good option. It will help make the crash predictable and repeatable.</p>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<pre><code>- (void)uninitializedMemory
+{
+    uint8_t *source = malloc(16);
+    uint8_t target[16] = {0};
+    for (int i = 0; i &lt; 16; i++) {
+       target[i] = *(source + i);
+    }
+}</code></pre>
+<p>First, <code>source</code> is given freshly allocated memory. Since this memory has not yet been initialised, it is set to 0xAA when Malloc Scribble has been set (and address sanitizer reset) in the Schema settings.</p>
+<p>Then, <code>target</code> is setup. It is a buffer on the stack (not heap memory). Using the code, <code>= {0}</code>, we make the app set <code>0</code> in all memory locations of this buffer. Otherwise, it would be random memory values.</p>
+<p>Then we enter a loop. By breakpointing in the debugger, say at the second iteration, we can print off the memory contents and see the following:</p>
+<p><img src="screenshots/scribble.png" /></p>
+<p>We see that the <code>target</code> buffer is zeros apart from the first two index positions where it is <code>0xAA</code>. We see that the <code>source</code> memory is always <code>0xAA</code></p>
+<p>If we had not set Malloc Scribble, the target buffer would have got filled with random values. In a complex program, such data could be fed to other subsystems affecting the behavior of the program.</p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-macbookproT2">
 <p>“2018 Macbook Pros Bridge Os Error.” 2018. <a href="https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/" class="uri">https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/</a>.</p>
+</div>
+<div id="ref-wwdc2015_413">
+<p>“Advanced Debugging with Address Sanitizer.” 2015. <a href="https://developer.apple.com/videos/play/wwdc2015/413/" class="uri">https://developer.apple.com/videos/play/wwdc2015/413/</a>.</p>
 </div>
 <div id="ref-kepnertregoe">
 <p>“Analytic Troubleshooting.” 2018. <a href="https://www.kepner-tregoe.com" class="uri">https://www.kepner-tregoe.com</a>.</p>
