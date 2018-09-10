@@ -11,7 +11,7 @@ Memory is allocated from the heap as a result of calling malloc (or its variants
 
 The minimum granularity of allocation on the heap is 16 bytes (an implementation detail we are not to rely upon).  This means a small overshoot can sometimes go undetected when we are accidentally overwriting past the number of bytes we have allocated.
 
-When memory is allocated, it is placed into a Virtual Memory region.  There are virtual memory regions for allocations of approximately the same size.  For example, MALLOC_LARGE, MALLOC_SMALL, MALLOC_TINY.  This strategy tends to reduce the amount of fragmentation of memory.  Furthermore, there is a region for storing the bytes of an image, the "CG image" region.  This allows the system to optimise the performance of the system.
+When memory is allocated, it is placed into a Virtual Memory region.  There are virtual memory regions for allocations of approximately the same size.  For example, `MALLOC_LARGE`, `MALLOC_SMALL`, `MALLOC_TINY`.  This strategy tends to reduce the amount of fragmentation of memory.  Furthermore, there is a region for storing the bytes of an image, the "CG image" region.  This allows the system to optimise the performance of the system.
 
 The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used to different purposes, so one logical area of the system can interfere with an unrelated area of the system.  Furthermore, there can be a delay (or latency) so the problem is discovered much after the problem was introduced.
 
@@ -121,25 +121,30 @@ This code allocates the minimum amount of memory, 16 bytes, writes to it, frees 
 
 Address Sanitizer reports where we accessed memory that has already been freed:
 ```
-35711==ERROR: AddressSanitizer: heap-use-after-free on address 0x602000037270 at pc 0x000106d34381 bp 0x7ffee8ec9ef0 sp 0x7ffee8ec9ee8
+35711==ERROR: AddressSanitizer: heap-use-after-free on address
+0x602000037270 at pc 0x000106d34381 bp 0x7ffee8ec9ef0 sp 0x7ffee8ec9ee8
 WRITE of size 1 at 0x602000037270 thread T0
     #0 0x106d34380 in -[Crash useAfterFree] Crash.m:60
 ```
 
 It tells us where the free was done:
 ```
-0x602000037270 is located 0 bytes inside of 16-byte region [0x602000037270,0x602000037280)
+0x602000037270 is located 0 bytes inside of 16-byte region
+ [0x602000037270,0x602000037280)
 freed by thread T0 here:
-    #0 0x106fbdc6d in wrap_free (libclang_rt.asan_iossim_dynamic.dylib:x86_64+0x54c6d)
+    #0 0x106fbdc6d in wrap_free
+    (libclang_rt.asan_iossim_dynamic.dylib:x86_64+0x54c6d)
     #1 0x106d34318 in -[Crash useAfterFree] Crash.m:58
 ```
 
 It tells us where the memory was originally allocated:
 ```
 previously allocated by thread T0 here:
-    #0 0x106fbdaa3 in wrap_malloc (libclang_rt.asan_iossim_dynamic.dylib:x86_64+0x54aa3)
+    #0 0x106fbdaa3 in wrap_malloc
+    (libclang_rt.asan_iossim_dynamic.dylib:x86_64+0x54aa3)
     #1 0x106d3428e in -[Crash useAfterFree] Crash.m:54
-    SUMMARY: AddressSanitizer: heap-use-after-free Crash.m:60 in -[Crash useAfterFree]
+    SUMMARY: AddressSanitizer: heap-use-after-free Crash.m:60 in
+     -[Crash useAfterFree]
 ```
 
 Finally, it shows us a picture of memory around the faulty address:
