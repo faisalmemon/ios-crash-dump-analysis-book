@@ -22,17 +22,31 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mr0-2N-2Vo">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="323.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="162"/>
                                         <state key="normal" title="CrashCorruptMalloc"/>
                                         <connections>
                                             <action selector="crashCorruptMallocButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YFy-v1-I7X"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hlr-3Q-VZp">
-                                        <rect key="frame" x="0.0" y="323.5" width="375" height="323.5"/>
+                                        <rect key="frame" x="0.0" y="162" width="375" height="161.5"/>
                                         <state key="normal" title="OvershootAllocated"/>
                                         <connections>
                                             <action selector="overshootAllocatedButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eea-UN-2LV"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVY-bq-2vC">
+                                        <rect key="frame" x="0.0" y="323.5" width="375" height="162"/>
+                                        <state key="normal" title="UseAfterFree"/>
+                                        <connections>
+                                            <action selector="userAfterFreeButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="S6U-gb-xUs"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z5n-hY-fjg">
+                                        <rect key="frame" x="0.0" y="485.5" width="375" height="161.5"/>
+                                        <state key="normal" title="UninitializedMemory"/>
+                                        <connections>
+                                            <action selector="uninitializedMemoryButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GRT-TY-L9M"/>
                                         </connections>
                                     </button>
                                 </subviews>

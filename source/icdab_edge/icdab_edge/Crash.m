@@ -49,6 +49,27 @@
     }
 }
 
+- (void)useAfterFree
+{
+    uint8_t *memory = malloc(16);
+    for (int i = 0; i < 16; i++) {
+        *(memory + i) = 0xff;
+    }
+    free(memory);
+    for (int i = 0; i < 16; i++) {
+        *(memory + i) = 0xee;
+    }
+}
+
+- (void)uninitializedMemory
+{
+    uint8_t *source = malloc(16);
+    uint8_t target[16] = {0};
+    for (int i = 0; i < 16; i++) {
+       target[i] = *(source + i);
+    }
+}
+
 - (void)corruptMalloc {
     /* Smash the heap, and keep smashing it until we eventually hit something non-writable, or trigger
      * a malloc error (e.g., in NSLog). */

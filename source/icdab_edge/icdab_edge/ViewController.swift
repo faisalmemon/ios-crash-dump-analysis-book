@@ -20,6 +20,18 @@ class ViewController: UIViewController {
         ViewController.crash.overshootAllocated()
     }
     
+    @IBAction func userAfterFreeButtonPressed(_ sender: Any) {
+        ViewController.crash.useAfterFree()
+
+    }
+    
+    @IBAction func uninitializedMemoryButtonPressed(_ sender: Any) {
+        ViewController.crash.uninitializedMemory()
+
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

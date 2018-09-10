@@ -15,6 +15,8 @@
 
 - (void)corruptMalloc;
 - (void)overshootAllocated;
+- (void)useAfterFree;
+- (void)uninitializedMemory;
 
 @end
 
