@@ -15,7 +15,10 @@ Show crashes that use each of the xcode memory diagnostics.
 x Show deserialization and dynamic binding crashes, and zone copying bug.
 x Explain Mac crash report
 Explore existing tools for crash enumeration https://www.crashprobe.com/ios/05/ and catching https://github.com/kstenerud/KSCrash
-Show commercial crash services
+x Show commercial crash services
+Do indexing for third party crash tools in the tools section
+Look into detail about the ios memory allocator
+Consider tvos and watchos - maybe examples of wrong extension number for watchos, find a tvos crash
 
 x Cover chapters for illegal instructions, guard exceptions, and termination codes.
 
@@ -25,5 +28,5 @@ Examples of using xcode diagnostic tools (e.g. memory allocator)
 x Using class-dump in an example [Siri Crash]
 x Using hopper for pseudo-code
 Explain xcode instruments (memory profiler or VM usage)
-Explain third party crash report tooling
+x Explain third party crash report tooling
 x Examples of early crash and showing diagnosis of the runtime loader
