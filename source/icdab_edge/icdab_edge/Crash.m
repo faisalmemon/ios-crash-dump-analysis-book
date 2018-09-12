@@ -35,11 +35,17 @@
 #import "Crash.h"
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #import <malloc/malloc.h>
 #import <mach/mach.h>
 
+@interface Crash()
+
+@end
+
 @implementation Crash: NSObject
+
 
 - (void)overshootAllocated
 {
@@ -68,6 +74,12 @@
     for (int i = 0; i < 16; i++) {
        target[i] = *(source + i);
     }
+}
+
+- (void)overReleasedObject
+{
+    UIImage *image = [UIImage imageNamed:@"flower"];
+    
 }
 
 - (void)corruptMalloc {
