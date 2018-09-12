@@ -11,7 +11,7 @@ x Add Preface
 x Show opengl crash
 x Show Core Foundation crash
 x Map out the crashes to how they fit in terms of covering tvos,macos,ios, etc. and languages.
-Show crashes that use each of the xcode memory diagnostics.
+x Show crashes that use each of the xcode memory diagnostics.
 x Show deserialization and dynamic binding crashes, and zone copying bug.
 x Explain Mac crash report
 x Explore existing tools for crash enumeration https://www.crashprobe.com/ios/05/ and catching https://github.com/kstenerud/KSCrash
