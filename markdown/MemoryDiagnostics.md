@@ -214,3 +214,38 @@ We see that the `source` memory is always `0xAA`
 
 If we had not set Malloc Scribble, the target buffer would have got filled with random values.
 In a complex program, such data could be fed to other subsystems affecting the behavior of the program.
+
+## Zombie Objects
+
+The purpose of Zombie Objects is to detect use-after-free bugs in the context of Objective-C NSObjects.  Particularly if we have a legacy code base that uses Manual Reference Counting, it can be easy to over release an object.  This means that messaging through the, now dangling, pointer can have unpredictable effects.
+
+This setting must only be made on debug builds because the code will no longer release objects.  Its performance profile is equivalent to leaking every object that should have been deallocated.  
+
+This setting will make deallocated objects to instead become NSZombie objects.  This means that any method called upon the object will result in a crash.  It removes unpredictable behavior by guaranteeing a crash each time and over released object is messaged.  Therefore, it allows us to track the point at which the over released object was messaged.
+
+Consider the following code in the `icdab_edge` example program.  @icdabgithub
+
+```
+- (void)overReleasedObject
+{
+    id a = [[UIViewController alloc] init];
+    // Build Phases -> Compile Sources -> Crash.m has Compiler Flags setting
+    // -fno-objc-arc to allow the following line to be called
+    [a release];
+    NSLog(@"%@", [a description]);
+}
+```
+
+When the above code is called we get a crash, and the following is logged:
+
+```
+2018-09-12 12:09:10.236058+0100 icdab_edge[92796:13650378] *** -[UIViewController description]: message sent to deallocated instance 0x7fba1ff071c0
+```
+
+Looking at the debugger we see:
+
+![](screenshots/zombie.png)
+
+Note how the type of the object instance `a` is `_NSZombie_UIViewController *`
+The type will be whatever the original type of the over released object was, but prefixed with `_NSZombie_`.
+This is most helpful, and we should look out for this when studying the program state in the debugger.
