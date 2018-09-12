@@ -78,8 +78,11 @@
 
 - (void)overReleasedObject
 {
-    UIImage *image = [UIImage imageNamed:@"flower"];
-    
+    id a = [[NSObject alloc] init];
+    // Build Phases -> Compile Sources -> Crash.m has Compiler Flags setting
+    // -fno-objc-arc to allow the following line to be called
+    [a release];
+    NSLog(@"%@", [a description]);
 }
 
 - (void)corruptMalloc {

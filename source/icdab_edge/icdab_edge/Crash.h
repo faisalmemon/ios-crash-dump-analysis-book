@@ -17,6 +17,7 @@
 - (void)overshootAllocated;
 - (void)useAfterFree;
 - (void)uninitializedMemory;
+- (void)overReleasedObject;
 
 @end
 

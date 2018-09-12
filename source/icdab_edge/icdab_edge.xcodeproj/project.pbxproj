@@ -16,7 +16,7 @@
 		3980360B21451EA700B54D89 /* icdab_edgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3980360A21451EA700B54D89 /* icdab_edgeUITests.swift */; };
 		3980365F21456D9900B54D89 /* libCrashReporter-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3980363221451ED400B54D89 /* libCrashReporter-iphoneos.a */; };
 		3980366021456D9900B54D89 /* libCrashReporter-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3980363421451ED400B54D89 /* libCrashReporter-iphonesimulator.a */; };
-		3980366221456FAC00B54D89 /* Crash.m in Sources */ = {isa = PBXBuildFile; fileRef = 3980366121456FAC00B54D89 /* Crash.m */; };
+		3980366221456FAC00B54D89 /* Crash.m in Sources */ = {isa = PBXBuildFile; fileRef = 3980366121456FAC00B54D89 /* Crash.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
