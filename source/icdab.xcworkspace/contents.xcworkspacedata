@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:icdab_edge/icdab_edge.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:icdab_thread/icdab_thread.xcodeproj">
    </FileRef>
    <FileRef
