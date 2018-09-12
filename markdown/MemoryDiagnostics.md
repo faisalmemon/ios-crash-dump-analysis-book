@@ -239,7 +239,9 @@ Consider the following code in the `icdab_edge` example program.  @icdabgithub
 When the above code is called we get a crash, and the following is logged:
 
 ```
-2018-09-12 12:09:10.236058+0100 icdab_edge[92796:13650378] *** -[UIViewController description]: message sent to deallocated instance 0x7fba1ff071c0
+2018-09-12 12:09:10.236058+0100 icdab_edge[92796:13650378]
+ *** -[UIViewController description]: message sent to deallocated
+  instance 0x7fba1ff071c0
 ```
 
 Looking at the debugger we see:
