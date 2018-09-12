@@ -30,6 +30,9 @@ class ViewController: UIViewController {
 
     }
     
+    @IBAction func overReleasedObjectButtonPressed(_ sender: Any) {
+        ViewController.crash.overReleasedObject()
+    }
     
     
     override func viewDidLoad() {

@@ -51,7 +51,10 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TzC-OQ-zz4">
                                         <rect key="frame" x="0.0" y="517.5" width="375" height="129.5"/>
-                                        <state key="normal" title="Button"/>
+                                        <state key="normal" title="OverReleasedObject"/>
+                                        <connections>
+                                            <action selector="overReleasedObjectButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FrP-sz-gEp"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
