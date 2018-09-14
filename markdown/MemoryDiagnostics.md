@@ -272,6 +272,7 @@ The purpose of the `Malloc Stack` option is to provide the historical data need 
 We recommend the "All Allocation" option, unless there are just too much overhead experienced due to having an app with heavy use of memory allocation.  The "Live Allocations Only" option is sufficient to catch memory leaks as well as being low overhead, so it is the default option in the User Interface.
 
 The steps to follow are:
+
 1. Set the `Malloc Stack` option in the Diagnostics settings tab for the app Schema settings.
 2. Launch the app.
 3. Press the Debug Memgraph Button
@@ -280,7 +281,7 @@ The steps to follow are:
 The Memgraph visual tool within Xcode is comprehensive but can feel daunting.
 There is a helpful WWDC video to show the basics.  @wwdc2018_416
 
-There is normally too much low level detail to review.  The best way to use the graphical tool is when you have some hypothesis on why the app is incorrectly using memory.
+There is normally too much low level detail to review.  The best way to use the graphical tool is when we have some hypothesis on why the app is incorrectly using memory.
 
 A quick win is to see if we have any leaks.  These are memory locations no longer reachable to be able to free up.
 
