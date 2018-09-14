@@ -6,12 +6,12 @@ In this chapter, we look at different diagnostic options for resolving memory pr
 
 The iOS platform allocates memory for our app either on the stack or from the heap.
 
-Memory is allocated on the stack as a result of creating locally scoped variables within functions.
-Memory is allocated from the heap as a result of calling malloc (or its variants).
+Memory is allocated on the stack whenever we create locally scoped variables within functions.
+Memory is allocated from the heap whenever we call `malloc`\index{command!malloc} (or its variants).
 
 The minimum granularity of allocation on the heap is 16 bytes (an implementation detail we are not to rely upon).  This means a small overshoot can sometimes go undetected when we are accidentally overwriting past the number of bytes we have allocated.
 
-When memory is allocated, it is placed into a Virtual Memory region.  There are virtual memory regions for allocations of approximately the same size.  For example, `MALLOC_LARGE`, `MALLOC_SMALL`, `MALLOC_TINY`.  This strategy tends to reduce the amount of fragmentation of memory.  Furthermore, there is a region for storing the bytes of an image, the "CG image" region.  This allows the system to optimise the performance of the system.
+When memory is allocated, it is placed into a Virtual\index{memory!virtual} Memory region.  There are virtual memory regions for allocations of approximately the same size.  For example, we have regions `MALLOC_LARGE`, `MALLOC_SMALL`, `MALLOC_TINY`.  This strategy tends to reduce the amount of fragmentation of memory.  Furthermore, there is a region for storing the bytes of an image, the "CG image" region.  This allows the system to optimize the performance of the system.
 
 The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used to different purposes, so one logical area of the system can interfere with an unrelated area of the system.  Furthermore, there can be a delay (or latency) so the problem is discovered much after the problem was introduced.
 
@@ -30,7 +30,15 @@ Address sanitizer does memory accounting (called Shadow Memory).  It knows which
 
 Address sanitizer directly makes use of the compiler so that when code is compiled, any access to memory entails a check against the Shadow Memory to see if the memory location is poisoned.  If so, an error report is generated.
 
-This is a very powerful tool because it tackles the two most important classes of memory error.  Firstly, using more bytes than we were allocated.  Secondly, using memory after it has been freed.  It goes much further to address other classes of memory error but those are less often encountered: stack buffer overflow, global variable overflow, overflows in C++ containers, and use after return bugs.
+This is a very powerful tool because it tackles the two most important classes of memory error:
+
+1. Heap Buffer Overflow
+2. Heap Use After Free
+
+_Heap Buffer Overflow_ bugs are where we used more bytes than we were allocated.
+_Heap Use After Free_  bugs are where we used memory after it had been freed.
+
+Address Sanitizer goes much further to address other classes of memory error but those are less often encountered: stack buffer overflow, global variable overflow, overflows in C++ containers, and use after return bugs.
 
 The cost of this convenience is that our program can be x2 to x5 slower.  It is something worth switching on in our continuous integration systems to shake out problems.
 
@@ -63,9 +71,9 @@ WRITE of size 1 at 0x60200003a5e0 thread T0
 #0 0x10394461a in -[Crash overshootAllocated] Crash.m:48
 ```
 
-This is enough context to be able to switch to the code and start understanding the problem.
+This is enough context to be able to switch to the code, and start understanding the problem.
 
-Further details are supplied showing we off the end of a 16-byte allocation:
+Further details are supplied showing we overshot the end of a 16-byte allocation:
 ```
 0x60200003a5e0 is located 0 bytes to the right of 16-byte region
  [0x60200003a5d0,0x60200003a5e0)
@@ -75,7 +83,9 @@ allocated by thread T0 here:
 #1 0x1039445ae in -[Crash overshootAllocated] Crash.m:46
 ```
 
-and we also get a "map" of the memory around the problem:
+Note the use of a "half-open" number range number notation, where `[` includes the lower range index, and `)` excludes the upper range index.  So our access to `0x60200003a5e0` is outside the allocated range `[0x60200003a5d0,0x60200003a5e0)`
+
+We also get a "map" of the memory around the problem:
 ```
 SUMMARY: AddressSanitizer: heap-buffer-overflow Crash.m:48 in
  -[Crash overshootAllocated]
@@ -172,19 +182,19 @@ We see the entry, `[fd]` indicating a write to memory that has been freed alread
 
 ## Memory Management tools
 
-There are a collection of tools complementary to the Address Sanitizer tool.  These are to be used when Address Sanitizer is off.  They catch certain causes of failure that Address Sanitizer would miss.
+There is a collection of tools complementary to the Address Sanitizer tool.  These are to be used when Address Sanitizer is off.  They catch certain causes of failure that Address Sanitizer would miss.
 
-The memory management tools do not require a re-compilation of the project.  That is their main advantage.
+In contrast to the Address Sanitizer, the memory management tools do not require a re-compilation of the project.
 
-## Guard Malloc Tool
+### Guard Malloc Tool
 
 This tool is only available on simulator targets, a major disadvantage.
 Every allocation is placed into its own memory page with guard pages before and after.
 This tool is largely superseded by Address Sanitizer.
 
-## Malloc Scribble
+### Malloc Scribble
 
-The purpose of Malloc Scribble is to make the symptoms of memory errors predictable by having `malloc`ed  or `free`ed memory assigned to fixed known values.  Allocated memory is given `0xAA` and deallocated memory is given `0x55`.  It does not affect the behavior of data allocated on the stack.  It is not compatible with Address Sanitizer.
+The purpose of Malloc Scribble is to make the symptoms of memory errors predictable by having `malloc`-ed  or `free`-ed memory assigned to fixed known values.  Allocated memory is given `0xAA` and deallocated memory is given `0x55`.  It does not affect the behavior of data allocated on the stack.  It is not compatible with Address Sanitizer.
 
 If we have an app that keeps crashing different ways each time it is run, then Malloc Scribble is a good option.  It will help make the crash predictable and repeatable.
 
@@ -201,7 +211,7 @@ Consider the following code in the `icdab_edge` example program.  @icdabgithub
 }
 ```
 
-First, `source` is given freshly allocated memory.  Since this memory has not yet been initialised, it is set to 0xAA when Malloc Scribble has been set (and address sanitizer reset) in the Schema settings.
+First, `source` is given freshly allocated memory.  Since this memory has not yet been initialized, it is set to 0xAA when Malloc Scribble has been set (and address sanitizer reset) in the Schema settings.
 
 Then, `target` is setup.  It is a buffer on the stack (not heap memory).  Using the code, `= {0}`, we make the app set `0` in all memory locations of this buffer.  Otherwise, it would be random memory values.
 
@@ -212,16 +222,16 @@ Then we enter a loop.  By breakpointing in the debugger, say at the second itera
 We see that the `target` buffer is zeros apart from the first two index positions where it is `0xAA`.
 We see that the `source` memory is always `0xAA`
 
-If we had not set Malloc Scribble, the target buffer would have got filled with random values.
+If we had not set Malloc Scribble, the target buffer would have been filled with random values.
 In a complex program, such data could be fed to other subsystems affecting the behavior of the program.
 
-## Zombie Objects
+### Zombie Objects
 
-The purpose of Zombie Objects is to detect use-after-free bugs in the context of Objective-C NSObjects.  Particularly if we have a legacy code base that uses Manual Reference Counting, it can be easy to over release an object.  This means that messaging through the, now dangling, pointer can have unpredictable effects.
+The purpose of Zombie Objects is to detect use-after-free bugs in the context of Objective-C `NSObject`s.  Particularly if we have a legacy code base that uses Manual Reference Counting, it can be easy to over release an object.  This means that messaging through the, now dangling, pointer can have unpredictable effects.
 
 This setting must only be made on debug builds because the code will no longer release objects.  Its performance profile is equivalent to leaking every object that should have been deallocated.  
 
-This setting will make deallocated objects to instead become NSZombie objects.  This means that any method called upon the object will result in a crash.  It removes unpredictable behavior by guaranteeing a crash each time and over released object is messaged.  Therefore, it allows us to track the point at which the over released object was messaged.
+This setting will make deallocated objects to instead become `NSZombie` objects.  This means that any method called upon the object will result in a crash.  Any message sent to an `NSZombie` object results in a crash. Therefore, whenever an over-released object is messaged, we are guaranteed a crash.
 
 Consider the following code in the `icdab_edge` example program.  @icdabgithub
 
@@ -244,10 +254,19 @@ When the above code is called we get a crash, and the following is logged:
   instance 0x7fba1ff071c0
 ```
 
-Looking at the debugger we see:
+Looking at the debugger, we see:
 
 ![](screenshots/zombie.png)
 
-Note how the type of the object instance `a` is `_NSZombie_UIViewController *`
+Note how the type of the object instance `a` is `_NSZombie_UIViewController *`.
+
 The type will be whatever the original type of the over released object was, but prefixed with `_NSZombie_`.
 This is most helpful, and we should look out for this when studying the program state in the debugger.
+
+### Dynamic Linker API Usage
+
+Sometimes programs dynamically adapt or are extensible.  For such programs, the dynamic linker API is used to programatically load up extra code modules.  When the configuration or deployment of the app is faulty, this can result in crashes.
+
+To debug such problems, set the `Dynamic Linker API Usage` flag.  This can generate a lot of messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch\index{trademark!Apple Watch}.
+
+To see an example, refer to [XMBMC crash](#xmbmc crash)
