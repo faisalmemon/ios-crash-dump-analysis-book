@@ -29,7 +29,7 @@ An equivalent approach is available on macOS as well.
 
 Here we go through each section of an iOS crash report and explain the fields. @tn2151
 
-tvOS and watchOS may be just considered subsets of iOS for our purposes and have similar crash reports.
+tvOS\index{tvOS} and watchOS\index{watchOS} may be just considered subsets of iOS for our purposes and have similar crash reports.
 
 Note here iOS Crash Report means a crash report that came from a physical target device.
 After a crash, apps are often debugged on the Simulator.  The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.

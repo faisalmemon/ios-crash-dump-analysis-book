@@ -265,7 +265,7 @@ This is most helpful, and we should look out for this when studying the program 
 
 ### Dynamic Linker API Usage
 
-Sometimes programs dynamically adapt or are extensible.  For such programs, the dynamic linker API is used to programmatically load up extra code modules.  When the configuration or deployment of the app is faulty, this can result in crashes.
+Sometimes programs dynamically adapt or are extensible.  For such programs, the dynamic linker\index{linker} API is used to programmatically load up extra code modules.  When the configuration or deployment of the app is faulty, this can result in crashes.
 
 To debug such problems, set the `Dynamic Linker API Usage` flag.  This can generate many messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch\index{trademark!Apple Watch}.
 
