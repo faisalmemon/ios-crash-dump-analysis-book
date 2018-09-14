@@ -200,6 +200,7 @@
 <li><a href="#malloc-scribble">Malloc Scribble</a></li>
 <li><a href="#zombie-objects">Zombie Objects</a></li>
 <li><a href="#dynamic-linker-api-usage">Dynamic Linker API Usage</a></li>
+<li><a href="#dynamic-library-loads">Dynamic Library Loads</a></li>
 </ul></li>
 </ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
@@ -4208,7 +4209,36 @@ freed by thread T0 here:
 <h3 id="dynamic-linker-api-usage">Dynamic Linker API Usage</h3>
 <p>Sometimes programs dynamically adapt or are extensible. For such programs, the dynamic linker API is used to programatically load up extra code modules. When the configuration or deployment of the app is faulty, this can result in crashes.</p>
 <p>To debug such problems, set the <code>Dynamic Linker API Usage</code> flag. This can generate a lot of messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch.</p>
-<p>To see an example, refer to <a href="#xmbmc%20crash">XMBMC crash</a></p>
+<p>An example app using the dynamic linker is available on GitHub. <span class="citation" data-cites="dynamicloadingeg">(“Dynamic Loading Example” 2018)</span></p>
+<p>The kind of output when it is enabled is:</p>
+<pre><code>_dyld_get_image_slide(0x105545000)
+_dyld_register_func_for_add_image(0x10a21264c)
+_dyld_get_image_slide(0x105545000)
+_dyld_get_image_slide(0x105545000)
+_dyld_register_func_for_add_image(0x10a5caf39)
+dyld_image_path_containing_address(0x1055d2000)
+.
+.
+.
+
+dlopen(DynamicFramework2.framework/DynamicFramework2) ==&gt; 0x60c0001460f0
+.
+.
+.</code></pre>
+<p>Huge amounts of logging is generated. It is best to start off by searching for the <code>dlopen</code> command, and then looking to see what other functions in the <code>dlopen</code> family are called.</p>
+<h3 id="dynamic-library-loads">Dynamic Library Loads</h3>
+<p>Sometimes we have an early stage app crash during the initialization phase where the dynamic loader is loading the app binary and its dependent frameworks. If we are confident that it is not custom code using the dynamic linker API, but instead it is the assembly of frameworks into the loaded binary we care about, then switching on the <code>Dynamic Library Loads</code> flag is appropriate. We get much shorter logs that enabling the <code>Dynamic Linker API Usage</code> flag.</p>
+<p>Upon launch, we get a list of binaries loaded:</p>
+<pre><code>dyld: loaded: /Users/faisalm/Library/Developer/CoreSimulator/Devices/
+99DB717F-9161-461A-B11F-210C389ABA12/data/Containers/Bundle/Application/
+D916AC0F-6434-46A3-B18E-5EC65D194454/icdab_edge.app/icdab_edge
+
+dyld: loaded: /Applications/Xcode.app/Contents/Developer/
+Platforms/iPhoneOS.platform/Contents/Resources/RuntimeRoot/
+usr/lib/libBacktraceRecording.dylib
+.
+.
+.</code></pre>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-macbookproT2">
