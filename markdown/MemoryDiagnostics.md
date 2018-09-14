@@ -265,11 +265,11 @@ This is most helpful, and we should look out for this when studying the program 
 
 ### Malloc Stack
 
-Sometimes the past dynamic behavior of our app needs to be understood in order to resolve why the application crashed.  For example, we may have leaked memory and then got terminated by the system for using too much memory.  We might have a data structure and wonder which part of the code was responsible for allocating it.
+Sometimes the past dynamic behavior of our app needs to be understood in order to resolve why the application crashed.  For example, we may have leaked memory, and then we were terminated by the system for using too much memory.  We might have a data structure and wonder which part of the code was responsible for allocating it.
 
-The purpose of the `Malloc Stack` option is to provide the historical data need need.  Memory analysis has been enhanced by Apple by providing complementary visual tools.  Malloc Stack has a sub-option, "All Allocation and Free History" or "Live Allocations Only"
+The purpose of the `Malloc Stack` option is to provide the historical data need.  Memory analysis has been enhanced by Apple by providing complementary visual tools.  Malloc Stack has a sub-option, "All Allocation and Free History" or "Live Allocations Only"
 
-We recommend the "All Allocation" option, unless there are just too much overhead experienced due to having an app with heavy use of memory allocation.  The "Live Allocations Only" option is sufficient to catch memory leaks as well as being low overhead, so it is the default option in the User Interface.
+We recommend the "All Allocation" option, unless there is just too much overhead experienced due to having an app with heavy use of memory allocation.  The "Live Allocations Only" option is sufficient to catch memory leaks\index{memory!leak} as well as being low overhead, so it is the default option in the User Interface.
 
 The steps to follow are:
 
@@ -281,11 +281,13 @@ The steps to follow are:
 The Memgraph visual tool within Xcode is comprehensive but can feel daunting.
 There is a helpful WWDC video to show the basics.  @wwdc2018_416
 
-There is normally too much low level detail to review.  The best way to use the graphical tool is when we have some hypothesis on why the app is incorrectly using memory.
+There is normally too much low-level detail to review.  The best way to use the graphical tool is when we have some hypothesis on why the app is incorrectly using memory.
+
+#### Malloc Stack Memgraph example: detecting retain cycles
 
 A quick win is to see if we have any leaks.  These are memory locations no longer reachable to be able to free up.
 
-We use the tvOS example app `icdab_cycle` to show a retain cycle found by Memgraph.  @icdabgithub
+We use the tvOS\index{tvOS} example app `icdab_cycle` to show a retain cycle found by Memgraph.  @icdabgithub
 
 Having set the Schema settings for Malloc Stack, we then launch the app and then press the Memgraph Button, shown below:
 
@@ -295,10 +297,46 @@ By pressing the exclamation mark filter button we can filter to only showing lea
 
 ![](screenshots/retaincycle.png)
 
-If we had done _File -> Export Memory Graph..._ to export the memgraph to `icdab_cycle.memgraph` we could see the equivalent information from the Mac Terminal app with the command line:
+If we had done _File -> Export Memory Graph..._, to export the memgraph to `icdab_cycle.memgraph`, we could see the equivalent information from the Mac Terminal app with the command line:\index{command!leaks}
 
 ```
 leaks icdab_cycle.memgraph
+
+Process:         icdab_cycle [15295]
+Path:            /Users/faisalm/Library/Developer/CoreSimulator/Devices/
+1616CA04-D1D0-4DF6-BE8E-F63541EC1EED/data/Containers/Bundle/Application/
+E44B9EFD-258B-4D0E-8637-CF374638D5FF/icdab_cycle.app/icdab_cycle
+Load Address:    0x106eb7000
+Identifier:      icdab_cycle
+Version:         ???
+Code Type:       X86-64
+Parent Process:  debugserver [15296]
+
+Date/Time:       2018-09-14 16:38:23.008 +0100
+Launch Time:     2018-09-14 16:38:12.398 +0100
+OS Version:      Apple TVOS 12.0 (16J364)
+Report Version:  7
+Analysis Tool:   /Users/faisalm/Downloads/
+Xcode.app/Contents/Developer/Platforms/
+AppleTVOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/
+tvOS.simruntime/Contents/Resources/RuntimeRoot/Developer/Library/
+PrivateFrameworks/DVTInstrumentsFoundation.framework/LeakAgent
+Analysis Tool Version:  iOS Simulator 12.0 (16J364)
+
+Physical footprint:         38.9M
+Physical footprint (peak):  39.0M
+----
+
+leaks Report Version: 3.0
+Process 15295: 30252 nodes malloced for 5385 KB
+Process 15295: 3 leaks for 144 total leaked bytes.
+
+Leak: 0x600000d506c0  size=64  zone: DefaultMallocZone_0x11da72000
+   Song  Swift  icdab_cycle
+	Call stack: [thread 0x10a974380]: |
+   0x10a5f678d (libdyld.dylib) start |
+    0x106eba614 (icdab_cycle) main
+     AppDelegate.swift:12 ....
 ```
 
 The code that causes this leak is:
@@ -322,13 +360,13 @@ func buildMediaLibrary() {
 }
 ```
 
-The problem is that `createRetainCycleLeak()` `song1` `Song` makes a strong reference to `salsa` `Album` and `Album` makes a strong reference to `song1` `Song` and when we return from this method, there is no reference to either object from another object.  The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references.  A very similar object relationship for `kylie` `Album` does not trigger a leak because that is referenced by a top level graph object `mediaLibrary`
+The problem is that `createRetainCycleLeak()` `song1` `Song` makes a strong reference to `salsa` `Album` and `Album` makes a strong reference to `song1` `Song` and when we return from this method, there is no reference to either object from another object.  The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle\index{memory!retain cycle}).  A very similar object relationship for `kylie` `Album` does not trigger a leak because that is referenced by a top level graph object `mediaLibrary`
 
 ### Dynamic Linker API Usage
 
 Sometimes programs dynamically adapt or are extensible.  For such programs, the dynamic linker\index{linker} API is used to programmatically load up extra code modules.  When the configuration or deployment of the app is faulty, this can result in crashes.
 
-To debug such problems, set the `Dynamic Linker API Usage` flag.  This can generate many messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch\index{trademark!Apple Watch}.
+To debug such problems, set the `Dynamic Linker API Usage` flag.  This can generate many messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch\index{trademark!Apple Watch}\index{watchOS}.
 
 An example app using the dynamic linker is available on GitHub. @dynamicloadingeg
 
