@@ -417,26 +417,25 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <ul>
 <li>If we are just starting our application developer journey, or we have limited funds, then just stick with the standard Xcode tooling, macOS command line, and the open source class-dump tool.</li>
 <li>If we are a professional application developer, we should strongly consider buying a commercial reverse engineering tool. The one that draws most attention is Hopper; it provides a lot of functionality offered by IDA Pro (a high end tool). It is well priced and can pay for itself in gained productivity even if only used a handful of times. We show how Hopper can be used in this book.</li>
-<li>If we are a professional penetration tester, reverse engineer, or security researcher, then we will be probably wanting to invest in the top of the line software tool, IDA Pro. The tool costs thousands but is often purchased as a company wide expense.</li>
+<li>If we are a professional penetration tester, reverse engineer, or security researcher, then we will be probably wanting to invest in the top of the line software tool, IDA Pro. This tool costs thousands, but is often purchased as a company wide expense.</li>
 </ul>
 <h2 id="class-dump-tool">Class Dump Tool</h2>
 <p>One of the great things about the Objective-C runtime is that it carries lots of rich program structure information in its built binaries. These allow the dynamic aspects of the language to work. In fact, its flexibility of dynamic dispatch is a source for many crashes.</p>
 <p>We recommend installing the <code>class-dump</code> tool right away because we shall reference its usage in later chapters. See <span class="citation" data-cites="class-dump-tool">Nygard (2018)</span></p>
 <p>The class dump tool allows us to look at what Objective C classes, methods and properties are present in a given program.</p>
 <h2 id="third-party-crash-reporting">Third Party Crash Reporting</h2>
-<p>The Apple Crash Reporter tool, and supporting infrastructure in iTunes Connect is excellent but has some room for improvement.</p>
-<p>A formidable piece of Open Source software, plcrashreporter, has been written by Landon Fuller, of Plausible Labs.</p>
-<p><span class="citation" data-cites="plcrashreporter">(“Plausible Labs Crash Reporter” 2018)</span></p>
+<p>The Apple Crash Reporter tool and supporting infrastructure in iTunes Connect is excellent but has some room for improvement.</p>
+<p>A formidable piece of Open Source software, <code>plcrashreporter</code>, has been written by Landon Fuller, of Plausible Labs. <span class="citation" data-cites="plcrashreporter">(“Plausible Labs Crash Reporter” 2018)</span></p>
 <p>The idea is to make our app handle all the possible signals and exceptions that can occur that would otherwise be unimplemented by the app and thus lead to the underlying Operating System to handle the crash.</p>
 <p>With this solution, the crash data can be recorded, and then later communicated to a server of our own choice.</p>
-<p>There are two benefits. Firstly, the crash handler can be fixed to handle edge cases not already handled by the Apple ReportCrash tool. Secondly, a more comprehensive server side solution can be employed.</p>
+<p>There are two benefits. Firstly, the crash handler can be fixed to handle edge cases not already handled by the Apple <code>ReportCrash</code> tool. Secondly, a more comprehensive server side solution can be employed.</p>
 <p>For those wanting to explore, and understand, the Operating System, and low-level application code, <code>plcrashreporter</code> provides an excellent opportunity to study a well-engineered piece of system software.</p>
-<p>When an company has many apps, many app variants, and has apps based on competitor platforms such as Android, a more powerful multi-platform solution is needed. Handling crash reports soon becomes a management problem. Which crash is the most serious? How many customers are affected? What are my metrics for quality and stability?</p>
+<p>When a company has many apps, many app variants, and has apps based on competitor platforms such as Android, a more powerful multi-platform solution is needed. Handling crash reports soon becomes a management problem. Which crash is the most serious? How many customers are affected? What are the metrics for quality and stability saying?</p>
 <p>A number of commercial solutions are available, largely based upon the above Open Source project.</p>
-<p>The Mobile Software Development field has grown into a big industry over the last few years. Many specialist companies serve App Developers as their customers. The field is very active in terms of mergers and acquisitions. Therefore, we cannot name the competitors in the Crash Reporting space in this book as the list would be constantly changing.</p>
+<p>The Mobile Software Development field has grown into a big industry over the last few years. Many specialist companies serve App Developers as their customers. The field is very active in terms of mergers and acquisitions. Therefore, we cannot name the competitors in the Crash Reporting space in this book, as the list would be constantly changing.</p>
 <p>A good place to start is the <code>rollout.io</code> blog posting that reviewed different players in the market. <span class="citation" data-cites="3rdpartycrashtools">(“IOS Crash Reporting Tools” 2017)</span></p>
 <h1 id="xcode-built-in-help">Xcode Built-In Help</h1>
-<p>Xcode provides a lot of help to developers in understanding and preventing crashes.</p>
+<p>Xcode provides significant help to developers in understanding and preventing crashes.</p>
 <p>We think of Xcode in layers of sophistication, where at the lowest layer of sophistication Xcode directly tells us the common error it has seen with suggested corrections, up to the highest level were Xcode is telling the raw information, but we need Operating Systems knowledge to interpret the information ourselves.</p>
 <p>We shall revisit Xcode configuration, setup and tooling many times. Nevertheless, let us first start off with the simple but high value assistance Xcode provides.</p>
 <h2 id="xcode-diagnostic-settings">Xcode Diagnostic Settings</h2>
