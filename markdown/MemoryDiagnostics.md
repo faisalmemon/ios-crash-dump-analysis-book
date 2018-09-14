@@ -265,9 +265,9 @@ This is most helpful, and we should look out for this when studying the program 
 
 ### Dynamic Linker API Usage
 
-Sometimes programs dynamically adapt or are extensible.  For such programs, the dynamic linker API is used to programatically load up extra code modules.  When the configuration or deployment of the app is faulty, this can result in crashes.
+Sometimes programs dynamically adapt or are extensible.  For such programs, the dynamic linker API is used to programmatically load up extra code modules.  When the configuration or deployment of the app is faulty, this can result in crashes.
 
-To debug such problems, set the `Dynamic Linker API Usage` flag.  This can generate a lot of messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch\index{trademark!Apple Watch}.
+To debug such problems, set the `Dynamic Linker API Usage` flag.  This can generate many messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch\index{trademark!Apple Watch}.
 
 An example app using the dynamic linker is available on GitHub. @dynamicloadingeg
 
@@ -290,7 +290,7 @@ dlopen(DynamicFramework2.framework/DynamicFramework2) ==> 0x60c0001460f0
 .
 ```
 
-Huge amounts of logging is generated.  It is best to start off by searching for the `dlopen` command, and then looking to see what other functions in the `dlopen` family are called.
+A huge amount of logging is generated.  It is best to start by searching for the `dlopen`\index{command!dlopen} command, and then looking to see what other functions in the `dlopen` family are called.
 
 ### Dynamic Library Loads
 
