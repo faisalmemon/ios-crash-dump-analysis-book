@@ -4222,7 +4222,7 @@ freed by thread T0 here:
 <p>There is normally too much low level detail to review. The best way to use the graphical tool is when we have some hypothesis on why the app is incorrectly using memory.</p>
 <p>A quick win is to see if we have any leaks. These are memory locations no longer reachable to be able to free up.</p>
 <p>We use the tvOS example app <code>icdab_cycle</code> to show a retain cycle found by Memgraph. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
-<p>Having set the Schema settings for Malloc Stack, we then launch the app and then press the Memgraph Button.</p>
+<p>Having set the Schema settings for Malloc Stack, we then launch the app and then press the Memgraph Button, shown below:</p>
 <p><img src="screenshots/memgraphbutton.png" /></p>
 <p>By pressing the exclamation mark filter button we can filter to only showing leaks:</p>
 <p><img src="screenshots/retaincycle.png" /></p>
