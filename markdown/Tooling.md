@@ -48,7 +48,9 @@ The idea is to make our app handle all the possible signals and exceptions that 
 
 With this solution, the crash data can be recorded, and then later communicated to a server of our own choice.
 
-There are two benefits.  Firstly, the crash handler can be fixed to handle edge cases not already handled by the Apple ReportCrash tool.  Secondly, a more comprehensive server side solution can be employed.
+There are two benefits.  Firstly, the crash handler can be fixed to handle edge cases not already handled by the Apple ReportCrash\index{command!ReportCrash} tool.  Secondly, a more comprehensive server side solution can be employed.
+
+For those wanting to explore, and understand, the Operating System, and low-level application code, `plcrashreporter` provides an excellent opportunity to study a well-engineered piece of system software.
 
 When an company has many apps, many app variants, and has apps based on competitor platforms such as Android\index{trademark!Android}, a more powerful multi-platform solution is needed.  Handling crash reports soon becomes a management problem.  Which crash is the most serious?  How many customers are affected?  What are my metrics for quality and stability?
 
