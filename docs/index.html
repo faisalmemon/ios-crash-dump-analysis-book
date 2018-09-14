@@ -4216,9 +4216,9 @@ freed by thread T0 here:
 <p>Note how the type of the object instance <code>a</code> is <code>_NSZombie_UIViewController *</code>.</p>
 <p>The type will be whatever the original type of the over released object was, but prefixed with <code>_NSZombie_</code>. This is most helpful, and we should look out for this when studying the program state in the debugger.</p>
 <h3 id="malloc-stack">Malloc Stack</h3>
-<p>Sometimes the past dynamic behavior of our app needs to be understood in order to resolve why the application crashed. For example, we may have leaked memory and then got terminated by the system for using too much memory. We might have a data structure and wonder which part of the code was responsible for allocating it.</p>
-<p>The purpose of the <code>Malloc Stack</code> option is to provide the historical data need need. Memory analysis has been enhanced by Apple by providing complementary visual tools. Malloc Stack has a sub-option, “All Allocation and Free History” or “Live Allocations Only”</p>
-<p>We recommend the “All Allocation” option, unless there are just too much overhead experienced due to having an app with heavy use of memory allocation. The “Live Allocations Only” option is sufficient to catch memory leaks as well as being low overhead, so it is the default option in the User Interface.</p>
+<p>Sometimes the past dynamic behavior of our app needs to be understood in order to resolve why the application crashed. For example, we may have leaked memory, and then we were terminated by the system for using too much memory. We might have a data structure and wonder which part of the code was responsible for allocating it.</p>
+<p>The purpose of the <code>Malloc Stack</code> option is to provide the historical data need. Memory analysis has been enhanced by Apple by providing complementary visual tools. Malloc Stack has a sub-option, “All Allocation and Free History” or “Live Allocations Only”</p>
+<p>We recommend the “All Allocation” option, unless there is just too much overhead experienced due to having an app with heavy use of memory allocation. The “Live Allocations Only” option is sufficient to catch memory leaks as well as being low overhead, so it is the default option in the User Interface.</p>
 <p>The steps to follow are:</p>
 <ol type="1">
 <li>Set the <code>Malloc Stack</code> option in the Diagnostics settings tab for the app Schema settings.</li>
@@ -4227,15 +4227,52 @@ freed by thread T0 here:
 <li>For command line based analysis, <em>File -&gt; Export Memory Graph…</em></li>
 </ol>
 <p>The Memgraph visual tool within Xcode is comprehensive but can feel daunting. There is a helpful WWDC video to show the basics. <span class="citation" data-cites="wwdc2018_416">(“IOS Memory Deep Dive” 2018)</span></p>
-<p>There is normally too much low level detail to review. The best way to use the graphical tool is when we have some hypothesis on why the app is incorrectly using memory.</p>
+<p>There is normally too much low-level detail to review. The best way to use the graphical tool is when we have some hypothesis on why the app is incorrectly using memory.</p>
+<h4 id="malloc-stack-memgraph-example-detecting-retain-cycles">Malloc Stack Memgraph example: detecting retain cycles</h4>
 <p>A quick win is to see if we have any leaks. These are memory locations no longer reachable to be able to free up.</p>
 <p>We use the tvOS example app <code>icdab_cycle</code> to show a retain cycle found by Memgraph. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <p>Having set the Schema settings for Malloc Stack, we then launch the app and then press the Memgraph Button, shown below:</p>
 <p><img src="screenshots/memgraphbutton.png" /></p>
 <p>By pressing the exclamation mark filter button we can filter to only showing leaks:</p>
 <p><img src="screenshots/retaincycle.png" /></p>
-<p>If we had done <em>File -&gt; Export Memory Graph…</em> to export the memgraph to <code>icdab_cycle.memgraph</code> we could see the equivalent information from the Mac Terminal app with the command line:</p>
-<pre><code>leaks icdab_cycle.memgraph</code></pre>
+<p>If we had done <em>File -&gt; Export Memory Graph…</em>, to export the memgraph to <code>icdab_cycle.memgraph</code>, we could see the equivalent information from the Mac Terminal app with the command line:</p>
+<pre><code>leaks icdab_cycle.memgraph
+
+Process:         icdab_cycle [15295]
+Path:            /Users/faisalm/Library/Developer/CoreSimulator/Devices/
+1616CA04-D1D0-4DF6-BE8E-F63541EC1EED/data/Containers/Bundle/Application/
+E44B9EFD-258B-4D0E-8637-CF374638D5FF/icdab_cycle.app/icdab_cycle
+Load Address:    0x106eb7000
+Identifier:      icdab_cycle
+Version:         ???
+Code Type:       X86-64
+Parent Process:  debugserver [15296]
+
+Date/Time:       2018-09-14 16:38:23.008 +0100
+Launch Time:     2018-09-14 16:38:12.398 +0100
+OS Version:      Apple TVOS 12.0 (16J364)
+Report Version:  7
+Analysis Tool:   /Users/faisalm/Downloads/
+Xcode.app/Contents/Developer/Platforms/
+AppleTVOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/
+tvOS.simruntime/Contents/Resources/RuntimeRoot/Developer/Library/
+PrivateFrameworks/DVTInstrumentsFoundation.framework/LeakAgent
+Analysis Tool Version:  iOS Simulator 12.0 (16J364)
+
+Physical footprint:         38.9M
+Physical footprint (peak):  39.0M
+----
+
+leaks Report Version: 3.0
+Process 15295: 30252 nodes malloced for 5385 KB
+Process 15295: 3 leaks for 144 total leaked bytes.
+
+Leak: 0x600000d506c0  size=64  zone: DefaultMallocZone_0x11da72000
+   Song  Swift  icdab_cycle
+    Call stack: [thread 0x10a974380]: |
+   0x10a5f678d (libdyld.dylib) start |
+    0x106eba614 (icdab_cycle) main
+     AppDelegate.swift:12 ....</code></pre>
 <p>The code that causes this leak is:</p>
 <pre><code>var mediaLibrary: Album?
 
@@ -4254,7 +4291,7 @@ func buildMediaLibrary() {
     mediaLibrary = kylie
     createRetainCycleLeak()
 }</code></pre>
-<p>The problem is that <code>createRetainCycleLeak()</code> <code>song1</code> <code>Song</code> makes a strong reference to <code>salsa</code> <code>Album</code> and <code>Album</code> makes a strong reference to <code>song1</code> <code>Song</code> and when we return from this method, there is no reference to either object from another object. The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references. A very similar object relationship for <code>kylie</code> <code>Album</code> does not trigger a leak because that is referenced by a top level graph object <code>mediaLibrary</code></p>
+<p>The problem is that <code>createRetainCycleLeak()</code> <code>song1</code> <code>Song</code> makes a strong reference to <code>salsa</code> <code>Album</code> and <code>Album</code> makes a strong reference to <code>song1</code> <code>Song</code> and when we return from this method, there is no reference to either object from another object. The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle). A very similar object relationship for <code>kylie</code> <code>Album</code> does not trigger a leak because that is referenced by a top level graph object <code>mediaLibrary</code></p>
 <h3 id="dynamic-linker-api-usage">Dynamic Linker API Usage</h3>
 <p>Sometimes programs dynamically adapt or are extensible. For such programs, the dynamic linker API is used to programmatically load up extra code modules. When the configuration or deployment of the app is faulty, this can result in crashes.</p>
 <p>To debug such problems, set the <code>Dynamic Linker API Usage</code> flag. This can generate many messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch.</p>
