@@ -75,3 +75,5 @@ scratch/
 foo.*
 foo_*/
 texput.log
+
+trademarks.md
