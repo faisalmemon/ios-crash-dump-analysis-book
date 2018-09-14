@@ -16,7 +16,7 @@ x Show deserialization and dynamic binding crashes, and zone copying bug.
 x Explain Mac crash report
 x Explore existing tools for crash enumeration https://www.crashprobe.com/ios/05/ and catching https://github.com/kstenerud/KSCrash
 x Show commercial crash services
-Do indexing for third party crash tools in the tools section
+x Do indexing for third party crash tools in the tools section
 x Look into detail about the ios memory allocator
 Consider tvos and watchos - maybe examples of wrong extension number for watchos, find a tvos crash
 
