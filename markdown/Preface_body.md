@@ -24,3 +24,11 @@ This was a major step forwards again in productivity.  Nevertheless, some engine
 One day Chris Drake was in town and popped into our office.  He was the x86 architecture specialist that collaborated with Kimberley Brown to produce the "Panic!" book.  They arranged a workshop to educate us on SunOS crashes on x86 architecture.  It was something of a novelty at the time, prior to the remarkable rise of Linux and the GNU/Linux system.
 
 I remember one time, as an undergraduate student during an Operating Systems lecture, I looked across the room.  I noticed it was full of Sun Microsystems equipment;  I stared into the Sun logo and dreamed of one day working there.  It came true.  So in my workshop on x86 panics, I had another idea.  One day I would write a book.  It would be something quite focussed on a single technical problem.  It would be something that would convey the experiences I had obtained in my career.  It turns out that came true as well in the book you are reading now!
+
+## Acknowledgements
+
+I'd like acknowledge the help and support of my colleagues for writing this book.  
+
+Putting together is work was only possible because it was built upon generously provided open source tools, in particular `pandoc` which made writing the text of the book a pleasure.
+
+Lastly, I'd like to thank my supportive family whilst I was locked in my study and largely absent.  Thank you Junghyun, and Christopher.
