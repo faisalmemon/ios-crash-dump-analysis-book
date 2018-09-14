@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="14113" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="14313.18" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="appleTV" orientation="landscape">
         <adaptation id="light"/>
     </device>
     <dependencies>
         <deployment identifier="tvOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -26,24 +26,29 @@
                                 <rect key="frame" x="90" y="60" width="1740" height="960"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" sectionHeaderHeight="66" sectionFooterHeight="66" translatesAutoresizingMaskIntoConstraints="NO" id="5Af-g3-OPU">
-                                        <rect key="frame" x="0.0" y="0.0" width="1740" height="960"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1740" height="874"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="zwm-wN-Vl6" customClass="SongTableViewCell" customModule="icdab_cycle" customModuleProvider="target">
+                                            <tableViewCell contentMode="scaleToFill" misplaced="YES" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell_id" id="zwm-wN-Vl6" customClass="SongTableViewCell" customModule="icdab_cycle" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="66" width="1740" height="66"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zwm-wN-Vl6" id="OAh-lL-GcD">
                                                     <rect key="frame" x="0.0" y="0.0" width="1740" height="66"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QKF-XI-PK7" userLabel="SongName">
-                                                            <rect key="frame" x="823" y="10" width="93" height="46"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QKF-XI-PK7" userLabel="SongName">
+                                                            <rect key="frame" x="0.0" y="10" width="1650" height="46"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="QKF-XI-PK7" firstAttribute="top" secondItem="OAh-lL-GcD" secondAttribute="top" constant="10" id="Hk2-eb-idt"/>
+                                                        <constraint firstAttribute="trailing" secondItem="QKF-XI-PK7" secondAttribute="trailing" id="Kb8-0h-YYe"/>
+                                                        <constraint firstAttribute="bottom" secondItem="QKF-XI-PK7" secondAttribute="bottom" constant="10" id="Ooh-pp-GxX"/>
+                                                        <constraint firstItem="QKF-XI-PK7" firstAttribute="leading" secondItem="OAh-lL-GcD" secondAttribute="leading" id="wxu-dM-pfP"/>
+                                                    </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
                                                     <outlet property="songNameLabelOutlet" destination="QKF-XI-PK7" id="HIV-Ng-ffs"/>
@@ -55,6 +60,11 @@
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="JXD-fq-z59"/>
                                         </connections>
                                     </tableView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sfd-ig-PQo">
+                                        <rect key="frame" x="0.0" y="874" width="1740" height="86"/>
+                                        <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                        <state key="normal" title="Play"/>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>

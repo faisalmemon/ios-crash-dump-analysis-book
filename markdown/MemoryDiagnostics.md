@@ -263,6 +263,66 @@ Note how the type of the object instance `a` is `_NSZombie_UIViewController *`.
 The type will be whatever the original type of the over released object was, but prefixed with `_NSZombie_`.
 This is most helpful, and we should look out for this when studying the program state in the debugger.
 
+### Malloc Stack
+
+Sometimes the past dynamic behavior of our app needs to be understood in order to resolve why the application crashed.  For example, we may have leaked memory and then got terminated by the system for using too much memory.  We might have a data structure and wonder which part of the code was responsible for allocating it.
+
+The purpose of the `Malloc Stack` option is to provide the historical data need need.  Memory analysis has been enhanced by Apple by providing complementary visual tools.  Malloc Stack has a sub-option, "All Allocation and Free History" or "Live Allocations Only"
+
+We recommend the "All Allocation" option, unless there are just too much overhead experienced due to having an app with heavy use of memory allocation.  The "Live Allocations Only" option is sufficient to catch memory leaks as well as being low overhead, so it is the default option in the User Interface.
+
+The steps to follow are:
+1. Set the `Malloc Stack` option in the Diagnostics settings tab for the app Schema settings.
+2. Launch the app.
+3. Press the Debug Memgraph Button
+4. For command line based analysis, _File -> Export Memory Graph..._
+
+The Memgraph visual tool within Xcode is comprehensive but can feel daunting.
+There is a helpful WWDC video to show the basics.  @wwdc2018_416
+
+There is normally too much low level detail to review.  The best way to use the graphical tool is when you have some hypothesis on why the app is incorrectly using memory.
+
+A quick win is to see if we have any leaks.  These are memory locations no longer reachable to be able to free up.
+
+We use the tvOS example app `icdab_cycle` to show a retain cycle found by Memgraph.  @icdabgithub
+
+Having set the Schema settings for Malloc Stack, we then launch the app and then press the Memgraph Button.
+
+![](screenshots/memgraphbutton.png)
+
+By pressing the exclamation mark filter button we can filter to only showing leaks:
+
+![](screenshots/retaincycle.png)
+
+If we had done _File -> Export Memory Graph..._ to export the memgraph to `icdab_cycle.memgraph` we could see the equivalent information from the Mac Terminal app with the command line:
+
+```
+leaks icdab_cycle.memgraph
+```
+
+The code that causes this leak is:
+```
+var mediaLibrary: Album?
+
+func createRetainCycleLeak() {
+    let salsa = Album()
+    let song1 = Song(album: salsa, artist: "Salsa Latin 100%",
+     title: "La Vida Es un Carnaval")
+    salsa.songs.append(song1)
+}
+
+func buildMediaLibrary() {
+    let kylie = Album()
+    let song1 = Song(album: kylie, artist: "Kylie Minogue",
+     title: "It's No Secret")
+    kylie.songs.append(song1)
+    mediaLibrary = kylie
+    createRetainCycleLeak()
+}
+```
+
+The problem is that `createRetainCycleLeak()` `song1` `Song` makes a strong reference to `salsa` `Album` and `Album` makes a strong reference to `song1` `Song` and when we return from this method, there is no reference to either object from another object.  The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references.  A very similar object relationship for `kylie` `Album` does not trigger a leak because that is referenced by a top level graph object `mediaLibrary`
+
 ### Dynamic Linker API Usage
 
 Sometimes programs dynamically adapt or are extensible.  For such programs, the dynamic linker\index{linker} API is used to programmatically load up extra code modules.  When the configuration or deployment of the app is faulty, this can result in crashes.

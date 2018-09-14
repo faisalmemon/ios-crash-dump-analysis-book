@@ -10,18 +10,25 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var mediaLibrary: [Album]?
+    var mediaLibrary: Album?
+    
+    func createRetainCycleLeak() {
+        let salsa = Album()
+        let song1 = Song(album: salsa, artist: "Salsa Latin 100%", title: "La Vida Es un Carnaval")
+        salsa.songs.append(song1)
+    }
     
     func buildMediaLibrary() {
         let kylie = Album()
         let song1 = Song(album: kylie, artist: "Kylie Minogue", title: "It's No Secret")
-        kylie.songs?.append(song1)
-        mediaLibrary = [kylie]
+        kylie.songs.append(song1)
+        mediaLibrary = kylie
+        createRetainCycleLeak()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        buildMediaLibrary()
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,7 +41,8 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let firstAlbum = mediaLibrary?.first, let songs = firstAlbum.songs {
+        if let firstAlbum = mediaLibrary {
+            let songs = firstAlbum.songs
             return songs.count
         } else {
             return 0
@@ -44,8 +52,9 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "songCell_id") as! SongTableViewCell
         
-        if let firstAlbum = mediaLibrary?.first, let songs = firstAlbum.songs {
-            cell.songNameLabelOutlet.text = songs[indexPath.row].title
+        if let firstAlbum = mediaLibrary {
+            let songs = firstAlbum.songs
+            cell.songNameLabelOutlet.text = songs[indexPath.row].title + " by " + songs[indexPath.row].artist
         } else {
             return cell
         }

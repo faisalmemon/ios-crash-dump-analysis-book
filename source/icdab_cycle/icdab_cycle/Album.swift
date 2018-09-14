@@ -9,5 +9,5 @@
 import Foundation
 
 class Album {
-    var songs: [Song]?
+    var songs: [Song] = []
 }
