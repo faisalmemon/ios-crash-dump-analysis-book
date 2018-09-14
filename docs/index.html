@@ -4,7 +4,8 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Preface_heading</title>
+  <meta name="author" content="By Faisal Memon" />
+  <title>iOS Crash Dump Analysis</title>
   <style type="text/css">
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
@@ -15,8 +16,13 @@
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
+  
 </head>
 <body>
+<header>
+<h1 class="title">iOS Crash Dump Analysis</h1>
+<p class="author">By Faisal Memon</p>
+</header>
 <nav id="TOC">
 <ul>
 <li><a href="#preface">Preface</a></li>
@@ -206,7 +212,7 @@
 <p>Computer technology was already well developed by then, but existing solutions were now being put to use in new scenarios, and at Internet-scale. What was a perfectly good implementation of Unix, SunOS, from the rarefied halls of Stanford University was now running on E-Bay and had to be up and running without a glitch.</p>
 <p>We had an electronic board showing the status of our critical customers. Saudi Aramco was permanently lit in red to such an extent that we wondered if that was a fault on the board itself.</p>
 <p>My first day was somewhat ignominious. I wasn’t even given my own cubicle. My desk looked like a school table. My keyboard had several faulty and inoperative keys. I sat in one corner of a vast cube-farm and actually forgot which corner it was at on the first day. After lunch, I returned to my desk after an extensive walk around the other corners.</p>
-<p>One thing struck me was that there was a book sitting on the desk of about a quarter of the 500 odd engineers. It proudly said on the front cover, “Panic!” @panicbook. It was a book on SunOS crash dump analysis.</p>
+<p>One thing struck me was that there was a book sitting on the desk of about a quarter of the 500 odd engineers. It proudly said on the front cover, “Panic!” <span class="citation" data-cites="panicbook">(<em>Panic! Unix System Crash Dump Analysis</em> 1995)</span>. It was a book on SunOS crash dump analysis.</p>
 <p>After acquiring a proper cubicle and getting to know my colleagues, I noticed that the engineers with the “Panic!” book just seemed to have that extract edge in low-level issues reported by Customers. Collectively it lifted the problem solving IQ of the Answer Center where I worked.</p>
 <p>At Sun, there was a deep culture of learning. We were given such extensive training and support it was often the case we’d be doing seven courses per year, each a week long.</p>
 <p>All was good until one course came up. It was called Analytical Troubleshooting (ATS). This caused great controversy within the Answer Center. It was a formal methodology for solving problems. It could not tell you the answers, but it would ensure you were forced to ask the right questions. It turned out that on our hardest problems, we were missing asking the right questions.</p>
@@ -226,33 +232,33 @@
 <p>Formal problem solving is less discussed in software engineering circles, perhaps because it’s considered a table stakes skill for an engineer. It is however a discipline of its own and when directly studied can only enhance the “natural” abilities that seem to mark out the “technically-minded” folks from the rest of the population.</p>
 <p>Our goal is not the shy away from repeating knowledge we’ve probably seen or read elsewhere but instead we take the viewpoint of explaining the whole narrative in a cohesive manner. What makes crash dump analysis hard is that significant background knowledge is often assumed in order to make room to concentrate on the particulars of a specific tool or crash report. That causes a barrier to entry, which this book aims to overcome.</p>
 <p>To complement the book, there is a website of resources which is intended to be used alongside the printed material so example projects can be setup and run by yourself and experimented with. All references in this book are collected into the Bibliography Chapter at the end of the book. There you will find URLs to resources for example.</p>
-<p>The GitHub website supporting the book is at @icdabgithub</p>
-<p>\pagenumbering{arabic}</p>
+<p>The GitHub website supporting the book is at <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+
 <h1 id="quick-start">Quick Start</h1>
 <p>When an application crash appears after a recent code change, it can be straightforward to reason about the crash and look at the relevant code changes. Often, crashes just appear due to a change in operating environment. Those can be the most annoying. For example, the app runs fine in the Office but crashes at the customer Site. We don’t have time to get into why, but need a quick fix or workaround. Another common problem scenario arises when a new project is being explored. This is where we have no prior experience with the code base but immediately face crash problems after compilation and running the app.</p>
 <p>In this chapter, we explore possible reasons for crashing due to a change in operating environment. Many problems can be dealt with without getting into logical analysis of the specifics of the problem at hand. In reality sometimes we just need to make progress, whilst making a note to go back and address the root cause.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <h3 id="missing-resource-issue">Missing resource issue</h3>
-<p>Sometimes our app crashes on startup due to a missing resource\index{crash!missing resource} issue.</p>
-<p>We should try compiling and running other Xcode\index{trademark!Xcode} targets within the same project. Sometimes a specific target is the one that sets up the needed environment as part of the build. If so, we can make a note to address that later.</p>
+<p>Sometimes our app crashes on startup due to a missing resource issue.</p>
+<p>We should try compiling and running other Xcode targets within the same project. Sometimes a specific target is the one that sets up the needed environment as part of the build. If so, we can make a note to address that later.</p>
 <h3 id="binary-compatibility-issue">Binary compatibility issue</h3>
-<p>Sometimes our app crashes on startup due to a binary compatibility\index{crash!binary compatibility} issue.</p>
+<p>Sometimes our app crashes on startup due to a binary compatibility issue.</p>
 <p>If we’ve recently updated Xcode, or pulled code updates on top of a compiled project, we can perform an Option-Command-Shift-K clean which cleans the build area of intermediates, and then re-build as normal.</p>
 <h3 id="simulator-only-issue">Simulator only issue</h3>
-<p>Sometimes our app crashes only on simulator\index{crash!simulator only}.</p>
-<p>Here we should try Simulator Hardware-&gt;Reset all content and settings. We can try iPad\index{trademark!iPad} simulator instead of iPhone\index{trademark!iPhone} simulator or vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.</p>
+<p>Sometimes our app crashes only on simulator.</p>
+<p>Here we should try Simulator Hardware-&gt;Reset all content and settings. We can try iPad simulator instead of iPhone simulator or vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.</p>
 <h3 id="site-specific-issues">Site specific issues</h3>
-<p>Sometimes our app only crashes when at customer site\index{crash!site specific}.</p>
-<p>We can check Wi-Fi\index{Wi-Fi} settings or try hot-spotting our iPad to an iPhone. Sometimes network issues such as connectivity\index{network!connectivity}, or latency\index{network!latency} are overlooked when developing our app in the office/home environment. We should make a note to fix networking assumptions if that is the problem.</p>
+<p>Sometimes our app only crashes when at customer site.</p>
+<p>We can check Wi-Fi settings or try hot-spotting our iPad to an iPhone. Sometimes network issues such as connectivity, or latency are overlooked when developing our app in the office/home environment. We should make a note to fix networking assumptions if that is the problem.</p>
 <h3 id="customer-device-deployment-issues">Customer device deployment issues</h3>
 <p>Sometimes our app only crashes when deploying on a customer device gives problems.</p>
-<p>If we cable up our laptop to the customer’s device, we’re probably doing a Debug\index{deployment!debug} release deployment. This means push notification tokens will be the development tokens not the production tokens. It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight\index{trademark!TestFlight} or App Store version of the app previously (production version).</p>
-<p>We should try switching deployment configuration via Command-&lt; selecting Run in the left panel, Info tab in the right panel, Build Configuration setting Release\index{deployment!release} (not Debug). We should also manually check any resource access grants in the iPad/iPhone settings.</p>
+<p>If we cable up our laptop to the customer’s device, we’re probably doing a Debug release deployment. This means push notification tokens will be the development tokens not the production tokens. It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version).</p>
+<p>We should try switching deployment configuration via Command-&lt; selecting Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug). We should also manually check any resource access grants in the iPad/iPhone settings.</p>
 <h3 id="locale-specific-issues">Locale specific issues</h3>
-<p>Sometimes deploying with the customer’s locale\index{crash!locale} causes a crash.</p>
+<p>Sometimes deploying with the customer’s locale causes a crash.</p>
 <p>Resource files might be absent in the wrong locale. Furthermore, locale handling is rife with undocumented special cases. We should try changing the locale temporarily to a known working one. Make a note to return to the issue when back in the office.</p>
 <h2 id="the-crash-mindset">The Crash Mindset</h2>
-<p>One take away lesson from the above examples is that we need to think of our code in a wider context. We should think of the operating environment\index{operating environment} of our app. This comprises:</p>
+<p>One take away lesson from the above examples is that we need to think of our code in a wider context. We should think of the operating environment of our app. This comprises:</p>
 <ul>
 <li>the compiled code</li>
 <li>binary incompatibilities between code modules (different language versions, compilers and toolchains)</li>
@@ -281,7 +287,7 @@
 <h3 id="geographic-location-crash">Geographic Location Crash</h3>
 <p>A computer was crashing each day at a different time.</p>
 <p>The actual problem was the computer was near a window next to an estuary where ships passed by. At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.</p>
-<p>This folklore story was told to Sun Microsystems\index{trademark!Sun Microsystems} Answer Center engineers in the UK during Kepner-Tregoe\index{trademark!Kepner-Tregoe} formal problem solving training.</p>
+<p>This folklore story was told to Sun Microsystems Answer Center engineers in the UK during Kepner-Tregoe formal problem solving training.</p>
 <h3 id="bus-noise-crash">Bus Noise Crash</h3>
 <p>When a computer was under both heavy network load and disk load the system would</p>
 <p>The crash was due corruption on disk. There were zeroes very 64 bytes. It was the cache line size of the computer. The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.</p>
@@ -290,35 +296,35 @@
 <h2 id="what-is-a-crash">What is a crash?</h2>
 <p>Inside our computers is an Operating Environment. This comprises one or more running Operating Systems, and Application Software. Operating Systems and Application Software are distinguished by the fact that OS software runs with higher CPU privileges (kernel mode) than Application Software (user mode).</p>
 <p>The basic conceptual model of our application software sitting on an Operating System which itself sits on hardware is normally sufficient. However, modern computer systems have multiple co-operating subsystems. For example, a MacBook Pro with TouchBar will have the main operating system, macOS, but also Bridge OS providing the TouchBar interface, disk encryption and “Hey Siri!” support. The multimedia and networking chips in our computers are advanced components and can have their own real-time Operating Systems running on them. Our Mac software will be just one of many applications running on macOS.</p>
-<p>An application crash\index{crash!application crash} is something the Operating Environment does to our application in response to what we have done (or failed to do) in the Operating Environment that violates some <em>policy</em> of the platform we are running on.</p>
-<p>When the Operating System detects a problem in the Operating System, it can crash itself. This is called a kernel panic\index{crash!kernel panic}.</p>
+<p>An application crash is something the Operating Environment does to our application in response to what we have done (or failed to do) in the Operating Environment that violates some <em>policy</em> of the platform we are running on.</p>
+<p>When the Operating System detects a problem in the Operating System, it can crash itself. This is called a kernel panic.</p>
 <h2 id="operating-environment-policies">Operating Environment Policies</h2>
-<p>The policies\index{policy} of the operating environment are there to ensure security, data safety, performance, and privacy of the environment to the user.</p>
+<p>The policies of the operating environment are there to ensure security, data safety, performance, and privacy of the environment to the user.</p>
 <h3 id="nil-handling-example">Nil Handling Example</h3>
-<p>Newcomers to the Apple\index{trademark!Apple} ecosystem are often surprised to learn that Objective-C\index{trademark!Objective-C} allows us to message a nil object. It silently ignores the failed dispatch\index{nil dispatch}. For example, the following method runs ok.</p>
+<p>Newcomers to the Apple ecosystem are often surprised to learn that Objective-C allows us to message a nil object. It silently ignores the failed dispatch. For example, the following method runs ok.</p>
 <pre><code>- (void)nilDispatchDoesNothing
 {
     NSString *error = NULL;
     assert([error length] == 0);
 }</code></pre>
 <p>The Objective-C runtime authors made a judgement call, and decided it was better for an application to ignore such problems.</p>
-<p>However if we deference a C pointer\index{NULL dereference} we get a crash.</p>
+<p>However if we deference a C pointer we get a crash.</p>
 <pre><code>void nullDereferenceCrash() {
     char *nullPointer = NULL;
     assert(strlen(nullPointer) == 0);
 }</code></pre>
-<p>The authors of the operating system have setup the system so access to this and other low memory addresses causes the hardware to trap on this illegal access\index{illegal access} and abort\index{abort} our program.</p>
+<p>The authors of the operating system have setup the system so access to this and other low memory addresses causes the hardware to trap on this illegal access and abort our program.</p>
 <p>This area of memory is set aside by the operating system because it indicates a programming error of not setting up an object or data structure properly.</p>
 <p>When things go wrong, we don’t always get a crash. Only if it is Operating Environment policy then we get a crash.</p>
 <h3 id="mac-address-example">MAC Address Example</h3>
-<p>Consider the example of getting the MAC address\index{MAC address} of our iPhone. The Media Access Control (MAC) address is a unique code allocated to network cards to allow machines to talk to each other without duplication at the Data Link\index{network!Data Link Layer} layer of the communication stack.</p>
-<p>Prior to iOS\index{trademark!iOS} 7\index{iOS!iOS 7}, the MAC address was not considered a sensitive API\index{API!sensitive}. So requesting the MAC address using the <code>sysctl</code>\index{command!sysctl} API gave the real address. To see this in action, see the <code>icdab_sample</code> app @icdabgithub.</p>
-<p>Unfortunately, the API was abused as a way of tracking the user - a privacy violation\index{violation!privacy}. Therefore, Apple introduced a policy from iOS 7 where they would return a fixed MAC address always.</p>
-<p>Apple could have chosen to crash our app when any call to <code>sysctl</code> was made. However, <code>sysctl</code> is a general-purpose low-level call which can be used for other valid purposes. Therefore the policy set by iOS was to return a fixed MAC address <code>02:00:00:00:00:00</code>\index{02:00:00:00:00:00} whenever that was requested.</p>
+<p>Consider the example of getting the MAC address of our iPhone. The Media Access Control (MAC) address is a unique code allocated to network cards to allow machines to talk to each other without duplication at the Data Link layer of the communication stack.</p>
+<p>Prior to iOS 7, the MAC address was not considered a sensitive API. So requesting the MAC address using the <code>sysctl</code> API gave the real address. To see this in action, see the <code>icdab_sample</code> app <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span>.</p>
+<p>Unfortunately, the API was abused as a way of tracking the user - a privacy violation. Therefore, Apple introduced a policy from iOS 7 where they would return a fixed MAC address always.</p>
+<p>Apple could have chosen to crash our app when any call to <code>sysctl</code> was made. However, <code>sysctl</code> is a general-purpose low-level call which can be used for other valid purposes. Therefore the policy set by iOS was to return a fixed MAC address <code>02:00:00:00:00:00</code> whenever that was requested.</p>
 <h3 id="camera-example">Camera Example</h3>
 <p>Now lets consider the case of taking a photo using the camera.</p>
-<p>Introduced in iOS 10\index{iOS!iOS 10}, when we want to access the Camera, a privacy sensitive feature, we need to define human readable text that is presented inside the system permission dialogue before access to the Camera is granted.</p>
-<p>If we don’t define the text in our <code>Info.plist</code>\index{Info.plist} for <code>NSCameraUsageDescription</code>\index{API!camera} we still see the following code evaluating true and then attempting to present the image picker.</p>
+<p>Introduced in iOS 10, when we want to access the Camera, a privacy sensitive feature, we need to define human readable text that is presented inside the system permission dialogue before access to the Camera is granted.</p>
+<p>If we don’t define the text in our <code>Info.plist</code> for <code>NSCameraUsageDescription</code> we still see the following code evaluating true and then attempting to present the image picker.</p>
 <pre><code>if UIImagePickerController.isSourceTypeAvailable(
       UIImagePickerControllerSourceType.camera) {
       let imagePicker = UIImagePickerController()
@@ -336,15 +342,15 @@
    uses this data.
 Message from debugger: Terminated due to signal 9</code></pre>
 <h3 id="lessons-learnt">Lessons Learnt</h3>
-<p>Note the contrast here. In both cases there was a privacy sensitive API\index{API!privacy}. However, in the camera case, Apple chose a policy of crashing our app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a <code>false</code> value to indicate the source type was not available.</p>
-<p>This underlies the point about there being two entities involved, the program and the operating environment\index{operating environment} (which includes its policies). Having correct source code does not guarantee crash free running. When we see a crash we need to think about the operating environment as much as the code itself.</p>
+<p>Note the contrast here. In both cases there was a privacy sensitive API. However, in the camera case, Apple chose a policy of crashing our app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a <code>false</code> value to indicate the source type was not available.</p>
+<p>This underlies the point about there being two entities involved, the program and the operating environment (which includes its policies). Having correct source code does not guarantee crash free running. When we see a crash we need to think about the operating environment as much as the code itself.</p>
 <h2 id="application-policies">Application policies</h2>
-<p>The application we are writing can also request a crash. This is typically done via <code>assert</code>\index{assert} calls in our code. These calls ask the Operating Environment to terminate our app if any <code>assert</code> has failed. The Operating Environment then aborts our app. In the crash report we get a:</p>
-<p><code>Exception Type:  EXC_CRASH (SIGABRT)</code>\index{signal!SIGABRT}</p>
+<p>The application we are writing can also request a crash. This is typically done via <code>assert</code> calls in our code. These calls ask the Operating Environment to terminate our app if any <code>assert</code> has failed. The Operating Environment then aborts our app. In the crash report we get a:</p>
+<p><code>Exception Type:  EXC_CRASH (SIGABRT)</code></p>
 <p>to indicate it was the application that requested the crash in the first place.</p>
 <h3 id="when-should-we-crash">When should we crash?</h3>
 <p>We can apply similar standards as the Operating Environment for our crash policy.</p>
-<p>If our code detects a data integrity issue\index{crash!data integrity}, we could crash to prevent further data corruption\index{crash!data corruption}.</p>
+<p>If our code detects a data integrity issue, we could crash to prevent further data corruption.</p>
 <h3 id="when-should-we-not-crash">When should we not crash?</h3>
 <p>If the problems have resulted directly from some IO problem (file or network access for example) or some human input problem (such as a bad date value) then we should not crash.</p>
 <p>It’s our job as the application developer to shield the lower level parts of the system from unpredictability present in the real world. Such problems are better dealt with by logging, error handling, user alerts, and IO retries.</p>
@@ -352,9 +358,9 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>How should we guard against the privacy problems described above?</p>
 <p>The thing to keep in mind is that any code that touches upon the policies the Operating Environment has guards for is a good candidate for automated testing.</p>
 <p>In the <code>icdab_sample</code> project we have created Unit tests and UI tests.</p>
-<p>Test cases always feel over-the-top when applied to trivial programs. But consider a large program that has an extensive <code>Info.plist</code>\index{Info.plist} file. A new version of the app is called for so another <code>Info.plist</code> is created. Then keeping the privilege settings in sync between the different build targets becomes an issue. The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.</p>
-<p>Similarly, if our app has a lot of low-level code and then is ported\index{software!porting} from iOS to tvOS\index{operating system!tvOS}\index{trademark!tvOS} for example, how much of that OS-sensitive code is still applicable?</p>
-<p>Unit testing\index{testing!unit} a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in our code base. It’s a strategic play allowing us to get some confidence in our application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).</p>
+<p>Test cases always feel over-the-top when applied to trivial programs. But consider a large program that has an extensive <code>Info.plist</code> file. A new version of the app is called for so another <code>Info.plist</code> is created. Then keeping the privilege settings in sync between the different build targets becomes an issue. The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.</p>
+<p>Similarly, if our app has a lot of low-level code and then is ported from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?</p>
+<p>Unit testing a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in our code base. It’s a strategic play allowing us to get some confidence in our application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).</p>
 <h3 id="unit-testing-the-mac-address">Unit Testing the MAC Address</h3>
 <p>The code to get the MAC address is not trivial. Therefore it merits some level of testing.</p>
 <p>Here is a snippet from the Unit tests:</p>
@@ -388,7 +394,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
     }</code></pre>
 <p>In fact, the last test fails because the OS returns a local address.</p>
 <h3 id="ui-testing-camera-access">UI Testing Camera access</h3>
-<p>For testing camera access, we have written a simple UI test case\index{testing!UI} which just presses the Take Photo button (by means of an accessibility identifier <code>takePhotoButton</code>)</p>
+<p>For testing camera access, we have written a simple UI test case which just presses the Take Photo button (by means of an accessibility identifier <code>takePhotoButton</code>)</p>
 <pre><code>func testTakePhoto() {
     let app = XCUIApplication()
     app.buttons[&quot;takePhotoButton&quot;].tap()
@@ -398,7 +404,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <h2 id="overview">Overview</h2>
 <p>We have a rich set of tools available to assist crash dump analysis. When used properly they can save a huge amount of time.</p>
 <p>Xcode provides much help out of the box. However, using and comprehending the information Xcode tools provide is daunting. In later chapters, we go through examples showing the use of such tools.</p>
-<p>Additionally there are command line tools provided as standard in macOS\index{macOS}\index{trademark!macOS}. These are helpful when used in particular usage scenarios when we already know what we want to find out. We shall go through specific scenarios and show how the tools are used.</p>
+<p>Additionally there are command line tools provided as standard in macOS. These are helpful when used in particular usage scenarios when we already know what we want to find out. We shall go through specific scenarios and show how the tools are used.</p>
 <p>Next come software tools that help us reverse engineer programs. Sometimes we cannot get our program to work with a third party library. Aside from looking at Documentation or raising a Support Request, it’s possible to do some investigation ourselves using these tools.</p>
 <h2 id="reverse-engineering">Reverse Engineering</h2>
 <p>Reverse engineering is where an already built binary (such as an application, library, or helper process daemon), is studied to determine how it works. Normally, source code not binary code is studied to determine how a program works. For example:</p>
@@ -408,39 +414,39 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <li>what files or resources does it depend on?</li>
 <li>why did it return a failure code?</li>
 </ul>
-<p>We generally do not want to know everything, only something specific to help build a hypothesis. Once we have a hypothesis\index{hypothesis!development of}, we will test it in relation to the crash dump are dealing with.</p>
+<p>We generally do not want to know everything, only something specific to help build a hypothesis. Once we have a hypothesis, we will test it in relation to the crash dump are dealing with.</p>
 <p>How far should we go with reverse engineering, and how much money and time to invest in it is a good question. We offer the following recommendation.</p>
 <ul>
 <li>If we are just starting our application developer journey, or we have limited funds, then just stick with the standard Xcode tooling, macOS command line, and the open source class-dump tool.</li>
-<li>If we are a professional application developer, we should strongly consider buying a commercial reverse engineering tool. The one that draws most attention is Hopper\index{trademark!Hopper}; it provides a lot of functionality offered by IDA Pro\index{trademark!IDA Pro} (a high end tool). It is well priced and can pay for itself in gained productivity even if only used a handful of times. We show how Hopper can be used in this book.</li>
-<li>If we are a professional penetration tester\index{test!penetration}\index{software!penetration testing}, reverse engineer\index{software!reverse engineering}, or security researcher\index{software!security research}, then we will be probably wanting to invest in the top of the line software tool, IDA Pro. This tool costs thousands, but is often purchased as a company wide expense.</li>
+<li>If we are a professional application developer, we should strongly consider buying a commercial reverse engineering tool. The one that draws most attention is Hopper; it provides a lot of functionality offered by IDA Pro (a high end tool). It is well priced and can pay for itself in gained productivity even if only used a handful of times. We show how Hopper can be used in this book.</li>
+<li>If we are a professional penetration tester, reverse engineer, or security researcher, then we will be probably wanting to invest in the top of the line software tool, IDA Pro. This tool costs thousands, but is often purchased as a company wide expense.</li>
 </ul>
 <h2 id="class-dump-tool">Class Dump Tool</h2>
 <p>One of the great things about the Objective-C runtime is that it carries lots of rich program structure information in its built binaries. These allow the dynamic aspects of the language to work. In fact, its flexibility of dynamic dispatch is a source for many crashes.</p>
-<p>We recommend installing the <code>class-dump</code>\index{command!class-dump} tool right away because we shall reference its usage in later chapters. See @class-dump-tool</p>
+<p>We recommend installing the <code>class-dump</code> tool right away because we shall reference its usage in later chapters. See <span class="citation" data-cites="class-dump-tool">Nygard (2018)</span></p>
 <p>The class dump tool allows us to look at what Objective C classes, methods and properties are present in a given program.</p>
 <h2 id="third-party-crash-reporting">Third Party Crash Reporting</h2>
-<p>The Apple Crash Reporter tool and supporting infrastructure in iTunes Connect\index{trademark!iTunes Connect} is excellent but has some room for improvement.</p>
-<p>A formidable piece of Open Source software, <code>plcrashreporter</code>\index{command!plcrashreporter}, has been written by Landon Fuller, of Plausible Labs. @plcrashreporter</p>
+<p>The Apple Crash Reporter tool and supporting infrastructure in iTunes Connect is excellent but has some room for improvement.</p>
+<p>A formidable piece of Open Source software, <code>plcrashreporter</code>, has been written by Landon Fuller, of Plausible Labs. <span class="citation" data-cites="plcrashreporter">(“Plausible Labs Crash Reporter” 2018)</span></p>
 <p>The idea is to make our app handle all the possible signals and exceptions that can occur that would otherwise be unimplemented by the app and thus lead to the underlying Operating System to handle the crash.</p>
 <p>With this solution, the crash data can be recorded, and then later communicated to a server of our own choice.</p>
-<p>There are two benefits. Firstly, the crash handler can be fixed to handle edge cases not already handled by the Apple <code>ReportCrash</code>\index{command!ReportCrash} tool. Secondly, a more comprehensive server side solution can be employed.</p>
+<p>There are two benefits. Firstly, the crash handler can be fixed to handle edge cases not already handled by the Apple <code>ReportCrash</code> tool. Secondly, a more comprehensive server side solution can be employed.</p>
 <p>For those wanting to explore, and understand, the Operating System, and low-level application code, <code>plcrashreporter</code> provides an excellent opportunity to study a well-engineered piece of system software.</p>
-<p>When a company has many apps, many app variants, and has apps based on competitor platforms such as Android\index{trademark!Android}, a more powerful multi-platform solution is needed. Handling crash reports soon becomes a management problem. Which crash is the most serious? How many customers are affected? What are the metrics for quality and stability saying?</p>
+<p>When a company has many apps, many app variants, and has apps based on competitor platforms such as Android, a more powerful multi-platform solution is needed. Handling crash reports soon becomes a management problem. Which crash is the most serious? How many customers are affected? What are the metrics for quality and stability saying?</p>
 <p>A number of commercial solutions are available, largely based upon the above Open Source project.</p>
 <p>The Mobile Software Development field has grown into a big industry over the last few years. Many specialist companies serve App Developers as their customers. The field is very active in terms of mergers and acquisitions. Therefore, we cannot name the competitors in the Crash Reporting space in this book, as the list would be constantly changing.</p>
-<p>A good place to start is the <code>rollout.io</code> blog posting that reviewed different players in the market. @3rdpartycrashtools</p>
+<p>A good place to start is the <code>rollout.io</code> blog posting that reviewed different players in the market. <span class="citation" data-cites="3rdpartycrashtools">(“IOS Crash Reporting Tools” 2017)</span></p>
 <h1 id="xcode-built-in-help">Xcode Built-In Help</h1>
 <p>Xcode provides significant help to developers in understanding and preventing crashes.</p>
 <p>We think of Xcode in layers of sophistication, where at the lowest layer of sophistication Xcode directly tells us the common error it has seen with suggested corrections, up to the highest level were Xcode is telling the raw information, but we need Operating Systems knowledge to interpret the information ourselves.</p>
 <p>We shall revisit Xcode configuration, setup and tooling many times. Nevertheless, let us first start off with the simple but high value assistance Xcode provides.</p>
 <h2 id="xcode-diagnostic-settings">Xcode Diagnostic Settings</h2>
-<p>By opening the project <code>icdab_sample</code> @icdabgithub and looking at the Schema definition and then highlighting the Diagnostics\index{software!diagnostics} tab we see the following options:</p>
+<p>By opening the project <code>icdab_sample</code> <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> and looking at the Schema definition and then highlighting the Diagnostics tab we see the following options:</p>
 <p><img src="screenshots/diagnostic_settings.png" /></p>
 <h3 id="execution-methodology">Execution Methodology</h3>
 <p>If we have a crash that is reproducible from our own developer environment and source code, then a methodology for finding is to switch on the appropriate diagnostic setting and then re-run our application.</p>
 <p>As we become familiar with each diagnostic, we will know which option to switch on. We shall work through different scenarios so we understand when to use each. But when we are just starting out its worth just going through each one-by-one to get a feel for what is available. The basic approach is:</p>
-<ol>
+<ol type="1">
 <li>Write a Unit Test Case or UI Test Case that hits the problem.</li>
 <li>Enable just one of the Diagnostic options from above starting with our best guess.</li>
 <li>Run our tests.</li>
@@ -448,7 +454,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <li>Repeat again but choosing a different diagnostic option if the problem is not understood.</li>
 </ol>
 <h3 id="analysis-methodology">Analysis Methodology</h3>
-<p>Another complementary approach for analyzing and proactively avoiding crashes is to run the Code Analyzer\index{software!static analysis}. This is invoked using Command-Shift-B</p>
+<p>Another complementary approach for analyzing and proactively avoiding crashes is to run the Code Analyzer. This is invoked using Command-Shift-B</p>
 <p>In the sample app <code>icdab_sample</code> the Analyzer reports:</p>
 <pre><code>/Users/faisalm/dev/icdab/source/icdab_sample/icdab_sample/macAddress.m:22:12:
  warning: Null pointer argument in call to string length function
@@ -458,16 +464,16 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>This can be switched on for whenever the project is built, either in shallow or deep mode according to how we feel the tradeoff should be done between slower more thorough analysis versus quicker build times with less analysis. It is in the Build Settings tab for the Xcode project file.</p>
 <p><img src="screenshots/static_analyser_build.png" /></p>
 <p>For a large project that has never had an Analysis report done, the output can be overwhelming. There will be some noise in the report but it generally does a good job. There will be duplication in the report because certain classes of error will repeat throughout the code.</p>
-<p>If we are developing code using the Agile software\index{software!Agile} methodology, then it is possible to frame the report as potential backlog items that can be worked upon during the time allocated for refactoring and maintenance.</p>
-<p>In a large software project refactoring and maintenance should be around 20% of the work in a Sprint\index{software!sprint}. Different viewpoints arise in this area. The author recommends doing such work alongside the normal development activities so long as no high-risk\index{software!risk} changes are amongst the work being done. For risky changes, leave that until after a major update of the app has been done. There is usually a lull where planning and strategy is developed following a release, which allows a convenient software engineering window to tackle such matters.</p>
+<p>If we are developing code using the Agile software methodology, then it is possible to frame the report as potential backlog items that can be worked upon during the time allocated for refactoring and maintenance.</p>
+<p>In a large software project refactoring and maintenance should be around 20% of the work in a Sprint. Different viewpoints arise in this area. The author recommends doing such work alongside the normal development activities so long as no high-risk changes are amongst the work being done. For risky changes, leave that until after a major update of the app has been done. There is usually a lull where planning and strategy is developed following a release, which allows a convenient software engineering window to tackle such matters.</p>
 <h4 id="ios-quickedit-app-case-study">iOS QuickEdit App Case Study</h4>
-<p>Where the analyzer identifies potential crashes, from an economic point of view it is good investment to fix the problem. For example in the case of the QuickEdit iOS App\index{trademark!QuickEdit}, about 1 million lines of Objective-C, with 70 000 daily active users, the analyzer was run and found 13 clear crashing issues. We created one engineering story (“Fix top analyzer errors”). All 13 issues were fixed in the same day with testing taking two more days. Crashes are a top complaint from customers. Bugs found in the field typically are 20 times the effort and cost compared those found in development. With a large population of users, potentially experiencing a severe crash bug, the cost of those 13 bugs could be 20 * 3 days = 60 days wasted effort.</p>
-<p>QuickEdit due to its age only used manual reference counting in Objective-C. Despite this, it had a reliability of 99.5% based on app analytics\index{software!quality}. Only about 5% of engineering effort was needed to maintain this stability over time once the initial issues had been addressed.</p>
+<p>Where the analyzer identifies potential crashes, from an economic point of view it is good investment to fix the problem. For example in the case of the QuickEdit iOS App, about 1 million lines of Objective-C, with 70 000 daily active users, the analyzer was run and found 13 clear crashing issues. We created one engineering story (“Fix top analyzer errors”). All 13 issues were fixed in the same day with testing taking two more days. Crashes are a top complaint from customers. Bugs found in the field typically are 20 times the effort and cost compared those found in development. With a large population of users, potentially experiencing a severe crash bug, the cost of those 13 bugs could be 20 * 3 days = 60 days wasted effort.</p>
+<p>QuickEdit due to its age only used manual reference counting in Objective-C. Despite this, it had a reliability of 99.5% based on app analytics. Only about 5% of engineering effort was needed to maintain this stability over time once the initial issues had been addressed.</p>
 <h3 id="process-methodology">Process Methodology</h3>
-<p>One way to drive out crashes from our app, particularly when we are in a large organization, is to factor it in our software development process\index{software!development process}.</p>
+<p>One way to drive out crashes from our app, particularly when we are in a large organization, is to factor it in our software development process.</p>
 <p>When a developer proposes a code change in a pull request, get the developer to ensure no new analyzer warnings are introduced. We might consider the analyzer report as a robotically generated code review available to us for free. That is particularly helpful if we are working alone on a project with no peer to review our code.</p>
 <p>When code is committed to a feature branch, have the automated tests run on it, with different diagnostics settings set. This can shake out problems automatically.</p>
-<p>Before each release, schedule time to run some specific user cases under the memory profiler\index{test!memory profiling} (Xcode instruments will be covered later on) to look at memory usage or other key metrics. Record the highlights such as the peak memory usage as well as the profile file. Then when the following release is made we have a yardstick to see how things have changed both quantitatively and qualitatively.</p>
+<p>Before each release, schedule time to run some specific user cases under the memory profiler (Xcode instruments will be covered later on) to look at memory usage or other key metrics. Record the highlights such as the peak memory usage as well as the profile file. Then when the following release is made we have a yardstick to see how things have changed both quantitatively and qualitatively.</p>
 <h2 id="the-middle-road">The Middle Road</h2>
 <p>Most software developers know what they “should” be doing; clean code, proper tests, code reviews, etc.</p>
 <p>We recommend taking a measured approach. There is a time for hacking together a sample app to understand a concept. There is a time to write a prototype that just needs to prove a business use case. There is a time to write heavily trusted code used by many people.</p>
@@ -483,8 +489,8 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>We have seen that Xcode offers many automatic facilities for crash dump analysis and crash avoidance. However, these cannot get us all the answers we need. A complementary design oriented viewpoint is needed.</p>
 <p>In this chapter, we shall look at a sample app <code>icdab_planets</code> that uses hybrid of programming languages and paradigms. It shows an example of why design insights must also be considered.</p>
 <h2 id="program-structure">Program structure</h2>
-<p>The <code>icdab_planets</code> sample app uses a mixture of C++, and Objective-C++. It relies on both STL\index{STL} data structures and traditional Objective-C data structures. @icdabgithub</p>
-<p>The model layer of the app is written in C++. The controller layer of the app is written in Objective-C++\index{Objective-C++}.</p>
+<p>The <code>icdab_planets</code> sample app uses a mixture of C++, and Objective-C++. It relies on both STL data structures and traditional Objective-C data structures. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>The model layer of the app is written in C++. The controller layer of the app is written in Objective-C++.</p>
 <p>The purpose of the app is to tell us how many Pluto sized planets would fit inside Jupiter.</p>
 <h2 id="paradigms">Paradigms</h2>
 <p>Recall earlier we demonstrated that:</p>
@@ -493,7 +499,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <li>C crashes upon NULL deference</li>
 </ul>
 <p>Here we show how the C++ Standard Template Library has a back-fill strategy.</p>
-<p>In the STL map\index{STL!map} abstraction (a Hash Table) when we query for an entry that does not exist, the STL will insert a new entry in the table for the key being queried, and then return that entry instead of returning an error or returning a nil.</p>
+<p>In the STL map abstraction (a Hash Table) when we query for an entry that does not exist, the STL will insert a new entry in the table for the key being queried, and then return that entry instead of returning an error or returning a nil.</p>
 <h2 id="the-problem">The Problem</h2>
 <p>In our sample app, which crashes upon launch, we have an assert that gets triggered.</p>
 <pre><code>double pluto_volume = pluto.get_volume();
@@ -555,11 +561,11 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 <p>We see the constructor makes the diameter zero in this case.</p>
 <h2 id="solutions">Solutions</h2>
 <p>We see that the problem is not applying the paradigms of each framework and language properly and when we have a mixture of paradigms, those different assumptions get masked by each layer of abstraction.</p>
-<p>In STL, we expect a <code>find</code>\index{STL!find} operation to be done, instead of the indexing operator. This allows the abstraction to flag the absence of the item being found.</p>
-<p>In Objective-C we expect the lookup API to be a function which returns an index given the lookup name. In addition, the index would be <code>NSNotFound</code>\index{NSNotFound} when the operation failed.</p>
+<p>In STL, we expect a <code>find</code> operation to be done, instead of the indexing operator. This allows the abstraction to flag the absence of the item being found.</p>
+<p>In Objective-C we expect the lookup API to be a function which returns an index given the lookup name. In addition, the index would be <code>NSNotFound</code> when the operation failed.</p>
 <p>In this code example, each layer of abstraction assumes the other side will re-map the edge case into an appropriate form.</p>
 <h3 id="stl-solution">STL Solution</h3>
-<p>We have a variant of the code which does things “properly” from an STL point of view. @icdabgithub It is <code>example/planets_stl</code>. On the consumer side, we have a helper method:</p>
+<p>We have a variant of the code which does things “properly” from an STL point of view. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> It is <code>example/planets_stl</code>. On the consumer side, we have a helper method:</p>
 <pre><code>- (BOOL)loadPlanetData {
     auto pluto_by_find = planet::find_planet_named(&quot;Pluto&quot;);
     auto jupiter_by_find = planet::find_planet_named(&quot;Jupiter&quot;);
@@ -571,10 +577,10 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
     jupiter = jupiter_by_find-&gt;second;
     return YES;
 }</code></pre>
-<p>This is hard to parse if we are mainly an Objective-C programmer. If the project is mainly a C++ project, with a thin platform-specific layer, then perhaps that is acceptable. If the code base just leverages C++ code from elsewhere, then a better solution is to confine the paradigms to their own files and apply the facade\index{software!facade} design pattern to give a version of the API following Objective-C paradigms on the platform-specific code side.</p>
+<p>This is hard to parse if we are mainly an Objective-C programmer. If the project is mainly a C++ project, with a thin platform-specific layer, then perhaps that is acceptable. If the code base just leverages C++ code from elsewhere, then a better solution is to confine the paradigms to their own files and apply the facade design pattern to give a version of the API following Objective-C paradigms on the platform-specific code side.</p>
 <p>Then Objective-C++ can be dispensed with in the ViewController code; it can be made an Objective-C file instead.</p>
 <h3 id="facade-solution">Facade Solution</h3>
-<p>Here is a facade\index{software!facade} implementation <code>example/facade_planets</code> that overcomes the mixing of paradigms problem.</p>
+<p>Here is a facade implementation <code>example/facade_planets</code> that overcomes the mixing of paradigms problem.</p>
 <p>The facade is:</p>
 <pre><code>@implementation PlanetModel
 
@@ -646,20 +652,20 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
      pluto_diameter];
 }</code></pre>
 <h2 id="lessons-learnt-1">Lessons Learnt</h2>
-<p>The lesson here is that crashes can arise from special case handling. Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out our code and use a Facade\index{software!facade} if possible to keep each paradigm cleanly separated.</p>
+<p>The lesson here is that crashes can arise from special case handling. Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out our code and use a Facade if possible to keep each paradigm cleanly separated.</p>
 <h1 id="symbolification">Symbolification</h1>
-<p>This chapter explains crash dump symbolification\index{symbolification}. We use the <code>icdab_planets</code> sample app to demonstrate a crash. @icdabgithub</p>
+<p>This chapter explains crash dump symbolification. We use the <code>icdab_planets</code> sample app to demonstrate a crash. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <p>When dealing with real world crashes, a number of different entities are involved. These can be the end user device, the settings allowing the crash report to be sent back to Apple, the symbols held by Apple and our local development environment setup to mirror such a configuration.</p>
 <p>In order to understand how things all fit together it is best to start from first principles and do the data conversion tasks ourselves so if we have to diagnose symbolification issues, we have some experience with the technologies at hand.</p>
 <h2 id="build-process">Build Process</h2>
-<p>Normally when we develop an app, we are deploying the Debug version of our app onto our device. When we are deploying\index{software!deployment} our app for testers, app review, or app store release, we are deploying the Release version of our app.</p>
+<p>Normally when we develop an app, we are deploying the Debug version of our app onto our device. When we are deploying our app for testers, app review, or app store release, we are deploying the Release version of our app.</p>
 <p>By default for Release builds, debug information from the <code>.o</code> object files is placed into a separate directory structure. It is called <code>our_app_name.DSYM</code></p>
 <p>The debugger can use debugging information when it sees a crash to help us understand where the program has gone wrong.</p>
-<p>When a user sees our program crash, there is no debugger\index{debugger}. Instead, a crash report is generated. This comprises the machine addresses where the problem was seen. Symbolification can convert these addresses into meaningful source code references.</p>
+<p>When a user sees our program crash, there is no debugger. Instead, a crash report is generated. This comprises the machine addresses where the problem was seen. Symbolification can convert these addresses into meaningful source code references.</p>
 <p>In order for symbolification to occur, appropriate DSYM files must exist.</p>
 <p>Xcode is by default setup so that only DSYM files are generated for Release builds, and not for Debug builds.</p>
 <h2 id="build-settings">Build Settings</h2>
-<p>From Xcode, in our build settings, searching for “Debug Information Format”\index{Xcode!Debug Information Format} we see the following settings:</p>
+<p>From Xcode, in our build settings, searching for “Debug Information Format” we see the following settings:</p>
 <table>
 <colgroup>
 <col style="width: 33%" />
@@ -721,7 +727,7 @@ pthread_kill$VARIANT$mp + 376
 <p>Lines 0, 1, 2, 5 are the same in both cases because our developer environment will have the symbols for the iOS release under test. In the second case, Xcode will look up the DSYM file to clarify line 4. It tells us this is line 33 in file PlanetViewController.mm. This is:</p>
 <pre><code>assert(pluto_volume != 0.0);</code></pre>
 <h2 id="dsym-structure">DSYM structure</h2>
-<p>The DSYM file\index{DSYM!file structure} is strictly speaking a directory hierarchy:</p>
+<p>The DSYM file is strictly speaking a directory hierarchy:</p>
 <pre><code>icdab_planets.app.dSYM
 icdab_planets.app.dSYM/Contents
 icdab_planets.app.dSYM/Contents/Resources
@@ -729,20 +735,20 @@ icdab_planets.app.dSYM/Contents/Resources/DWARF
 icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets
 icdab_planets.app.dSYM/Contents/Info.plist</code></pre>
 <p>It is just the DWARF data normally put into the intermediate <code>.o</code> files but copied into a separate file.</p>
-<p>From looking at our build log, we can see how the DSYM was generated. It is effectively just <code>dsymutil path_to_app_binary -o output_symbols_dir.dSYM</code>\index{command!dsymutil}</p>
+<p>From looking at our build log, we can see how the DSYM was generated. It is effectively just <code>dsymutil path_to_app_binary -o output_symbols_dir.dSYM</code></p>
 <h2 id="manual-symbolification">Manual Symbolification</h2>
 <p>In order to help us get comfortable with crash dump reports, we can demonstrate how the symbolification actually works. In the first crash dump, we want to understand:</p>
 <pre><code>4   icdab_planets                   0x00000001008e45bc 0x1008e0000 + 17852</code></pre>
 <p>If we knew accurately the version of our code at the time of the crash, we can recompile our program, but with the DSYM setting switched on, and then get a DSYM file after the original crash. It should line up almost exactly.</p>
-<p>The crash dump program tells us where the program was loaded, in memory, at the time of the problem. That tells us the master base offset\index{base offset} from which all other address (TEXT) locations are relative to.</p>
+<p>The crash dump program tells us where the program was loaded, in memory, at the time of the problem. That tells us the master base offset from which all other address (TEXT) locations are relative to.</p>
 <p>At the bottom of the crash dump, we have line <code>0x1008e0000 - 0x1008ebfff icdab_planets</code> Therefore, the icdab_planets binary starts at location <code>0x1008e0000</code></p>
-<p>Running the lookup command <code>atos</code>\index{command!atos} symbolicates the line of interest:</p>
+<p>Running the lookup command <code>atos</code> symbolicates the line of interest:</p>
 <pre><code># atos -arch arm64 -o ./icdab_planets.app.dSYM/Contents/Resources/DWARF/
 icdab_planets -l 0x1008e0000 0x00000001008e45bc
 -[PlanetViewController viewDidLoad] (in icdab_planets)
  (PlanetViewController.mm:33)</code></pre>
 <p>The crash reporter tool fundamentally just uses <code>atos</code> to symbolicate the crash report, as well as providing other system related information.</p>
-<p>Symbolification is described further by an Apple Technote in case we want to get into it in more detail. @tn2123</p>
+<p>Symbolification is described further by an Apple Technote in case we want to get into it in more detail. <span class="citation" data-cites="tn2123">(“CrashReport Technote 2123” 2004)</span></p>
 <h2 id="reverse-engineering-approach">Reverse Engineering Approach</h2>
 <p>In the above example we have the source code and symbols for the crash dump so can do Symbolification.</p>
 <p>Sometimes we may have included a third party binary framework in our project for which we do not have the source code. It is good practice for the vendor to supply symbol information for their framework to allow crash dump analysis. When symbol information is not available, it is still possible to make progress by applying some reverse engineering.</p>
@@ -758,23 +764,23 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>This indeed shows the return address for the assert method. Further up, we see the test for Pluto’s volume being non-zero. This is just a very basic Hopper example. We shall revisit Hopper later to demonstrate its most interesting feature - that of being able to generate pseudocode from assembly code. This lowers the mental load of comprehending crashes. Most developers rarely look at assembly code nowadays so this feature is worth the cost of the software itself!</p>
 <p>Now at least for the current problem, we could formulate a bug report that said the code was crashing because Pluto’s volume was zero. That may be enough to unlock the problem from the framework vendor’s point of view.</p>
 <p>In a more complex case, imagine we were using an image conversion library that was crashing.<br />
-There can be many pixel\index{pixel} formats for images. An <code>assert</code> might lead us to notice it was the format that was asserting. Therefore, we could just try a different pixel format.</p>
+There can be many pixel formats for images. An <code>assert</code> might lead us to notice it was the format that was asserting. Therefore, we could just try a different pixel format.</p>
 <p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details. A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
 <h1 id="the-crash-report">The Crash Report</h1>
 <p>In this chapter, we get into the details of what comprises a crash report. Our main focus is the iOS crash report. We also cover the macOS crash report, which caries a slightly different structure but serves the same purpose.</p>
 <p>Note, it is possible to install crash handlers from third parties, either to get enhanced crash reporting diagnostics or to link application crashes to a web-based service for managing crash reports across a potentially large population of users. We shall defer such discussions to a later chapter.</p>
-<p>When a crash occurs the <code>ReportCrash</code>\index{command!ReportCrash} program extracts information from the crashing process\index{process} from the Operating System. The result is a text file with a <code>.crash</code>\index{extension!.crash} extension.</p>
+<p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
 <p>When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
-<p>Apple has produced a detailed document explaining the anatomy of a crash dump. @tn2151</p>
+<p>Apple has produced a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
 <h2 id="system-diagnostics">System Diagnostics</h2>
 <p>Crash Reports are just one part of a much bigger diagnostic reporting story.</p>
 <p>Ordinarily as application developers, we don’t need to look much further. However, if our problems are potentially triggered by an unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our crash reports, we need to study the system diagnostics.</p>
 <h3 id="extracting-system-diagnostic-information">Extracting System Diagnostic Information</h3>
-<p>When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple provides a great web page covering each scenario. @apple-sysdiag</p>
-<p>On iOS, the basic idea is that we install a profile, which alters our device to produce more logging, and then we reproduce the crash (or get the customer to do that). Then we press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code>\index{command!sysdiagnose}, which extracts many log files. Then we use iTunes to synchronize our device to retrieve the resultant <code>sysdiagnose_date_name.tar.gz</code> file. Inside this archive file are many system and subsystem logs, and we can see when crashes occur and the context that gave rise to them.</p>
+<p>When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple provides a great web page covering each scenario. <span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” 2018)</span></p>
+<p>On iOS, the basic idea is that we install a profile, which alters our device to produce more logging, and then we reproduce the crash (or get the customer to do that). Then we press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code>, which extracts many log files. Then we use iTunes to synchronize our device to retrieve the resultant <code>sysdiagnose_date_name.tar.gz</code> file. Inside this archive file are many system and subsystem logs, and we can see when crashes occur and the context that gave rise to them.</p>
 <p>An equivalent approach is available on macOS as well.</p>
 <h2 id="guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</h2>
-<p>Here we go through each section of an iOS crash report and explain the fields. @tn2151</p>
+<p>Here we go through each section of an iOS crash report and explain the fields. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
 <p>tvOS and watchOS may be just considered subsets of iOS for our purposes and have similar crash reports.</p>
 <p>Note here iOS Crash Report means a crash report that came from a physical target device. After a crash, apps are often debugged on the Simulator. The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.</p>
 <h3 id="ios-crash-report-header-section">iOS Crash Report Header Section</h3>
@@ -814,11 +820,11 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 </tr>
 <tr class="odd">
 <td>Hardware Model</td>
-<td>Apple Hardware Model @ios-devices</td>
+<td>Apple Hardware Model <span class="citation" data-cites="ios-devices">(“List of iOS Devices” 2018)</span></td>
 </tr>
 <tr class="even">
 <td>Process</td>
-<td>Process\index{process} name (number) that crashed</td>
+<td>Process name (number) that crashed</td>
 </tr>
 <tr class="odd">
 <td>Path</td>
@@ -826,7 +832,7 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 </tr>
 <tr class="even">
 <td>Identifier</td>
-<td>Bundle identifier from <code>Info.plist</code>\index{Info.plist}</td>
+<td>Bundle identifier from <code>Info.plist</code></td>
 </tr>
 <tr class="odd">
 <td>Version</td>
@@ -837,16 +843,16 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 <td>Target architecture of the process that crashed</td>
 </tr>
 <tr class="odd">
-<td>Role\index{task!role}</td>
+<td>Role</td>
 <td>The process <code>task_role</code>. An indicator if we were in the background, foreground, or was a console app. Mainly affects the scheduling priority of the process.</td>
 </tr>
 <tr class="even">
 <td>Parent Process</td>
-<td>Parent of the crashing process\index{process}. <code>launchd</code>\index{command!launchd} is a process launcher and is often the parent.</td>
+<td>Parent of the crashing process. <code>launchd</code> is a process launcher and is often the parent.</td>
 </tr>
 <tr class="odd">
-<td>Coalition\index{task!coalition}</td>
-<td>Tasks are grouped into coalitions so they can pool together their consumption of resources @resource-management</td>
+<td>Coalition</td>
+<td>Tasks are grouped into coalitions so they can pool together their consumption of resources <span class="citation" data-cites="resource-management">(“Resource Management” 2015)</span></td>
 </tr>
 </tbody>
 </table>
@@ -882,11 +888,11 @@ Report Version:      104</code></pre>
 </tr>
 <tr class="even">
 <td>Launch Time</td>
-<td>When the process\index{process} was originally launched before crashing</td>
+<td>When the process was originally launched before crashing</td>
 </tr>
 <tr class="odd">
 <td>OS Version</td>
-<td>Operating System Version (Build number). @ios-versions</td>
+<td>Operating System Version (Build number). <span class="citation" data-cites="ios-versions">(“IOS Version History” 2018)</span></td>
 </tr>
 <tr class="even">
 <td>Baseband Version</td>
@@ -901,9 +907,9 @@ Report Version:      104</code></pre>
 <p>The first thing to check is the OS Version. Is it newer or older than we’ve tested? Is it a beta version of the operating system?</p>
 <p>The next thing to check is the difference between the launch time and the time of the crash. Did the app crash immediately or after a long time? Early start crashes can sometimes be a packaging and deployment problem. We shall visit some techniques to tackle those later on.</p>
 <p>Is the date a sensible value? Sometimes a device is set back or forwards in time, perhaps to trigger date checks on security certificates or license keys. Make sure the date is a realistic looking one.</p>
-<p>Normally the baseband version is not interesting. The presence of the baseband means we could be interrupted by a phone call (of course there is VOIP calling as well in any case). iPad software is generally written to assume we’re not going to get a phone call but iPads can be purchased with a cellular modem\index{iPad!cellular modem} option.</p>
+<p>Normally the baseband version is not interesting. The presence of the baseband means we could be interrupted by a phone call (of course there is VOIP calling as well in any case). iPad software is generally written to assume we’re not going to get a phone call but iPads can be purchased with a cellular modem option.</p>
 <h3 id="ios-crash-report-exception-section">iOS Crash Report Exception Section</h3>
-<p>A Crash Report will next have exception\index{exception} information:</p>
+<p>A Crash Report will next have exception information:</p>
 <pre><code>Exception Type:  EXC_CRASH (SIGABRT)
 Exception Codes: 0x0000000000000000, 0x0000000000000000
 Exception Note:  EXC_CORPSE_NOTIFY
@@ -914,7 +920,7 @@ Exception Codes: 0x0000000000000000, 0x0000000000000000
 Exception Note:  EXC_CORPSE_NOTIFY
 Termination Reason: Namespace &lt;0xF&gt;, Code 0xdead10cc
 Triggered by Thread:  0</code></pre>
-<p>What has happened is that the MachOS\index{MachOS} kernel has raised an Operating System Exception on the problematic process\index{process}, which terminates the process. The ReportCrash program then retrieves from the OS details of such an exception.</p>
+<p>What has happened is that the MachOS kernel has raised an Operating System Exception on the problematic process, which terminates the process. The ReportCrash program then retrieves from the OS details of such an exception.</p>
 <p>These items are explained by the following table:</p>
 <table>
 <colgroup>
@@ -930,15 +936,15 @@ Triggered by Thread:  0</code></pre>
 <tbody>
 <tr class="odd">
 <td>Exception Type</td>
-<td>The type of exception in Mach OS. @exception-types</td>
+<td>The type of exception in Mach OS. <span class="citation" data-cites="exception-types">(“Mach Exception Types” 2018)</span></td>
 </tr>
 <tr class="even">
 <td>Exception Codes</td>
-<td>These codes encode the kind of exception, such as trying to trying to access an invalid address, and supporting information. @exception-types</td>
+<td>These codes encode the kind of exception, such as trying to trying to access an invalid address, and supporting information. <span class="citation" data-cites="exception-types">(“Mach Exception Types” 2018)</span></td>
 </tr>
 <tr class="odd">
 <td>Exception Note</td>
-<td>Either this says <code>SIMULATED (this is NOT a crash)</code> because the process\index{process!killed} was killed by the watchdog timer, or it says <code>EXC_CORPSE_NOTIFY</code> because the process\index{process!crashed} crashed</td>
+<td>Either this says <code>SIMULATED (this is NOT a crash)</code> because the process was killed by the watchdog timer, or it says <code>EXC_CORPSE_NOTIFY</code> because the process crashed</td>
 </tr>
 <tr class="even">
 <td>Termination Reason</td>
@@ -946,11 +952,11 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="odd">
 <td>Triggered by Thread</td>
-<td>The thread in the process\index{process} that caused the crash</td>
+<td>The thread in the process that caused the crash</td>
 </tr>
 </tbody>
 </table>
-<p>In this section, the most important item is the exception type\index{exception!type}.</p>
+<p>In this section, the most important item is the exception type.</p>
 <table>
 <colgroup>
 <col style="width: 50%" />
@@ -993,7 +999,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 </tbody>
 </table>
-<p>When Termination Reason\index{termination reason} is present, we can look up the Code as follows:</p>
+<p>When Termination Reason is present, we can look up the Code as follows:</p>
 <table>
 <colgroup>
 <col style="width: 50%" />
@@ -1007,28 +1013,28 @@ Triggered by Thread:  0</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>0xdead10cc</code>\index{0xdead10cc}</td>
+<td><code>0xdead10cc</code></td>
 <td>We held a file lock or sqlite database lock before suspending. We should release locks before suspending.</td>
 </tr>
 <tr class="even">
-<td><code>0xbaaaaaad</code>\index{0xbaaaaaad}</td>
+<td><code>0xbaaaaaad</code></td>
 <td>A stackshot was done of the entire system via the side and both volume buttons. See earlier section on System Diagnostics</td>
 </tr>
 <tr class="odd">
-<td><code>0xbad22222</code>\index{0xbad22222}</td>
+<td><code>0xbad22222</code></td>
 <td>VOIP was terminated as it resumed too frequently. Also seen with code using networking whilst in the background. If our TCP connection is woken up too many times (say 15 wakes in 300 seconds) we get this crash.</td>
 </tr>
 <tr class="even">
-<td><code>0x8badf00d</code>\index{0x8badf00d}</td>
+<td><code>0x8badf00d</code></td>
 <td>Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.). The watchdog timer noticed the policy violation and caused the termination. The most common culprit is doing synchronous networking on the main thread.</td>
 </tr>
 <tr class="odd">
-<td><code>0xc00010ff</code>\index{0xc00010ff}</td>
+<td><code>0xc00010ff</code></td>
 <td>The system detected a thermal event and kill off our app. If it’s just on one device it could be a hardware issue, not a software problem in our app. If it happens on other devices, check our app’s power usage using Instruments.</td>
 </tr>
 <tr class="even">
-<td><code>0x2bad45ec</code>\index{0x2bad45ec}</td>
-<td>There was a security violation. If the Termination Description says, “Process\index{process} detected doing insecure drawing while in secure mode” it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.</td>
+<td><code>0x2bad45ec</code></td>
+<td>There was a security violation. If the Termination Description says, “Process detected doing insecure drawing while in secure mode” it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.</td>
 </tr>
 </tbody>
 </table>
@@ -1037,7 +1043,7 @@ Triggered by Thread:  0</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th>Magic Number\index{magic number}</th>
+<th>Magic Number</th>
 <th>Spoken Phrase</th>
 </tr>
 </thead>
@@ -1074,7 +1080,7 @@ Triggered by Thread:  0</code></pre>
 <p>When we have a memory issue, <code>EXC_BAD_ACCESS</code>, with <code>SIGSEGV</code> or <code>SIGBUS</code>, the faulty memory reference is the second number of the Exception Codes number pair. For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant. The address sanitizer should be switched on to see if it could spot the error. If that cannot detect the issue, try each of the memory management settings, one at a time.</p>
 <p>If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system. For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History. Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.</p>
 <h4 id="exceptions">Exceptions</h4>
-<p>When we have a <code>EXC_BREAKPOINT</code> it can seem confusing. The program may have been running standalone without a debugger so where did the breakpoint come from? Typically, we are running <code>NSException</code> code. This will make the system signal the process\index{process} with the trace trap signal and this makes any available debugger attach to the process to aid debugging. So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception. In the case of normal app running, there is no debugger so we would just crash the app.</p>
+<p>When we have a <code>EXC_BREAKPOINT</code> it can seem confusing. The program may have been running standalone without a debugger so where did the breakpoint come from? Typically, we are running <code>NSException</code> code. This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging. So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception. In the case of normal app running, there is no debugger so we would just crash the app.</p>
 <h4 id="illegal-instructions">Illegal Instructions</h4>
 <p>When we have a <code>EXC_BAD_INSTRUCTION</code>, the exception codes (second number) will be the problematic assembly code. This should be a rare condition. It is worthwhile adjusting the optimization level of the code at fault in the Build Settings because higher level optimizations can cause more exotic instructions to be emitted during build time, and hence a bigger chance for a compiler bug. Alternatively, the problem might be a lower level library that has hand assembly optimizations in it - such as a multimedia library. Handwritten assembly can be the cause of bad instructions.</p>
 <h4 id="guard-exceptions">Guard exceptions</h4>
@@ -1083,13 +1089,13 @@ Triggered by Thread:  0</code></pre>
 <pre><code>Exception Type:  EXC_GUARD
 Exception Codes: 0x0000000100000000, 0x08fd4dbfade2dead
 Crashed Thread:  5</code></pre>
-<p>The exception code <code>0x08fd4dbfade2dead</code>\index{0x08fd4dbfade2dead} indicates a database related file descriptor was modified (in our example it was closed). The hex string could be read as “Ate (8) File Descriptor (fd) for (4) Database (db)” in “hex speak”.</p>
-<p>When such problems occur, we look at the file operation\index{file!operation} of the crashed thread. In our example:</p>
+<p>The exception code <code>0x08fd4dbfade2dead</code> indicates a database related file descriptor was modified (in our example it was closed). The hex string could be read as “Ate (8) File Descriptor (fd) for (4) Database (db)” in “hex speak”.</p>
+<p>When such problems occur, we look at the file operation of the crashed thread. In our example:</p>
 <pre><code>Thread 5 name:  Dispatch queue: com.apple.root.default-priority
 Thread 5 Crashed:
 0   libsystem_kernel.dylib          0x3a287294 close + 8
 1   ExternalAccessory               0x32951be2 -[EASession dealloc] + 226</code></pre>
-<p>Here a close\index{file!close} operation was performed.</p>
+<p>Here a close operation was performed.</p>
 <p>If we have code talking to file descriptors, we should always check the return value for the close operation in particular.</p>
 <p>It is possible to infer the file operation from the first of the exception codes. It is a 64-bit flag, specified as follows:</p>
 <table>
@@ -1117,10 +1123,6 @@ Thread 5 Crashed:
 <p>From observation, we think the Guard type is not used.</p>
 <p>The Flavor is a further bit vector:</p>
 <table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th>Flavor Bit</th>
@@ -1130,29 +1132,29 @@ Thread 5 Crashed:
 <tbody>
 <tr class="odd">
 <td>0</td>
-<td><code>close()</code>\index{file!close} attempted</td>
+<td><code>close()</code> attempted</td>
 </tr>
 <tr class="even">
 <td>1</td>
-<td><code>dup()</code>\index{file!dup}, <code>dup2()</code>\index{file!dup2} or <code>fcntl()</code>\index{file!fcntl}</td>
+<td><code>dup()</code>, <code>dup2()</code> or <code>fcntl()</code></td>
 </tr>
 <tr class="odd">
 <td>2</td>
-<td><code>sendmsg()</code>\index{socket!sendmsg} attempted via a socket</td>
+<td><code>sendmsg()</code> attempted via a socket</td>
 </tr>
 <tr class="even">
 <td>4</td>
-<td><code>write()</code>\index{file!write} attempted</td>
+<td><code>write()</code> attempted</td>
 </tr>
 </tbody>
 </table>
 <h3 id="ios-crash-report-filtered-syslog-section">iOS Crash Report Filtered Syslog Section</h3>
-<p>The Crash Report continues with the syslog\index{syslog} section:</p>
+<p>The Crash Report continues with the syslog section:</p>
 <pre><code>Filtered syslog:
 None found</code></pre>
-<p>This is an anomalous section because it is supposed to look at the process\index{process!ID} ID of the crashed process and then look to see if there are any syslog \index{command!syslog}(System Log) entries for that process. We have never seen filtered entries in a crash, and only see <code>None found</code> reported.</p>
+<p>This is an anomalous section because it is supposed to look at the process ID of the crashed process and then look to see if there are any syslog (System Log) entries for that process. We have never seen filtered entries in a crash, and only see <code>None found</code> reported.</p>
 <h3 id="ios-crash-report-exception-backtrace-section">iOS Crash Report Exception Backtrace section</h3>
-<p>When our app has detected a problem and has asked the Operating System to terminate the app, we get an Exception Backtrace\index{exception!backtrace} section of the report. This covers the cases of calling <code>abort</code>, <code>NSException</code>, <code>_NSLockError</code>, or <code>objc_exception_throw</code> either ourselves or indirectly through the Swift, Objective-C or C runtime support libraries.</p>
+<p>When our app has detected a problem and has asked the Operating System to terminate the app, we get an Exception Backtrace section of the report. This covers the cases of calling <code>abort</code>, <code>NSException</code>, <code>_NSLockError</code>, or <code>objc_exception_throw</code> either ourselves or indirectly through the Swift, Objective-C or C runtime support libraries.</p>
 <p>What we don’t get is the text of the actual assertion that had occurred. One presumes that the prior section for filtered syslog information was supposed to do that job. Nevertheless, <em>Window-&gt;Devices and Simulators-&gt;Open Console</em> will allow us to recover that information.</p>
 <p>When we see an Exception Backtrace in a customer crash report, we should ask for the device console log of the crashing device.</p>
 <p>We would for example see:</p>
@@ -1395,11 +1397,11 @@ Thread 7:
 0   libsystem_pthread.dylib         0x0000000183b9fb04 start_wqthread + 0</code></pre>
 <p>The crash report will explicitly tell us which thread crashed.</p>
 <pre><code>Thread 0 Crashed:</code></pre>
-<p>Threads are numbered\index{thread!number}, and if they have a name, we are told this:</p>
+<p>Threads are numbered, and if they have a name, we are told this:</p>
 <pre><code>Thread 0 name:  Dispatch queue: com.apple.main-thread</code></pre>
-<p>Most of our focus should be on the crashed thread; it is often thread 0. Take note of the thread name\index{thread!name}. Note no long duration tasks such as networking may be done on the main thread\index{thread!main}, <code>com.apple.main-thread</code>, because that thread is used to handle user interactions.</p>
-<p>The references to <code>__workq_kernreturn</code>\index{thread!waiting for work} just indicate a thread waiting for work so can be ignored unless there are a huge number of them.</p>
-<p>Similarly, the references to <code>mach_msg_trap</code>\index{thread!waiting for message} just indicate the thread is waiting for a message to come in.</p>
+<p>Most of our focus should be on the crashed thread; it is often thread 0. Take note of the thread name. Note no long duration tasks such as networking may be done on the main thread, <code>com.apple.main-thread</code>, because that thread is used to handle user interactions.</p>
+<p>The references to <code>__workq_kernreturn</code> just indicate a thread waiting for work so can be ignored unless there are a huge number of them.</p>
+<p>Similarly, the references to <code>mach_msg_trap</code> just indicate the thread is waiting for a message to come in.</p>
 <p>When looking at stack backtraces, stack frame 0, the top of the stack, comes first, and then calling frames are listed. Therefore, the last thing being done is in frame 0.</p>
 <h4 id="stack-backtrace-items">Stack backtrace items</h4>
 <p>Let us now focus on backtrace items for each thread. For example:</p>
@@ -1432,10 +1434,10 @@ withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 248</code></pre
 </tr>
 </tbody>
 </table>
-<p>The frame numbers\index{stack!frame number}, as they count upwards takes us backwards in time in terms of program execution order. The top of stack, or most recently run code, is in frame 0. One reason for writing code with meaningful function names is that the call stack describes what is going on conceptually. Using small single-purpose functions\index{software!function}\index{function!best practice} is good practice. It serves the needs of both diagnostics and maintainability.</p>
-<p>The second column in a back trace is the binary file\index{file!binary}. We focus on our own binary mostly because framework code from Apple is generally very reliable. Faults usually occur either directly in our code, or by faults caused by incorrect usage of Apple APIs. Just because the code crashed in Apple provided code does not mean the fault is in Apple code.</p>
-<p>The third column, the execution position\index{CPU!execution position} is slightly tricky. If it is for frame 0, it is the actual position in the code that was running. If it is for any later frame, it is the position in the code we shall resume from once the child functions have returned.</p>
-<p>The fourth column is the site at which the code is running (for frame 0), or the site\index{function!call site} that is making a function call (for later frames). For symbolicated crashes, we will see the symbolic form for the address. This will include a positional offset from the start of a function to reach the code calling the child function. If we have only short functions, this offset will be a small value. It means much less stepping through code, or much less reading assembly code when performing diagnosis. That is another reason for keeping our functions short. If our crash is not symbolicated then we shall just see a memory address\index{CPU!memory address} value.</p>
+<p>The frame numbers, as they count upwards takes us backwards in time in terms of program execution order. The top of stack, or most recently run code, is in frame 0. One reason for writing code with meaningful function names is that the call stack describes what is going on conceptually. Using small single-purpose functions is good practice. It serves the needs of both diagnostics and maintainability.</p>
+<p>The second column in a back trace is the binary file. We focus on our own binary mostly because framework code from Apple is generally very reliable. Faults usually occur either directly in our code, or by faults caused by incorrect usage of Apple APIs. Just because the code crashed in Apple provided code does not mean the fault is in Apple code.</p>
+<p>The third column, the execution position is slightly tricky. If it is for frame 0, it is the actual position in the code that was running. If it is for any later frame, it is the position in the code we shall resume from once the child functions have returned.</p>
+<p>The fourth column is the site at which the code is running (for frame 0), or the site that is making a function call (for later frames). For symbolicated crashes, we will see the symbolic form for the address. This will include a positional offset from the start of a function to reach the code calling the child function. If we have only short functions, this offset will be a small value. It means much less stepping through code, or much less reading assembly code when performing diagnosis. That is another reason for keeping our functions short. If our crash is not symbolicated then we shall just see a memory address value.</p>
 <p>Therefore, with the example stack frame we have:</p>
 <ul>
 <li>Stack Frame 20.</li>
@@ -1445,9 +1447,9 @@ withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 248</code></pre
 <li>Class is <code>_UICanvasLifecycleSettingsDiffAction</code></li>
 </ul>
 <h3 id="ios-crash-report-thread-state-section">iOS Crash Report Thread State Section</h3>
-<p>iOS Crash Reports will be either from ARM-64 binaries\index{CPU!ARM-64} (most common) or legacy ARM 32\index{CPU!ARM-32} bit binaries.</p>
-<p>In each case, we get similar looking information describing the state of the ARM registers\index{CPU!register}.</p>
-<p>One thing to look out for is the special hex code, <code>0xbaddc0dedeadbead</code>\index{0xbaddc0dedeadbead} which means a non-initialized pointer.</p>
+<p>iOS Crash Reports will be either from ARM-64 binaries (most common) or legacy ARM 32 bit binaries.</p>
+<p>In each case, we get similar looking information describing the state of the ARM registers.</p>
+<p>One thing to look out for is the special hex code, <code>0xbaddc0dedeadbead</code> which means a non-initialized pointer.</p>
 <h4 id="bit-thread-state">32-bit thread state</h4>
 <pre><code>Thread 0 crashed with ARM Thread State (32-bit):
     r0: 0x00000000    r1: 0x00000000      r2: 0x00000000      r3: 0x00000000
@@ -1474,7 +1476,7 @@ withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 248</code></pre
    x28: 0x0000000000000010   fp: 0x000000016bde54b0   lr: 0x000000010401ca04
     sp: 0x000000016bde53e0   pc: 0x000000010401c6c8 cpsr: 0x80000000</code></pre>
 <h3 id="ios-crash-report-binary-images-section">iOS Crash Report Binary Images section</h3>
-<p>The crash report has a section enumerating all the binary\index{file!binary} images loaded by the process that crashed. It is usually a long list. It highlights the fact that there are many supporting frameworks for our apps. Most frameworks are private frameworks\index{software!private framework}. The iOS development kit might seem a huge set of APIs, but that is just the tip of the iceberg.</p>
+<p>The crash report has a section enumerating all the binary images loaded by the process that crashed. It is usually a long list. It highlights the fact that there are many supporting frameworks for our apps. Most frameworks are private frameworks. The iOS development kit might seem a huge set of APIs, but that is just the tip of the iceberg.</p>
 <p>Here is an example list, edited for ease of demonstration:</p>
 <pre><code>Binary Images:
 
@@ -1507,9 +1509,9 @@ Frameworks/libswiftCoreImage.dylib
 <p>The first part is where the image has been loaded into memory. Here <code>icdab_as</code> has been loaded into the range <code>0x104018000</code> - <code>0x10401ffff</code></p>
 <p>The second part is the name of the binary. Here it is <code>icdab_as</code>.</p>
 <p>The third part is the architecture slice within the binary that was loaded. We generally expect to just see <code>arm64</code> here (ARM 64-bit).</p>
-<p>The fourth part is the UUID\index{file!UUID} of the binary. Here <code>icdab_as</code> has UUID <code>b82579f401603481990d1c1c9a42b773</code></p>
+<p>The fourth part is the UUID of the binary. Here <code>icdab_as</code> has UUID <code>b82579f401603481990d1c1c9a42b773</code></p>
 <p>Symbolification will fail if our DSYM file UUID does not match the binary.</p>
-<p>Here is an example of corresponding UUIDs seen in DSYM and application binaries using the <code>dwarfdump</code>\index{command!dwarfdump} command:</p>
+<p>Here is an example of corresponding UUIDs seen in DSYM and application binaries using the <code>dwarfdump</code> command:</p>
 <pre><code>$ dwarfdump --uuid icdab_as.app/icdab_as
 icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as
 
@@ -1518,7 +1520,7 @@ UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64) icdab_as.app/icdab_as
 UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64)
 icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as</code></pre>
 <p>The fifth part is the path to the binary as it appears on the device.</p>
-<p>Most of the binaries have a self-explanatory name. The <code>dyld</code> binary is the dynamic loader\index{file!dynamic loader}. It is seen at the bottom of all stack backtraces because it is responsible for commencing the loading of binaries before their execution.</p>
+<p>Most of the binaries have a self-explanatory name. The <code>dyld</code> binary is the dynamic loader. It is seen at the bottom of all stack backtraces because it is responsible for commencing the loading of binaries before their execution.</p>
 <p>The dynamic loader does many tasks in preparing our binary for execution. If our binary references libraries, it will load them. If there are absent, it will fail to load our app. This is why it is possible to crash even before any code in <code>main.m</code> is called. Later on, we shall study how to diagnose such problems.</p>
 <h2 id="guided-tour-of-a-macos-crash-report">Guided tour of a macOS Crash Report</h2>
 <p>The macOS crash report is similar to an iOS crash report even though macOS CrashReport and iOS CrashReport are distinctly different programs. To avoid repetition, we just highlight notable differences from iOS.</p>
@@ -1534,8 +1536,8 @@ Code Type:             X86-64 (Native)
 Parent Process:        ??? [1]
 Responsible:           Siri [863]
 User ID:               501</code></pre>
-<p>Here we see familiar information describing the binary at fault. The process that crashed was SiriNCService, and the process responsible for that was Siri. There was a cross process communication\index{software!cross process communication} at the time of the crash (XPC) between Siri\index{trademark!Siri} and SiriNCService.</p>
-<p>Whilst iOS is a system that runs the user experience as one user, the macOS system exposes the fact that there are multiple User IDs\index{User ID} in the system.</p>
+<p>Here we see familiar information describing the binary at fault. The process that crashed was SiriNCService, and the process responsible for that was Siri. There was a cross process communication at the time of the crash (XPC) between Siri and SiriNCService.</p>
+<p>Whilst iOS is a system that runs the user experience as one user, the macOS system exposes the fact that there are multiple User IDs in the system.</p>
 <h3 id="macos-crash-report-date-and-version-section">macOS Crash Report Date and Version Section</h3>
 <p>We continue with version information:</p>
 <pre><code>Date/Time:             2018-06-24 09:52:01.419 +0100
@@ -1545,7 +1547,7 @@ Anonymous UUID:        00CC683B-425F-ABF0-515A-3ED73BACDDB5
 
 Sleep/Wake UUID:       10AE8838-17A9-4405-B03D-B680DDC84436
 </code></pre>
-<p>The Anonymous UUID\index{computer!anonymous UUID} will uniquely identify the computer. The Sleep/Wake UUID is used to match up sleep and wake events. Failed wakeup is a common cause of a system crash (in contrast to the application crashes we have been discussing). Further information can be obtained using the <code>pmset</code>\index{command!pmset} power management\index{computer!power management} command.</p>
+<p>The Anonymous UUID will uniquely identify the computer. The Sleep/Wake UUID is used to match up sleep and wake events. Failed wakeup is a common cause of a system crash (in contrast to the application crashes we have been discussing). Further information can be obtained using the <code>pmset</code> power management command.</p>
 <h3 id="macos-duration-section">macOS Duration Section</h3>
 <p>The macOS crash report show how soon the application crash occurred.</p>
 <pre><code>Time Awake Since Boot: 100000 seconds
@@ -1553,7 +1555,7 @@ Time Since Wake:       2000 seconds</code></pre>
 <p>We use this as a broad indication only because the numbers seen always rounded to a convenient number.</p>
 <h3 id="macos-crash-report-system-integrity-section">macOS Crash Report System Integrity Section</h3>
 <pre><code>System Integrity Protection: enabled</code></pre>
-<p>Modern macOS by default runs as “rootless”\index{computer!rootless}. This means that even if we are logged in as the superuser we cannot change system binaries. Those are protected with the help of firmware. It is possible to boot macOS with System Integrity Protection\index{computer!System Integrity Protection} disabled. If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.</p>
+<p>Modern macOS by default runs as “rootless”. This means that even if we are logged in as the superuser we cannot change system binaries. Those are protected with the help of firmware. It is possible to boot macOS with System Integrity Protection disabled. If we only get crashes where SIP is disabled, then we need to ask why SIP is off and what changes were made to the Operating System.</p>
 <h3 id="macos-crash-report-exception-section">macOS Crash Report Exception Section</h3>
 <p>We next get an exceptions section.</p>
 <pre><code>Crashed Thread:        0  Dispatch queue: com.apple.main-thread
@@ -1574,14 +1576,14 @@ VM Regions Near 0x18:
 
 Application Specific Information:
 objc_msgSend() selector name: didUnlockScreen:</code></pre>
-<p>This is similar to iOS. However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator might model the same programming error differently. We can get a different exception\index{exception} on x86 hardware than its ARM counterpart.</p>
-<p>Consider the following code, setup with legacy manual reference counting (MRC)\index{Objective-C!manual reference counting} instead of automatic reference counting\index{Objective-C!automatic reference counting} (ARC)</p>
+<p>This is similar to iOS. However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator might model the same programming error differently. We can get a different exception on x86 hardware than its ARM counterpart.</p>
+<p>Consider the following code, setup with legacy manual reference counting (MRC) instead of automatic reference counting (ARC)</p>
 <pre><code>void use_sema() {
     dispatch_semaphore_t aSemaphore = dispatch_semaphore_create(1);
     dispatch_semaphore_wait(aSemaphore, DISPATCH_TIME_FOREVER);
     dispatch_release(aSemaphore);
 }</code></pre>
-<p>This code causes a crash because a semaphore\index{semaphore} was manually released whilst we were waiting on it.</p>
+<p>This code causes a crash because a semaphore was manually released whilst we were waiting on it.</p>
 <p>When it runs on iOS on ARM hardware we get the crash,</p>
 <pre><code>Exception Type:  EXC_BREAKPOINT (SIGTRAP)
 Exception Codes: 0x0000000000000001, 0x00000001814076b8
@@ -1595,7 +1597,7 @@ BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
 Abort Cause 1</code></pre>
 <p>When it runs on the iOS simulator, we get the debugger attaching with</p>
 <pre><code>Thread 1: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)</code></pre>
-<p>The simulator uses a bad assembly\index{CPU!bad assembly instruction} instruction to trigger the crash.</p>
+<p>The simulator uses a bad assembly instruction to trigger the crash.</p>
 <p>Furthermore, if we write a macOS app that runs the same code, we get the crash:</p>
 <pre><code>Crashed Thread:        0  Dispatch queue: com.apple.main-thread
 
@@ -1655,7 +1657,7 @@ NSApplicationMain + 804
 19  com.apple.SiriNCService         0x00000001002396e0 main + 180
 20  libdyld.dylib                   0x00007fff6ac12015 start + 1</code></pre>
 <h3 id="macos-crash-report-thread-state-section">macOS Crash Report Thread State Section</h3>
-<p>The macOS crash report shows details on the X86 registers\index{CPU!X86 register} of the crashed thread.</p>
+<p>The macOS crash report shows details on the X86 registers of the crashed thread.</p>
 <pre><code>Thread 0 crashed with X86 Thread State (64-bit):
   rax: 0x0000600000249bd0  rbx: 0x0000600000869ac0  rcx: 0x00007fe798f55320
     rdx: 0x0000600000249bd0
@@ -1670,9 +1672,9 @@ NSApplicationMain + 804
 Logical CPU:     2
 Error Code:      0x00000004
 Trap Number:     14</code></pre>
-<p>In addition to the iOS equivalent, we get further information on the CPU was running the thread. The trap\index{operating system!trap number} number can be looked up in the Darwin XNU source code if needed.</p>
+<p>In addition to the iOS equivalent, we get further information on the CPU was running the thread. The trap number can be looked up in the Darwin XNU source code if needed.</p>
 <p>A convenient mirror of the Darwin XNU source code is hosted by GitHub https://github.com/apple/darwin-xnu</p>
-<p>The traps can be searched for. Here we have <code>osfmk/x86_64/idt_table.h</code> indicating Trap 14 is a page fault. The Error Code is a bit vector to describe the mach error code. @macherror</p>
+<p>The traps can be searched for. Here we have <code>osfmk/x86_64/idt_table.h</code> indicating Trap 14 is a page fault. The Error Code is a bit vector to describe the mach error code. <span class="citation" data-cites="macherror">(“Making Sense of I/O Kit Error Codes” 2018)</span></p>
 <h3 id="macos-crash-report-binary-images-section">macOS Crash Report Binary Images section</h3>
 <p>Next, we have the binary images loaded by the crashing app.</p>
 <p>Here is an example of the first few binaries in a crash report, truncated for ease of demonstration:</p>
@@ -1688,9 +1690,9 @@ Trap Number:     14</code></pre>
           &lt;23C7DDE6-A44B-3BE4-B47C-EB3045B267D9&gt;
            /System/Library/Extensions/AppleHDA.kext/Contents/
            PlugIns/AppleHDAHALPlugIn.bundle/Contents/MacOS/AppleHDAHALPlugIn</code></pre>
-<p>When a plus sign appears next to the binary it is meant to mean the binary is part of the OS\index{file!operating system}. However, we see examples of the plus sign present in third party binaries and absent in system binaries, so the plus sign is not a reliable indicator (last tested on OS X 10.13.6).</p>
+<p>When a plus sign appears next to the binary it is meant to mean the binary is part of the OS. However, we see examples of the plus sign present in third party binaries and absent in system binaries, so the plus sign is not a reliable indicator (last tested on OS X 10.13.6).</p>
 <h3 id="macos-crash-report-modification-summary">macOS Crash Report Modification Summary</h3>
-<p>Next, we have a section describing any external modifications\index{crash!process integrity} to our crashed process:</p>
+<p>Next, we have a section describing any external modifications to our crashed process:</p>
 <pre><code>External Modification Summary:
   Calls made by other processes targeting this process:
     task_for_pid: 184
@@ -1705,8 +1707,8 @@ Trap Number:     14</code></pre>
     thread_create: 0
     thread_set_state: 0</code></pre>
 <p>macOS is a more open platform than iOS. This permits under certain conditions modification of our process. We need to know if such a thing happened because it can invalidate any design assumption in the code because registers can be modified of the process and thus a crash can be induced.</p>
-<p>Ordinarily the above snapshot would be seen. Notably <code>thread_set_state</code>\index{thread!set state} is zero in all cases. This means no process has directly attached to the process\index{process!attachment} to change the state of a register. Such actions would be acceptable for implementations of managed runtimes or debuggers. Outside of these scenarios, such actions would be suspicious and need further investigation.</p>
-<p>In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 <code>task_for_pid</code>\index{task!for pid} calls.</p>
+<p>Ordinarily the above snapshot would be seen. Notably <code>thread_set_state</code> is zero in all cases. This means no process has directly attached to the process to change the state of a register. Such actions would be acceptable for implementations of managed runtimes or debuggers. Outside of these scenarios, such actions would be suspicious and need further investigation.</p>
+<p>In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 <code>task_for_pid</code> calls.</p>
 <pre><code>External Modification Summary:
   Calls made by other processes targeting this process:
     task_for_pid: 201
@@ -1722,17 +1724,17 @@ Trap Number:     14</code></pre>
     thread_set_state: 1</code></pre>
 <p>Such data would normally make us suspicious of the environment the program ran in before crashing.</p>
 <p>Ordinarily only first party (Apple provided) programs have privilege to perform the above modifications. It is possible to install software that also does this.</p>
-<p>The requirements for accessing process\index{process!modification requirements} modification APIs are:</p>
+<p>The requirements for accessing process modification APIs are:</p>
 <ul>
-<li>System Integrity Protection\index{operating system!System Integrity Protection} needs to be disabled.</li>
+<li>System Integrity Protection needs to be disabled.</li>
 <li>The process making the modification must run as root.</li>
-<li>The program making the modifications must be code signed\index{software!code signing}.</li>
+<li>The program making the modifications must be code signed.</li>
 <li>The entitlement assigned to the program must have <code>SecTaskAccess</code> with <code>allowed</code> and <code>debug</code></li>
 <li>The user must agree to trust the program in their security settings.</li>
 </ul>
-<p>The example code <code>tfpexample</code> demonstrates this. @icdabgithub</p>
+<p>The example code <code>tfpexample</code> demonstrates this. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <h3 id="macos-crash-report-virtual-memory-section">macOS Crash Report Virtual Memory Section</h3>
-<p>The next section of the crash report is the virtual memory\index{memory!virtual} summary and region type breakdown. If we have a graphics heavy app that renders pages of a document, we might look at how big the CoreUI image data region is, for example. Virtual memory statistics are only meaningful when the app has already been studied in the Xcode Instruments\index{trademark!Xcode Instruments} memory profiler\index{test!memory profiling} because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.</p>
+<p>The next section of the crash report is the virtual memory summary and region type breakdown. If we have a graphics heavy app that renders pages of a document, we might look at how big the CoreUI image data region is, for example. Virtual memory statistics are only meaningful when the app has already been studied in the Xcode Instruments memory profiler because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.</p>
 <p>Here is an example of the VM Region Section of the report:</p>
 <pre><code>VM Region Summary:
 ReadOnly portion of Libraries: Total=544.2M resident=0K(0%)
@@ -1775,7 +1777,7 @@ shared memory                     2824K       11
 ===========                     =======  =======
 TOTAL                            908.7M     1206</code></pre>
 <h3 id="macos-crash-report-system-profile-section">macOS Crash Report System Profile section</h3>
-<p>The next part of the crash report is a summary of the hardware\index{hardware!profile} in place:</p>
+<p>The next part of the crash report is a summary of the hardware in place:</p>
 <pre><code>System Profile:
 Network Service: Wi-Fi, AirPort, en1
 Thunderbolt Bus: iMac, Apple Inc., 26.1
@@ -1797,12 +1799,12 @@ Graphics: AMD Radeon R9 M290X, AMD Radeon R9 M290X, PCIe
 AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142),
  Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
 Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</code></pre>
-<p>Sometimes our app closely interacts with a hardware peripheral, and if that is via a standards based interface such as USB\index{hardware!USB}, then a lot of variability is possible. Consider disk drives. Many vendors provide disk drives, and they may be directly powered, or independently powered. They may be directly attached, attached via a USB cable, or via a USB hub.</p>
-<p>Sometimes newer hardware, such as a new type of MacBook Pro\index{trademark!MacBook Pro} comes with its own hardware issues, so crashes unrelated to our app can be seen.</p>
-<p>The key to understanding whether the hardware environment\index{hardware!environment} comes into play is to see a number of crashes to look for patterns.</p>
-<p>As application developers, we only see crashes in our app. If we have contact with the user who has provided a crash, we can ask if any other apps are crashing, or if any system stability\index{hardware!stability} issues are present.</p>
-<p>Another interesting aspect is that not all hardware is actively used by the system all the time. For example, when a MacBook Pro is connected to an external display\index{hardware!external display}, different graphics RAM\index{memory!graphics RAM} is used and a different graphics card\index{hardware!graphics card} is used (external versus on internal GPU). If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.</p>
-<p>Running system diagnostics\index{hardware!diagnostics} and looking to see if the problems are appearing against only specific Anonymous UUID\index{computer!anonymous UUID} crash reports are ways to try and understand if we have a machine specific hardware issue.</p>
+<p>Sometimes our app closely interacts with a hardware peripheral, and if that is via a standards based interface such as USB, then a lot of variability is possible. Consider disk drives. Many vendors provide disk drives, and they may be directly powered, or independently powered. They may be directly attached, attached via a USB cable, or via a USB hub.</p>
+<p>Sometimes newer hardware, such as a new type of MacBook Pro comes with its own hardware issues, so crashes unrelated to our app can be seen.</p>
+<p>The key to understanding whether the hardware environment comes into play is to see a number of crashes to look for patterns.</p>
+<p>As application developers, we only see crashes in our app. If we have contact with the user who has provided a crash, we can ask if any other apps are crashing, or if any system stability issues are present.</p>
+<p>Another interesting aspect is that not all hardware is actively used by the system all the time. For example, when a MacBook Pro is connected to an external display, different graphics RAM is used and a different graphics card is used (external versus on internal GPU). If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.</p>
+<p>Running system diagnostics and looking to see if the problems are appearing against only specific Anonymous UUID crash reports are ways to try and understand if we have a machine specific hardware issue.</p>
 <h1 id="analytic-troubleshooting">Analytic Troubleshooting</h1>
 <p>This chapter discusses a formal technique for solving problems. The idea is to provide a framework that prompts the right questions to be asked.</p>
 <p>There is a famous phrase cautioning us on taking an overzealous approach:</p>
@@ -1816,7 +1818,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 </blockquote>
 <p>A hammer is best for hammering in nails, and smashing things generally, but not useful for other types of task. A hammer is a solution to a restricted set of problems. Furthermore, our way of thinking about problems is framed to the available tools at our disposal. If we increase the available tools, we can start thinking about problems in different ways, one of which may lead to the answers we desire.</p>
 <p>Suppose we had a spanner and a hacksaw in our toolbox. We wanted to remove an old bathroom fitting held in place with rusty bolts. Using the spanner might not work, due to the bolts not turning. However, using a hack saw to remove the bolt heads might be a workable next best solution. Observing an experienced plumber, or mechanic, reveals such tricks of the trade.</p>
-<p>In this context, we introduce “Analytic Troubleshooting”. @kepnertregoe This will help us move forwards on problems when the obvious things have already been tried, and we are running out of ideas.</p>
+<p>In this context, we introduce “Analytic Troubleshooting”. <span class="citation" data-cites="kepnertregoe">(“Analytic Troubleshooting” 2018)</span> This will help us move forwards on problems when the obvious things have already been tried, and we are running out of ideas.</p>
 <p>This methodology is a cut-down version of that taught by Kepner Tregoe.</p>
 <h2 id="prioritizing-our-problem">Prioritizing our problem</h2>
 <p>If we are a sole developer of an app, perhaps with a few customers, and receive a crash report, it can feel like we are being offered a curious intellectual challenge.</p>
@@ -1829,7 +1831,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>One way to assess impact is to build analytics into our app. Then the set of steps, and more broadly, the customer use case, can be studied alongside the crash. Crashes from the most important use cases can then be identified as high impact bugs to fix. One advantage of third party crash reporting services, described in a later chapter, is that they allow logs to be recorded that are delivered to the crash report server along with the crash.</p>
 <p>Any time a life-cycle event occurs, such as foregrounding, backgrounding, appearing, disappearing, button clicks, segues, notifications, alert pop ups, and launching helper components such as the photo picker, a log message should record the action.</p>
 <h3 id="prioritizing-based-upon-deadlines">Prioritizing based upon deadlines</h3>
-<p>To judge the urgency of a bug fix, we need to assess the <strong>deadline</strong> associated with the bug. Whenever Apple updates their product line, for example, historically iPhone\index{trademark!iPhone} is updated in September, then a natural product lifecycle cadence is seen in the market. New customers will come to the App Store to provision new apps. There will be a lot of discussion of Apple product features in the press. Consequently, it becomes a good market window to target. Any crash that prevents app store approval or app first time use issues becomes more important at this time. Occasionally, Apple introduces a new app category, for example watch apps, or sticker packs. Being available on the first day provides a first-mover advantage, and the possibility of being featured as part of the Apple launch event.</p>
+<p>To judge the urgency of a bug fix, we need to assess the <strong>deadline</strong> associated with the bug. Whenever Apple updates their product line, for example, historically iPhone is updated in September, then a natural product lifecycle cadence is seen in the market. New customers will come to the App Store to provision new apps. There will be a lot of discussion of Apple product features in the press. Consequently, it becomes a good market window to target. Any crash that prevents app store approval or app first time use issues becomes more important at this time. Occasionally, Apple introduces a new app category, for example watch apps, or sticker packs. Being available on the first day provides a first-mover advantage, and the possibility of being featured as part of the Apple launch event.</p>
 <h3 id="prioritizing-based-upon-trend">Prioritizing based upon trend</h3>
 <p>The growth in the number of crash reports we see can be alarming, and needs to be assessed by analyzing the <strong>trend</strong>. We can see how many crash reports we get over time, and see if there is a spike, or an upward trend.</p>
 <p>If our app crashes due to features in a new major release of iOS then the first people to experience the problem are early adopters of the beta releases of iOS. After that, iOS devices will start being automatically upgraded. Sometimes the new version of iOS is released in geographic staggered updates. We would expect to see this reflected in the trend we see amongst our crash reports.</p>
@@ -1877,7 +1879,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 </table>
 <p>Analytical Troubleshooting works well in a team setting. By having some domain experts, together with people from other disciplines, and non-technical staff, makes for a good troubleshooting team. Experts sometimes overlook asking the basic questions, and less informed staff could ask good clarifying questions that further shake out implicit assumptions in the problem specification. Hot customer problems can cause anxiety, so having the team come together to troubleshoot can ease tensions and build morale. Sometimes our customer can be invited to participate; that can often speed up the process and shake out even more assumptions.</p>
 <p>When troubleshooting as a team, we can just use a whiteboard divided up into a grid as above. Each person can be given a handout that enumerates the questions to ask for each box within the grid.</p>
-<p>On the web site associated with this book are support materials and handouts for Analytic Troubleshooting. @icdabgithub</p>
+<p>On the web site associated with this book are support materials and handouts for Analytic Troubleshooting. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <p>When troubleshooting on our own, having a print out of the questions and writing up a grid of answers is a good approach. Being away from our computer, and making a list of items to check is good because it can remove the immediate impulse to dive into details. Instead, once we have our list of items for follow up, we can prioritize our work.</p>
 <p>We fill out details in the IS column first. Then we fill out the IS NOT column. Often we notice a big blank area in the grid where we have no data. That is a signal for us to go and collect more data or do research. The idea is to make <em>relevant</em> differences between the IS and IS NOT columns as small as possible. This allows us to develop a good hypothesis that we can test, or perhaps a number of hypotheses we can prioritize for testing.</p>
 <p>Any potential solution to the problem must entirely explain <strong>all</strong> the IS and IS NOT parts of the problem specification. Often the first solution we think of only explains part of the pattern of defects seen in the problem specification. Spending a little more time thinking about potential causes, or doing a little more research can be a good investment of time particularly if it is difficult or time-consuming to try out different candidate solutions.</p>
@@ -2122,7 +2124,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>Another clue is that 25% of installs have the problem. If the problem was due to the population of different hardware and thus varying hardware capability, we could see that about 25% of users are on iPad versus iPhone. However, being strictly a 25% problem without it varying is a marker to tell us maybe something else in the environment is affecting the behavior of the app. Perhaps during installation, a server is picked in round-robin fashion amongst four servers that host the back-end for the game. Furthermore, during development, perhaps the server used is a special development server different from production servers used by our customers. Again, the IS NOT section provides the most revealing clues as to where to look for a potential solution.</p>
 <p>If we did not do Analytic Troubleshooting, in this example the first instinct would be to check for memory leaks, memory pressure, hardware limitations, etc. That kind of analysis can easily consume a week of engineering effort. Whilst it is possible for such issues to result in dropped frames that would not fully explain the pattern of defects we see; they would not explain why exactly 25% of users hit the problem.</p>
 <h2 id="the-2018-macbook-pro-t2-problem">The 2018 MacBook Pro T2 Problem</h2>
-<p>This section describes a problem with 2018 MacBook Pro computers that were crashing. The narrative has been built up from discussion group postings of affected users @macbookproT2 and media reports @appleinsiderimacpro</p>
+<p>This section describes a problem with 2018 MacBook Pro computers that were crashing. The narrative has been built up from discussion group postings of affected users <span class="citation" data-cites="macbookproT2">(“2018 Macbook Pros Bridge Os Error” 2018)</span> and media reports <span class="citation" data-cites="appleinsiderimacpro">(“Apple’s T2 Chip May Be Behind iMac Pro, Macbook Pro Crashes” 2018)</span></p>
 <p><strong>Problem Description:</strong> 2018 MacBook Pro computers crash during sleep with a Bridge OS Error.</p>
 <ul>
 <li>WHAT IS
@@ -2280,8 +2282,8 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>If the problem can be made more frequent then an automated system test could be written. Then any fix to the Bridge OS would have a robust test suite to validate it.</p>
 <p>We do not have the source code of the Bridge OS. It would be interesting to discern the different between the three crashes seen. For example, sometimes there is a case statement of 20 possible faults, and only one is being entered. This reveals something about WHERE IS NOT in the problem specification.</p>
 <p>We do not have machine fault register information. When a low level problem occurs, the processor documentation will allow the system architect to look up exactly the kind of failure (timeouts, parity errors, etc.) In our problem specification, we need to be more precise WHERE the problem is. The BridgeOS may just be a canary telling us of a problem elsewhere. Some customers have received a full hardware replacement, but still see the problem. It indicates a software problem.</p>
-<p>Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. @intelrob So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.</p>
-<p>An approach would be to follow the Intel debugging guide @intelrob. It has many good suggestions. When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.</p>
+<p>Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span> So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.</p>
+<p>An approach would be to follow the Intel debugging guide <span class="citation" data-cites="intelrob">(“Debugging Processor Reorder Buffer Timeout: Guide” 2018)</span>. It has many good suggestions. When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.</p>
 <h1 id="a-siri-crash">A Siri Crash</h1>
 <h2 id="why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</h2>
 <p>Here is an example of Siri crashing on a Mac. Note that binaries on a Mac are not encrypted. This means we can demonstrate the use of third party tools to explore the binaries at fault. Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.</p>
@@ -2349,7 +2351,7 @@ NSViewServiceApplicationMain + 2903
 <p>This means we are accessing memory which does not exist. The program that was running (known as the TEXT) was</p>
 <pre><code>/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
 Contents/MacOS/SiriNCService</code></pre>
-<p>This is interesting because normally its applications that crash. Here we see a software component crashing. The Siri service is a distributed app which uses cross process communication\index{operating system!cross process communication} (xpc)\index{XPC} to do its work. We see that from references to xpc as above.</p>
+<p>This is interesting because normally its applications that crash. Here we see a software component crashing. The Siri service is a distributed app which uses cross process communication (xpc) to do its work. We see that from references to xpc as above.</p>
 <p>What method were we trying to call on an object that no longer exists? Helpfully, the crash dump provides the answer:</p>
 <p><code>Application Specific Information: objc_msgSend() selector name: didUnlockScreen:</code></p>
 <p>Now we have to a first level approximation answered the <em>what</em>, <em>where</em> and <em>when</em> aspect of the crash. It was a Siri component that crashed, in <code>SiriNCService</code> when <code>didUnlockScreen</code> was called on a non-existent object.</p>
@@ -2389,23 +2391,23 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delega
 <p>We went from using HOWTO knowledge (understanding the crash report) to using tooling to get a baseline level of knowledge. Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem. This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis. It cannot be achieved by just focusing on the HOWTO of comprehending crash reports. We need to switch hats and see things from different perspectives in order to really make progress.</p>
 <h1 id="runtime-environment-crashes">Runtime Environment Crashes</h1>
 <p>In this chapter, we show examples of where the runtime libraries have detected a problem and have caused a crash.</p>
-<p>These crashes are distinguished by reporting Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code>\index{signal!SIGTRAP} in their Crash Report.</p>
+<p>These crashes are distinguished by reporting Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code> in their Crash Report.</p>
 <p>We consider two examples. Our first example shows how the runtime handles force unwrapping a nil optional. Our second example shows how the runtime handles releasing a semaphore that is being waited on.</p>
 <h2 id="unwrapping-a-nil-optional">Unwrapping a Nil Optional</h2>
 <p>The Swift Programming Language is a significant step forward towards writing safe-by-default code.</p>
-<p>A central concept within Swift is explicitly handling optionality\index{Swift!optional}. In type declarations, a trailing <code>?</code> indicates the value could absent as represented by <code>nil</code>. These types need explicit unwrapping to access the value they store.</p>
-<p>When a value is not available at object initialization time, but later in the lifecycle of the object, then a trailing <code>!</code> is used for types that hold the value. This means the value can be treated in code without the need for explicit unwrapping\index{Swift!explicit unwrapping}. It is called an implicitly unwrapped optional. Note, from Swift 4.2, at the implementation level, it is an optional, with an annotation that indicates it can be used without explicit unwrapping.</p>
-<p>We use the <code>icdab_wrap</code> example program to demonstrate crashes that can arise through the faulty use of optionals. @icdabgithub</p>
+<p>A central concept within Swift is explicitly handling optionality. In type declarations, a trailing <code>?</code> indicates the value could absent as represented by <code>nil</code>. These types need explicit unwrapping to access the value they store.</p>
+<p>When a value is not available at object initialization time, but later in the lifecycle of the object, then a trailing <code>!</code> is used for types that hold the value. This means the value can be treated in code without the need for explicit unwrapping. It is called an implicitly unwrapped optional. Note, from Swift 4.2, at the implementation level, it is an optional, with an annotation that indicates it can be used without explicit unwrapping.</p>
+<p>We use the <code>icdab_wrap</code> example program to demonstrate crashes that can arise through the faulty use of optionals. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <h3 id="ios-uikit-outlets">iOS UIKit Outlets</h3>
 <p>It is a standard paradigm to use a storyboard to declare the User Interface, and associate <code>UIViews</code> with <code>UIViewControllers</code>.</p>
 <p>When the user interface updates, such as when launching our app, or performing a segue between scenes, the storyboard instantiates supporting <code>UIViewControllers</code> and sets up fields in our <code>UIViewController</code> objects to <code>UIViews</code> that have been created.</p>
-<p>We will have a field declaration automatically generated when we link the storyboard\index{Xcode!storyboard} to our controller code such as:</p>
+<p>We will have a field declaration automatically generated when we link the storyboard to our controller code such as:</p>
 <pre><code>@IBOutlet weak var planetImageOutlet: UIImageView!</code></pre>
 <h3 id="ownership-rules">Ownership rules</h3>
-<p>If we did not explicitly create an object, and we did not have ownership passed to us, we should not shorten the lifecycle\index{object!lifecycle} of the object we are passed.</p>
+<p>If we did not explicitly create an object, and we did not have ownership passed to us, we should not shorten the lifecycle of the object we are passed.</p>
 <p>In our <code>icdab_wrap</code> example we have a parent screen, and we can tap into a child screen that has a large image of Pluto.<br />
 The image is downloaded from the Internet. When that screen is left, and the original screen is visited the code tries to reduce memory by letting go of the memory associated with the image.</p>
-<p>There is a separate argument about whether such an image clean up strategy is helpful or desirable. A profiling\index{software!profiling} tool should be used to inform us when to try to economize our memory footprint.</p>
+<p>There is a separate argument about whether such an image clean up strategy is helpful or desirable. A profiling tool should be used to inform us when to try to economize our memory footprint.</p>
 <p>Our code has a bug:</p>
 <pre><code>override func viewWillDisappear(_ animated: Bool) {
         planetImageOutlet = nil // BUG; should be planetImageOutlet.image = nil
@@ -2417,14 +2419,14 @@ The image is downloaded from the Internet. When that screen is left, and the ori
     }</code></pre>
 <p>This code will crash, since it implicitly unwraps the optional, which has been set to <code>nil</code>.</p>
 <h3 id="crash-report-for-unwrapped-nil-optionals">Crash Report for unwrapped nil optionals</h3>
-<p>When we get a crash from the swift runtime force unwrapping\index{Swift!force unwrapping optional} a nil optional we see:</p>
+<p>When we get a crash from the swift runtime force unwrapping a nil optional we see:</p>
 <pre><code>Exception Type:  EXC_BREAKPOINT (SIGTRAP)
 Exception Codes: 0x0000000000000001, 0x00000001011f7ff8
 Termination Signal: Trace/BPT trap: 5
 Termination Reason: Namespace SIGNAL, Code 0x5
 Terminating Process: exc handler [0]
 Triggered by Thread:  0</code></pre>
-<p>The item to notice is the Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code>\index{signal!SIGTRAP}</p>
+<p>The item to notice is the Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code></p>
 <p>We see that the runtime environment raised a breakpoint exception because it saw a problem. This is identified by seeing the swift core library at the top of the stack.</p>
 <pre><code>Thread 0 name:  Dispatch queue: com.apple.main-thread
 Thread 0 Crashed:
@@ -2435,7 +2437,7 @@ Thread 0 Crashed:
  PlanetViewController.imageDownloaded(_:)
   + 37892 (PlanetViewController.swift:45)
 </code></pre>
-<p>Another subtle cue that there is an uninitialized pointer is that a machine registers has the special value <code>0xbaddc0dedeadbead</code>\index{0xbaddc0dedeadbead}. This is set by the compiler to indicate an uninitialized pointer:</p>
+<p>Another subtle cue that there is an uninitialized pointer is that a machine registers has the special value <code>0xbaddc0dedeadbead</code>. This is set by the compiler to indicate an uninitialized pointer:</p>
 <pre><code>Thread 0 crashed with ARM Thread State (64-bit):
     x0: 0x0000000100ecc100   x1: 0x00000001c005b9f0   x2: 0x0000000000000008
        x3: 0x0000000183a4906c
@@ -2454,10 +2456,10 @@ Thread 0 Crashed:
    x28: 0x0000000002ffffff   fp: 0x000000016f0ca8e0   lr: 0x00000001011f7ff8
     sp: 0x000000016f0ca8a0   pc: 0x00000001011f7ff8 cpsr: 0x60000000</code></pre>
 <h2 id="releasing-a-semaphore-that-is-in-use">Releasing a semaphore that is in use</h2>
-<p>The <code>libdispatch</code> library\index{software!runtime library} has support for identifying runtime issues. When such problems arise, the app is crashed with Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code></p>
-<p>We use the <code>icdab_sema</code> example program to demonstrate a crash detected by <code>libdispatch</code> for the faulty use of semaphores\index{semaphore}. @icdabgithub</p>
-<p>The <code>libdispatch</code>\index{command!libdispatch} library is the operating system library for managing concurrency (known as Grand Central Dispatch or GCD)\index{Grand Central Dispatch}. The library is available as Open Source from Apple. @libdispatchtar</p>
-<p>The library abstracts away the details of how the Operating System provides access to multi-core\index{operating system!multi-core} CPU resources. During a crash, it supplies extra information to the crash report. This means that if we wish to do so, we can find the code that detected the runtime issue.</p>
+<p>The <code>libdispatch</code> library has support for identifying runtime issues. When such problems arise, the app is crashed with Exception Type, <code>EXC_BREAKPOINT (SIGTRAP)</code></p>
+<p>We use the <code>icdab_sema</code> example program to demonstrate a crash detected by <code>libdispatch</code> for the faulty use of semaphores. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>The <code>libdispatch</code> library is the operating system library for managing concurrency (known as Grand Central Dispatch or GCD). The library is available as Open Source from Apple. <span class="citation" data-cites="libdispatchtar">(“Libdispatch Open Source” 2018)</span></p>
+<p>The library abstracts away the details of how the Operating System provides access to multi-core CPU resources. During a crash, it supplies extra information to the crash report. This means that if we wish to do so, we can find the code that detected the runtime issue.</p>
 <h3 id="crash-example-releasing-a-semaphore">Crash example releasing a semaphore</h3>
 <p>The <code>icdab_sema</code> example program results in a crash upon launch. The crash report is as follows (truncated for ease of demonstration):</p>
 <pre><code>Exception Type:  EXC_BREAKPOINT (SIGTRAP)
@@ -2507,7 +2509,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
     sp: 0x000000016f71ba40   pc: 0x00000001814076b8
      cpsr: 0x80000000</code></pre>
 <h3 id="faulty-semaphore-code">Faulty semaphore code</h3>
-<p>The code to reproduce the semaphore problem is based upon an Xcode project that uses Manual Reference Counting (MRC)\index{Objective-C!manual reference counting}. This is a legacy setting but one that can be encountered whilst integrating with legacy code bases. At the project level, it is option “Objective-C Automatic Reference Counting”\index{Xcode!ARC setting} set to NO. This allows us to then make direct calls to the <code>dispatch_release</code>\index{command!dispatch release} API.</p>
+<p>The code to reproduce the semaphore problem is based upon an Xcode project that uses Manual Reference Counting (MRC). This is a legacy setting but one that can be encountered whilst integrating with legacy code bases. At the project level, it is option “Objective-C Automatic Reference Counting” set to NO. This allows us to then make direct calls to the <code>dispatch_release</code> API.</p>
 <p>The code is as follows:</p>
 <pre><code>#import &lt;Foundation/Foundation.h&gt;
 
@@ -2545,22 +2547,22 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
 }</code></pre>
 <p>Here we can see the library causing a crash through the <code>DISPATCH_CLIENT_CRASH</code> macro.</p>
 <h3 id="semaphore-crash-lessons-learnt">Semaphore Crash Lessons Learnt</h3>
-<p>Manual Reference Counting\index{Objective-C!manual reference counting} should be avoided in modern application code.</p>
-<p>When crashes occur via runtime libraries\index{software!runtime library}, we need to go back to the API specification to find out how we are violating the API contract that resulted in a crash. The Application Specific Information in the Crash Report should help focus our attention when re-reading the API document, studying working sample code, and looking into the detail level of the source code of the runtime library (when available).</p>
-<p>Where MRC\index{Objective-C!manual reference counting} code has been carried forwards from a legacy code base, a design pattern should be used to wrap the code that is MRC based, and offer a clean API into it. Then the rest of the program can use Automatic Reference Counting\index{Objective-C!automatic reference counting} (ARC). This will contain the problem, and allow the new code to benefit from ARC. It is possible also to mark specific files as being MRC. The compiler flag option, <code>-fno-objc-arc</code>, needs to be set for the file. It is found within <em>Build Phases -&gt; Compile Sources</em> area of Xcode.</p>
-<p>If the legacy\index{software!legacy} code does not need enhancement, it is best to leave it alone, and just wrap it with a facade\index{software!facade} API. We can then write some test cases for that API. Code that is not actively updated tends to only give rise to bugs when it is used in new ways. Sometimes the staff with knowledge of legacy code has left the project, so making updates can be risky by less knowledgeable staff.</p>
-<p>It is great if legacy\index{software!legacy} code can be replaced over time. Normally a business justification is needed. One strategy is to break down a legacy module into smaller pieces. If this is done strategically, then one of the smaller pieces can be re-worked, with modern coding practices. It becomes a win-win when such a module is enhanced to solve a new customer need as well.</p>
+<p>Manual Reference Counting should be avoided in modern application code.</p>
+<p>When crashes occur via runtime libraries, we need to go back to the API specification to find out how we are violating the API contract that resulted in a crash. The Application Specific Information in the Crash Report should help focus our attention when re-reading the API document, studying working sample code, and looking into the detail level of the source code of the runtime library (when available).</p>
+<p>Where MRC code has been carried forwards from a legacy code base, a design pattern should be used to wrap the code that is MRC based, and offer a clean API into it. Then the rest of the program can use Automatic Reference Counting (ARC). This will contain the problem, and allow the new code to benefit from ARC. It is possible also to mark specific files as being MRC. The compiler flag option, <code>-fno-objc-arc</code>, needs to be set for the file. It is found within <em>Build Phases -&gt; Compile Sources</em> area of Xcode.</p>
+<p>If the legacy code does not need enhancement, it is best to leave it alone, and just wrap it with a facade API. We can then write some test cases for that API. Code that is not actively updated tends to only give rise to bugs when it is used in new ways. Sometimes the staff with knowledge of legacy code has left the project, so making updates can be risky by less knowledgeable staff.</p>
+<p>It is great if legacy code can be replaced over time. Normally a business justification is needed. One strategy is to break down a legacy module into smaller pieces. If this is done strategically, then one of the smaller pieces can be re-worked, with modern coding practices. It becomes a win-win when such a module is enhanced to solve a new customer need as well.</p>
 <h1 id="bad-memory-crashes">Bad Memory Crashes</h1>
 <p>In this chapter, we study bad memory crashes.</p>
-<p>These crashes are distinguished by reporting Exception Type, <code>EXC_BAD_ACCESS (SIGSEGV)</code>\index{signal!SIGSEGV}, or <code>EXC_BAD_ACCESS (SIGBUS)</code>\index{signal!SIGBUS} in their Crash Report.</p>
+<p>These crashes are distinguished by reporting Exception Type, <code>EXC_BAD_ACCESS (SIGSEGV)</code>, or <code>EXC_BAD_ACCESS (SIGBUS)</code> in their Crash Report.</p>
 <p>We look at a range of crashes obtained by searching the Internet.</p>
 <h2 id="general-principles">General principles</h2>
-<p>In operating systems, memory is managed by first collating contiguous memory\index{memory!contiguous} into memory pages, and then collating pages\index{memory!page} into segments\index{memory!segment}. This allows metadata properties to be assigned to a segment that applies to all pages within the segment. This allows the code of our program (the program <em>TEXT</em>) to be set to read only but executable. This improves performance and security.</p>
-<p>SIGBUS\index{signal!SIGBUS} (bus error)\index{bus error} means the memory address is correctly mapped into the address space of the process, but the process is not allowed to access the memory.</p>
-<p>SIGSEGV\index{signal!SIGSEGV} (segment violation)\index{violation!segment} means the memory address is not even mapped into the process address space\index{process!address space}.</p>
+<p>In operating systems, memory is managed by first collating contiguous memory into memory pages, and then collating pages into segments. This allows metadata properties to be assigned to a segment that applies to all pages within the segment. This allows the code of our program (the program <em>TEXT</em>) to be set to read only but executable. This improves performance and security.</p>
+<p>SIGBUS (bus error) means the memory address is correctly mapped into the address space of the process, but the process is not allowed to access the memory.</p>
+<p>SIGSEGV (segment violation) means the memory address is not even mapped into the process address space.</p>
 <h2 id="segment-violation-segv-crashes">Segment Violation (SEGV) crashes</h2>
 <h3 id="fud-crash">fud crash</h3>
-<p>The <code>fud</code>\index{command!fud} program is an undocumented process within the private framework\index{software!private framework} <code>MobileAccessoryUpdater</code>. From looking at the binary it appears to be a firmware update program.</p>
+<p>The <code>fud</code> program is an undocumented process within the private framework <code>MobileAccessoryUpdater</code>. From looking at the binary it appears to be a firmware update program.</p>
 <p>Here we show the Crash Report of process <code>fud</code> on macOS, truncated for ease of demonstration:</p>
 <pre><code>Process:               fud [84641]
 Path:                  /System/Library/PrivateFrameworks/
@@ -2630,8 +2632,8 @@ Thread 1 crashed with X86 Thread State (64-bit):
 Logical CPU:     3
 Error Code:      0x00000004
 Trap Number:     14</code></pre>
-<p>We clearly have a bad memory issue, since we have a <code>EXC_BAD_ACCESS (SIGSEGV)</code>\index{signal!SIGSEGV} exception. The Trap Number we see is 14, which from https://github.com/apple/darwin-xnu is a Page Fault\index{memory!page fault}.</p>
-<p>We can even look up the function that triggered the crash since <code>libdispatch</code>\index{command!libdispatch} is Apple Open Source. @libdispatchtar</p>
+<p>We clearly have a bad memory issue, since we have a <code>EXC_BAD_ACCESS (SIGSEGV)</code> exception. The Trap Number we see is 14, which from https://github.com/apple/darwin-xnu is a Page Fault.</p>
+<p>We can even look up the function that triggered the crash since <code>libdispatch</code> is Apple Open Source. <span class="citation" data-cites="libdispatchtar">(“Libdispatch Open Source” 2018)</span></p>
 <p>We see:</p>
 <pre><code>#define dx_push(x, y, z) dx_vtable(x)-&gt;do_push(x, y, z)
 
@@ -2642,8 +2644,8 @@ _dispatch_continuation_push(dispatch_queue_t dq, dispatch_continuation_t dc)
     dx_push(dq, dc, _dispatch_continuation_override_qos(dq, dc));
 }</code></pre>
 <p>We are dereferencing memory from a data structure that has a bad memory location.</p>
-<p>We can disassemble the macOS binary, <code>/usr/lib/system/libdispatch.dylib</code>\index{command!libdispatch} for the problem call site.</p>
-<p>Here we use the Hopper\index{Hopper} tool to do the disassembly:</p>
+<p>We can disassemble the macOS binary, <code>/usr/lib/system/libdispatch.dylib</code> for the problem call site.</p>
+<p>Here we use the Hopper tool to do the disassembly:</p>
 <pre><code>__dispatch_continuation_push:
 0000000000014c69         push       rbx
                                          ; CODE XREF=__dispatch_async_f2+112,
@@ -2659,11 +2661,11 @@ _dispatch_continuation_push(dispatch_queue_t dq, dispatch_continuation_t dc)
 0000000000014c86         je         loc_14ca3</code></pre>
 <p>There seems to be a problem with the <code>rdi</code> register value, address <code>0x00007f80bd21a250</code></p>
 <p>We need to take a step back, and understand why we have a memory access problem.</p>
-<p>Looking at the stack backtrace we can see that this program uses cross process communication (XPC)\index{XPC} to do its work. It has a <code>handleXPCStreamEvent</code> function.</p>
-<p>It is a common programming problem that when we receive a data payload, there is a problem unpacking the payload\index{data!payload} and interpreting the data. We speculate that there is a bug in the deserialization code. That would give us a potentially bad data structure which we dereference causing a crash.</p>
-<p>If we were the authors of the <code>fud</code> program we could update it to check the XPC data it gets and ensure best practices are followed for serialization/deserialization\index{data!serialization}\index{data!deserialization} of data, such as the using interface definition layer\index{software!interface definition layer} generators.</p>
+<p>Looking at the stack backtrace we can see that this program uses cross process communication (XPC) to do its work. It has a <code>handleXPCStreamEvent</code> function.</p>
+<p>It is a common programming problem that when we receive a data payload, there is a problem unpacking the payload and interpreting the data. We speculate that there is a bug in the deserialization code. That would give us a potentially bad data structure which we dereference causing a crash.</p>
+<p>If we were the authors of the <code>fud</code> program we could update it to check the XPC data it gets and ensure best practices are followed for serialization/deserialization of data, such as the using interface definition layer generators.</p>
 <h3 id="leakagent-crash">LeakAgent crash</h3>
-<p>The <code>LeakAgent</code>\index{command!LeakAgent} program is provided by Apple as part of its memory diagnostics\index{memory!diagnostics} tools. It is used in Xcode Instruments\index{Xcode!Instruments}.</p>
+<p>The <code>LeakAgent</code> program is provided by Apple as part of its memory diagnostics tools. It is used in Xcode Instruments.</p>
 <p>Here is an Crash Report where it has crashed, truncated for ease of demonstration:</p>
 <pre><code>Incident Identifier: 11ED1987-1BC9-4F44-900C-AD07EE6F7E26
 CrashReporter Key:   b544a32d592996e0efdd7f5eaafd1f4164a2e13c
@@ -2766,8 +2768,8 @@ Thread 4 crashed with ARM Thread State (64-bit):
      x27: 0x0000000000000000
    x28: 0x0000000000000009   fp: 0x000000016b6d19c0   lr: 0x0000000104f8717c
     sp: 0x000000016b6d1930   pc: 0x0000000104f871dc cpsr: 0x60000000</code></pre>
-<p>We can see that the kernel address at fault is <code>0x0000000000000000</code> so it’s a NULL pointer dereference. The call site where we crash is a Swift library that demangles\index{Swift!symbol demangle} symbols. The Xcode instrument is trying to provide human readable object type definitions from the activity it has seen on the iPad.</p>
-<p>Since the problem is due to symbolification\index{symbolification}, it may be wise to clear our build directory and then do a clean build. Sometimes an Xcode update switches us to a new object file format that is incompatible. It is worthwhile checking profiling with another project, perhaps a trivial test program. There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running, so memory analysis\index{memory!diagnostics} could be done in a different way.</p>
+<p>We can see that the kernel address at fault is <code>0x0000000000000000</code> so it’s a NULL pointer dereference. The call site where we crash is a Swift library that demangles symbols. The Xcode instrument is trying to provide human readable object type definitions from the activity it has seen on the iPad.</p>
+<p>Since the problem is due to symbolification, it may be wise to clear our build directory and then do a clean build. Sometimes an Xcode update switches us to a new object file format that is incompatible. It is worthwhile checking profiling with another project, perhaps a trivial test program. There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running, so memory analysis could be done in a different way.</p>
 <h2 id="bus-error-sigbus-crashes">Bus error (SIGBUS) crashes</h2>
 <h3 id="xmbmc-crash">xmbmc crash</h3>
 <p>The <code>xmbc</code> app is a utility app that behaves like a television media player remote control.</p>
@@ -2874,18 +2876,18 @@ Binary Images:
 <p>In this crash, we accessed bad memory at location <code>0x047001b0</code> as reported by the second value in the crash report Exception Codes section:</p>
 <pre><code>Exception Codes: 0x00000032, 0x047001b0</code></pre>
 <p>Note, this also appears as the value for register <code>r0</code> (often this is the case)</p>
-<p>This is higher than the XBMC app binary image range, and lower than the <code>dyld</code>\index{command!dyld} range according to the binary images section of the Crash Report.</p>
-<p>This address must be mapped in, but we do not know what segment\index{memory!segment} it is mapped into from the Crash Report.</p>
+<p>This is higher than the XBMC app binary image range, and lower than the <code>dyld</code> range according to the binary images section of the Crash Report.</p>
+<p>This address must be mapped in, but we do not know what segment it is mapped into from the Crash Report.</p>
 <p>We can see this application can dynamically configure. From the backtrace we see:</p>
 <pre><code>13  libdyld.dylib                   0x3678b4ae dlopen + 30
 14  XBMC                            0x002276d4
  SoLoader::Load() (SoLoader.cpp:57)</code></pre>
-<p>It is calling the dynamic loader\index{file!dynamic loader} to load extra code based upon a configuration determined by an “AddOn” manager:</p>
+<p>It is calling the dynamic loader to load extra code based upon a configuration determined by an “AddOn” manager:</p>
 <pre><code>20  XBMC                            0x002096c6
  ADDON::CAddonMgr::Init() (AddonManager.cpp:215)</code></pre>
-<p>The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime. Possibly, application bundle\index{application!bundle} is missing the library we desire.</p>
+<p>The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime. Possibly, application bundle is missing the library we desire.</p>
 <p>Sometimes we are integrating third party libraries that have dynamic code loading within them. In such cases, we need to use the Xcode diagnostics facilities.</p>
-<p>We do not have the source code for the XBMC application. However, there is an open source example demonstrating the use of the dynamic loader. @dynamicloadingeg</p>
+<p>We do not have the source code for the XBMC application. However, there is an open source example demonstrating the use of the dynamic loader. <span class="citation" data-cites="dynamicloadingeg">(“Dynamic Loading Example” 2018)</span></p>
 <p>When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app. Furthermore, can switch on <em>Dynamic Linker API Usage</em> by editing the Scheme settings as follows:</p>
 <p><img src="screenshots/dynamic_loading.png" /></p>
 <p>When this program is launched, we can see how it dynamically loads modules. We get system-generated messages in addition to our app messages. The system messages do not have a timestamp prefix, but the app messages do.</p>
@@ -2967,7 +2969,7 @@ dlclose(0x600000157d90)
     NSLog(@&quot;Before referencing CASHello in DynamicFramework2&quot;);
     [self loadCASHelloFromDynamicFramework2];
 }</code></pre>
-<p>In general, if our app crashes before it even has run any code in our app, then it is good to switch on the Dynamic Loader diagnostic flags. There might be a deployment\index{software!deployment} issue (not bundling the correct libraries) or code signing\index{software!code signing} issue.</p>
+<p>In general, if our app crashes before it even has run any code in our app, then it is good to switch on the Dynamic Loader diagnostic flags. There might be a deployment issue (not bundling the correct libraries) or code signing issue.</p>
 <h3 id="jablotron-crash">Jablotron crash</h3>
 <p>The <code>Jablotron</code> program is a program that manages alarms and detectors in the home.</p>
 <p>Here is an Crash Report where it has crashed, truncated for ease of demonstration:</p>
@@ -3064,10 +3066,10 @@ Thread 0 Crashed:
 33  UIKit                                0x322dc14d UIApplicationMain + 1134
 34  MyJablotron_dev                      0x002b0683 main (main.m:16)
 35  libdyld.dylib                        0x3a719ab7 start + 0</code></pre>
-<p>We can see the crash is in the Swift Core runtime library\index{Swift!core runtime library}. When we see a crash in common code, from Apple, it usually indicates a misuse of APIs\index{API!misuse}. In those cases, we expect to see a descriptive error.</p>
-<p>In this example, we get a bus alignment error\index{bus!alignment error}. Apple’s library code accessed a memory address improperly for the CPU architecture.</p>
+<p>We can see the crash is in the Swift Core runtime library. When we see a crash in common code, from Apple, it usually indicates a misuse of APIs. In those cases, we expect to see a descriptive error.</p>
+<p>In this example, we get a bus alignment error. Apple’s library code accessed a memory address improperly for the CPU architecture.</p>
 <p>This is a surprise. Sometimes when we use an advanced feature, or set compiler optimization settings, we can trigger errors in special cases or lesser used code paths.</p>
-<p>We see that the problem is during object initialization\index{object!initialization} time:</p>
+<p>We see that the problem is during object initialization time:</p>
 <pre><code>6   MyJablotron_dev                      0x00614a6c
  type metadata accessor for
  MyJablotron.CDFM&lt;MyJablotron.ChartDataPointStructure,
@@ -3079,19 +3081,19 @@ Thread 0 Crashed:
 8   MyJablotron_dev                      0x00606c60
  MyJablotron.ChartThermoPlotSpace.__allocating_init ()
  MyJablotron.ChartThermoPlotSpace (ChartThermoPlotSpace.swift:0)</code></pre>
-<p>The “metadata accessor”\index{object!metadata accessor} phrase is interesting as it implies we are running code that the compiler generates rather than code we have directly written. Perhaps, as a workaround, we could simplify the code to use simpler language features.</p>
+<p>The “metadata accessor” phrase is interesting as it implies we are running code that the compiler generates rather than code we have directly written. Perhaps, as a workaround, we could simplify the code to use simpler language features.</p>
 <p>Here we should aim to write a simple test case by taking the <code>ChartThermoPlotSpace</code> class and simplifying it until we get the essential code for the crash to occur.</p>
-<p>This crash was resolved by Apple updating their compiler to correct a Swift Generics\index{Swift!generics} bug.</p>
+<p>This crash was resolved by Apple updating their compiler to correct a Swift Generics bug.</p>
 <h1 id="application-abort-crashes">Application Abort Crashes</h1>
 <p>In this chapter, we study application abort crashes.</p>
-<p>These crashes are distinguished by reporting Exception Type, <code>EXC_CRASH (SIGABRT)</code>\index{signal!SIGABRT} in their Crash Report.</p>
+<p>These crashes are distinguished by reporting Exception Type, <code>EXC_CRASH (SIGABRT)</code> in their Crash Report.</p>
 <p>We look at a range of crashes obtained by searching the Internet.</p>
 <h2 id="general-principles-1">General principles</h2>
 <p>Many Operating System, language support modules, and libraries have code to detect fatal programming errors. In such circumstances, the application requests that the Operating System terminate the app. This gives rise to a <code>SIGABRT</code> crash.</p>
 <p>There is not one particular reason for <code>SIGABRT</code>. Instead, we look at a variety of examples so that we can see the kinds of situation where they arise.</p>
 <p>Sometimes the particular abort also supplies information in the <code>Application Specific Information</code> area of the crash report. If this does not reveal the detail we require, it is often possible to locate the module that raised the abort, and reverse engineer the code to understand what specifically was the syndrome.</p>
 <h2 id="kindle-create-crash">Kindle Create Crash</h2>
-<p>Kindle Create\index{trademark!Kindle Create} is an application used by authors to create e-books from manuscripts, such as <code>docx</code> files. It makes heavy use of graphics via the QuartzCore\index{library!QuartzCore} library.</p>
+<p>Kindle Create is an application used by authors to create e-books from manuscripts, such as <code>docx</code> files. It makes heavy use of graphics via the QuartzCore library.</p>
 <p>When previewing for publication it crashed with the following crash report, truncated for ease of demonstration:</p>
 <pre><code>Process:               Kindle Create [3010]
 Path:                  /Applications/Kindle Create.app/
@@ -3172,15 +3174,15 @@ Binary Images:
   /System/Library/PrivateFrameworks/GPUSupport.framework/
   Versions/A/Libraries/libGPUSupportMercury.dylib
 </code></pre>
-<p>From the stack backtrace we see that the OpenGL\index{OpenGL} pipeline was flushed. This caused <code>com.apple.AMDRadeonX4000GLDriver</code> to detect a problem with the commands and trigger a crash. We see that the code contributes custom information to the crash report.</p>
+<p>From the stack backtrace we see that the OpenGL pipeline was flushed. This caused <code>com.apple.AMDRadeonX4000GLDriver</code> to detect a problem with the commands and trigger a crash. We see that the code contributes custom information to the crash report.</p>
 <pre><code>3   libGPUSupportMercury.dylib      0xa2aa342d gpusGenerateCrashLog + 160</code></pre>
-<p>We can use the Hopper\index{Hopper} Disassembler and reverse engineering\index{software!reverse engineering} tool here.<br />
-By locating the binary on our Mac, we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode\index{pseudocode}. For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code\index{software!assembly code} is rarely hand written nowadays. This is why the pseudocode output is most valuable.</p>
+<p>We can use the Hopper Disassembler and reverse engineering tool here.<br />
+By locating the binary on our Mac, we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode. For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code is rarely hand written nowadays. This is why the pseudocode output is most valuable.</p>
 <p>We first find the location of the binary from the <code>Binary Images</code> section of the crash report.</p>
 <pre><code>/System/Library/PrivateFrameworks/GPUSupport.framework/
 Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
 <p>Traversing the file hierarchy can be cumbersome for system binaries as they are deeply nested in the file system.</p>
-<p>If Hopper is <strong>already running</strong>, a quick way to select the correct file is to use the command line\index{command!hopper}.</p>
+<p>If Hopper is <strong>already running</strong>, a quick way to select the correct file is to use the command line.</p>
 <pre><code>&#39;/Applications/Hopper Disassembler v4.app/Contents/MacOS/hopper&#39; \
  -e /System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/
  Libraries/libGPUSupportMercury.dylib</code></pre>
@@ -3190,10 +3192,10 @@ Versions/A/Libraries/</code></pre>
 <p><img src="screenshots/finder_support_mercury.png" /></p>
 <p>Then we can simply drag <code>libGPUSupportMercury.dylib</code> from the Finder into the main panel of the Hopper App and it will start processing the file.</p>
 <p><img src="screenshots/drag_file_to_hopper.png" /></p>
-<p>We need to select the architecture to disassemble. It must match what we are diagnosing. From the crash report, we can see that it is a <code>Code Type</code> <code>X86 (Native)</code>.\index{CPU!32-bit X86} This means we need to select the 32-bit architecture option in Hopper.</p>
+<p>We need to select the architecture to disassemble. It must match what we are diagnosing. From the crash report, we can see that it is a <code>Code Type</code> <code>X86 (Native)</code>. This means we need to select the 32-bit architecture option in Hopper.</p>
 <p><img src="screenshots/hopper_32bit.png" /></p>
 <p>The we click Next, and then OK.</p>
-<p>After a moment, the file will be processed. Then we can select <em>Navigate -&gt; Go To Address or Symbol</em> and provide the address <code>_gpusGenerateCrashLog</code> Note, we have a leading underscore. The C compiler puts that in automatically before generating the object file. Historically it was done that way so that hand written assembly code would not conflict with C programming language symbols during linking\index{linker!underscore policy}.</p>
+<p>After a moment, the file will be processed. Then we can select <em>Navigate -&gt; Go To Address or Symbol</em> and provide the address <code>_gpusGenerateCrashLog</code> Note, we have a leading underscore. The C compiler puts that in automatically before generating the object file. Historically it was done that way so that hand written assembly code would not conflict with C programming language symbols during linking.</p>
 <p>In the default view, Hopper will show the disassembly for the function.</p>
 <p><img src="screenshots/hopper_diss.png" /></p>
 <p>By selecting the pseudocode button, shown circled in red, we get Hopper to produce a more easily understandable description of the function.</p>
@@ -3235,7 +3237,7 @@ Graphics kernel error: 0xfffffffb</code></pre>
 <p>Using a different Mac with a different graphics card would be an interesting experiment to understand if we have a driver-specific issue or a general OpenGL problem.</p>
 <h2 id="type-confusion">Type confusion</h2>
 <p>The compiler does an excellent job of static type checking. When types are inferred dynamically problems can arise. Configuration files are further troublesome in this area. It can be easy to set the wrong type for a configuration parameter.</p>
-<p>We use the example code, <code>icdab_nsdata</code>, to illustrate our point. @icdabgithub</p>
+<p>We use the example code, <code>icdab_nsdata</code>, to illustrate our point. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <h3 id="extracting-nsdata-from-a-configuration-file">Extracting NSData from a configuration file</h3>
 <p>Consider the example code:</p>
 <pre><code>- (BOOL)application:(UIApplication *)application
@@ -3355,8 +3357,8 @@ default 13:36:58.000000 +0000   ReportCrash
 <p>From here we can see the problem is that <code>__NSCFConstantString</code> is unable to respond to <code>_isDispatchData</code> because <code>NSString</code> is not a data providing object.</p>
 <p>The Apple SDKs have private implementation classes to support the public abstractions we consume. Error reports will refer to these private classes. Therefore, their names can be unfamiliar.</p>
 <p>An easy way to gather our compass, and figure out what concrete representations map to which abstraction is to search for the class type definition.</p>
-<p>Conveniently, other engineers have run a tool over all frameworks to generate the Objective-C class definitions and have stored them on GitHub\index{trademark!GitHub}. They use the <code>class-dump</code>\index{command!class-dump} tool. This makes all private framework symbols for Objective-C easily searchable.</p>
-<p>We can find the definition of <code>_isDispatchData</code>. @dispatchdata</p>
+<p>Conveniently, other engineers have run a tool over all frameworks to generate the Objective-C class definitions and have stored them on GitHub. They use the <code>class-dump</code> tool. This makes all private framework symbols for Objective-C easily searchable.</p>
+<p>We can find the definition of <code>_isDispatchData</code>. <span class="citation" data-cites="dispatchdata">(“NSDispatchData.h in Foundation.framework” 2018)</span></p>
 <pre><code>/* Generated by RuntimeBrowser
    Image: /System/Library/Frameworks/Foundation.framework/Foundation
  */
@@ -3382,7 +3384,7 @@ default 13:36:58.000000 +0000   ReportCrash
   { unsigned long long x1; unsigned long long x2; })arg1;
 
 @end</code></pre>
-<p>Similarly, we can look up <code>__NSCFConstantString</code>. @cfconstantstring</p>
+<p>Similarly, we can look up <code>__NSCFConstantString</code>. <span class="citation" data-cites="cfconstantstring">(“NSCFConstantString in Corefoundation.framework” 2018)</span></p>
 <pre><code>/* Generated by RuntimeBrowser
    Image: /System/Library/Frameworks/CoreFoundation.framework/
    CoreFoundation
@@ -3554,7 +3556,7 @@ ReceiveNextEventCommon + 613
 _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230</code></pre>
 <p>As an academic exercise we can pin point which of the many error handle cases is the one in play here. Our backtrace here is not the leaf call, so the offset is the address where computation will resume after the function call has returned.</p>
 <p>Using the Hopper tool, we can search for symbol <code>__ZN2CA5Layer10set_boundsERKNS_4RectEb</code> in the binary <code>/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore</code></p>
-<p>Note how we introduce an additional leading underscore to the function name when searching for it. This is due to the C Language Compiler\index{linker!underscore policy}.</p>
+<p>Note how we introduce an additional leading underscore to the function name when searching for it. This is due to the C Language Compiler.</p>
 <p>We see:</p>
 <pre><code>__ZN2CA5Layer10set_boundsERKNS_4RectEb:        
 // CA::Layer::set_bounds(CA::Rect const&amp;, bool)
@@ -3674,7 +3676,7 @@ Exception Message: (Limit 50%) Observed 60% over 180 secs</code></pre>
 <p>The <code>Microstackshots</code> section of the report presumably tells us a sample of the stack at the time of termination. It seems that the <code>Bad magic</code> value reported varies but generally seems to be present with <code>EXC_RESOURCE</code> crashes.</p>
 <h2 id="wake-up-crash">Wake Up Crash</h2>
 <p>The iOS platform limits the number of Wake Ups. When a CPU interrupt occurs, the CPU wakes up to service some task. Typically it is when there is some IO to process, such as inbound networking data. If the platform wakes up too frequently, it can drain the battery. Therefore, the rate of wake ups is limited by the Operating System.</p>
-<p>The following crash report, truncated for ease of demonstration, shows the <code>Snapchat</code>\index{trademark!Snapchat} app being terminated:</p>
+<p>The following crash report, truncated for ease of demonstration, shows the <code>Snapchat</code> app being terminated:</p>
 <pre><code>Incident Identifier: 79C39D6B-E4CA-4047-B96D-7EEED2B57B46
 CrashReporter Key:   52be47ab0a43fb240756d6f5a1e1bcf4aa53c568
 Hardware Model:      iPhone7,2
@@ -3792,9 +3794,9 @@ __CFRunLoopServiceMachPort + 120
 8   Foundation                      0x3170e59a __NSThread__main__ + 1042
 9   libsystem_c.dylib               0x30b68c16 _pthread_start + 314
 10  libsystem_c.dylib               0x30b68ad0 thread_start + 0</code></pre>
-<p>The code <code>0xbad22222</code>\index{0xbad22222} is read “Bad too many times” using “too” as a pun on “2”.</p>
+<p>The code <code>0xbad22222</code> is read “Bad too many times” using “too” as a pun on “2”.</p>
 <p>The ooVoo app makes heavy use of networking because it is a video chat platform.</p>
-<p>This type of crash can be due to improper use of networking APIs. @impropersockets</p>
+<p>This type of crash can be due to improper use of networking APIs. <span class="citation" data-cites="impropersockets">(“Improper Use of Bsd Sockets” 2018)</span></p>
 <h2 id="temperature-crash">Temperature Crash</h2>
 <p>The iOS platform can crash an app if the temperature gets too high. It is classified using an <code>Exception Code</code> <code>0xc00010ff</code></p>
 <p>For example the iTrainAlarm app was terminated with the following Crash Report, truncated for ease of demonstration:</p>
@@ -3843,19 +3845,19 @@ __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 6
 20  iTrainAlarm                     0x000fffa0 start + 32
 
 Unknown thread crashed with unknown flavor: 5, state_count: 1</code></pre>
-<p>From the <code>Exception Codes:</code> we see the code <code>0xc00010ff</code>\index{0xc00010ff}. This is read as “Cool Off”.</p>
+<p>From the <code>Exception Codes:</code> we see the code <code>0xc00010ff</code>. This is read as “Cool Off”.</p>
 <p>This Crash Report shown here is clearly to do with temperature. It is not clear whether the problem is specific to the app currently running, the health of the hardware, or the environment the device was in at the time of the problem. None of the code running is know to generate large amounts of heat. To fix this issue, Analytic Troubleshooting is appropriate. For example, if this crash happens to other apps on the same device even when it is cold, we can suspect a hardware sensor failure. We need a complete picture of where the problem is seen versus not present to make progress with a good hypothesis.</p>
 <p>Finally, the Crash Report notes:</p>
 <pre><code>Unknown thread crashed with unknown flavor: 5, state_count: 1</code></pre>
 <p>This can been seen for cases where the system terminates the app for resource related reasons.</p>
 <p>From looking up the thread flavor in the Darwin XNU code, we see:</p>
 <pre><code>#define THREAD_STATE_NONE       5</code></pre>
-<p>@threadstatus</p>
+<p><span class="citation" data-cites="threadstatus">(“Thread Status Values in Mach” 2018)</span></p>
 <p>So it just means that this is not something of concern. The Crash Report tool could do with improvement to catch this case.</p>
 <h1 id="application-termination-crashes">Application Termination Crashes</h1>
 <p>In this chapter, we study application termination crashes.</p>
-<p>These crashes are distinguished by reporting Exception Type, <code>EXC_CRASH (SIGKILL)</code>\index{signal!SIGKILL} in their Crash Report.</p>
-<p>An application can be designed to catch signals sent to it. Typically in UNIX\index{trademark!UNIX} systems, when a SIGHUP\index{signal!SIGHUP} was sent it would make the program re-read its configuration file, by convention. By design, SIGSTOP and SIGKILL signals cannot be caught.</p>
+<p>These crashes are distinguished by reporting Exception Type, <code>EXC_CRASH (SIGKILL)</code> in their Crash Report.</p>
+<p>An application can be designed to catch signals sent to it. Typically in UNIX systems, when a SIGHUP was sent it would make the program re-read its configuration file, by convention. By design, SIGSTOP and SIGKILL signals cannot be caught.</p>
 <h2 id="deadlock-crash">Deadlock Crash</h2>
 <p>If a SQLite file is locked before an app suspends, the app is crashed. A Deadlock Termination Reason is supplied in the Crash Report.</p>
 <p>As an example we show the OneMessenger app crash with the following Crash Report, truncated for ease of demonstration:</p>
@@ -3938,7 +3940,7 @@ _pthread_wqthread + 1096 (pthread.c:2196)
 16  libsystem_pthread.dylib         0x000000018a41ad7c start_wqthread + 4</code></pre>
 <p>Here we can see, in Thread 16, the app clearly uses SQLite. We see the termination reason:</p>
 <pre><code>Termination Reason: Namespace SPRINGBOARD, Code 0xdead10cc</code></pre>
-<p>Note how the word Deadlock is written as hexspeak 0xdead10cc\index{0xdead10cc}.</p>
+<p>Note how the word Deadlock is written as hexspeak 0xdead10cc.</p>
 <h2 id="insecure-drawing-crash">Insecure Drawing Crash</h2>
 <p>We can get an insecure drawing crash if our app tried to write to the screen when it was not allowed because, for example, the Lock Screen was being shown.</p>
 <p>As an example we show the MobileSMS app crash with the following Crash Report, truncated for ease of demonstration:</p>
@@ -4035,26 +4037,26 @@ Binary Images (Other):
   &lt;38a8f6a396ce3d5f99600cacce041555&gt; /Applications/MobileSMS.app/MobileSMS
 0x100104000 - 0x100143fff   dyld arm64  
 &lt;92368d6f78863cc88239f2e3ec79bba8&gt; /usr/lib/dyld</code></pre>
-<p>Clearly we can see the Termination Code <code>0x2bad45ec</code>\index{0x2bad45ec} (spoken as “Too Bad For Security”) and the <code>Termination Description</code></p>
+<p>Clearly we can see the Termination Code <code>0x2bad45ec</code> (spoken as “Too Bad For Security”) and the <code>Termination Description</code></p>
 <pre><code>SPRINGBOARD, Process detected doing insecure drawing while in secure mode</code></pre>
-<p>We would not expect an Apple provided app, MobileSMS, to crash. Looking carefully at the <code>Binary Images</code> section we can see that the Operating System has been “tweaked”. This phone has been jailbroken\index{operating system!jailbroken} due to the reference to <code>CydiaSubstrate</code>\index{CydiaSubstrate}. We cannot safely rely on any of the apps as having their original design integrity. Perhaps on this phone the MobileSMS app was tweaked to add extra functionality but has introduced a drawing related bug.</p>
+<p>We would not expect an Apple provided app, MobileSMS, to crash. Looking carefully at the <code>Binary Images</code> section we can see that the Operating System has been “tweaked”. This phone has been jailbroken due to the reference to <code>CydiaSubstrate</code>. We cannot safely rely on any of the apps as having their original design integrity. Perhaps on this phone the MobileSMS app was tweaked to add extra functionality but has introduced a drawing related bug.</p>
 <h1 id="memory-diagnostics">Memory diagnostics</h1>
 <p>In this chapter, we look at different diagnostic options for resolving memory problems.</p>
 <h2 id="basics-of-memory-allocation">Basics of memory allocation</h2>
 <p>The iOS platform allocates memory for our app either on the stack or from the heap.</p>
-<p>Memory is allocated on the stack whenever we create locally scoped variables within functions. Memory is allocated from the heap whenever we call <code>malloc</code>\index{command!malloc} (or its variants).</p>
+<p>Memory is allocated on the stack whenever we create locally scoped variables within functions. Memory is allocated from the heap whenever we call <code>malloc</code> (or its variants).</p>
 <p>The minimum granularity of allocation on the heap is 16 bytes (an implementation detail we are not to rely upon). This means a small overshoot can sometimes go undetected when we are accidentally overwriting past the number of bytes we have allocated.</p>
-<p>When memory is allocated, it is placed into a Virtual\index{memory!virtual} Memory region. There are virtual memory regions for allocations of approximately the same size. For example, we have regions <code>MALLOC_LARGE</code>, <code>MALLOC_SMALL</code>, <code>MALLOC_TINY</code>. This strategy tends to reduce the amount of fragmentation of memory. Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimize the performance of the system.</p>
+<p>When memory is allocated, it is placed into a Virtual Memory region. There are virtual memory regions for allocations of approximately the same size. For example, we have regions <code>MALLOC_LARGE</code>, <code>MALLOC_SMALL</code>, <code>MALLOC_TINY</code>. This strategy tends to reduce the amount of fragmentation of memory. Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimize the performance of the system.</p>
 <p>The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used to different purposes, so one logical area of the system can interfere with an unrelated area of the system. Furthermore, there can be a delay (or latency) so the problem is discovered much after the problem was introduced.</p>
 <h2 id="address-sanitizer">Address Sanitizer</h2>
-<p>A very powerful tool can assist with memory diagnostics, called the Address Sanitizer. (See @asanchecker)</p>
+<p>A very powerful tool can assist with memory diagnostics, called the Address Sanitizer. (See <span class="citation" data-cites="asanchecker">Serebryany et al. (2012)</span>)</p>
 <p>It requires us to recompile our code with the Schema setting for Address Sanitizer set:</p>
 <p><img src="screenshots/diagnostic_santizer_setting.png" /></p>
 <p>Address sanitizer does memory accounting (called Shadow Memory). It knows which memory locations are “poisoned”. That is, memory which has not been allocated (or was allocated, and then freed).</p>
-<p>@wwdc2015_413</p>
+<p><span class="citation" data-cites="wwdc2015_413">(“Advanced Debugging with Address Sanitizer” 2015)</span></p>
 <p>Address sanitizer directly makes use of the compiler so that when code is compiled, any access to memory entails a check against the Shadow Memory to see if the memory location is poisoned. If so, an error report is generated.</p>
 <p>This is a very powerful tool because it tackles the two most important classes of memory error:</p>
-<ol>
+<ol type="1">
 <li>Heap Buffer Overflow</li>
 <li>Heap Use After Free</li>
 </ol>
@@ -4062,7 +4064,7 @@ Binary Images (Other):
 <p>Address Sanitizer goes much further to address other classes of memory error but those are less often encountered: stack buffer overflow, global variable overflow, overflows in C++ containers, and use after return bugs.</p>
 <p>The cost of this convenience is that our program can be x2 to x5 slower. It is something worth switching on in our continuous integration systems to shake out problems.</p>
 <h2 id="memory-overshoot-example">Memory overshoot example</h2>
-<p>Consider the following code in the <code>icdab_edge</code> example program. @icdabgithub</p>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)overshootAllocated
 {
     uint8_t *memory = malloc(16);
@@ -4108,7 +4110,7 @@ Shadow byte legend (one shadow byte represents 8 application bytes):
   Heap left redzone:       fa</code></pre>
 <p>From <code>[fa]</code> we see we hit the first byte of the “redzone” (poisoned memory).</p>
 <h2 id="use-after-free-example">Use after free example</h2>
-<p>Consider the following code in the <code>icdab_edge</code> example program. @icdabgithub</p>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)useAfterFree
 {
     uint8_t *memory = malloc(16);         // line 54
@@ -4167,7 +4169,7 @@ freed by thread T0 here:
 <h3 id="malloc-scribble">Malloc Scribble</h3>
 <p>The purpose of Malloc Scribble is to make the symptoms of memory errors predictable by having <code>malloc</code>-ed or <code>free</code>-ed memory assigned to fixed known values. Allocated memory is given <code>0xAA</code> and deallocated memory is given <code>0x55</code>. It does not affect the behavior of data allocated on the stack. It is not compatible with Address Sanitizer.</p>
 <p>If we have an app that keeps crashing different ways each time it is run, then Malloc Scribble is a good option. It will help make the crash predictable and repeatable.</p>
-<p>Consider the following code in the <code>icdab_edge</code> example program. @icdabgithub</p>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)uninitializedMemory
 {
     uint8_t *source = malloc(16);
@@ -4186,7 +4188,7 @@ freed by thread T0 here:
 <p>The purpose of Zombie Objects is to detect use-after-free bugs in the context of Objective-C <code>NSObject</code>s. Particularly if we have a legacy code base that uses Manual Reference Counting, it can be easy to over release an object. This means that messaging through the, now dangling, pointer can have unpredictable effects.</p>
 <p>This setting must only be made on debug builds because the code will no longer release objects. Its performance profile is equivalent to leaking every object that should have been deallocated.</p>
 <p>This setting will make deallocated objects to instead become <code>NSZombie</code> objects. This means that any method called upon the object will result in a crash. Any message sent to an <code>NSZombie</code> object results in a crash. Therefore, whenever an over-released object is messaged, we are guaranteed a crash.</p>
-<p>Consider the following code in the <code>icdab_edge</code> example program. @icdabgithub</p>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)overReleasedObject
 {
     id a = [[UIViewController alloc] init];
@@ -4205,14 +4207,85 @@ freed by thread T0 here:
 <p>The type will be whatever the original type of the over released object was, but prefixed with <code>_NSZombie_</code>. This is most helpful, and we should look out for this when studying the program state in the debugger.</p>
 <h3 id="dynamic-linker-api-usage">Dynamic Linker API Usage</h3>
 <p>Sometimes programs dynamically adapt or are extensible. For such programs, the dynamic linker API is used to programatically load up extra code modules. When the configuration or deployment of the app is faulty, this can result in crashes.</p>
-<p>To debug such problems, set the <code>Dynamic Linker API Usage</code> flag. This can generate a lot of messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch\index{trademark!Apple Watch}.</p>
+<p>To debug such problems, set the <code>Dynamic Linker API Usage</code> flag. This can generate a lot of messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch.</p>
 <p>To see an example, refer to <a href="#xmbmc%20crash">XMBMC crash</a></p>
-<h1 id="bibliography">Bibliography</h1>
-<hr />
-<p>title: iOS Crash Dump Analysis</p>
-<p>author: - By Faisal Memon</p>
-<p>tags: [iOS, crash dump, crash analysis]</p>
-<p>geometry: “paperwidth=18.9cm,paperheight=24.61cm,left=3cm,right=3cm,top=2cm,bottom=2cm”</p>
-<p>header-includes: - | <code>{=latex}   \pagenumbering{gobble}</code> …</p>
+<h1 id="bibliography" class="unnumbered">Bibliography</h1>
+<div id="refs" class="references">
+<div id="ref-macbookproT2">
+<p>“2018 Macbook Pros Bridge Os Error.” 2018. <a href="https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/" class="uri">https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/</a>.</p>
+</div>
+<div id="ref-wwdc2015_413">
+<p>“Advanced Debugging with Address Sanitizer.” 2015. <a href="https://developer.apple.com/videos/play/wwdc2015/413/" class="uri">https://developer.apple.com/videos/play/wwdc2015/413/</a>.</p>
+</div>
+<div id="ref-kepnertregoe">
+<p>“Analytic Troubleshooting.” 2018. <a href="https://www.kepner-tregoe.com" class="uri">https://www.kepner-tregoe.com</a>.</p>
+</div>
+<div id="ref-tn2151">
+<p>“Apple Crash Dump Technote 2151.” 2018. <a href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2151/_index.html</a>.</p>
+</div>
+<div id="ref-appleinsiderimacpro">
+<p>“Apple’s T2 Chip May Be Behind iMac Pro, Macbook Pro Crashes.” 2018. <a href="https://appleinsider.com/articles/18/07/26/apples-t2-chip-could-be-behind-small-number-of-crashes-in-imac-pro-new-macbook-pro" class="uri">https://appleinsider.com/articles/18/07/26/apples-t2-chip-could-be-behind-small-number-of-crashes-in-imac-pro-new-macbook-pro</a>.</p>
+</div>
+<div id="ref-tn2123">
+<p>“CrashReport Technote 2123.” 2004. <a href="https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html</a>.</p>
+</div>
+<div id="ref-intelrob">
+<p>“Debugging Processor Reorder Buffer Timeout: Guide.” 2018. <a href="https://www.intel.co.uk/content/www/uk/en/embedded/training/rob-timeout-debug-guide-paper.html?wapkw=caterr" class="uri">https://www.intel.co.uk/content/www/uk/en/embedded/training/rob-timeout-debug-guide-paper.html?wapkw=caterr</a>.</p>
+</div>
+<div id="ref-apple-sysdiag">
+<p>“Diagnostic Profiles and Logs.” 2018. <a href="https://developer.apple.com/bug-reporting/profiles-and-logs/" class="uri">https://developer.apple.com/bug-reporting/profiles-and-logs/</a>.</p>
+</div>
+<div id="ref-dynamicloadingeg">
+<p>“Dynamic Loading Example.” 2018. <a href="https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework.git" class="uri">https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework.git</a>.</p>
+</div>
+<div id="ref-impropersockets">
+<p>“Improper Use of Bsd Sockets.” 2018. <a href="https://stackoverflow.com/a/13790353/2715565" class="uri">https://stackoverflow.com/a/13790353/2715565</a>.</p>
+</div>
+<div id="ref-icdabgithub">
+<p>“IOS Crash Dump Analysis Book Github Resources.” 2018. <a href="https://github.com/faisalmemon/ios-crash-dump-analysis-book" class="uri">https://github.com/faisalmemon/ios-crash-dump-analysis-book</a>.</p>
+</div>
+<div id="ref-3rdpartycrashtools">
+<p>“IOS Crash Reporting Tools.” 2017. <a href="https://rollout.io/blog/ios-crash-reporting-tools-2017-update/" class="uri">https://rollout.io/blog/ios-crash-reporting-tools-2017-update/</a>.</p>
+</div>
+<div id="ref-ios-versions">
+<p>“IOS Version History.” 2018. <a href="https://en.wikipedia.org/wiki/IOS_version_history" class="uri">https://en.wikipedia.org/wiki/IOS_version_history</a>.</p>
+</div>
+<div id="ref-libdispatchtar">
+<p>“Libdispatch Open Source.” 2018. <a href="https://opensource.apple.com/tarballs/libdispatch/" class="uri">https://opensource.apple.com/tarballs/libdispatch/</a>.</p>
+</div>
+<div id="ref-ios-devices">
+<p>“List of iOS Devices.” 2018. <a href="https://en.wikipedia.org/wiki/List_of_iOS_devices" class="uri">https://en.wikipedia.org/wiki/List_of_iOS_devices</a>.</p>
+</div>
+<div id="ref-exception-types">
+<p>“Mach Exception Types.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68" class="uri">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68</a>.</p>
+</div>
+<div id="ref-macherror">
+<p>“Making Sense of I/O Kit Error Codes.” 2018. <a href="https://developer.apple.com/library/archive/qa/qa1075/_index.html" class="uri">https://developer.apple.com/library/archive/qa/qa1075/_index.html</a>.</p>
+</div>
+<div id="ref-cfconstantstring">
+<p>“NSCFConstantString in Corefoundation.framework.” 2018. <a href="https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/1501f5e689fda4644df0adbffc50c0f737c4ab96/Frameworks/CoreFoundation.framework/__NSCFConstantString.h" class="uri">https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/1501f5e689fda4644df0adbffc50c0f737c4ab96/Frameworks/CoreFoundation.framework/__NSCFConstantString.h</a>.</p>
+</div>
+<div id="ref-dispatchdata">
+<p>“NSDispatchData.h in Foundation.framework.” 2018. <a href="https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/Foundation.framework/_NSDispatchData.h%0A">https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/Foundation.framework/_NSDispatchData.h%0A</a>.</p>
+</div>
+<div id="ref-class-dump-tool">
+<p>Nygard, Steve. 2018. “Class Dump Tool.” <a href="http://stevenygard.com/projects/class-dump/" class="uri">http://stevenygard.com/projects/class-dump/</a>.</p>
+</div>
+<div id="ref-panicbook">
+<p><em>Panic! Unix System Crash Dump Analysis</em>. 1995. 1st ed. Vol. 1. 0-13-149386-8. Prentice Hall.</p>
+</div>
+<div id="ref-plcrashreporter">
+<p>“Plausible Labs Crash Reporter.” 2018. <a href="https://github.com/plausiblelabs/plcrashreporter" class="uri">https://github.com/plausiblelabs/plcrashreporter</a>.</p>
+</div>
+<div id="ref-resource-management">
+<p>“Resource Management.” 2015. <a href="http://newosxbook.com/files/MSAse2015.pdf" class="uri">http://newosxbook.com/files/MSAse2015.pdf</a>.</p>
+</div>
+<div id="ref-asanchecker">
+<p>Serebryany, Konstantin, Derek Bruening, Alexander Potapenko, and Dmitry Vyukov. 2012. “AddressSanitizer: A Fast Address Sanity Checker.” In <em>USENIX Atc 2012</em>. <a href="https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker" class="uri">https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker</a>.</p>
+</div>
+<div id="ref-threadstatus">
+<p>“Thread Status Values in Mach.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h" class="uri">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h</a>.</p>
+</div>
+</div>
 </body>
 </html>
