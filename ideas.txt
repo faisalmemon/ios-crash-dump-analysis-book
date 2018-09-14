@@ -24,9 +24,9 @@ x Cover chapters for illegal instructions, guard exceptions, and termination cod
 
 LATER WE SHALL references found from `grep -iR --color later markdown examples`
 
-Examples of using xcode diagnostic tools (e.g. malloc history)
+x Examples of using xcode diagnostic tools (e.g. malloc history)
 x Using class-dump in an example [Siri Crash]
 x Using hopper for pseudo-code
-Explain xcode instruments (memory profiler or VM usage)
+x Explain xcode instruments (memory profiler or VM usage) (only focus is leaks)
 x Explain third party crash report tooling
 x Examples of early crash and showing diagnosis of the runtime loader

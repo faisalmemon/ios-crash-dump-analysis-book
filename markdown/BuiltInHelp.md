@@ -66,7 +66,7 @@ When a developer proposes a code change in a pull request, get the developer to 
 
 When code is committed to a feature branch, have the automated tests run on it, with different diagnostics settings set.  This can shake out problems automatically.
 
-Before each release, schedule time to run some specific user cases under the memory profiler\index{test!memory profiling} (Xcode instruments will be covered later on) to look at memory usage or other key metrics.  Record the highlights such as the peak memory usage as well as the profile file.  Then when the following release is made we have a yardstick to see how things have changed both quantitatively and qualitatively.
+Before each release, schedule time to run some specific user cases under the memory profiler\index{test!memory profiling} to look at memory usage or other key metrics.  Record the highlights such as the peak memory usage as well as the profile file.  Then when the following release is made we have a yardstick to see how things have changed both quantitatively and qualitatively.
 
 ## The Middle Road
 
