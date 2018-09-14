@@ -430,6 +430,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>The idea is to make our app handle all the possible signals and exceptions that can occur that would otherwise be unimplemented by the app and thus lead to the underlying Operating System to handle the crash.</p>
 <p>With this solution, the crash data can be recorded, and then later communicated to a server of our own choice.</p>
 <p>There are two benefits. Firstly, the crash handler can be fixed to handle edge cases not already handled by the Apple ReportCrash tool. Secondly, a more comprehensive server side solution can be employed.</p>
+<p>For those wanting to explore, and understand, the Operating System, and low-level application code, <code>plcrashreporter</code> provides an excellent opportunity to study a well-engineered piece of system software.</p>
 <p>When an company has many apps, many app variants, and has apps based on competitor platforms such as Android, a more powerful multi-platform solution is needed. Handling crash reports soon becomes a management problem. Which crash is the most serious? How many customers are affected? What are my metrics for quality and stability?</p>
 <p>A number of commercial solutions are available, largely based upon the above Open Source project.</p>
 <p>The Mobile Software Development field has grown into a big industry over the last few years. Many specialist companies serve App Developers as their customers. The field is very active in terms of mergers and acquisitions. Therefore, we cannot name the competitors in the Crash Reporting space in this book as the list would be constantly changing.</p>
@@ -4189,7 +4190,9 @@ freed by thread T0 here:
     NSLog(@&quot;%@&quot;, [a description]);
 }</code></pre>
 <p>When the above code is called we get a crash, and the following is logged:</p>
-<pre><code>2018-09-12 12:09:10.236058+0100 icdab_edge[92796:13650378] *** -[UIViewController description]: message sent to deallocated instance 0x7fba1ff071c0</code></pre>
+<pre><code>2018-09-12 12:09:10.236058+0100 icdab_edge[92796:13650378]
+ *** -[UIViewController description]: message sent to deallocated
+  instance 0x7fba1ff071c0</code></pre>
 <p>Looking at the debugger we see:</p>
 <p><img src="screenshots/zombie.png" /></p>
 <p>Note how the type of the object instance <code>a</code> is <code>_NSZombie_UIViewController *</code> The type will be whatever the original type of the over released object was, but prefixed with <code>_NSZombie_</code>. This is most helpful, and we should look out for this when studying the program state in the debugger.</p>
