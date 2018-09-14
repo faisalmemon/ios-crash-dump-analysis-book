@@ -195,10 +195,12 @@
 <li><a href="#address-sanitizer">Address Sanitizer</a></li>
 <li><a href="#memory-overshoot-example">Memory overshoot example</a></li>
 <li><a href="#use-after-free-example">Use after free example</a></li>
-<li><a href="#memory-management-tools">Memory Management tools</a></li>
+<li><a href="#memory-management-tools">Memory Management tools</a><ul>
 <li><a href="#guard-malloc-tool">Guard Malloc Tool</a></li>
 <li><a href="#malloc-scribble">Malloc Scribble</a></li>
 <li><a href="#zombie-objects">Zombie Objects</a></li>
+<li><a href="#dynamic-linker-api-usage">Dynamic Linker API Usage</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
@@ -4042,9 +4044,9 @@ Binary Images (Other):
 <p>In this chapter, we look at different diagnostic options for resolving memory problems.</p>
 <h2 id="basics-of-memory-allocation">Basics of memory allocation</h2>
 <p>The iOS platform allocates memory for our app either on the stack or from the heap.</p>
-<p>Memory is allocated on the stack as a result of creating locally scoped variables within functions. Memory is allocated from the heap as a result of calling malloc (or its variants).</p>
+<p>Memory is allocated on the stack whenever we create locally scoped variables within functions. Memory is allocated from the heap whenever we call <code>malloc</code> (or its variants).</p>
 <p>The minimum granularity of allocation on the heap is 16 bytes (an implementation detail we are not to rely upon). This means a small overshoot can sometimes go undetected when we are accidentally overwriting past the number of bytes we have allocated.</p>
-<p>When memory is allocated, it is placed into a Virtual Memory region. There are virtual memory regions for allocations of approximately the same size. For example, <code>MALLOC_LARGE</code>, <code>MALLOC_SMALL</code>, <code>MALLOC_TINY</code>. This strategy tends to reduce the amount of fragmentation of memory. Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimise the performance of the system.</p>
+<p>When memory is allocated, it is placed into a Virtual Memory region. There are virtual memory regions for allocations of approximately the same size. For example, we have regions <code>MALLOC_LARGE</code>, <code>MALLOC_SMALL</code>, <code>MALLOC_TINY</code>. This strategy tends to reduce the amount of fragmentation of memory. Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimize the performance of the system.</p>
 <p>The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used to different purposes, so one logical area of the system can interfere with an unrelated area of the system. Furthermore, there can be a delay (or latency) so the problem is discovered much after the problem was introduced.</p>
 <h2 id="address-sanitizer">Address Sanitizer</h2>
 <p>A very powerful tool can assist with memory diagnostics, called the Address Sanitizer. (See <span class="citation" data-cites="asanchecker">Serebryany et al. (2012)</span>)</p>
@@ -4053,7 +4055,13 @@ Binary Images (Other):
 <p>Address sanitizer does memory accounting (called Shadow Memory). It knows which memory locations are “poisoned”. That is, memory which has not been allocated (or was allocated, and then freed).</p>
 <p><span class="citation" data-cites="wwdc2015_413">(“Advanced Debugging with Address Sanitizer” 2015)</span></p>
 <p>Address sanitizer directly makes use of the compiler so that when code is compiled, any access to memory entails a check against the Shadow Memory to see if the memory location is poisoned. If so, an error report is generated.</p>
-<p>This is a very powerful tool because it tackles the two most important classes of memory error. Firstly, using more bytes than we were allocated. Secondly, using memory after it has been freed. It goes much further to address other classes of memory error but those are less often encountered: stack buffer overflow, global variable overflow, overflows in C++ containers, and use after return bugs.</p>
+<p>This is a very powerful tool because it tackles the two most important classes of memory error:</p>
+<ol type="1">
+<li>Heap Buffer Overflow</li>
+<li>Heap Use After Free</li>
+</ol>
+<p><em>Heap Buffer Overflow</em> bugs are where we used more bytes than we were allocated. <em>Heap Use After Free</em> bugs are where we used memory after it had been freed.</p>
+<p>Address Sanitizer goes much further to address other classes of memory error but those are less often encountered: stack buffer overflow, global variable overflow, overflows in C++ containers, and use after return bugs.</p>
 <p>The cost of this convenience is that our program can be x2 to x5 slower. It is something worth switching on in our continuous integration systems to shake out problems.</p>
 <h2 id="memory-overshoot-example">Memory overshoot example</h2>
 <p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
@@ -4072,15 +4080,16 @@ Binary Images (Other):
  0x60200003a5e0 at pc 0x00010394461b bp 0x7ffeec2b8f00 sp 0x7ffeec2b8ef8
 WRITE of size 1 at 0x60200003a5e0 thread T0
 #0 0x10394461a in -[Crash overshootAllocated] Crash.m:48</code></pre>
-<p>This is enough context to be able to switch to the code and start understanding the problem.</p>
-<p>Further details are supplied showing we off the end of a 16-byte allocation:</p>
+<p>This is enough context to be able to switch to the code, and start understanding the problem.</p>
+<p>Further details are supplied showing we overshot the end of a 16-byte allocation:</p>
 <pre><code>0x60200003a5e0 is located 0 bytes to the right of 16-byte region
  [0x60200003a5d0,0x60200003a5e0)
 allocated by thread T0 here:
 #0 0x103bcdaa3 in wrap_malloc
 (libclang_rt.asan_iossim_dynamic.dylib:x86_64+0x54aa3)
 #1 0x1039445ae in -[Crash overshootAllocated] Crash.m:46</code></pre>
-<p>and we also get a “map” of the memory around the problem:</p>
+<p>Note the use of a “half-open” number range number notation, where <code>[</code> includes the lower range index, and <code>)</code> excludes the upper range index. So our access to <code>0x60200003a5e0</code> is outside the allocated range <code>[0x60200003a5d0,0x60200003a5e0)</code></p>
+<p>We also get a “map” of the memory around the problem:</p>
 <pre><code>SUMMARY: AddressSanitizer: heap-buffer-overflow Crash.m:48 in
  -[Crash overshootAllocated]
 Shadow bytes around the buggy address:
@@ -4153,12 +4162,12 @@ freed by thread T0 here:
       Freed heap region:       fd</code></pre>
 <p>We see the entry, <code>[fd]</code> indicating a write to memory that has been freed already.</p>
 <h2 id="memory-management-tools">Memory Management tools</h2>
-<p>There are a collection of tools complementary to the Address Sanitizer tool. These are to be used when Address Sanitizer is off. They catch certain causes of failure that Address Sanitizer would miss.</p>
-<p>The memory management tools do not require a re-compilation of the project. That is their main advantage.</p>
-<h2 id="guard-malloc-tool">Guard Malloc Tool</h2>
+<p>There is a collection of tools complementary to the Address Sanitizer tool. These are to be used when Address Sanitizer is off. They catch certain causes of failure that Address Sanitizer would miss.</p>
+<p>In contrast to the Address Sanitizer, the memory management tools do not require a re-compilation of the project.</p>
+<h3 id="guard-malloc-tool">Guard Malloc Tool</h3>
 <p>This tool is only available on simulator targets, a major disadvantage. Every allocation is placed into its own memory page with guard pages before and after. This tool is largely superseded by Address Sanitizer.</p>
-<h2 id="malloc-scribble">Malloc Scribble</h2>
-<p>The purpose of Malloc Scribble is to make the symptoms of memory errors predictable by having <code>malloc</code>ed or <code>free</code>ed memory assigned to fixed known values. Allocated memory is given <code>0xAA</code> and deallocated memory is given <code>0x55</code>. It does not affect the behavior of data allocated on the stack. It is not compatible with Address Sanitizer.</p>
+<h3 id="malloc-scribble">Malloc Scribble</h3>
+<p>The purpose of Malloc Scribble is to make the symptoms of memory errors predictable by having <code>malloc</code>-ed or <code>free</code>-ed memory assigned to fixed known values. Allocated memory is given <code>0xAA</code> and deallocated memory is given <code>0x55</code>. It does not affect the behavior of data allocated on the stack. It is not compatible with Address Sanitizer.</p>
 <p>If we have an app that keeps crashing different ways each time it is run, then Malloc Scribble is a good option. It will help make the crash predictable and repeatable.</p>
 <p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)uninitializedMemory
@@ -4169,16 +4178,16 @@ freed by thread T0 here:
        target[i] = *(source + i);
     }
 }</code></pre>
-<p>First, <code>source</code> is given freshly allocated memory. Since this memory has not yet been initialised, it is set to 0xAA when Malloc Scribble has been set (and address sanitizer reset) in the Schema settings.</p>
+<p>First, <code>source</code> is given freshly allocated memory. Since this memory has not yet been initialized, it is set to 0xAA when Malloc Scribble has been set (and address sanitizer reset) in the Schema settings.</p>
 <p>Then, <code>target</code> is setup. It is a buffer on the stack (not heap memory). Using the code, <code>= {0}</code>, we make the app set <code>0</code> in all memory locations of this buffer. Otherwise, it would be random memory values.</p>
 <p>Then we enter a loop. By breakpointing in the debugger, say at the second iteration, we can print off the memory contents and see the following:</p>
 <p><img src="screenshots/scribble.png" /></p>
 <p>We see that the <code>target</code> buffer is zeros apart from the first two index positions where it is <code>0xAA</code>. We see that the <code>source</code> memory is always <code>0xAA</code></p>
-<p>If we had not set Malloc Scribble, the target buffer would have got filled with random values. In a complex program, such data could be fed to other subsystems affecting the behavior of the program.</p>
-<h2 id="zombie-objects">Zombie Objects</h2>
-<p>The purpose of Zombie Objects is to detect use-after-free bugs in the context of Objective-C NSObjects. Particularly if we have a legacy code base that uses Manual Reference Counting, it can be easy to over release an object. This means that messaging through the, now dangling, pointer can have unpredictable effects.</p>
+<p>If we had not set Malloc Scribble, the target buffer would have been filled with random values. In a complex program, such data could be fed to other subsystems affecting the behavior of the program.</p>
+<h3 id="zombie-objects">Zombie Objects</h3>
+<p>The purpose of Zombie Objects is to detect use-after-free bugs in the context of Objective-C <code>NSObject</code>s. Particularly if we have a legacy code base that uses Manual Reference Counting, it can be easy to over release an object. This means that messaging through the, now dangling, pointer can have unpredictable effects.</p>
 <p>This setting must only be made on debug builds because the code will no longer release objects. Its performance profile is equivalent to leaking every object that should have been deallocated.</p>
-<p>This setting will make deallocated objects to instead become NSZombie objects. This means that any method called upon the object will result in a crash. It removes unpredictable behavior by guaranteeing a crash each time and over released object is messaged. Therefore, it allows us to track the point at which the over released object was messaged.</p>
+<p>This setting will make deallocated objects to instead become <code>NSZombie</code> objects. This means that any method called upon the object will result in a crash. Any message sent to an <code>NSZombie</code> object results in a crash. Therefore, whenever an over-released object is messaged, we are guaranteed a crash.</p>
 <p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)overReleasedObject
 {
@@ -4192,9 +4201,14 @@ freed by thread T0 here:
 <pre><code>2018-09-12 12:09:10.236058+0100 icdab_edge[92796:13650378]
  *** -[UIViewController description]: message sent to deallocated
   instance 0x7fba1ff071c0</code></pre>
-<p>Looking at the debugger we see:</p>
+<p>Looking at the debugger, we see:</p>
 <p><img src="screenshots/zombie.png" /></p>
-<p>Note how the type of the object instance <code>a</code> is <code>_NSZombie_UIViewController *</code> The type will be whatever the original type of the over released object was, but prefixed with <code>_NSZombie_</code>. This is most helpful, and we should look out for this when studying the program state in the debugger.</p>
+<p>Note how the type of the object instance <code>a</code> is <code>_NSZombie_UIViewController *</code>.</p>
+<p>The type will be whatever the original type of the over released object was, but prefixed with <code>_NSZombie_</code>. This is most helpful, and we should look out for this when studying the program state in the debugger.</p>
+<h3 id="dynamic-linker-api-usage">Dynamic Linker API Usage</h3>
+<p>Sometimes programs dynamically adapt or are extensible. For such programs, the dynamic linker API is used to programatically load up extra code modules. When the configuration or deployment of the app is faulty, this can result in crashes.</p>
+<p>To debug such problems, set the <code>Dynamic Linker API Usage</code> flag. This can generate a lot of messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch.</p>
+<p>To see an example, refer to <a href="#xmbmc%20crash">XMBMC crash</a></p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-macbookproT2">
