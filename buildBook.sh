@@ -1,5 +1,7 @@
 #!/bin/bash
 
+./commatrademark.sh > trademarks.md
+
 rm foo.*
 
 # We allow first person in the preface and second person in the Introduction.
