@@ -269,4 +269,44 @@ Sometimes programs dynamically adapt or are extensible.  For such programs, the 
 
 To debug such problems, set the `Dynamic Linker API Usage` flag.  This can generate a lot of messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch\index{trademark!Apple Watch}.
 
-To see an example, refer to [XMBMC crash](#xmbmc crash)
+An example app using the dynamic linker is available on GitHub. @dynamicloadingeg
+
+The kind of output when it is enabled is:
+
+```
+_dyld_get_image_slide(0x105545000)
+_dyld_register_func_for_add_image(0x10a21264c)
+_dyld_get_image_slide(0x105545000)
+_dyld_get_image_slide(0x105545000)
+_dyld_register_func_for_add_image(0x10a5caf39)
+dyld_image_path_containing_address(0x1055d2000)
+.
+.
+.
+
+dlopen(DynamicFramework2.framework/DynamicFramework2) ==> 0x60c0001460f0
+.
+.
+.
+```
+
+Huge amounts of logging is generated.  It is best to start off by searching for the `dlopen` command, and then looking to see what other functions in the `dlopen` family are called.
+
+### Dynamic Library Loads
+
+Sometimes we have an early stage app crash during the initialization phase where the dynamic loader is loading the app binary and its dependent frameworks.  If we are confident that it is not custom code using the dynamic linker API, but instead it is the assembly of frameworks into the loaded binary we care about, then switching on the `Dynamic Library Loads` flag is appropriate.  We get much shorter logs that enabling the `Dynamic Linker API Usage` flag.
+
+Upon launch, we get a list of binaries loaded:
+
+```
+dyld: loaded: /Users/faisalm/Library/Developer/CoreSimulator/Devices/
+99DB717F-9161-461A-B11F-210C389ABA12/data/Containers/Bundle/Application/
+D916AC0F-6434-46A3-B18E-5EC65D194454/icdab_edge.app/icdab_edge
+
+dyld: loaded: /Applications/Xcode.app/Contents/Developer/
+Platforms/iPhoneOS.platform/Contents/Resources/RuntimeRoot/
+usr/lib/libBacktraceRecording.dylib
+.
+.
+.
+```
