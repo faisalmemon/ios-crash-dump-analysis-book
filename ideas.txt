@@ -4,7 +4,7 @@ x Possible to have a website to analyse crashes and promote the book.
 x Explain Kepner Tregoe
 x Explain Mach, mach_msg etc. and History
 Do Kepner Tregoe worksheets
-Look at structure of iBook and Technical books - need Acknowledgements and Copyright/Trademarks Section
+x Look at structure of iBook and Technical books - need Acknowledgements and Copyright/Trademarks Section
 x Look at smashbooks
 x Include example of WTFCrash (WebKit)
 x Add Preface
