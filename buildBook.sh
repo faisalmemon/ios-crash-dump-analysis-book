@@ -8,9 +8,9 @@ rm foo.*
 # Elsewhere it is third person only.
 
 echo Usages of "you" in the narrative
-grep --color you $(cat frontPages.txt mainPages.txt | egrep -v 'Introduction|Preface') -c | grep --color -v hammer | grep -i --color -v layout
+grep --color you $(cat frontPages.txt mainPages.txt | egrep -v 'Introduction|Preface|Acknowledgements') -c | grep --color -v hammer | grep -i --color -v layout
 echo
-grep --color you $(cat frontPages.txt mainPages.txt | egrep -v 'Introduction|Preface') | grep --color -v hammer | grep -i --color -v layout
+grep --color you $(cat frontPages.txt mainPages.txt | egrep -v 'Introduction|Preface|Acknowledgements') | grep --color -v hammer | grep -i --color -v layout
 
 pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -c style/gitHubStyle.css -o foo.html
 pandoc $(cat frontPages_latex.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --template=style/simple.latex  -V documentclass=book -o foo.latex
