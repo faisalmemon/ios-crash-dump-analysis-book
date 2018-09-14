@@ -25,6 +25,7 @@
 </header>
 <nav id="TOC">
 <ul>
+<li><a href="#disclaimer">Disclaimer</a></li>
 <li><a href="#preface">Preface</a></li>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#quick-start">Quick Start</a><ul>
@@ -207,6 +208,13 @@
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </nav>
+<h1 id="disclaimer">Disclaimer</h1>
+<p>Copyright Faisal Memon 2018. All Rights Reserved.</p>
+<p>This publication is provided “as is” without warranty of any kind, either express or implied, including, but not limited to, the implied warranties of merchantability, fitness for a particular purpose, or non-infringement.</p>
+<p>This publication could include technical inaccuracies or typographical errors. Changes are periodically added to the information herein. These changes will be incorporated in new editions of the publication.</p>
+<p>Trademark terms are recognised in this text by enumeration in the Index under the item “trademark”.</p>
+<p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
+<p>Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.</p>
 <h1 id="preface">Preface</h1>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
 <p>It’s hard to overstate the euphoria of the moment. The Internet was the next Industrial Revolution. Investors saw it as the best place to put their money. Hardware, software and services were all experiencing a Cambrian explosion of diversity and innovation.</p>
@@ -475,7 +483,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>One way to drive out crashes from our app, particularly when we are in a large organization, is to factor it in our software development process.</p>
 <p>When a developer proposes a code change in a pull request, get the developer to ensure no new analyzer warnings are introduced. We might consider the analyzer report as a robotically generated code review available to us for free. That is particularly helpful if we are working alone on a project with no peer to review our code.</p>
 <p>When code is committed to a feature branch, have the automated tests run on it, with different diagnostics settings set. This can shake out problems automatically.</p>
-<p>Before each release, schedule time to run some specific user cases under the memory profiler (Xcode instruments will be covered later on) to look at memory usage or other key metrics. Record the highlights such as the peak memory usage as well as the profile file. Then when the following release is made we have a yardstick to see how things have changed both quantitatively and qualitatively.</p>
+<p>Before each release, schedule time to run some specific user cases under the memory profiler to look at memory usage or other key metrics. Record the highlights such as the peak memory usage as well as the profile file. Then when the following release is made we have a yardstick to see how things have changed both quantitatively and qualitatively.</p>
 <h2 id="the-middle-road">The Middle Road</h2>
 <p>Most software developers know what they “should” be doing; clean code, proper tests, code reviews, etc.</p>
 <p>We recommend taking a measured approach. There is a time for hacking together a sample app to understand a concept. There is a time to write a prototype that just needs to prove a business use case. There is a time to write heavily trusted code used by many people.</p>
