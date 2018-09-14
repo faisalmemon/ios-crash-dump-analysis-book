@@ -1,0 +1,199 @@
+PROBLEM STATEMENT (in OBJECT/DEFECT format)
+
+
+
+
+
+
+- WHAT IS
+  - What things have a problem?
+
+
+
+
+
+
+
+  - What is wrong with them?  
+
+
+
+
+
+
+
+- WHAT IS NOT
+  - What things could have a problem but don't?
+
+
+
+
+
+
+
+  - What could be wrong but is not?  
+
+
+
+
+
+
+
+- WHERE IS
+  - When the problem was noticed, where was it geographically?
+
+
+
+
+
+
+
+  - Where is the problem on the thing?  
+
+
+
+
+
+
+
+- WHERE IS NOT
+  - Where could the thing be when we should have seen the problem but did not?
+
+
+
+
+
+
+
+  - Where could be problem be on the thing but isn't?  
+
+
+
+
+
+
+
+- WHEN IS
+  - When was the problem first noticed?
+
+
+
+
+
+
+
+  - When has the problem been seen again?
+
+
+
+
+
+
+
+  - Is there any pattern in the timing?
+
+
+
+
+
+
+
+  - When in the lifecycle of the thing was the problem first noticed?  
+
+
+
+
+
+
+
+- WHEN IS NOT
+  - When could the problem have been noticed but wasn't?
+
+
+
+
+
+
+
+  - When could it have been seen again but wasn't?
+
+
+
+
+
+
+
+  - When else in the lifecycle of the thing could the problem be seen but wasn't?  
+
+
+
+
+
+
+
+- EXTENT IS
+  - How many things have the problem?
+
+
+
+
+
+
+
+  - What is the extent of the defect?
+
+
+
+
+
+
+
+  - How many defects are on the thing?
+
+
+
+
+
+
+
+  - What is the trend?  
+
+
+
+
+
+
+
+- EXTENT IS NOT
+  -  How many things could have the problem but don't?
+
+
+
+
+
+
+
+  -  What could be the extent of the problem but isn't?
+
+
+
+
+
+
+
+  -  How many defects could be present but aren't?
+
+
+
+
+
+
+
+  -  What could the trend be but isn't? 
+
+
+
+
+
+
+
