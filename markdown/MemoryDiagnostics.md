@@ -287,7 +287,7 @@ A quick win is to see if we have any leaks.  These are memory locations no longe
 
 We use the tvOS example app `icdab_cycle` to show a retain cycle found by Memgraph.  @icdabgithub
 
-Having set the Schema settings for Malloc Stack, we then launch the app and then press the Memgraph Button.
+Having set the Schema settings for Malloc Stack, we then launch the app and then press the Memgraph Button, shown below:
 
 ![](screenshots/memgraphbutton.png)
 
