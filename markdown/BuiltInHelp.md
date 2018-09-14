@@ -1,6 +1,6 @@
 # Xcode Built-In Help
 
-Xcode provides a lot of help to developers in understanding and preventing crashes.
+Xcode provides significant help to developers in understanding and preventing crashes.
 
 We think of Xcode in layers of sophistication, where at the lowest layer of sophistication Xcode directly tells us the common error it has seen with suggested corrections, up to the highest level were Xcode is telling the raw information, but we need Operating Systems knowledge to interpret the information ourselves.
 
