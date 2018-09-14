@@ -199,6 +199,7 @@
 <li><a href="#guard-malloc-tool">Guard Malloc Tool</a></li>
 <li><a href="#malloc-scribble">Malloc Scribble</a></li>
 <li><a href="#zombie-objects">Zombie Objects</a></li>
+<li><a href="#malloc-stack">Malloc Stack</a></li>
 <li><a href="#dynamic-linker-api-usage">Dynamic Linker API Usage</a></li>
 <li><a href="#dynamic-library-loads">Dynamic Library Loads</a></li>
 </ul></li>
@@ -4206,6 +4207,40 @@ freed by thread T0 here:
 <p><img src="screenshots/zombie.png" /></p>
 <p>Note how the type of the object instance <code>a</code> is <code>_NSZombie_UIViewController *</code>.</p>
 <p>The type will be whatever the original type of the over released object was, but prefixed with <code>_NSZombie_</code>. This is most helpful, and we should look out for this when studying the program state in the debugger.</p>
+<h3 id="malloc-stack">Malloc Stack</h3>
+<p>Sometimes the past dynamic behavior of our app needs to be understood in order to resolve why the application crashed. For example, we may have leaked memory and then got terminated by the system for using too much memory. We might have a data structure and wonder which part of the code was responsible for allocating it.</p>
+<p>The purpose of the <code>Malloc Stack</code> option is to provide the historical data need need. Memory analysis has been enhanced by Apple by providing complementary visual tools. Malloc Stack has a sub-option, “All Allocation and Free History” or “Live Allocations Only”</p>
+<p>We recommend the “All Allocation” option, unless there are just too much overhead experienced due to having an app with heavy use of memory allocation. The “Live Allocations Only” option is sufficient to catch memory leaks as well as being low overhead, so it is the default option in the User Interface.</p>
+<p>The steps to follow are: 1. Set the <code>Malloc Stack</code> option in the Diagnostics settings tab for the app Schema settings. 2. Launch the app. 3. Press the Debug Memgraph Button 4. For command line based analysis, <em>File -&gt; Export Memory Graph…</em></p>
+<p>The Memgraph visual tool within Xcode is comprehensive but can feel daunting. There is a helpful WWDC video to show the basics. <span class="citation" data-cites="wwdc2018_416">(“IOS Memory Deep Dive” 2018)</span></p>
+<p>There is normally too much low level detail to review. The best way to use the graphical tool is when you have some hypothesis on why the app is incorrectly using memory.</p>
+<p>A quick win is to see if we have any leaks. These are memory locations no longer reachable to be able to free up.</p>
+<p>We use the tvOS example app <code>icdab_cycle</code> to show a retain cycle found by Memgraph. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>Having set the Schema settings for Malloc Stack, we then launch the app and then press the Memgraph Button.</p>
+<p><img src="screenshots/memgraphbutton.png" /></p>
+<p>By pressing the exclamation mark filter button we can filter to only showing leaks:</p>
+<p><img src="screenshots/retaincycle.png" /></p>
+<p>If we had done <em>File -&gt; Export Memory Graph…</em> to export the memgraph to <code>icdab_cycle.memgraph</code> we could see the equivalent information from the Mac Terminal app with the command line:</p>
+<pre><code>leaks icdab_cycle.memgraph</code></pre>
+<p>The code that causes this leak is:</p>
+<pre><code>var mediaLibrary: Album?
+
+func createRetainCycleLeak() {
+    let salsa = Album()
+    let song1 = Song(album: salsa, artist: &quot;Salsa Latin 100%&quot;,
+     title: &quot;La Vida Es un Carnaval&quot;)
+    salsa.songs.append(song1)
+}
+
+func buildMediaLibrary() {
+    let kylie = Album()
+    let song1 = Song(album: kylie, artist: &quot;Kylie Minogue&quot;,
+     title: &quot;It&#39;s No Secret&quot;)
+    kylie.songs.append(song1)
+    mediaLibrary = kylie
+    createRetainCycleLeak()
+}</code></pre>
+<p>The problem is that <code>createRetainCycleLeak()</code> <code>song1</code> <code>Song</code> makes a strong reference to <code>salsa</code> <code>Album</code> and <code>Album</code> makes a strong reference to <code>song1</code> <code>Song</code> and when we return from this method, there is no reference to either object from another object. The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references. A very similar object relationship for <code>kylie</code> <code>Album</code> does not trigger a leak because that is referenced by a top level graph object <code>mediaLibrary</code></p>
 <h3 id="dynamic-linker-api-usage">Dynamic Linker API Usage</h3>
 <p>Sometimes programs dynamically adapt or are extensible. For such programs, the dynamic linker API is used to programmatically load up extra code modules. When the configuration or deployment of the app is faulty, this can result in crashes.</p>
 <p>To debug such problems, set the <code>Dynamic Linker API Usage</code> flag. This can generate many messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch.</p>
@@ -4276,6 +4311,9 @@ usr/lib/libBacktraceRecording.dylib
 </div>
 <div id="ref-3rdpartycrashtools">
 <p>“IOS Crash Reporting Tools.” 2017. <a href="https://rollout.io/blog/ios-crash-reporting-tools-2017-update/" class="uri">https://rollout.io/blog/ios-crash-reporting-tools-2017-update/</a>.</p>
+</div>
+<div id="ref-wwdc2018_416">
+<p>“IOS Memory Deep Dive.” 2018. <a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/416n2fmzz0fz88f/416/416_ios_memory_deep_dive.pdf?dl=1" class="uri">https://devstreaming-cdn.apple.com/videos/wwdc/2018/416n2fmzz0fz88f/416/416_ios_memory_deep_dive.pdf?dl=1</a>.</p>
 </div>
 <div id="ref-ios-versions">
 <p>“IOS Version History.” 2018. <a href="https://en.wikipedia.org/wiki/IOS_version_history" class="uri">https://en.wikipedia.org/wiki/IOS_version_history</a>.</p>
