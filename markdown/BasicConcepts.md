@@ -129,7 +129,7 @@ In the `icdab_sample` project we have created Unit tests and UI tests.
 
 Test cases always feel over-the-top when applied to trivial programs.  But consider a large program that has an extensive `Info.plist`\index{Info.plist} file.  A new version of the app is called for so another `Info.plist` is created.  Then keeping the privilege settings in sync between the different build targets becomes an issue.  The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.  
 
-Similarly, if our app has a lot of low-level code and then is ported\index{software!porting} from iOS to tvOS\index{operating system!tvOS}\index{trademark!tvOS} for example, how much of that OS-sensitive code is still applicable?
+Similarly, if our app has a lot of low-level code and then is ported\index{software!porting} from iOS to tvOS\index{operating system!tvOS}\index{trademark!tvOS}, for example, how much of that OS-sensitive code is still applicable?
 
 Unit testing\index{testing!unit} a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in our code base.  It's a strategic play allowing us to get some confidence in our application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).
 
