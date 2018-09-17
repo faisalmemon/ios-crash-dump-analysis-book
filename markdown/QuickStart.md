@@ -33,7 +33,7 @@ We can check Wi-Fi\index{Wi-Fi} settings or try hot-spotting our iPad to an iPho
 
 ### Customer device deployment issues
 
-Sometimes our app only crashes when deploying on a customer device gives problems.
+Sometimes our app only crashes when deployed onto a customer device.
 
 If we cable up our laptop to the customer's device, we're probably doing a
 Debug\index{deployment!debug} release deployment.  This means push notification tokens will be the development tokens not the production tokens.  It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight\index{trademark!TestFlight} or App Store version of the app previously (production version).
@@ -94,8 +94,8 @@ This folklore story was told to Sun Microsystems\index{trademark!Sun Microsystem
 
 ### Bus Noise Crash
 
-When a computer was under both heavy network load and disk load the system would
+When a computer was under both heavy network load, and disk load, the system would crash.
 
-The crash was due corruption on disk.  There were zeroes very 64 bytes.  It was the cache line size of the computer.  The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.
+The crash was due to corruption on disk.  There were zeroes every 64 bytes.  It was the cache line size of the computer.  The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.
 
-This was seen during the development of Sun Volume Systems Group prototype hardware build.
+This was seen in an early prototype of a Sun Volume Systems Group computer.
