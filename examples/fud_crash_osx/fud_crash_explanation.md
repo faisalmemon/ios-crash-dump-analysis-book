@@ -124,4 +124,4 @@ Looking at the stack backtrace we can see that this program uses cross process c
 
 It is a common programming problem that when we receive a data payload, there is a problem unpacking the payload\index{data!payload} and interpreting the data.  We speculate that there is a bug in the deserialization code.  That would give us a potentially bad data structure which we dereference causing a crash.
 
-If we were the authors of the `fud` program we could update it to check the XPC data it gets and ensure best practices are followed for serialization/deserialization\index{data!serialization}\index{data!deserialization} of data, such as the using interface definition layer\index{software!interface definition layer} generators.
+If we were the authors of the `fud` program we could update it to check the XPC data it gets and ensure best practices are followed for serialization/deserialization\index{data!serialization}\index{data!deserialization} of data, such as using interface definition layer\index{software!interface definition layer} generators.
