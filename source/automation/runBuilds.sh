@@ -20,14 +20,6 @@ logicTestingTvTestSuite="icdab_cycleTests"
 echo We change into the script directory in order to execute using relative paths for resources
 cd "${BASH_SOURCE%/*}" || exit
 
-for testScheme in $logicTestingTvTestSuite
-do
-	echo ++ Scheme ++ $testScheme
-	xcodebuild test -workspace $workspaceFile -scheme $testScheme -destination name=$testAppleTv
-done
-
-exit
-
 for testScheme in $testSuite
 do
 	echo ++ Scheme ++ $testScheme
@@ -39,4 +31,12 @@ do
 	echo ++ Scheme ++ $testScheme
 	xcodebuild test -workspace $workspaceFile -scheme $testScheme -destination platform=macOS
 done
+
+for testScheme in $logicTestingTvTestSuite
+do
+	echo ++ Scheme ++ $testScheme
+	echo	xcodebuild test -workspace $workspaceFile -scheme $testScheme -destination name=$testAppleTv
+done
+
+exit
 
