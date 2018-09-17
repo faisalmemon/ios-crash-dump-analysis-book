@@ -1,4 +1,4 @@
-# Memory diagnostics
+# Memory Diagnostics
 
 In this chapter, we look at different diagnostic options for resolving memory problems.
 

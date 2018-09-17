@@ -74,7 +74,7 @@ The first thing to look at is the version.  Typically, if we are a small team or
 If we have many crashes then a pattern may emerge.  It could be one customer (common CrashReporter key seen), or many customers (different CrashReporter keys seen).
 This may affect how we rank the priority of the crash.
 
-The hardware model could be interesting.  It is iPad only devices, or iPhone only, or both?
+The hardware model could be interesting.  Is it iPad only devices, or iPhone only, or both?
 Maybe our code has less testing or unique code paths for a given platform.
 The hardware model might indicate an older device, which we have not tested on.
 
@@ -132,16 +132,16 @@ Termination Reason: Namespace <0xF>, Code 0xdead10cc
 Triggered by Thread:  0
 ```
 
-What has happened is that the MachOS\index{MachOS} kernel has raised an Operating System Exception on the problematic process\index{process}, which terminates the process.  The ReportCrash program then retrieves from the OS details of such an exception.
+What has happened is that the MachOS\index{MachOS} kernel has raised an Operating System Exception on the problematic process\index{process}, which terminates the process.  The ReportCrash program then retrieves from the OS the details of such an exception.
 
 These items are explained by the following table:
 
 Entry|Meaning
 --|--
 Exception Type|The type of exception in Mach OS. @exception-types
-Exception Codes|These codes encode the kind of exception, such as trying to trying to access an invalid address, and supporting information.  @exception-types
+Exception Codes|These codes encode the kind of exception, such as trying to access an invalid address, and supporting information.  @exception-types
 Exception Note|Either this says `SIMULATED (this is NOT a crash)` because the process\index{process!killed} was killed by the watchdog timer, or it says `EXC_CORPSE_NOTIFY` because the process\index{process!crashed} crashed
-Termination Reason|Optionally present, this gives a Namespace (number or subsystem name) and a magic number Code (normally a hex number that looks like a English word).  See below for details on each Termination Codes.
+Termination Reason|Optionally present, this gives a Namespace (number or subsystem name) and a magic number Code (normally a hex number that looks like a English word).  See below for details on each Termination Code.
 Triggered by Thread|The thread in the process\index{process} that caused the crash
 
 
@@ -152,9 +152,9 @@ Exception Type|Meaning
 `EXC_CRASH (SIGABRT)` |Our program raised a programming language exception such as a failed assertion and this caused the OS to Abort our app
 `EXC_CRASH (SIGQUIT)` |A process received a quit signal from another process that is managing it.  Typically, this means a Keyboard extension took too long or used up too much memory.  App extensions are given only limited amounts of memory.
 `EXC_CRASH (SIGKILL)` |The system killed our app (or app extension), usually because some resource limit had been reached.  The Termination Reason needs to be looked at to work out what policy violation was the reason for termination.
-`EXC_BAD_ACCESS (SIGSEGV)` or `EXC_BAD_ACCESS (SIGBUS)` |Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to due memory pressure.
+`EXC_BAD_ACCESS (SIGSEGV)` or `EXC_BAD_ACCESS (SIGBUS)` |Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to memory pressure.
 `EXC_BREAKPOINT (SIGTRAP)` |This is due to an `NSException` being raised (possibly by a library on our behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
-`EXC_BAD_INSTRUCTION (SIGILL)` |This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code.  On Simulator, it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).
+`EXC_BAD_INSTRUCTION (SIGILL)` |This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; perhaps a compiler or optimizer bug, or faulty hand written assembly code.  On Simulator, it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).
 `EXC_GUARD`|This is when the program closed a file descriptor that was guarded.  An example is the SQLite database used by the system.
 
 When Termination Reason\index{termination reason} is present, we can look up the Code as follows:
@@ -165,7 +165,7 @@ Termination Code | Meaning
 `0xbaaaaaad`\index{0xbaaaaaad} | A stackshot was done of the entire system via the side and both volume buttons.  See earlier section on System Diagnostics
 `0xbad22222`\index{0xbad22222} | VOIP was terminated as it resumed too frequently.  Also seen with code using networking whilst in the background.  If our TCP connection is woken up too many times (say 15 wakes in 300 seconds) we get this crash.
 `0x8badf00d`\index{0x8badf00d} | Our app took too long to perform a state change (starting up, shutting down, handling system message, etc.).  The watchdog timer noticed the policy violation and caused the termination.  The most common culprit is doing synchronous networking on the main thread.
-`0xc00010ff`\index{0xc00010ff} | The system detected a thermal event and kill off our app.  If it's just on one device it could be a hardware issue, not a software problem in our app.  If it happens on other devices, check our app's power usage using Instruments.
+`0xc00010ff`\index{0xc00010ff} | The system detected a thermal event and killed off our app.  If it's just on one device it could be a hardware issue, not a software problem in our app.  If it happens on other devices, check our app's power usage using Instruments.
 `0x2bad45ec`\index{0x2bad45ec} | There was a security violation. If the Termination Description says, "Process\index{process} detected doing insecure drawing while in secure mode" it means our app tried to write to the screen when it was not allowed because for example the Lock Screen was being shown.
 
 #### Magic Numbers and their Hexspeak
@@ -185,9 +185,11 @@ Magic Number\index{magic number} | Spoken Phrase
 When we have a `SIGABRT`, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.
 
 #### Memory Issues
-When we have a memory issue, `EXC_BAD_ACCESS`, with `SIGSEGV` or `SIGBUS`, the faulty memory reference is the second number of the Exception Codes number pair.  For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant.  The address sanitizer should be switched on to see if it could spot the error.  If that cannot detect the issue, try each of the memory management settings, one at a time.
+When we have a memory issue, `EXC_BAD_ACCESS`, with `SIGSEGV` or `SIGBUS`, the faulty memory reference is the second number of the Exception Codes number pair.  For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant.  The address sanitizer should be switched on to see if it could spot the error.
 
 If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system.  For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History.  Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.
+
+For more details, see the Memory Diagnostics Chapter.
 
 #### Exceptions
 When we have a `EXC_BREAKPOINT` it can seem confusing.  The program may have been running standalone without a debugger so where did the breakpoint come from?  Typically, we are running `NSException` code.  This will make the system signal the process\index{process} with the trace trap signal and this makes any available debugger attach to the process to aid debugging.  So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception.  In the case of normal app running, there is no debugger so we would just crash the app.
@@ -567,7 +569,7 @@ The frame numbers\index{stack!frame number}, as they count upwards takes us back
 The second column in a back trace is the binary file\index{file!binary}.  We focus on our own binary mostly because framework code from Apple is generally very reliable.  Faults usually occur either directly in our code, or by faults caused by incorrect usage of Apple APIs.
 Just because the code crashed in Apple provided code does not mean the fault is in Apple code.
 
-The third column, the execution position\index{CPU!execution position} is slightly tricky.  If it is for frame 0, it is the actual position in the code that was running.  If it is for any later frame, it is the position in the code we shall resume from once the child functions have returned.
+The third column, the execution position\index{CPU!execution position}, is slightly tricky.  If it is for frame 0, it is the actual position in the code that was running.  If it is for any later frame, it is the position in the code we shall resume from once the child functions have returned.
 
 The fourth column is the site at which the code is running (for frame 0), or the site\index{function!call site} that is making a function call (for later frames).  For symbolicated crashes, we will see the symbolic form for the address.  This will include a positional offset from the start of a function to reach the code calling the child function.  If we have only short functions, this offset will be a small value.  It means much less stepping through code, or much less reading assembly code when performing diagnosis.  That is another reason for keeping our functions short.  If our crash is not symbolicated then we shall just see a memory address\index{CPU!memory address} value.
 
@@ -739,7 +741,7 @@ The Anonymous UUID\index{computer!anonymous UUID} will uniquely identify the com
 
 ### macOS Duration Section  
 
-The macOS crash report show how soon the application crash occurred.
+The macOS crash report shows how soon the application crash occurred.
 ```
 Time Awake Since Boot: 100000 seconds
 Time Since Wake:       2000 seconds
@@ -887,7 +889,7 @@ NSApplicationMain + 804
 
 ### macOS Crash Report Thread State Section
 
-The macOS crash report shows details on the X86 registers\index{CPU!X86 register} of the crashed thread.
+The macOS crash report shows details of the X86 registers\index{CPU!X86 register} in the crashed thread.
 
 ```
 Thread 0 crashed with X86 Thread State (64-bit):
@@ -906,12 +908,12 @@ Error Code:      0x00000004
 Trap Number:     14
 ```
 
-In addition to the iOS equivalent, we get further information on the CPU was running the thread.  The trap\index{operating system!trap number} number can be looked up in the Darwin XNU source code if needed.
+In addition to the iOS equivalent, we get further information about the CPU that was running the thread.  The trap\index{operating system!trap number} number can be looked up in the Darwin XNU source code if needed.
 
-A convenient mirror of the Darwin XNU source code is hosted by GitHub
+A convenient mirror of the Darwin XNU source code is hosted by GitHub:
 https://github.com/apple/darwin-xnu
 
-The traps can be searched for.  Here we have `osfmk/x86_64/idt_table.h` indicating Trap 14 is a page fault.  The Error Code is a bit vector to describe the mach error code.  @macherror
+The traps can be searched for.  Here we have `osfmk/x86_64/idt_table.h` indicating Trap 14 is a page fault.  The Error Code is a bit vector, used to describe the mach error code.  @macherror
 
 ### macOS Crash Report Binary Images section
 
@@ -921,7 +923,7 @@ Here is an example of the first few binaries in a crash report, truncated for ea
 
 ```
 Binary Images:
-       0x100238000 -        0x100246fff
+       0x100238000 -        0x1ß00246fff
          com.apple.SiriNCService (146.4.5.1 - 146.4.5.1)
           <5730AE18-4DF0-3D47-B4F7-EAA84456A9F7>
            /System/Library/CoreServices/Siri.app/Contents/
@@ -958,7 +960,7 @@ External Modification Summary:
 
 macOS is a more open platform than iOS.  This permits under certain conditions modification of our process.  We need to know if such a thing happened because it can invalidate any design assumption in the code because registers can be modified of the process and thus a crash can be induced.
 
-Ordinarily the above snapshot would be seen.  Notably `thread_set_state`\index{thread!set state} is zero in all cases.  This means no process has directly attached to the process\index{process!attachment} to change the state of a register.  Such actions would be acceptable for implementations of managed runtimes or debuggers.  Outside of these scenarios, such actions would be suspicious and need further investigation.
+Ordinarily the above snapshot would be seen.  Notably `thread_set_state`\index{thread!set state} is zero in all cases.  This means no process has directly attached to the process\index{process!attachment} to change the state of a register.  Such actions would be acceptable for implementations of managed runtimes, or debuggers.  Outside of these scenarios, such actions would be suspicious and need further investigation.
 
 In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 `task_for_pid`\index{task!for pid} calls.
 
@@ -978,7 +980,7 @@ External Modification Summary:
     thread_set_state: 1
 ```
 
-Such data would normally make us suspicious of the environment the program ran in before  crashing.
+Such data would normally make us suspicious of the environment the program ran in, before crashing.
 
 Ordinarily only first party (Apple provided) programs have privilege to perform the above modifications.  It is possible to install software that also does this.
 
@@ -987,7 +989,7 @@ The requirements for accessing process\index{process!modification requirements} 
 - System Integrity Protection\index{operating system!System Integrity Protection} needs to be disabled.
 - The process making the modification must run as root.
 - The program making the modifications must be code signed\index{software!code signing}.
-- The entitlement assigned to the program must have `SecTaskAccess` with `allowed` and `debug`
+- The entitlement assigned to the program must have `SecTaskAccess` set to  `allowed` and `debug`
 - The user must agree to trust the program in their security settings.
 
 The example code `tfpexample` demonstrates this.  @icdabgithub
@@ -1078,7 +1080,7 @@ The key to understanding whether the hardware environment\index{hardware!environ
 
 As application developers, we only see crashes in our app.  If we have contact with the user who has provided a crash, we can ask if any other apps are crashing, or if any system stability\index{hardware!stability} issues are present.
 
-Another interesting aspect is that not all hardware is actively used by the system all the time.  For example, when a MacBook Pro is connected to an external display\index{hardware!external display}, different graphics RAM\index{memory!graphics RAM} is used and a different graphics card\index{hardware!graphics card} is used (external versus on internal GPU).
+Another interesting aspect is that not all hardware is actively used by the system all the time.  For example, when a MacBook Pro is connected to an external display\index{hardware!external display}, different graphics RAM\index{memory!graphics RAM} is used and a different graphics card\index{hardware!graphics card} is used (external versus an internal GPU).
 If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.
 
 Running system diagnostics\index{hardware!diagnostics} and looking to see if the problems are appearing against only specific Anonymous UUID\index{computer!anonymous UUID} crash reports are ways to try and understand if we have a machine specific hardware issue.
