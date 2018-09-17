@@ -2,9 +2,9 @@
 
 In this chapter, we get into the details of what comprises a crash report.
 Our main focus is the iOS crash report.  We also cover the macOS crash report,
-which caries a slightly different structure but serves the same purpose.
+which carries a slightly different structure but serves the same purpose.
 
-Note, it is possible to install crash handlers from third parties, either to get enhanced crash reporting diagnostics or to link application crashes to a web-based service for managing crash reports across a potentially large population of users.  We shall defer such discussions to a later chapter.
+Note, it is possible for an app to install crash handlers from third parties, either to get enhanced crash reporting diagnostics, or to link application crashes to a web-based service for managing crash reports across a potentially large population of users.  In this chapter we assume the app has not done this, and therefore the Apple CrashReport tool comes into play.
 
 When a crash occurs the `ReportCrash`\index{command!ReportCrash} program extracts information from the crashing process\index{process} from the Operating System.  The result is a text file with a `.crash`\index{extension!.crash} extension.
 
@@ -31,7 +31,7 @@ Here we go through each section of an iOS crash report and explain the fields. @
 
 tvOS\index{tvOS} and watchOS\index{watchOS} may be just considered subsets of iOS for our purposes and have similar crash reports.
 
-Note here iOS Crash Report means a crash report that came from a physical target device.
+Note here we use the term "iOS Crash Report" to mean a crash report that came from a physical target device.
 After a crash, apps are often debugged on the Simulator.  The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.
 
 ### iOS Crash Report Header Section
@@ -76,7 +76,6 @@ This may affect how we rank the priority of the crash.
 
 The hardware model could be interesting.  It is iPad only devices, or iPhone only, or both?
 Maybe our code has less testing or unique code paths for a given platform.
-
 The hardware model might indicate an older device, which we have not tested on.
 
 Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested whilst they are in the background.  For example, we might receive a phone call, or have task switched between apps.
