@@ -192,7 +192,7 @@
 <li><a href="#deadlock-crash">Deadlock Crash</a></li>
 <li><a href="#insecure-drawing-crash">Insecure Drawing Crash</a></li>
 </ul></li>
-<li><a href="#memory-diagnostics">Memory diagnostics</a><ul>
+<li><a href="#memory-diagnostics">Memory Diagnostics</a><ul>
 <li><a href="#basics-of-memory-allocation">Basics of memory allocation</a></li>
 <li><a href="#address-sanitizer">Address Sanitizer</a></li>
 <li><a href="#memory-overshoot-example">Memory overshoot example</a></li>
@@ -880,7 +880,7 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 </table>
 <p>The first thing to look at is the version. Typically, if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.</p>
 <p>If we have many crashes then a pattern may emerge. It could be one customer (common CrashReporter key seen), or many customers (different CrashReporter keys seen). This may affect how we rank the priority of the crash.</p>
-<p>The hardware model could be interesting. It is iPad only devices, or iPhone only, or both? Maybe our code has less testing or unique code paths for a given platform. The hardware model might indicate an older device, which we have not tested on.</p>
+<p>The hardware model could be interesting. Is it iPad only devices, or iPhone only, or both? Maybe our code has less testing or unique code paths for a given platform. The hardware model might indicate an older device, which we have not tested on.</p>
 <p>Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested whilst they are in the background. For example, we might receive a phone call, or have task switched between apps.</p>
 <p>The Code Type (target architecture) is now mostly 64-bit ARM. However, we might see ARM being reported - the original 32-bit ARM.</p>
 <h3 id="ios-crash-report-date-and-version-section">iOS Crash Report Date and Version Section</h3>
@@ -941,7 +941,7 @@ Exception Codes: 0x0000000000000000, 0x0000000000000000
 Exception Note:  EXC_CORPSE_NOTIFY
 Termination Reason: Namespace &lt;0xF&gt;, Code 0xdead10cc
 Triggered by Thread:  0</code></pre>
-<p>What has happened is that the MachOS kernel has raised an Operating System Exception on the problematic process, which terminates the process. The ReportCrash program then retrieves from the OS details of such an exception.</p>
+<p>What has happened is that the MachOS kernel has raised an Operating System Exception on the problematic process, which terminates the process. The ReportCrash program then retrieves from the OS the details of such an exception.</p>
 <p>These items are explained by the following table:</p>
 <table>
 <colgroup>
@@ -961,7 +961,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="even">
 <td>Exception Codes</td>
-<td>These codes encode the kind of exception, such as trying to trying to access an invalid address, and supporting information. <span class="citation" data-cites="exception-types">(“Mach Exception Types” 2018)</span></td>
+<td>These codes encode the kind of exception, such as trying to access an invalid address, and supporting information. <span class="citation" data-cites="exception-types">(“Mach Exception Types” 2018)</span></td>
 </tr>
 <tr class="odd">
 <td>Exception Note</td>
@@ -969,7 +969,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="even">
 <td>Termination Reason</td>
-<td>Optionally present, this gives a Namespace (number or subsystem name) and a magic number Code (normally a hex number that looks like a English word). See below for details on each Termination Codes.</td>
+<td>Optionally present, this gives a Namespace (number or subsystem name) and a magic number Code (normally a hex number that looks like a English word). See below for details on each Termination Code.</td>
 </tr>
 <tr class="odd">
 <td>Triggered by Thread</td>
@@ -1004,7 +1004,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="even">
 <td><code>EXC_BAD_ACCESS (SIGSEGV)</code> or <code>EXC_BAD_ACCESS (SIGBUS)</code></td>
-<td>Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it. The memory might have been deallocated due to due memory pressure.</td>
+<td>Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it. The memory might have been deallocated due to memory pressure.</td>
 </tr>
 <tr class="odd">
 <td><code>EXC_BREAKPOINT (SIGTRAP)</code></td>
@@ -1012,7 +1012,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="even">
 <td><code>EXC_BAD_INSTRUCTION (SIGILL)</code></td>
-<td>This is when the program code itself is faulty, not the memory it might be accessing. This should be rare on iOS devices; a compiler or optimiser bug, or faulty hand written assembly code. On Simulator, it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).</td>
+<td>This is when the program code itself is faulty, not the memory it might be accessing. This should be rare on iOS devices; perhaps a compiler or optimizer bug, or faulty hand written assembly code. On Simulator, it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).</td>
 </tr>
 <tr class="odd">
 <td><code>EXC_GUARD</code></td>
@@ -1051,7 +1051,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="odd">
 <td><code>0xc00010ff</code></td>
-<td>The system detected a thermal event and kill off our app. If it’s just on one device it could be a hardware issue, not a software problem in our app. If it happens on other devices, check our app’s power usage using Instruments.</td>
+<td>The system detected a thermal event and killed off our app. If it’s just on one device it could be a hardware issue, not a software problem in our app. If it happens on other devices, check our app’s power usage using Instruments.</td>
 </tr>
 <tr class="even">
 <td><code>0x2bad45ec</code></td>
@@ -1098,8 +1098,9 @@ Triggered by Thread:  0</code></pre>
 <h4 id="aborts">Aborts</h4>
 <p>When we have a <code>SIGABRT</code>, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.</p>
 <h4 id="memory-issues">Memory Issues</h4>
-<p>When we have a memory issue, <code>EXC_BAD_ACCESS</code>, with <code>SIGSEGV</code> or <code>SIGBUS</code>, the faulty memory reference is the second number of the Exception Codes number pair. For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant. The address sanitizer should be switched on to see if it could spot the error. If that cannot detect the issue, try each of the memory management settings, one at a time.</p>
+<p>When we have a memory issue, <code>EXC_BAD_ACCESS</code>, with <code>SIGSEGV</code> or <code>SIGBUS</code>, the faulty memory reference is the second number of the Exception Codes number pair. For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant. The address sanitizer should be switched on to see if it could spot the error.</p>
 <p>If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system. For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History. Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.</p>
+<p>For more details, see the Memory Diagnostics Chapter.</p>
 <h4 id="exceptions">Exceptions</h4>
 <p>When we have a <code>EXC_BREAKPOINT</code> it can seem confusing. The program may have been running standalone without a debugger so where did the breakpoint come from? Typically, we are running <code>NSException</code> code. This will make the system signal the process with the trace trap signal and this makes any available debugger attach to the process to aid debugging. So in the case where we were running the app under the debugger, even with breakpoints switched off, we would breakpoint in here so we can find out why there was a runtime exception. In the case of normal app running, there is no debugger so we would just crash the app.</p>
 <h4 id="illegal-instructions">Illegal Instructions</h4>
@@ -1457,7 +1458,7 @@ withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 248</code></pre
 </table>
 <p>The frame numbers, as they count upwards takes us backwards in time in terms of program execution order. The top of stack, or most recently run code, is in frame 0. One reason for writing code with meaningful function names is that the call stack describes what is going on conceptually. Using small single-purpose functions is good practice. It serves the needs of both diagnostics and maintainability.</p>
 <p>The second column in a back trace is the binary file. We focus on our own binary mostly because framework code from Apple is generally very reliable. Faults usually occur either directly in our code, or by faults caused by incorrect usage of Apple APIs. Just because the code crashed in Apple provided code does not mean the fault is in Apple code.</p>
-<p>The third column, the execution position is slightly tricky. If it is for frame 0, it is the actual position in the code that was running. If it is for any later frame, it is the position in the code we shall resume from once the child functions have returned.</p>
+<p>The third column, the execution position, is slightly tricky. If it is for frame 0, it is the actual position in the code that was running. If it is for any later frame, it is the position in the code we shall resume from once the child functions have returned.</p>
 <p>The fourth column is the site at which the code is running (for frame 0), or the site that is making a function call (for later frames). For symbolicated crashes, we will see the symbolic form for the address. This will include a positional offset from the start of a function to reach the code calling the child function. If we have only short functions, this offset will be a small value. It means much less stepping through code, or much less reading assembly code when performing diagnosis. That is another reason for keeping our functions short. If our crash is not symbolicated then we shall just see a memory address value.</p>
 <p>Therefore, with the example stack frame we have:</p>
 <ul>
@@ -1570,7 +1571,7 @@ Sleep/Wake UUID:       10AE8838-17A9-4405-B03D-B680DDC84436
 </code></pre>
 <p>The Anonymous UUID will uniquely identify the computer. The Sleep/Wake UUID is used to match up sleep and wake events. Failed wakeup is a common cause of a system crash (in contrast to the application crashes we have been discussing). Further information can be obtained using the <code>pmset</code> power management command.</p>
 <h3 id="macos-duration-section">macOS Duration Section</h3>
-<p>The macOS crash report show how soon the application crash occurred.</p>
+<p>The macOS crash report shows how soon the application crash occurred.</p>
 <pre><code>Time Awake Since Boot: 100000 seconds
 Time Since Wake:       2000 seconds</code></pre>
 <p>We use this as a broad indication only because the numbers seen always rounded to a convenient number.</p>
@@ -1678,7 +1679,7 @@ NSApplicationMain + 804
 19  com.apple.SiriNCService         0x00000001002396e0 main + 180
 20  libdyld.dylib                   0x00007fff6ac12015 start + 1</code></pre>
 <h3 id="macos-crash-report-thread-state-section">macOS Crash Report Thread State Section</h3>
-<p>The macOS crash report shows details on the X86 registers of the crashed thread.</p>
+<p>The macOS crash report shows details of the X86 registers in the crashed thread.</p>
 <pre><code>Thread 0 crashed with X86 Thread State (64-bit):
   rax: 0x0000600000249bd0  rbx: 0x0000600000869ac0  rcx: 0x00007fe798f55320
     rdx: 0x0000600000249bd0
@@ -1693,14 +1694,14 @@ NSApplicationMain + 804
 Logical CPU:     2
 Error Code:      0x00000004
 Trap Number:     14</code></pre>
-<p>In addition to the iOS equivalent, we get further information on the CPU was running the thread. The trap number can be looked up in the Darwin XNU source code if needed.</p>
-<p>A convenient mirror of the Darwin XNU source code is hosted by GitHub https://github.com/apple/darwin-xnu</p>
-<p>The traps can be searched for. Here we have <code>osfmk/x86_64/idt_table.h</code> indicating Trap 14 is a page fault. The Error Code is a bit vector to describe the mach error code. <span class="citation" data-cites="macherror">(“Making Sense of I/O Kit Error Codes” 2018)</span></p>
+<p>In addition to the iOS equivalent, we get further information about the CPU that was running the thread. The trap number can be looked up in the Darwin XNU source code if needed.</p>
+<p>A convenient mirror of the Darwin XNU source code is hosted by GitHub: https://github.com/apple/darwin-xnu</p>
+<p>The traps can be searched for. Here we have <code>osfmk/x86_64/idt_table.h</code> indicating Trap 14 is a page fault. The Error Code is a bit vector, used to describe the mach error code. <span class="citation" data-cites="macherror">(“Making Sense of I/O Kit Error Codes” 2018)</span></p>
 <h3 id="macos-crash-report-binary-images-section">macOS Crash Report Binary Images section</h3>
 <p>Next, we have the binary images loaded by the crashing app.</p>
 <p>Here is an example of the first few binaries in a crash report, truncated for ease of demonstration:</p>
 <pre><code>Binary Images:
-       0x100238000 -        0x100246fff
+       0x100238000 -        0x1ß00246fff
          com.apple.SiriNCService (146.4.5.1 - 146.4.5.1)
           &lt;5730AE18-4DF0-3D47-B4F7-EAA84456A9F7&gt;
            /System/Library/CoreServices/Siri.app/Contents/
@@ -1728,7 +1729,7 @@ Trap Number:     14</code></pre>
     thread_create: 0
     thread_set_state: 0</code></pre>
 <p>macOS is a more open platform than iOS. This permits under certain conditions modification of our process. We need to know if such a thing happened because it can invalidate any design assumption in the code because registers can be modified of the process and thus a crash can be induced.</p>
-<p>Ordinarily the above snapshot would be seen. Notably <code>thread_set_state</code> is zero in all cases. This means no process has directly attached to the process to change the state of a register. Such actions would be acceptable for implementations of managed runtimes or debuggers. Outside of these scenarios, such actions would be suspicious and need further investigation.</p>
+<p>Ordinarily the above snapshot would be seen. Notably <code>thread_set_state</code> is zero in all cases. This means no process has directly attached to the process to change the state of a register. Such actions would be acceptable for implementations of managed runtimes, or debuggers. Outside of these scenarios, such actions would be suspicious and need further investigation.</p>
 <p>In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 <code>task_for_pid</code> calls.</p>
 <pre><code>External Modification Summary:
   Calls made by other processes targeting this process:
@@ -1743,14 +1744,14 @@ Trap Number:     14</code></pre>
     task_for_pid: 6184
     thread_create: 0
     thread_set_state: 1</code></pre>
-<p>Such data would normally make us suspicious of the environment the program ran in before crashing.</p>
+<p>Such data would normally make us suspicious of the environment the program ran in, before crashing.</p>
 <p>Ordinarily only first party (Apple provided) programs have privilege to perform the above modifications. It is possible to install software that also does this.</p>
 <p>The requirements for accessing process modification APIs are:</p>
 <ul>
 <li>System Integrity Protection needs to be disabled.</li>
 <li>The process making the modification must run as root.</li>
 <li>The program making the modifications must be code signed.</li>
-<li>The entitlement assigned to the program must have <code>SecTaskAccess</code> with <code>allowed</code> and <code>debug</code></li>
+<li>The entitlement assigned to the program must have <code>SecTaskAccess</code> set to <code>allowed</code> and <code>debug</code></li>
 <li>The user must agree to trust the program in their security settings.</li>
 </ul>
 <p>The example code <code>tfpexample</code> demonstrates this. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
@@ -1824,7 +1825,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>Sometimes newer hardware, such as a new type of MacBook Pro comes with its own hardware issues, so crashes unrelated to our app can be seen.</p>
 <p>The key to understanding whether the hardware environment comes into play is to see a number of crashes to look for patterns.</p>
 <p>As application developers, we only see crashes in our app. If we have contact with the user who has provided a crash, we can ask if any other apps are crashing, or if any system stability issues are present.</p>
-<p>Another interesting aspect is that not all hardware is actively used by the system all the time. For example, when a MacBook Pro is connected to an external display, different graphics RAM is used and a different graphics card is used (external versus on internal GPU). If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.</p>
+<p>Another interesting aspect is that not all hardware is actively used by the system all the time. For example, when a MacBook Pro is connected to an external display, different graphics RAM is used and a different graphics card is used (external versus an internal GPU). If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.</p>
 <p>Running system diagnostics and looking to see if the problems are appearing against only specific Anonymous UUID crash reports are ways to try and understand if we have a machine specific hardware issue.</p>
 <h1 id="analytic-troubleshooting">Analytic Troubleshooting</h1>
 <p>This chapter discusses a formal technique for solving problems. The idea is to provide a framework that prompts the right questions to be asked.</p>
@@ -4061,7 +4062,7 @@ Binary Images (Other):
 <p>Clearly we can see the Termination Code <code>0x2bad45ec</code> (spoken as “Too Bad For Security”) and the <code>Termination Description</code></p>
 <pre><code>SPRINGBOARD, Process detected doing insecure drawing while in secure mode</code></pre>
 <p>We would not expect an Apple provided app, MobileSMS, to crash. Looking carefully at the <code>Binary Images</code> section we can see that the Operating System has been “tweaked”. This phone has been jailbroken due to the reference to <code>CydiaSubstrate</code>. We cannot safely rely on any of the apps as having their original design integrity. Perhaps on this phone the MobileSMS app was tweaked to add extra functionality but has introduced a drawing related bug.</p>
-<h1 id="memory-diagnostics">Memory diagnostics</h1>
+<h1 id="memory-diagnostics">Memory Diagnostics</h1>
 <p>In this chapter, we look at different diagnostic options for resolving memory problems.</p>
 <h2 id="basics-of-memory-allocation">Basics of memory allocation</h2>
 <p>The iOS platform allocates memory for our app either on the stack or from the heap.</p>
