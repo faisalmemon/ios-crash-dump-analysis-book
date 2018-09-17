@@ -97,7 +97,7 @@ BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
 
 We just need to signal the semaphore to avoid the problem.
 
-If we had a more unusual problem or wanted to understand it at a deeper level, would could look up the source code of the library and find the diagnostic message in the code.
+If we had a more unusual problem or wanted to understand it at a deeper level, we could look up the source code of the library and find the diagnostic message in the code.
 
 Here is the relevant library code:
 
