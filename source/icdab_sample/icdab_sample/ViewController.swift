@@ -20,10 +20,10 @@ class ViewController: UIViewController {
     
     func takeCameraPhoto() {
         if UIImagePickerController
-            .isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+            .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerController.SourceType.camera
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
             imagePicker.allowsEditing = false
             self.present(imagePicker, animated: true, completion: nil)
         }
@@ -45,11 +45,8 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-// Local variable inserted by Swift 4.2 migrator.
-let info = convertFromUIImagePickerControllerInfoKeyDictionary(info)
-
-        if let pickedImage = info[convertFromUIImagePickerControllerInfoKey(UIImagePickerController.InfoKey.originalImage)] as? UIImage {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             imageViewOutlet.image = pickedImage
         }
         picker.dismiss(animated: true, completion: nil)
@@ -60,13 +57,3 @@ extension ViewController: UINavigationControllerDelegate {
     
 }
 
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKeyDictionary(_ input: [UIImagePickerController.InfoKey: Any]) -> [String: Any] {
-	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromUIImagePickerControllerInfoKey(_ input: UIImagePickerController.InfoKey) -> String {
-	return input.rawValue
-}
