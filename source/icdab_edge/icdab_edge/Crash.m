@@ -78,11 +78,11 @@
 
 - (void)overReleasedObject
 {
-    id a = [[UIViewController alloc] init];
+    id vc = [[UIViewController alloc] init];
     // Build Phases -> Compile Sources -> Crash.m has Compiler Flags setting
     // -fno-objc-arc to allow the following line to be called
-    [a release];
-    NSLog(@"%@", [a description]);
+    [vc release];
+    NSLog(@"%@", [vc description]);
 }
 
 - (void)corruptMalloc {

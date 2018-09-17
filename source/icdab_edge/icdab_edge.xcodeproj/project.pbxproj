@@ -14,8 +14,6 @@
 		398035F521451EA700B54D89 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 398035F321451EA700B54D89 /* LaunchScreen.storyboard */; };
 		3980360021451EA700B54D89 /* icdab_edgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398035FF21451EA700B54D89 /* icdab_edgeTests.swift */; };
 		3980360B21451EA700B54D89 /* icdab_edgeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3980360A21451EA700B54D89 /* icdab_edgeUITests.swift */; };
-		3980365F21456D9900B54D89 /* libCrashReporter-iphoneos.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3980363221451ED400B54D89 /* libCrashReporter-iphoneos.a */; };
-		3980366021456D9900B54D89 /* libCrashReporter-iphonesimulator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3980363421451ED400B54D89 /* libCrashReporter-iphonesimulator.a */; };
 		3980366221456FAC00B54D89 /* Crash.m in Sources */ = {isa = PBXBuildFile; fileRef = 3980366121456FAC00B54D89 /* Crash.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
@@ -34,111 +32,6 @@
 			remoteGlobalIDString = 398035E621451EA600B54D89;
 			remoteInfo = icdab_edge;
 		};
-		3980362B21451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 05E731F30EFA1AAB005EDFB7;
-			remoteInfo = "CrashReporter-MacOSX-Static";
-		};
-		3980362D21451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = "CrashReporter-MacOSX";
-		};
-		3980362F21451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 058812B91040582D009128FB;
-			remoteInfo = "CrashReporter-iOS";
-		};
-		3980363121451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 05CD31520EE936A9000FDE88;
-			remoteInfo = "CrashReporter-iOS-Device";
-		};
-		3980363321451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 05CD31630EE93905000FDE88;
-			remoteInfo = "CrashReporter-iOS-Simulator";
-		};
-		3980363521451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 05E731E30EFA1A3E005EDFB7;
-			remoteInfo = plcrashutil;
-		};
-		3980363721451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 05CD32690EE93DC3000FDE88;
-			remoteInfo = "Tests-MacOSX";
-		};
-		3980363921451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 05CD32A90EE94062000FDE88;
-			remoteInfo = "Tests-iOS-Simulator";
-		};
-		3980363B21451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 05CD33240EE94439000FDE88;
-			remoteInfo = "Tests-iOS-Device";
-		};
-		3980363D21451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 05F40CE70EF7AB80008050CF;
-			remoteInfo = DemoCrash;
-		};
-		3980363F21451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 052A45CF136353FB00987004;
-			remoteInfo = "DemoCrash-iOS-Device";
-		};
-		3980364121451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 052A464F136355FD00987004;
-			remoteInfo = "DemoCrash-iOS-Simulator";
-		};
-		3980364321451ED400B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 050DE24D0F61B80B00152ED3;
-			remoteInfo = "Fuzz Testing";
-		};
-		398036472145213200B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 05CD31620EE93905000FDE88;
-			remoteInfo = "CrashReporter-iOS-Simulator";
-		};
-		3980365C21456D4A00B54D89 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 05CD31510EE936A9000FDE88;
-			remoteInfo = "CrashReporter-iOS-Device";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -155,7 +48,6 @@
 		3980360621451EA700B54D89 /* icdab_edgeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_edgeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3980360A21451EA700B54D89 /* icdab_edgeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = icdab_edgeUITests.swift; sourceTree = "<group>"; };
 		3980360C21451EA700B54D89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3980361821451ED400B54D89 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = "icdab_edge/plcrashreporter-1.2/CrashReporter.xcodeproj"; sourceTree = "<group>"; };
 		3980364A21456C5A00B54D89 /* icdab_edge-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "icdab_edge-Bridging-Header.h"; sourceTree = "<group>"; };
 		3980366121456FAC00B54D89 /* Crash.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Crash.m; sourceTree = "<group>"; };
 		398036632145705500B54D89 /* Crash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Crash.h; sourceTree = "<group>"; };
@@ -166,8 +58,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3980365F21456D9900B54D89 /* libCrashReporter-iphoneos.a in Frameworks */,
-				3980366021456D9900B54D89 /* libCrashReporter-iphonesimulator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,7 +81,6 @@
 		398035DE21451EA600B54D89 = {
 			isa = PBXGroup;
 			children = (
-				3980361821451ED400B54D89 /* CrashReporter.xcodeproj */,
 				398035E921451EA600B54D89 /* icdab_edge */,
 				398035FE21451EA700B54D89 /* icdab_edgeTests */,
 				3980360921451EA700B54D89 /* icdab_edgeUITests */,
@@ -244,26 +133,6 @@
 			path = icdab_edgeUITests;
 			sourceTree = "<group>";
 		};
-		3980361921451ED400B54D89 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3980362C21451ED400B54D89 /* libCrashReporter-MacOSX-Static.a */,
-				3980362E21451ED400B54D89 /* CrashReporter.framework */,
-				3980363021451ED400B54D89 /* CrashReporter.framework */,
-				3980363221451ED400B54D89 /* libCrashReporter-iphoneos.a */,
-				3980363421451ED400B54D89 /* libCrashReporter-iphonesimulator.a */,
-				3980363621451ED400B54D89 /* plcrashutil */,
-				3980363821451ED400B54D89 /* Tests-MacOSX.octest */,
-				3980363A21451ED400B54D89 /* Tests-iOS-Simulator.app */,
-				3980363C21451ED400B54D89 /* Tests-iOS-Device.app */,
-				3980363E21451ED400B54D89 /* DemoCrash.app */,
-				3980364021451ED400B54D89 /* DemoCrash-iOS-Device.app */,
-				3980364221451ED400B54D89 /* DemoCrash-iOS-Simulator.app */,
-				3980364421451ED400B54D89 /* Fuzz Testing */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		3980365E21456D9900B54D89 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,8 +154,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				3980365D21456D4A00B54D89 /* PBXTargetDependency */,
-				398036482145213200B54D89 /* PBXTargetDependency */,
 			);
 			name = icdab_edge;
 			productName = icdab_edge;
@@ -364,12 +231,6 @@
 			mainGroup = 398035DE21451EA600B54D89;
 			productRefGroup = 398035E821451EA600B54D89 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 3980361921451ED400B54D89 /* Products */;
-					ProjectRef = 3980361821451ED400B54D89 /* CrashReporter.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				398035E621451EA600B54D89 /* icdab_edge */,
@@ -378,100 +239,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		3980362C21451ED400B54D89 /* libCrashReporter-MacOSX-Static.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libCrashReporter-MacOSX-Static.a";
-			remoteRef = 3980362B21451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980362E21451ED400B54D89 /* CrashReporter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CrashReporter.framework;
-			remoteRef = 3980362D21451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980363021451ED400B54D89 /* CrashReporter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CrashReporter.framework;
-			remoteRef = 3980362F21451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980363221451ED400B54D89 /* libCrashReporter-iphoneos.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libCrashReporter-iphoneos.a";
-			remoteRef = 3980363121451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980363421451ED400B54D89 /* libCrashReporter-iphonesimulator.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libCrashReporter-iphonesimulator.a";
-			remoteRef = 3980363321451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980363621451ED400B54D89 /* plcrashutil */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = plcrashutil;
-			remoteRef = 3980363521451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980363821451ED400B54D89 /* Tests-MacOSX.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Tests-MacOSX.octest";
-			remoteRef = 3980363721451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980363A21451ED400B54D89 /* Tests-iOS-Simulator.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Tests-iOS-Simulator.app";
-			remoteRef = 3980363921451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980363C21451ED400B54D89 /* Tests-iOS-Device.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Tests-iOS-Device.app";
-			remoteRef = 3980363B21451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980363E21451ED400B54D89 /* DemoCrash.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = DemoCrash.app;
-			remoteRef = 3980363D21451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980364021451ED400B54D89 /* DemoCrash-iOS-Device.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "DemoCrash-iOS-Device.app";
-			remoteRef = 3980363F21451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980364221451ED400B54D89 /* DemoCrash-iOS-Simulator.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "DemoCrash-iOS-Simulator.app";
-			remoteRef = 3980364121451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3980364421451ED400B54D89 /* Fuzz Testing */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = "Fuzz Testing";
-			remoteRef = 3980364321451ED400B54D89 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		398035E521451EA600B54D89 /* Resources */ = {
@@ -539,16 +306,6 @@
 			isa = PBXTargetDependency;
 			target = 398035E621451EA600B54D89 /* icdab_edge */;
 			targetProxy = 3980360721451EA700B54D89 /* PBXContainerItemProxy */;
-		};
-		398036482145213200B54D89 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "CrashReporter-iOS-Simulator";
-			targetProxy = 398036472145213200B54D89 /* PBXContainerItemProxy */;
-		};
-		3980365D21456D4A00B54D89 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "CrashReporter-iOS-Device";
-			targetProxy = 3980365C21456D4A00B54D89 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
