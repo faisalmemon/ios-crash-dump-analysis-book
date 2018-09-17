@@ -21,6 +21,8 @@ class ViewController: UIViewController {
     func takeCameraPhoto() {
         if UIImagePickerController
             .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera) {
+            // Use Xcode 9.4.1 to see it enter here
+            // Xcode 10.0 will skip over
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = UIImagePickerControllerSourceType.camera

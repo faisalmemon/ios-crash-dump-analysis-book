@@ -67,6 +67,8 @@ If we don't define the text in our `Info.plist`\index{Info.plist} for `NSCameraU
 ```
 if UIImagePickerController.isSourceTypeAvailable(
       UIImagePickerControllerSourceType.camera) {
+      // Use Xcode 9.4.1 to see it enter here
+      // Xcode 10.0 will skip over
       let imagePicker = UIImagePickerController()
       imagePicker.delegate = self
       imagePicker.sourceType = UIImagePickerControllerSourceType.camera
@@ -75,7 +77,7 @@ if UIImagePickerController.isSourceTypeAvailable(
       }
 ```
 
-However when we run the code we see a crash with a descriptive console message:
+However when we run the code, via Xcode 9.4.1, we see a crash with a descriptive console message:
 
 ```
 2018-07-10 20:09:21.549897+0100 icdab_sample[1775:15601294]
@@ -90,6 +92,8 @@ Message from debugger: Terminated due to signal 9
 ### Lessons Learnt
 
 Note the contrast here.  In both cases there was a privacy sensitive API\index{API!privacy}.  However, in the camera case, Apple chose a policy of crashing our app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a `false` value to indicate the source type was not available.
+
+This seems like a harsh design choice.  When Xcode 10.0 was introduced (it delivers the iOS 12\index{iOS!iOS 12} SDK) the behavior of the API changed.  It returns `false` if the camera is not available due to a missing privacy string in the application `Info.plist`
 
 This underlies the point about there being two entities involved, the program and the operating environment\index{operating environment} (which includes its policies).  Having correct source code does not guarantee crash free running.  When we see a crash we need to think about the operating environment as much as the code itself.
 
