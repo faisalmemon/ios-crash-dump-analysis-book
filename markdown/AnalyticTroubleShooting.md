@@ -13,7 +13,7 @@ There is another less well-known phrase:
 > "When you hold a hammer, everything looks like a nail."
 
 A hammer is best for hammering in nails, and smashing things generally, but not useful for other types of task.  A hammer is a solution to a restricted set of problems.
-Furthermore, our way of thinking about problems is framed to the available tools at our disposal.  If we increase the available tools, we can start thinking about problems in different ways, one of which may lead to the answers we desire.
+Furthermore, our way of thinking about problems is framed by the available tools at our disposal.  If we increase the available tools, we can start thinking about problems in different ways, one of which may lead to the answers we desire.
 
 Suppose we had a spanner and a hacksaw in our toolbox.  We wanted to remove an old bathroom fitting held in place with rusty bolts.  Using the spanner might not work, due to the bolts not turning.  However, using a hack saw to remove the bolt heads might be a workable next best solution.  Observing an experienced plumber, or mechanic, reveals such tricks of the trade.
 
@@ -38,9 +38,16 @@ If the customer is in the middle of doing an e-commerce purchase, then clearly r
 
 If whilst updating our privacy settings, we see a crash, we have a privacy issue.  Depending on the type of market we are operating in, that could be a major problem.
 
-One way to assess impact is to build analytics into our app.  Then the set of steps, and more broadly, the customer use case, can be studied alongside the crash.  Crashes from the most important use cases can then be identified as high impact bugs to fix.  One advantage of third party crash reporting services, described in a later chapter, is that they allow logs to be recorded that are delivered to the crash report server along with the crash.
+One way to assess impact is to build analytics into our app.  Then the set of steps, and more broadly, the customer use case, can be studied alongside the crash.  Crashes from the most important use cases can then be identified as high impact bugs to fix.  One advantage of third party crash reporting services is that they allow logs to be recorded that are delivered to the crash report server along with the crash.
 
-Any time a life-cycle event occurs, such as foregrounding, backgrounding, appearing, disappearing, button clicks, segues, notifications, alert pop ups, and launching helper components such as the photo picker, a log message should record the action.
+The following are good places to introduce a log message:
+- Any time a life-cycle event occurs, such as foregrounding, backgrounding, appearing, disappearing,
+- Button clicks,
+- Segues,
+- Notifications,
+- Alert pop ups,
+- Launching helper components such as the photo picker.
+
 
 ### Prioritizing based upon deadlines
 
