@@ -324,7 +324,7 @@
     assert([error length] == 0);
 }</code></pre>
 <p>The Objective-C runtime authors made a judgement call, and decided it was better for an application to ignore such problems.</p>
-<p>However if we deference a C pointer we get a crash.</p>
+<p>However if we dereference a C pointer we get a crash.</p>
 <pre><code>void nullDereferenceCrash() {
     char *nullPointer = NULL;
     assert(strlen(nullPointer) == 0);
@@ -486,7 +486,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>If we are developing code using the Agile software methodology, then it is possible to frame the report as potential backlog items that can be worked upon during the time allocated for refactoring and maintenance.</p>
 <p>In a large software project refactoring and maintenance should be around 20% of the work in a Sprint. Different viewpoints arise in this area. The author recommends doing such work alongside the normal development activities so long as no high-risk changes are amongst the work being done. For risky changes, leave that until after a major update of the app has been done. There is usually a lull where planning and strategy is developed following a release, which allows a convenient software engineering window to tackle such matters.</p>
 <h4 id="ios-quickedit-app-case-study">iOS QuickEdit App Case Study</h4>
-<p>Where the analyzer identifies potential crashes, from an economic point of view it is good investment to fix the problem. For example in the case of the QuickEdit iOS App, about 1 million lines of Objective-C, with 70 000 daily active users, the analyzer was run and found 13 clear crashing issues. We created one engineering story (“Fix top analyzer errors”). All 13 issues were fixed in the same day with testing taking two more days. Crashes are a top complaint from customers. Bugs found in the field typically are 20 times the effort and cost compared those found in development. With a large population of users, potentially experiencing a severe crash bug, the cost of those 13 bugs could be 20 * 3 days = 60 days wasted effort.</p>
+<p>Where the analyzer identifies potential crashes, from an economic point of view, it is a good investment to fix the problem. For example in the case of the QuickEdit iOS App, about 1 million lines of Objective-C, with 70 000 daily active users, the analyzer was run and found 13 clear crashing issues. We created one engineering story (“Fix top analyzer errors”). All 13 issues were fixed in the same day with testing taking two more days. Crashes are a top complaint from customers. Bugs found in the field typically are 20 times the effort and cost compared to those found in development. With a large population of users, potentially experiencing a severe crash bug, the cost of those 13 bugs could be 20 * 3 days = 60 days wasted effort.</p>
 <p>QuickEdit due to its age only used manual reference counting in Objective-C. Despite this, it had a reliability of 99.5% based on app analytics. Only about 5% of engineering effort was needed to maintain this stability over time once the initial issues had been addressed.</p>
 <h3 id="process-methodology">Process Methodology</h3>
 <p>One way to drive out crashes from our app, particularly when we are in a large organization, is to factor it in our software development process.</p>
@@ -515,7 +515,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>Recall earlier we demonstrated that:</p>
 <ul>
 <li>Objective-C allows messaging to nil objects</li>
-<li>C crashes upon NULL deference</li>
+<li>C crashes upon NULL dereference</li>
 </ul>
 <p>Here we show how the C++ Standard Template Library has a back-fill strategy.</p>
 <p>In the STL map abstraction (a Hash Table) when we query for an entry that does not exist, the STL will insert a new entry in the table for the key being queried, and then return that entry instead of returning an error or returning a nil.</p>
@@ -526,8 +526,10 @@ assert(pluto_volume != 0.0);
 
 double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pre>
 <p>Enabling code Analysis will not find any issue or warning.</p>
-<p>The assert is in place to avoid a division by zero. That fact that it is triggered is good because we know where to start debugging the problem.</p>
-<p>Pluto’s volume is 0.0 because the code <code>planet pluto = planet::get_planet_with_name(&quot;Pluto&quot;);</code> returns a planet with zero diameter.</p>
+<p>The assert is in place to avoid a division by zero. The fact that it is triggered is good because we know where to start debugging the problem.</p>
+<p>Pluto’s volume is 0.0 because the code</p>
+<pre><code>planet pluto = planet::get_planet_with_name(&quot;Pluto&quot;);</code></pre>
+<p>returns a planet with zero diameter.</p>
 <p>From the file <code>planet_data.hpp</code> we see the API that we rely upon is:</p>
 <pre><code>static planet get_planet_with_name(string name);</code></pre>
 <p>Therefore, whatever name we pass in, we should always get a <code>planet</code> in response; never a NULL.</p>
@@ -539,7 +541,7 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
     }
     return database.planets[name];
 }</code></pre>
-<p>At first glance, it might be that the database failed to load data properly. In fact, the database is missing the entry for Pluto due to:</p>
+<p>At first glance, it might be that the database failed to load data properly. In fact, the database is missing the entry for Pluto due to it no longer being considered a planet:</p>
 <pre><code>void planet_database::load_data() {
     planet planet_Mercury = planet(&quot;Mercury&quot;, 4878.0, 57.9 * millionKm);
     planets[&quot;Mercury&quot;] = planet_Mercury;
@@ -673,7 +675,8 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 <h2 id="lessons-learnt-1">Lessons Learnt</h2>
 <p>The lesson here is that crashes can arise from special case handling. Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out our code and use a Facade if possible to keep each paradigm cleanly separated.</p>
 <h1 id="symbolification">Symbolification</h1>
-<p>This chapter explains crash dump symbolification. We use the <code>icdab_planets</code> sample app to demonstrate a crash. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>This chapter explains crash dump symbolification. Symbolification is the process of mapping machine addresses into symbolic addresses meaningful to the programmer possessing the source code. Instead of seeing machine addresses, we want to see function names (plus any offset),</p>
+<p>We use the <code>icdab_planets</code> sample app to demonstrate a crash. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <p>When dealing with real world crashes, a number of different entities are involved. These can be the end user device, the settings allowing the crash report to be sent back to Apple, the symbols held by Apple and our local development environment setup to mirror such a configuration.</p>
 <p>In order to understand how things all fit together it is best to start from first principles and do the data conversion tasks ourselves so if we have to diagnose symbolification issues, we have some experience with the technologies at hand.</p>
 <h2 id="build-process">Build Process</h2>
@@ -769,7 +772,7 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>The crash reporter tool fundamentally just uses <code>atos</code> to symbolicate the crash report, as well as providing other system related information.</p>
 <p>Symbolification is described further by an Apple Technote in case we want to get into it in more detail. <span class="citation" data-cites="tn2123">(“CrashReport Technote 2123” 2004)</span></p>
 <h2 id="reverse-engineering-approach">Reverse Engineering Approach</h2>
-<p>In the above example we have the source code and symbols for the crash dump so can do Symbolification.</p>
+<p>In the above example we have the source code, and symbols, for the crash dump so can do Symbolification.</p>
 <p>Sometimes we may have included a third party binary framework in our project for which we do not have the source code. It is good practice for the vendor to supply symbol information for their framework to allow crash dump analysis. When symbol information is not available, it is still possible to make progress by applying some reverse engineering.</p>
 <p>When working with third parties there is typically a much larger turnaround time for diagnostics and troubleshooting. We find that well written and specific bug reports can speed up things a lot. The following approach can help provide the kind of specific information needed.</p>
 <p>We shall demonstrate our approach using the Hopper tool mentioned in the Tooling chapter.</p>
@@ -783,11 +786,11 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>This indeed shows the return address for the assert method. Further up, we see the test for Pluto’s volume being non-zero. This is just a very basic Hopper example. We shall revisit Hopper later to demonstrate its most interesting feature - that of being able to generate pseudocode from assembly code. This lowers the mental load of comprehending crashes. Most developers rarely look at assembly code nowadays so this feature is worth the cost of the software itself!</p>
 <p>Now at least for the current problem, we could formulate a bug report that said the code was crashing because Pluto’s volume was zero. That may be enough to unlock the problem from the framework vendor’s point of view.</p>
 <p>In a more complex case, imagine we were using an image conversion library that was crashing.<br />
-There can be many pixel formats for images. An <code>assert</code> might lead us to notice it was the format that was asserting. Therefore, we could just try a different pixel format.</p>
-<p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details. A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
+There can be many pixel formats for images. An <code>assert</code> might lead us to notice it was the particular format that was asserting. Therefore, we could just try a different pixel format.</p>
+<p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details (a security risk). A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
 <h1 id="the-crash-report">The Crash Report</h1>
-<p>In this chapter, we get into the details of what comprises a crash report. Our main focus is the iOS crash report. We also cover the macOS crash report, which caries a slightly different structure but serves the same purpose.</p>
-<p>Note, it is possible to install crash handlers from third parties, either to get enhanced crash reporting diagnostics or to link application crashes to a web-based service for managing crash reports across a potentially large population of users. We shall defer such discussions to a later chapter.</p>
+<p>In this chapter, we get into the details of what comprises a crash report. Our main focus is the iOS crash report. We also cover the macOS crash report, which carries a slightly different structure but serves the same purpose.</p>
+<p>Note, it is possible for an app to install crash handlers from third parties, either to get enhanced crash reporting diagnostics, or to link application crashes to a web-based service for managing crash reports across a potentially large population of users. In this chapter we assume the app has not done this, and therefore the Apple CrashReport tool comes into play.</p>
 <p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
 <p>When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
 <p>Apple has produced a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
@@ -801,7 +804,7 @@ There can be many pixel formats for images. An <code>assert</code> might lead us
 <h2 id="guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</h2>
 <p>Here we go through each section of an iOS crash report and explain the fields. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
 <p>tvOS and watchOS may be just considered subsets of iOS for our purposes and have similar crash reports.</p>
-<p>Note here iOS Crash Report means a crash report that came from a physical target device. After a crash, apps are often debugged on the Simulator. The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.</p>
+<p>Note here we use the term “iOS Crash Report” to mean a crash report that came from a physical target device. After a crash, apps are often debugged on the Simulator. The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.</p>
 <h3 id="ios-crash-report-header-section">iOS Crash Report Header Section</h3>
 <p>A Crash Report starts with the following header:</p>
 <pre><code>Incident Identifier: E030D9E4-32B5-4C11-8B39-C12045CABE26
@@ -877,8 +880,7 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 </table>
 <p>The first thing to look at is the version. Typically, if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.</p>
 <p>If we have many crashes then a pattern may emerge. It could be one customer (common CrashReporter key seen), or many customers (different CrashReporter keys seen). This may affect how we rank the priority of the crash.</p>
-<p>The hardware model could be interesting. It is iPad only devices, or iPhone only, or both? Maybe our code has less testing or unique code paths for a given platform.</p>
-<p>The hardware model might indicate an older device, which we have not tested on.</p>
+<p>The hardware model could be interesting. It is iPad only devices, or iPhone only, or both? Maybe our code has less testing or unique code paths for a given platform. The hardware model might indicate an older device, which we have not tested on.</p>
 <p>Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested whilst they are in the background. For example, we might receive a phone call, or have task switched between apps.</p>
 <p>The Code Type (target architecture) is now mostly 64-bit ARM. However, we might see ARM being reported - the original 32-bit ARM.</p>
 <h3 id="ios-crash-report-date-and-version-section">iOS Crash Report Date and Version Section</h3>
