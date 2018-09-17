@@ -12,7 +12,7 @@ Next come software tools that help us reverse engineer programs.  Sometimes we c
 
 ## Reverse Engineering
 
-Reverse engineering is where an already built binary (such as an application, library, or helper process daemon), is studied to determine how it works.  Normally, source code not binary code is studied to determine how a program works.  For example:
+Reverse engineering\index{software!reverse engineering} is where an already built binary (such as an application, library, or helper process daemon), is studied to determine how it works.  For a specific Object, we might want to find out:
 
 - what are the lifecycles of the objects it is provided?
 - what checks does it do on objects?
@@ -20,9 +20,9 @@ Reverse engineering is where an already built binary (such as an application, li
 - why did it return a failure code?
 
 We generally do not want to know everything, only something specific to help build a hypothesis.
-Once we have a hypothesis\index{hypothesis!development of}, we will test it in relation to the crash dump are dealing with.
+Once we have a hypothesis\index{hypothesis!development of}, we will test it in relation to the crash dump we are dealing with.
 
-How far should we go with reverse engineering, and how much money and time to invest in it is a good question.  We offer the following recommendation.
+How far should we go with reverse engineering, and how much money and time to invest in it is a good question.  We offer the following recommendation:
 
 - If we are just starting our application developer journey, or we have limited funds, then just stick with the standard Xcode tooling, macOS command line, and the open source class-dump tool.
 - If we are a professional application developer, we should strongly consider buying a commercial reverse engineering tool.  The one that draws most attention is Hopper\index{trademark!Hopper}; it provides a lot of functionality offered by IDA Pro\index{trademark!IDA Pro} (a high end tool).  It is well priced and can pay for itself in gained productivity even if only used a handful of times.  We show how Hopper can be used in this book.
@@ -54,7 +54,7 @@ When a company has many apps, many app variants, and has apps based on competito
 
 A number of commercial solutions are available, largely based upon the above Open Source project.
 
-The Mobile Software Development field has grown into a big industry over the last few years.  Many specialist companies serve App Developers as their customers.  The field is very active in terms of mergers and acquisitions.  Therefore, we cannot name the competitors in the Crash Reporting space in this book, as the list would be constantly changing.
+The Mobile Software Development field has grown into a big industry over the last  few years.  Many specialist companies serve App Developers as their customers.  The field is very active in terms of mergers and acquisitions.  Therefore, we cannot name the competitors in the Crash Reporting space in this book, as the list would be constantly changing.
 
 A good place to start is the `rollout.io` blog posting that reviewed different players in the market.
 @3rdpartycrashtools
