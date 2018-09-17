@@ -4284,20 +4284,20 @@ Leak: 0x600000d506c0  size=64  zone: DefaultMallocZone_0x11da72000
 
 func createRetainCycleLeak() {
     let salsa = Album()
-    let song1 = Song(album: salsa, artist: &quot;Salsa Latin 100%&quot;,
+    let carnaval = Song(album: salsa, artist: &quot;Salsa Latin 100%&quot;,
      title: &quot;La Vida Es un Carnaval&quot;)
-    salsa.songs.append(song1)
+    salsa.songs.append(carnaval)
 }
 
 func buildMediaLibrary() {
     let kylie = Album()
-    let song1 = Song(album: kylie, artist: &quot;Kylie Minogue&quot;,
+    let secret = Song(album: kylie, artist: &quot;Kylie Minogue&quot;,
      title: &quot;It&#39;s No Secret&quot;)
-    kylie.songs.append(song1)
+    kylie.songs.append(secret)
     mediaLibrary = kylie
     createRetainCycleLeak()
 }</code></pre>
-<p>The problem is that <code>createRetainCycleLeak()</code> <code>song1</code> <code>Song</code> makes a strong reference to <code>salsa</code> <code>Album</code> and <code>Album</code> makes a strong reference to <code>song1</code> <code>Song</code> and when we return from this method, there is no reference to either object from another object. The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle). A very similar object relationship for <code>kylie</code> <code>Album</code> does not trigger a leak because that is referenced by a top level graph object <code>mediaLibrary</code></p>
+<p>The problem is that <code>createRetainCycleLeak()</code> <code>carnaval</code> <code>Song</code> makes a strong reference to <code>salsa</code> <code>Album</code> and <code>salsa</code> makes a strong reference to <code>carnaval</code> <code>Song</code> and when we return from this method, there is no reference to either object from another object. The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle). A very similar object relationship for <code>kylie</code> <code>Album</code> does not trigger a leak because that is referenced by a top level graph object <code>mediaLibrary</code></p>
 <h3 id="dynamic-linker-api-usage">Dynamic Linker API Usage</h3>
 <p>Sometimes programs dynamically adapt or are extensible. For such programs, the dynamic linker API is used to programmatically load up extra code modules. When the configuration or deployment of the app is faulty, this can result in crashes.</p>
 <p>To debug such problems, set the <code>Dynamic Linker API Usage</code> flag. This can generate many messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch.</p>
