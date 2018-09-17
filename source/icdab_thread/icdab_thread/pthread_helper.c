@@ -24,7 +24,7 @@ void *task(long id) {
     double result = 0.0;
     for (i = 0; i < 100000000; i++) {
         result = result + sin(i) * tan(i);
-        printf("intermediate result %f ", result);
+        //printf("intermediate result %f ", result);
     }
     printf("Task %ld completed with result %e\n", id, result);
     return NULL;

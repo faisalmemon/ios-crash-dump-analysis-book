@@ -35,7 +35,7 @@ done
 for testScheme in $logicTestingTvTestSuite
 do
 	echo ++ Scheme ++ $testScheme
-	echo	xcodebuild test -workspace $workspaceFile -scheme $testScheme -destination name=$testAppleTv
+	xcodebuild test -workspace $workspaceFile -scheme $testScheme -destination name=$testAppleTv
 done
 
 exit
