@@ -199,13 +199,16 @@
 				TargetAttributes = {
 					39784918214BEFF900DA41FB = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 					};
 					39784929214BEFFB00DA41FB = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 						TestTargetID = 39784918214BEFF900DA41FB;
 					};
 					39784934214BEFFB00DA41FB = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 						TestTargetID = 39784918214BEFF900DA41FB;
 					};
 				};
@@ -438,7 +441,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.perivalebluebell.icdab-cycle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Debug;
@@ -457,7 +460,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.perivalebluebell.icdab-cycle";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 			};
 			name = Release;
@@ -477,7 +480,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.perivalebluebell.icdab-cycleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_cycle.app/icdab_cycle";
 			};
@@ -498,7 +501,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.perivalebluebell.icdab-cycleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_cycle.app/icdab_cycle";
 			};
@@ -518,7 +521,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.perivalebluebell.icdab-cycleUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_TARGET_NAME = icdab_cycle;
 			};
@@ -538,7 +541,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.perivalebluebell.icdab-cycleUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 3;
 				TEST_TARGET_NAME = icdab_cycle;
 			};
