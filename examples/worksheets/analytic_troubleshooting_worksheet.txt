@@ -65,7 +65,7 @@ PROBLEM STATEMENT (in OBJECT/DEFECT format)
 
 
 
-  - Where could be problem be on the thing but isn't?  
+  - Where could the problem be on the thing but isn't?  
 
 
 

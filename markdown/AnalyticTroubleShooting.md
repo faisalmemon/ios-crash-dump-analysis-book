@@ -41,17 +41,18 @@ If whilst updating our privacy settings, we see a crash, we have a privacy issue
 One way to assess impact is to build analytics into our app.  Then the set of steps, and more broadly, the customer use case, can be studied alongside the crash.  Crashes from the most important use cases can then be identified as high impact bugs to fix.  One advantage of third party crash reporting services is that they allow logs to be recorded that are delivered to the crash report server along with the crash.
 
 The following are good places to introduce a log message:
-- Any time a life-cycle event occurs, such as foregrounding, backgrounding, appearing, disappearing,
-- Button clicks,
-- Segues,
-- Notifications,
-- Alert pop ups,
-- Launching helper components such as the photo picker.
+
+- any time a life-cycle event occurs, such as foregrounding, backgrounding, appearing, disappearing,
+- button clicks,
+- segues,
+- notifications,
+- alert pop ups,
+- launching helper components such as the photo picker.
 
 
 ### Prioritizing based upon deadlines
 
-To judge the urgency of a bug fix, we need to assess the **deadline** associated with the bug.  Whenever Apple updates their product line, for example, historically iPhone\index{trademark!iPhone} is updated in September, then a natural product lifecycle cadence is seen in the market.  New customers will come to the App Store to provision new apps.  There will be a lot of discussion of Apple product features in the press.  Consequently, it becomes a good market window to target.  Any crash that prevents app store approval or app first time use issues becomes more important at this time.  Occasionally, Apple introduces a new app category, for example watch apps, or sticker packs.  Being available on the first day provides a first-mover advantage, and the possibility of being featured as part of the Apple launch event.
+To judge the urgency of a bug fix, we need to assess the **deadline** associated with the bug.  Whenever Apple updates their product line, for example, historically iPhone\index{trademark!iPhone} is updated in September, then a natural product lifecycle cadence is seen in the market.  New customers will come to the App Store to provision new apps.  There will be a lot of discussion about Apple product features in the press.  Consequently, it becomes a good market window to target.  Any crash that prevents app store approval or app first time use issues becomes more important at this time.  Occasionally, Apple introduces a new app category, for example watch apps, or sticker packs.  Being available on the first day provides a first-mover advantage, and the possibility of being featured as part of the Apple launch event.
 
 ### Prioritizing based upon trend
 
@@ -61,7 +62,7 @@ If our app crashes due to features in a new major release of iOS then the first 
 
 If we see a spike (a sharp rise and then a sharp fall) in our crash reports, then there may be other factors of components of the system architecture in play.  For example, if our app relies on a back-end server that is updated in a problematic way for our app, we could see crashes until the server has been fixed.
 
-The timing of problems can be awkward.  For example, when dealing with security credentials such as certificates, it is best to set their expiry date not during traditional vacation periods (such as Christmas or Chinese New Year) because when they expire, there might be few staff available to rectify the problem.
+The timing of problems can be awkward.  For example, when dealing with security credentials such as certificates, it is best to set their expiry date to not being  during traditional vacation periods (such as Christmas or Chinese New Year) because when they expire, there might be few staff available to rectify the problem.
 
 It is bad practice to release a major software update prior to a popular vacation period.  If our market opportunity requires the product be released for a vacation period, staffing needs to be setup to accommodate potential problems.
 
@@ -73,7 +74,7 @@ The crash report trend need not be adverse.  If an unusual crash is seen only on
 
 The information we have for a crash: the crash report, customer logs, analytic data etc. should be summarized into an OBJECT / DEFECT style short problem statement.  This is often a critical first step in triaging a potentially large number of crash reports.  This gives us a first level approximation of what is at hand and allows managers and other interested parties to get a feel for where we are with product quality, maturity, risks, etc.
 
-First, we state the object of the problem. That is the app, or product, that is failing.  Then, we state the defect. That is the "undesirable behavior" we see.  It should be as simple as "CameraApp Lite  crashes during when Apple Share button event used".  The problem should be tracked in a bug management system.
+First, we state the object of the problem. That is the app, or product, that is failing.  Then, we state the defect. That is the "undesirable behavior" we see.  It should be as simple as "CameraApp Lite  crashes during the Apple Share button is  used".  The problem should be tracked in a bug management system.
 
 ## Specifying the problem
 
@@ -101,7 +102,7 @@ We fill out details in the IS column first.  Then we fill out the IS NOT column.
 
 Any potential solution to the problem must entirely explain **all** the IS and IS NOT parts of the problem specification.  Often the first solution we think of only explains part of the pattern of defects seen in the problem specification.  Spending a little more time thinking about potential causes, or doing a little more research can be a good investment of time particularly if it is difficult or time-consuming to try out different candidate solutions.
 
-We have an understanding of the system specification and its behavior when operating within those constraints.  In practice, the system evolves over time with new software and hardware releases.  Therefore, we must keep going back to primary information sources, and perform experimentation to refine this understanding.  This allows us to discover good questions, and allows us to develop a hypothesis.  There is normally a positive feedback loop here between asking questions, learning about our system, and then discovering new relevant questions.
+We will have an understanding of the system specification and its behavior when operating within those constraints.  In practice, the system evolves over time with new software and hardware releases.  Therefore, we must keep going back to primary information sources, and perform experimentation to refine this understanding.  This allows us to discover good questions, and allows us to develop a hypothesis.  There is normally a positive feedback loop here between asking questions, learning about our system, and then discovering new relevant questions.
 
 ### Questions to ask
 
@@ -116,7 +117,7 @@ We have an understanding of the system specification and its behavior when opera
   - Where is the problem on the thing?  
 - WHERE IS NOT
   - Where could the thing be when we should have seen the problem but did not?
-  - Where could be problem be on the thing but isn't?  
+  - Where could the problem be on the thing but isn't?  
 - WHEN IS
   - When was the problem first noticed?
   - When has the problem been seen again?
@@ -189,7 +190,7 @@ Consider the problem "An iMac crashes regularly needing constant hardware repair
 - WHERE IS NOT
   - Where could the thing be when we should have seen the problem but did not?
     -  The same Apple iMac was fine when it was in the basement, when it was in the IT department staging area, and when it was tested at the Apple factory.  
-  - Where could be problem be on the thing but isn't?
+  - Where could the problem be on the thing but isn't?
     - The problem could have been in software but wasn't.
     - The problem could have been the USB peripherals but weren't.
     - The problem could have been electrical faults in the printer, desk lamp, lights or air conditioning but wasn't.
@@ -218,7 +219,7 @@ Consider the problem "A database app crashes during app review"
   - When could the problem have been noticed but wasn't?
     - The problem was never seen on the developer environment.  
   - When could it have been seen again but wasn't?
-    - Subsequent launches of the app we all fine also.  
+    - Subsequent launches of the app were all fine also.  
   - When else in the lifecycle of the thing could the problem be seen but wasn't?  
     - When the Update button is pressed in the app, or the target database connection string is changed, the problem is not seen.  
 
@@ -234,7 +235,7 @@ Consider the problem "AlienGame performance issue/crash during playing different
   - How many things have the problem?
     - 500 distinct installs of the app, out of 2000 in total.  
   - What is the extent of the defect?
-    - Sometimes severe; we get a crash. Sometimes mild; we get a dropped frames.
+    - Sometimes severe; we get a crash. Sometimes mild; we get dropped frames.
     - Sometimes the frame rate stays good the whole time.  
   - How many defects are on the thing?
     - 5 different types of game rendering thread end up crashing (different occasions).  
@@ -255,7 +256,7 @@ Consider the problem "AlienGame performance issue/crash during playing different
 
 This example is harder to understand.  We need an understanding of the architecture of the app to ask good questions.  Some clues appear.  There are 6 types of rendering thread, one of whom is fine.  In addition, the main thread is fine.  We need to explore the relevant differences between them.
 
-When we have a problem that does not always happen, one strategy is to think about what could make the problem worse, and thus happen more frequently.  Then when we have a candidate solution we can set a confidence threshold for the fix given that we are able to induce the otherwise rare or less frequent problem.
+When we have a problem that does not always happen, one strategy is to think about what we could do to make the problem worse, and thus happen more frequently.  Then, when we have a candidate solution, we can set a confidence threshold (number of iterations without a failure seen) and test the fix against this threshold in the special environment which makes the problem more likely.
 
 Another clue is that 25% of installs have the problem.  If the problem was due to the population of different hardware and thus varying hardware capability, we could see that about 25% of users are on iPad versus iPhone.  However, being strictly a 25% problem without it varying is a marker to tell us maybe something else in the environment is affecting the behavior of the app.  Perhaps during installation, a server is picked in round-robin fashion amongst four servers that host the back-end for the game.  Furthermore, during development, perhaps the server used is a special development server different from production servers used by our customers.  Again, the IS NOT section provides the most revealing clues as to where to look for a potential solution.
 
@@ -305,7 +306,7 @@ and media reports @appleinsiderimacpro
   - What could be wrong but is not?  
     - It's never a panic whilst the computer is actively running
     - It's never a problem during booting
-    - It's never a problem when the system is being shutdown by user
+    - It's never a problem when the system is being shutdown by a user
 - WHERE IS
   - When the problem was noticed, where was it geographically?
     - At customer premises
@@ -315,7 +316,7 @@ and media reports @appleinsiderimacpro
 - WHERE IS NOT
   - Where could the thing be when we should have seen the problem but did not?
     - Apple hardware validation facilities (presumably - only Apple knows)
-  - Where could be problem be on the thing but isn't?  
+  - Where could the problem be on the thing but isn't?  
     - On the main CPU/board
     - On boot loaders
     - On Multimedia chips and Network chips (these have their own OS)
