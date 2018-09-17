@@ -343,13 +343,15 @@
 <p>If we don’t define the text in our <code>Info.plist</code> for <code>NSCameraUsageDescription</code> we still see the following code evaluating true and then attempting to present the image picker.</p>
 <pre><code>if UIImagePickerController.isSourceTypeAvailable(
       UIImagePickerControllerSourceType.camera) {
+      // Use Xcode 9.4.1 to see it enter here
+      // Xcode 10.0 will skip over
       let imagePicker = UIImagePickerController()
       imagePicker.delegate = self
       imagePicker.sourceType = UIImagePickerControllerSourceType.camera
       imagePicker.allowsEditing = false
       self.present(imagePicker, animated: true, completion: nil)
       }</code></pre>
-<p>However when we run the code we see a crash with a descriptive console message:</p>
+<p>However when we run the code, via Xcode 9.4.1, we see a crash with a descriptive console message:</p>
 <pre><code>2018-07-10 20:09:21.549897+0100 icdab_sample[1775:15601294]
  [access] This app has crashed because it attempted to access
   privacy-sensitive data without a usage description.  
@@ -359,6 +361,7 @@
 Message from debugger: Terminated due to signal 9</code></pre>
 <h3 id="lessons-learnt">Lessons Learnt</h3>
 <p>Note the contrast here. In both cases there was a privacy sensitive API. However, in the camera case, Apple chose a policy of crashing our app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a <code>false</code> value to indicate the source type was not available.</p>
+<p>This seems like a harsh design choice. When Xcode 10.0 was introduced (it delivers the iOS 12 SDK) the behavior of the API changed. It returns <code>false</code> if the camera is not available due to a missing privacy string in the application <code>Info.plist</code></p>
 <p>This underlies the point about there being two entities involved, the program and the operating environment (which includes its policies). Having correct source code does not guarantee crash free running. When we see a crash we need to think about the operating environment as much as the code itself.</p>
 <h2 id="application-policies">Application policies</h2>
 <p>The application we are writing can also request a crash. This is typically done via <code>assert</code> calls in our code. These calls ask the Operating Environment to terminate our app if any <code>assert</code> has failed. The Operating Environment then aborts our app. In the crash report we get a:</p>
@@ -4207,11 +4210,11 @@ freed by thread T0 here:
 <p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)overReleasedObject
 {
-    id a = [[UIViewController alloc] init];
+    id vc = [[UIViewController alloc] init];
     // Build Phases -&gt; Compile Sources -&gt; Crash.m has Compiler Flags setting
     // -fno-objc-arc to allow the following line to be called
-    [a release];
-    NSLog(@&quot;%@&quot;, [a description]);
+    [vc release];
+    NSLog(@&quot;%@&quot;, [vc description]);
 }</code></pre>
 <p>When the above code is called we get a crash, and the following is logged:</p>
 <pre><code>2018-09-12 12:09:10.236058+0100 icdab_edge[92796:13650378]
@@ -4219,7 +4222,7 @@ freed by thread T0 here:
   instance 0x7fba1ff071c0</code></pre>
 <p>Looking at the debugger, we see:</p>
 <p><img src="screenshots/zombie.png" /></p>
-<p>Note how the type of the object instance <code>a</code> is <code>_NSZombie_UIViewController *</code>.</p>
+<p>Note how the type of the object instance <code>vc</code> is <code>_NSZombie_UIViewController *</code>.</p>
 <p>The type will be whatever the original type of the over released object was, but prefixed with <code>_NSZombie_</code>. This is most helpful, and we should look out for this when studying the program state in the debugger.</p>
 <h3 id="malloc-stack">Malloc Stack</h3>
 <p>Sometimes the past dynamic behavior of our app needs to be understood in order to resolve why the application crashed. For example, we may have leaked memory, and then we were terminated by the system for using too much memory. We might have a data structure and wonder which part of the code was responsible for allocating it.</p>
