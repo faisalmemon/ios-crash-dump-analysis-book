@@ -225,15 +225,15 @@
 <p>We had an electronic board showing the status of our critical customers. Saudi Aramco was permanently lit in red to such an extent that we wondered if that was a fault on the board itself.</p>
 <p>My first day was somewhat ignominious. I wasn’t even given my own cubicle. My desk looked like a school table. My keyboard had several faulty and inoperative keys. I sat in one corner of a vast cube-farm and actually forgot which corner it was at on the first day. After lunch, I returned to my desk after an extensive walk around the other corners.</p>
 <p>One thing struck me was that there was a book sitting on the desk of about a quarter of the 500 odd engineers. It proudly said on the front cover, “Panic!” <span class="citation" data-cites="panicbook">(<em>Panic! Unix System Crash Dump Analysis</em> 1995)</span>. It was a book on SunOS crash dump analysis.</p>
-<p>After acquiring a proper cubicle and getting to know my colleagues, I noticed that the engineers with the “Panic!” book just seemed to have that extract edge in low-level issues reported by Customers. Collectively it lifted the problem solving IQ of the Answer Center where I worked.</p>
+<p>After acquiring a proper cubicle and getting to know my colleagues, I noticed that the engineers with the “Panic!” book just seemed to have that extra edge in handling low-level issues reported by Customers. Collectively it lifted the problem solving IQ of the Answer Center where I worked.</p>
 <p>At Sun, there was a deep culture of learning. We were given such extensive training and support it was often the case we’d be doing seven courses per year, each a week long.</p>
 <p>All was good until one course came up. It was called Analytical Troubleshooting (ATS). This caused great controversy within the Answer Center. It was a formal methodology for solving problems. It could not tell you the answers, but it would ensure you were forced to ask the right questions. It turned out that on our hardest problems, we were missing asking the right questions.</p>
 <p>This was a major step forwards again in productivity. Nevertheless, some engineers, quite out of character, were loudly critical. It turned out that these techniques were just things experienced engineers had learnt as part of their craft and they didn’t want the magic to be laid bare for anyone to pick up cheaply.</p>
 <p>One day Chris Drake was in town and popped into our office. He was the x86 architecture specialist that collaborated with Kimberley Brown to produce the “Panic!” book. They arranged a workshop to educate us on SunOS crashes on x86 architecture. It was something of a novelty at the time, prior to the remarkable rise of Linux and the GNU/Linux system.</p>
 <p>I remember one time, as an undergraduate student during an Operating Systems lecture, I looked across the room. I noticed it was full of Sun Microsystems equipment; I stared into the Sun logo and dreamed of one day working there. It came true. So in my workshop on x86 panics, I had another idea. One day I would write a book. It would be something quite focussed on a single technical problem. It would be something that would convey the experiences I had obtained in my career. It turns out that came true as well in the book you are reading now!</p>
 <h1 id="acknowledgements">Acknowledgements</h1>
-<p>I’d like acknowledge the help and support of my colleagues for writing this book.</p>
-<p>Putting together is work was only possible because it was built upon generously provided open source tools, in particular <code>pandoc</code> which made writing the text of the book a pleasure.</p>
+<p>I’d like to acknowledge the help and support of my colleagues for writing this book.</p>
+<p>Putting together this work was only possible because it was built upon generously provided open source tools, in particular <code>pandoc</code> which made writing the text of the book a pleasure.</p>
 <p>Lastly, I’d like to thank my supportive family whilst I was locked in my study and largely absent. Thank you Junghyun, and Christopher.</p>
 <h1 id="introduction">Introduction</h1>
 <p>This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs. The mindset of the Application developer is largely understanding high-level concepts and abstractions. When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.</p>
@@ -247,7 +247,7 @@
 <p>Programming literature comprehensively has documented software engineering concepts, and Apple has documented their crash dump tooling via Guides and WWDC videos.</p>
 <p>Formal problem solving is less discussed in software engineering circles, perhaps because it’s considered a table stakes skill for an engineer. It is however a discipline of its own and when directly studied can only enhance the “natural” abilities that seem to mark out the “technically-minded” folks from the rest of the population.</p>
 <p>Our goal is not the shy away from repeating knowledge we’ve probably seen or read elsewhere but instead we take the viewpoint of explaining the whole narrative in a cohesive manner. What makes crash dump analysis hard is that significant background knowledge is often assumed in order to make room to concentrate on the particulars of a specific tool or crash report. That causes a barrier to entry, which this book aims to overcome.</p>
-<p>To complement the book, there is a website of resources which is intended to be used alongside the printed material so example projects can be setup and run by yourself and experimented with. All references in this book are collected into the Bibliography Chapter at the end of the book. There you will find URLs to resources for example.</p>
+<p>To complement the book, there is a website of resources which is intended to be used alongside the printed material so example projects can be setup and run by yourself and experimented with. All references in this book are collected into the Bibliography Chapter at the end of the book. There you will find URLs to resources, for example.</p>
 <p>The GitHub website supporting the book is at <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 
 <h1 id="quick-start">Quick Start</h1>
@@ -267,7 +267,7 @@
 <p>Sometimes our app only crashes when at customer site.</p>
 <p>We can check Wi-Fi settings or try hot-spotting our iPad to an iPhone. Sometimes network issues such as connectivity, or latency are overlooked when developing our app in the office/home environment. We should make a note to fix networking assumptions if that is the problem.</p>
 <h3 id="customer-device-deployment-issues">Customer device deployment issues</h3>
-<p>Sometimes our app only crashes when deploying on a customer device gives problems.</p>
+<p>Sometimes our app only crashes when deployed onto a customer device.</p>
 <p>If we cable up our laptop to the customer’s device, we’re probably doing a Debug release deployment. This means push notification tokens will be the development tokens not the production tokens. It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version).</p>
 <p>We should try switching deployment configuration via Command-&lt; selecting Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug). We should also manually check any resource access grants in the iPad/iPhone settings.</p>
 <h3 id="locale-specific-issues">Locale specific issues</h3>
@@ -305,9 +305,9 @@
 <p>The actual problem was the computer was near a window next to an estuary where ships passed by. At high tide, a military ship would sail past and its RADAR would disrupt the electronics and cause a crash.</p>
 <p>This folklore story was told to Sun Microsystems Answer Center engineers in the UK during Kepner-Tregoe formal problem solving training.</p>
 <h3 id="bus-noise-crash">Bus Noise Crash</h3>
-<p>When a computer was under both heavy network load and disk load the system would</p>
-<p>The crash was due corruption on disk. There were zeroes very 64 bytes. It was the cache line size of the computer. The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.</p>
-<p>This was seen during the development of Sun Volume Systems Group prototype hardware build.</p>
+<p>When a computer was under both heavy network load, and disk load, the system would crash.</p>
+<p>The crash was due to corruption on disk. There were zeroes every 64 bytes. It was the cache line size of the computer. The memory board was not wired up correctly causing noise at 64 byte boundaries picked up by the disk ribbon cable sitting next to it.</p>
+<p>This was seen in an early prototype of a Sun Volume Systems Group computer.</p>
 <h1 id="basic-concepts">Basic Concepts</h1>
 <h2 id="what-is-a-crash">What is a crash?</h2>
 <p>Inside our computers is an Operating Environment. This comprises one or more running Operating Systems, and Application Software. Operating Systems and Application Software are distinguished by the fact that OS software runs with higher CPU privileges (kernel mode) than Application Software (user mode).</p>
@@ -378,7 +378,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>The thing to keep in mind is that any code that touches upon the policies the Operating Environment has guards for is a good candidate for automated testing.</p>
 <p>In the <code>icdab_sample</code> project we have created Unit tests and UI tests.</p>
 <p>Test cases always feel over-the-top when applied to trivial programs. But consider a large program that has an extensive <code>Info.plist</code> file. A new version of the app is called for so another <code>Info.plist</code> is created. Then keeping the privilege settings in sync between the different build targets becomes an issue. The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.</p>
-<p>Similarly, if our app has a lot of low-level code and then is ported from iOS to tvOS for example, how much of that OS-sensitive code is still applicable?</p>
+<p>Similarly, if our app has a lot of low-level code and then is ported from iOS to tvOS, for example, how much of that OS-sensitive code is still applicable?</p>
 <p>Unit testing a top level function comprehensively for different design concerns can pay off the effort invested in it before delving deeper and unit testing the underlying helper function calls in our code base. It’s a strategic play allowing us to get some confidence in our application and early feedback on problem areas when porting to other platforms within the Apple Ecosystem (and beyond).</p>
 <h3 id="unit-testing-the-mac-address">Unit Testing the MAC Address</h3>
 <p>The code to get the MAC address is not trivial. Therefore it merits some level of testing.</p>
@@ -426,15 +426,15 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>Additionally there are command line tools provided as standard in macOS. These are helpful when used in particular usage scenarios when we already know what we want to find out. We shall go through specific scenarios and show how the tools are used.</p>
 <p>Next come software tools that help us reverse engineer programs. Sometimes we cannot get our program to work with a third party library. Aside from looking at Documentation or raising a Support Request, it’s possible to do some investigation ourselves using these tools.</p>
 <h2 id="reverse-engineering">Reverse Engineering</h2>
-<p>Reverse engineering is where an already built binary (such as an application, library, or helper process daemon), is studied to determine how it works. Normally, source code not binary code is studied to determine how a program works. For example:</p>
+<p>Reverse engineering is where an already built binary (such as an application, library, or helper process daemon), is studied to determine how it works. For a specific Object, we might want to find out:</p>
 <ul>
 <li>what are the lifecycles of the objects it is provided?</li>
 <li>what checks does it do on objects?</li>
 <li>what files or resources does it depend on?</li>
 <li>why did it return a failure code?</li>
 </ul>
-<p>We generally do not want to know everything, only something specific to help build a hypothesis. Once we have a hypothesis, we will test it in relation to the crash dump are dealing with.</p>
-<p>How far should we go with reverse engineering, and how much money and time to invest in it is a good question. We offer the following recommendation.</p>
+<p>We generally do not want to know everything, only something specific to help build a hypothesis. Once we have a hypothesis, we will test it in relation to the crash dump we are dealing with.</p>
+<p>How far should we go with reverse engineering, and how much money and time to invest in it is a good question. We offer the following recommendation:</p>
 <ul>
 <li>If we are just starting our application developer journey, or we have limited funds, then just stick with the standard Xcode tooling, macOS command line, and the open source class-dump tool.</li>
 <li>If we are a professional application developer, we should strongly consider buying a commercial reverse engineering tool. The one that draws most attention is Hopper; it provides a lot of functionality offered by IDA Pro (a high end tool). It is well priced and can pay for itself in gained productivity even if only used a handful of times. We show how Hopper can be used in this book.</li>
