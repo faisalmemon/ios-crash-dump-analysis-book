@@ -345,22 +345,22 @@ var mediaLibrary: Album?
 
 func createRetainCycleLeak() {
     let salsa = Album()
-    let song1 = Song(album: salsa, artist: "Salsa Latin 100%",
+    let carnaval = Song(album: salsa, artist: "Salsa Latin 100%",
      title: "La Vida Es un Carnaval")
-    salsa.songs.append(song1)
+    salsa.songs.append(carnaval)
 }
 
 func buildMediaLibrary() {
     let kylie = Album()
-    let song1 = Song(album: kylie, artist: "Kylie Minogue",
+    let secret = Song(album: kylie, artist: "Kylie Minogue",
      title: "It's No Secret")
-    kylie.songs.append(song1)
+    kylie.songs.append(secret)
     mediaLibrary = kylie
     createRetainCycleLeak()
 }
 ```
 
-The problem is that `createRetainCycleLeak()` `song1` `Song` makes a strong reference to `salsa` `Album` and `Album` makes a strong reference to `song1` `Song` and when we return from this method, there is no reference to either object from another object.  The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle\index{memory!retain cycle}).  A very similar object relationship for `kylie` `Album` does not trigger a leak because that is referenced by a top level graph object `mediaLibrary`
+The problem is that `createRetainCycleLeak()` `carnaval` `Song` makes a strong reference to `salsa` `Album` and `salsa` makes a strong reference to `carnaval` `Song` and when we return from this method, there is no reference to either object from another object.  The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle\index{memory!retain cycle}).  A very similar object relationship for `kylie` `Album` does not trigger a leak because that is referenced by a top level graph object `mediaLibrary`
 
 ### Dynamic Linker API Usage
 

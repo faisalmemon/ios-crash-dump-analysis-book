@@ -14,14 +14,14 @@ class ViewController: UIViewController {
     
     func createRetainCycleLeak() {
         let salsa = Album()
-        let song1 = Song(album: salsa, artist: "Salsa Latin 100%", title: "La Vida Es un Carnaval")
-        salsa.songs.append(song1)
+        let carnaval = Song(album: salsa, artist: "Salsa Latin 100%", title: "La Vida Es un Carnaval")
+        salsa.songs.append(carnaval)
     }
     
     func buildMediaLibrary() {
         let kylie = Album()
-        let song1 = Song(album: kylie, artist: "Kylie Minogue", title: "It's No Secret")
-        kylie.songs.append(song1)
+        let secret = Song(album: kylie, artist: "Kylie Minogue", title: "It's No Secret")
+        kylie.songs.append(secret)
         mediaLibrary = kylie
         createRetainCycleLeak()
     }
