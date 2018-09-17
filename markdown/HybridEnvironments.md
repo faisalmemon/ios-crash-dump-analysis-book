@@ -36,10 +36,14 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;
 
 Enabling code Analysis will not find any issue or warning.
 
-The assert is in place to avoid a division by zero.  That fact that it is triggered is good because we know where to start debugging the problem.
+The assert is in place to avoid a division by zero.  The fact that it is triggered is good because we know where to start debugging the problem.
 
 Pluto's volume is 0.0 because the code
-`planet pluto = planet::get_planet_with_name("Pluto");` returns a planet with zero diameter.
+```
+planet pluto = planet::get_planet_with_name("Pluto");
+```
+
+returns a planet with zero diameter.
 
 From the file `planet_data.hpp` we see the API that we rely upon is:
 ```
@@ -61,7 +65,7 @@ planet planet::get_planet_with_name(string name) {
 ```
 
 At first glance, it might be that the database failed to load data properly.
-In fact, the database is missing the entry for Pluto due to:
+In fact, the database is missing the entry for Pluto due to it no longer being considered a planet:
 
 ```
 void planet_database::load_data() {

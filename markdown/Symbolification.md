@@ -1,6 +1,8 @@
 # Symbolification
 
 This chapter explains crash dump symbolification\index{symbolification}.
+Symbolification is the process of mapping machine addresses into symbolic addresses meaningful to the programmer possessing the source code.  Instead of seeing machine addresses, we want to see function names (plus any offset),
+
 We use the `icdab_planets` sample app to demonstrate a crash. @icdabgithub
 
 When dealing with real world crashes, a number of different entities are involved.  These can be the end user device, the settings allowing the crash report to be sent back to Apple, the symbols held by Apple and our local development environment setup to mirror such a configuration.
@@ -145,7 +147,7 @@ Symbolification is described further by an Apple Technote in case we want to get
 
 ## Reverse Engineering Approach
 
-In the above example we have the source code and symbols for the crash dump so can do Symbolification.
+In the above example we have the source code, and symbols, for the crash dump so can do Symbolification.
 
 Sometimes we may have included a third party binary framework in our project for which we do not have the source code.  It is good practice for the vendor to supply symbol information for their framework to allow crash dump analysis.  When symbol information is not available, it is still possible to make progress by applying some reverse engineering.
 
@@ -172,6 +174,6 @@ This indeed shows the return address for the assert method.  Further up, we see 
 Now at least for the current problem, we could formulate a bug report that said the code was crashing because Pluto's volume was zero.  That may be enough to unlock the problem from the framework vendor's point of view.
 
 In a more complex case, imagine we were using an image conversion library that was crashing.  
-There can be many pixel\index{pixel} formats for images. An `assert` might lead us to notice it was the format that was asserting.  Therefore, we could just try a different pixel format.
+There can be many pixel\index{pixel} formats for images. An `assert` might lead us to notice it was the particular format that was asserting.  Therefore, we could just try a different pixel format.
 
-Another example would be a security library.  Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details.  A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.
+Another example would be a security library.  Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details (a security risk).  A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.
