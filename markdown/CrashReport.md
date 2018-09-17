@@ -1,14 +1,14 @@
 # The Crash Report
 
-In this chapter, we get into the details of what comprises a crash report.
-Our main focus is the iOS crash report.  We also cover the macOS crash report,
+In this chapter, we get into the details of what comprises a Crash Report.
+Our main focus is the iOS Crash Report.  We also cover the macOS Crash Report,
 which carries a slightly different structure but serves the same purpose.
 
-Note, it is possible for an app to install crash handlers from third parties, either to get enhanced crash reporting diagnostics, or to link application crashes to a web-based service for managing crash reports across a potentially large population of users.  In this chapter we assume the app has not done this, and therefore the Apple CrashReport tool comes into play.
+Note, it is possible for an app to install crash handlers from third parties, either to get enhanced crash reporting diagnostics, or to link application crashes to a web-based service for managing Crash Reports across a potentially large population of users.  In this chapter we assume the app has not done this, and therefore the Apple CrashReport tool comes into play.
 
 When a crash occurs the `ReportCrash`\index{command!ReportCrash} program extracts information from the crashing process\index{process} from the Operating System.  The result is a text file with a `.crash`\index{extension!.crash} extension.
 
-When symbol information is available, Xcode will symbolicate the crash report to show symbolic names instead of machine addresses.  This improves the comprehensibility of the report.
+When symbol information is available, Xcode will symbolicate the Crash Report to show symbolic names instead of machine addresses.  This improves the comprehensibility of the report.
 
 Apple has produced a detailed document explaining the anatomy of a crash dump.  @tn2151
 
@@ -16,7 +16,7 @@ Apple has produced a detailed document explaining the anatomy of a crash dump.  
 
 Crash Reports are just one part of a much bigger diagnostic reporting story.
 
-Ordinarily as application developers, we don't need to look much further.  However, if our problems are potentially triggered by an unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our crash reports, we need to study the system diagnostics.
+Ordinarily as application developers, we don't need to look much further.  However, if our problems are potentially triggered by an unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our Crash Reports, we need to study the system diagnostics.
 
 ### Extracting System Diagnostic Information
 When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing).  Apple provides a great web page covering each scenario.  @apple-sysdiag  
@@ -27,11 +27,11 @@ An equivalent approach is available on macOS as well.
 
 ## Guided tour of an iOS Crash Report
 
-Here we go through each section of an iOS crash report and explain the fields. @tn2151
+Here we go through each section of an iOS Crash Report and explain the fields. @tn2151
 
-tvOS\index{tvOS} and watchOS\index{watchOS} may be just considered subsets of iOS for our purposes and have similar crash reports.
+tvOS\index{tvOS} and watchOS\index{watchOS} may be just considered subsets of iOS for our purposes and have similar Crash Reports.
 
-Note here we use the term "iOS Crash Report" to mean a crash report that came from a physical target device.
+Note here we use the term "iOS Crash Report" to mean a Crash Report that came from a physical target device.
 After a crash, apps are often debugged on the Simulator.  The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.
 
 ### iOS Crash Report Header Section
@@ -261,7 +261,7 @@ When our app has detected a problem and has asked the Operating System to termin
 
 What we don't get is the text of the actual assertion that had occurred.  One presumes that the prior section for filtered syslog information was supposed to do that job.  Nevertheless, _Window->Devices and Simulators->Open Console_ will allow us to recover that information.
 
-When we see an Exception Backtrace in a customer crash report, we should ask for the device console log of the crashing device.
+When we see an Exception Backtrace in a customer Crash Report, we should ask for the device console log of the crashing device.
 
 We would for example see:
 ```
@@ -525,7 +525,7 @@ Thread 7:
 0   libsystem_pthread.dylib       	0x0000000183b9fb04 start_wqthread + 0
 ```
 
-The crash report will explicitly tell us which thread crashed.
+The Crash Report will explicitly tell us which thread crashed.
 ```
 Thread 0 Crashed:
 ```
@@ -626,7 +626,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
 
 ### iOS Crash Report Binary Images section
 
-The crash report has a section enumerating all the binary\index{file!binary} images loaded by the process that crashed.
+The Crash Report has a section enumerating all the binary\index{file!binary} images loaded by the process that crashed.
 It is usually a long list.  It highlights the fact that there are many supporting frameworks for our apps.
 Most frameworks are private frameworks\index{software!private framework}.  The iOS development kit might seem a huge set of APIs, but that is just the tip of the iceberg.
 
@@ -698,7 +698,7 @@ The dynamic loader does many tasks in preparing our binary for execution.  If ou
 
 ## Guided tour of a macOS Crash Report
 
-The macOS crash report is similar to an iOS crash report even though macOS CrashReport and iOS CrashReport are distinctly different programs.  To avoid repetition, we just highlight notable differences from iOS.
+The macOS Crash Report is similar to an iOS Crash Report even though macOS CrashReport and iOS CrashReport are distinctly different programs.  To avoid repetition, we just highlight notable differences from iOS.
 
 ### macOS Crash Report Header Section
 
@@ -741,7 +741,7 @@ The Anonymous UUID\index{computer!anonymous UUID} will uniquely identify the com
 
 ### macOS Duration Section  
 
-The macOS crash report shows how soon the application crash occurred.
+The macOS Crash Report shows how soon the application crash occurred.
 ```
 Time Awake Since Boot: 100000 seconds
 Time Since Wake:       2000 seconds
@@ -836,13 +836,13 @@ BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
 
 The take away message is when iOS ARM crashes are being reproduced on x86 hardware, either via the Simulator or via equivalent macOS code, expect the runtime environment to be different and cause a slightly different looking crash.
 
-Fortunately, here it is clear that a semaphore was deallocated whilst it was in use in both crash reports.
+Fortunately, here it is clear that a semaphore was deallocated whilst it was in use in both Crash Reports.
 
 ### macOS Crash Report Thread Section
 
 We next have the thread section.  This is similar to iOS.
 
-Here is an example thread in a macOS crash report:
+Here is an example thread in a macOS Crash Report:
 
 ```
 Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
@@ -889,7 +889,7 @@ NSApplicationMain + 804
 
 ### macOS Crash Report Thread State Section
 
-The macOS crash report shows details of the X86 registers\index{CPU!X86 register} in the crashed thread.
+The macOS Crash Report shows details of the X86 registers\index{CPU!X86 register} in the crashed thread.
 
 ```
 Thread 0 crashed with X86 Thread State (64-bit):
@@ -919,7 +919,7 @@ The traps can be searched for.  Here we have `osfmk/x86_64/idt_table.h` indicati
 
 Next, we have the binary images loaded by the crashing app.
 
-Here is an example of the first few binaries in a crash report, truncated for ease of demonstration:
+Here is an example of the first few binaries in a Crash Report, truncated for ease of demonstration:
 
 ```
 Binary Images:
@@ -996,7 +996,7 @@ The example code `tfpexample` demonstrates this.  @icdabgithub
 
 ### macOS Crash Report Virtual Memory Section
 
-The next section of the crash report is the virtual memory\index{memory!virtual} summary and region type breakdown.
+The next section of the Crash Report is the virtual memory\index{memory!virtual} summary and region type breakdown.
 If we have a graphics heavy app that renders pages of a document, we might look at how big the CoreUI image data region is, for example.  Virtual memory statistics are only meaningful when the app has already been studied in the Xcode Instruments\index{trademark!Xcode Instruments} memory profiler\index{test!memory profiling} because then we can get a feel for the dynamic usage of memory in the app, and thus begin to spot when things look numerically wrong.
 
 Here is an example of the VM Region Section of the report:
@@ -1046,7 +1046,7 @@ TOTAL                            908.7M     1206
 
 ### macOS Crash Report System Profile section
 
-The next part of the crash report is a summary of the hardware\index{hardware!profile} in place:
+The next part of the Crash Report is a summary of the hardware\index{hardware!profile} in place:
 
 ```
 System Profile:
@@ -1083,4 +1083,4 @@ As application developers, we only see crashes in our app.  If we have contact w
 Another interesting aspect is that not all hardware is actively used by the system all the time.  For example, when a MacBook Pro is connected to an external display\index{hardware!external display}, different graphics RAM\index{memory!graphics RAM} is used and a different graphics card\index{hardware!graphics card} is used (external versus an internal GPU).
 If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.
 
-Running system diagnostics\index{hardware!diagnostics} and looking to see if the problems are appearing against only specific Anonymous UUID\index{computer!anonymous UUID} crash reports are ways to try and understand if we have a machine specific hardware issue.
+Running system diagnostics\index{hardware!diagnostics} and looking to see if the problems are appearing against only specific Anonymous UUID\index{computer!anonymous UUID} Crash Reports are ways to try and understand if we have a machine specific hardware issue.

@@ -106,7 +106,7 @@ Binary Images:
      /usr/lib/dyld
 ```
 
-In this crash, we accessed bad memory at location `0x047001b0` as reported by the second value in the crash report Exception Codes section:
+In this crash, we accessed bad memory at location `0x047001b0` as reported by the second value in the Crash Report Exception Codes section:
 ```
 Exception Codes: 0x00000032, 0x047001b0
 ```

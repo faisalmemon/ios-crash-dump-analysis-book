@@ -2,7 +2,7 @@
 
 The iOS platform limits the number of Wake Ups.  When a CPU interrupt occurs, the CPU wakes up to service some task.  Typically it is when there is some IO to process, such as inbound networking data.  If the platform wakes up too frequently, it can drain the battery.  Therefore, the rate of wake ups is limited by the Operating System.
 
-The following crash report, truncated for ease of demonstration, shows the `Snapchat`\index{trademark!Snapchat} app being terminated:
+The following Crash Report, truncated for ease of demonstration, shows the `Snapchat`\index{trademark!Snapchat} app being terminated:
 
 ```
 Incident Identifier: 79C39D6B-E4CA-4047-B96D-7EEED2B57B46
@@ -100,6 +100,6 @@ Exception Subtype:   WAKEUPS
 Exception Message:   (Limit 150/sec) Observed 195/sec over 300 secs
 ```
 
-We also get a `Bad magic` value in the crash report followed by a snapshot of what was running at the point of termination.
+We also get a `Bad magic` value in the Crash Report followed by a snapshot of what was running at the point of termination.
 
 We can see many threads running, related to Networking, Audio, and Video.  We can guess that this application does its own heavy lifting in terms of presenting a video feed and this system level type code is either faulty or has a performance problem.

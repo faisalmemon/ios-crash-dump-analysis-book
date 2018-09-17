@@ -100,7 +100,7 @@ This underlies the point about there being two entities involved, the program an
 ## Application policies
 
 The application we are writing can also request a crash.  This is typically done via `assert`\index{assert} calls in our code.  These calls ask the Operating Environment to terminate our app if any `assert` has failed.  The Operating Environment then aborts our app.
-In the crash report we get a:
+In the Crash Report we get a:
 
 `Exception Type:  EXC_CRASH (SIGABRT)`\index{signal!SIGABRT}
 

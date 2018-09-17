@@ -2,7 +2,7 @@
 
 Kindle Create\index{trademark!Kindle Create} is an application used by authors to create e-books from manuscripts, such as `docx` files.  It makes heavy use of graphics via the QuartzCore\index{library!QuartzCore} library.
 
-When previewing for publication it crashed with the following crash report, truncated for ease of demonstration:
+When previewing for publication it crashed with the following Crash Report, truncated for ease of demonstration:
 
 ```
 Process:               Kindle Create [3010]
@@ -88,7 +88,7 @@ Binary Images:
 
 From the stack backtrace we see that the OpenGL\index{OpenGL} pipeline was flushed.
 This caused `com.apple.AMDRadeonX4000GLDriver` to detect a problem with the
-commands and trigger a crash.  We see that the code contributes custom information to the crash report.
+commands and trigger a crash.  We see that the code contributes custom information to the Crash Report.
 
 ```
 3   libGPUSupportMercury.dylib    	0xa2aa342d gpusGenerateCrashLog + 160
@@ -100,7 +100,7 @@ By locating the binary on our Mac,
 we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode\index{pseudocode}.
 For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code\index{software!assembly code} is rarely hand written nowadays.  This is why the pseudocode output is most valuable.
 
-We first find the location of the binary from the `Binary Images` section of the crash report.
+We first find the location of the binary from the `Binary Images` section of the Crash Report.
 ```
 /System/Library/PrivateFrameworks/GPUSupport.framework/
 Versions/A/Libraries/libGPUSupportMercury.dylib
@@ -129,7 +129,7 @@ Then we can simply drag `libGPUSupportMercury.dylib` from the Finder into the ma
 ![](screenshots/drag_file_to_hopper.png)
 
 We need to select the architecture to disassemble.  It must match what we are diagnosing.
-From the crash report, we can see that it is a `Code Type` `X86 (Native)`.\index{CPU!32-bit X86}
+From the Crash Report, we can see that it is a `Code Type` `X86 (Native)`.\index{CPU!32-bit X86}
 This means we need to select the 32-bit architecture option in Hopper.
 
 ![](screenshots/hopper_32bit.png)
@@ -185,7 +185,7 @@ Here we can see two alternatives.  Either we just report:
 or we report:
 `"Graphics hardware encountered an error and was reset: 0x%08x\n"`
 
-In fact, we see the following in the crash report:
+In fact, we see the following in the Crash Report:
 ```
 Application Specific Signatures:
 Graphics kernel error: 0xfffffffb

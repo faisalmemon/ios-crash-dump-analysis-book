@@ -24,9 +24,9 @@ This methodology is a cut-down version of that taught by Kepner Tregoe.
 
 ## Prioritizing our problem
 
-If we are a sole developer of an app, perhaps with a few customers, and receive a crash report, it can feel like we are being offered a curious intellectual challenge.
+If we are a sole developer of an app, perhaps with a few customers, and receive a Crash Report, it can feel like we are being offered a curious intellectual challenge.
 
-In a professional software engineering context, the reality is starkly different.  There is typically a team of people involved, we are some levels removed from the customer, and there are many different crash reports from different customers, for different products and product variants.
+In a professional software engineering context, the reality is starkly different.  There is typically a team of people involved, we are some levels removed from the customer, and there are many different Crash Reports from different customers, for different products and product variants.
 
 We have to prioritize which crash to work on.  We can consider three different aspects of the problem: Seriousness, Urgency and Growth.
 
@@ -38,7 +38,7 @@ If the customer is in the middle of doing an e-commerce purchase, then clearly r
 
 If whilst updating our privacy settings, we see a crash, we have a privacy issue.  Depending on the type of market we are operating in, that could be a major problem.
 
-One way to assess impact is to build analytics into our app.  Then the set of steps, and more broadly, the customer use case, can be studied alongside the crash.  Crashes from the most important use cases can then be identified as high impact bugs to fix.  One advantage of third party crash reporting services is that they allow logs to be recorded that are delivered to the crash report server along with the crash.
+One way to assess impact is to build analytics into our app.  Then the set of steps, and more broadly, the customer use case, can be studied alongside the crash.  Crashes from the most important use cases can then be identified as high impact bugs to fix.  One advantage of third party crash reporting services is that they allow logs to be recorded that are delivered to the Crash Report server along with the crash.
 
 The following are good places to introduce a log message:
 
@@ -56,11 +56,11 @@ To judge the urgency of a bug fix, we need to assess the **deadline** associated
 
 ### Prioritizing based upon trend
 
-The growth in the number of crash reports we see can be alarming, and needs to be assessed by analyzing the **trend**.  We can see how many crash reports we get over time, and see if there is a spike, or an upward trend.  
+The growth in the number of Crash Reports we see can be alarming, and needs to be assessed by analyzing the **trend**.  We can see how many Crash Reports we get over time, and see if there is a spike, or an upward trend.  
 
-If our app crashes due to features in a new major release of iOS then the first people to experience the problem are early adopters of the beta releases of iOS.  After that, iOS devices will start being automatically upgraded.  Sometimes the new version of iOS is released in geographic staggered updates.  We would expect to see this reflected in the trend we see amongst our crash reports.  
+If our app crashes due to features in a new major release of iOS then the first people to experience the problem are early adopters of the beta releases of iOS.  After that, iOS devices will start being automatically upgraded.  Sometimes the new version of iOS is released in geographic staggered updates.  We would expect to see this reflected in the trend we see amongst our Crash Reports.  
 
-If we see a spike (a sharp rise and then a sharp fall) in our crash reports, then there may be other factors of components of the system architecture in play.  For example, if our app relies on a back-end server that is updated in a problematic way for our app, we could see crashes until the server has been fixed.
+If we see a spike (a sharp rise and then a sharp fall) in our Crash Reports, then there may be other factors of components of the system architecture in play.  For example, if our app relies on a back-end server that is updated in a problematic way for our app, we could see crashes until the server has been fixed.
 
 The timing of problems can be awkward.  For example, when dealing with security credentials such as certificates, it is best to set their expiry date to not being  during traditional vacation periods (such as Christmas or Chinese New Year) because when they expire, there might be few staff available to rectify the problem.
 
@@ -68,11 +68,11 @@ It is bad practice to release a major software update prior to a popular vacatio
 
 Keeping an eye on trends allows us to schedule work to fix problems before they become widespread amongst our customers.  Different apps have different risk profiles.  For example, a Mobile Device Management API sensitive app should be tested with Beta versions of iOS because at the systems level, subtle changes can have dramatic impact and need to be picked up early.  If we have a graphics sensitive app, then we should keep an eye on new hardware devices, hardware specification updates, and we should have a test suite that exercises the key APIs in the platform we depend upon, so a new OS version, or hardware platform, can be quickly assessed.
 
-The crash report trend need not be adverse.  If an unusual crash is seen only on older hardware, then we expect the trend to be downwards over time, so it might be possible to de-prioritize such crashes.
+The Crash Report trend need not be adverse.  If an unusual crash is seen only on older hardware, then we expect the trend to be downwards over time, so it might be possible to de-prioritize such crashes.
 
 ## Stating the problem
 
-The information we have for a crash: the crash report, customer logs, analytic data etc. should be summarized into an OBJECT / DEFECT style short problem statement.  This is often a critical first step in triaging a potentially large number of crash reports.  This gives us a first level approximation of what is at hand and allows managers and other interested parties to get a feel for where we are with product quality, maturity, risks, etc.
+The information we have for a crash: the Crash Report, customer logs, analytic data etc. should be summarized into an OBJECT / DEFECT style short problem statement.  This is often a critical first step in triaging a potentially large number of Crash Reports.  This gives us a first level approximation of what is at hand and allows managers and other interested parties to get a feel for where we are with product quality, maturity, risks, etc.
 
 First, we state the object of the problem. That is the app, or product, that is failing.  Then, we state the defect. That is the "undesirable behavior" we see.  It should be as simple as "CameraApp Lite  crashes during the Apple Share button is  used".  The problem should be tracked in a bug management system.
 

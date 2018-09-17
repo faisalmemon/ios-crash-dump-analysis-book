@@ -7,12 +7,12 @@ We use the `icdab_sema` example program to demonstrate a crash detected by `libd
 
 The `libdispatch`\index{command!libdispatch} library is the operating system library for managing concurrency (known as Grand Central Dispatch or GCD)\index{Grand Central Dispatch}.  The library is available as Open Source from Apple.  @libdispatchtar
 
-The library abstracts away the details of how the Operating System provides access to multi-core\index{operating system!multi-core}  CPU resources.  During a crash, it supplies extra information to the crash report.  This means that if we wish to do so, we can find the code that detected the runtime issue.
+The library abstracts away the details of how the Operating System provides access to multi-core\index{operating system!multi-core}  CPU resources.  During a crash, it supplies extra information to the Crash Report.  This means that if we wish to do so, we can find the code that detected the runtime issue.
 
 ### Crash example releasing a semaphore
 
 The `icdab_sema` example program results in a crash upon launch.
-The crash report is as follows (truncated for ease of demonstration):
+The Crash Report is as follows (truncated for ease of demonstration):
 
 ```
 Exception Type:  EXC_BREAKPOINT (SIGTRAP)
@@ -87,9 +87,9 @@ int main(int argc, const char * argv[]) {
 }
 ```
 
-### Using application specific crash report information
+### Using application specific Crash Report information
 
-In our example, the `Application Specific Information` section of the crash report directly explains the problem.
+In our example, the `Application Specific Information` section of the Crash Report directly explains the problem.
 
 ```
 BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use

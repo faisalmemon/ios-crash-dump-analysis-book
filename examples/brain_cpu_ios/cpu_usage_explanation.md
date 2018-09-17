@@ -2,7 +2,7 @@
 
 The iOS platform can update itself.  Here is an example where it has used up too much CPU time in performing the update.
 
-The following crash report, truncated for ease of demonstration, shows the `UpdateBrainService` being terminated:
+The following Crash Report, truncated for ease of demonstration, shows the `UpdateBrainService` being terminated:
 
 ```
 Incident Identifier: 92F40C53-6BB8-4E13-A4C2-CF2F1C85E8DF

@@ -6,7 +6,7 @@ Here is an example of Siri crashing on a Mac.  Note that binaries on a Mac are n
 
 ## The Crash report
 
-Here is the crash report, suitably truncated for ease of demonstration:
+Here is the Crash Report, suitably truncated for ease of demonstration:
 
 ```
 Process:               SiriNCService [1045]
@@ -146,4 +146,4 @@ It seems that this component can be prepared and made ready and has a variety of
 
 ## Lessons Learnt
 
-We went from using HOWTO knowledge (understanding the crash report) to using tooling to get a baseline level of knowledge.  Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem.  This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis.  It cannot be achieved by just focusing on the HOWTO of comprehending crash reports.  We need to switch hats and see things from different perspectives in order to really make progress.
+We went from using HOWTO knowledge (understanding the Crash Report) to using tooling to get a baseline level of knowledge.  Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem.  This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis.  It cannot be achieved by just focusing on the HOWTO of comprehending crash reports.  We need to switch hats and see things from different perspectives in order to really make progress.

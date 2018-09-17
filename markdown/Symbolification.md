@@ -5,7 +5,7 @@ Symbolification is the process of mapping machine addresses into symbolic addres
 
 We use the `icdab_planets` sample app to demonstrate a crash. @icdabgithub
 
-When dealing with real world crashes, a number of different entities are involved.  These can be the end user device, the settings allowing the crash report to be sent back to Apple, the symbols held by Apple and our local development environment setup to mirror such a configuration.
+When dealing with real world crashes, a number of different entities are involved.  These can be the end user device, the settings allowing the Crash Report to be sent back to Apple, the symbols held by Apple and our local development environment setup to mirror such a configuration.
 
 In order to understand how things all fit together it is best to start from first principles and do the data conversion tasks ourselves so if we have to diagnose symbolification issues, we have some experience with the technologies at hand.
 
@@ -38,7 +38,7 @@ Setting|Meaning|Usually set for target
 DWARF|Debugging information is in `.o` files only |Debug
 DWARF with dSYM File|As before but also collates the debug information into a DSYM file |Release
 
-In the default setup, if we run our debug binary on our device, launching it from the app icon itself then if it were to crash we would not have any symbols in the crash report.  This confuses many people.
+In the default setup, if we run our debug binary on our device, launching it from the app icon itself then if it were to crash we would not have any symbols in the Crash Report.  This confuses many people.
 
 The problem is that the UUID of the binary and the DSYM need to match.
 
@@ -50,7 +50,7 @@ The `icdab_planets` program is designed to crash upon launch due to an assertion
 
 If the `DWARF with dSYM File` setting had not been made, we would get a partially symbolicated crash.
 
-The crash report, seen from _Windows->Devices and Simulators->View Device Logs_,
+The Crash Report, seen from _Windows->Devices and Simulators->View Device Logs_,
 would look like this (truncated for ease of demonstration)
 
 ```
@@ -140,8 +140,8 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
  (PlanetViewController.mm:33)
 ```
 
-The crash reporter tool fundamentally just uses `atos` to symbolicate the
-crash report, as well as providing other system related information.
+The Crash Reporter tool fundamentally just uses `atos` to symbolicate the
+Crash Report, as well as providing other system related information.
 
 Symbolification is described further by an Apple Technote in case we want to get into it in more detail. @tn2123
 
