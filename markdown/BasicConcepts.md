@@ -32,7 +32,7 @@ the following method runs ok.
 The Objective-C runtime authors made a judgement call, and decided it was better for an application to ignore such problems.
 
 
-However if we deference a C pointer\index{NULL dereference} we get a crash.
+However if we dereference a C pointer\index{NULL dereference} we get a crash.
 ```
 void nullDereferenceCrash() {
     char *nullPointer = NULL;

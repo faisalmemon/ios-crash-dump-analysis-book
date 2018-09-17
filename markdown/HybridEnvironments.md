@@ -17,7 +17,7 @@ The purpose of the app is to tell us how many Pluto sized planets would fit insi
 Recall earlier we demonstrated that:
 
 - Objective-C allows messaging to nil objects
-- C crashes upon NULL deference
+- C crashes upon NULL dereference
 
 Here we show how the C++ Standard Template Library has a back-fill strategy.
 
