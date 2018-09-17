@@ -2,7 +2,7 @@
 
 ## Why are we looking at a Siri Crash?
 
-Here is an example of Siri crashing on a Mac.  Note that binaries on a Mac are not encrypted.  This means we can demonstrate the use of third party tools to explore the binaries at fault.  Since only Apple has the source code for Siri, it adds to the challenge and forces us think abstractly about the problem.
+Here is an example of Siri crashing on a Mac.  Note that binaries on a Mac are not encrypted.  This means we can demonstrate the use of third party tools to explore the binaries at fault.  Since only Apple has the source code for Siri, it adds to the challenge and forces us to think abstractly about the problem.
 
 ## The Crash report
 
@@ -81,7 +81,7 @@ The program that was running (known as the TEXT) was
 Contents/MacOS/SiriNCService
 ```
 
-This is interesting because normally its applications that crash.  Here we see a software component crashing.
+This is interesting because normally it's applications that crash.  Here we see a software component crashing.
 The Siri service is a distributed app which uses cross process communication\index{operating system!cross process communication} (xpc)\index{XPC} to do its work.
 We see that from references to xpc as above.
 
