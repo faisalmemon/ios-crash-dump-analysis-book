@@ -1851,7 +1851,15 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports</cod
 <p>If the customer is in the middle of doing an e-commerce purchase, then clearly revenue is at stake if the problem is not solved.</p>
 <p>If whilst updating our privacy settings, we see a crash, we have a privacy issue. Depending on the type of market we are operating in, that could be a major problem.</p>
 <p>One way to assess impact is to build analytics into our app. Then the set of steps, and more broadly, the customer use case, can be studied alongside the crash. Crashes from the most important use cases can then be identified as high impact bugs to fix. One advantage of third party crash reporting services is that they allow logs to be recorded that are delivered to the crash report server along with the crash.</p>
-<p>The following are good places to introduce a log message: - Any time a life-cycle event occurs, such as foregrounding, backgrounding, appearing, disappearing, - Button clicks, - Segues, - Notifications, - Alert pop ups, - Launching helper components such as the photo picker.</p>
+<p>The following are good places to introduce a log message:</p>
+<ul>
+<li>Any time a life-cycle event occurs, such as foregrounding, backgrounding, appearing, disappearing,</li>
+<li>Button clicks,</li>
+<li>Segues,</li>
+<li>Notifications,</li>
+<li>Alert pop ups,</li>
+<li>Launching helper components such as the photo picker.</li>
+</ul>
 <h3 id="prioritizing-based-upon-deadlines">Prioritizing based upon deadlines</h3>
 <p>To judge the urgency of a bug fix, we need to assess the <strong>deadline</strong> associated with the bug. Whenever Apple updates their product line, for example, historically iPhone is updated in September, then a natural product lifecycle cadence is seen in the market. New customers will come to the App Store to provision new apps. There will be a lot of discussion of Apple product features in the press. Consequently, it becomes a good market window to target. Any crash that prevents app store approval or app first time use issues becomes more important at this time. Occasionally, Apple introduces a new app category, for example watch apps, or sticker packs. Being available on the first day provides a first-mover advantage, and the possibility of being featured as part of the Apple launch event.</p>
 <h3 id="prioritizing-based-upon-trend">Prioritizing based upon trend</h3>
