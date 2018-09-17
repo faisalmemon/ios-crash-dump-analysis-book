@@ -367,7 +367,7 @@ The key first conclusion is that the problem must be the newer T2 chip used in i
 
 The second point is that the volume of failures is low.  The iMac Pro is a low volume computer compared to the MacBook Pro so the problem most likely could have been seen during iMac Pro production but wasn't due to it being a low probability failure.
 
-We see the problem is never during boot up, orderly shutdown, heavy usage.  This is interesting because during hardware validation computers are generally stress tested to shake out problems.  They are not normally left in a sleep state to see if they still perform wake up functions.  Therefore, it is possible that there is a testing strategy gap.
+We see the problem is never during boot up, orderly shutdown, or heavy usage.  This is interesting because during hardware validation computers are generally stress tested to shake out problems.  They are not normally left in a sleep state to see if they still perform wake up functions.  Therefore, it is possible that there is a testing strategy gap.
 
 Replacement hardware still has the same problem for customers.  This is a helpful sign because it shows the stability of the defect.  Over time, Apple will collect computers known to have the problem, so their faulty batch of computers, to do validation on, improves dramatically.
 
@@ -381,12 +381,12 @@ One strategy for understanding the problem is to make it occur more frequently. 
 
 If the problem can be made more frequent then an automated system test could be written.  Then any fix to the Bridge OS would have a robust test suite to validate it.
 
-We do not have the source code of the Bridge OS.  It would be interesting to discern the different between the three crashes seen.
+We do not have the source code of the Bridge OS.  It would be interesting to discern the differences between the three crashes seen.
 For example, sometimes there is a case statement of 20 possible faults, and only one is being entered.  This reveals something about WHERE IS NOT in the problem specification.
 
 We do not have machine fault register information.  When a low level problem occurs, the processor documentation will allow the system architect to look up exactly the kind of failure (timeouts, parity errors, etc.)  In our problem specification, we need to be more precise WHERE the problem is.  The BridgeOS may just be a canary telling us of a problem elsewhere.  Some customers have received a full hardware replacement, but still see the problem.  It indicates a software problem.
 
 Intel have described an update in their architecture where a CATERR signal can be sent instead of IERR or MCERR. @intelrob
-So a update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.
+So an update in specification could mean system software is no longer aligned, and thus BridgeOS needs updating.
 
 An approach would be to follow the Intel debugging guide @intelrob.  It has many good suggestions.  When BridgeOS sees a problem, it should be updated to print out the relevant diagnostic registers.
