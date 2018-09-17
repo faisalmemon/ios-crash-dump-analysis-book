@@ -9,7 +9,7 @@ testDevice=iPad_Pro_9_7_inch
 testAppleTv=apple_tv
 
 # Hardware Testing on iPad Pro
-testSuite="icdab_aslTests icdab_aslUITests icdab_asTests icdab_asUITests icdab_planets_facadeTests icdab_planets_facadeUITests icdab_planets_stlTests icdab_planets_stlUITests icdab_planetsTests icdab_planetsUITests icdab_wrapTests icdab_wrapUITests"
+testSuite="icdab_edgeTests icdab_aslTests icdab_aslUITests icdab_asTests icdab_asUITests icdab_planets_facadeTests icdab_planets_facadeUITests icdab_planets_stlTests icdab_planets_stlUITests icdab_planetsTests icdab_planetsUITests icdab_wrapTests icdab_wrapUITests"
 
 # Simulator Testing on Mac
 logicTestingTestSuite="icdab_thread_test"
