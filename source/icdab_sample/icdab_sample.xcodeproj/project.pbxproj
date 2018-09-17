@@ -200,14 +200,16 @@
 				TargetAttributes = {
 					395D0F3F20F4F8A60009350D = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 0930;
+						LastSwiftMigration = 1000;
 					};
 					395D0F5320F4F8A80009350D = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1000;
 						TestTargetID = 395D0F3F20F4F8A60009350D;
 					};
 					395D0F5E20F4F8A80009350D = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 1000;
 						TestTargetID = 395D0F3F20F4F8A60009350D;
 					};
 				};
@@ -453,7 +455,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "icdab_sample/icdab_sample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -473,7 +475,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "www.wecudos.icdab-sample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "icdab_sample/icdab_sample-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -493,7 +495,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.wecudos.icdab-sampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_sample.app/icdab_sample";
 			};
@@ -514,7 +516,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.wecudos.icdab-sampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_sample.app/icdab_sample";
 			};
@@ -535,7 +537,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "www.wecudos.icdab-sampleUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = icdab_sample;
 			};
@@ -556,7 +558,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "www.wecudos.icdab-sampleUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = icdab_sample;
 			};
