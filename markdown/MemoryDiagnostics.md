@@ -238,11 +238,11 @@ Consider the following code in the `icdab_edge` example program.  @icdabgithub
 ```
 - (void)overReleasedObject
 {
-    id a = [[UIViewController alloc] init];
+    id vc = [[UIViewController alloc] init];
     // Build Phases -> Compile Sources -> Crash.m has Compiler Flags setting
     // -fno-objc-arc to allow the following line to be called
-    [a release];
-    NSLog(@"%@", [a description]);
+    [vc release];
+    NSLog(@"%@", [vc description]);
 }
 ```
 
@@ -258,7 +258,7 @@ Looking at the debugger, we see:
 
 ![](screenshots/zombie.png)
 
-Note how the type of the object instance `a` is `_NSZombie_UIViewController *`.
+Note how the type of the object instance `vc` is `_NSZombie_UIViewController *`.
 
 The type will be whatever the original type of the over released object was, but prefixed with `_NSZombie_`.
 This is most helpful, and we should look out for this when studying the program state in the debugger.
