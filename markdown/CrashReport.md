@@ -217,7 +217,8 @@ In our example:
 Thread 5 name:  Dispatch queue: com.apple.root.default-priority
 Thread 5 Crashed:
 0   libsystem_kernel.dylib          0x3a287294 close + 8
-1   ExternalAccessory               0x32951be2 -[EASession dealloc] + 226
+1   ExternalAccessory               
+0x32951be2 -[EASession dealloc] + 226
 ```
 
 Here a close\index{file!close} operation was performed.
@@ -265,21 +266,26 @@ When we see an Exception Backtrace in a customer Crash Report, we should ask for
 
 We would for example see:
 ```
-default	13:36:58.000000 +0000	icdab_nsdata	 My data is <> - ok since we can
- handle a nil
+default	13:36:58.000000 +0000	icdab_nsdata
+	 My data is <> - ok since we can handle a nil
 
 default	13:36:58.000000 +0100	icdab_nsdata	 
--[__NSCFConstantString _isDispatchData]: unrecognized selector sent to
-instance 0x3f054
+-[__NSCFConstantString _isDispatchData]:
+unrecognized selector sent to instance 0x3f054
 
-default	13:36:58.000000 +0100	icdab_nsdata	 *** Terminating app due to
+default	13:36:58.000000 +0100	icdab_nsdata
+	 *** Terminating app due to
 uncaught exception 'NSInvalidArgumentException', reason:
-'-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to
+'-[__NSCFConstantString _isDispatchData]:
+ unrecognized selector sent to
 instance 0x3f054'
 	*** First throw call stack:
-	(0x25aa391b 0x2523ee17 0x25aa92b5 0x25aa6ee1 0x259d2238 0x2627e9a5 0x3d997
-    0x2a093785 0x2a2bb2d1 0x2a2bf285 0x2a2d383d 0x2a2bc7b3 0x27146c07
-    0x27146ab9 0x27146db9 0x25a65dff 0x25a659ed 0x25a63d5b 0x259b3229
+	(0x25aa391b 0x2523ee17 0x25aa92b5 0x25aa6ee1 0x259d2238
+     0x2627e9a5 0x3d997
+    0x2a093785 0x2a2bb2d1 0x2a2bf285 0x2a2d383d 0x2a2bc7b3
+     0x27146c07
+    0x27146ab9 0x27146db9 0x25a65dff 0x25a659ed 0x25a63d5b
+     0x259b3229
      0x259b3015 0x2a08cc3d 0x2a087189 0x3d80d 0x2565b873)
 
 default	13:36:58.000000 +0100	SpringBoard	 Application
@@ -291,15 +297,17 @@ default	13:36:58.000000 +0100	UserEventAgent	 2769630555571:
 default	13:36:58.000000 +0000	ReportCrash	 Formulating report for
 corpse[386] icdab_nsdata
 
-default	13:36:58.000000 +0000	ReportCrash	 Saved type '109(109_icdab_nsdata)'
+default	13:36:58.000000 +0000	ReportCrash	 Saved type
+ '109(109_icdab_nsdata)'
  report (2 of max 25) at
- /var/mobile/Library/Logs/CrashReporter/icdab_nsdata-2018-07-27-133658.ips
+ /var/mobile/Library/Logs/CrashReporter/
+ icdab_nsdata-2018-07-27-133658.ips
 ```
 
 The line of interest is:
 ```
-'-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to
-instance 0x3f054'
+'-[__NSCFConstantString _isDispatchData]:
+unrecognized selector sent to instance 0x3f054'
 ```
 
 This means the `NSString` class was sent the `_isDispatchData` method.
@@ -308,27 +316,35 @@ No such method exists.
 The matching exception backtrace seen in the Crash Report is:
 ```
 Last Exception Backtrace:
-0   CoreFoundation                	0x25aa3916 __exceptionPreprocess + 122
-1   libobjc.A.dylib               	0x2523ee12 objc_exception_throw + 33
+0   CoreFoundation                	
+0x25aa3916 __exceptionPreprocess + 122
+1   libobjc.A.dylib               	
+0x2523ee12 objc_exception_throw + 33
 2   CoreFoundation                	0x25aa92b0
 -[NSObject+ 1045168 (NSObject) doesNotRecognizeSelector:] + 183
-3   CoreFoundation                	0x25aa6edc ___forwarding___ + 695
-4   CoreFoundation                	0x259d2234 _CF_forwarding_prep_0 + 19
+3   CoreFoundation                	
+0x25aa6edc ___forwarding___ + 695
+4   CoreFoundation                	
+0x259d2234 _CF_forwarding_prep_0 + 19
 5   Foundation                    	0x2627e9a0
 -[_NSPlaceholderData initWithData:] + 123
 6   icdab_nsdata                  	0x000f89ba
 -[AppDelegate application:didFinishLaunchingWithOptions:]
  + 27066 (AppDelegate.m:26)
 7   UIKit                         	0x2a093780
--[UIApplication _handleDelegateCallbacksWithOptions:isSuspended:restoreState:]
+-[UIApplication
+ _handleDelegateCallbacksWithOptions:isSuspended:restoreState:]
  + 387
 8   UIKit                         	0x2a2bb2cc
--[UIApplication _callInitializationDelegatesForMainScene:transitionContext:]
+-[UIApplication
+ _callInitializationDelegatesForMainScene:transitionContext:]
  + 3075
 9   UIKit                         	0x2a2bf280
--[UIApplication _runWithMainScene:transitionContext:completion:] + 1583
+-[UIApplication
+ _runWithMainScene:transitionContext:completion:] + 1583
 10  UIKit                         	0x2a2d3838
-__84-[UIApplication _handleApplicationActivationWithScene:transitionContext:
+__84-[UIApplication
+ _handleApplicationActivationWithScene:transitionContext:
 completion:]_block_invoke3286 + 31
 11  UIKit                         	0x2a2bc7ae
 -[UIApplication workspaceDidEndTransaction:] + 129
@@ -340,14 +356,22 @@ __FBSSERIALQUEUE_IS_CALLING_OUT_TO_A_BLOCK__ + 13
 -[FBSSerialQueue _performNextFromRunLoopSource] + 43
 15  CoreFoundation                	0x25a65dfa
 __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 9
-16  CoreFoundation                	0x25a659e8 __CFRunLoopDoSources0 + 447
-17  CoreFoundation                	0x25a63d56 __CFRunLoopRun + 789
-18  CoreFoundation                	0x259b3224 CFRunLoopRunSpecific + 515
-19  CoreFoundation                	0x259b3010 CFRunLoopRunInMode + 103
-20  UIKit                         	0x2a08cc38 -[UIApplication _run] + 519
-21  UIKit                         	0x2a087184 UIApplicationMain + 139
-22  icdab_nsdata                  	0x000f8830 main + 26672 (main.m:14)
-23  libdyld.dylib                 	0x2565b86e tlv_get_addr + 41
+16  CoreFoundation                	
+0x25a659e8 __CFRunLoopDoSources0 + 447
+17  CoreFoundation                	
+0x25a63d56 __CFRunLoopRun + 789
+18  CoreFoundation                	
+0x259b3224 CFRunLoopRunSpecific + 515
+19  CoreFoundation                	
+0x259b3010 CFRunLoopRunInMode + 103
+20  UIKit                         	
+0x2a08cc38 -[UIApplication _run] + 519
+21  UIKit                         	
+0x2a087184 UIApplicationMain + 139
+22  icdab_nsdata                  	
+0x000f8830 main + 26672 (main.m:14)
+23  libdyld.dylib                 	
+0x2565b86e tlv_get_addr + 41
 ```
 
 The format of this backtrace is the same as the thread backtrace, described later.
@@ -370,13 +394,20 @@ _objc_terminate+ 28848 () + 192
 std::__terminate(void (*)+ 93718 ()) + 78
 7   libc++abi.dylib               	0x252308f8
 __cxa_increment_exception_refcount + 0
-8   libobjc.A.dylib               	0x2523ef5e objc_exception_rethrow + 42
-9   CoreFoundation                	0x259b32ae CFRunLoopRunSpecific + 654
-10  CoreFoundation                	0x259b3014 CFRunLoopRunInMode + 108
-11  UIKit                         	0x2a08cc3c -[UIApplication _run] + 524
-12  UIKit                         	0x2a087188 UIApplicationMain + 144
-13  icdab_nsdata                  	0x000f8834 main + 26676 (main.m:14)
-14  libdyld.dylib                 	0x2565b872 start + 2
+8   libobjc.A.dylib               	
+0x2523ef5e objc_exception_rethrow + 42
+9   CoreFoundation                	
+0x259b32ae CFRunLoopRunSpecific + 654
+10  CoreFoundation                	
+0x259b3014 CFRunLoopRunInMode + 108
+11  UIKit                         	
+0x2a08cc3c -[UIApplication _run] + 524
+12  UIKit                         	
+0x2a087188 UIApplicationMain + 144
+13  icdab_nsdata                  	
+0x000f8834 main + 26676 (main.m:14)
+14  libdyld.dylib                 	
+0x2565b872 start + 2
 ```
 
 If we only had the thread backtrace, we would know there was a casting problem `__cxa_bad_cast` but not much more.
@@ -400,8 +431,10 @@ Thread 0 Crashed:
  abort + 140
 3   libsystem_c.dylib             	0x0000000183944000
  basename_r + 0
-4   icdab_planets                 	0x0000000104e145bc
- -[PlanetViewController viewDidLoad] + 17852 (PlanetViewController.mm:33)
+4   icdab_planets                 	
+0x0000000104e145bc
+ -[PlanetViewController viewDidLoad] + 17852
+  (PlanetViewController.mm:33)
 5   UIKit                         	0x000000018db56ee0
  -[UIViewController loadViewIfRequired] + 1020
 6   UIKit                         	0x000000018db56acc
@@ -413,10 +446,12 @@ Thread 0 Crashed:
 9   UIKit                         	0x000000018dbd46a8
 -[UIWindow makeKeyAndVisible] + 48
 10  UIKit                         	0x000000018db4a2f0
- -[UIApplication _callInitializationDelegatesForMainScene:transitionContext:]
+ -[UIApplication
+  _callInitializationDelegatesForMainScene:transitionContext:]
   + 3660
 11  UIKit                         	0x000000018db1765c
--[UIApplication _runWithMainScene:transitionContext:completion:] + 1680
+-[UIApplication
+_runWithMainScene:transitionContext:completion:] + 1680
 12  UIKit                         	0x000000018e147a0c
 __111-[__UICanvasLifecycleMonitor_Compatability
 _scheduleFirstCommitForScene:transition:firstActivation:
@@ -425,35 +460,42 @@ completion:]_block_invoke + 784
 +[_UICanvas _enqueuePostSettingUpdateTransactionBlock:] + 160
 14  UIKit                         	0x000000018db16ce8
 -[__UICanvasLifecycleMonitor_Compatability
-_scheduleFirstCommitForScene:transition:firstActivation:completion:] + 240
+_scheduleFirstCommitForScene:transition:
+firstActivation:completion:] + 240
 15  UIKit                         	0x000000018db15b78
 -[__UICanvasLifecycleMonitor_Compatability
 activateEventsOnly:withContext:completion:] + 724
 16  UIKit                         	0x000000018e7ab72c
-__82-[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:
+__82-[_UIApplicationCanvas
+ _transitionLifecycleStateWithTransitionContext:
 completion:]_block_invoke + 296
 17  UIKit                         	0x000000018db15268
--[_UIApplicationCanvas _transitionLifecycleStateWithTransitionContext:
+-[_UIApplicationCanvas
+ _transitionLifecycleStateWithTransitionContext:
 completion:] + 432
 18  UIKit                         	0x000000018e5909b8
-__125-[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:
+__125-[_UICanvasLifecycleSettingsDiffAction
+performActionsForCanvas:
 withUpdatedScene:settingsDiff:fromSettings:
 transitionContext:]_block_invoke + 220
 19  UIKit                         	0x000000018e6deae8
 _performActionsWithDelayForTransitionContext + 112
 20  UIKit                         	0x000000018db14c88
 -[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:
-withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 248
+withUpdatedScene:settingsDiff:fromSettings:
+transitionContext:] + 248
 21  UIKit                         	0x000000018db14624
--[_UICanvas scene:didUpdateWithDiff:transitionContext:completion:] + 368
+-[_UICanvas
+scene:didUpdateWithDiff:transitionContext:completion:] + 368
 22  UIKit                         	0x000000018db1165c
--[UIApplication workspace:didCreateScene:withTransitionContext:completion:]
- + 540
+-[UIApplication workspace:didCreateScene:withTransitionContext:
+completion:] + 540
 23  UIKit                         	0x000000018db113ac
 -[UIApplicationSceneClientAgent scene:didInitializeWithEvent:
 completion:] + 364
 24  FrontBoardServices            	0x0000000186778470
--[FBSSceneImpl _didCreateWithTransitionContext:completion:] + 364
+-[FBSSceneImpl
+_didCreateWithTransitionContext:completion:] + 364
 25  FrontBoardServices            	0x0000000186780d6c
 __56-[FBSWorkspace client:handleCreateScene:withCompletion:]
 _block_invoke_2 + 224
@@ -471,42 +513,61 @@ __FBSSERIALQUEUE_IS_CALLING_OUT_TO_A_BLOCK__ + 36
 __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 24
 32  CoreFoundation                	0x0000000183f22c2c
 __CFRunLoopDoSources0 + 276
-33  CoreFoundation                	0x0000000183f2079c __CFRunLoopRun + 1204
+33  CoreFoundation                	0x0000000183f2079c
+ __CFRunLoopRun + 1204
 34  CoreFoundation                	0x0000000183e40da8
 CFRunLoopRunSpecific + 552
-35  GraphicsServices              	0x0000000185e23020 GSEventRunModal + 100
-36  UIKit                         	0x000000018de2178c UIApplicationMain + 236
-37  icdab_planets                 	0x0000000104e14c94 main + 19604 (main.m:14)
-38  libdyld.dylib                 	0x00000001838d1fc0 start + 4
+35  GraphicsServices              	0x0000000185e23020
+ GSEventRunModal + 100
+36  UIKit                         	0x000000018de2178c
+ UIApplicationMain + 236
+37  icdab_planets                 	0x0000000104e14c94
+ main + 19604 (main.m:14)
+38  libdyld.dylib                 	0x00000001838d1fc0
+ start + 4
 
 Thread 1:
-0   libsystem_pthread.dylib       	0x0000000183b9fb04 start_wqthread + 0
+0   libsystem_pthread.dylib       	0x0000000183b9fb04
+ start_wqthread + 0
 
 Thread 2:
-0   libsystem_kernel.dylib        	0x0000000183a01d84 __workq_kernreturn + 8
-1   libsystem_pthread.dylib       	0x0000000183b9feb4 _pthread_wqthread + 928
-2   libsystem_pthread.dylib       	0x0000000183b9fb08 start_wqthread + 4
+0   libsystem_kernel.dylib        	0x0000000183a01d84
+ __workq_kernreturn + 8
+1   libsystem_pthread.dylib       	0x0000000183b9feb4
+ _pthread_wqthread + 928
+2   libsystem_pthread.dylib       	0x0000000183b9fb08
+ start_wqthread + 4
 
 Thread 3:
-0   libsystem_pthread.dylib       	0x0000000183b9fb04 start_wqthread + 0
+0   libsystem_pthread.dylib       	0x0000000183b9fb04
+start_wqthread + 0
 
 Thread 4:
-0   libsystem_kernel.dylib        	0x0000000183a01d84 __workq_kernreturn + 8
-1   libsystem_pthread.dylib       	0x0000000183b9feb4 _pthread_wqthread + 928
-2   libsystem_pthread.dylib       	0x0000000183b9fb08 start_wqthread + 4
+0   libsystem_kernel.dylib        	0x0000000183a01d84
+ __workq_kernreturn + 8
+1   libsystem_pthread.dylib       	0x0000000183b9feb4
+ _pthread_wqthread + 928
+2   libsystem_pthread.dylib       	0x0000000183b9fb08
+start_wqthread + 4
 
 Thread 5:
-0   libsystem_kernel.dylib        	0x0000000183a01d84 __workq_kernreturn + 8
-1   libsystem_pthread.dylib       	0x0000000183b9feb4 _pthread_wqthread + 928
-2   libsystem_pthread.dylib       	0x0000000183b9fb08 start_wqthread + 4
+0   libsystem_kernel.dylib        	0x0000000183a01d84
+ __workq_kernreturn + 8
+1   libsystem_pthread.dylib       	0x0000000183b9feb4
+ _pthread_wqthread + 928
+2   libsystem_pthread.dylib       	0x0000000183b9fb08
+ start_wqthread + 4
 
 Thread 6 name:  com.apple.uikit.eventfetch-thread
 Thread 6:
-0   libsystem_kernel.dylib        	0x00000001839dfe08 mach_msg_trap + 8
-1   libsystem_kernel.dylib        	0x00000001839dfc80 mach_msg + 72
+0   libsystem_kernel.dylib        	0x00000001839dfe08
+ mach_msg_trap + 8
+1   libsystem_kernel.dylib        	0x00000001839dfc80
+ mach_msg + 72
 2   CoreFoundation                	0x0000000183f22e40
 __CFRunLoopServiceMachPort + 196
-3   CoreFoundation                	0x0000000183f20908 __CFRunLoopRun + 1568
+3   CoreFoundation                	0x0000000183f20908
+ __CFRunLoopRun + 1568
 4   CoreFoundation                	0x0000000183e40da8
 CFRunLoopRunSpecific + 552
 5   Foundation                    	0x00000001848b5674
@@ -517,12 +578,16 @@ CFRunLoopRunSpecific + 552
 -[UIEventFetcher threadMain] + 136
 8   Foundation                    	0x00000001849c5efc
 __NSThread__start__ + 1040
-9   libsystem_pthread.dylib       	0x0000000183ba1220 _pthread_body + 272
-10  libsystem_pthread.dylib       	0x0000000183ba1110 _pthread_body + 0
-11  libsystem_pthread.dylib       	0x0000000183b9fb10 thread_start + 4
+9   libsystem_pthread.dylib       	0x0000000183ba1220
+ _pthread_body + 272
+10  libsystem_pthread.dylib       	0x0000000183ba1110
+ _pthread_body + 0
+11  libsystem_pthread.dylib       	0x0000000183b9fb10
+ thread_start + 4
 
 Thread 7:
-0   libsystem_pthread.dylib       	0x0000000183b9fb04 start_wqthread + 0
+0   libsystem_pthread.dylib       	0x0000000183b9fb04
+ start_wqthread + 0
 ```
 
 The Crash Report will explicitly tell us which thread crashed.
@@ -553,8 +618,10 @@ Therefore, the last thing being done is in frame 0.
 Let us now focus on backtrace items for each thread.  For example:
 ```
 20  UIKit                         	0x000000018db14c88
--[_UICanvasLifecycleSettingsDiffAction performActionsForCanvas:
-withUpdatedScene:settingsDiff:fromSettings:transitionContext:] + 248
+-[_UICanvasLifecycleSettingsDiffAction
+performActionsForCanvas:
+withUpdatedScene:settingsDiff:fromSettings:
+transitionContext:] + 248
 ```
 
 Column number | Meaning
@@ -594,10 +661,14 @@ One thing to look out for is the special hex code, `0xbaddc0dedeadbead`\index{0x
 
 ```
 Thread 0 crashed with ARM Thread State (32-bit):
-    r0: 0x00000000    r1: 0x00000000      r2: 0x00000000      r3: 0x00000000
-    r4: 0x00000006    r5: 0x3c42f000      r6: 0x3b66d304      r7: 0x002054c8
-    r8: 0x14d5f480    r9: 0x252348fd     r10: 0x90eecad7     r11: 0x14d5f4a4
-    ip: 0x00000148    sp: 0x002054bc      lr: 0x257d8733      pc: 0x2572ec5c
+    r0: 0x00000000    r1: 0x00000000      r2: 0x00000000
+          r3: 0x00000000
+    r4: 0x00000006    r5: 0x3c42f000      r6: 0x3b66d304
+          r7: 0x002054c8
+    r8: 0x14d5f480    r9: 0x252348fd     r10: 0x90eecad7
+         r11: 0x14d5f4a4
+    ip: 0x00000148    sp: 0x002054bc      lr: 0x257d8733
+          pc: 0x2572ec5c
   cpsr: 0x00000010
 ```
 
@@ -605,22 +676,31 @@ Thread 0 crashed with ARM Thread State (32-bit):
 
 ```
 Thread 0 crashed with ARM Thread State (64-bit):
-    x0: 0x0000000000000028   x1: 0x0000000000000029   x2: 0x0000000000000008
+    x0: 0x0000000000000028   x1: 0x0000000000000029
+       x2: 0x0000000000000008
        x3: 0x0000000183a4906c
-    x4: 0x0000000104440260   x5: 0x0000000000000047   x6: 0x000000000000000a
+    x4: 0x0000000104440260   x5: 0x0000000000000047
+       x6: 0x000000000000000a
        x7: 0x0000000138819df0
-    x8: 0x0000000000000000   x9: 0x0000000000000000  x10: 0x0000000000000003
+    x8: 0x0000000000000000   x9: 0x0000000000000000
+      x10: 0x0000000000000003
       x11: 0xbaddc0dedeadbead
-   x12: 0x0000000000000012  x13: 0x0000000000000002  x14: 0x0000000000000000
+   x12: 0x0000000000000012  x13: 0x0000000000000002
+     x14: 0x0000000000000000
      x15: 0x0000010000000100
-   x16: 0x0000000183b9b8cc  x17: 0x0000000000000100  x18: 0x0000000000000000
+   x16: 0x0000000183b9b8cc  x17: 0x0000000000000100
+     x18: 0x0000000000000000
      x19: 0x00000001b5c241c8
-   x20: 0x00000001c0071b00  x21: 0x0000000000000018  x22: 0x000000018e89b27a
+   x20: 0x00000001c0071b00  x21: 0x0000000000000018
+     x22: 0x000000018e89b27a
      x23: 0x0000000000000000
-   x24: 0x00000001c4033d60  x25: 0x0000000000000001  x26: 0x0000000000000288
+   x24: 0x00000001c4033d60  x25: 0x0000000000000001
+     x26: 0x0000000000000288
      x27: 0x00000000000000e0
-   x28: 0x0000000000000010   fp: 0x000000016bde54b0   lr: 0x000000010401ca04
-    sp: 0x000000016bde53e0   pc: 0x000000010401c6c8 cpsr: 0x80000000
+   x28: 0x0000000000000010   fp: 0x000000016bde54b0
+      lr: 0x000000010401ca04
+    sp: 0x000000016bde53e0   pc: 0x000000010401c6c8
+     cpsr: 0x80000000
 ```
 
 
@@ -706,8 +786,9 @@ The crash dump starts with the header:
 
 ```
 Process:               SiriNCService [1045]
-Path:                  /System/Library/CoreServices/Siri.app/Contents/
-XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+Path:                  /System/Library/CoreServices/Siri.app/
+Contents/XPCServices/SiriNCService.xpc/
+Contents/MacOS/SiriNCService
 Identifier:            com.apple.SiriNCService
 Version:               146.4.5.1 (146.4.5.1)
 Build Info:            AssistantUIX-146004005001000~1
@@ -776,7 +857,8 @@ VM Regions Near 0x18:
 -->
     __TEXT                 0000000100238000-0000000100247000
      [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/
-     Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+     Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/
+     SiriNCService
 
 Application Specific Information:
 objc_msgSend() selector name: didUnlockScreen:
@@ -806,8 +888,9 @@ Terminating Process: exc handler [0]
 Triggered by Thread:  0
 
 Application Specific Information:
-BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
-Abort Cause 1
+BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while
+ in use
+ Abort Cause 1
 ```
 
 When it runs on the iOS simulator, we get the debugger attaching with
@@ -831,7 +914,8 @@ Termination Reason:    Namespace SIGNAL, Code 0x4
 Terminating Process:   exc handler [0]
 
 Application Specific Information:
-BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
+BUG IN CLIENT OF LIBDISPATCH:
+Semaphore object deallocated while in use
 ```
 
 The take away message is when iOS ARM crashes are being reproduced on x86 hardware, either via the Simulator or via equivalent macOS code, expect the runtime environment to be different and cause a slightly different looking crash.
@@ -846,7 +930,8 @@ Here is an example thread in a macOS Crash Report:
 
 ```
 Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
-0   libobjc.A.dylib               	0x00007fff69feae9d objc_msgSend + 29
+0   libobjc.A.dylib               	
+0x00007fff69feae9d objc_msgSend + 29
 1   com.apple.CoreFoundation      	0x00007fff42e19f2c
  __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
 2   com.apple.CoreFoundation      	0x00007fff42e19eaf
@@ -877,14 +962,18 @@ dequeue:] + 92
 -[NSApplication run] + 764
 14  com.apple.AppKit              	0x00007fff40360a72
 NSApplicationMain + 804
-15  libxpc.dylib                  	0x00007fff6af6cdc7 _xpc_objc_main + 580
-16  libxpc.dylib                  	0x00007fff6af6ba1a xpc_main + 433
+15  libxpc.dylib                  	0x00007fff6af6cdc7
+ _xpc_objc_main + 580
+16  libxpc.dylib                  	0x00007fff6af6ba1a
+ xpc_main + 433
 17  com.apple.ViewBridge          	0x00007fff67859c15
 -[NSXPCSharedListener resume] + 16
 18  com.apple.ViewBridge          	0x00007fff67857abe
  NSViewServiceApplicationMain + 2903
-19  com.apple.SiriNCService       	0x00000001002396e0 main + 180
-20  libdyld.dylib                 	0x00007fff6ac12015 start + 1
+19  com.apple.SiriNCService       	0x00000001002396e0
+ main + 180
+20  libdyld.dylib                 	0x00007fff6ac12015
+ start + 1
 ```
 
 ### macOS Crash Report Thread State Section
@@ -893,15 +982,20 @@ The macOS Crash Report shows details of the X86 registers\index{CPU!X86 register
 
 ```
 Thread 0 crashed with X86 Thread State (64-bit):
-  rax: 0x0000600000249bd0  rbx: 0x0000600000869ac0  rcx: 0x00007fe798f55320
+  rax: 0x0000600000249bd0  rbx: 0x0000600000869ac0
+    rcx: 0x00007fe798f55320
     rdx: 0x0000600000249bd0
-  rdi: 0x00007fe798f55320  rsi: 0x00007fff642de919  rbp: 0x00007ffeef9c6220
+  rdi: 0x00007fe798f55320  rsi: 0x00007fff642de919
+    rbp: 0x00007ffeef9c6220
     rsp: 0x00007ffeef9c6218
-   r8: 0x0000000000000000   r9: 0x21eb0d26c23ae422  r10: 0x0000000000000000
+   r8: 0x0000000000000000   r9: 0x21eb0d26c23ae422
+     r10: 0x0000000000000000
      r11: 0x00007fff642de919
-  r12: 0x00006080001e8700  r13: 0x0000600000869ac0  r14: 0x0000600000448910
+  r12: 0x00006080001e8700  r13: 0x0000600000869ac0
+    r14: 0x0000600000448910
     r15: 0x0000600000222e60
-  rip: 0x00007fff69feae9d  rfl: 0x0000000000010246  cr2: 0x0000000000000018
+  rip: 0x00007fff69feae9d  rfl: 0x0000000000010246
+    cr2: 0x0000000000000018
 
 Logical CPU:     2
 Error Code:      0x00000004
@@ -927,13 +1021,15 @@ Binary Images:
          com.apple.SiriNCService (146.4.5.1 - 146.4.5.1)
           <5730AE18-4DF0-3D47-B4F7-EAA84456A9F7>
            /System/Library/CoreServices/Siri.app/Contents/
-           XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
+           XPCServices/SiriNCService.xpc/Contents/MacOS/
+           SiriNCService
 
        0x101106000 -        0x10110affb
          com.apple.audio.AppleHDAHALPlugIn (281.52 - 281.52)
           <23C7DDE6-A44B-3BE4-B47C-EB3045B267D9>
            /System/Library/Extensions/AppleHDA.kext/Contents/
-           PlugIns/AppleHDAHALPlugIn.bundle/Contents/MacOS/AppleHDAHALPlugIn
+           PlugIns/AppleHDAHALPlugIn.bundle/Contents/MacOS/
+           AppleHDAHALPlugIn
 ```
 
 When a plus sign appears next to the binary it is meant to mean the binary is part of the OS\index{file!operating system}.  However, we see examples of the plus sign present in third party binaries and absent in system binaries, so the plus sign is not a reliable indicator (last tested on OS X 10.13.6).  
@@ -1069,7 +1165,8 @@ Model: iMac15,1, BootROM IM151.0217.B00, 4 processors,
 Graphics: AMD Radeon R9 M290X, AMD Radeon R9 M290X, PCIe
 AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142),
  Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
-Bluetooth: Version 6.0.6f2, 3 services, 27 devices, 1 incoming serial ports
+Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
+ 1 incoming serial ports
 ```
 
 Sometimes our app closely interacts with a hardware peripheral, and if that is via a standards based interface such as USB\index{hardware!USB}, then a lot of variability is possible.  Consider disk drives.  Many vendors provide disk drives, and they may be directly powered, or independently powered.  They may be directly attached, attached via a USB cable, or via a USB hub.
