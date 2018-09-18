@@ -2,7 +2,7 @@
 
 The `LeakAgent`\index{command!LeakAgent} program is provided by Apple as part of its memory diagnostics\index{memory!diagnostics} tools.  It is used in Xcode Instruments\index{Xcode!Instruments}.
 
-Here is an Crash Report where it has crashed, truncated for ease of demonstration:
+Here is a Crash Report where it has crashed, truncated for ease of demonstration:
 
 ```
 Incident Identifier: 11ED1987-1BC9-4F44-900C-AD07EE6F7E26
@@ -111,5 +111,7 @@ Thread 4 crashed with ARM Thread State (64-bit):
 We can see that the kernel address at fault is `0x0000000000000000` so it's a NULL pointer dereference.
 The call site where we crash is a Swift library that demangles\index{Swift!symbol demangle} symbols.  The Xcode instrument is trying to provide human readable object type definitions from the activity it has seen on the iPad.
 
+If we were the user trying to profile our app, and hit this bug in the `LeakAgent`, we would need to try and figure out a way to avoid the problem.
+
 Since the problem is due to symbolification\index{symbolification}, it may be wise to clear our build directory and then do a clean build.  Sometimes an Xcode update switches us to a new object file format that is incompatible.  It is worthwhile checking profiling with another project, perhaps a trivial test program.  There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running,
-so memory analysis\index{memory!diagnostics} could be done in a different way.
+so memory analysis\index{memory!diagnostics} could be done in a different way.  See the later chapter, Memory Diagnostics, for further information.
