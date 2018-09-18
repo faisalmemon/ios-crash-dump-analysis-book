@@ -858,7 +858,8 @@ Terminating Process:   exc handler [0]
 VM Regions Near 0x18:
 -->
     __TEXT                 0000000100238000-0000000100247000
-     [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/
+     [   60K] r-x/rwx SM=COW  
+     /System/Library/CoreServices/Siri.app/
      Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/
      SiriNCService
 
@@ -955,11 +956,11 @@ ReceiveNextEventCommon + 613
 10  com.apple.AppKit              	0x00007fff4039ca73
 _DPSNextEvent + 2085
 11  com.apple.AppKit              	0x00007fff40b32e34
--[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:
-inMode:dequeue:] + 3044
+-[NSApplication(NSEvent) _nextEventMatchingEventMask:
+untilDate:inMode:dequeue:] + 3044
 12  com.apple.ViewBridge          	0x00007fff67859df0
--[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:
-dequeue:] + 92
+-[NSViewServiceApplication nextEventMatchingMask:
+untilDate:inMode:dequeue:] + 92
 13  com.apple.AppKit              	0x00007fff40391885
 -[NSApplication run] + 764
 14  com.apple.AppKit              	0x00007fff40360a72
