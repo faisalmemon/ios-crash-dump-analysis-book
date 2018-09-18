@@ -32,7 +32,8 @@ Triggered by Thread:  0
 
 Thread 0 name:
 Thread 0 Crashed:
-0   libsystem_kernel.dylib          0x000000018a337224 mach_msg_trap + 8
+0   libsystem_kernel.dylib          0x000000018a337224
+ mach_msg_trap + 8
 1   libsystem_kernel.dylib          0x000000018a33709c
  mach_msg + 72 (mach_msg.c:103)
 2   CoreFoundation                  0x000000018b308e88
@@ -45,12 +46,15 @@ Thread 0 Crashed:
 GSEventRunModal + 100 (GSEvent.c:2245)
 6   UIKit                           0x00000001914ef130
  UIApplicationMain + 208 (UIApplication.m:4089)
-7   OneMessenger                    0x00000001004ff1b0 main + 88 (main.m:16)
-8   libdyld.dylib                   0x000000018a24559c start + 4
+7   OneMessenger                    0x00000001004ff1b0
+ main + 88 (main.m:16)
+8   libdyld.dylib                   0x000000018a24559c
+ start + 4
 
 Thread 16 name:
 Thread 16:
-0   libsystem_kernel.dylib          0x000000018a3394dc fsync + 8
+0   libsystem_kernel.dylib          0x000000018a3394dc
+ fsync + 8
 1   libsqlite3.dylib                0x000000018b8b704c
 unixSync + 220 (sqlite3.c:33772)
 2   libsqlite3.dylib                0x000000018b8b6a5c
@@ -81,7 +85,8 @@ _dispatch_root_queue_drain + 540 (inline_internal.h:2468)
 _dispatch_worker_thread3 + 124 (queue.c:5550)
 15  libsystem_pthread.dylib         0x000000018a41b1d0
 _pthread_wqthread + 1096 (pthread.c:2196)
-16  libsystem_pthread.dylib         0x000000018a41ad7c start_wqthread + 4
+16  libsystem_pthread.dylib         0x000000018a41ad7c
+ start_wqthread + 4
 ```
 
 Here we can see, in Thread 16, the app clearly uses SQLite.   We see the termination reason:
