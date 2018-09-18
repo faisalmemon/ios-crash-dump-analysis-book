@@ -42,7 +42,8 @@ Thread 0 Crashed:
  0x189622000 + 0x77354
 	// -[CUICatalog
    _resolvedRenditionKeyFromThemeRef:withBaseKey:scaleFactor:
-  deviceIdiom:deviceSubtype:displayGamut:layoutDirection:sizeClassHorizontal:
+  deviceIdiom:deviceSubtype:displayGamut:layoutDirection:
+  sizeClassHorizontal:
   sizeClassVertical:memoryClass:graphicsClass:
   graphicsFallBackOrder:iconSizeIndex:] + 0x824
 1       CoreUI                        	0x1896993c0
