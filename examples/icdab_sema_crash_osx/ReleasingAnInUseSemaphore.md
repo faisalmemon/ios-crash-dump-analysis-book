@@ -23,7 +23,8 @@ Terminating Process: exc handler [0]
 Triggered by Thread:  0
 
 Application Specific Information:
-BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
+BUG IN CLIENT OF LIBDISPATCH:
+ Semaphore object deallocated while in use
 Abort Cause 1
 
 Filtered syslog:
@@ -92,7 +93,8 @@ int main(int argc, const char * argv[]) {
 In our example, the `Application Specific Information` section of the Crash Report directly explains the problem.
 
 ```
-BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
+BUG IN CLIENT OF LIBDISPATCH:
+ Semaphore object deallocated while in use
 ```
 
 We just need to signal the semaphore to avoid the problem.
@@ -109,11 +111,14 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
 	dispatch_semaphore_t dsema = dou._dsema;
 
 	if (dsema->dsema_value < dsema->dsema_orig) {
-		DISPATCH_CLIENT_CRASH(dsema->dsema_orig - dsema->dsema_value,
-				"Semaphore object deallocated while in use");
+		DISPATCH_CLIENT_CRASH(
+      dsema->dsema_orig - dsema->dsema_value,
+				"Semaphore object deallocated while in use"
+    );
 	}
 
-	_dispatch_sema4_dispose(&dsema->dsema_sema, _DSEMA4_POLICY_FIFO);
+	_dispatch_sema4_dispose(&dsema->dsema_sema,
+     _DSEMA4_POLICY_FIFO);
 }
 ```
 
