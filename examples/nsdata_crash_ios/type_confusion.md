@@ -143,18 +143,22 @@ default	13:36:58.000000 +0100	icdab_nsdata
        0x259b3229
       0x259b3015 0x2a08cc3d 0x2a087189 0x3d80d 0x2565b873)
 
-default	13:36:58.000000 +0100	SpringBoard
-	 Application 'UIKitApplication:www.perivalebluebell.icdab-nsdata[0x51b9]'
+default	13:36:58.000000 +0100
+	SpringBoard Application
+  'UIKitApplication:www.perivalebluebell.icdab-nsdata[0x51b9]'
     crashed.
 
-default	13:36:58.000000 +0100	UserEventAgent
-	 2769630555571: id=www.perivalebluebell.icdab-nsdata pid=386, state=0
+default	13:36:58.000000 +0100
+UserEventAgent
+	 2769630555571: id=www.perivalebluebell.icdab-nsdata
+   pid=386, state=0
 
 default	13:36:58.000000 +0000	ReportCrash
 	 Formulating report for corpse[386] icdab_nsdata
 
 default	13:36:58.000000 +0000	ReportCrash
-	 Saved type '109(109_icdab_nsdata)' report (2 of max 25) at
+	 Saved type '109(109_icdab_nsdata)'
+    report (2 of max 25) at
     /var/mobile/Library/Logs/CrashReporter/
     icdab_nsdata-2018-07-27-133658.ips
 ```

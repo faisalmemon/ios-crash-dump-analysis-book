@@ -15,7 +15,8 @@ Parent Process:        ??? [1]
 Responsible:           Kindle Create [3010]
 User ID:               501
 
-Crashed Thread:        16  Dispatch queue: com.apple.root.default-qos
+Crashed Thread:        16  Dispatch queue:
+ com.apple.root.default-qos
 
 Exception Type:        EXC_CRASH (SIGABRT)
 Exception Codes:       0x0000000000000000, 0x0000000000000000
@@ -28,9 +29,12 @@ Application Specific Signatures:
 Graphics kernel error: 0xfffffffb
 
 Thread 16 Crashed:: Dispatch queue: com.apple.root.default-qos
-0   libsystem_kernel.dylib        	0xa73e7ed6 __pthread_kill + 10
-1   libsystem_pthread.dylib       	0xa75a0427 pthread_kill + 363
-2   libsystem_c.dylib             	0xa7336956 abort + 133
+0   libsystem_kernel.dylib        	0xa73e7ed6
+__pthread_kill + 10
+1   libsystem_pthread.dylib       	0xa75a0427
+pthread_kill + 363
+2   libsystem_c.dylib             	0xa7336956
+abort + 133
 3   libGPUSupportMercury.dylib    	0xa2aa342d
  gpusGenerateCrashLog + 160
 4   com.apple.AMDRadeonX4000GLDriver	0x180cbb00
