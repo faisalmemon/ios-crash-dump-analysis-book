@@ -624,9 +624,9 @@ withUpdatedScene:settingsDiff:fromSettings:
 transitionContext:] + 248
 ```
 
-Column number | Meaning
+Column | Meaning
 --|--
-1 | Stack frame number.  Ordered with 0 is most recently executed.
+1 | Stack frame number, with 0 the most recently executed.
 2 | Binary file executing.
 3 | Execution position (frame 0), or return position (frame 1 onwards)
 4+ | Symbolic function name or address with offset within the function
@@ -646,7 +646,7 @@ Therefore, with the example stack frame we have:
 - UIKit Binary File.
 - `0x000000018db14c88` return address after frames 0 - 19 return.
 - Call site is 248 bytes from the beginning of method
-  `performActionsForCanvas:::::`
+  `performActionsForCanvas`
 - Class is `_UICanvasLifecycleSettingsDiffAction`
 
 ### iOS Crash Report Thread State Section
@@ -1165,8 +1165,8 @@ Serial ATA Device: APPLE SSD SM0512F, 500.28 GB
 Model: iMac15,1, BootROM IM151.0217.B00, 4 processors,
  Intel Core i5, 3.5 GHz, 16 GB, SMC 2.22f16
 Graphics: AMD Radeon R9 M290X, AMD Radeon R9 M290X, PCIe
-AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142),
- Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
+AirPort: spairport_wireless_card_type_airport_extreme
+ (0x14E4, 0x142), Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
 Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
  1 incoming serial ports
 ```

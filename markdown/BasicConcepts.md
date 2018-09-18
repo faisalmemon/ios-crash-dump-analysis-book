@@ -71,7 +71,8 @@ if UIImagePickerController.isSourceTypeAvailable(
       // Xcode 10.0 will skip over
       let imagePicker = UIImagePickerController()
       imagePicker.delegate = self
-      imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+      imagePicker.sourceType =
+       UIImagePickerControllerSourceType.camera
       imagePicker.allowsEditing = false
       self.present(imagePicker, animated: true, completion: nil)
       }
