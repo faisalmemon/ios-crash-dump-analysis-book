@@ -55,18 +55,25 @@ would look like this (truncated for ease of demonstration)
 
 ```
 Thread 0 Crashed:
-0   libsystem_kernel.dylib        	0x0000000183a012ec __pthread_kill + 8
-1   libsystem_pthread.dylib       	0x0000000183ba2288 pthread_kill$VARIANT$mp + 376
-2   libsystem_c.dylib             	0x000000018396fd0c abort + 140
-3   libsystem_c.dylib             	0x0000000183944000 basename_r + 0
-4   icdab_planets                 	0x00000001008e45bc 0x1008e0000 + 17852
-5   UIKit                         	0x000000018db56ee0
+0   libsystem_kernel.dylib        
+0x0000000183a012ec __pthread_kill + 8
+1   libsystem_pthread.dylib       
+0x0000000183ba2288 pthread_kill$VARIANT$mp + 376
+2   libsystem_c.dylib             	
+0x000000018396fd0c abort + 140
+3   libsystem_c.dylib             	
+0x0000000183944000 basename_r + 0
+4   icdab_planets                 	
+0x00000001008e45bc 0x1008e0000 + 17852
+5   UIKit                         	
+0x000000018db56ee0
 -[UIViewController loadViewIfRequired] + 1020
 
 Binary Images:
 0x1008e0000 - 0x1008ebfff icdab_planets arm64
   <9ff56cfacd66354ea85ff5973137f011>
-   /var/containers/Bundle/Application/BEF249D9-1520-40F7-93F4-8B99D913A4AC/
+   /var/containers/Bundle/Application/
+   BEF249D9-1520-40F7-93F4-8B99D913A4AC/
    icdab_planets.app/icdab_planets
 ```
 
@@ -74,14 +81,20 @@ However, with the setting in place, a crash would instead be reported as:
 
 ```
 Thread 0 Crashed:
-0   libsystem_kernel.dylib        	0x0000000183a012ec __pthread_kill + 8
-1   libsystem_pthread.dylib       	0x0000000183ba2288
+0   libsystem_kernel.dylib        	
+0x0000000183a012ec __pthread_kill + 8
+1   libsystem_pthread.dylib       	
+0x0000000183ba2288
 pthread_kill$VARIANT$mp + 376
-2   libsystem_c.dylib             	0x000000018396fd0c abort + 140
-3   libsystem_c.dylib             	0x0000000183944000 basename_r + 0
-4   icdab_planets                 	0x0000000104e145bc
+2   libsystem_c.dylib             	
+0x000000018396fd0c abort + 140
+3   libsystem_c.dylib             	
+0x0000000183944000 basename_r + 0
+4   icdab_planets                 	
+0x0000000104e145bc
 -[PlanetViewController viewDidLoad] + 17852 (PlanetViewController.mm:33)
-5   UIKit                         	0x000000018db56ee0
+5   UIKit                         	
+0x000000018db56ee0
 -[UIViewController loadViewIfRequired] + 1020
 ```
 
@@ -117,7 +130,8 @@ In order to help us get comfortable with crash dump reports, we can demonstrate
 how the symbolification actually works.  In the first crash dump, we want to understand:
 
 ```
-4   icdab_planets                 	0x00000001008e45bc 0x1008e0000 + 17852
+4   icdab_planets                 	
+0x00000001008e45bc 0x1008e0000 + 17852
 ```
 
 If we knew accurately the version of our code at the time of the crash, we can
@@ -134,7 +148,8 @@ Therefore, the icdab_planets binary starts at location `0x1008e0000`
 
 Running the lookup command `atos`\index{command!atos} symbolicates the line of interest:
 ```
-# atos -arch arm64 -o ./icdab_planets.app.dSYM/Contents/Resources/DWARF/
+# atos -arch arm64 -o
+ ./icdab_planets.app.dSYM/Contents/Resources/DWARF/
 icdab_planets -l 0x1008e0000 0x00000001008e45bc
 -[PlanetViewController viewDidLoad] (in icdab_planets)
  (PlanetViewController.mm:33)

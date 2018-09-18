@@ -133,7 +133,8 @@ It is `example/planets_stl`.  On the consumer side, we have a helper method:
     auto pluto_by_find = planet::find_planet_named("Pluto");
     auto jupiter_by_find = planet::find_planet_named("Jupiter");
 
-    if (planet::isEnd(jupiter_by_find) || planet::isEnd(pluto_by_find)) {
+    if (planet::isEnd(jupiter_by_find) ||
+     planet::isEnd(pluto_by_find)) {
         return NO;
     }
     pluto = pluto_by_find->second;
@@ -162,8 +163,9 @@ The facade is:
 - (id)init {
     self = [super init];
 
-    NSString *testSupportAddPluto = [[[NSProcessInfo processInfo] environment]
-                                     objectForKey:@"AddPluto"];
+    NSString *testSupportAddPluto =
+     [[[NSProcessInfo processInfo] environment]
+      objectForKey:@"AddPluto"];
 
     if ([testSupportAddPluto isEqualToString:@"YES"]) {
         planet::add_planet(planet("Pluto", 2370, 7375 * millionKm));
@@ -174,7 +176,8 @@ The facade is:
         auto pluto_by_find = planet::find_planet_named("Pluto");
         auto jupiter_by_find = planet::find_planet_named("Jupiter");
 
-        if (planet::isEnd(jupiter_by_find) || planet::isEnd(pluto_by_find)) {
+        if (planet::isEnd(jupiter_by_find) ||
+         planet::isEnd(pluto_by_find)) {
             return nil;
         }
         auto pluto = pluto_by_find->second;
@@ -182,14 +185,16 @@ The facade is:
 
         PlanetInfo *plutoPlanet = [[PlanetInfo alloc] init];
         plutoPlanet.diameter = pluto.get_diameter();
-        plutoPlanet.distanceFromSun = pluto.get_distance_from_sun();
+        plutoPlanet.distanceFromSun =
+         pluto.get_distance_from_sun();
         plutoPlanet.volume = pluto.get_volume();
         assert (plutoPlanet.volume != 0.0);
         [_planetDict setObject:plutoPlanet forKey:@"Pluto"];
 
         PlanetInfo *jupiterPlanet = [[PlanetInfo alloc] init];
         jupiterPlanet.diameter = jupiter.get_diameter();
-        jupiterPlanet.distanceFromSun = jupiter.get_distance_from_sun();
+        jupiterPlanet.distanceFromSun =
+         jupiter.get_distance_from_sun();
         jupiterPlanet.volume = jupiter.get_volume();
         assert (jupiterPlanet.volume != 0.0);
         [_planetDict setObject:jupiterPlanet forKey:@"Jupiter"];
@@ -213,14 +218,19 @@ The consumer then becomes a purely Objective-C class:
         return;
     }
 
-    double pluto_diameter = self.planetModel.planetDict[@"Pluto"].diameter;
-    double jupiter_diameter = self.planetModel.planetDict[@"Jupiter"].diameter;
-    double plutoVolume = self.planetModel.planetDict[@"Pluto"].volume;
-    double jupiterVolume = self.planetModel.planetDict[@"Jupiter"].volume;
+    double pluto_diameter =
+     self.planetModel.planetDict[@"Pluto"].diameter;
+    double jupiter_diameter =
+     self.planetModel.planetDict[@"Jupiter"].diameter;
+    double plutoVolume =
+     self.planetModel.planetDict[@"Pluto"].volume;
+    double jupiterVolume =
+     self.planetModel.planetDict[@"Jupiter"].volume;
     double plutosInJupiter = jupiterVolume/plutoVolume;
 
     self.plutosInJupiterLabelOutlet.text =
-    [NSString stringWithFormat:@"Number of Plutos that fit inside Jupiter = %f",
+    [NSString stringWithFormat:
+    @"Number of Plutos that fit inside Jupiter = %f",
      plutosInJupiter];
 
     self.jupiterLabelOutlet.text =

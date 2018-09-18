@@ -32,7 +32,8 @@ This is invoked using Command-Shift-B
 In the sample app `icdab_sample` the Analyzer reports:
 
 ```
-/Users/faisalm/dev/icdab/source/icdab_sample/icdab_sample/macAddress.m:22:12:
+/Users/faisalm/dev/icdab/source/icdab_sample/icdab_sample/
+macAddress.m:22:12:
  warning: Null pointer argument in call to string length function
     assert(strlen(nullPointer) == 0);
 ```
