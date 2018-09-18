@@ -170,7 +170,7 @@ _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230
 
 As an academic exercise we can pin point which of the many error handle cases is the one in play here.  Our backtrace here is not the leaf call, so the offset is the address where computation will resume after the function call has returned.
 
-Using the Hopper tool, we can search for symbol `__ZN2CA5Layer10set_boundsERKNS_4RectEb`
+Using the Hopper tool, we can search for the symbol `__ZN2CA5Layer10set_boundsERKNS_4RectEb`
 in the binary `/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore`
 
 Note how we introduce an additional leading underscore to the function name when searching for it.  This is due to the C Language Compiler\index{linker!underscore policy}.
