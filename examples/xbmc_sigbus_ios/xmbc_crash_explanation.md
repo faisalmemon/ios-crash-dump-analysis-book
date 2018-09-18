@@ -77,7 +77,8 @@ Thread 4 Crashed:
 14  XBMC                          	0x002276d4
  SoLoader::Load() (SoLoader.cpp:57)
 15  XBMC                          	0x0002976c
- DllLoaderContainer::LoadDll(char const*, bool) (DllLoaderContainer.cpp:250)
+ DllLoaderContainer::LoadDll(char const*, bool)
+  (DllLoaderContainer.cpp:250)
 16  XBMC                          	0x000299ce
  DllLoaderContainer::FindModule(char const*, char const*,
     bool) (DllLoaderContainer.cpp:147)
