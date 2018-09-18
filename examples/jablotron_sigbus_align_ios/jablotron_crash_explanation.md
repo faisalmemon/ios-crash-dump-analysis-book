@@ -2,7 +2,7 @@
 
 The `Jablotron` program is a program that manages alarms and detectors in the home.
 
-Here is an Crash Report where it has crashed, truncated for ease of demonstration:
+Here is a Crash Report where it has crashed, truncated for ease of demonstration:
 
 ```
 Incident Identifier: 732438C5-9E5A-48E7-95E2-76C800CDD6D9
@@ -105,7 +105,7 @@ When we see a crash in common code, from Apple, it usually indicates a misuse of
 
 In this example, we get a bus alignment error\index{bus!alignment error}.  Apple's library code accessed a memory address improperly for the CPU architecture.
 
-This is a surprise.  Sometimes when we use an advanced feature, or set compiler optimization settings, we can trigger errors in special cases or lesser used code paths.
+This is a surprise.  Sometimes when we use an advanced feature, or set compiler optimization settings, we can trigger errors in special cases or in lesser used code paths.
 
 We see that the problem is during object initialization\index{object!initialization} time:
 
