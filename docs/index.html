@@ -2448,8 +2448,8 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <p>Here is the Crash Report, suitably truncated for ease of demonstration:</p>
 <pre><code>Process:               SiriNCService [1045]
 Path:                  
-/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
-Contents/MacOS/SiriNCService
+/System/Library/CoreServices/Siri.app/Contents/
+XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
 Identifier:            com.apple.SiriNCService
 Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
 Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000018
@@ -2464,7 +2464,8 @@ Application Specific Information:
 objc_msgSend() selector name: didUnlockScreen:
 
 Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
-0   libobjc.A.dylib                 0x00007fff69feae9d objc_msgSend + 29
+0   libobjc.A.dylib                 
+0x00007fff69feae9d objc_msgSend + 29
 1   com.apple.CoreFoundation        0x00007fff42e19f2c
  __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
 2   com.apple.CoreFoundation        0x00007fff42e19eaf
@@ -2483,31 +2484,36 @@ RunCurrentEventLoopInMode + 286
 ReceiveNextEventCommon + 613
 9   com.apple.HIToolbox             0x00007fff420ea884
 _BlockUntilNextEventMatchingListInModeWithFilter + 64
-10  com.apple.AppKit                0x00007fff4039ca73 _DPSNextEvent + 2085
+10  com.apple.AppKit                
+0x00007fff4039ca73 _DPSNextEvent + 2085
 11  com.apple.AppKit                0x00007fff40b32e34
--[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:inMode:
-dequeue:] + 3044
+-[NSApplication(NSEvent) _nextEventMatchingEventMask:
+untilDate:inMode:dequeue:] + 3044
 12  com.apple.ViewBridge            0x00007fff67859df0
--[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:
-dequeue:] + 92
+-[NSViewServiceApplication nextEventMatchingMask:untilDate:
+inMode:dequeue:] + 92
 13  com.apple.AppKit                0x00007fff40391885
 -[NSApplication run] + 764
 14  com.apple.AppKit                0x00007fff40360a72
 NSApplicationMain + 804
-15  libxpc.dylib                    0x00007fff6af6cdc7 _xpc_objc_main + 580
-16  libxpc.dylib                    0x00007fff6af6ba1a xpc_main + 433
+15  libxpc.dylib                    
+0x00007fff6af6cdc7 _xpc_objc_main + 580
+16  libxpc.dylib                    
+0x00007fff6af6ba1a xpc_main + 433
 17  com.apple.ViewBridge            0x00007fff67859c15
 -[NSXPCSharedListener resume] + 16
 18  com.apple.ViewBridge            0x00007fff67857abe
 NSViewServiceApplicationMain + 2903
-19  com.apple.SiriNCService         0x00000001002396e0 main + 180
-20  libdyld.dylib                   0x00007fff6ac12015 start + 1</code></pre>
+19  com.apple.SiriNCService         
+0x00000001002396e0 main + 180
+20  libdyld.dylib                   
+0x00007fff6ac12015 start + 1</code></pre>
 <h2 id="the-crash-details">The Crash details</h2>
 <p>Looking at the 09:52 crash we see</p>
 <p><code>Exception Type:        EXC_BAD_ACCESS (SIGSEGV)</code></p>
 <p>This means we are accessing memory which does not exist. The program that was running (known as the TEXT) was</p>
-<pre><code>/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
-Contents/MacOS/SiriNCService</code></pre>
+<pre><code>/System/Library/CoreServices/Siri.app/Contents/
+XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService</code></pre>
 <p>This is interesting because normally it’s applications that crash. Here we see a software component crashing. The Siri service is a distributed app which uses cross process communication (xpc) to do its work. We see that from references to xpc as above.</p>
 <p>What method were we trying to call on an object that no longer exists? Helpfully, the crash dump provides the answer:</p>
 <p><code>Application Specific Information: objc_msgSend() selector name: didUnlockScreen:</code></p>
@@ -2516,7 +2522,8 @@ Contents/MacOS/SiriNCService</code></pre>
 <p>Now to understand further we need to reach for the <code>class-dump</code> tool.</p>
 <p><code>class-dump SiriNCService &gt; SiriNCService.classdump.txt</code></p>
 <p>Looking at a portion of the output is the following:</p>
-<pre><code>@property __weak SiriNCService *service; // @synthesize service=_service;
+<pre><code>@property __weak SiriNCService *service;
+ // @synthesize service=_service;
 - (void).cxx_destruct;
 - (BOOL)isSiriListening;
 - (void)_didUnlockScreen:(id)arg1;
