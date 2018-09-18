@@ -4221,7 +4221,7 @@ freed by thread T0 here:
 <h3 id="zombie-objects">Zombie Objects</h3>
 <p>The purpose of Zombie Objects is to detect use-after-free bugs in the context of Objective-C <code>NSObject</code>s. Particularly if we have a legacy code base that uses Manual Reference Counting, it can be easy to over release an object. This means that messaging through the, now dangling, pointer can have unpredictable effects.</p>
 <p>This setting must only be made on debug builds because the code will no longer release objects. Its performance profile is equivalent to leaking every object that should have been deallocated.</p>
-<p>This setting will make deallocated objects to instead become <code>NSZombie</code> objects. This means that any method called upon the object will result in a crash. Any message sent to an <code>NSZombie</code> object results in a crash. Therefore, whenever an over-released object is messaged, we are guaranteed a crash.</p>
+<p>This setting will make deallocated objects to instead become <code>NSZombie</code> objects. Any message sent to an <code>NSZombie</code> object results in an immediate crash. Therefore, whenever an over-released object is messaged, we are guaranteed a crash.</p>
 <p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)overReleasedObject
 {
@@ -4241,11 +4241,11 @@ freed by thread T0 here:
 <p>The type will be whatever the original type of the over released object was, but prefixed with <code>_NSZombie_</code>. This is most helpful, and we should look out for this when studying the program state in the debugger.</p>
 <h3 id="malloc-stack">Malloc Stack</h3>
 <p>Sometimes the past dynamic behavior of our app needs to be understood in order to resolve why the application crashed. For example, we may have leaked memory, and then we were terminated by the system for using too much memory. We might have a data structure and wonder which part of the code was responsible for allocating it.</p>
-<p>The purpose of the <code>Malloc Stack</code> option is to provide the historical data need. Memory analysis has been enhanced by Apple by providing complementary visual tools. Malloc Stack has a sub-option, “All Allocation and Free History” or “Live Allocations Only”</p>
-<p>We recommend the “All Allocation” option, unless there is just too much overhead experienced due to having an app with heavy use of memory allocation. The “Live Allocations Only” option is sufficient to catch memory leaks as well as being low overhead, so it is the default option in the User Interface.</p>
+<p>The purpose of the <code>Malloc Stack</code> option is to provide the historical data we require. Memory analysis has been enhanced by Apple by providing complementary visual tools. Malloc Stack has a sub-option, “All Allocation and Free History” or “Live Allocations Only”</p>
+<p>We recommend the “All Allocation” option, unless there is just too much overhead experienced with it. That may be due to having an app which makes heavy use of memory allocation. The “Live Allocations Only” option is sufficient to catch memory leaks as well as being low overhead, so it is the default option in the User Interface.</p>
 <p>The steps to follow are:</p>
 <ol type="1">
-<li>Set the <code>Malloc Stack</code> option in the Diagnostics settings tab for the app Scheme settings.</li>
+<li>Set the <code>Malloc Stack</code> option in the Diagnostics settings tab.</li>
 <li>Launch the app.</li>
 <li>Press the Debug Memgraph Button</li>
 <li>For command line based analysis, <em>File -&gt; Export Memory Graph…</em></li>
@@ -4315,7 +4315,7 @@ func buildMediaLibrary() {
     mediaLibrary = kylie
     createRetainCycleLeak()
 }</code></pre>
-<p>The problem is that <code>createRetainCycleLeak()</code> <code>carnaval</code> <code>Song</code> makes a strong reference to <code>salsa</code> <code>Album</code> and <code>salsa</code> makes a strong reference to <code>carnaval</code> <code>Song</code> and when we return from this method, there is no reference to either object from another object. The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle). A very similar object relationship for <code>kylie</code> <code>Album</code> does not trigger a leak because that is referenced by a top level graph object <code>mediaLibrary</code></p>
+<p>The problem is that <code>createRetainCycleLeak()</code> <code>carnaval</code> <code>Song</code> makes a strong reference to <code>salsa</code> <code>Album</code>, <code>salsa</code> makes a strong reference to <code>carnaval</code> <code>Song</code>, and when we return from this method, there is no reference to either object from another object. The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle). A very similar object relationship for <code>kylie</code> <code>Album</code> does not trigger a leak because that is referenced by a top level graph object <code>mediaLibrary</code></p>
 <h3 id="dynamic-linker-api-usage">Dynamic Linker API Usage</h3>
 <p>Sometimes programs dynamically adapt or are extensible. For such programs, the dynamic linker API is used to programmatically load up extra code modules. When the configuration or deployment of the app is faulty, this can result in crashes.</p>
 <p>To debug such problems, set the <code>Dynamic Linker API Usage</code> flag. This can generate many messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch.</p>
@@ -4337,7 +4337,7 @@ dlopen(DynamicFramework2.framework/DynamicFramework2) ==&gt; 0x60c0001460f0
 .</code></pre>
 <p>A huge amount of logging is generated. It is best to start by searching for the <code>dlopen</code> command, and then looking to see what other functions in the <code>dlopen</code> family are called.</p>
 <h3 id="dynamic-library-loads">Dynamic Library Loads</h3>
-<p>Sometimes we have an early stage app crash during the initialization phase where the dynamic loader is loading the app binary and its dependent frameworks. If we are confident that it is not custom code using the dynamic linker API, but instead it is the assembly of frameworks into the loaded binary we care about, then switching on the <code>Dynamic Library Loads</code> flag is appropriate. We get much shorter logs that enabling the <code>Dynamic Linker API Usage</code> flag.</p>
+<p>Sometimes we have an early stage app crash during the initialization phase where the dynamic loader is loading the app binary and its dependent frameworks. If we are confident that it is not custom code using the dynamic linker API, but instead it is the assembly of frameworks into the loaded binary we care about, then switching on the <code>Dynamic Library Loads</code> flag is appropriate. We get much shorter logs than enabling the <code>Dynamic Linker API Usage</code> flag.</p>
 <p>Upon launch, we get a list of binaries loaded:</p>
 <pre><code>dyld: loaded: /Users/faisalm/Library/Developer/CoreSimulator/Devices/
 99DB717F-9161-461A-B11F-210C389ABA12/data/Containers/Bundle/Application/
