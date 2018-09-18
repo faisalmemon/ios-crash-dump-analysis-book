@@ -48,7 +48,8 @@ CrashReporter Key:   56ec2b40764a1453466998785343f1e51c8b3849
 Hardware Model:      iPod5,1
 Process:             icdab_nsdata [324]
 Path:                /private/var/containers/Bundle/Application/
-98F79023-562D-4A76-BC72-5E56D378AD98/icdab_nsdata.app/icdab_nsdata
+98F79023-562D-4A76-BC72-5E56D378AD98/
+icdab_nsdata.app/icdab_nsdata
 Identifier:          www.perivalebluebell.icdab-nsdata
 Version:             1 (1.0)
 Code Type:           ARM (Native)

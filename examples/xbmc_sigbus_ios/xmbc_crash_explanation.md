@@ -29,20 +29,25 @@ Thread 4 Crashed:
 1   dyld                          	0x2fe0ce32
  ImageLoaderMachO::parseLoadCmds() + 30
 2   dyld                          	0x2fe1262c
- ImageLoaderMachOCompressed::instantiateFromFile(char const*, int,
-    unsigned char const*, unsigned long long, unsigned long long,
+ ImageLoaderMachOCompressed::instantiateFromFile
+ (char const*, int,
+    unsigned char const*, unsigned long long,
+     unsigned long long,
      stat const&, unsigned int, unsigned int,
       linkedit_data_command const*,
       ImageLoader::LinkContext const&) + 228
 3   dyld                          	0x2fe0da14
- ImageLoaderMachO::instantiateFromFile(char const*, int,
-    unsigned char const*, unsigned long long, unsigned long long,
+ ImageLoaderMachO::instantiateFromFile
+ (char const*, int,
+    unsigned char const*, unsigned long long,
+     unsigned long long,
      stat const&, ImageLoader::LinkContext const&) + 348
 4   dyld                          	0x2fe052e8
  dyld::loadPhase6(int, stat const&, char const*,
     dyld::LoadContext const&) + 576
 5   dyld                          	0x2fe053fe
- dyld::loadPhase5stat(char const*, dyld::LoadContext const&, stat*,
+ dyld::loadPhase5stat(char const*,
+    dyld::LoadContext const&, stat*,
     int*, bool*, std::vector<char const*,
     std::allocator<char const*> >*) + 174
 6   dyld                          	0x2fe055b4
@@ -203,7 +208,8 @@ DynamicFramework1.framework/DynamicFramework1 (0x1229cb178)
 ios-dynamic-loading-framework-ednexaanxalgpudjcqeuejsdmhlq/Build
 /Products/Debug-iphonesimulator/DynamicFramework2.framework/
 DynamicFramework2
- (0x1229d3178). One of the two will be used. Which one is undefined.
+ (0x1229d3178).
+ One of the two will be used. Which one is undefined.
 2018-08-18 12:26:52.012601+0100
  ios-dynamic-loading-framework[2962:109722]
  Loading CASHello in dynamic-framework-2

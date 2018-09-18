@@ -44,7 +44,8 @@ CrashReporter Key:   b544a32d592996e0efdd7f5eaafd1f4164a2e13c
 Hardware Model:      iPad6,3
 Process:             icdab_planets [2726]
 Path:                /private/var/containers/Bundle/Application/
-BEF249D9-1520-40F7-93F4-8B99D913A4AC/icdab_planets.app/icdab_planets
+BEF249D9-1520-40F7-93F4-8B99D913A4AC/
+icdab_planets.app/icdab_planets
 Identifier:          www.perivalebluebell.icdab-planets
 Version:             1 (1.0)
 Code Type:           ARM-64 (Native)
@@ -873,7 +874,8 @@ Consider the following code, setup with legacy manual reference counting (MRC)\i
 
 ```
 void use_sema() {
-    dispatch_semaphore_t aSemaphore = dispatch_semaphore_create(1);
+    dispatch_semaphore_t aSemaphore =
+     dispatch_semaphore_create(1);
     dispatch_semaphore_wait(aSemaphore, DISPATCH_TIME_FOREVER);
     dispatch_release(aSemaphore);
 }

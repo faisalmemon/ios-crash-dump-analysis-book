@@ -128,7 +128,8 @@ Similar to a CPU resource limit crash, we get an indication of the limit reached
 ```
 Exception Type:      EXC_RESOURCE
 Exception Subtype:   WAKEUPS
-Exception Message:   (Limit 150/sec) Observed 195/sec over 300 secs
+Exception Message:   (Limit 150/sec) Observed 195/sec over
+ 300 secs
 ```
 
 We also get a `Bad magic` value in the Crash Report followed by a snapshot of what was running at the point of termination.

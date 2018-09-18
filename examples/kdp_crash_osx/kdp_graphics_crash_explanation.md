@@ -80,10 +80,14 @@ abort + 133
  start_wqthread + 34
 
 Thread 16 crashed with X86 Thread State (32-bit):
-  eax: 0x00000000  ebx: 0xb0a79000  ecx: 0xb0a78acc  edx: 0x00000000
-  edi: 0xa75a02ca  esi: 0x0000002d  ebp: 0xb0a78af8  esp: 0xb0a78acc
-   ss: 0x00000023  efl: 0x00000206  eip: 0xa73e7ed6   cs: 0x0000000b
-   ds: 0x00000023   es: 0x00000023   fs: 0x00000023   gs: 0x0000000f
+  eax: 0x00000000  ebx: 0xb0a79000  ecx: 0xb0a78acc
+    edx: 0x00000000
+  edi: 0xa75a02ca  esi: 0x0000002d  ebp: 0xb0a78af8
+    esp: 0xb0a78acc
+   ss: 0x00000023  efl: 0x00000206  eip: 0xa73e7ed6
+      cs: 0x0000000b
+   ds: 0x00000023   es: 0x00000023   fs: 0x00000023
+      gs: 0x0000000f
   cr2: 0xa9847340
 
 Logical CPU:     0
@@ -192,7 +196,8 @@ int _gpusGenerateCrashLog(int arg0, int arg1, int arg2) {
    }  
    else {
      rdx =
-  "Graphics hardware encountered an error and was reset: 0x%08x\n";
+  "Graphics hardware encountered an error and was reset:
+   0x%08x\n";
    }  
    sprintf_l(var_A0, 0x0, rdx);
    *0xc680 = var_A0;

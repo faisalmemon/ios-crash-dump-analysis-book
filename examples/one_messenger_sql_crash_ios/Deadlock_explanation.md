@@ -10,7 +10,8 @@ CrashReporter Key:   f02957b828fe4090389c1282ca8e38393b4e133d
 Hardware Model:      iPhone9,4
 Process:             OneMessenger [10627]
 Path:                /private/var/containers/Bundle/Application/
-03E067E9-E2C1-43F4-AC53-4E4F58131FF3/OneMessenger.app/OneMessenger
+03E067E9-E2C1-43F4-AC53-4E4F58131FF3/
+OneMessenger.app/OneMessenger
 Identifier:          com.onem.adhoc
 Version:             158 (1.0.4)
 Code Type:           ARM-64 (Native)
