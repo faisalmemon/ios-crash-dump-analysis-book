@@ -526,7 +526,8 @@ macAddress.m:22:12:
 <pre><code>double pluto_volume = pluto.get_volume();
 assert(pluto_volume != 0.0);
 
-double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pre>
+double plutos_to_fill_jupiter
+        =  jupiter.get_volume() / pluto_volume;</code></pre>
 <p>Enabling code Analysis will not find any issue or warning.</p>
 <p>The assert is in place to avoid a division by zero. The fact that it is triggered is good because we know where to start debugging the problem.</p>
 <p>Pluto’s volume is 0.0 because the code</p>
@@ -625,13 +626,16 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
       objectForKey:@&quot;AddPluto&quot;];
 
     if ([testSupportAddPluto isEqualToString:@&quot;YES&quot;]) {
-        planet::add_planet(planet(&quot;Pluto&quot;, 2370, 7375 * millionKm));
+        planet::add_planet(
+          planet(&quot;Pluto&quot;, 2370, 7375 * millionKm));
     }
 
     if (self) {
         _planetDict = [[NSMutableDictionary alloc] init];
-        auto pluto_by_find = planet::find_planet_named(&quot;Pluto&quot;);
-        auto jupiter_by_find = planet::find_planet_named(&quot;Jupiter&quot;);
+        auto pluto_by_find =
+         planet::find_planet_named(&quot;Pluto&quot;);
+        auto jupiter_by_find =
+         planet::find_planet_named(&quot;Jupiter&quot;);
 
         if (planet::isEnd(jupiter_by_find) ||
          planet::isEnd(pluto_by_find)) {
@@ -687,10 +691,12 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
      plutosInJupiter];
 
     self.jupiterLabelOutlet.text =
-    [NSString stringWithFormat:@&quot;Diameter of Jupiter (km) = %f&quot;,
+    [NSString stringWithFormat:
+     @&quot;Diameter of Jupiter (km) = %f&quot;,
      jupiter_diameter];
     self.plutoLabelOutlet.text =
-    [NSString stringWithFormat:@&quot;Diameter of Pluto (km) = %f&quot;,
+    [NSString stringWithFormat:
+     @&quot;Diameter of Pluto (km) = %f&quot;,
      pluto_diameter];
 }</code></pre>
 <h2 id="lessons-learnt-1">Lessons Learnt</h2>
@@ -1713,7 +1719,8 @@ Terminating Process:   exc handler [0]
 VM Regions Near 0x18:
 --&gt;
     __TEXT                 0000000100238000-0000000100247000
-     [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/
+     [   60K] r-x/rwx SM=COW  
+     /System/Library/CoreServices/Siri.app/
      Contents/XPCServices/SiriNCService.xpc/Contents/MacOS/
      SiriNCService
 
@@ -1785,11 +1792,11 @@ ReceiveNextEventCommon + 613
 10  com.apple.AppKit                0x00007fff4039ca73
 _DPSNextEvent + 2085
 11  com.apple.AppKit                0x00007fff40b32e34
--[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:
-inMode:dequeue:] + 3044
+-[NSApplication(NSEvent) _nextEventMatchingEventMask:
+untilDate:inMode:dequeue:] + 3044
 12  com.apple.ViewBridge            0x00007fff67859df0
--[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:
-dequeue:] + 92
+-[NSViewServiceApplication nextEventMatchingMask:
+untilDate:inMode:dequeue:] + 92
 13  com.apple.AppKit                0x00007fff40391885
 -[NSApplication run] + 764
 14  com.apple.AppKit                0x00007fff40360a72
