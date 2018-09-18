@@ -460,7 +460,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>We think of Xcode in layers of sophistication, where at the lowest layer of sophistication Xcode directly tells us the common error it has seen with suggested corrections, up to the highest level were Xcode is telling the raw information, but we need Operating Systems knowledge to interpret the information ourselves.</p>
 <p>We shall revisit Xcode configuration, setup and tooling many times. Nevertheless, let us first start off with the simple but high value assistance Xcode provides.</p>
 <h2 id="xcode-diagnostic-settings">Xcode Diagnostic Settings</h2>
-<p>By opening the project <code>icdab_sample</code> <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> and looking at the Schema definition and then highlighting the Diagnostics tab we see the following options:</p>
+<p>By opening the project <code>icdab_sample</code> <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> and looking at the Scheme definition and then highlighting the Diagnostics tab we see the following options:</p>
 <p><img src="screenshots/diagnostic_settings.png" /></p>
 <h3 id="execution-methodology">Execution Methodology</h3>
 <p>If we have a crash that is reproducible from our own developer environment and source code, then a methodology for finding is to switch on the appropriate diagnostic setting and then re-run our application.</p>
@@ -1098,7 +1098,7 @@ Triggered by Thread:  0</code></pre>
 <h4 id="aborts">Aborts</h4>
 <p>When we have a <code>SIGABRT</code>, we should look for what exceptions and assertions are present in our code from the stack trace of the crashed thread.</p>
 <h4 id="memory-issues">Memory Issues</h4>
-<p>When we have a memory issue, <code>EXC_BAD_ACCESS</code>, with <code>SIGSEGV</code> or <code>SIGBUS</code>, the faulty memory reference is the second number of the Exception Codes number pair. For this type of problem, the diagnostics settings within Xcode for the target in the schema are relevant. The address sanitizer should be switched on to see if it could spot the error.</p>
+<p>When we have a memory issue, <code>EXC_BAD_ACCESS</code>, with <code>SIGSEGV</code> or <code>SIGBUS</code>, the faulty memory reference is the second number of the Exception Codes number pair. For this type of problem, the diagnostics settings within Xcode for the target scheme is relevant. The address sanitizer should be switched on to see if it could spot the error.</p>
 <p>If Xcode shows a lot of memory is being used by the app, then it might be that memory we were relying upon has been freed by the system. For this, switch on the Malloc Stack logging option, selecting All Allocation and Free History. Then at some point during the app, the MemGraph button can be clicked, and then the allocation history of objects explored.</p>
 <p>For more details, see the Memory Diagnostics Chapter.</p>
 <h4 id="exceptions">Exceptions</h4>
@@ -3207,8 +3207,8 @@ Binary Images:
 </code></pre>
 <p>From the stack backtrace we see that the OpenGL pipeline was flushed. This caused <code>com.apple.AMDRadeonX4000GLDriver</code> to detect a problem with the commands and trigger a crash. We see that the code contributes custom information to the Crash Report.</p>
 <pre><code>3   libGPUSupportMercury.dylib      0xa2aa342d gpusGenerateCrashLog + 160</code></pre>
-<p>We can use the Hopper Disassembler and reverse engineering tool here.<br />
-By locating the binary on our Mac, we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode. For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code is rarely hand written nowadays. This is why the pseudocode output is most valuable.</p>
+<p>We can use the Hopper Disassembler and reverse engineering tool here.</p>
+<p>By locating the binary on our Mac, we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode. For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code is rarely hand written nowadays. This is why the pseudocode output is most valuable.</p>
 <p>We first find the location of the binary from the <code>Binary Images</code> section of the Crash Report.</p>
 <pre><code>/System/Library/PrivateFrameworks/GPUSupport.framework/
 Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
@@ -3225,7 +3225,7 @@ Versions/A/Libraries/</code></pre>
 <p><img src="screenshots/drag_file_to_hopper.png" /></p>
 <p>We need to select the architecture to disassemble. It must match what we are diagnosing. From the Crash Report, we can see that it is a <code>Code Type</code> <code>X86 (Native)</code>. This means we need to select the 32-bit architecture option in Hopper.</p>
 <p><img src="screenshots/hopper_32bit.png" /></p>
-<p>The we click Next, and then OK.</p>
+<p>Then we click Next, and then OK.</p>
 <p>After a moment, the file will be processed. Then we can select <em>Navigate -&gt; Go To Address or Symbol</em> and provide the address <code>_gpusGenerateCrashLog</code> Note, we have a leading underscore. The C compiler puts that in automatically before generating the object file. Historically it was done that way so that hand written assembly code would not conflict with C programming language symbols during linking.</p>
 <p>In the default view, Hopper will show the disassembly for the function.</p>
 <p><img src="screenshots/hopper_diss.png" /></p>
@@ -3259,13 +3259,15 @@ Versions/A/Libraries/</code></pre>
  return rax;
 }
 </code></pre>
-<p>Here we can see two alternatives. Either we just report: <code>&quot;Graphics kernel error: 0x%08x\n&quot;</code></p>
-<p>or we report: <code>&quot;Graphics hardware encountered an error and was reset: 0x%08x\n&quot;</code></p>
+<p>Here we can see two alternatives. Either we just report:</p>
+<pre><code>&quot;Graphics kernel error: 0x%08x\n&quot;</code></pre>
+<p>or we report:</p>
+<pre><code>&quot;Graphics hardware encountered an error and was reset: 0x%08x\n&quot;</code></pre>
 <p>In fact, we see the following in the Crash Report:</p>
 <pre><code>Application Specific Signatures:
 Graphics kernel error: 0xfffffffb</code></pre>
 <p>Unfortunately, it is not clear what this error means. We need the author of the app to switch on OpenGL command level logging in order to understand what drawing command was rejected by the graphics driver.</p>
-<p>Using a different Mac with a different graphics card would be an interesting experiment to understand if we have a driver-specific issue or a general OpenGL problem.</p>
+<p>Using a different Mac with a different graphics card would be an interesting experiment to understand if we have a driver-specific issue, or a generic OpenGL problem.</p>
 <h2 id="type-confusion">Type confusion</h2>
 <p>The compiler does an excellent job of static type checking. When types are inferred dynamically problems can arise. Configuration files are further troublesome in this area. It can be easy to set the wrong type for a configuration parameter.</p>
 <p>We use the example code, <code>icdab_nsdata</code>, to illustrate our point. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
@@ -3586,7 +3588,7 @@ ReceiveNextEventCommon + 613
 <pre><code>3   QuartzCore                          0x00007fff50ba1a72
 _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230</code></pre>
 <p>As an academic exercise we can pin point which of the many error handle cases is the one in play here. Our backtrace here is not the leaf call, so the offset is the address where computation will resume after the function call has returned.</p>
-<p>Using the Hopper tool, we can search for symbol <code>__ZN2CA5Layer10set_boundsERKNS_4RectEb</code> in the binary <code>/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore</code></p>
+<p>Using the Hopper tool, we can search for the symbol <code>__ZN2CA5Layer10set_boundsERKNS_4RectEb</code> in the binary <code>/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore</code></p>
 <p>Note how we introduce an additional leading underscore to the function name when searching for it. This is due to the C Language Compiler.</p>
 <p>We see:</p>
 <pre><code>__ZN2CA5Layer10set_boundsERKNS_4RectEb:        
@@ -3877,18 +3879,19 @@ __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 6
 
 Unknown thread crashed with unknown flavor: 5, state_count: 1</code></pre>
 <p>From the <code>Exception Codes:</code> we see the code <code>0xc00010ff</code>. This is read as “Cool Off”.</p>
-<p>This Crash Report shown here is clearly to do with temperature. It is not clear whether the problem is specific to the app currently running, the health of the hardware, or the environment the device was in at the time of the problem. None of the code running is know to generate large amounts of heat. To fix this issue, Analytic Troubleshooting is appropriate. For example, if this crash happens to other apps on the same device even when it is cold, we can suspect a hardware sensor failure. We need a complete picture of where the problem is seen versus not present to make progress with a good hypothesis.</p>
+<p>The Crash Report, shown here, is clearly to do with temperature. It is not clear whether the problem is specific to the app currently running, the health of the hardware, or the environment the device was in at the time of the problem. None of the code running is known to generate large amounts of heat. To fix this issue, Analytic Troubleshooting is appropriate. For example, if this crash happens to other apps on the same device even when it is cold, we can suspect a hardware sensor failure. We need a complete picture of where the problem is seen versus not present to make progress with a good hypothesis.</p>
 <p>Finally, the Crash Report notes:</p>
 <pre><code>Unknown thread crashed with unknown flavor: 5, state_count: 1</code></pre>
 <p>This can been seen for cases where the system terminates the app for resource related reasons.</p>
 <p>From looking up the thread flavor in the Darwin XNU code, we see:</p>
 <pre><code>#define THREAD_STATE_NONE       5</code></pre>
 <p><span class="citation" data-cites="threadstatus">(“Thread Status Values in Mach” 2018)</span></p>
-<p>So it just means that this is not something of concern. The Crash Report tool could do with improvement to catch this case.</p>
+<p>So it just means that this is not something of concern. The Crash Report tool could do with improvement to identify this thread flavor, and report it.</p>
 <h1 id="application-termination-crashes">Application Termination Crashes</h1>
 <p>In this chapter, we study application termination crashes.</p>
 <p>These crashes are distinguished by reporting Exception Type, <code>EXC_CRASH (SIGKILL)</code> in their Crash Report.</p>
-<p>An application can be designed to catch signals sent to it. Typically in UNIX systems, when a SIGHUP was sent it would make the program re-read its configuration file, by convention. By design, SIGSTOP and SIGKILL signals cannot be caught.</p>
+<p>An application can be designed to catch signals sent to it. Typically in UNIX systems, server processes, called daemons, are designed to catch the SIGHUP signal. When it is received, the process would re-read its configuration file.</p>
+<p>However, some signals, by design, cannot be caught. These are the SIGSTOP and SIGKILL signals.</p>
 <h2 id="deadlock-crash">Deadlock Crash</h2>
 <p>If a SQLite file is locked before an app suspends, the app is crashed. A Deadlock Termination Reason is supplied in the Crash Report.</p>
 <p>As an example we show the OneMessenger app crash with the following Crash Report, truncated for ease of demonstration:</p>
@@ -4077,11 +4080,11 @@ Binary Images (Other):
 <p>The iOS platform allocates memory for our app either on the stack or from the heap.</p>
 <p>Memory is allocated on the stack whenever we create locally scoped variables within functions. Memory is allocated from the heap whenever we call <code>malloc</code> (or its variants).</p>
 <p>The minimum granularity of allocation on the heap is 16 bytes (an implementation detail we are not to rely upon). This means a small overshoot can sometimes go undetected when we are accidentally overwriting past the number of bytes we have allocated.</p>
-<p>When memory is allocated, it is placed into a Virtual Memory region. There are virtual memory regions for allocations of approximately the same size. For example, we have regions <code>MALLOC_LARGE</code>, <code>MALLOC_SMALL</code>, <code>MALLOC_TINY</code>. This strategy tends to reduce the amount of fragmentation of memory. Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimize the performance of the system.</p>
-<p>The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used to different purposes, so one logical area of the system can interfere with an unrelated area of the system. Furthermore, there can be a delay (or latency) so the problem is discovered much after the problem was introduced.</p>
+<p>When memory is allocated, it is placed into a Virtual Memory region. There are virtual memory regions for allocations of approximately the same size. For example, we have regions <code>MALLOC_LARGE</code>, <code>MALLOC_SMALL</code>, and <code>MALLOC_TINY</code>. This strategy tends to reduce the amount of fragmentation of memory. Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimize the performance of the system.</p>
+<p>The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used for different purposes, so one logical area of the system can interfere with an unrelated area of the system. Furthermore, there can be a delay (or latency) so the problem is discovered much later than when the problem was introduced.</p>
 <h2 id="address-sanitizer">Address Sanitizer</h2>
 <p>A very powerful tool can assist with memory diagnostics, called the Address Sanitizer. (See <span class="citation" data-cites="asanchecker">Serebryany et al. (2012)</span>)</p>
-<p>It requires us to recompile our code with the Schema setting for Address Sanitizer set:</p>
+<p>It requires us to recompile our code with the Scheme setting for Address Sanitizer set:</p>
 <p><img src="screenshots/diagnostic_santizer_setting.png" /></p>
 <p>Address sanitizer does memory accounting (called Shadow Memory). It knows which memory locations are “poisoned”. That is, memory which has not been allocated (or was allocated, and then freed).</p>
 <p><span class="citation" data-cites="wwdc2015_413">(“Advanced Debugging with Address Sanitizer” 2015)</span></p>
@@ -4209,7 +4212,7 @@ freed by thread T0 here:
        target[i] = *(source + i);
     }
 }</code></pre>
-<p>First, <code>source</code> is given freshly allocated memory. Since this memory has not yet been initialized, it is set to 0xAA when Malloc Scribble has been set (and address sanitizer reset) in the Schema settings.</p>
+<p>First, <code>source</code> is given freshly allocated memory. Since this memory has not yet been initialized, it is set to 0xAA when Malloc Scribble has been set (and address sanitizer reset) in the Scheme settings.</p>
 <p>Then, <code>target</code> is setup. It is a buffer on the stack (not heap memory). Using the code, <code>= {0}</code>, we make the app set <code>0</code> in all memory locations of this buffer. Otherwise, it would be random memory values.</p>
 <p>Then we enter a loop. By breakpointing in the debugger, say at the second iteration, we can print off the memory contents and see the following:</p>
 <p><img src="screenshots/scribble.png" /></p>
@@ -4242,7 +4245,7 @@ freed by thread T0 here:
 <p>We recommend the “All Allocation” option, unless there is just too much overhead experienced due to having an app with heavy use of memory allocation. The “Live Allocations Only” option is sufficient to catch memory leaks as well as being low overhead, so it is the default option in the User Interface.</p>
 <p>The steps to follow are:</p>
 <ol type="1">
-<li>Set the <code>Malloc Stack</code> option in the Diagnostics settings tab for the app Schema settings.</li>
+<li>Set the <code>Malloc Stack</code> option in the Diagnostics settings tab for the app Scheme settings.</li>
 <li>Launch the app.</li>
 <li>Press the Debug Memgraph Button</li>
 <li>For command line based analysis, <em>File -&gt; Export Memory Graph…</em></li>
@@ -4252,7 +4255,7 @@ freed by thread T0 here:
 <h4 id="malloc-stack-memgraph-example-detecting-retain-cycles">Malloc Stack Memgraph example: detecting retain cycles</h4>
 <p>A quick win is to see if we have any leaks. These are memory locations no longer reachable to be able to free up.</p>
 <p>We use the tvOS example app <code>icdab_cycle</code> to show a retain cycle found by Memgraph. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
-<p>Having set the Schema settings for Malloc Stack, we then launch the app and then press the Memgraph Button, shown below:</p>
+<p>Having set the Scheme settings for Malloc Stack, we then launch the app and then press the Memgraph Button, shown below:</p>
 <p><img src="screenshots/memgraphbutton.png" /></p>
 <p>By pressing the exclamation mark filter button we can filter to only showing leaks:</p>
 <p><img src="screenshots/retaincycle.png" /></p>
