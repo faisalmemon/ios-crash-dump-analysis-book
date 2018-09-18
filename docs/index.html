@@ -347,7 +347,8 @@
       // Xcode 10.0 will skip over
       let imagePicker = UIImagePickerController()
       imagePicker.delegate = self
-      imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+      imagePicker.sourceType =
+       UIImagePickerControllerSourceType.camera
       imagePicker.allowsEditing = false
       self.present(imagePicker, animated: true, completion: nil)
       }</code></pre>
@@ -1526,14 +1527,14 @@ transitionContext:] + 248</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th>Column number</th>
+<th>Column</th>
 <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>Stack frame number. Ordered with 0 is most recently executed.</td>
+<td>Stack frame number, with 0 the most recently executed.</td>
 </tr>
 <tr class="even">
 <td>2</td>
@@ -1558,7 +1559,7 @@ transitionContext:] + 248</code></pre>
 <li>Stack Frame 20.</li>
 <li>UIKit Binary File.</li>
 <li><code>0x000000018db14c88</code> return address after frames 0 - 19 return.</li>
-<li>Call site is 248 bytes from the beginning of method <code>performActionsForCanvas:::::</code></li>
+<li>Call site is 248 bytes from the beginning of method <code>performActionsForCanvas</code></li>
 <li>Class is <code>_UICanvasLifecycleSettingsDiffAction</code></li>
 </ul>
 <h3 id="ios-crash-report-thread-state-section">iOS Crash Report Thread State Section</h3>
@@ -1942,8 +1943,8 @@ Serial ATA Device: APPLE SSD SM0512F, 500.28 GB
 Model: iMac15,1, BootROM IM151.0217.B00, 4 processors,
  Intel Core i5, 3.5 GHz, 16 GB, SMC 2.22f16
 Graphics: AMD Radeon R9 M290X, AMD Radeon R9 M290X, PCIe
-AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142),
- Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
+AirPort: spairport_wireless_card_type_airport_extreme
+ (0x14E4, 0x142), Broadcom BCM43xx 1.0 (7.77.37.31.1a9)
 Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
  1 incoming serial ports</code></pre>
 <p>Sometimes our app closely interacts with a hardware peripheral, and if that is via a standards based interface such as USB, then a lot of variability is possible. Consider disk drives. Many vendors provide disk drives, and they may be directly powered, or independently powered. They may be directly attached, attached via a USB cable, or via a USB hub.</p>
