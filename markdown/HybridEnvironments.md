@@ -69,32 +69,41 @@ In fact, the database is missing the entry for Pluto due to it no longer being c
 
 ```
 void planet_database::load_data() {
-    planet planet_Mercury = planet("Mercury", 4878.0, 57.9 * millionKm);
+    planet planet_Mercury =
+     planet("Mercury", 4878.0, 57.9 * millionKm);
     planets["Mercury"] = planet_Mercury;
 
-    planet planet_Venus = planet("Venus", 12104, 108.2 * millionKm);
+    planet planet_Venus =
+     planet("Venus", 12104, 108.2 * millionKm);
     planets["Venus"] = planet_Venus;
 
-    planet planet_Earth = planet("Earth", 12756, 149.6 * millionKm);
+    planet planet_Earth =
+     planet("Earth", 12756, 149.6 * millionKm);
     planets["Earth"] = planet_Earth;
 
-    planet planet_Mars = planet("Mars", 6792, 227.9 * millionKm);
+    planet planet_Mars =
+     planet("Mars", 6792, 227.9 * millionKm);
     planets["Mars"] = planet_Mars;
 
-    planet planet_Jupiter = planet("Jupiter", 142984, 778 * millionKm);
+    planet planet_Jupiter =
+     planet("Jupiter", 142984, 778 * millionKm);
     planets["Jupiter"] = planet_Jupiter;
 
-    planet planet_Saturn = planet("Saturn", 120536, 1427 * millionKm);
+    planet planet_Saturn =
+     planet("Saturn", 120536, 1427 * millionKm);
     planets["Saturn"] = planet_Saturn;
 
-    planet planet_Uranus = planet("Uranus", 51118, 2870 * millionKm);
+    planet planet_Uranus =
+     planet("Uranus", 51118, 2870 * millionKm);
     planets["Uranus"] = planet_Uranus;
 
-    planet planet_Neptune = planet("Neptune", 49532, 4497 * millionKm);
+    planet planet_Neptune =
+     planet("Neptune", 49532, 4497 * millionKm);
     planets["Neptune"] = planet_Neptune;
 
 //  No longer considered a planet but instead a dwarf planet
-//  planet planet_Pluto = planet("Pluto", 2370, 7375 * millionKm);
+//  planet planet_Pluto =
+//   planet("Pluto", 2370, 7375 * millionKm);
 //  planets["Pluto"] = planet_Pluto;
 
     loaded_data = true;
