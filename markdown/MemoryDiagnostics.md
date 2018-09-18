@@ -231,7 +231,7 @@ The purpose of Zombie Objects is to detect use-after-free bugs in the context of
 
 This setting must only be made on debug builds because the code will no longer release objects.  Its performance profile is equivalent to leaking every object that should have been deallocated.  
 
-This setting will make deallocated objects to instead become `NSZombie` objects.  This means that any method called upon the object will result in a crash.  Any message sent to an `NSZombie` object results in a crash. Therefore, whenever an over-released object is messaged, we are guaranteed a crash.
+This setting will make deallocated objects to instead become `NSZombie` objects.  Any message sent to an `NSZombie` object results in an immediate crash. Therefore, whenever an over-released object is messaged, we are guaranteed a crash.
 
 Consider the following code in the `icdab_edge` example program.  @icdabgithub
 
@@ -267,13 +267,13 @@ This is most helpful, and we should look out for this when studying the program 
 
 Sometimes the past dynamic behavior of our app needs to be understood in order to resolve why the application crashed.  For example, we may have leaked memory, and then we were terminated by the system for using too much memory.  We might have a data structure and wonder which part of the code was responsible for allocating it.
 
-The purpose of the `Malloc Stack` option is to provide the historical data need.  Memory analysis has been enhanced by Apple by providing complementary visual tools.  Malloc Stack has a sub-option, "All Allocation and Free History" or "Live Allocations Only"
+The purpose of the `Malloc Stack` option is to provide the historical data we require.  Memory analysis has been enhanced by Apple by providing complementary visual tools.  Malloc Stack has a sub-option, "All Allocation and Free History" or "Live Allocations Only"
 
-We recommend the "All Allocation" option, unless there is just too much overhead experienced due to having an app with heavy use of memory allocation.  The "Live Allocations Only" option is sufficient to catch memory leaks\index{memory!leak} as well as being low overhead, so it is the default option in the User Interface.
+We recommend the "All Allocation" option, unless there is just too much overhead experienced with it.  That may be due to having an app which makes heavy use of memory allocation.  The "Live Allocations Only" option is sufficient to catch memory leaks\index{memory!leak} as well as being low overhead, so it is the default option in the User Interface.
 
 The steps to follow are:
 
-1. Set the `Malloc Stack` option in the Diagnostics settings tab for the app Scheme settings.
+1. Set the `Malloc Stack` option in the Diagnostics settings tab.
 2. Launch the app.
 3. Press the Debug Memgraph Button
 4. For command line based analysis, _File -> Export Memory Graph..._
@@ -360,7 +360,7 @@ func buildMediaLibrary() {
 }
 ```
 
-The problem is that `createRetainCycleLeak()` `carnaval` `Song` makes a strong reference to `salsa` `Album` and `salsa` makes a strong reference to `carnaval` `Song` and when we return from this method, there is no reference to either object from another object.  The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle\index{memory!retain cycle}).  A very similar object relationship for `kylie` `Album` does not trigger a leak because that is referenced by a top level graph object `mediaLibrary`
+The problem is that `createRetainCycleLeak()` `carnaval` `Song` makes a strong reference to `salsa` `Album`, `salsa` makes a strong reference to `carnaval` `Song`, and when we return from this method, there is no reference to either object from another object.  The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle\index{memory!retain cycle}).  A very similar object relationship for `kylie` `Album` does not trigger a leak because that is referenced by a top level graph object `mediaLibrary`
 
 ### Dynamic Linker API Usage
 
@@ -393,7 +393,7 @@ A huge amount of logging is generated.  It is best to start by searching for the
 
 ### Dynamic Library Loads
 
-Sometimes we have an early stage app crash during the initialization phase where the dynamic loader is loading the app binary and its dependent frameworks.  If we are confident that it is not custom code using the dynamic linker API, but instead it is the assembly of frameworks into the loaded binary we care about, then switching on the `Dynamic Library Loads` flag is appropriate.  We get much shorter logs that enabling the `Dynamic Linker API Usage` flag.
+Sometimes we have an early stage app crash during the initialization phase where the dynamic loader is loading the app binary and its dependent frameworks.  If we are confident that it is not custom code using the dynamic linker API, but instead it is the assembly of frameworks into the loaded binary we care about, then switching on the `Dynamic Library Loads` flag is appropriate.  We get much shorter logs than enabling the `Dynamic Linker API Usage` flag.
 
 Upon launch, we get a list of binaries loaded:
 
