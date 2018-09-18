@@ -2650,7 +2650,8 @@ Terminating Process: exc handler [0]
 Triggered by Thread:  0
 
 Application Specific Information:
-BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use
+BUG IN CLIENT OF LIBDISPATCH:
+ Semaphore object deallocated while in use
 Abort Cause 1
 
 Filtered syslog:
@@ -2708,7 +2709,8 @@ int main(int argc, const char * argv[]) {
 }</code></pre>
 <h3 id="using-application-specific-crash-report-information">Using application specific Crash Report information</h3>
 <p>In our example, the <code>Application Specific Information</code> section of the Crash Report directly explains the problem.</p>
-<pre><code>BUG IN CLIENT OF LIBDISPATCH: Semaphore object deallocated while in use</code></pre>
+<pre><code>BUG IN CLIENT OF LIBDISPATCH:
+ Semaphore object deallocated while in use</code></pre>
 <p>We just need to signal the semaphore to avoid the problem.</p>
 <p>If we had a more unusual problem or wanted to understand it at a deeper level, we could look up the source code of the library and find the diagnostic message in the code.</p>
 <p>Here is the relevant library code:</p>
@@ -2719,11 +2721,14 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
     dispatch_semaphore_t dsema = dou._dsema;
 
     if (dsema-&gt;dsema_value &lt; dsema-&gt;dsema_orig) {
-        DISPATCH_CLIENT_CRASH(dsema-&gt;dsema_orig - dsema-&gt;dsema_value,
-                &quot;Semaphore object deallocated while in use&quot;);
+        DISPATCH_CLIENT_CRASH(
+      dsema-&gt;dsema_orig - dsema-&gt;dsema_value,
+                &quot;Semaphore object deallocated while in use&quot;
+    );
     }
 
-    _dispatch_sema4_dispose(&amp;dsema-&gt;dsema_sema, _DSEMA4_POLICY_FIFO);
+    _dispatch_sema4_dispose(&amp;dsema-&gt;dsema_sema,
+     _DSEMA4_POLICY_FIFO);
 }</code></pre>
 <p>Here we can see the library causing a crash through the <code>DISPATCH_CLIENT_CRASH</code> macro.</p>
 <h3 id="semaphore-crash-lessons-learnt">Semaphore Crash Lessons Learnt</h3>
