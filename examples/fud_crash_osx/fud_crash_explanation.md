@@ -28,7 +28,8 @@ Time Since Wake:       47 seconds
 
 System Integrity Protection: enabled
 
-Crashed Thread:        1  Dispatch queue: com.apple.fud.processing.queue
+Crashed Thread:        1
+  Dispatch queue: com.apple.fud.processing.queue
 
 Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
 Exception Codes:       EXC_I386_GPFLT
@@ -38,7 +39,8 @@ Termination Signal:    Segmentation fault: 11
 Termination Reason:    Namespace SIGNAL, Code 0xb
 Terminating Process:   exc handler [0]
 
-Thread 1 Crashed:: Dispatch queue: com.apple.fud.processing.queue
+Thread 1 Crashed:: Dispatch queue:
+ com.apple.fud.processing.queue
 0   libdispatch.dylib             	0x00007fff67fc6cbd
  _dispatch_continuation_push + 4
 1   fud                           	0x0000000101d3ce57
@@ -61,15 +63,20 @@ Thread 1 Crashed:: Dispatch queue: com.apple.fud.processing.queue
  start_wqthread + 13
 
 Thread 1 crashed with X86 Thread State (64-bit):
-  rax: 0xe00007f80bd22039  rbx: 0x00007f80bd2202e0  rcx: 0x7fffffffffffffff
+  rax: 0xe00007f80bd22039  rbx: 0x00007f80bd2202e0
+    rcx: 0x7fffffffffffffff
     rdx: 0x011d800101d66da1
-  rdi: 0x00007f80bd21a250  rsi: 0x0000000102c01000  rbp: 0x0000700007e096c0
+  rdi: 0x00007f80bd21a250  rsi: 0x0000000102c01000
+    rbp: 0x0000700007e096c0
     rsp: 0x0000700007e09670
-   r8: 0x0000000102c00010   r9: 0x0000000000000001  r10: 0x0000000102c01000
+   r8: 0x0000000102c00010   r9: 0x0000000000000001
+     r10: 0x0000000102c01000
      r11: 0x00000f80b5300430
-  r12: 0x00007f80ba70c670  r13: 0x00007fff673c8e80  r14: 0x00007f80bd201e00
+  r12: 0x00007f80ba70c670  r13: 0x00007fff673c8e80
+    r14: 0x00007f80bd201e00
     r15: 0x00007f80ba70cf30
-  rip: 0x00007fff67fc6cbd  rfl: 0x0000000000010202  cr2: 0x00007fff9b2f11b8
+  rip: 0x00007fff67fc6cbd  rfl: 0x0000000000010202
+    cr2: 0x00007fff9b2f11b8
 
 Logical CPU:     3
 Error Code:      0x00000004
@@ -88,7 +95,8 @@ We see:
 
 DISPATCH_NOINLINE
 static void
-_dispatch_continuation_push(dispatch_queue_t dq, dispatch_continuation_t dc)
+_dispatch_continuation_push(dispatch_queue_t dq,
+   dispatch_continuation_t dc)
 {
 	dx_push(dq, dc, _dispatch_continuation_override_qos(dq, dc));
 }
@@ -101,18 +109,18 @@ We can disassemble the macOS binary, `/usr/lib/system/libdispatch.dylib`\index{c
 Here we use the Hopper\index{Hopper} tool to do the disassembly:
 ```
 __dispatch_continuation_push:
-0000000000014c69         push       rbx
-                                         ; CODE XREF=__dispatch_async_f2+112,
-                                          j___dispatch_continuation_push
-0000000000014c6a         mov        rax, qword [rdi]
-0000000000014c6d         mov        r8, qword [rax+0x40]
-0000000000014c71         mov        rax, qword [rsi+8]
-0000000000014c75         mov        edx, eax
-0000000000014c77         shr        edx, 0x8
-0000000000014c7a         and        edx, 0x3fff
-0000000000014c80         mov        ebx, dword [rdi+0x58]
-0000000000014c83         movzx      ecx, bh
-0000000000014c86         je         loc_14ca3
+0000000000014c69 push       rbx
+                             ; CODE XREF=__dispatch_async_f2+112,
+                             j___dispatch_continuation_push
+0000000000014c6a mov        rax, qword [rdi]
+0000000000014c6d mov        r8, qword [rax+0x40]
+0000000000014c71 mov        rax, qword [rsi+8]
+0000000000014c75 mov        edx, eax
+0000000000014c77 shr        edx, 0x8
+0000000000014c7a and        edx, 0x3fff
+0000000000014c80 mov        ebx, dword [rdi+0x58]
+0000000000014c83 movzx      ecx, bh
+0000000000014c86 je         loc_14ca3
 ```
 
 There seems to be a problem with the `rdi` register value, address `0x00007f80bd21a250`
