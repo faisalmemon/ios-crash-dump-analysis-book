@@ -762,9 +762,11 @@ Here is an example of corresponding UUIDs seen in DSYM and application binaries 
 $ dwarfdump --uuid icdab_as.app/icdab_as
 icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as
 
-UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64) icdab_as.app/icdab_as
+UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7
+ (arm64) icdab_as.app/icdab_as
 
-UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7 (arm64)
+UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7
+ (arm64)
 icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as
 ```
 
