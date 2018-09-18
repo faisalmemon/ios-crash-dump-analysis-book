@@ -3281,11 +3281,15 @@ Thread 0 Crashed:
  MyJablotron.ChartThermoPlotSpace.init ()
  MyJablotron.ChartThermoPlotSpace
   (ChartThermoPlotSpace.swift:206)
-8   MyJablotron_dev                      0x00606c60
+8   MyJablotron_dev                      
+0x00606c60
  MyJablotron.ChartThermoPlotSpace.__allocating_init ()
- MyJablotron.ChartThermoPlotSpace (ChartThermoPlotSpace.swift:0)
-9   MyJablotron_dev                      0x0048825c
- MyJablotron.ChartBase.initWithThermometer (__ObjC.Thermometer)()
+ MyJablotron.ChartThermoPlotSpace
+ (ChartThermoPlotSpace.swift:0)
+9   MyJablotron_dev                      
+0x0048825c
+ MyJablotron.ChartBase.initWithThermometer
+  (__ObjC.Thermometer)()
   (ChartBase.swift:139)
 10  MyJablotron_dev                      0x00488034
  MyJablotron.ChartBase.initWithSegment (__ObjC.Segment)()
@@ -3304,15 +3308,19 @@ Thread 0 Crashed:
 15  UIKit                                0x3227d269
  -[UIViewController view] + 22
 16  UIKit                                0x3240936b
- -[UINavigationController _startCustomTransition:] + 632
+ -[UINavigationController
+ _startCustomTransition:] + 632
 17  UIKit                                0x32326d63
- -[UINavigationController _startDeferredTransitionIfNeeded:] + 416
+ -[UINavigationController
+  _startDeferredTransitionIfNeeded:] + 416
 18  UIKit                                0x32326b6d
- -[UINavigationController __viewWillLayoutSubviews] + 42
+ -[UINavigationController
+ __viewWillLayoutSubviews] + 42
 19  UIKit                                0x32326b05
  -[UILayoutContainerView layoutSubviews] + 182
 20  UIKit                                0x32278d59
- -[UIView(CALayerDelegate) layoutSublayersOfLayer:] + 378
+ -[UIView(CALayerDelegate)
+ layoutSublayersOfLayer:] + 378
 21  QuartzCore                           0x31ef662b
  -[CALayer layoutSublayers] + 140
 22  QuartzCore                           0x31ef1e3b
@@ -3327,7 +3335,8 @@ Thread 0 Crashed:
  CA::Transaction::observer_callback(__CFRunLoopObserver*,
     unsigned long, void*) + 54
 27  CoreFoundation                       0x2fa27255
- __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__ + 18
+__CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__
+ + 18
 28  CoreFoundation                       0x2fa24bf9
  __CFRunLoopDoObservers + 282
 29  CoreFoundation                       0x2fa24f3b
@@ -3340,8 +3349,10 @@ Thread 0 Crashed:
  GSEventRunModal + 136
 33  UIKit                                0x322dc14d
  UIApplicationMain + 1134
-34  MyJablotron_dev                      0x002b0683 main (main.m:16)
-35  libdyld.dylib                        0x3a719ab7 start + 0</code></pre>
+34  MyJablotron_dev                      0x002b0683
+ main (main.m:16)
+35  libdyld.dylib                        0x3a719ab7
+ start + 0</code></pre>
 <p>We can see the crash is in the Swift Core runtime library. When we see a crash in common code, from Apple, it usually indicates a misuse of APIs. In those cases, we expect to see a descriptive error.</p>
 <p>In this example, we get a bus alignment error. Apple’s library code accessed a memory address improperly for the CPU architecture.</p>
 <p>This is a surprise. Sometimes when we use an advanced feature, or set compiler optimization settings, we can trigger errors in special cases or in lesser used code paths.</p>
