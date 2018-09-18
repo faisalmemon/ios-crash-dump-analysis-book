@@ -545,32 +545,41 @@ double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;</code></pr
 }</code></pre>
 <p>At first glance, it might be that the database failed to load data properly. In fact, the database is missing the entry for Pluto due to it no longer being considered a planet:</p>
 <pre><code>void planet_database::load_data() {
-    planet planet_Mercury = planet(&quot;Mercury&quot;, 4878.0, 57.9 * millionKm);
+    planet planet_Mercury =
+     planet(&quot;Mercury&quot;, 4878.0, 57.9 * millionKm);
     planets[&quot;Mercury&quot;] = planet_Mercury;
 
-    planet planet_Venus = planet(&quot;Venus&quot;, 12104, 108.2 * millionKm);
+    planet planet_Venus =
+     planet(&quot;Venus&quot;, 12104, 108.2 * millionKm);
     planets[&quot;Venus&quot;] = planet_Venus;
 
-    planet planet_Earth = planet(&quot;Earth&quot;, 12756, 149.6 * millionKm);
+    planet planet_Earth =
+     planet(&quot;Earth&quot;, 12756, 149.6 * millionKm);
     planets[&quot;Earth&quot;] = planet_Earth;
 
-    planet planet_Mars = planet(&quot;Mars&quot;, 6792, 227.9 * millionKm);
+    planet planet_Mars =
+     planet(&quot;Mars&quot;, 6792, 227.9 * millionKm);
     planets[&quot;Mars&quot;] = planet_Mars;
 
-    planet planet_Jupiter = planet(&quot;Jupiter&quot;, 142984, 778 * millionKm);
+    planet planet_Jupiter =
+     planet(&quot;Jupiter&quot;, 142984, 778 * millionKm);
     planets[&quot;Jupiter&quot;] = planet_Jupiter;
 
-    planet planet_Saturn = planet(&quot;Saturn&quot;, 120536, 1427 * millionKm);
+    planet planet_Saturn =
+     planet(&quot;Saturn&quot;, 120536, 1427 * millionKm);
     planets[&quot;Saturn&quot;] = planet_Saturn;
 
-    planet planet_Uranus = planet(&quot;Uranus&quot;, 51118, 2870 * millionKm);
+    planet planet_Uranus =
+     planet(&quot;Uranus&quot;, 51118, 2870 * millionKm);
     planets[&quot;Uranus&quot;] = planet_Uranus;
 
-    planet planet_Neptune = planet(&quot;Neptune&quot;, 49532, 4497 * millionKm);
+    planet planet_Neptune =
+     planet(&quot;Neptune&quot;, 49532, 4497 * millionKm);
     planets[&quot;Neptune&quot;] = planet_Neptune;
 
 //  No longer considered a planet but instead a dwarf planet
-//  planet planet_Pluto = planet(&quot;Pluto&quot;, 2370, 7375 * millionKm);
+//  planet planet_Pluto =
+//   planet(&quot;Pluto&quot;, 2370, 7375 * millionKm);
 //  planets[&quot;Pluto&quot;] = planet_Pluto;
 
     loaded_data = true;
