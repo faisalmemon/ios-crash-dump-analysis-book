@@ -11,16 +11,16 @@ Memory is allocated from the heap whenever we call `malloc`\index{command!malloc
 
 The minimum granularity of allocation on the heap is 16 bytes (an implementation detail we are not to rely upon).  This means a small overshoot can sometimes go undetected when we are accidentally overwriting past the number of bytes we have allocated.
 
-When memory is allocated, it is placed into a Virtual\index{memory!virtual} Memory region.  There are virtual memory regions for allocations of approximately the same size.  For example, we have regions `MALLOC_LARGE`, `MALLOC_SMALL`, `MALLOC_TINY`.  This strategy tends to reduce the amount of fragmentation of memory.  Furthermore, there is a region for storing the bytes of an image, the "CG image" region.  This allows the system to optimize the performance of the system.
+When memory is allocated, it is placed into a Virtual\index{memory!virtual} Memory region.  There are virtual memory regions for allocations of approximately the same size.  For example, we have regions `MALLOC_LARGE`, `MALLOC_SMALL`, and `MALLOC_TINY`.  This strategy tends to reduce the amount of fragmentation of memory.  Furthermore, there is a region for storing the bytes of an image, the "CG image" region.  This allows the system to optimize the performance of the system.
 
-The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used to different purposes, so one logical area of the system can interfere with an unrelated area of the system.  Furthermore, there can be a delay (or latency) so the problem is discovered much after the problem was introduced.
+The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used for different purposes, so one logical area of the system can interfere with an unrelated area of the system.  Furthermore, there can be a delay (or latency) so the problem is discovered much later than when the problem was introduced.
 
 ## Address Sanitizer
 
 A very powerful tool can assist with memory diagnostics, called the Address Sanitizer.
 (See @asanchecker)
 
-It requires us to recompile our code with the Schema setting for Address Sanitizer set:
+It requires us to recompile our code with the Scheme setting for Address Sanitizer set:
 
 ![](screenshots/diagnostic_santizer_setting.png)
 
@@ -211,7 +211,7 @@ Consider the following code in the `icdab_edge` example program.  @icdabgithub
 }
 ```
 
-First, `source` is given freshly allocated memory.  Since this memory has not yet been initialized, it is set to 0xAA when Malloc Scribble has been set (and address sanitizer reset) in the Schema settings.
+First, `source` is given freshly allocated memory.  Since this memory has not yet been initialized, it is set to 0xAA when Malloc Scribble has been set (and address sanitizer reset) in the Scheme settings.
 
 Then, `target` is setup.  It is a buffer on the stack (not heap memory).  Using the code, `= {0}`, we make the app set `0` in all memory locations of this buffer.  Otherwise, it would be random memory values.
 
@@ -273,7 +273,7 @@ We recommend the "All Allocation" option, unless there is just too much overhead
 
 The steps to follow are:
 
-1. Set the `Malloc Stack` option in the Diagnostics settings tab for the app Schema settings.
+1. Set the `Malloc Stack` option in the Diagnostics settings tab for the app Scheme settings.
 2. Launch the app.
 3. Press the Debug Memgraph Button
 4. For command line based analysis, _File -> Export Memory Graph..._
@@ -289,7 +289,7 @@ A quick win is to see if we have any leaks.  These are memory locations no longe
 
 We use the tvOS\index{tvOS} example app `icdab_cycle` to show a retain cycle found by Memgraph.  @icdabgithub
 
-Having set the Schema settings for Malloc Stack, we then launch the app and then press the Memgraph Button, shown below:
+Having set the Scheme settings for Malloc Stack, we then launch the app and then press the Memgraph Button, shown below:
 
 ![](screenshots/memgraphbutton.png)
 

@@ -8,7 +8,7 @@ We shall revisit Xcode configuration, setup and tooling many times.  Nevertheles
 
 ## Xcode Diagnostic Settings
 
-By opening the project `icdab_sample` @icdabgithub and looking at the Schema definition and then highlighting the Diagnostics\index{software!diagnostics} tab we see the following options:
+By opening the project `icdab_sample` @icdabgithub and looking at the Scheme definition and then highlighting the Diagnostics\index{software!diagnostics} tab we see the following options:
 
 ![](screenshots/diagnostic_settings.png)
 
