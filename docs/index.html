@@ -3373,7 +3373,8 @@ Parent Process:        ??? [1]
 Responsible:           Kindle Create [3010]
 User ID:               501
 
-Crashed Thread:        16  Dispatch queue: com.apple.root.default-qos
+Crashed Thread:        16  Dispatch queue:
+ com.apple.root.default-qos
 
 Exception Type:        EXC_CRASH (SIGABRT)
 Exception Codes:       0x0000000000000000, 0x0000000000000000
@@ -3386,9 +3387,12 @@ Application Specific Signatures:
 Graphics kernel error: 0xfffffffb
 
 Thread 16 Crashed:: Dispatch queue: com.apple.root.default-qos
-0   libsystem_kernel.dylib          0xa73e7ed6 __pthread_kill + 10
-1   libsystem_pthread.dylib         0xa75a0427 pthread_kill + 363
-2   libsystem_c.dylib               0xa7336956 abort + 133
+0   libsystem_kernel.dylib          0xa73e7ed6
+__pthread_kill + 10
+1   libsystem_pthread.dylib         0xa75a0427
+pthread_kill + 363
+2   libsystem_c.dylib               0xa7336956
+abort + 133
 3   libGPUSupportMercury.dylib      0xa2aa342d
  gpusGenerateCrashLog + 160
 4   com.apple.AMDRadeonX4000GLDriver    0x180cbb00
@@ -3647,18 +3651,22 @@ default 13:36:58.000000 +0100   icdab_nsdata
        0x259b3229
       0x259b3015 0x2a08cc3d 0x2a087189 0x3d80d 0x2565b873)
 
-default 13:36:58.000000 +0100   SpringBoard
-     Application &#39;UIKitApplication:www.perivalebluebell.icdab-nsdata[0x51b9]&#39;
+default 13:36:58.000000 +0100
+    SpringBoard Application
+  &#39;UIKitApplication:www.perivalebluebell.icdab-nsdata[0x51b9]&#39;
     crashed.
 
-default 13:36:58.000000 +0100   UserEventAgent
-     2769630555571: id=www.perivalebluebell.icdab-nsdata pid=386, state=0
+default 13:36:58.000000 +0100
+UserEventAgent
+     2769630555571: id=www.perivalebluebell.icdab-nsdata
+   pid=386, state=0
 
 default 13:36:58.000000 +0000   ReportCrash
      Formulating report for corpse[386] icdab_nsdata
 
 default 13:36:58.000000 +0000   ReportCrash
-     Saved type &#39;109(109_icdab_nsdata)&#39; report (2 of max 25) at
+     Saved type &#39;109(109_icdab_nsdata)&#39;
+    report (2 of max 25) at
     /var/mobile/Library/Logs/CrashReporter/
     icdab_nsdata-2018-07-27-133658.ips</code></pre>
 <p>From here we can see the problem is that <code>__NSCFConstantString</code> is unable to respond to <code>_isDispatchData</code> because <code>NSString</code> is not a data providing object.</p>
