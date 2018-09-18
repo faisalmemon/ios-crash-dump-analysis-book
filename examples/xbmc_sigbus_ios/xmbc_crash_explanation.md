@@ -131,7 +131,7 @@ It is calling the dynamic loader\index{file!dynamic loader} to load extra code b
  ADDON::CAddonMgr::Init() (AddonManager.cpp:215)
 ```
 
-The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime.  Possibly, application bundle\index{application!bundle} is missing the library we desire.
+The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime.  Possibly, the application bundle\index{application!bundle} is missing the library we desire.
 
 Sometimes we are integrating third party libraries that have dynamic code loading within them.  In such cases, we need to use the Xcode diagnostics facilities.
 
@@ -139,7 +139,7 @@ We do not have the source code for the XBMC application.  However, there is an o
 @dynamicloadingeg
 
 When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app.
-Furthermore, can switch on _Dynamic Linker API Usage_ by editing the Scheme settings as follows:
+Furthermore, we can switch on _Dynamic Linker API Usage_ by editing the Scheme settings as follows:
 
 ![](screenshots/dynamic_loading.png)
 
@@ -234,4 +234,4 @@ Here is the `viewDidLoad` code that calls it:
 }
 ```
 
-In general, if our app crashes before it even has run any code in our app, then it is good to switch on the Dynamic Loader diagnostic flags.  There might be a deployment\index{software!deployment} issue (not bundling the correct libraries) or code signing\index{software!code signing} issue.
+In general, if our app crashes before it even has run any code in our app, then it is good to switch on the Dynamic Loader diagnostic flags.  There might be a deployment\index{software!deployment} issue (not bundling the correct libraries), or a code signing\index{software!code signing} issue.
