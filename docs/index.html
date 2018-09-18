@@ -2457,7 +2457,8 @@ Exception Note:        EXC_CORPSE_NOTIFY
 VM Regions Near 0x18:
 --&gt;
     __TEXT                 0000000100238000-0000000100247000
-    [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/
+    [   60K] r-x/rwx SM=COW
+    /System/Library/CoreServices/Siri.app/Contents/
     XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
 
 Application Specific Information:
@@ -2548,7 +2549,8 @@ SiriUXHeater *heater; // @synthesize heater=_heater;
 @interface SiriUXHeater : NSObject
     id &lt;SiriUXHeaterDelegate&gt; _delegate;
 @property(nonatomic)
-__weak id &lt;SiriUXHeaterDelegate&gt; delegate; // @synthesize delegate=_delegate;
+__weak id &lt;SiriUXHeaterDelegate&gt; delegate;
+ // @synthesize delegate=_delegate;
 - (void)_suggestPreheat;</code></pre>
 <p>It seems that this component can be prepared and made ready and has a variety of levels of initialisation and de-initialisation. Maybe this complexity is to make the user interface responsive. But it sends us a message that this component needs an integration test suite that codifies the state machine so we know the lifecycle of the service.</p>
 <h2 id="lessons-learnt-2">Lessons Learnt</h2>
