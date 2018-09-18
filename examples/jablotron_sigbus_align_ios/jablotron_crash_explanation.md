@@ -27,13 +27,13 @@ Exception Codes: BUS_ADRALN at 0xcd0b1c
 Crashed Thread:  0
 
 Thread 0 Crashed:
-0   libswiftCore.dylib                   0x011aed64 0xfba000 + 2051428
-1   MyJablotron_dev                      0x004e7c18 0xb2000 + 4414488
-2   libswiftCore.dylib                   0x011b007f 0xfba000 + 2056319
-3   libswiftCore.dylib                   0x011aff73 0xfba000 + 2056051
-4   libswiftCore.dylib                   0x011adf29 0xfba000 + 2047785
-5   libswiftCore.dylib                   0x011adf73 0xfba000 + 2047859
-6   MyJablotron_dev                      0x00614a6c
+0   libswiftCore.dylib    0x011aed64 0xfba000 + 2051428
+1   MyJablotron_dev       0x004e7c18 0xb2000 + 4414488
+2   libswiftCore.dylib    0x011b007f 0xfba000 + 2056319
+3   libswiftCore.dylib    0x011aff73 0xfba000 + 2056051
+4   libswiftCore.dylib    0x011adf29 0xfba000 + 2047785
+5   libswiftCore.dylib    0x011adf73 0xfba000 + 2047859
+6   MyJablotron_dev       0x00614a6c
  type metadata accessor for
  MyJablotron.CDFM<MyJablotron.ChartDataPointStructure,
   MyJablotron.ChartDataPointStructureLegend>
