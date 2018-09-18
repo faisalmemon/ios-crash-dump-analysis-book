@@ -11,8 +11,8 @@ Here is the Crash Report, suitably truncated for ease of demonstration:
 ```
 Process:               SiriNCService [1045]
 Path:                  
-/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
-Contents/MacOS/SiriNCService
+/System/Library/CoreServices/Siri.app/Contents/
+XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
 Identifier:            com.apple.SiriNCService
 Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
 Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000018
@@ -27,7 +27,8 @@ Application Specific Information:
 objc_msgSend() selector name: didUnlockScreen:
 
 Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
-0   libobjc.A.dylib               	0x00007fff69feae9d objc_msgSend + 29
+0   libobjc.A.dylib               	
+0x00007fff69feae9d objc_msgSend + 29
 1   com.apple.CoreFoundation      	0x00007fff42e19f2c
  __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 12
 2   com.apple.CoreFoundation      	0x00007fff42e19eaf
@@ -46,25 +47,30 @@ RunCurrentEventLoopInMode + 286
 ReceiveNextEventCommon + 613
 9   com.apple.HIToolbox           	0x00007fff420ea884
 _BlockUntilNextEventMatchingListInModeWithFilter + 64
-10  com.apple.AppKit              	0x00007fff4039ca73 _DPSNextEvent + 2085
+10  com.apple.AppKit              	
+0x00007fff4039ca73 _DPSNextEvent + 2085
 11  com.apple.AppKit              	0x00007fff40b32e34
--[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:inMode:
-dequeue:] + 3044
+-[NSApplication(NSEvent) _nextEventMatchingEventMask:
+untilDate:inMode:dequeue:] + 3044
 12  com.apple.ViewBridge          	0x00007fff67859df0
--[NSViewServiceApplication nextEventMatchingMask:untilDate:inMode:
-dequeue:] + 92
+-[NSViewServiceApplication nextEventMatchingMask:untilDate:
+inMode:dequeue:] + 92
 13  com.apple.AppKit              	0x00007fff40391885
 -[NSApplication run] + 764
 14  com.apple.AppKit              	0x00007fff40360a72
 NSApplicationMain + 804
-15  libxpc.dylib                  	0x00007fff6af6cdc7 _xpc_objc_main + 580
-16  libxpc.dylib                  	0x00007fff6af6ba1a xpc_main + 433
+15  libxpc.dylib                  	
+0x00007fff6af6cdc7 _xpc_objc_main + 580
+16  libxpc.dylib                  	
+0x00007fff6af6ba1a xpc_main + 433
 17  com.apple.ViewBridge          	0x00007fff67859c15
 -[NSXPCSharedListener resume] + 16
 18  com.apple.ViewBridge          	0x00007fff67857abe
 NSViewServiceApplicationMain + 2903
-19  com.apple.SiriNCService       	0x00000001002396e0 main + 180
-20  libdyld.dylib                 	0x00007fff6ac12015 start + 1
+19  com.apple.SiriNCService       	
+0x00000001002396e0 main + 180
+20  libdyld.dylib                 	
+0x00007fff6ac12015 start + 1
 ```
 
 ## The Crash details
@@ -77,8 +83,8 @@ This means we are accessing memory which does not exist.
 The program that was running (known as the TEXT) was
 
 ```
-/System/Library/CoreServices/Siri.app/Contents/XPCServices/SiriNCService.xpc/
-Contents/MacOS/SiriNCService
+/System/Library/CoreServices/Siri.app/Contents/
+XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
 ```
 
 This is interesting because normally it's applications that crash.  Here we see a software component crashing.
@@ -105,7 +111,8 @@ Now to understand further we need to reach for the `class-dump` tool.
 Looking at a portion of the output is the following:
 
 ```
-@property __weak SiriNCService *service; // @synthesize service=_service;
+@property __weak SiriNCService *service;
+ // @synthesize service=_service;
 - (void).cxx_destruct;
 - (BOOL)isSiriListening;
 - (void)_didUnlockScreen:(id)arg1;
