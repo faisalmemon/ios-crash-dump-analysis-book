@@ -9,7 +9,8 @@ Incident Identifier: 732438C5-9E5A-48E7-95E2-76C800CDD6D9
 CrashReporter Key:   181EC21F-295A-4D13-B14E-8BE1A7DFB5C7
 Hardware Model:      iPhone3,1
 Process:         MyJablotron_dev [177]
-Path:            /var/mobile/Applications/D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/
+Path:            /var/mobile/Applications/
+D3CC3D22-1B0F-4CAF-8F68-71AD3B211CD9/
 MyJablotron_dev.app/MyJablotron_dev
 Identifier:      net.jablonet.myjablotron.staging
 Version:         3.3.0.14 (3.3.0.14)
@@ -38,7 +39,8 @@ Thread 0 Crashed:
   MyJablotron.ChartDataPointStructureLegend>
    (ChartThermoPlotSpace.swift:0)
 7   MyJablotron_dev                      0x00606698
- MyJablotron.ChartThermoPlotSpace.init ()MyJablotron.ChartThermoPlotSpace
+ MyJablotron.ChartThermoPlotSpace.init ()
+ MyJablotron.ChartThermoPlotSpace
   (ChartThermoPlotSpace.swift:206)
 8   MyJablotron_dev                      0x00606c60
  MyJablotron.ChartThermoPlotSpace.__allocating_init ()
@@ -93,9 +95,12 @@ Thread 0 Crashed:
  __CFRunLoopRun + 728
 30  CoreFoundation                       0x2f98febf
  CFRunLoopRunSpecific + 520
-31  CoreFoundation                       0x2f98fca3 CFRunLoopRunInMode + 104
-32  GraphicsServices                     0x34895663 GSEventRunModal + 136
-33  UIKit                                0x322dc14d UIApplicationMain + 1134
+31  CoreFoundation                       0x2f98fca3
+ CFRunLoopRunInMode + 104
+32  GraphicsServices                     0x34895663
+ GSEventRunModal + 136
+33  UIKit                                0x322dc14d
+ UIApplicationMain + 1134
 34  MyJablotron_dev                      0x002b0683 main (main.m:16)
 35  libdyld.dylib                        0x3a719ab7 start + 0
 ```
@@ -116,7 +121,8 @@ We see that the problem is during object initialization\index{object!initializat
   MyJablotron.ChartDataPointStructureLegend>
    (ChartThermoPlotSpace.swift:0)
 7   MyJablotron_dev                      0x00606698
- MyJablotron.ChartThermoPlotSpace.init ()MyJablotron.ChartThermoPlotSpace
+ MyJablotron.ChartThermoPlotSpace.init ()
+ MyJablotron.ChartThermoPlotSpace
   (ChartThermoPlotSpace.swift:206)
 8   MyJablotron_dev                      0x00606c60
  MyJablotron.ChartThermoPlotSpace.__allocating_init ()
