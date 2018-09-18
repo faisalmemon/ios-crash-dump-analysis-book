@@ -1,4 +1,4 @@
-### xmbmc crash
+### xbmc crash
 
 The `xmbc` app is a utility app that behaves like a television media player remote control.
 
