@@ -4313,7 +4313,8 @@ Triggered by Thread:  0
 
 Thread 0 name:
 Thread 0 Crashed:
-0   libsystem_kernel.dylib          0x000000018a337224 mach_msg_trap + 8
+0   libsystem_kernel.dylib          0x000000018a337224
+ mach_msg_trap + 8
 1   libsystem_kernel.dylib          0x000000018a33709c
  mach_msg + 72 (mach_msg.c:103)
 2   CoreFoundation                  0x000000018b308e88
@@ -4326,12 +4327,15 @@ Thread 0 Crashed:
 GSEventRunModal + 100 (GSEvent.c:2245)
 6   UIKit                           0x00000001914ef130
  UIApplicationMain + 208 (UIApplication.m:4089)
-7   OneMessenger                    0x00000001004ff1b0 main + 88 (main.m:16)
-8   libdyld.dylib                   0x000000018a24559c start + 4
+7   OneMessenger                    0x00000001004ff1b0
+ main + 88 (main.m:16)
+8   libdyld.dylib                   0x000000018a24559c
+ start + 4
 
 Thread 16 name:
 Thread 16:
-0   libsystem_kernel.dylib          0x000000018a3394dc fsync + 8
+0   libsystem_kernel.dylib          0x000000018a3394dc
+ fsync + 8
 1   libsqlite3.dylib                0x000000018b8b704c
 unixSync + 220 (sqlite3.c:33772)
 2   libsqlite3.dylib                0x000000018b8b6a5c
@@ -4362,7 +4366,8 @@ _dispatch_root_queue_drain + 540 (inline_internal.h:2468)
 _dispatch_worker_thread3 + 124 (queue.c:5550)
 15  libsystem_pthread.dylib         0x000000018a41b1d0
 _pthread_wqthread + 1096 (pthread.c:2196)
-16  libsystem_pthread.dylib         0x000000018a41ad7c start_wqthread + 4</code></pre>
+16  libsystem_pthread.dylib         0x000000018a41ad7c
+ start_wqthread + 4</code></pre>
 <p>Here we can see, in Thread 16, the app clearly uses SQLite. We see the termination reason:</p>
 <pre><code>Termination Reason: Namespace SPRINGBOARD, Code 0xdead10cc</code></pre>
 <p>Note how the word Deadlock is written as hexspeak 0xdead10cc.</p>
@@ -4393,7 +4398,8 @@ Exception Codes: 0x0000000000000000, 0x0000000000000000
 Exception Note:  EXC_CORPSE_NOTIFY
 Termination Reason: Namespace SPRINGBOARD, Code 0x2bad45ec
 Termination Description:
- SPRINGBOARD, Process detected doing insecure drawing while in secure mode
+ SPRINGBOARD,
+  Process detected doing insecure drawing while in secure mode
 Triggered by Thread:  0
 
 Filtered syslog:
@@ -4401,20 +4407,30 @@ None found
 
 Thread 0 name:  Dispatch queue: com.apple.main-thread
 Thread 0 Crashed:
-0       CoreUI                          0x189699354 0x189622000 + 0x77354
-    // -[CUICatalog _resolvedRenditionKeyFromThemeRef:withBaseKey:scaleFactor:
+0       CoreUI                          0x189699354
+ 0x189622000 + 0x77354
+    // -[CUICatalog
+   _resolvedRenditionKeyFromThemeRef:withBaseKey:scaleFactor:
   deviceIdiom:deviceSubtype:displayGamut:layoutDirection:sizeClassHorizontal:
   sizeClassVertical:memoryClass:graphicsClass:
   graphicsFallBackOrder:iconSizeIndex:] + 0x824
-1       CoreUI                          0x1896993c0 0x189622000 + 0x773c0
-    // -[CUICatalog _resolvedRenditionKeyFromThemeRef:withBaseKey:scaleFactor:
-  deviceIdiom:deviceSubtype:displayGamut:layoutDirection:sizeClassHorizontal:
-  sizeClassVertical:memoryClass:graphicsClass:graphicsFallBackOrder:
+1       CoreUI                          0x1896993c0
+ 0x189622000 + 0x773c0
+    // -[CUICatalog
+   _resolvedRenditionKeyFromThemeRef:withBaseKey:scaleFactor:
+  deviceIdiom:deviceSubtype:displayGamut:layoutDirection:
+  sizeClassHorizontal:
+  sizeClassVertical:memoryClass:graphicsClass:
+  graphicsFallBackOrder:
   iconSizeIndex:] + 0x890
-2       CoreUI                          0x189698b2c 0x189622000 + 0x76b2c
-    // -[CUICatalog _resolvedRenditionKeyForName:scaleFactor:
-  deviceIdiom:deviceSubtype:displayGamut:layoutDirection:sizeClassHorizontal:
-  sizeClassVertical:memoryClass:graphicsClass:graphicsFallBackOrder:
+2       CoreUI                          0x189698b2c
+ 0x189622000 + 0x76b2c
+    // -[CUICatalog
+  _resolvedRenditionKeyForName:scaleFactor:
+  deviceIdiom:deviceSubtype:displayGamut:layoutDirection:
+  sizeClassHorizontal:
+  sizeClassVertical:memoryClass:graphicsClass:
+  graphicsFallBackOrder:
   withBaseKeySelector:] + 0x134
 
 .
@@ -4422,48 +4438,65 @@ Thread 0 Crashed:
 .
 
 
-55      UIKit                           0x18b6982e8 0x18b625000 + 0x732e8
+55      UIKit                           0x18b6982e8
+ 0x18b625000 + 0x732e8
     // UIApplicationMain + 0xd0
-56      MobileSMS (*)                   0x10004cdd8 0x10002c000 + 0x20dd8
+56      MobileSMS (*)                   0x10004cdd8
+ 0x10002c000 + 0x20dd8
     // 0x00020d58 + 0x80
-57      libdyld.dylib                   0x181be656c 0x181be5000 + 0x156c
+57      libdyld.dylib                   0x181be656c
+ 0x181be5000 + 0x156c
     // start + 0x4
 
 Binary Images (dpkg):
 0x1000a8000 - 0x1000affff + TweakInject.dylib arm64
-  &lt;5e43b90a0c4336c38fe56ac76a7ec1d9&gt; /usr/lib/TweakInject.dylib
+  &lt;5e43b90a0c4336c38fe56ac76a7ec1d9&gt;
+   /usr/lib/TweakInject.dylib
    {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,
-   &quot;name&quot;:&quot;Tweak Injector&quot;,&quot;identifier&quot;:&quot;org.coolstar.tweakinject&quot;,
+   &quot;name&quot;:&quot;Tweak Injector&quot;,
+   &quot;identifier&quot;:&quot;org.coolstar.tweakinject&quot;,
    &quot;version&quot;:&quot;1.0.6&quot;}
 0x100224000 - 0x100237fff + libcolorpicker.dylib arm64
-  &lt;62b3bd5a87e03646a7feda66fc69a70c&gt; /usr/lib/libcolorpicker.dylib
-   {&quot;install_date&quot;:&quot;2018-04-25 23:17:08 +0300&quot;,&quot;name&quot;:&quot;libcolorpicker&quot;,
-   &quot;identifier&quot;:&quot;org.thebigboss.libcolorpicker&quot;,&quot;version&quot;:&quot;1.6-1&quot;}
+  &lt;62b3bd5a87e03646a7feda66fc69a70c&gt;
+  /usr/lib/libcolorpicker.dylib
+   {&quot;install_date&quot;:&quot;2018-04-25 23:17:08 +0300&quot;,
+   &quot;name&quot;:&quot;libcolorpicker&quot;,
+   &quot;identifier&quot;:&quot;org.thebigboss.libcolorpicker&quot;,
+   &quot;version&quot;:&quot;1.6-1&quot;}
 0x100244000 - 0x10024bfff + CydiaSubstrate arm64
   &lt;766a34171a3c362cae719390c6a8d715&gt;
   /Library/Frameworks/CydiaSubstrate.framework/CydiaSubstrate
-   {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,&quot;name&quot;:
-   &quot;Substrate Compatibility Layer&quot;,&quot;identifier&quot;:&quot;mobilesubstrate&quot;,
+   {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,
+   &quot;name&quot;:
+   &quot;Substrate Compatibility Layer&quot;,
+   &quot;identifier&quot;:&quot;mobilesubstrate&quot;,
    &quot;version&quot;:&quot;99.0&quot;}
 0x100254000 - 0x100267fff + libsubstitute.0.dylib arm64
-  &lt;4aa77c47f1ec362dab77d70748383ef3&gt; /usr/lib/libsubstitute.0.dylib
-   {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,&quot;name&quot;:&quot;Substitute&quot;,
+  &lt;4aa77c47f1ec362dab77d70748383ef3&gt;
+   /usr/lib/libsubstitute.0.dylib
+   {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,
+   &quot;name&quot;:&quot;Substitute&quot;,
    &quot;identifier&quot;:&quot;com.ex.libsubstitute&quot;,
    &quot;version&quot;:&quot;0.0.6-coolstar&quot;}
 0x1002c0000 - 0x1002c7fff + librocketbootstrap.dylib arm64
-  &lt;937a654a197136fda4826d3943045632&gt; /usr/lib/librocketbootstrap.dylib
-   {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,&quot;name&quot;:&quot;RocketBootstrap&quot;,
-   &quot;identifier&quot;:&quot;com.rpetrich.rocketbootstrap&quot;,&quot;version&quot;:&quot;1.0.6&quot;}
+  &lt;937a654a197136fda4826d3943045632&gt;
+  /usr/lib/librocketbootstrap.dylib
+   {&quot;install_date&quot;:&quot;2018-04-23 09:31:57 +0300&quot;,
+   &quot;name&quot;:&quot;RocketBootstrap&quot;,
+   &quot;identifier&quot;:&quot;com.rpetrich.rocketbootstrap&quot;,
+   &quot;version&quot;:&quot;1.0.6&quot;}
 
 Binary Images (App Store):
 
 Binary Images (Other):
 0x10002c000 - 0x10007bfff   MobileSMS arm64
-  &lt;38a8f6a396ce3d5f99600cacce041555&gt; /Applications/MobileSMS.app/MobileSMS
+  &lt;38a8f6a396ce3d5f99600cacce041555&gt;
+   /Applications/MobileSMS.app/MobileSMS
 0x100104000 - 0x100143fff   dyld arm64  
 &lt;92368d6f78863cc88239f2e3ec79bba8&gt; /usr/lib/dyld</code></pre>
 <p>Clearly we can see the Termination Code <code>0x2bad45ec</code> (spoken as “Too Bad For Security”) and the <code>Termination Description</code></p>
-<pre><code>SPRINGBOARD, Process detected doing insecure drawing while in secure mode</code></pre>
+<pre><code>SPRINGBOARD,
+Process detected doing insecure drawing while in secure mode</code></pre>
 <p>We would not expect an Apple provided app, MobileSMS, to crash. Looking carefully at the <code>Binary Images</code> section we can see that the Operating System has been “tweaked”. This phone has been jailbroken due to the reference to <code>CydiaSubstrate</code>. We cannot safely rely on any of the apps as having their original design integrity. Perhaps on this phone the MobileSMS app was tweaked to add extra functionality but has introduced a drawing related bug.</p>
 <h1 id="memory-diagnostics">Memory Diagnostics</h1>
 <p>In this chapter, we look at different diagnostic options for resolving memory problems.</p>
