@@ -17,9 +17,12 @@ Thermal Sensors:     11336 29078 5149 3419 3437
 
 Thread 0 name:  Dispatch queue: com.apple.main-thread
 Thread 0:
-0   libsystem_kernel.dylib          0x35782010 mach_msg_trap + 20
-1   libsystem_kernel.dylib          0x35782206 mach_msg + 50
-2   AppSupport                      0x360d68c4 CPDMTwoWayMessage + 140
+0   libsystem_kernel.dylib          0x35782010
+ mach_msg_trap + 20
+1   libsystem_kernel.dylib          0x35782206
+ mach_msg + 50
+2   AppSupport                      0x360d68c4
+ CPDMTwoWayMessage + 140
 3   AppSupport                      0x360d52f0
 -[CPDistributedMessagingCenter _sendMessage:userInfoData:
 oolKey:oolData:makeServer:receiveReply:nonBlocking:error:] + 408
@@ -30,24 +33,36 @@ receiveReply:error:toTarget:selector:context:nonBlocking:] + 870
  -[CPDistributedMessagingCenter _sendMessage:userInfo:
  receiveReply:error:toTarget:selector:context:] + 56
 6   AppSupport                      0x360d3b8a
- -[CPDistributedMessagingCenter sendMessageAndReceiveReplyName:userInfo:] + 42
-7   libstatusbar.dylib              0x01997c1c 0x1995000 + 11292
-8   libstatusbar.dylib              0x01997da8 0x1995000 + 11688
-9   libstatusbar.dylib              0x01997d88 0x1995000 + 11656
+ -[CPDistributedMessagingCenter
+  sendMessageAndReceiveReplyName:userInfo:] + 42
+7   libstatusbar.dylib              0x01997c1c
+ 0x1995000 + 11292
+8   libstatusbar.dylib              0x01997da8
+ 0x1995000 + 11688
+9   libstatusbar.dylib              0x01997d88
+ 0x1995000 + 11656
 10  CoreFoundation                  0x33c337f8
 __CFNotificationCenterAddObserver_block_invoke_0 + 116
 11  CoreFoundation                  0x33c33904
 ____CFXNotificationPostToken_block_invoke_0 + 124
 12  CoreFoundation                  0x33c3bb2a
 __CFRUNLOOP_IS_CALLING_OUT_TO_A_BLOCK__ + 6
-13  CoreFoundation                  0x33c3b158 __CFRunLoopDoBlocks + 152
-14  CoreFoundation                  0x33c3a37a __CFRunLoopRun + 1426
-15  CoreFoundation                  0x33bbd4d6 CFRunLoopRunSpecific + 294
-16  CoreFoundation                  0x33bbd39e CFRunLoopRunInMode + 98
-17  GraphicsServices                0x3832ffc6 GSEventRunModal + 150
-18  UIKit                           0x3162073c UIApplicationMain + 1084
-19  iTrainAlarm                     0x000ffffc main (main.m:16)
-20  iTrainAlarm                     0x000fffa0 start + 32
+13  CoreFoundation                  0x33c3b158
+ __CFRunLoopDoBlocks + 152
+14  CoreFoundation                  0x33c3a37a
+ __CFRunLoopRun + 1426
+15  CoreFoundation                  0x33bbd4d6
+ CFRunLoopRunSpecific + 294
+16  CoreFoundation                  0x33bbd39e
+ CFRunLoopRunInMode + 98
+17  GraphicsServices                0x3832ffc6
+ GSEventRunModal + 150
+18  UIKit                           0x3162073c
+ UIApplicationMain + 1084
+19  iTrainAlarm                     0x000ffffc
+ main (main.m:16)
+20  iTrainAlarm                     0x000fffa0
+ start + 32
 
 Unknown thread crashed with unknown flavor: 5, state_count: 1
 ```
