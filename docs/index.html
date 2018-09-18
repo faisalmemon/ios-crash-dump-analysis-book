@@ -3389,35 +3389,49 @@ Thread 16 Crashed:: Dispatch queue: com.apple.root.default-qos
 0   libsystem_kernel.dylib          0xa73e7ed6 __pthread_kill + 10
 1   libsystem_pthread.dylib         0xa75a0427 pthread_kill + 363
 2   libsystem_c.dylib               0xa7336956 abort + 133
-3   libGPUSupportMercury.dylib      0xa2aa342d gpusGenerateCrashLog + 160
-4   com.apple.AMDRadeonX4000GLDriver    0x180cbb00 gpusKillClientExt + 23
-5   libGPUSupportMercury.dylib      0xa2aa4857 gpusSubmitDataBuffers + 157
+3   libGPUSupportMercury.dylib      0xa2aa342d
+ gpusGenerateCrashLog + 160
+4   com.apple.AMDRadeonX4000GLDriver    0x180cbb00
+ gpusKillClientExt + 23
+5   libGPUSupportMercury.dylib      0xa2aa4857
+ gpusSubmitDataBuffers + 157
 6   com.apple.AMDRadeonX4000GLDriver    0x180a293c
  glrATI_Hwl_SubmitPacketsWithToken + 143
-7   com.apple.AMDRadeonX4000GLDriver    0x180fd9b0 glrFlushContextToken + 68
-8   libGPUSupportMercury.dylib      0xa2aa88c8 gldFlushContext + 24
-9   GLEngine                        0x9b416f5b glFlushRender_Exec + 37
+7   com.apple.AMDRadeonX4000GLDriver    0x180fd9b0
+ glrFlushContextToken + 68
+8   libGPUSupportMercury.dylib      0xa2aa88c8
+ gldFlushContext + 24
+9   GLEngine                        0x9b416f5b
+ glFlushRender_Exec + 37
 10  com.apple.QuartzCore            0x9c1c8412
  CA::(anonymous namespace)::IOSurface::detach() + 166
 11  com.apple.QuartzCore            0x9c1c7631
  CAOpenGLLayerDraw(CAOpenGLLayer*, double, CVTimeStamp const*,
     unsigned int) + 1988
-12  com.apple.QuartzCore            0x9c1c6c9a -[CAOpenGLLayer _display] + 618
-13  com.apple.QuartzCore            0x9c179f62 -[CALayer display] + 158
-14  com.apple.AppKit                0x916106ac -[NSOpenGLLayer display] + 305
+12  com.apple.QuartzCore            0x9c1c6c9a
+ -[CAOpenGLLayer _display] + 618
+13  com.apple.QuartzCore            0x9c179f62
+ -[CALayer display] + 158
+14  com.apple.AppKit                0x916106ac
+ -[NSOpenGLLayer display] + 305
 15  com.apple.QuartzCore            0x9c1c9f77
  display_callback(void*, void*) + 59
 16  com.apple.QuartzCore            0x9c1c9efa
  CA::DispatchGroup::dispatch(bool) + 88
 17  com.apple.QuartzCore            0x9c1c9e9a
  CA::DispatchGroup::callback_0(void*) + 16
-18  libdispatch.dylib               0xa72565dd _dispatch_client_callout + 50
+18  libdispatch.dylib               0xa72565dd
+ _dispatch_client_callout + 50
 19  libdispatch.dylib               0xa7263679
  _dispatch_queue_override_invoke + 779
-20  libdispatch.dylib               0xa725818b _dispatch_root_queue_drain + 660
-21  libdispatch.dylib               0xa7257ea5 _dispatch_worker_thread3 + 100
-22  libsystem_pthread.dylib         0xa759cfa5 _pthread_wqthread + 1356
-23  libsystem_pthread.dylib         0xa759ca32 start_wqthread + 34
+20  libdispatch.dylib               0xa725818b
+ _dispatch_root_queue_drain + 660
+21  libdispatch.dylib               0xa7257ea5
+ _dispatch_worker_thread3 + 100
+22  libsystem_pthread.dylib         0xa759cfa5
+ _pthread_wqthread + 1356
+23  libsystem_pthread.dylib         0xa759ca32
+ start_wqthread + 34
 
 Thread 16 crashed with X86 Thread State (32-bit):
   eax: 0x00000000  ebx: 0xb0a79000  ecx: 0xb0a78acc  edx: 0x00000000
@@ -3432,18 +3446,21 @@ Trap Number:     132
 
 Binary Images:
 
-0x18099000 - 0x1815efff  com.apple.AMDRadeonX4000GLDriver (1.68.20 - 1.6.8)
+0x18099000 - 0x1815efff  com.apple.AMDRadeonX4000GLDriver
+ (1.68.20 - 1.6.8)
  &lt;DF3BB959-0C0A-3B6C-8E07-11B332128555&gt;
   /System/Library/Extensions/AMDRadeonX4000GLDriver.bundle/
   Contents/MacOS/AMDRadeonX4000GLDriver
 
-0xa2aa2000 - 0xa2aacfff  libGPUSupportMercury.dylib (16.7.4)
+0xa2aa2000 - 0xa2aacfff  libGPUSupportMercury.dylib
+ (16.7.4)
  &lt;C71E29CF-D4C5-391D-8B7B-739FB0536387&gt;
   /System/Library/PrivateFrameworks/GPUSupport.framework/
   Versions/A/Libraries/libGPUSupportMercury.dylib
 </code></pre>
 <p>From the stack backtrace we see that the OpenGL pipeline was flushed. This caused <code>com.apple.AMDRadeonX4000GLDriver</code> to detect a problem with the commands and trigger a crash. We see that the code contributes custom information to the Crash Report.</p>
-<pre><code>3   libGPUSupportMercury.dylib      0xa2aa342d gpusGenerateCrashLog + 160</code></pre>
+<pre><code>3   libGPUSupportMercury.dylib      0xa2aa342d
+ gpusGenerateCrashLog + 160</code></pre>
 <p>We can use the Hopper Disassembler and reverse engineering tool here.</p>
 <p>By locating the binary on our Mac, we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode. For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code is rarely hand written nowadays. This is why the pseudocode output is most valuable.</p>
 <p>We first find the location of the binary from the <code>Binary Images</code> section of the Crash Report.</p>
@@ -3452,8 +3469,8 @@ Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
 <p>Traversing the file hierarchy can be cumbersome for system binaries as they are deeply nested in the file system.</p>
 <p>If Hopper is <strong>already running</strong>, a quick way to select the correct file is to use the command line.</p>
 <pre><code>&#39;/Applications/Hopper Disassembler v4.app/Contents/MacOS/hopper&#39; \
- -e /System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/
- Libraries/libGPUSupportMercury.dylib</code></pre>
+ -e /System/Library/PrivateFrameworks/GPUSupport.framework/
+ Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
 <p>If Hopper is not running, we can launch it. Alongside we can launch the Finder program and select ‘Go To Folder’ to select the folder</p>
 <pre><code>/System/Library/PrivateFrameworks/GPUSupport.framework/
 Versions/A/Libraries/</code></pre>
@@ -3484,10 +3501,12 @@ Versions/A/Libraries/</code></pre>
      IOAccelDeviceGetName(*(rdi + 0x230), 0x0, 0x14);
    }  
    if ((rbx &amp; 0x20000000) == 0x0) {
-     rdx = &quot;Graphics kernel error: 0x%08x\n&quot;;
+     rdx =
+     &quot;Graphics kernel error: 0x%08x\n&quot;;
    }  
    else {
-     rdx = &quot;Graphics hardware encountered an error and was reset: 0x%08x\n&quot;;
+     rdx =
+  &quot;Graphics hardware encountered an error and was reset: 0x%08x\n&quot;;
    }  
    sprintf_l(var_A0, 0x0, rdx);
    *0xc680 = var_A0;
@@ -3520,9 +3539,11 @@ Graphics kernel error: 0xfffffffb</code></pre>
     NSLog(@&quot;My data is %@ - ok since we can handle a nil&quot;, myToken);
 
     id stringProperty = @&quot;Some string&quot;;
-    NSData *problemToken = [[NSData alloc] initWithData:stringProperty];
+    NSData *problemToken = [[NSData alloc]
+     initWithData:stringProperty];
 
-    NSLog(@&quot;My data is %@ - we have probably crashed by now&quot;, problemToken);
+    NSLog(@&quot;My data is %@ - we have probably crashed by now&quot;,
+     problemToken);
     return YES;
 }</code></pre>
 <p>This code tries to do two things. Firstly, it tries to get a data token from its configuration. We assume from a previous run, the user defaults saved an <code>NSData</code> token under the key <code>SomeKey</code></p>
@@ -3550,12 +3571,16 @@ Filtered syslog:
 None found
 
 Last Exception Backtrace:
-0   CoreFoundation                  0x25aa3916 __exceptionPreprocess + 122
-1   libobjc.A.dylib                 0x2523ee12 objc_exception_throw + 33
+0   CoreFoundation                  0x25aa3916
+ __exceptionPreprocess + 122
+1   libobjc.A.dylib                 0x2523ee12
+ objc_exception_throw + 33
 2   CoreFoundation                  0x25aa92b0
 -[NSObject+ 1045168 (NSObject) doesNotRecognizeSelector:] + 183
-3   CoreFoundation                  0x25aa6edc ___forwarding___ + 695
-4   CoreFoundation                  0x259d2234 _CF_forwarding_prep_0 + 19
+3   CoreFoundation                  0x25aa6edc
+ ___forwarding___ + 695
+4   CoreFoundation                  0x259d2234
+ _CF_forwarding_prep_0 + 19
 5   Foundation                      0x2627e9a0
 -[_NSPlaceholderData initWithData:] + 123
 6   icdab_nsdata                    0x000f89ba
@@ -3568,7 +3593,8 @@ didFinishLaunchingWithOptions:] + 27066 (AppDelegate.m:26)
  -[UIApplication _callInitializationDelegatesForMainScene:
  transitionContext:] + 3075
 9   UIKit                           0x2a2bf280
--[UIApplication _runWithMainScene:transitionContext:completion:] + 1583
+-[UIApplication _runWithMainScene:transitionContext:
+completion:] + 1583
 10  UIKit                           0x2a2d3838
 __84-[UIApplication _handleApplicationActivationWithScene:
 transitionContext:completion:]_block_invoke3286 + 31
@@ -3582,13 +3608,20 @@ transitionContext:completion:]_block_invoke3286 + 31
 -[FBSSerialQueue _performNextFromRunLoopSource] + 43
 15  CoreFoundation                  0x25a65dfa
 __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 9
-16  CoreFoundation                  0x25a659e8 __CFRunLoopDoSources0 + 447
-17  CoreFoundation                  0x25a63d56 __CFRunLoopRun + 789
-18  CoreFoundation                  0x259b3224 CFRunLoopRunSpecific + 515
-19  CoreFoundation                  0x259b3010 CFRunLoopRunInMode + 103
-20  UIKit                           0x2a08cc38 -[UIApplication _run] + 519
-21  UIKit                           0x2a087184 UIApplicationMain + 139
-22  icdab_nsdata                    0x000f8830 main + 26672 (main.m:14)
+16  CoreFoundation                  0x25a659e8
+__CFRunLoopDoSources0 + 447
+17  CoreFoundation                  0x25a63d56
+ __CFRunLoopRun + 789
+18  CoreFoundation                  0x259b3224
+ CFRunLoopRunSpecific + 515
+19  CoreFoundation                  0x259b3010
+CFRunLoopRunInMode + 103
+20  UIKit                           0x2a08cc38
+ -[UIApplication _run] + 519
+21  UIKit                           0x2a087184
+ UIApplicationMain + 139
+22  icdab_nsdata                    0x000f8830
+ main + 26672 (main.m:14)
 23  libdyld.dylib                   0x2565b86e tlv_get_addr + 41</code></pre>
 <p>Unfortunately, this type of crash does not inject further helpful information, such as <code>Application Specific Information</code>, into the Crash Report.</p>
 <p>However, we do get information in the system log (console log of the app):</p>
@@ -3606,9 +3639,12 @@ default 13:36:58.000000 +0100   icdab_nsdata
      unrecognized selector sent to instance 0x3f054&#39;
 
     *** First throw call stack:
-    (0x25aa391b 0x2523ee17 0x25aa92b5 0x25aa6ee1 0x259d2238 0x2627e9a5 0x3d997
-     0x2a093785 0x2a2bb2d1 0x2a2bf285 0x2a2d383d 0x2a2bc7b3 0x27146c07
-      0x27146ab9 0x27146db9 0x25a65dff 0x25a659ed 0x25a63d5b 0x259b3229
+    (0x25aa391b 0x2523ee17 0x25aa92b5 0x25aa6ee1 0x259d2238
+     0x2627e9a5 0x3d997
+     0x2a093785 0x2a2bb2d1 0x2a2bf285 0x2a2d383d 0x2a2bc7b3
+      0x27146c07
+      0x27146ab9 0x27146db9 0x25a65dff 0x25a659ed 0x25a63d5b
+       0x259b3229
       0x259b3015 0x2a08cc3d 0x2a087189 0x3d80d 0x2565b873)
 
 default 13:36:58.000000 +0100   SpringBoard
@@ -3623,14 +3659,16 @@ default 13:36:58.000000 +0000   ReportCrash
 
 default 13:36:58.000000 +0000   ReportCrash
      Saved type &#39;109(109_icdab_nsdata)&#39; report (2 of max 25) at
-    /var/mobile/Library/Logs/CrashReporter/icdab_nsdata-2018-07-27-133658.ips</code></pre>
+    /var/mobile/Library/Logs/CrashReporter/
+    icdab_nsdata-2018-07-27-133658.ips</code></pre>
 <p>From here we can see the problem is that <code>__NSCFConstantString</code> is unable to respond to <code>_isDispatchData</code> because <code>NSString</code> is not a data providing object.</p>
 <p>The Apple SDKs have private implementation classes to support the public abstractions we consume. Error reports will refer to these private classes. Therefore, their names can be unfamiliar.</p>
 <p>An easy way to gather our compass, and figure out what concrete representations map to which abstraction is to search for the class type definition.</p>
 <p>Conveniently, other engineers have run a tool over all frameworks to generate the Objective-C class definitions and have stored them on GitHub. They use the <code>class-dump</code> tool. This makes all private framework symbols for Objective-C easily searchable.</p>
 <p>We can find the definition of <code>_isDispatchData</code>. <span class="citation" data-cites="dispatchdata">(“NSDispatchData.h in Foundation.framework” 2018)</span></p>
 <pre><code>/* Generated by RuntimeBrowser
-   Image: /System/Library/Frameworks/Foundation.framework/Foundation
+   Image: /System/Library/Frameworks/Foundation.framework/
+   Foundation
  */
 
 @interface _NSDispatchData : NSData
@@ -3676,7 +3714,8 @@ default 13:36:58.000000 +0000   ReportCrash
 <p>The Crash Report we see is as follows, truncated for ease of demonstration:</p>
 <pre><code>Process:               SecurityAgent [99429]
 Path:                  /System/Library/Frameworks/Security.framework/
-Versions/A/MachServices/SecurityAgent.bundle/Contents/MacOS/SecurityAgent
+Versions/A/MachServices/SecurityAgent.bundle/Contents/
+MacOS/SecurityAgent
 Identifier:            com.apple.SecurityAgent
 Version:               9.0 (55360.50.13)
 Build Info:            SecurityAgent-55360050013000000~642
@@ -3738,7 +3777,8 @@ _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230
 12  AppKit                              0x00007fff42f2ab7f
 -[NSScrollView scrollClipView:toPoint:] + 75
 13  AppKit                              0x00007fff42ed5929
--[NSClipView _scrollTo:animateScroll:flashScrollerKnobs:] + 1273
+-[NSClipView _scrollTo:animateScroll:
+flashScrollerKnobs:] + 1273
 14  AppKit                              0x00007fff434d5750
  -[_NSScrollingConcurrentMainThreadSynchronizer
 _scrollToCanonicalOrigin] + 935
@@ -3777,20 +3817,28 @@ ReceiveNextEventCommon + 613
  -[NSApplication run] + 764
 30  AppKit                              0x00007fff42ddaa72
  NSApplicationMain + 804
-31  SecurityAgent                       0x00000001007bb8b8 main + 475
-32  libdyld.dylib                       0x00007fff6db95015 start + 1
+31  SecurityAgent                       0x00000001007bb8b8
+ main + 475
+32  libdyld.dylib                       0x00007fff6db95015
+ start + 1
 
 Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
-0   libsystem_kernel.dylib          0x00007fff6dce5b6e __pthread_kill + 10
-1   libsystem_pthread.dylib         0x00007fff6deb0080 pthread_kill + 333
-2   libsystem_c.dylib               0x00007fff6dc411ae abort + 127
-3   libc++abi.dylib                 0x00007fff6bb45f8f abort_message + 245
+0   libsystem_kernel.dylib          0x00007fff6dce5b6e
+ __pthread_kill + 10
+1   libsystem_pthread.dylib         0x00007fff6deb0080
+ pthread_kill + 333
+2   libsystem_c.dylib               0x00007fff6dc411ae
+ abort + 127
+3   libc++abi.dylib                 0x00007fff6bb45f8f
+ abort_message + 245
 4   libc++abi.dylib                 0x00007fff6bb4612b
 default_terminate_handler() + 265
-5   libobjc.A.dylib                 0x00007fff6cf7dea3 _objc_terminate() + 97
+5   libobjc.A.dylib                 0x00007fff6cf7dea3
+ _objc_terminate() + 97
 6   libc++abi.dylib                 0x00007fff6bb617c9
  std::__terminate(void (*)()) + 8
-7   libc++abi.dylib                 0x00007fff6bb61843 std::terminate() + 51
+7   libc++abi.dylib                 0x00007fff6bb61843
+ std::terminate() + 51
 8   libdispatch.dylib               0x00007fff6db5be1c
 _dispatch_client_callout + 28
 9   libdispatch.dylib               0x00007fff6db6eed1
@@ -3801,7 +3849,8 @@ _dispatch_source_invoke + 620
 _dispatch_main_queue_callback_4CF + 776
 12  com.apple.CoreFoundation        0x00007fff458b9c69
  __CFRUNLOOP_IS_SERVICING_THE_MAIN_DISPATCH_QUEUE__ + 9
-13  com.apple.CoreFoundation        0x00007fff4587be4a __CFRunLoopRun + 2586
+13  com.apple.CoreFoundation        0x00007fff4587be4a
+ __CFRunLoopRun + 2586
 14  com.apple.CoreFoundation        0x00007fff4587b1a3
 CFRunLoopRunSpecific + 483
 15  com.apple.HIToolbox             0x00007fff44b63d96
@@ -3810,14 +3859,19 @@ RunCurrentEventLoopInMode + 286
 ReceiveNextEventCommon + 613
 17  com.apple.HIToolbox             0x00007fff44b63884
  _BlockUntilNextEventMatchingListInModeWithFilter + 64
-18  com.apple.AppKit                0x00007fff42e16a73 _DPSNextEvent + 2085
-19  com.apple.AppKit                0x00007fff435ace34 -[NSApplication(NSEvent)
+18  com.apple.AppKit                0x00007fff42e16a73
+ _DPSNextEvent + 2085
+19  com.apple.AppKit                0x00007fff435ace34
+ -[NSApplication(NSEvent)
  _nextEventMatchingEventMask:untilDate:inMode:dequeue:] + 3044
 20  com.apple.AppKit                0x00007fff42e0b885
 -[NSApplication run] + 764
-21  com.apple.AppKit                0x00007fff42ddaa72 NSApplicationMain + 804
-22  com.apple.SecurityAgent         0x00000001007bb8b8 main + 475
-23  libdyld.dylib                   0x00007fff6db95015 start + 1</code></pre>
+21  com.apple.AppKit                0x00007fff42ddaa72
+ NSApplicationMain + 804
+22  com.apple.SecurityAgent         0x00000001007bb8b8
+ main + 475
+23  libdyld.dylib                   0x00007fff6db95015
+ start + 1</code></pre>
 <p>This crash shows an excellent example of placing informative information into the Crash Report. We know immediately we have NAN (Not A Number) floating point values in our layer bounds, and this is the reason for aborting.</p>
 <pre><code>&#39;CALayer bounds contains NaN: [nan nan; 1424 160]&#39;</code></pre>
 <p>Perhaps a data structure has not been initialized, or a division by zero has occurred. Often geometry code creates ratios of width / height. During startup or corner cases our frames might be zero sized, thus leading to divide by zero errors resulting in NAN values in our data structures.</p>
@@ -3825,37 +3879,42 @@ ReceiveNextEventCommon + 613
 <pre><code>3   QuartzCore                          0x00007fff50ba1a72
 _ZN2CA5Layer10set_boundsERKNS_4RectEb + 230</code></pre>
 <p>As an academic exercise we can pin point which of the many error handle cases is the one in play here. Our backtrace here is not the leaf call, so the offset is the address where computation will resume after the function call has returned.</p>
-<p>Using the Hopper tool, we can search for the symbol <code>__ZN2CA5Layer10set_boundsERKNS_4RectEb</code> in the binary <code>/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore</code></p>
+<p>Using the Hopper tool, we can search for the symbol</p>
+<pre><code>__ZN2CA5Layer10set_boundsERKNS_4RectEb</code></pre>
+<p>in the binary</p>
+<pre><code>/System/Library/Frameworks/QuartzCore.framework/
+Versions/A/QuartzCore</code></pre>
 <p>Note how we introduce an additional leading underscore to the function name when searching for it. This is due to the C Language Compiler.</p>
 <p>We see:</p>
 <pre><code>__ZN2CA5Layer10set_boundsERKNS_4RectEb:        
 // CA::Layer::set_bounds(CA::Rect const&amp;, bool)
-0000000000008e36         push       rbp
-                                    ; CODE XREF=-[CALayer setBounds:]+246,
-                                    __ZN2CA5Layer10set_boundsERKNS_4RectEb+750
-0000000000008e37         mov        rbp, rsp
-0000000000008e3a         push       r15</code></pre>
+0000000000008e36 push       rbp
+                    ; CODE XREF=-[CALayer setBounds:]+246,
+                    __ZN2CA5Layer10set_boundsERKNS_4RectEb+750
+0000000000008e37 mov        rbp, rsp
+0000000000008e3a push       r15</code></pre>
 <p>From hex address 8e36, if we add decimal 230, we get 0x8f1c. Looking at the disassembly:</p>
-<pre><code>0000000000008edd  mov        rdi, qword [objc_cls_ref_NSException]
+<pre><code>0000000000008edd  mov   rdi, qword [objc_cls_ref_NSException]
        ; argument &quot;instance&quot; for method _objc_msgSend
-0000000000008ee4  movsd      xmm0, qword [r12]
-0000000000008eea  movsd      xmm1, qword [r12+8]
-0000000000008ef1  movsd      xmm2, qword [r12+0x10]
-0000000000008ef8  movsd      xmm3, qword [r12+0x18]
-0000000000008eff  mov        rsi, qword [0x27a338]
-                       ; @selector(raise:format:), argument &quot;selector&quot;
-                        for method _objc_msgSend
-0000000000008f06  lea        rdx, qword [cfstring_CALayerInvalidGeometry]
-                       ; @&quot;CALayerInvalidGeometry&quot;
-0000000000008f0d         lea        rcx, qword
+0000000000008ee4  movsd xmm0, qword [r12]
+0000000000008eea  movsd xmm1, qword [r12+8]
+0000000000008ef1  movsd xmm2, qword [r12+0x10]
+0000000000008ef8  movsd xmm3, qword [r12+0x18]
+0000000000008eff  mov   rsi, qword [0x27a338]
+      ; @selector(raise:format:),
+                       argument &quot;selector&quot;
+                       for method _objc_msgSend
+0000000000008f06  lea   rdx, qword [cfstring_CALayerInvalidGeometry]
+      ; @&quot;CALayerInvalidGeometry&quot;
+0000000000008f0d  lea   rcx, qword
  [cfstring_CALayer_bounds_contains_NaN____g__g___g__g_]
-                       ; @&quot;CALayer bounds contains NaN: [%g %g; %g %g]&quot;
-0000000000008f14         mov        al, 0x4
-0000000000008f16         call       qword [_objc_msgSend_24d4f8]
-                       ; _objc_msgSend
+      ; @&quot;CALayer bounds contains NaN: [%g %g; %g %g]&quot;
+0000000000008f14  mov   al, 0x4
+0000000000008f16  call  qword [_objc_msgSend_24d4f8]
+      ; _objc_msgSend
 
                      loc_8f1c:
-0000000000008f1c  call       __ZN2CA11Transaction13ensure_compatEv
+0000000000008f1c  call  __ZN2CA11Transaction13ensure_compatEv
        ; CA::Transaction::ensure_compat(),
         CODE XREF=__ZN2CA5Layer10set_boundsERKNS_4RectEb+61,
          __ZN2CA5Layer10set_boundsERKNS_4RectEb+70,
