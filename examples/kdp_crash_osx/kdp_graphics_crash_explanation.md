@@ -31,35 +31,49 @@ Thread 16 Crashed:: Dispatch queue: com.apple.root.default-qos
 0   libsystem_kernel.dylib        	0xa73e7ed6 __pthread_kill + 10
 1   libsystem_pthread.dylib       	0xa75a0427 pthread_kill + 363
 2   libsystem_c.dylib             	0xa7336956 abort + 133
-3   libGPUSupportMercury.dylib    	0xa2aa342d gpusGenerateCrashLog + 160
-4   com.apple.AMDRadeonX4000GLDriver	0x180cbb00 gpusKillClientExt + 23
-5   libGPUSupportMercury.dylib    	0xa2aa4857 gpusSubmitDataBuffers + 157
+3   libGPUSupportMercury.dylib    	0xa2aa342d
+ gpusGenerateCrashLog + 160
+4   com.apple.AMDRadeonX4000GLDriver	0x180cbb00
+ gpusKillClientExt + 23
+5   libGPUSupportMercury.dylib    	0xa2aa4857
+ gpusSubmitDataBuffers + 157
 6   com.apple.AMDRadeonX4000GLDriver	0x180a293c
  glrATI_Hwl_SubmitPacketsWithToken + 143
-7   com.apple.AMDRadeonX4000GLDriver	0x180fd9b0 glrFlushContextToken + 68
-8   libGPUSupportMercury.dylib    	0xa2aa88c8 gldFlushContext + 24
-9   GLEngine                      	0x9b416f5b glFlushRender_Exec + 37
+7   com.apple.AMDRadeonX4000GLDriver	0x180fd9b0
+ glrFlushContextToken + 68
+8   libGPUSupportMercury.dylib    	0xa2aa88c8
+ gldFlushContext + 24
+9   GLEngine                      	0x9b416f5b
+ glFlushRender_Exec + 37
 10  com.apple.QuartzCore          	0x9c1c8412
  CA::(anonymous namespace)::IOSurface::detach() + 166
 11  com.apple.QuartzCore          	0x9c1c7631
  CAOpenGLLayerDraw(CAOpenGLLayer*, double, CVTimeStamp const*,
     unsigned int) + 1988
-12  com.apple.QuartzCore          	0x9c1c6c9a -[CAOpenGLLayer _display] + 618
-13  com.apple.QuartzCore          	0x9c179f62 -[CALayer display] + 158
-14  com.apple.AppKit              	0x916106ac -[NSOpenGLLayer display] + 305
+12  com.apple.QuartzCore          	0x9c1c6c9a
+ -[CAOpenGLLayer _display] + 618
+13  com.apple.QuartzCore          	0x9c179f62
+ -[CALayer display] + 158
+14  com.apple.AppKit              	0x916106ac
+ -[NSOpenGLLayer display] + 305
 15  com.apple.QuartzCore          	0x9c1c9f77
  display_callback(void*, void*) + 59
 16  com.apple.QuartzCore          	0x9c1c9efa
  CA::DispatchGroup::dispatch(bool) + 88
 17  com.apple.QuartzCore          	0x9c1c9e9a
  CA::DispatchGroup::callback_0(void*) + 16
-18  libdispatch.dylib             	0xa72565dd _dispatch_client_callout + 50
+18  libdispatch.dylib             	0xa72565dd
+ _dispatch_client_callout + 50
 19  libdispatch.dylib             	0xa7263679
  _dispatch_queue_override_invoke + 779
-20  libdispatch.dylib             	0xa725818b _dispatch_root_queue_drain + 660
-21  libdispatch.dylib             	0xa7257ea5 _dispatch_worker_thread3 + 100
-22  libsystem_pthread.dylib       	0xa759cfa5 _pthread_wqthread + 1356
-23  libsystem_pthread.dylib       	0xa759ca32 start_wqthread + 34
+20  libdispatch.dylib             	0xa725818b
+ _dispatch_root_queue_drain + 660
+21  libdispatch.dylib             	0xa7257ea5
+ _dispatch_worker_thread3 + 100
+22  libsystem_pthread.dylib       	0xa759cfa5
+ _pthread_wqthread + 1356
+23  libsystem_pthread.dylib       	0xa759ca32
+ start_wqthread + 34
 
 Thread 16 crashed with X86 Thread State (32-bit):
   eax: 0x00000000  ebx: 0xb0a79000  ecx: 0xb0a78acc  edx: 0x00000000
@@ -74,12 +88,14 @@ Trap Number:     132
 
 Binary Images:
 
-0x18099000 - 0x1815efff  com.apple.AMDRadeonX4000GLDriver (1.68.20 - 1.6.8)
+0x18099000 - 0x1815efff  com.apple.AMDRadeonX4000GLDriver
+ (1.68.20 - 1.6.8)
  <DF3BB959-0C0A-3B6C-8E07-11B332128555>
   /System/Library/Extensions/AMDRadeonX4000GLDriver.bundle/
   Contents/MacOS/AMDRadeonX4000GLDriver
 
-0xa2aa2000 - 0xa2aacfff  libGPUSupportMercury.dylib (16.7.4)
+0xa2aa2000 - 0xa2aacfff  libGPUSupportMercury.dylib
+ (16.7.4)
  <C71E29CF-D4C5-391D-8B7B-739FB0536387>
   /System/Library/PrivateFrameworks/GPUSupport.framework/
   Versions/A/Libraries/libGPUSupportMercury.dylib
@@ -91,7 +107,8 @@ This caused `com.apple.AMDRadeonX4000GLDriver` to detect a problem with the
 commands and trigger a crash.  We see that the code contributes custom information to the Crash Report.
 
 ```
-3   libGPUSupportMercury.dylib    	0xa2aa342d gpusGenerateCrashLog + 160
+3   libGPUSupportMercury.dylib    	0xa2aa342d
+ gpusGenerateCrashLog + 160
 ```
 
 We can use the Hopper\index{Hopper} Disassembler and
@@ -113,8 +130,8 @@ If Hopper is **already running**, a quick way to select the correct file is to u
 
 ```
 '/Applications/Hopper Disassembler v4.app/Contents/MacOS/hopper' \
- -e /System/Library/PrivateFrameworks/GPUSupport.framework/Versions/A/
- Libraries/libGPUSupportMercury.dylib
+ -e /System/Library/PrivateFrameworks/GPUSupport.framework/
+ Versions/A/Libraries/libGPUSupportMercury.dylib
 ```
 
 If Hopper is not running, we can launch it.  Alongside we can launch the Finder program and select 'Go To Folder' to select the folder
@@ -166,10 +183,12 @@ int _gpusGenerateCrashLog(int arg0, int arg1, int arg2) {
      IOAccelDeviceGetName(*(rdi + 0x230), 0x0, 0x14);
    }  
    if ((rbx & 0x20000000) == 0x0) {
-     rdx = "Graphics kernel error: 0x%08x\n";
+     rdx =
+     "Graphics kernel error: 0x%08x\n";
    }  
    else {
-     rdx = "Graphics hardware encountered an error and was reset: 0x%08x\n";
+     rdx =
+  "Graphics hardware encountered an error and was reset: 0x%08x\n";
    }  
    sprintf_l(var_A0, 0x0, rdx);
    *0xc680 = var_A0;
