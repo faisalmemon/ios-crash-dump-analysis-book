@@ -855,7 +855,8 @@ CrashReporter Key:   b544a32d592996e0efdd7f5eaafd1f4164a2e13c
 Hardware Model:      iPad6,3
 Process:             icdab_planets [2726]
 Path:                /private/var/containers/Bundle/Application/
-BEF249D9-1520-40F7-93F4-8B99D913A4AC/icdab_planets.app/icdab_planets
+BEF249D9-1520-40F7-93F4-8B99D913A4AC/
+icdab_planets.app/icdab_planets
 Identifier:          www.perivalebluebell.icdab-planets
 Version:             1 (1.0)
 Code Type:           ARM-64 (Native)
@@ -1729,7 +1730,8 @@ objc_msgSend() selector name: didUnlockScreen:</code></pre>
 <p>This is similar to iOS. However, we should note that if we are reproducing an iOS crash on the simulator, then the simulator might model the same programming error differently. We can get a different exception on x86 hardware than its ARM counterpart.</p>
 <p>Consider the following code, setup with legacy manual reference counting (MRC) instead of automatic reference counting (ARC)</p>
 <pre><code>void use_sema() {
-    dispatch_semaphore_t aSemaphore = dispatch_semaphore_create(1);
+    dispatch_semaphore_t aSemaphore =
+     dispatch_semaphore_create(1);
     dispatch_semaphore_wait(aSemaphore, DISPATCH_TIME_FOREVER);
     dispatch_release(aSemaphore);
 }</code></pre>
@@ -3038,20 +3040,25 @@ Thread 4 Crashed:
 1   dyld                            0x2fe0ce32
  ImageLoaderMachO::parseLoadCmds() + 30
 2   dyld                            0x2fe1262c
- ImageLoaderMachOCompressed::instantiateFromFile(char const*, int,
-    unsigned char const*, unsigned long long, unsigned long long,
+ ImageLoaderMachOCompressed::instantiateFromFile
+ (char const*, int,
+    unsigned char const*, unsigned long long,
+     unsigned long long,
      stat const&amp;, unsigned int, unsigned int,
       linkedit_data_command const*,
       ImageLoader::LinkContext const&amp;) + 228
 3   dyld                            0x2fe0da14
- ImageLoaderMachO::instantiateFromFile(char const*, int,
-    unsigned char const*, unsigned long long, unsigned long long,
+ ImageLoaderMachO::instantiateFromFile
+ (char const*, int,
+    unsigned char const*, unsigned long long,
+     unsigned long long,
      stat const&amp;, ImageLoader::LinkContext const&amp;) + 348
 4   dyld                            0x2fe052e8
  dyld::loadPhase6(int, stat const&amp;, char const*,
     dyld::LoadContext const&amp;) + 576
 5   dyld                            0x2fe053fe
- dyld::loadPhase5stat(char const*, dyld::LoadContext const&amp;, stat*,
+ dyld::loadPhase5stat(char const*,
+    dyld::LoadContext const&amp;, stat*,
     int*, bool*, std::vector&lt;char const*,
     std::allocator&lt;char const*&gt; &gt;*) + 174
 6   dyld                            0x2fe055b4
@@ -3187,7 +3194,8 @@ DynamicFramework1.framework/DynamicFramework1 (0x1229cb178)
 ios-dynamic-loading-framework-ednexaanxalgpudjcqeuejsdmhlq/Build
 /Products/Debug-iphonesimulator/DynamicFramework2.framework/
 DynamicFramework2
- (0x1229d3178). One of the two will be used. Which one is undefined.
+ (0x1229d3178).
+ One of the two will be used. Which one is undefined.
 2018-08-18 12:26:52.012601+0100
  ios-dynamic-loading-framework[2962:109722]
  Loading CASHello in dynamic-framework-2
@@ -3465,10 +3473,14 @@ abort + 133
  start_wqthread + 34
 
 Thread 16 crashed with X86 Thread State (32-bit):
-  eax: 0x00000000  ebx: 0xb0a79000  ecx: 0xb0a78acc  edx: 0x00000000
-  edi: 0xa75a02ca  esi: 0x0000002d  ebp: 0xb0a78af8  esp: 0xb0a78acc
-   ss: 0x00000023  efl: 0x00000206  eip: 0xa73e7ed6   cs: 0x0000000b
-   ds: 0x00000023   es: 0x00000023   fs: 0x00000023   gs: 0x0000000f
+  eax: 0x00000000  ebx: 0xb0a79000  ecx: 0xb0a78acc
+    edx: 0x00000000
+  edi: 0xa75a02ca  esi: 0x0000002d  ebp: 0xb0a78af8
+    esp: 0xb0a78acc
+   ss: 0x00000023  efl: 0x00000206  eip: 0xa73e7ed6
+      cs: 0x0000000b
+   ds: 0x00000023   es: 0x00000023   fs: 0x00000023
+      gs: 0x0000000f
   cr2: 0xa9847340
 
 Logical CPU:     0
@@ -3537,7 +3549,8 @@ Versions/A/Libraries/</code></pre>
    }  
    else {
      rdx =
-  &quot;Graphics hardware encountered an error and was reset: 0x%08x\n&quot;;
+  &quot;Graphics hardware encountered an error and was reset:
+   0x%08x\n&quot;;
    }  
    sprintf_l(var_A0, 0x0, rdx);
    *0xc680 = var_A0;
@@ -3588,7 +3601,8 @@ CrashReporter Key:   56ec2b40764a1453466998785343f1e51c8b3849
 Hardware Model:      iPod5,1
 Process:             icdab_nsdata [324]
 Path:                /private/var/containers/Bundle/Application/
-98F79023-562D-4A76-BC72-5E56D378AD98/icdab_nsdata.app/icdab_nsdata
+98F79023-562D-4A76-BC72-5E56D378AD98/
+icdab_nsdata.app/icdab_nsdata
 Identifier:          www.perivalebluebell.icdab-nsdata
 Version:             1 (1.0)
 Code Type:           ARM (Native)
@@ -4198,7 +4212,8 @@ Microstackshots: 1
 <p>Similar to a CPU resource limit crash, we get an indication of the limit reached:</p>
 <pre><code>Exception Type:      EXC_RESOURCE
 Exception Subtype:   WAKEUPS
-Exception Message:   (Limit 150/sec) Observed 195/sec over 300 secs</code></pre>
+Exception Message:   (Limit 150/sec) Observed 195/sec over
+ 300 secs</code></pre>
 <p>We also get a <code>Bad magic</code> value in the Crash Report followed by a snapshot of what was running at the point of termination.</p>
 <p>We can see many threads running, related to Networking, Audio, and Video. We can guess that this application does its own heavy lifting in terms of presenting a video feed and this system level type code is either faulty or has a performance problem.</p>
 <h2 id="wake-up-crash-exception">Wake Up crash exception</h2>
@@ -4323,7 +4338,8 @@ CrashReporter Key:   f02957b828fe4090389c1282ca8e38393b4e133d
 Hardware Model:      iPhone9,4
 Process:             OneMessenger [10627]
 Path:                /private/var/containers/Bundle/Application/
-03E067E9-E2C1-43F4-AC53-4E4F58131FF3/OneMessenger.app/OneMessenger
+03E067E9-E2C1-43F4-AC53-4E4F58131FF3/
+OneMessenger.app/OneMessenger
 Identifier:          com.onem.adhoc
 Version:             158 (1.0.4)
 Code Type:           ARM-64 (Native)
