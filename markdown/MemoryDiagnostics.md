@@ -65,8 +65,10 @@ The error report from Address Sanitizer is extensive.  We only show selected por
 
 The error report begins with:
 ```
-==21803==ERROR: AddressSanitizer: heap-buffer-overflow on address
- 0x60200003a5e0 at pc 0x00010394461b bp 0x7ffeec2b8f00 sp 0x7ffeec2b8ef8
+==21803==ERROR: AddressSanitizer:
+ heap-buffer-overflow on address
+ 0x60200003a5e0 at
+  pc 0x00010394461b bp 0x7ffeec2b8f00 sp 0x7ffeec2b8ef8
 WRITE of size 1 at 0x60200003a5e0 thread T0
 #0 0x10394461a in -[Crash overshootAllocated] Crash.m:48
 ```
@@ -75,8 +77,8 @@ This is enough context to be able to switch to the code, and start understanding
 
 Further details are supplied showing we overshot the end of a 16-byte allocation:
 ```
-0x60200003a5e0 is located 0 bytes to the right of 16-byte region
- [0x60200003a5d0,0x60200003a5e0)
+0x60200003a5e0 is located 0 bytes to the right of
+ 16-byte region [0x60200003a5d0,0x60200003a5e0)
 allocated by thread T0 here:
 #0 0x103bcdaa3 in wrap_malloc
 (libclang_rt.asan_iossim_dynamic.dylib:x86_64+0x54aa3)
@@ -101,7 +103,8 @@ Shadow bytes around the buggy address:
   0x1c04000074e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
   0x1c04000074f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
   0x1c0400007500: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-Shadow byte legend (one shadow byte represents 8 application bytes):
+Shadow byte legend
+(one shadow byte represents 8 application bytes):
   Addressable:           00
   Partially addressable: 01 02 03 04 05 06 07
   Heap left redzone:       fa
@@ -131,8 +134,10 @@ This code allocates the minimum amount of memory, 16 bytes, writes to it, frees 
 
 Address Sanitizer reports where we accessed memory that has already been freed:
 ```
-35711==ERROR: AddressSanitizer: heap-use-after-free on address
-0x602000037270 at pc 0x000106d34381 bp 0x7ffee8ec9ef0 sp 0x7ffee8ec9ee8
+35711==ERROR: AddressSanitizer:
+ heap-use-after-free on address
+0x602000037270 at
+ pc 0x000106d34381 bp 0x7ffee8ec9ef0 sp 0x7ffee8ec9ee8
 WRITE of size 1 at 0x602000037270 thread T0
     #0 0x106d34380 in -[Crash useAfterFree] Crash.m:60
 ```
@@ -171,7 +176,8 @@ Finally, it shows us a picture of memory around the faulty address:
       0x1c0400006e70: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
       0x1c0400006e80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
       0x1c0400006e90: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-    Shadow byte legend (one shadow byte represents 8 application bytes):
+    Shadow byte legend
+    (one shadow byte represents 8 application bytes):
       Addressable:           00
       Partially addressable: 01 02 03 04 05 06 07
       Heap left redzone:       fa
@@ -239,7 +245,8 @@ Consider the following code in the `icdab_edge` example program.  @icdabgithub
 - (void)overReleasedObject
 {
     id vc = [[UIViewController alloc] init];
-    // Build Phases -> Compile Sources -> Crash.m has Compiler Flags setting
+    // Build Phases -> Compile Sources
+    // -> Crash.m has Compiler Flags setting
     // -fno-objc-arc to allow the following line to be called
     [vc release];
     NSLog(@"%@", [vc description]);
@@ -258,7 +265,8 @@ Looking at the debugger, we see:
 
 ![](screenshots/zombie.png)
 
-Note how the type of the object instance `vc` is `_NSZombie_UIViewController *`.
+Note how the type of the object instance `vc`
+ is `_NSZombie_UIViewController *`.
 
 The type will be whatever the original type of the over released object was, but prefixed with `_NSZombie_`.
 This is most helpful, and we should look out for this when studying the program state in the debugger.
@@ -303,9 +311,12 @@ If we had done _File -> Export Memory Graph..._, to export the memgraph to `icda
 leaks icdab_cycle.memgraph
 
 Process:         icdab_cycle [15295]
-Path:            /Users/faisalm/Library/Developer/CoreSimulator/Devices/
-1616CA04-D1D0-4DF6-BE8E-F63541EC1EED/data/Containers/Bundle/Application/
-E44B9EFD-258B-4D0E-8637-CF374638D5FF/icdab_cycle.app/icdab_cycle
+Path:            /Users/faisalm/Library/Developer/
+CoreSimulator/Devices/
+1616CA04-D1D0-4DF6-BE8E-F63541EC1EED/
+data/Containers/Bundle/Application/
+E44B9EFD-258B-4D0E-8637-CF374638D5FF/
+icdab_cycle.app/icdab_cycle
 Load Address:    0x106eb7000
 Identifier:      icdab_cycle
 Version:         ???
@@ -318,9 +329,12 @@ OS Version:      Apple TVOS 12.0 (16J364)
 Report Version:  7
 Analysis Tool:   /Users/faisalm/Downloads/
 Xcode.app/Contents/Developer/Platforms/
-AppleTVOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/
-tvOS.simruntime/Contents/Resources/RuntimeRoot/Developer/Library/
-PrivateFrameworks/DVTInstrumentsFoundation.framework/LeakAgent
+AppleTVOS.platform/Developer/Library/CoreSimulator/
+Profiles/Runtimes/
+tvOS.simruntime/Contents/
+Resources/RuntimeRoot/Developer/Library/
+PrivateFrameworks/DVTInstrumentsFoundation.framework/
+LeakAgent
 Analysis Tool Version:  iOS Simulator 12.0 (16J364)
 
 Physical footprint:         38.9M
@@ -331,7 +345,8 @@ leaks Report Version: 3.0
 Process 15295: 30252 nodes malloced for 5385 KB
 Process 15295: 3 leaks for 144 total leaked bytes.
 
-Leak: 0x600000d506c0  size=64  zone: DefaultMallocZone_0x11da72000
+Leak: 0x600000d506c0  size=64  zone:
+DefaultMallocZone_0x11da72000
    Song  Swift  icdab_cycle
 	Call stack: [thread 0x10a974380]: |
    0x10a5f678d (libdyld.dylib) start |
@@ -345,14 +360,16 @@ var mediaLibrary: Album?
 
 func createRetainCycleLeak() {
     let salsa = Album()
-    let carnaval = Song(album: salsa, artist: "Salsa Latin 100%",
+    let carnaval = Song(album: salsa,
+     artist: "Salsa Latin 100%",
      title: "La Vida Es un Carnaval")
     salsa.songs.append(carnaval)
 }
 
 func buildMediaLibrary() {
     let kylie = Album()
-    let secret = Song(album: kylie, artist: "Kylie Minogue",
+    let secret = Song(album: kylie,
+     artist: "Kylie Minogue",
      title: "It's No Secret")
     kylie.songs.append(secret)
     mediaLibrary = kylie
@@ -383,7 +400,8 @@ dyld_image_path_containing_address(0x1055d2000)
 .
 .
 
-dlopen(DynamicFramework2.framework/DynamicFramework2) ==> 0x60c0001460f0
+dlopen(DynamicFramework2.framework/DynamicFramework2)
+ ==> 0x60c0001460f0
 .
 .
 .
@@ -398,9 +416,12 @@ Sometimes we have an early stage app crash during the initialization phase where
 Upon launch, we get a list of binaries loaded:
 
 ```
-dyld: loaded: /Users/faisalm/Library/Developer/CoreSimulator/Devices/
-99DB717F-9161-461A-B11F-210C389ABA12/data/Containers/Bundle/Application/
-D916AC0F-6434-46A3-B18E-5EC65D194454/icdab_edge.app/icdab_edge
+dyld: loaded: /Users/faisalm/Library/Developer/
+CoreSimulator/Devices/
+99DB717F-9161-461A-B11F-210C389ABA12/
+data/Containers/Bundle/Application/
+D916AC0F-6434-46A3-B18E-5EC65D194454/
+icdab_edge.app/icdab_edge
 
 dyld: loaded: /Applications/Xcode.app/Contents/Developer/
 Platforms/iPhoneOS.platform/Contents/Resources/RuntimeRoot/
