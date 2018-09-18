@@ -3730,8 +3730,9 @@ default 13:36:58.000000 +0000   ReportCrash
 <p>We use an example of the <code>securityAgent</code> crashing on macOS.</p>
 <p>The Crash Report we see is as follows, truncated for ease of demonstration:</p>
 <pre><code>Process:               SecurityAgent [99429]
-Path:                  /System/Library/Frameworks/Security.framework/
-Versions/A/MachServices/SecurityAgent.bundle/Contents/
+Path:                  /System/Library/Frameworks/
+Security.framework/Versions/A/MachServices/
+SecurityAgent.bundle/Contents/
 MacOS/SecurityAgent
 Identifier:            com.apple.SecurityAgent
 Version:               9.0 (55360.50.13)
@@ -4060,8 +4061,9 @@ Exception Message: (Limit 50%) Observed 60% over 180 secs</code></pre>
 CrashReporter Key:   52be47ab0a43fb240756d6f5a1e1bcf4aa53c568
 Hardware Model:      iPhone7,2
 Process:             Snapchat [3151]
-Path:                /private/var/mobile/Containers/Bundle/Application/
-3E13B779-FFA3-491C-A018-F39E620553D4/Snapchat.app/Snapchat
+Path:                /private/var/mobile/Containers/
+Bundle/Application/3E13B779-FFA3-491C-A018-F39E620553D4/
+Snapchat.app/Snapchat
 Identifier:          com.toyopagroup.picaboo
 Version:             9.11.0.1 (9.11.0)
 Code Type:           ARM-64 (Native)
