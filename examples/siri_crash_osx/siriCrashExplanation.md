@@ -20,7 +20,8 @@ Exception Note:        EXC_CORPSE_NOTIFY
 VM Regions Near 0x18:
 -->
     __TEXT                 0000000100238000-0000000100247000
-    [   60K] r-x/rwx SM=COW  /System/Library/CoreServices/Siri.app/Contents/
+    [   60K] r-x/rwx SM=COW
+    /System/Library/CoreServices/Siri.app/Contents/
     XPCServices/SiriNCService.xpc/Contents/MacOS/SiriNCService
 
 Application Specific Information:
@@ -145,7 +146,8 @@ SiriUXHeater *heater; // @synthesize heater=_heater;
 @interface SiriUXHeater : NSObject
     id <SiriUXHeaterDelegate> _delegate;
 @property(nonatomic)
-__weak id <SiriUXHeaterDelegate> delegate; // @synthesize delegate=_delegate;
+__weak id <SiriUXHeaterDelegate> delegate;
+ // @synthesize delegate=_delegate;
 - (void)_suggestPreheat;
 ```
 
