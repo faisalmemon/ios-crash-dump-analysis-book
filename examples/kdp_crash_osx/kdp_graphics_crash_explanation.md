@@ -95,7 +95,8 @@ commands and trigger a crash.  We see that the code contributes custom informati
 ```
 
 We can use the Hopper\index{Hopper} Disassembler and
-reverse engineering\index{software!reverse engineering} tool here.  
+reverse engineering\index{software!reverse engineering} tool here.
+
 By locating the binary on our Mac,
 we can ask Hopper to not only dissemble the code in question, but to also produce pseudocode\index{pseudocode}.
 For most developers, keeping an understanding of assembly code fresh in the mind is difficult because assembly code\index{software!assembly code} is rarely hand written nowadays.  This is why the pseudocode output is most valuable.
@@ -134,7 +135,7 @@ This means we need to select the 32-bit architecture option in Hopper.
 
 ![](screenshots/hopper_32bit.png)
 
-The we click Next, and then OK.
+Then we click Next, and then OK.
 
 After a moment, the file will be processed.  Then we can select _Navigate -> Go To Address or Symbol_
 and provide the address `_gpusGenerateCrashLog`  Note, we have a leading underscore.  The C compiler puts that in automatically before generating the object file.  Historically it was done that way so that hand written assembly code would not conflict with C programming language symbols during linking\index{linker!underscore policy}.
@@ -180,10 +181,14 @@ int _gpusGenerateCrashLog(int arg0, int arg1, int arg2) {
 ```
 
 Here we can see two alternatives.  Either we just report:
-`"Graphics kernel error: 0x%08x\n"`
+```
+"Graphics kernel error: 0x%08x\n"
+```
 
 or we report:
-`"Graphics hardware encountered an error and was reset: 0x%08x\n"`
+```
+"Graphics hardware encountered an error and was reset: 0x%08x\n"
+```
 
 In fact, we see the following in the Crash Report:
 ```
@@ -193,4 +198,4 @@ Graphics kernel error: 0xfffffffb
 
 Unfortunately, it is not clear what this error means.  We need the author of the app to switch on OpenGL command level logging in order to understand what drawing command was rejected by the graphics driver.
 
-Using a different Mac with a different graphics card would be an interesting experiment to understand if we have a driver-specific issue or a general OpenGL problem.
+Using a different Mac with a different graphics card would be an interesting experiment to understand if we have a driver-specific issue, or a generic OpenGL problem.
