@@ -8,13 +8,16 @@ The following Crash Report, truncated for ease of demonstration, shows the `Upda
 Incident Identifier: 92F40C53-6BB8-4E13-A4C2-CF2F1C85E8DF
 CrashReporter Key:   69face25f1299fdcbbe337b89e6a9f649818ba13
 Hardware Model:      iPad4,4
-Process:             com.apple.MobileSoftwareUpdate.UpdateBrainService
+Process:             
+com.apple.MobileSoftwareUpdate.UpdateBrainService
  [147]
 Path:                /private/var/run/
 com.apple.xpcproxy.RoleAccount.staging/
-com.apple.MobileSoftwareUpdate.UpdateBrainService.16777219.47335.xpc/
+com.apple.MobileSoftwareUpdate.
+UpdateBrainService.16777219.47335.xpc/
 com.apple.MobileSoftwareUpdate.UpdateBrainService
-Identifier:          com.apple.MobileSoftwareUpdate.UpdateBrainService
+Identifier:          
+com.apple.MobileSoftwareUpdate.UpdateBrainService
 Version:             1 (1.0)
 Code Type:           ARM-64 (Native)
 Parent Process:      launchd [1]
