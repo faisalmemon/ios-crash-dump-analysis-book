@@ -8,8 +8,9 @@ The Crash Report we see is as follows, truncated for ease of demonstration:
 
 ```
 Process:               SecurityAgent [99429]
-Path:                  /System/Library/Frameworks/Security.framework/
-Versions/A/MachServices/SecurityAgent.bundle/Contents/
+Path:                  /System/Library/Frameworks/
+Security.framework/Versions/A/MachServices/
+SecurityAgent.bundle/Contents/
 MacOS/SecurityAgent
 Identifier:            com.apple.SecurityAgent
 Version:               9.0 (55360.50.13)

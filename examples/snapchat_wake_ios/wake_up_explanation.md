@@ -9,8 +9,9 @@ Incident Identifier: 79C39D6B-E4CA-4047-B96D-7EEED2B57B46
 CrashReporter Key:   52be47ab0a43fb240756d6f5a1e1bcf4aa53c568
 Hardware Model:      iPhone7,2
 Process:             Snapchat [3151]
-Path:                /private/var/mobile/Containers/Bundle/Application/
-3E13B779-FFA3-491C-A018-F39E620553D4/Snapchat.app/Snapchat
+Path:                /private/var/mobile/Containers/
+Bundle/Application/3E13B779-FFA3-491C-A018-F39E620553D4/
+Snapchat.app/Snapchat
 Identifier:          com.toyopagroup.picaboo
 Version:             9.11.0.1 (9.11.0)
 Code Type:           ARM-64 (Native)
