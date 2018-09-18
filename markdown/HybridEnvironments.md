@@ -31,7 +31,8 @@ In our sample app, which crashes upon launch, we have an assert that gets trigge
 double pluto_volume = pluto.get_volume();
 assert(pluto_volume != 0.0);
 
-double plutos_to_fill_jupiter =  jupiter.get_volume() / pluto_volume;
+double plutos_to_fill_jupiter
+        =  jupiter.get_volume() / pluto_volume;
 ```
 
 Enabling code Analysis will not find any issue or warning.
@@ -177,13 +178,16 @@ The facade is:
       objectForKey:@"AddPluto"];
 
     if ([testSupportAddPluto isEqualToString:@"YES"]) {
-        planet::add_planet(planet("Pluto", 2370, 7375 * millionKm));
+        planet::add_planet(
+          planet("Pluto", 2370, 7375 * millionKm));
     }
 
     if (self) {
         _planetDict = [[NSMutableDictionary alloc] init];
-        auto pluto_by_find = planet::find_planet_named("Pluto");
-        auto jupiter_by_find = planet::find_planet_named("Jupiter");
+        auto pluto_by_find =
+         planet::find_planet_named("Pluto");
+        auto jupiter_by_find =
+         planet::find_planet_named("Jupiter");
 
         if (planet::isEnd(jupiter_by_find) ||
          planet::isEnd(pluto_by_find)) {
@@ -243,10 +247,12 @@ The consumer then becomes a purely Objective-C class:
      plutosInJupiter];
 
     self.jupiterLabelOutlet.text =
-    [NSString stringWithFormat:@"Diameter of Jupiter (km) = %f",
+    [NSString stringWithFormat:
+     @"Diameter of Jupiter (km) = %f",
      jupiter_diameter];
     self.plutoLabelOutlet.text =
-    [NSString stringWithFormat:@"Diameter of Pluto (km) = %f",
+    [NSString stringWithFormat:
+     @"Diameter of Pluto (km) = %f",
      pluto_diameter];
 }
 ```
