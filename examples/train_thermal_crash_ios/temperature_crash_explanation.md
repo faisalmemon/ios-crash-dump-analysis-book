@@ -54,7 +54,7 @@ Unknown thread crashed with unknown flavor: 5, state_count: 1
 
 From the `Exception Codes:` we see the code `0xc00010ff`\index{0xc00010ff}.  This is read as "Cool Off".
 
-This Crash Report shown here is clearly to do with temperature.  It is not clear whether the problem is specific to the app currently running, the health of the hardware, or the environment the device was in at the time of the problem.  None of the code running is know to generate large amounts of heat.  To fix this issue, Analytic Troubleshooting is appropriate.  For example, if this crash happens to other apps on the same device even when it is cold, we can suspect a hardware sensor failure.  We need a complete picture of where the problem is seen versus not present to make progress with a good hypothesis.
+The Crash Report, shown here, is clearly to do with temperature.  It is not clear whether the problem is specific to the app currently running, the health of the hardware, or the environment the device was in at the time of the problem.  None of the code running is known to generate large amounts of heat.  To fix this issue, Analytic Troubleshooting is appropriate.  For example, if this crash happens to other apps on the same device even when it is cold, we can suspect a hardware sensor failure.  We need a complete picture of where the problem is seen versus not present to make progress with a good hypothesis.
 
 Finally, the Crash Report notes:
 ```
@@ -70,4 +70,4 @@ From looking up the thread flavor in the Darwin XNU code, we see:
 
 @threadstatus
 
-So it just means that this is not something of concern.  The Crash Report tool could do with improvement to catch this case.
+So it just means that this is not something of concern.  The Crash Report tool could do with improvement to identify this thread flavor, and report it.
