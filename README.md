@@ -1,16 +1,19 @@
 # iOS Crash Dump Analysis Book
 
 The HTML version of the book, "iOS Crash Dump Analysis" is available at the link:
-https://faisalmemon.github.io/ios-crash-dump-analysis-book/
+https://faisalmemon.github.io/ios-crash-dump-analysis-book/  
 
-The Kindle version is available at: [Amazon.com](https://www.amazon.com/iOS-Crash-Dump-Analysis-application-ebook/dp/B07HG7RXM6),
-[Amazon.co.uk](https://www.amazon.co.uk/iOS-Crash-Dump-Analysis-application-ebook/dp/B07HG7RXM6), and other geographic regions.
+Accompanying the book is an Analytic Troubleshooting worksheet.
+[Download the Analytic Troubleshooting worksheet pdf](./examples/worksheets/analytic_troubleshooting_worksheet.pdf)
+
+The Kindle version is available for purchase at: [Amazon.com](https://www.amazon.com/iOS-Crash-Dump-Analysis-application-ebook/dp/B07HG7RXM6),
+[Amazon.co.uk](https://www.amazon.co.uk/iOS-Crash-Dump-Analysis-application-ebook/dp/B07HG7RXM6), and other geographic regions of Amazon.
 
 A print edition is available from Amazon, and also from traditional book sellers.  The release date is 22nd September, 2018.
 
 The purpose of this repository is to provide the source code, and other resources, supporting the iOS crash dump analysis book.  
 
-The rationale for providing the source freely, in addition to the commercial offering, is to make it easy to collaborate, share, and build upon the ideas of the book.  Buying a print or electronic version of the book helps support the author to create further text books.  If you feel this content has helped you, please consider making a purchase.
+The rationale for providing the source freely, in addition to the commercial offering, is to make it easy to collaborate, share, and build upon the ideas of the book.  Buying a print, or electronic, version of the book helps support the author to create further text books.  If you feel this content has helped you, please consider making a purchase.
 
 ## Why write this book?
 
@@ -56,6 +59,7 @@ I followed an approach similar approach to http://rtalbert.org/how-i-wrote-my-bo
 - Write the content of the book in markdown
 - Use pandoc to convert the markdown into MS Word `docx` format, `.epub`, `.latex`, and `.html`
 - Use BibDesk to track biliographic references
+- Use latex `\index` to create index links in the main body of the work
 - Use `pdflatex` to convert latex files into a PDF because it allows auto section numbering and index generation
 
 The output file formats were used as follows:
@@ -72,9 +76,9 @@ Each chapter was done in phases:
 - Review the `.docx` version and run the spell and grammar checker, fixing any faults in the markdown
 - Review the markdown and insert latex index entries, cross referencing prior indexed items for uniformity and grouping
 
-The aim was to leave each chapter in a near-publishable state to avoid accumulating a large backlog of work.
+The aim was to leave each chapter in a near-publishable state, to avoid accumulating a large backlog of work.  I resisted placing any TODO work items in the markdown text.  I maintained a `ideas.txt` file for chapter and content ideas as I went through.  I also did a `grep` for forward topic references in the book so that I covered later on what was promised earlier on.  The main benefit was I had a good idea of my progress on the book as I went along.
 
-In terms of writing style, I used first person for the perface.  I used "you" for the Introduction, and used "we" elsewhere.  I had a script to check not to use "you" when a "we" should have been used.
+In terms of writing style, I used first person singular for the preface.  I used second person plural for the Introduction, and used first person plural elsewhere.  I had a script to check not to use "you" when a "we" should have been used in the main body of the text.
 
 Once all chapters were done, the whole book was read through using VoiceOver (Option-Escape) because this catches proof reading errors (like swapping around words or duplicating words).
 
@@ -83,8 +87,23 @@ I also hand wrote the back page text directly in `.docx` and then pruned it to f
 I had a special index mark for trademark terms and a custom script to collate those and inject them into the text as a list of acknowledged trademarks.  The entire book building process was automated from a command line script.
 
 I had a special `.css` file for the E-book to make the tables look nicer (a simple outline border).
+I also used a github styled `.css` file for the HTML edition.
 
-The last phase was upload to the KDP website to generate the e-book and print versions.  I had to re-size my example code blocks to fit the Extended Distribution in Print requirements (6 inches by 9 inches) as only standard book sizes are distributable via Extended Distribution (regular book shops).
+The last phase was upload to the KDP website to generate the e-book and print versions.  I had to re-size my example code blocks to fit the Extended Distribution in Print requirements (6 inches by 9 inches is the biggest) as only standard book sizes are distributable via Extended Distribution (regular book shops).
+
+## Progress and Effort
+
+The hardest part was learning about the appropriate tooling to do the job and deploy for the relevant target formats, and working out what formats and platforms to use.  This consumed two weeks.
+
+The tail portion of the work was quick.  It took 1 day to re-base my code on the newly released Xcode 10 Gold Master.  I just needed to re-work one chapter due to a behavior change in iOS 12.  It took 1 day to proof read my work using VoiceOver.  It took 1 day to re-format the code and report examples to change to 6 x 9 inch book format needed for Extended Distribution of the text in print format to physical book sellers, as well as the time to fix up the print ready PDF since Amazon has stricter gutter requirements (going into the margin) than I had anticipated.  I also had to do the book cover text.  I was overall pleased it was 3 days of final processing.
+
+The chapters of the book were the most effort.  Each chapter took about 0.5 days to fix spelling and grammar, and add index entries.  The rest of the time was spent roughly 60% research, 40% writing but I am not sure as I didn't pay so much attention to the balance.
+
+I wrote over a period of 3 months but had other tasks and duties during that time.  So it was 7 weeks of full time work spread across 3 months.  I worked normal business hours, roughly 40 hours per week.  For 170 pages of text, it works out at 1.6 hours per page.
+
+I planned to write more but I had some work opportunities that came up that were potentially going to limit my time to spend on the book and wasn't sure if it was going to pass the "moonlighting" test for private work.
+
+I would have written chapters explaining about Operating Systems architecture, assembly programming basics, and performance analysis with Instruments.
 
 ## Supporting software
 
