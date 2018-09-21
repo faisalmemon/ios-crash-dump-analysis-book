@@ -101,9 +101,7 @@ The chapters of the book were the most effort.  Each chapter took about 0.5 days
 
 I wrote over a period of 3 months but had other tasks and duties during that time.  So it was 7 weeks of full time work spread across 3 months.  I worked normal business hours, roughly 40 hours per week.  For 170 pages of text, it works out at 1.6 hours per page.
 
-I planned to write more but I had some work opportunities that came up that were potentially going to limit my time to spend on the book and wasn't sure if it was going to pass the "moonlighting" test for private work.
-
-I would have written chapters explaining about Operating Systems architecture, assembly programming basics, and performance analysis with Instruments.
+I planned to write more but I had some work opportunities that came up that were potentially going to limit my time to spend on the book and wasn't sure if it was going to pass the "moonlighting" test for private work.  I would have written chapters explaining about Operating Systems architecture, assembly programming basics, and performance analysis with Instruments.
 
 ## Supporting software
 
