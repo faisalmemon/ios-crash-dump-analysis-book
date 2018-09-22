@@ -10,13 +10,17 @@ Consider the example code:
 
 ```
 - (BOOL)application:(UIApplication *)application
- didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    // Override point for customization after application
+    // launch.
 
     NSData *myToken = [[NSData alloc] initWithData:
-    [[NSUserDefaults standardUserDefaults] objectForKey:@"SomeKey"]];
+    [[NSUserDefaults standardUserDefaults]
+     objectForKey:@"SomeKey"]];
 
-    NSLog(@"My data is %@ - ok since we can handle a nil", myToken);
+    NSLog(@"My data is %@ - ok since we can handle a nil",
+     myToken);
 
     id stringProperty = @"Some string";
     NSData *problemToken = [[NSData alloc]
@@ -68,7 +72,8 @@ Last Exception Backtrace:
 1   libobjc.A.dylib               	0x2523ee12
  objc_exception_throw + 33
 2   CoreFoundation                	0x25aa92b0
--[NSObject+ 1045168 (NSObject) doesNotRecognizeSelector:] + 183
+-[NSObject+ 1045168 (NSObject) doesNotRecognizeSelector:]
+ + 183
 3   CoreFoundation                	0x25aa6edc
  ___forwarding___ + 695
 4   CoreFoundation                	0x259d2234
@@ -79,8 +84,8 @@ Last Exception Backtrace:
 -[AppDelegate application:
 didFinishLaunchingWithOptions:] + 27066 (AppDelegate.m:26)
 7   UIKit                         	0x2a093780
- -[UIApplication _handleDelegateCallbacksWithOptions:isSuspended:
- restoreState:] + 387
+ -[UIApplication _handleDelegateCallbacksWithOptions:
+ isSuspended:restoreState:] + 387
 8   UIKit                         	0x2a2bb2cc
  -[UIApplication _callInitializationDelegatesForMainScene:
  transitionContext:] + 3075
@@ -99,7 +104,8 @@ transitionContext:completion:]_block_invoke3286 + 31
 14  FrontBoardServices            	0x27146db4
 -[FBSSerialQueue _performNextFromRunLoopSource] + 43
 15  CoreFoundation                	0x25a65dfa
-__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 9
+__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__
+ + 9
 16  CoreFoundation                	0x25a659e8
 __CFRunLoopDoSources0 + 447
 17  CoreFoundation                	0x25a63d56
@@ -114,7 +120,8 @@ CFRunLoopRunInMode + 103
  UIApplicationMain + 139
 22  icdab_nsdata                  	0x000f8830
  main + 26672 (main.m:14)
-23  libdyld.dylib                 	0x2565b86e tlv_get_addr + 41
+23  libdyld.dylib                 	0x2565b86e tlv_get_addr
+ + 41
 ```
 
 Unfortunately, this type of crash does not inject further helpful information, such as `Application Specific Information`, into the Crash Report.

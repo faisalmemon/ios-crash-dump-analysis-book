@@ -87,22 +87,22 @@ allocated by thread T0 here:
 
 Note the use of a "half-open" number range number notation, where `[` includes the lower range index, and `)` excludes the upper range index.  So our access to `0x60200003a5e0` is outside the allocated range `[0x60200003a5d0,0x60200003a5e0)`
 
-We also get a "map" of the memory around the problem:
+We also get a "map" of the memory around the problem, truncating `0x1c0400007460` to `....7460` for ease of demonstration:
 ```
 SUMMARY: AddressSanitizer: heap-buffer-overflow Crash.m:48 in
  -[Crash overshootAllocated]
 Shadow bytes around the buggy address:
-  0x1c0400007460: fa fa 00 00 fa fa fd fd fa fa fd fa fa fa fd fa
-  0x1c0400007470: fa fa 00 00 fa fa fd fa fa fa 00 00 fa fa fd fd
-  0x1c0400007480: fa fa fd fa fa fa fd fd fa fa fd fa fa fa fd fa
-  0x1c0400007490: fa fa fd fd fa fa fd fd fa fa fd fa fa fa fd fa
-  0x1c04000074a0: fa fa 00 fa fa fa 00 00 fa fa fd fd fa fa 00 00
-=>0x1c04000074b0: fa fa 00 00 fa fa 00 00 fa fa 00 00[fa]fa fa fa
-  0x1c04000074c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000074d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000074e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000074f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c0400007500: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+....7460: fa fa 00 00 fa fa fd fd fa fa fd fa fa fa fd fa
+....7470: fa fa 00 00 fa fa fd fa fa fa 00 00 fa fa fd fd
+....7480: fa fa fd fa fa fa fd fd fa fa fd fa fa fa fd fa
+....7490: fa fa fd fd fa fa fd fd fa fa fd fa fa fa fd fa
+....74a0: fa fa 00 fa fa fa 00 00 fa fa fd fd fa fa 00 00
+=>....74b0: fa fa 00 00 fa fa 00 00 fa fa 00 00[fa]fa fa fa
+....74c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+....74d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+....74e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+....74f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+....7500: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
 Shadow byte legend
 (one shadow byte represents 8 application bytes):
   Addressable:           00
@@ -162,20 +162,20 @@ previously allocated by thread T0 here:
      -[Crash useAfterFree]
 ```
 
-Finally, it shows us a picture of memory around the faulty address:
+Finally, it shows us a picture of memory around the faulty address, truncating `0x1c0400006df0` to `....6df0` for ease of demonstration:
 ```
     Shadow bytes around the buggy address:
-      0x1c0400006df0: fa fa fd fd fa fa 00 00 fa fa fd fd fa fa fd fa
-      0x1c0400006e00: fa fa fd fa fa fa 00 00 fa fa fd fa fa fa 00 00
-      0x1c0400006e10: fa fa fd fd fa fa fd fa fa fa fd fd fa fa fd fa
-      0x1c0400006e20: fa fa fd fa fa fa fd fd fa fa fd fd fa fa fd fa
-      0x1c0400006e30: fa fa fd fa fa fa 00 fa fa fa 00 00 fa fa fd fd
-    =>0x1c0400006e40: fa fa 00 00 fa fa 00 00 fa fa 00 00 fa fa[fd]fd
-      0x1c0400006e50: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-      0x1c0400006e60: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-      0x1c0400006e70: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-      0x1c0400006e80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-      0x1c0400006e90: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  ....6df0: fa fa fd fd fa fa 00 00 fa fa fd fd fa fa fd fa
+  ....6e00: fa fa fd fa fa fa 00 00 fa fa fd fa fa fa 00 00
+  ....6e10: fa fa fd fd fa fa fd fa fa fa fd fd fa fa fd fa
+  ....6e20: fa fa fd fa fa fa fd fd fa fa fd fd fa fa fd fa
+  ....6e30: fa fa fd fa fa fa 00 fa fa fa 00 00 fa fa fd fd
+=>....6e40: fa fa 00 00 fa fa 00 00 fa fa 00 00 fa fa[fd]fd
+  ....6e50: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  ....6e60: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  ....6e70: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  ....6e80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  ....6e90: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
     Shadow byte legend
     (one shadow byte represents 8 application bytes):
       Addressable:           00

@@ -32,7 +32,8 @@ Time Since Wake:       42 seconds
 
 System Integrity Protection: enabled
 
-Crashed Thread:        0  Dispatch queue: com.apple.main-thread
+Crashed Thread:        0  Dispatch queue:
+ com.apple.main-thread
 
 Exception Type:        EXC_CRASH (SIGABRT)
 Exception Codes:       0x0000000000000000, 0x0000000000000000
@@ -107,8 +108,8 @@ ReceiveNextEventCommon + 613
 27  AppKit                              0x00007fff42e16a73
  _DPSNextEvent + 2085
 28  AppKit                              0x00007fff435ace34
- -[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:
- inMode:dequeue:] + 3044
+ -[NSApplication(NSEvent) _nextEventMatchingEventMask:
+ untilDate:inMode:dequeue:] + 3044
 29  AppKit                              0x00007fff42e0b885
  -[NSApplication run] + 764
 30  AppKit                              0x00007fff42ddaa72
@@ -159,7 +160,8 @@ ReceiveNextEventCommon + 613
  _DPSNextEvent + 2085
 19  com.apple.AppKit              	0x00007fff435ace34
  -[NSApplication(NSEvent)
- _nextEventMatchingEventMask:untilDate:inMode:dequeue:] + 3044
+ _nextEventMatchingEventMask:untilDate:inMode:dequeue:]
+  + 3044
 20  com.apple.AppKit              	0x00007fff42e0b885
 -[NSApplication run] + 764
 21  com.apple.AppKit              	0x00007fff42ddaa72
@@ -223,7 +225,8 @@ From hex address 8e36, if we add decimal 230, we get 0x8f1c.  Looking at the dis
       ; @selector(raise:format:),
                        argument "selector"
                        for method _objc_msgSend
-0000000000008f06  lea   rdx, qword [cfstring_CALayerInvalidGeometry]
+0000000000008f06  lea   rdx, qword
+[cfstring_CALayerInvalidGeometry]
       ; @"CALayerInvalidGeometry"
 0000000000008f0d  lea   rcx, qword
  [cfstring_CALayer_bounds_contains_NaN____g__g___g__g_]

@@ -22,7 +22,8 @@ OS Version:          iOS 8.3 (12F70)
 Report Version:      105
 Exception Type:      EXC_RESOURCE
 Exception Subtype:   WAKEUPS
-Exception Message:   (Limit 150/sec) Observed 195/sec over 300 secs
+Exception Message:   
+(Limit 150/sec) Observed 195/sec over 300 secs
 Triggered by Thread: 21
 
 Thread 21 name:  Dispatch queue:

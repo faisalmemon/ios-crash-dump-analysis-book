@@ -137,9 +137,10 @@ Traversing the file hierarchy can be cumbersome for system binaries as they are 
 If Hopper is **already running**, a quick way to select the correct file is to use the command line\index{command!hopper}.
 
 ```
-'/Applications/Hopper Disassembler v4.app/Contents/MacOS/hopper' \
- -e /System/Library/PrivateFrameworks/GPUSupport.framework/
- Versions/A/Libraries/libGPUSupportMercury.dylib
+'/Applications/Hopper Disassembler v4.app/Contents/
+MacOS/hopper' -e /System/Library/PrivateFrameworks/
+GPUSupport.framework/Versions/A/Libraries/
+libGPUSupportMercury.dylib
 ```
 
 If Hopper is not running, we can launch it.  Alongside we can launch the Finder program and select 'Go To Folder' to select the folder

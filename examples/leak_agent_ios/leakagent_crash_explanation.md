@@ -16,7 +16,8 @@ Version:             ???
 Code Type:           ARM-64 (Native)
 Role:                Unspecified
 Parent Process:      DTServiceHub [1592]
-Coalition:           com.apple.instruments.deviceservice [463]
+Coalition:           com.apple.instruments.deviceservice
+ [463]
 
 
 Date/Time:           2018-07-19 14:16:57.6977 +0100
@@ -26,14 +27,15 @@ Baseband Version:    n/a
 Report Version:      104
 
 Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
-Exception Subtype: KERN_INVALID_ADDRESS at 0x0000000000000000
+Exception Subtype: KERN_INVALID_ADDRESS at
+ 0x0000000000000000
 VM Region Info: 0 is not in any region.
   Bytes before following region: 4371873792
       REGION TYPE                      START - END
                    [ VSIZE] PRT/MAX SHRMOD  REGION DETAIL
       UNUSED SPACE AT START
 --->  
-      __TEXT                 0000000104958000-0000000104964000
+      __TEXT        0000000104958000-0000000104964000
        [   48K] r-x/r-x SM=COW  ...ork/LeakAgent
 
 Termination Signal: Segmentation fault: 11
@@ -41,7 +43,8 @@ Termination Reason: Namespace SIGNAL, Code 0xb
 Terminating Process: exc handler [0]
 Triggered by Thread:  4
 
-Thread 4 name:  Dispatch queue: DTXChannel serializer queue [x1.c0]
+Thread 4 name:  Dispatch queue:
+DTXChannel serializer queue [x1.c0]
 Thread 4 Crashed:
 0   libswiftDemangle.dylib        	
 0x0000000104f871dc 0x104f70000 + 94684
@@ -70,13 +73,15 @@ Thread 4 Crashed:
  CSSymbolOwnerGetSymbolWithName + 116
 10  Symbolication                 	
 0x000000019bb2e7f4
- -[VMUObjectIdentifier _targetProcessSwiftReflectionVersion] + 120
+ -[VMUObjectIdentifier _targetProcessSwiftReflectionVersion]
+  + 120
 11  Symbolication                 	
 0x000000019bb2f9d8
  -[VMUObjectIdentifier loadSwiftReflectionLibrary] + 36
 12  Symbolication                 	
 0x000000019bb29ff0
- -[VMUObjectIdentifier initWithTask:symbolicator:scanner:] + 436
+ -[VMUObjectIdentifier initWithTask:symbolicator:scanner:]
+  + 436
 13  Symbolication                 	
 0x000000019baede10
  -[VMUTaskMemoryScanner _initWithTask:options:] + 2292

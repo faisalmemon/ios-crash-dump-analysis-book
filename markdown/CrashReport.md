@@ -290,13 +290,15 @@ instance 0x3f054'
      0x259b3015 0x2a08cc3d 0x2a087189 0x3d80d 0x2565b873)
 
 default	13:36:58.000000 +0100	SpringBoard	 Application
-'UIKitApplication:www.perivalebluebell.icdab-nsdata[0x51b9]' crashed.
+'UIKitApplication:www.perivalebluebell.icdab-nsdata[0x51b9]'
+ crashed.
 
-default	13:36:58.000000 +0100	UserEventAgent	 2769630555571:
+default	13:36:58.000000 +0100	UserEventAgent
+	 2769630555571:
  id=www.perivalebluebell.icdab-nsdata pid=386, state=0
 
-default	13:36:58.000000 +0000	ReportCrash	 Formulating report for
-corpse[386] icdab_nsdata
+default	13:36:58.000000 +0000	ReportCrash	 Formulating
+report for corpse[386] icdab_nsdata
 
 default	13:36:58.000000 +0000	ReportCrash	 Saved type
  '109(109_icdab_nsdata)'
@@ -646,7 +648,7 @@ Therefore, with the example stack frame we have:
 - Stack Frame 20.
 - UIKit Binary File.
 - `0x000000018db14c88` return address after frames 0 - 19 return.
-- Call site is 248 bytes from the beginning of method
+- Call site is 248 bytes from the beginning of method  
   `performActionsForCanvas`
 - Class is `_UICanvasLifecycleSettingsDiffAction`
 
