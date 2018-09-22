@@ -13,7 +13,7 @@ echo
 grep --color you $(cat frontPages.txt mainPages.txt | egrep -v 'Introduction|Preface|Acknowledgements') | grep --color -v hammer | grep -i --color -v layout
 
 pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -c style/gitHubStyle.css -o foo.html
-pandoc $(cat frontPages_latex.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -V documentclass=book -o boo.latex
+pandoc $(cat frontPages_latex.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --template=style/styleToCreateIndex.latex -V documentclass=book -o boo.latex
 pdflatex boo.latex > boo.pass.0.log
 pdflatex boo.latex > boo.pass.1.log
 pdflatex boo.latex > boo.pass.2.log
