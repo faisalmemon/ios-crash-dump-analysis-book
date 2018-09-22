@@ -2716,8 +2716,10 @@ Thread 0 crashed with ARM Thread State (64-bit):
 <pre><code>#import &lt;Foundation/Foundation.h&gt;
 
 void use_sema() {
-    dispatch_semaphore_t aSemaphore = dispatch_semaphore_create(1);
-    dispatch_semaphore_wait(aSemaphore, DISPATCH_TIME_FOREVER);
+    dispatch_semaphore_t aSemaphore =
+     dispatch_semaphore_create(1);
+    dispatch_semaphore_wait(aSemaphore,
+       DISPATCH_TIME_FOREVER);
     // dispatch_semaphore_signal(aSemaphore);
     dispatch_release(aSemaphore);
 }
@@ -2892,7 +2894,8 @@ Version:             ???
 Code Type:           ARM-64 (Native)
 Role:                Unspecified
 Parent Process:      DTServiceHub [1592]
-Coalition:           com.apple.instruments.deviceservice [463]
+Coalition:           com.apple.instruments.deviceservice
+ [463]
 
 
 Date/Time:           2018-07-19 14:16:57.6977 +0100
@@ -2902,14 +2905,15 @@ Baseband Version:    n/a
 Report Version:      104
 
 Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
-Exception Subtype: KERN_INVALID_ADDRESS at 0x0000000000000000
+Exception Subtype: KERN_INVALID_ADDRESS at
+ 0x0000000000000000
 VM Region Info: 0 is not in any region.
   Bytes before following region: 4371873792
       REGION TYPE                      START - END
                    [ VSIZE] PRT/MAX SHRMOD  REGION DETAIL
       UNUSED SPACE AT START
 ---&gt;  
-      __TEXT                 0000000104958000-0000000104964000
+      __TEXT        0000000104958000-0000000104964000
        [   48K] r-x/r-x SM=COW  ...ork/LeakAgent
 
 Termination Signal: Segmentation fault: 11
@@ -2917,7 +2921,8 @@ Termination Reason: Namespace SIGNAL, Code 0xb
 Terminating Process: exc handler [0]
 Triggered by Thread:  4
 
-Thread 4 name:  Dispatch queue: DTXChannel serializer queue [x1.c0]
+Thread 4 name:  Dispatch queue:
+DTXChannel serializer queue [x1.c0]
 Thread 4 Crashed:
 0   libswiftDemangle.dylib          
 0x0000000104f871dc 0x104f70000 + 94684
@@ -2946,13 +2951,15 @@ Thread 4 Crashed:
  CSSymbolOwnerGetSymbolWithName + 116
 10  Symbolication                   
 0x000000019bb2e7f4
- -[VMUObjectIdentifier _targetProcessSwiftReflectionVersion] + 120
+ -[VMUObjectIdentifier _targetProcessSwiftReflectionVersion]
+  + 120
 11  Symbolication                   
 0x000000019bb2f9d8
  -[VMUObjectIdentifier loadSwiftReflectionLibrary] + 36
 12  Symbolication                   
 0x000000019bb29ff0
- -[VMUObjectIdentifier initWithTask:symbolicator:scanner:] + 436
+ -[VMUObjectIdentifier initWithTask:symbolicator:scanner:]
+  + 436
 13  Symbolication                   
 0x000000019baede10
  -[VMUTaskMemoryScanner _initWithTask:options:] + 2292
@@ -3514,9 +3521,10 @@ Binary Images:
 Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
 <p>Traversing the file hierarchy can be cumbersome for system binaries as they are deeply nested in the file system.</p>
 <p>If Hopper is <strong>already running</strong>, a quick way to select the correct file is to use the command line.</p>
-<pre><code>&#39;/Applications/Hopper Disassembler v4.app/Contents/MacOS/hopper&#39; \
- -e /System/Library/PrivateFrameworks/GPUSupport.framework/
- Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
+<pre><code>&#39;/Applications/Hopper Disassembler v4.app/Contents/
+MacOS/hopper&#39; -e /System/Library/PrivateFrameworks/
+GPUSupport.framework/Versions/A/Libraries/
+libGPUSupportMercury.dylib</code></pre>
 <p>If Hopper is not running, we can launch it. Alongside we can launch the Finder program and select ‘Go To Folder’ to select the folder</p>
 <pre><code>/System/Library/PrivateFrameworks/GPUSupport.framework/
 Versions/A/Libraries/</code></pre>
@@ -3577,13 +3585,17 @@ Graphics kernel error: 0xfffffffb</code></pre>
 <h3 id="extracting-nsdata-from-a-configuration-file">Extracting NSData from a configuration file</h3>
 <p>Consider the example code:</p>
 <pre><code>- (BOOL)application:(UIApplication *)application
- didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    // Override point for customization after application
+    // launch.
 
     NSData *myToken = [[NSData alloc] initWithData:
-    [[NSUserDefaults standardUserDefaults] objectForKey:@&quot;SomeKey&quot;]];
+    [[NSUserDefaults standardUserDefaults]
+     objectForKey:@&quot;SomeKey&quot;]];
 
-    NSLog(@&quot;My data is %@ - ok since we can handle a nil&quot;, myToken);
+    NSLog(@&quot;My data is %@ - ok since we can handle a nil&quot;,
+     myToken);
 
     id stringProperty = @&quot;Some string&quot;;
     NSData *problemToken = [[NSData alloc]
@@ -3624,7 +3636,8 @@ Last Exception Backtrace:
 1   libobjc.A.dylib                 0x2523ee12
  objc_exception_throw + 33
 2   CoreFoundation                  0x25aa92b0
--[NSObject+ 1045168 (NSObject) doesNotRecognizeSelector:] + 183
+-[NSObject+ 1045168 (NSObject) doesNotRecognizeSelector:]
+ + 183
 3   CoreFoundation                  0x25aa6edc
  ___forwarding___ + 695
 4   CoreFoundation                  0x259d2234
@@ -3635,8 +3648,8 @@ Last Exception Backtrace:
 -[AppDelegate application:
 didFinishLaunchingWithOptions:] + 27066 (AppDelegate.m:26)
 7   UIKit                           0x2a093780
- -[UIApplication _handleDelegateCallbacksWithOptions:isSuspended:
- restoreState:] + 387
+ -[UIApplication _handleDelegateCallbacksWithOptions:
+ isSuspended:restoreState:] + 387
 8   UIKit                           0x2a2bb2cc
  -[UIApplication _callInitializationDelegatesForMainScene:
  transitionContext:] + 3075
@@ -3655,7 +3668,8 @@ transitionContext:completion:]_block_invoke3286 + 31
 14  FrontBoardServices              0x27146db4
 -[FBSSerialQueue _performNextFromRunLoopSource] + 43
 15  CoreFoundation                  0x25a65dfa
-__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 9
+__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__
+ + 9
 16  CoreFoundation                  0x25a659e8
 __CFRunLoopDoSources0 + 447
 17  CoreFoundation                  0x25a63d56
@@ -3670,7 +3684,8 @@ CFRunLoopRunInMode + 103
  UIApplicationMain + 139
 22  icdab_nsdata                    0x000f8830
  main + 26672 (main.m:14)
-23  libdyld.dylib                   0x2565b86e tlv_get_addr + 41</code></pre>
+23  libdyld.dylib                   0x2565b86e tlv_get_addr
+ + 41</code></pre>
 <p>Unfortunately, this type of crash does not inject further helpful information, such as <code>Application Specific Information</code>, into the Crash Report.</p>
 <p>However, we do get information in the system log (console log of the app):</p>
 <pre><code>default 13:36:58.000000 +0000   icdab_nsdata     
@@ -3789,7 +3804,8 @@ Time Since Wake:       42 seconds
 
 System Integrity Protection: enabled
 
-Crashed Thread:        0  Dispatch queue: com.apple.main-thread
+Crashed Thread:        0  Dispatch queue:
+ com.apple.main-thread
 
 Exception Type:        EXC_CRASH (SIGABRT)
 Exception Codes:       0x0000000000000000, 0x0000000000000000
@@ -3864,8 +3880,8 @@ ReceiveNextEventCommon + 613
 27  AppKit                              0x00007fff42e16a73
  _DPSNextEvent + 2085
 28  AppKit                              0x00007fff435ace34
- -[NSApplication(NSEvent) _nextEventMatchingEventMask:untilDate:
- inMode:dequeue:] + 3044
+ -[NSApplication(NSEvent) _nextEventMatchingEventMask:
+ untilDate:inMode:dequeue:] + 3044
 29  AppKit                              0x00007fff42e0b885
  -[NSApplication run] + 764
 30  AppKit                              0x00007fff42ddaa72
@@ -3916,7 +3932,8 @@ ReceiveNextEventCommon + 613
  _DPSNextEvent + 2085
 19  com.apple.AppKit                0x00007fff435ace34
  -[NSApplication(NSEvent)
- _nextEventMatchingEventMask:untilDate:inMode:dequeue:] + 3044
+ _nextEventMatchingEventMask:untilDate:inMode:dequeue:]
+  + 3044
 20  com.apple.AppKit                0x00007fff42e0b885
 -[NSApplication run] + 764
 21  com.apple.AppKit                0x00007fff42ddaa72
@@ -3957,7 +3974,8 @@ Versions/A/QuartzCore</code></pre>
       ; @selector(raise:format:),
                        argument &quot;selector&quot;
                        for method _objc_msgSend
-0000000000008f06  lea   rdx, qword [cfstring_CALayerInvalidGeometry]
+0000000000008f06  lea   rdx, qword
+[cfstring_CALayerInvalidGeometry]
       ; @&quot;CALayerInvalidGeometry&quot;
 0000000000008f0d  lea   rcx, qword
  [cfstring_CALayer_bounds_contains_NaN____g__g___g__g_]
@@ -4112,7 +4130,8 @@ OS Version:          iOS 8.3 (12F70)
 Report Version:      105
 Exception Type:      EXC_RESOURCE
 Exception Subtype:   WAKEUPS
-Exception Message:   (Limit 150/sec) Observed 195/sec over 300 secs
+Exception Message:   
+(Limit 150/sec) Observed 195/sec over 300 secs
 Triggered by Thread: 21
 
 Thread 21 name:  Dispatch queue:
@@ -4601,21 +4620,21 @@ allocated by thread T0 here:
 (libclang_rt.asan_iossim_dynamic.dylib:x86_64+0x54aa3)
 #1 0x1039445ae in -[Crash overshootAllocated] Crash.m:46</code></pre>
 <p>Note the use of a “half-open” number range number notation, where <code>[</code> includes the lower range index, and <code>)</code> excludes the upper range index. So our access to <code>0x60200003a5e0</code> is outside the allocated range <code>[0x60200003a5d0,0x60200003a5e0)</code></p>
-<p>We also get a “map” of the memory around the problem:</p>
+<p>We also get a “map” of the memory around the problem, truncating <code>0x1c0400007460</code> to <code>....7460</code> for ease of demonstration:</p>
 <pre><code>SUMMARY: AddressSanitizer: heap-buffer-overflow Crash.m:48 in
  -[Crash overshootAllocated]
 Shadow bytes around the buggy address:
-  0x1c0400007460: fa fa 00 00 fa fa fd fd fa fa fd fa fa fa fd fa
-  0x1c0400007470: fa fa 00 00 fa fa fd fa fa fa 00 00 fa fa fd fd
-  0x1c0400007480: fa fa fd fa fa fa fd fd fa fa fd fa fa fa fd fa
-  0x1c0400007490: fa fa fd fd fa fa fd fd fa fa fd fa fa fa fd fa
-  0x1c04000074a0: fa fa 00 fa fa fa 00 00 fa fa fd fd fa fa 00 00
-=&gt;0x1c04000074b0: fa fa 00 00 fa fa 00 00 fa fa 00 00[fa]fa fa fa
-  0x1c04000074c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000074d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000074e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c04000074f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-  0x1c0400007500: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+....7460: fa fa 00 00 fa fa fd fd fa fa fd fa fa fa fd fa
+....7470: fa fa 00 00 fa fa fd fa fa fa 00 00 fa fa fd fd
+....7480: fa fa fd fa fa fa fd fd fa fa fd fa fa fa fd fa
+....7490: fa fa fd fd fa fa fd fd fa fa fd fa fa fa fd fa
+....74a0: fa fa 00 fa fa fa 00 00 fa fa fd fd fa fa 00 00
+=&gt;....74b0: fa fa 00 00 fa fa 00 00 fa fa 00 00[fa]fa fa fa
+....74c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+....74d0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+....74e0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+....74f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+....7500: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
 Shadow byte legend
 (one shadow byte represents 8 application bytes):
   Addressable:           00
@@ -4657,19 +4676,19 @@ freed by thread T0 here:
     #1 0x106d3428e in -[Crash useAfterFree] Crash.m:54
     SUMMARY: AddressSanitizer: heap-use-after-free Crash.m:60 in
      -[Crash useAfterFree]</code></pre>
-<p>Finally, it shows us a picture of memory around the faulty address:</p>
+<p>Finally, it shows us a picture of memory around the faulty address, truncating <code>0x1c0400006df0</code> to <code>....6df0</code> for ease of demonstration:</p>
 <pre><code>    Shadow bytes around the buggy address:
-      0x1c0400006df0: fa fa fd fd fa fa 00 00 fa fa fd fd fa fa fd fa
-      0x1c0400006e00: fa fa fd fa fa fa 00 00 fa fa fd fa fa fa 00 00
-      0x1c0400006e10: fa fa fd fd fa fa fd fa fa fa fd fd fa fa fd fa
-      0x1c0400006e20: fa fa fd fa fa fa fd fd fa fa fd fd fa fa fd fa
-      0x1c0400006e30: fa fa fd fa fa fa 00 fa fa fa 00 00 fa fa fd fd
-    =&gt;0x1c0400006e40: fa fa 00 00 fa fa 00 00 fa fa 00 00 fa fa[fd]fd
-      0x1c0400006e50: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-      0x1c0400006e60: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-      0x1c0400006e70: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-      0x1c0400006e80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
-      0x1c0400006e90: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  ....6df0: fa fa fd fd fa fa 00 00 fa fa fd fd fa fa fd fa
+  ....6e00: fa fa fd fa fa fa 00 00 fa fa fd fa fa fa 00 00
+  ....6e10: fa fa fd fd fa fa fd fa fa fa fd fd fa fa fd fa
+  ....6e20: fa fa fd fa fa fa fd fd fa fa fd fd fa fa fd fa
+  ....6e30: fa fa fd fa fa fa 00 fa fa fa 00 00 fa fa fd fd
+=&gt;....6e40: fa fa 00 00 fa fa 00 00 fa fa 00 00 fa fa[fd]fd
+  ....6e50: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  ....6e60: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  ....6e70: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  ....6e80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  ....6e90: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
     Shadow byte legend
     (one shadow byte represents 8 application bytes):
       Addressable:           00
