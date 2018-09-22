@@ -1,2 +1,1 @@
-\pagenumbering{roman}
 \chapter*{Acknowledgements}
