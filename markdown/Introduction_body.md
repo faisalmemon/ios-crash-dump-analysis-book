@@ -2,7 +2,7 @@ This book fills a gap that has emerged between Application Developers and the pl
 
 We focus exclusively on the Apple ecosystem.
 
-We cover macOS\index{trademark!macOS}, tvOS\index{trademark!tvOS}, watchOS\index{trademark!watchOS} and BridgeOS\index{trademark!BridgeOS} platforms, ARM\index{trademark!ARM} Assembly, and C (CoreFoundation), Objective-C\index{trademark!Objective-C}, and Objective-C++\index{trademark!Objective-C++} and Swift\index{trademark!Swift} programming languages.  This is because the older languages are more prone to crash bugs.  Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.
+We cover iOS\index{trademark!iOS}, macOS\index{trademark!macOS}, tvOS\index{trademark!tvOS}, watchOS\index{trademark!watchOS} and BridgeOS\index{trademark!BridgeOS} platforms, ARM\index{trademark!ARM} Assembly, and C (CoreFoundation), Objective-C\index{trademark!Objective-C}, and Objective-C++\index{trademark!Objective-C++} and Swift\index{trademark!Swift} programming languages.  This is because the older languages are more prone to crash bugs.  Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.
 
 We assume you have at least an introductory knowledge of iOS programming and software engineering, and have access to a Mac with Xcode.
 
