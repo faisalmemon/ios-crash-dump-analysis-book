@@ -12,7 +12,7 @@
 
 # If there was no previous build, leave the trademark file empty by producing empty output
 
-if [[ -f foo.idx ]] 
+if [[ -f boo.idx ]] 
 then
-grep trademark foo.idx | awk -F'!' '{print $2}' | awk -F"}" '{print $1}' | sort -u | paste -s -d, - | sed -e 's/,/, /g' | sed -e 's/$/\./'
+grep trademark boo.idx | awk -F'!' '{print $2}' | awk -F"}" '{print $1}' | sort -u | paste -s -d, - | sed -e 's/,/, /g' | sed -e 's/$/\./'
 fi

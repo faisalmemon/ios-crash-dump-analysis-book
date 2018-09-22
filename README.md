@@ -160,7 +160,7 @@ The build outputs are:
 File | Purpose
 --|--
 `foo.html` | Intermediate used for GitHub Pages documentation
-`foo.pdf` | For the Hard Copy Paper Edition
+`boo.pdf` | For the Hard Copy Paper Edition
 `foo.docx` | For further conversion into EPUB, and internally for spelling and grammar checking
 `foo.epub` | For E-book readers (Apple and Amazon) directly from pandoc
 `docs/*` | Final destination for GitHub Pages documentation
