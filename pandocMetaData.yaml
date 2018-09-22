@@ -7,4 +7,10 @@ author:
 tags: [iOS, crash dump, crash analysis]
 
 geometry: "paperwidth=15.24cm,paperheight=22.86cm,left=1.9cm,right=1.9cm,top=1.78cm,bottom=1.78cm"
+
+header-includes:
+- |
+  ```{=latex}
+  \pagenumbering{gobble}
+  ```
 ...
