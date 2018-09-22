@@ -24,3 +24,4 @@ To complement the book, there is a website of resources which is intended to be 
  for example.
 
 The GitHub website supporting the book is at @icdabgithub
+
