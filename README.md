@@ -12,6 +12,8 @@ The Kindle version is available for purchase at: [Amazon.com](https://www.amazon
 The paperback print version is available for purchase at: [Amazon.com](https://www.amazon.com/dp/1723801887/),
 [Amazon.co.uk](https://www.amazon.co.uk/dp/1723801887/), and other geographic regions of Amazon.
 
+Note, as an Amazon Associate, I earn from qualifying purchases made via the above links.
+
 The print edition is also from traditional book sellers, libraries, and other institutions.
 
 The purpose of this repository is to provide the source code, and other resources, supporting the iOS crash dump analysis book.  
