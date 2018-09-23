@@ -9,7 +9,10 @@ Accompanying the book is an Analytic Troubleshooting worksheet.
 The Kindle version is available for purchase at: [Amazon.com](https://www.amazon.com/iOS-Crash-Dump-Analysis-application-ebook/dp/B07HG7RXM6),
 [Amazon.co.uk](https://www.amazon.co.uk/iOS-Crash-Dump-Analysis-application-ebook/dp/B07HG7RXM6), and other geographic regions of Amazon.
 
-A print edition is available from Amazon, and also from traditional book sellers.  The release date is 22nd September, 2018.
+The paperback print version is available for purchase at: [Amazon.com](https://www.amazon.com/dp/1723801887/),
+[Amazon.co.uk](https://www.amazon.co.uk/dp/1723801887/), and other geographic regions of Amazon.
+
+The print edition is also from traditional book sellers, libraries, and other institutions.
 
 The purpose of this repository is to provide the source code, and other resources, supporting the iOS crash dump analysis book.  
 
