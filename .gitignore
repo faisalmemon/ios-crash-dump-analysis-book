@@ -70,11 +70,15 @@ fastlane/test_output
 # Finder related
 .DS_Store
 
+# Vi swap files
+*.swp
+
 # Temporary work area
 scratch/
 foo.*
 foo_*/
 texput.log
 boo.*
+
 
 trademarks.md
