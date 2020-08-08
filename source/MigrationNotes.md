@@ -9,12 +9,15 @@ to Apple Silicon.  Note, our Xcode will only build for macOS, not iOS/tvOS/watch
 
 This has x86 specific thread state.  Needs migration.
 
+## icdab_sema
+
+This has multiple targets, icdab_sema_{mac, ios}.  The mac variant compiles ok on the main Xcode 12.0 beta (12A8158a).  I need to test on the Apple Silicon version.
+
 ## New Code
 
 ### Fixed arg called with variadic args
 
 Write an example program that calls a function implemented with fixed arguments, with variadic arguments on the call site, and show it crashing on ARM; see https://developer.apple.com/documentation/apple_silicon/addressing_architectural_differences_in_your_macos_code
-
 
 ### Dynamic calls with objc_msgSend
 
