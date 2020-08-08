@@ -706,6 +706,35 @@ Thread 0 crashed with ARM Thread State (64-bit):
      cpsr: 0x80000000
 ```
 
+#### 64-bit thread state on ARMv8\index{CPU!ARMv8} architecture hardware
+
+```
+Thread 0 crashed with ARM Thread State (64-bit):
+    x0: 0x00000001005f0000   x1: 0x000000028041e980 
+      x2: 0x0000000000000007   x3: 0x00000001a3688d84
+    x4: 0x0000000000000000   x5: 0x0000000000000013   
+      x6: 0x0000000000000020   x7: 0x00000000000003f8
+    x8: 0x000000009de24040   x9: 0x000000000000007f  
+      x10: 0x0000000000000054  x11: 0x00000000000007fb
+   x12: 0x00000000000007fd  x13: 0x0000000000000000  
+      x14: 0x000000009e024800  x15: 0x0000000000000049
+   x16: 0x0000000080000000  x17: 0x000000001e000000  
+      x18: 0x0000000000000000  x19: 0x000000000000002d
+   x20: 0x0000000000000000  x21: 0x0000000000000002  
+      x22: 0x0000000000000002  x23: 0x0000000000000044
+   x24: 0x00000001005a7010  x25: 0x0000000283f31c00  
+      x26: 0x000000010086d920  x27: 0x00000000000020ff
+   x28: 0x00000001005a6f6a   fp: 0x000000016f8668f0   
+      lr: 0x00000001b0e53d70
+    sp: 0x000000016f8668d0   pc: 0x00000001b0e53d70 
+      cpsr: 0x60000000
+   esr: 0xf2000001  Address size fault
+```
+
+Here we see that for a ArmV8 crash, we no longer get `0xbaddc0dedeadbead` set in `x11`.  Instead, we get a new entry `esr:`.  This means "Exception Syndrome Register".  In this instance bits `[31:26]` reprepresents the `Exception Class` (`ESR_ELx.EC`), and `0b111100` means a `BRK` instruction was executed.  Bit `25` represents `Instruction Length` whose value `1` means in our case a `A64` `BRK` instruction was supplied.  The bottom bits `[15:0]` represent the `Comment` (`ESR_ELx.ISS`) value supplied when the `BRK` was invoked; in this case `1`.
+
+See https://developer.arm.com/docs/ddi0595/h/aarch64-system-registers/esr_el1
+See https://developer.arm.com/documentation/100076/0100/a64-instruction-set-reference/a64-general-instructions/brk
 
 ### iOS Crash Report Binary Images section
 
