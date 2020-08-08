@@ -731,10 +731,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
    esr: 0xf2000001  Address size fault
 ```
 
-Here we see that for a ArmV8 crash, we no longer get `0xbaddc0dedeadbead` set in `x11`.  Instead, we get a new entry `esr:`.  This means "Exception Syndrome Register".  In this instance bits `[31:26]` reprepresents the `Exception Class` (`ESR_ELx.EC`), and `0b111100` means a `BRK` instruction was executed.  Bit `25` represents `Instruction Length` whose value `1` means in our case a `A64` `BRK` instruction was supplied.  The bottom bits `[15:0]` represent the `Comment` (`ESR_ELx.ISS`) value supplied when the `BRK` was invoked; in this case `1`.
-
-See https://developer.arm.com/docs/ddi0595/h/aarch64-system-registers/esr_el1
-See https://developer.arm.com/documentation/100076/0100/a64-instruction-set-reference/a64-general-instructions/brk
+Here we see that for a ArmV8 crash, we no longer get `0xbaddc0dedeadbead`\index{0xbaddc0dedeadbead} set in `x11`.  Instead, we get a new entry `esr:`.  This means "Exception Syndrome Register"\index{CPU!Exception Syndrome Register}.  @ARMv8_ESR. In this instance bits `[31:26]` reprepresents the `Exception Class` (`ESR_ELx.EC`), and `0b111100` means a `BRK` instruction was executed.  Bit `25` represents `Instruction Length` whose value `1` means in our case a `A64` `BRK` instruction was supplied.  The bottom bits `[15:0]` represent the `Comment` (`ESR_ELx.ISS`) value supplied when the `BRK` was invoked; in this case `1`. @ARM_BRK
 
 ### iOS Crash Report Binary Images section
 
