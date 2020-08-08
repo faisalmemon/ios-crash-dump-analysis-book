@@ -658,7 +658,7 @@ iOS Crash Reports will be either from ARM-64 binaries\index{CPU!ARM-64} (most co
 
 In each case, we get similar looking information describing the state of the ARM registers\index{CPU!register}.
 
-One thing to look out for is the special hex code, `0xbaddc0dedeadbead`\index{0xbaddc0dedeadbead} which means a non-initialized pointer.
+One thing to look out for is the special hex code, `0xbaddc0dedeadbead`\index{0xbaddc0dedeadbead} which means a non-initialized pointer.However, newer versions of the Swift runtime don't make use of this.
 
 #### 32-bit thread state
 
@@ -675,7 +675,7 @@ Thread 0 crashed with ARM Thread State (32-bit):
   cpsr: 0x00000010
 ```
 
-#### 64-bit thread state
+#### 64-bit thread state from older Swift runtimes
 
 ```
 Thread 0 crashed with ARM Thread State (64-bit):
@@ -706,7 +706,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
      cpsr: 0x80000000
 ```
 
-#### 64-bit thread state on ARMv8\index{CPU!ARMv8} architecture hardware
+#### 64-bit thread state on newer Swift runtimes
 
 ```
 Thread 0 crashed with ARM Thread State (64-bit):
@@ -731,7 +731,15 @@ Thread 0 crashed with ARM Thread State (64-bit):
    esr: 0xf2000001  Address size fault
 ```
 
-Here we see that for a ArmV8 crash, we no longer get `0xbaddc0dedeadbead`\index{0xbaddc0dedeadbead} set in `x11`.  Instead, we get a new entry `esr:`.  This means "Exception Syndrome Register"\index{CPU!Exception Syndrome Register}.  @ARMv8_ESR. In this instance bits `[31:26]` reprepresents the `Exception Class` (`ESR_ELx.EC`), and `0b111100` means a `BRK` instruction was executed.  Bit `25` represents `Instruction Length` whose value `1` means in our case a `A64` `BRK` instruction was supplied.  The bottom bits `[15:0]` represent the `Comment` (`ESR_ELx.ISS`) value supplied when the `BRK` was invoked; in this case `1`. @ARM_BRK
+Here we see that for a ARM64 crash, we no longer get `0xbaddc0dedeadbead`\index{0xbaddc0dedeadbead} set in `x11`.  Instead, we get a new entry `esr:`.  This means "Exception Syndrome Register"\index{CPU!Exception Syndrome Register}.  @ARMv8_ESR.
+
+Bit Range|Meaning | Mnemonic
+--|--
+31:26|Exception Class|ESR_ELx.EC
+25|Instruction Length|ESR_ELx.IL
+15:0|Comment|ESR_ELx.ISS
+
+In this instance bits `[31:26]` value `0b111100` means a `BRK` instruction was executed.  Bit `25` whose value is `1` means in our case a `A64` `BRK` instruction was supplied.  The bottom bits `[15:0]` value `1` means `1` when supplied when `BRK` was invoked. @ARM_BRK
 
 ### iOS Crash Report Binary Images section
 
