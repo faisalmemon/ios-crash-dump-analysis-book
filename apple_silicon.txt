@@ -19,3 +19,4 @@ t Work through the CDA book updating it
 t Work out what publicity and meta data material is needed for the book
 t Publish the new book
 t Consider UIStepper example which fails on macOS via Catalyst
+t Consider the analysis https://steipete.com/posts/forbidden-controls-in-catalyst-mac-idiom/ for the mac idiom and missing UI support
