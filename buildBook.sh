@@ -1,33 +1,78 @@
 #!/bin/bash
 
+usage() {
+  echo "Usage: $0 [-l languageCode]" 1>&2
+}
+
+exit_abnormal() {
+  usage
+  exit 1
+}
+
+langName="en"
+
+while getopts "l:" options; do
+  case "${options}" in
+    l)
+      langName=${OPTARG}
+      ;;
+    :)
+      echo "Error: -${OPTARG} requires an argument."
+      exit_abnormal
+      ;;
+    *)
+      exit_abnormal
+      ;;
+  esac
+done
+
+shift $(($OPTIND - 1))
+remainingArgs=$@
+
 ./commatrademark.sh > trademarks.md
 
-rm foo.*
+rm foo.$langName.*
+
+filesToProcess=$(./get_markdown_for_lang.sh -l $langName $(cat frontPages.txt mainPages.txt))
+latexFilesToProcess=$(./get_markdown_for_lang.sh -l $langName $(cat frontPages_latex.txt mainPages.txt))
+
+echo filesToProcess is $filesToProcess
+echo latexFilesToProcess is $latexFilesToProcess
 
 # We allow first person in the preface and second person in the Introduction.
 # Elsewhere it is third person only.
 
+ignoreFiles='Introduction|Preface|Acknowledgements'
+
 echo Usages of "you" in the narrative
-grep --color you $(cat frontPages.txt mainPages.txt | egrep -v 'Introduction|Preface|Acknowledgements') -c | grep --color -v hammer | grep -i --color -v layout
-echo
-grep --color you $(cat frontPages.txt mainPages.txt | egrep -v 'Introduction|Preface|Acknowledgements') | grep --color -v hammer | grep -i --color -v layout
+for file in $filesToProcess
+do
+	if [[ $file =~ $ignoreFiles ]]
+	then
+		echo ignoring $file
+	else
+                echo "considering $file"
+	        grep you $file | grep --color -v hammer | grep -i --color -v layout
+	fi
 
-pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -c style/gitHubStyle.css -o foo.html
-pandoc $(cat frontPages_latex.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --template=style/styleToCreateIndex.latex -V documentclass=book -o boo.latex
-pdflatex boo.latex > boo.pass.0.log
-pdflatex boo.latex > boo.pass.1.log
-pdflatex boo.latex > boo.pass.2.log
+done
 
-pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --css=style/ebook.css -o foo.epub
+pandoc $filesToProcess pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -c style/gitHubStyle.css -o foo.$langName.html
+pandoc $latexFilesToProcess pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --template=style/styleToCreateIndex.latex -V documentclass=book -o boo.$langName.latex
+pdflatex boo.$langName.latex > boo.$langName.pass.0.log
+pdflatex boo.$langName.latex > boo.$langName.pass.1.log
+pdflatex boo.$langName.latex > boo.$langName.pass.2.log
 
-pandoc $(cat frontPages.txt mainPages.txt) pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --reference-doc=style/referenceWordDocumentTemplate.docx -o foo.docx
+pandoc $filesToProcess pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --css=style/ebook.css -o foo.$langName.epub
 
-mkdir -p docs
-cp foo.html docs/index.html
-git add docs/index.html
-rm -rf docs/screenshots docs/style
-cp -pr screenshots docs/screenshots
-cp -pr style docs/style
-git add docs/screenshots docs/style
-git commit -m'update published book on github pages'
+pandoc $filesToProcess pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --reference-doc=style/referenceWordDocumentTemplate.docx -o foo.$langName.docx
+
+mkdir -p docs/$langName
+cp foo.$langName.html docs/$langName/index.html
+git add docs/$langName/index.html
+rm -rf docs/$langName/screenshots docs/$langName/style
+cp -pr screenshots docs/$langName/screenshots
+cp -pr style docs/$langName/style
+git add docs/$langName/screenshots docs/$langName/style
+git commit -m"update published $langName book on github pages"
 git push
