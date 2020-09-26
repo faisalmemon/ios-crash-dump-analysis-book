@@ -1,0 +1,1 @@
+Load project icdab_edge and set the schema setting to address sanitizer.

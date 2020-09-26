@@ -1,0 +1,1 @@
+Launch xcode and highlight the debug bar for icdab_cycle app.
