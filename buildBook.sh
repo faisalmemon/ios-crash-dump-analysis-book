@@ -62,11 +62,11 @@ echo Processing boo.$langName.latex
 pandoc $latexFilesToProcess pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --template=style/styleToCreateIndex.latex -V documentclass=book -o boo.$langName.latex
 
 echo Indexing pass 0
-pdflatex boo.$langName.latex > boo.$langName.pass.0.log
+pdflatex boo.$langName.latex > boo.$langName.pass.0.log </dev/null
 echo Indexing pass 1
-pdflatex boo.$langName.latex > boo.$langName.pass.1.log
+pdflatex boo.$langName.latex > boo.$langName.pass.1.log </dev/null
 echo Indexing pass 2
-pdflatex boo.$langName.latex > boo.$langName.pass.2.log
+pdflatex boo.$langName.latex > boo.$langName.pass.2.log </dev/null
 
 echo Processing foo.$langName.epub
 pandoc $filesToProcess pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --css=style/ebook.css -o foo.$langName.epub
