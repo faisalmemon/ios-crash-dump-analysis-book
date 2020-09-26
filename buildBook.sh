@@ -47,9 +47,8 @@ for file in $filesToProcess
 do
 	if [[ $file =~ $ignoreFiles ]]
 	then
-		echo ignoring $file
+		# nothing to do
 	else
-                echo "considering $file"
 	        grep you $file | grep --color -v hammer | grep -i --color -v layout
 	fi
 
