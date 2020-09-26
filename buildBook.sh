@@ -47,12 +47,14 @@ for file in $filesToProcess
 do
 	if [[ $file =~ $ignoreFiles ]]
 	then
-		# nothing to do
+		echo -n .
 	else
-	        grep you $file | grep --color -v hammer | grep -i --color -v layout
+	        grep you $file | grep --color -v hammer | grep -i --color -v layout || echo -n .
 	fi
 
 done
+
+echo
 
 echo Processing foo.$langName.html
 pandoc $filesToProcess pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -c style/gitHubStyle.css -o foo.$langName.html
