@@ -68,7 +68,7 @@ pdflatex boo.$langName.latex > boo.$langName.pass.1.log </dev/null
 echo Indexing pass 2
 pdflatex boo.$langName.latex > boo.$langName.pass.2.log </dev/null
 
-echo Check for errors; cslreferences error already is known
+echo "Check for errors; cslreferences error already is known"
 grep 'LaTeX Error:' boo.$langName.pass.*.log
 
 echo Processing foo.$langName.epub
