@@ -1,8 +1,11 @@
 # iOS Crash Dump Analysis Book
 
-The HTML version of the book, "iOS Crash Dump Analysis" is available at the link:
-- https://faisalmemon.github.io/ios-crash-dump-analysis-book/en (English)
-- https://faisalmemon.github.io/ios-crash-dump-analysis-book/zh (Chinese)
+The HTML version of the book, "iOS Crash Dump Analysis" is available as follows:
+
+Language | Link
+-- | --
+English | https://faisalmemon.github.io/ios-crash-dump-analysis-book/en
+Chinese | https://faisalmemon.github.io/ios-crash-dump-analysis-book/zh
 
 Accompanying the book is an Analytic Troubleshooting worksheet.
 [Download the Analytic Troubleshooting worksheet pdf](./examples/worksheets/analytic_troubleshooting_worksheet.pdf)
@@ -56,7 +59,8 @@ screenshots | Screenshots
 
 The software configuration management plan (SCM plan) is very simple.
 - All development is done on the master branch.
-- When a version of the book is published a numbered release branch is made, e.g. `release/1.0`
+- Feature work is done on a branch.
+- Notable versions of the software are tracked by [Release History](./release/releaseHistory.md)
 
 ## Authoring Methodology
 
