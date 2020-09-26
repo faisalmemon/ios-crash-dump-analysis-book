@@ -6,11 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="By Faisal Memon" />
   <title>iOS Crash Dump Analysis</title>
-  <style type="text/css">
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="style/gitHubStyle.css" />
   <!--[if lt IE 9]>
@@ -19,18 +22,20 @@
   
 </head>
 <body>
-<header>
+<header id="title-block-header">
 <h1 class="title">iOS Crash Dump Analysis</h1>
 <p class="author">By Faisal Memon</p>
 </header>
-<nav id="TOC">
+<nav id="TOC" role="doc-toc">
 <ul>
 <li><a href="#disclaimer">Disclaimer</a></li>
 <li><a href="#preface">Preface</a></li>
 <li><a href="#acknowledgements">Acknowledgements</a></li>
 <li><a href="#introduction">Introduction</a></li>
-<li><a href="#quick-start">Quick Start</a><ul>
-<li><a href="#troubleshooting">Troubleshooting</a><ul>
+<li><a href="#quick-start">Quick Start</a>
+<ul>
+<li><a href="#troubleshooting">Troubleshooting</a>
+<ul>
 <li><a href="#missing-resource-issue">Missing resource issue</a></li>
 <li><a href="#binary-compatibility-issue">Binary compatibility issue</a></li>
 <li><a href="#simulator-only-issue">Simulator only issue</a></li>
@@ -38,54 +43,65 @@
 <li><a href="#customer-device-deployment-issues">Customer device deployment issues</a></li>
 <li><a href="#locale-specific-issues">Locale specific issues</a></li>
 </ul></li>
-<li><a href="#the-crash-mindset">The Crash Mindset</a><ul>
+<li><a href="#the-crash-mindset">The Crash Mindset</a>
+<ul>
 <li><a href="#locale-based-crash">Locale based Crash</a></li>
 <li><a href="#geographic-location-crash">Geographic Location Crash</a></li>
 <li><a href="#bus-noise-crash">Bus Noise Crash</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#basic-concepts">Basic Concepts</a><ul>
+<li><a href="#basic-concepts">Basic Concepts</a>
+<ul>
 <li><a href="#what-is-a-crash">What is a crash?</a></li>
-<li><a href="#operating-environment-policies">Operating Environment Policies</a><ul>
+<li><a href="#operating-environment-policies">Operating Environment Policies</a>
+<ul>
 <li><a href="#nil-handling-example">Nil Handling Example</a></li>
 <li><a href="#mac-address-example">MAC Address Example</a></li>
 <li><a href="#camera-example">Camera Example</a></li>
 <li><a href="#lessons-learnt">Lessons Learnt</a></li>
 </ul></li>
-<li><a href="#application-policies">Application policies</a><ul>
+<li><a href="#application-policies">Application policies</a>
+<ul>
 <li><a href="#when-should-we-crash">When should we crash?</a></li>
 <li><a href="#when-should-we-not-crash">When should we not crash?</a></li>
 </ul></li>
-<li><a href="#engineering-guidance">Engineering Guidance</a><ul>
+<li><a href="#engineering-guidance">Engineering Guidance</a>
+<ul>
 <li><a href="#unit-testing-the-mac-address">Unit Testing the MAC Address</a></li>
 <li><a href="#ui-testing-camera-access">UI Testing Camera access</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#tooling">Tooling</a><ul>
+<li><a href="#tooling">Tooling</a>
+<ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#reverse-engineering">Reverse Engineering</a></li>
 <li><a href="#class-dump-tool">Class Dump Tool</a></li>
 <li><a href="#third-party-crash-reporting">Third Party Crash Reporting</a></li>
 </ul></li>
-<li><a href="#xcode-built-in-help">Xcode Built-In Help</a><ul>
-<li><a href="#xcode-diagnostic-settings">Xcode Diagnostic Settings</a><ul>
+<li><a href="#xcode-built-in-help">Xcode Built-In Help</a>
+<ul>
+<li><a href="#xcode-diagnostic-settings">Xcode Diagnostic Settings</a>
+<ul>
 <li><a href="#execution-methodology">Execution Methodology</a></li>
 <li><a href="#analysis-methodology">Analysis Methodology</a></li>
 <li><a href="#process-methodology">Process Methodology</a></li>
 </ul></li>
 <li><a href="#the-middle-road">The Middle Road</a></li>
 </ul></li>
-<li><a href="#hybrid-environments">Hybrid Environments</a><ul>
+<li><a href="#hybrid-environments">Hybrid Environments</a>
+<ul>
 <li><a href="#program-structure">Program structure</a></li>
 <li><a href="#paradigms">Paradigms</a></li>
 <li><a href="#the-problem">The Problem</a></li>
-<li><a href="#solutions">Solutions</a><ul>
+<li><a href="#solutions">Solutions</a>
+<ul>
 <li><a href="#stl-solution">STL Solution</a></li>
 <li><a href="#facade-solution">Facade Solution</a></li>
 </ul></li>
 <li><a href="#lessons-learnt-1">Lessons Learnt</a></li>
 </ul></li>
-<li><a href="#symbolification">Symbolification</a><ul>
+<li><a href="#symbolification">Symbolification</a>
+<ul>
 <li><a href="#build-process">Build Process</a></li>
 <li><a href="#build-settings">Build Settings</a></li>
 <li><a href="#observing-a-local-crash">Observing a local crash</a></li>
@@ -93,11 +109,14 @@
 <li><a href="#manual-symbolification">Manual Symbolification</a></li>
 <li><a href="#reverse-engineering-approach">Reverse Engineering Approach</a></li>
 </ul></li>
-<li><a href="#the-crash-report">The Crash Report</a><ul>
-<li><a href="#system-diagnostics">System Diagnostics</a><ul>
+<li><a href="#the-crash-report">The Crash Report</a>
+<ul>
+<li><a href="#system-diagnostics">System Diagnostics</a>
+<ul>
 <li><a href="#extracting-system-diagnostic-information">Extracting System Diagnostic Information</a></li>
 </ul></li>
-<li><a href="#guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</a><ul>
+<li><a href="#guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</a>
+<ul>
 <li><a href="#ios-crash-report-header-section">iOS Crash Report Header Section</a></li>
 <li><a href="#ios-crash-report-date-and-version-section">iOS Crash Report Date and Version Section</a></li>
 <li><a href="#ios-crash-report-exception-section">iOS Crash Report Exception Section</a></li>
@@ -107,7 +126,8 @@
 <li><a href="#ios-crash-report-thread-state-section">iOS Crash Report Thread State Section</a></li>
 <li><a href="#ios-crash-report-binary-images-section">iOS Crash Report Binary Images section</a></li>
 </ul></li>
-<li><a href="#guided-tour-of-a-macos-crash-report">Guided tour of a macOS Crash Report</a><ul>
+<li><a href="#guided-tour-of-a-macos-crash-report">Guided tour of a macOS Crash Report</a>
+<ul>
 <li><a href="#macos-crash-report-header-section">macOS Crash Report Header Section</a></li>
 <li><a href="#macos-crash-report-date-and-version-section">macOS Crash Report Date and Version Section</a></li>
 <li><a href="#macos-duration-section">macOS Duration Section</a></li>
@@ -121,27 +141,33 @@
 <li><a href="#macos-crash-report-system-profile-section">macOS Crash Report System Profile section</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#analytic-troubleshooting">Analytic Troubleshooting</a><ul>
-<li><a href="#prioritizing-our-problem">Prioritizing our problem</a><ul>
+<li><a href="#analytic-troubleshooting">Analytic Troubleshooting</a>
+<ul>
+<li><a href="#prioritizing-our-problem">Prioritizing our problem</a>
+<ul>
 <li><a href="#prioritizing-based-upon-impact">Prioritizing based upon impact</a></li>
 <li><a href="#prioritizing-based-upon-deadlines">Prioritizing based upon deadlines</a></li>
 <li><a href="#prioritizing-based-upon-trend">Prioritizing based upon trend</a></li>
 </ul></li>
 <li><a href="#stating-the-problem">Stating the problem</a></li>
-<li><a href="#specifying-the-problem">Specifying the problem</a><ul>
+<li><a href="#specifying-the-problem">Specifying the problem</a>
+<ul>
 <li><a href="#questions-to-ask">Questions to ask</a></li>
 </ul></li>
-<li><a href="#example-problem-specifications">Example problem specifications</a><ul>
+<li><a href="#example-problem-specifications">Example problem specifications</a>
+<ul>
 <li><a href="#cameraapp-what-is-is-not-example">CameraApp What Is / Is Not Example</a></li>
 <li><a href="#imac-where-is-is-not-example">iMac Where Is / Is Not Example</a></li>
 <li><a href="#database-app-when-is-is-not-example">Database app When Is / Is Not Example</a></li>
 <li><a href="#game-app-extent-is-is-not-example">Game app Extent Is / Is Not Example</a></li>
 </ul></li>
-<li><a href="#the-2018-macbook-pro-t2-problem">The 2018 MacBook Pro T2 Problem</a><ul>
+<li><a href="#the-2018-macbook-pro-t2-problem">The 2018 MacBook Pro T2 Problem</a>
+<ul>
 <li><a href="#analysis-of-failures">Analysis of failures</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#a-siri-crash">A Siri Crash</a><ul>
+<li><a href="#a-siri-crash">A Siri Crash</a>
+<ul>
 <li><a href="#why-are-we-looking-at-a-siri-crash">Why are we looking at a Siri Crash?</a></li>
 <li><a href="#the-crash-report-1">The Crash report</a></li>
 <li><a href="#the-crash-details">The Crash details</a></li>
@@ -149,55 +175,67 @@
 <li><a href="#software-engineering-insights">Software Engineering Insights</a></li>
 <li><a href="#lessons-learnt-2">Lessons Learnt</a></li>
 </ul></li>
-<li><a href="#runtime-environment-crashes">Runtime Environment Crashes</a><ul>
-<li><a href="#unwrapping-a-nil-optional">Unwrapping a Nil Optional</a><ul>
+<li><a href="#runtime-environment-crashes">Runtime Environment Crashes</a>
+<ul>
+<li><a href="#unwrapping-a-nil-optional">Unwrapping a Nil Optional</a>
+<ul>
 <li><a href="#ios-uikit-outlets">iOS UIKit Outlets</a></li>
 <li><a href="#ownership-rules">Ownership rules</a></li>
 <li><a href="#crash-report-for-unwrapped-nil-optionals">Crash Report for unwrapped nil optionals</a></li>
 </ul></li>
-<li><a href="#releasing-a-semaphore-that-is-in-use">Releasing a semaphore that is in use</a><ul>
+<li><a href="#releasing-a-semaphore-that-is-in-use">Releasing a semaphore that is in use</a>
+<ul>
 <li><a href="#crash-example-releasing-a-semaphore">Crash example releasing a semaphore</a></li>
 <li><a href="#faulty-semaphore-code">Faulty semaphore code</a></li>
 <li><a href="#using-application-specific-crash-report-information">Using application specific Crash Report information</a></li>
 <li><a href="#semaphore-crash-lessons-learnt">Semaphore Crash Lessons Learnt</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#bad-memory-crashes">Bad Memory Crashes</a><ul>
+<li><a href="#bad-memory-crashes">Bad Memory Crashes</a>
+<ul>
 <li><a href="#general-principles">General principles</a></li>
-<li><a href="#segment-violation-segv-crashes">Segment Violation (SEGV) crashes</a><ul>
+<li><a href="#segment-violation-segv-crashes">Segment Violation (SEGV) crashes</a>
+<ul>
 <li><a href="#fud-crash">fud crash</a></li>
 <li><a href="#leakagent-crash">LeakAgent crash</a></li>
 </ul></li>
-<li><a href="#bus-error-sigbus-crashes">Bus error (SIGBUS) crashes</a><ul>
+<li><a href="#bus-error-sigbus-crashes">Bus error (SIGBUS) crashes</a>
+<ul>
 <li><a href="#xbmc-crash">xbmc crash</a></li>
 <li><a href="#jablotron-crash">Jablotron crash</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#application-abort-crashes">Application Abort Crashes</a><ul>
+<li><a href="#application-abort-crashes">Application Abort Crashes</a>
+<ul>
 <li><a href="#general-principles-1">General principles</a></li>
 <li><a href="#kindle-create-crash">Kindle Create Crash</a></li>
-<li><a href="#type-confusion">Type confusion</a><ul>
+<li><a href="#type-confusion">Type confusion</a>
+<ul>
 <li><a href="#extracting-nsdata-from-a-configuration-file">Extracting NSData from a configuration file</a></li>
 <li><a href="#deserialization-crash-report">Deserialization Crash Report</a></li>
 </ul></li>
 <li><a href="#not-a-number-errors">‘Not A Number’ Errors</a></li>
 </ul></li>
-<li><a href="#resource-crashes">Resource Crashes</a><ul>
+<li><a href="#resource-crashes">Resource Crashes</a>
+<ul>
 <li><a href="#cpu-usage-crash">CPU Usage Crash</a></li>
 <li><a href="#wake-up-crash">Wake Up Crash</a></li>
 <li><a href="#wake-up-crash-exception">Wake Up crash exception</a></li>
 <li><a href="#temperature-crash">Temperature Crash</a></li>
 </ul></li>
-<li><a href="#application-termination-crashes">Application Termination Crashes</a><ul>
+<li><a href="#application-termination-crashes">Application Termination Crashes</a>
+<ul>
 <li><a href="#deadlock-crash">Deadlock Crash</a></li>
 <li><a href="#insecure-drawing-crash">Insecure Drawing Crash</a></li>
 </ul></li>
-<li><a href="#memory-diagnostics">Memory Diagnostics</a><ul>
+<li><a href="#memory-diagnostics">Memory Diagnostics</a>
+<ul>
 <li><a href="#basics-of-memory-allocation">Basics of memory allocation</a></li>
 <li><a href="#address-sanitizer">Address Sanitizer</a></li>
 <li><a href="#memory-overshoot-example">Memory overshoot example</a></li>
 <li><a href="#use-after-free-example">Use after free example</a></li>
-<li><a href="#memory-management-tools">Memory Management tools</a><ul>
+<li><a href="#memory-management-tools">Memory Management tools</a>
+<ul>
 <li><a href="#guard-malloc-tool">Guard Malloc Tool</a></li>
 <li><a href="#malloc-scribble">Malloc Scribble</a></li>
 <li><a href="#zombie-objects">Zombie Objects</a></li>
@@ -216,7 +254,6 @@
 <p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
 <p>Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.</p>
 <p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognised the following trademarks:</p>
-<p>ARM, Android, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iTunes Connect, macOS, tvOS, watchOS.</p>
 <h1 id="preface">Preface</h1>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
 <p>It’s hard to overstate the euphoria of the moment. The Internet was the next Industrial Revolution. Investors saw it as the best place to put their money. Hardware, software and services were all experiencing a Cambrian explosion of diversity and innovation.</p>
@@ -250,7 +287,6 @@
 <p>To complement the book, there is a website of resources which is intended to be used alongside the printed material so example projects can be setup and run by yourself and experimented with. All references in this book are collected into the Bibliography Chapter at the end of the book. There you will find URLs to resources, for example.</p>
 <p>The GitHub website supporting the book is at <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <h1 id="quick-start">Quick Start</h1>
-
 <p>When an application crash appears after a recent code change, it can be straightforward to reason about the crash and look at the relevant code changes. Often, crashes just appear due to a change in operating environment. Those can be the most annoying. For example, the app runs fine in the Office but crashes at the customer Site. We don’t have time to get into why, but need a quick fix or workaround. Another common problem scenario arises when a new project is being explored. This is where we have no prior experience with the code base but immediately face crash problems after compilation and running the app.</p>
 <p>In this chapter, we explore possible reasons for crashing due to a change in operating environment. Many problems can be dealt with without getting into logical analysis of the specifics of the problem at hand. In reality sometimes we just need to make progress, whilst making a note to go back and address the root cause.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
@@ -3991,7 +4027,7 @@ Versions/A/QuartzCore</code></pre>
          __ZN2CA5Layer10set_boundsERKNS_4RectEb+70,
           __ZN2CA5Layer10set_boundsERKNS_4RectEb+137,
            __ZN2CA5Layer10set_boundsERKNS_4RectEb+147</code></pre>
-<p>We can see that 8f1c is the next function call (after returning). The problem function call was done at address 8f16. We can also see the text of the string supplied to the Crash Report. <code>&quot;CALayer bounds contains NaN: [%g %g; %g %g]&quot;</code></p>
+<p>We can see that 8f1c is the next function call (after returning). The problem function call was done at address 8f16. We can also see the text of the string supplied to the Crash Report. <code>"CALayer bounds contains NaN: [%g %g; %g %g]"</code></p>
 <h1 id="resource-crashes">Resource Crashes</h1>
 <p>In this chapter, we look at resource related crashes. These are crashes induced by the Operating System due to incorrect or excessive resource usage. Resource crashes are indicated by the <code>Exception Type</code> <code>EXC_RESOURCE</code></p>
 <h2 id="cpu-usage-crash">CPU Usage Crash</h2>
@@ -4864,85 +4900,85 @@ usr/lib/libBacktraceRecording.dylib
 .
 .
 .</code></pre>
-<h1 id="bibliography" class="unnumbered">Bibliography</h1>
-<div id="refs" class="references">
+<h1 class="unnumbered" id="bibliography">Bibliography</h1>
+<div id="refs" class="references hanging-indent" role="doc-bibliography">
 <div id="ref-macbookproT2">
-<p>“2018 Macbook Pros Bridge Os Error.” 2018. <a href="https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/" class="uri">https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/</a>.</p>
+<p>“2018 Macbook Pros Bridge Os Error.” 2018. <a href="https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/">https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/</a>.</p>
 </div>
 <div id="ref-wwdc2015_413">
-<p>“Advanced Debugging with Address Sanitizer.” 2015. <a href="https://developer.apple.com/videos/play/wwdc2015/413/" class="uri">https://developer.apple.com/videos/play/wwdc2015/413/</a>.</p>
+<p>“Advanced Debugging with Address Sanitizer.” 2015. <a href="https://developer.apple.com/videos/play/wwdc2015/413/">https://developer.apple.com/videos/play/wwdc2015/413/</a>.</p>
 </div>
 <div id="ref-kepnertregoe">
-<p>“Analytic Troubleshooting.” 2018. <a href="https://www.kepner-tregoe.com" class="uri">https://www.kepner-tregoe.com</a>.</p>
+<p>“Analytic Troubleshooting.” 2018. <a href="https://www.kepner-tregoe.com">https://www.kepner-tregoe.com</a>.</p>
 </div>
 <div id="ref-tn2151">
-<p>“Apple Crash Dump Technote 2151.” 2018. <a href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2151/_index.html</a>.</p>
+<p>“Apple Crash Dump Technote 2151.” 2018. <a href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html">https://developer.apple.com/library/archive/technotes/tn2151/_index.html</a>.</p>
 </div>
 <div id="ref-appleinsiderimacpro">
-<p>“Apple’s T2 Chip May Be Behind iMac Pro, Macbook Pro Crashes.” 2018. <a href="https://appleinsider.com/articles/18/07/26/apples-t2-chip-could-be-behind-small-number-of-crashes-in-imac-pro-new-macbook-pro" class="uri">https://appleinsider.com/articles/18/07/26/apples-t2-chip-could-be-behind-small-number-of-crashes-in-imac-pro-new-macbook-pro</a>.</p>
+<p>“Apple’s T2 Chip May Be Behind iMac Pro, Macbook Pro Crashes.” 2018. <a href="https://appleinsider.com/articles/18/07/26/apples-t2-chip-could-be-behind-small-number-of-crashes-in-imac-pro-new-macbook-pro">https://appleinsider.com/articles/18/07/26/apples-t2-chip-could-be-behind-small-number-of-crashes-in-imac-pro-new-macbook-pro</a>.</p>
 </div>
 <div id="ref-tn2123">
-<p>“CrashReport Technote 2123.” 2004. <a href="https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html" class="uri">https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html</a>.</p>
+<p>“CrashReport Technote 2123.” 2004. <a href="https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html">https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html</a>.</p>
 </div>
 <div id="ref-intelrob">
-<p>“Debugging Processor Reorder Buffer Timeout: Guide.” 2018. <a href="https://www.intel.co.uk/content/www/uk/en/embedded/training/rob-timeout-debug-guide-paper.html?wapkw=caterr" class="uri">https://www.intel.co.uk/content/www/uk/en/embedded/training/rob-timeout-debug-guide-paper.html?wapkw=caterr</a>.</p>
+<p>“Debugging Processor Reorder Buffer Timeout: Guide.” 2018. <a href="https://www.intel.co.uk/content/www/uk/en/embedded/training/rob-timeout-debug-guide-paper.html?wapkw=caterr">https://www.intel.co.uk/content/www/uk/en/embedded/training/rob-timeout-debug-guide-paper.html?wapkw=caterr</a>.</p>
 </div>
 <div id="ref-apple-sysdiag">
-<p>“Diagnostic Profiles and Logs.” 2018. <a href="https://developer.apple.com/bug-reporting/profiles-and-logs/" class="uri">https://developer.apple.com/bug-reporting/profiles-and-logs/</a>.</p>
+<p>“Diagnostic Profiles and Logs.” 2018. <a href="https://developer.apple.com/bug-reporting/profiles-and-logs/">https://developer.apple.com/bug-reporting/profiles-and-logs/</a>.</p>
 </div>
 <div id="ref-dynamicloadingeg">
-<p>“Dynamic Loading Example.” 2018. <a href="https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework.git" class="uri">https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework.git</a>.</p>
+<p>“Dynamic Loading Example.” 2018. <a href="https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework.git">https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework.git</a>.</p>
 </div>
 <div id="ref-impropersockets">
-<p>“Improper Use of Bsd Sockets.” 2018. <a href="https://stackoverflow.com/a/13790353/2715565" class="uri">https://stackoverflow.com/a/13790353/2715565</a>.</p>
+<p>“Improper Use of Bsd Sockets.” 2018. <a href="https://stackoverflow.com/a/13790353/2715565">https://stackoverflow.com/a/13790353/2715565</a>.</p>
 </div>
 <div id="ref-icdabgithub">
-<p>“IOS Crash Dump Analysis Book Github Resources.” 2018. <a href="https://github.com/faisalmemon/ios-crash-dump-analysis-book" class="uri">https://github.com/faisalmemon/ios-crash-dump-analysis-book</a>.</p>
+<p>“IOS Crash Dump Analysis Book Github Resources.” 2018. <a href="https://github.com/faisalmemon/ios-crash-dump-analysis-book">https://github.com/faisalmemon/ios-crash-dump-analysis-book</a>.</p>
 </div>
 <div id="ref-3rdpartycrashtools">
-<p>“IOS Crash Reporting Tools.” 2017. <a href="https://rollout.io/blog/ios-crash-reporting-tools-2017-update/" class="uri">https://rollout.io/blog/ios-crash-reporting-tools-2017-update/</a>.</p>
+<p>“IOS Crash Reporting Tools.” 2017. <a href="https://rollout.io/blog/ios-crash-reporting-tools-2017-update/">https://rollout.io/blog/ios-crash-reporting-tools-2017-update/</a>.</p>
 </div>
 <div id="ref-wwdc2018_416">
-<p>“IOS Memory Deep Dive.” 2018. <a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/416n2fmzz0fz88f/416/416_ios_memory_deep_dive.pdf?dl=1" class="uri">https://devstreaming-cdn.apple.com/videos/wwdc/2018/416n2fmzz0fz88f/416/416_ios_memory_deep_dive.pdf?dl=1</a>.</p>
+<p>“IOS Memory Deep Dive.” 2018. <a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/416n2fmzz0fz88f/416/416_ios_memory_deep_dive.pdf?dl=1">https://devstreaming-cdn.apple.com/videos/wwdc/2018/416n2fmzz0fz88f/416/416_ios_memory_deep_dive.pdf?dl=1</a>.</p>
 </div>
 <div id="ref-ios-versions">
-<p>“IOS Version History.” 2018. <a href="https://en.wikipedia.org/wiki/IOS_version_history" class="uri">https://en.wikipedia.org/wiki/IOS_version_history</a>.</p>
+<p>“IOS Version History.” 2018. <a href="https://en.wikipedia.org/wiki/IOS_version_history">https://en.wikipedia.org/wiki/IOS_version_history</a>.</p>
 </div>
 <div id="ref-libdispatchtar">
-<p>“Libdispatch Open Source.” 2018. <a href="https://opensource.apple.com/tarballs/libdispatch/" class="uri">https://opensource.apple.com/tarballs/libdispatch/</a>.</p>
+<p>“Libdispatch Open Source.” 2018. <a href="https://opensource.apple.com/tarballs/libdispatch/">https://opensource.apple.com/tarballs/libdispatch/</a>.</p>
 </div>
 <div id="ref-ios-devices">
-<p>“List of iOS Devices.” 2018. <a href="https://en.wikipedia.org/wiki/List_of_iOS_devices" class="uri">https://en.wikipedia.org/wiki/List_of_iOS_devices</a>.</p>
+<p>“List of iOS Devices.” 2018. <a href="https://en.wikipedia.org/wiki/List_of_iOS_devices">https://en.wikipedia.org/wiki/List_of_iOS_devices</a>.</p>
 </div>
 <div id="ref-exception-types">
-<p>“Mach Exception Types.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68" class="uri">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68</a>.</p>
+<p>“Mach Exception Types.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68</a>.</p>
 </div>
 <div id="ref-macherror">
-<p>“Making Sense of I/O Kit Error Codes.” 2018. <a href="https://developer.apple.com/library/archive/qa/qa1075/_index.html" class="uri">https://developer.apple.com/library/archive/qa/qa1075/_index.html</a>.</p>
+<p>“Making Sense of I/O Kit Error Codes.” 2018. <a href="https://developer.apple.com/library/archive/qa/qa1075/_index.html">https://developer.apple.com/library/archive/qa/qa1075/_index.html</a>.</p>
 </div>
 <div id="ref-cfconstantstring">
-<p>“NSCFConstantString in Corefoundation.framework.” 2018. <a href="https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/CoreFoundation.framework/__NSCFConstantString.h" class="uri">https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/CoreFoundation.framework/__NSCFConstantString.h</a>.</p>
+<p>“NSCFConstantString in Corefoundation.framework.” 2018. <a href="https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/CoreFoundation.framework/__NSCFConstantString.h">https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/CoreFoundation.framework/__NSCFConstantString.h</a>.</p>
 </div>
 <div id="ref-dispatchdata">
 <p>“NSDispatchData.h in Foundation.framework.” 2018. <a href="https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/Foundation.framework/_NSDispatchData.h%0A">https://github.com/JaviSoto/iOS10-Runtime-Headers/blob/master/Frameworks/Foundation.framework/_NSDispatchData.h%0A</a>.</p>
 </div>
 <div id="ref-class-dump-tool">
-<p>Nygard, Steve. 2018. “Class Dump Tool.” <a href="http://stevenygard.com/projects/class-dump/" class="uri">http://stevenygard.com/projects/class-dump/</a>.</p>
+<p>Nygard, Steve. 2018. “Class Dump Tool.” <a href="http://stevenygard.com/projects/class-dump/">http://stevenygard.com/projects/class-dump/</a>.</p>
 </div>
 <div id="ref-panicbook">
 <p><em>Panic! Unix System Crash Dump Analysis</em>. 1995. 1st ed. Vol. 1. 0-13-149386-8. Prentice Hall.</p>
 </div>
 <div id="ref-plcrashreporter">
-<p>“Plausible Labs Crash Reporter.” 2018. <a href="https://github.com/plausiblelabs/plcrashreporter" class="uri">https://github.com/plausiblelabs/plcrashreporter</a>.</p>
+<p>“Plausible Labs Crash Reporter.” 2018. <a href="https://github.com/plausiblelabs/plcrashreporter">https://github.com/plausiblelabs/plcrashreporter</a>.</p>
 </div>
 <div id="ref-resource-management">
-<p>“Resource Management.” 2015. <a href="http://newosxbook.com/files/MSAse2015.pdf" class="uri">http://newosxbook.com/files/MSAse2015.pdf</a>.</p>
+<p>“Resource Management.” 2015. <a href="http://newosxbook.com/files/MSAse2015.pdf">http://newosxbook.com/files/MSAse2015.pdf</a>.</p>
 </div>
 <div id="ref-asanchecker">
-<p>Serebryany, Konstantin, Derek Bruening, Alexander Potapenko, and Dmitry Vyukov. 2012. “AddressSanitizer: A Fast Address Sanity Checker.” In <em>USENIX Atc 2012</em>. <a href="https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker" class="uri">https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker</a>.</p>
+<p>Serebryany, Konstantin, Derek Bruening, Alexander Potapenko, and Dmitry Vyukov. 2012. “AddressSanitizer: A Fast Address Sanity Checker.” In <em>USENIX Atc 2012</em>. <a href="https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker">https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker</a>.</p>
 </div>
 <div id="ref-threadstatus">
-<p>“Thread Status Values in Mach.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h" class="uri">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h</a>.</p>
+<p>“Thread Status Values in Mach.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h</a>.</p>
 </div>
 </div>
 </body>
