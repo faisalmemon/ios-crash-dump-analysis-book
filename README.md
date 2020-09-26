@@ -1,7 +1,8 @@
 # iOS Crash Dump Analysis Book
 
 The HTML version of the book, "iOS Crash Dump Analysis" is available at the link:
-https://faisalmemon.github.io/ios-crash-dump-analysis-book/  
+- https://faisalmemon.github.io/ios-crash-dump-analysis-book/en (English)
+- https://faisalmemon.github.io/ios-crash-dump-analysis-book/zh (Chinese)
 
 Accompanying the book is an Analytic Troubleshooting worksheet.
 [Download the Analytic Troubleshooting worksheet pdf](./examples/worksheets/analytic_troubleshooting_worksheet.pdf)
@@ -158,7 +159,7 @@ I need to experiment in this area.  Maybe putting my screen in large scale mode 
 
 ## Build System
 
-The book is built using `buildBook.sh`
+The book is built for English using `buildBook.sh`.  Use `buildBook.sh -l zh` to build the Chinese edition.
 
 The build outputs are:
 
@@ -170,8 +171,8 @@ File | Purpose
 `foo.epub` | For E-book readers (Apple and Amazon) directly from pandoc
 `docs/*` | Final destination for GitHub Pages documentation
 
-The output are `foo.*` files locally for ease of inspection.  They are ignored by version control.
+The output are `foo.*` and `boo.*` files locally for ease of inspection.  They are ignored by version control.
 
-For github pages, the GitHub documentation facility, the HTML documentation and supporting resources is copied into the `docs` directory and then they are checked in (the branch is required to be master).
+For github pages, the GitHub documentation facility, the HTML documentation and supporting resources is copied into the `docs/<language-id>` directory and then they are checked in (the branch is required to be master).
 
 The build system also checks for uses of "you" - they should be "we" in all cases apart from the Introduction.
