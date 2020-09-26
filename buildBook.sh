@@ -68,7 +68,7 @@ pdflatex boo.$langName.latex > boo.$langName.pass.1.log </dev/null
 echo Indexing pass 2
 pdflatex boo.$langName.latex > boo.$langName.pass.2.log </dev/null
 
-echo "Check for errors; cslreferences error already is known"
+echo "Check for errors"
 egrep -n "LaTeX Error:|Error: Unicode character|Fatal error occurred" boo.$langName.pass.*.log
 
 echo Processing foo.$langName.epub
