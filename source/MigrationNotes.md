@@ -5,18 +5,30 @@ to Apple Silicon.  Note, our Xcode will only build for macOS, not iOS/tvOS/watch
 
 ## Existing Code
 
-### icdab_thread
+### icdab_thread Needs work
 
 This has x86 specific thread state.  Needs migration.
 
-## icdab_sema
+### icdab_sema Needs work
 
 This has multiple targets, icdab_sema_{mac, ios}.  The mac variant compiles ok on the main Xcode 12.0 beta (12A8158a).  I need to test on the Apple Silicon version.
 
-## icdab_as
+### icdab_as
 
 The prologues for the assembly of egg.s was out of date.  To get a proper modern prologue, we obtain it with the `scaffold.c` file.
-> Product > Perform Action > Assemble `scaffold.c`
+>  Product > Perform Action > Assemble `scaffold.c`
+
+### icdab_asl
+
+No changes needed.
+
+### icdab_cycle
+
+No changes needed.
+
+### icdab_edge Needs work
+
+Not all options cause a crash.  We don't get a crash with OvershootAllocated, and Uninitialized Memory.
 
 ## New Code
 
