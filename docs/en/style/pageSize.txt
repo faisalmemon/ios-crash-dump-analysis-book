@@ -1,0 +1,7 @@
+I plan to do a book the same dimensions as The Pragmatic Programmer
+https://kdp.amazon.com/en_US/help/topic/G201834180#trim
+Width = 18.9cm
+Height = 24.61 cm
+
+But for expanded distribution they require an industry standard size.
+The biggest is 6" x 9" = 15.24 x 22.86 cm

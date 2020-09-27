@@ -1,0 +1,3 @@
+Open the icdab_sample app.
+Run Command-Shift-B
+Visit the macAddress.m file.

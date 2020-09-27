@@ -1,0 +1,1 @@
+Run the icdab_cycle tv app and press the memgraph button and the exlamation mark button.

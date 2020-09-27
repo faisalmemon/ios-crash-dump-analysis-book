@@ -1,0 +1,4 @@
+Launch hopper.
+File->Read Executable to Disassemble, file examples/assert_crash_ios/icdab_planets
+Modify->Change File Base Address, address 0x1008e0000
+Navigate->Go To Address or Symbol, address 0x00000001008e45bc

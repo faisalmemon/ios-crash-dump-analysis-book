@@ -1,0 +1,2 @@
+Open the project https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework
+Edit the scheme ios-dynamic-loading-framework, Run target, Diagnostics Tab
