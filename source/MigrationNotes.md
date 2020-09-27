@@ -13,6 +13,11 @@ This has x86 specific thread state.  Needs migration.
 
 This has multiple targets, icdab_sema_{mac, ios}.  The mac variant compiles ok on the main Xcode 12.0 beta (12A8158a).  I need to test on the Apple Silicon version.
 
+## icdab_as
+
+The prologues for the assembly of egg.s was out of date.  To get a proper modern prologue, we obtain it with the `scaffold.c` file.
+> Product > Perform Action > Assemble `scaffold.c`
+
 ## New Code
 
 ### Fixed arg called with variadic args

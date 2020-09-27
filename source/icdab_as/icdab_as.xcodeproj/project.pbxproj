@@ -15,7 +15,7 @@
 		397F79AA210252EF00809273 /* icdab_asTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F79A9210252EF00809273 /* icdab_asTests.swift */; };
 		397F79B5210252EF00809273 /* icdab_asUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397F79B4210252EF00809273 /* icdab_asUITests.swift */; };
 		397F79C52102533E00809273 /* scaffold.c in Sources */ = {isa = PBXBuildFile; fileRef = 397F79C42102533E00809273 /* scaffold.c */; };
-		397F79C72102544600809273 /* egg.s in Sources */ = {isa = PBXBuildFile; fileRef = 397F79C62102544600809273 /* egg.s */; };
+		39DA404725211A0300027D04 /* egg.s in Sources */ = {isa = PBXBuildFile; fileRef = 397F79C62102544600809273 /* egg.s */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -269,10 +269,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39DA404725211A0300027D04 /* egg.s in Sources */,
 				397F7997210252EE00809273 /* ViewController.swift in Sources */,
 				397F79C52102533E00809273 /* scaffold.c in Sources */,
 				397F7995210252EE00809273 /* AppDelegate.swift in Sources */,
-				397F79C72102544600809273 /* egg.s in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,7 +450,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5Y3322JWHB;
 				INFOPLIST_FILE = icdab_as/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -472,7 +472,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5Y3322JWHB;
 				INFOPLIST_FILE = icdab_as/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

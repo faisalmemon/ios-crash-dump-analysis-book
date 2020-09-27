@@ -17,8 +17,10 @@
 #endif
 
 .section    __TEXT,__text,regular,pure_instructions
-.ios_version_min 9, 3
+.ios_version_min 13, 5
 .globl    _bad_instruction_egg               ; -- Begin function bad_instruction_egg
+.file    1 "/Volumes/SAMSUNG/dev/private-cda-0/source/icdab_as" "icdab_as/scaffold.h"
+.file    2 "/Volumes/SAMSUNG/dev/private-cda-0/source/icdab_as" "icdab_as/egg.s"
 .p2align    2
 _bad_instruction_egg:                              ; @bad_instruction_egg
 Lfunc_begin0:
