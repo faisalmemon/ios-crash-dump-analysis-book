@@ -43,6 +43,16 @@ You will be able to spend less time fixing crashes, and more time writing valuab
 
 # Project Details
 
+## Current Status
+
+As of 27th September 2020, the project status is:
+- There is a published 1st edition (print, kindle, web)
+- A web-only Chinese language translation is available (our most recent change)
+- Public updates are paused, but Private progress is active:
+  - Until Apple Silicon Macs are released, we cannot document respective crash-related information
+  - Updates are underway for modernisation for the latest Betas (Xcode 12.x and iOS/tvOS/watchOS/macOS)
+- One week after the transition to Apple Silicon we shall do a bulk update of this git repository
+
 ## Directory Structure
 
 Directory | Purpose
