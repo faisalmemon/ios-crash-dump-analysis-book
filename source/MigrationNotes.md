@@ -30,6 +30,22 @@ I think modernising has broken it.  Need to re-check
 
 Not all options cause a crash.  We don't get a crash with OvershootAllocated, and Uninitialized Memory.
 
+### `icdab_nsdata`
+
+No changes needed.
+
+### `icdab_planets`
+
+No changes needed.
+
+### `icdab_sample`
+
+No changes needed.
+
+### `icdab_sema`
+
+No changes needed.
+
 ## New Code
 
 ### Fixed arg called with variadic args
