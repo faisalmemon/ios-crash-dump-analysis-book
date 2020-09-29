@@ -1,6 +1,7 @@
 #!/bin/bash
 
 workspaceFile=../icdab.xcworkspace
+logFile=./testsuite.log.txt
 
 # In your Devices manager, set the name for your attached iPad as follows
 testDevice=iPod_touch_7_gen
@@ -20,23 +21,25 @@ logicTestingTvTestSuite="icdab_cycleTests"
 echo We change into the script directory in order to execute using relative paths for resources
 cd "${BASH_SOURCE%/*}" || exit
 
+rm -f $logFile
+
 for testScheme in $testSuite
 do
 	echo ++ Scheme ++ $testScheme
 	xcodebuild test -workspace $workspaceFile -scheme $testScheme -destination name=$testDevice
-done
+done | tee -a $logFile
 
 for testScheme in $logicTestingTestSuite
 do
 	echo ++ Scheme ++ $testScheme
 	xcodebuild test -workspace $workspaceFile -scheme $testScheme -destination platform=macOS
-done
+done | tee -a $logFile
 
 for testScheme in $logicTestingTvTestSuite
 do
 	echo ++ Scheme ++ $testScheme
 	xcodebuild test -workspace $workspaceFile -scheme $testScheme -destination name=$testAppleTv
-done
+done | tee -a $logFile
 
 exit
 
