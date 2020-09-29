@@ -1,0 +1,596 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3995A81320FC97F800903BFD /* planet_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3995A81120FC97F700903BFD /* planet_data.cpp */; };
+		3997B47620FC9266009B067E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B47520FC9266009B067E /* AppDelegate.m */; };
+		3997B47C20FC9266009B067E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3997B47A20FC9266009B067E /* Main.storyboard */; };
+		3997B47E20FC9267009B067E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3997B47D20FC9267009B067E /* Assets.xcassets */; };
+		3997B48120FC9267009B067E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3997B47F20FC9267009B067E /* LaunchScreen.storyboard */; };
+		3997B48420FC9267009B067E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B48320FC9267009B067E /* main.m */; };
+		3997B48E20FC9267009B067E /* icdab_planetsTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3997B48D20FC9267009B067E /* icdab_planetsTests.mm */; };
+		3997B49920FC9267009B067E /* icdab_planetsUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B49820FC9267009B067E /* icdab_planetsUITests.m */; };
+		3997B4A820FC93A7009B067E /* PlanetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3997B4A720FC93A7009B067E /* PlanetViewController.m */; };
+		39A89CE120FCF8BA003FB401 /* PlanetModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 39A89CE020FCF8BA003FB401 /* PlanetModel.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3997B48A20FC9267009B067E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3997B46920FC9266009B067E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3997B47020FC9266009B067E;
+			remoteInfo = icdab_planets;
+		};
+		3997B49520FC9267009B067E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3997B46920FC9266009B067E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3997B47020FC9266009B067E;
+			remoteInfo = icdab_planets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3995A81120FC97F700903BFD /* planet_data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = planet_data.cpp; sourceTree = "<group>"; };
+		3995A81220FC97F800903BFD /* planet_data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = planet_data.hpp; sourceTree = "<group>"; };
+		3997B47120FC9266009B067E /* icdab_planets_facade.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = icdab_planets_facade.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3997B47420FC9266009B067E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		3997B47520FC9266009B067E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		3997B47B20FC9266009B067E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3997B47D20FC9267009B067E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3997B48020FC9267009B067E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3997B48220FC9267009B067E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3997B48320FC9267009B067E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3997B48920FC9267009B067E /* icdab_planets_facadeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_planets_facadeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3997B48D20FC9267009B067E /* icdab_planetsTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = icdab_planetsTests.mm; sourceTree = "<group>"; };
+		3997B48F20FC9267009B067E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3997B49420FC9267009B067E /* icdab_planets_facadeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_planets_facadeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3997B49820FC9267009B067E /* icdab_planetsUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_planetsUITests.m; sourceTree = "<group>"; };
+		3997B49A20FC9267009B067E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3997B4A620FC93A7009B067E /* PlanetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlanetViewController.h; sourceTree = "<group>"; };
+		3997B4A720FC93A7009B067E /* PlanetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlanetViewController.m; sourceTree = "<group>"; };
+		39A89CDF20FCF8BA003FB401 /* PlanetModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlanetModel.h; sourceTree = "<group>"; };
+		39A89CE020FCF8BA003FB401 /* PlanetModel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PlanetModel.mm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3997B46E20FC9266009B067E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3997B48620FC9267009B067E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3997B49120FC9267009B067E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3997B46820FC9266009B067E = {
+			isa = PBXGroup;
+			children = (
+				3997B47320FC9266009B067E /* icdab_planets */,
+				3997B48C20FC9267009B067E /* icdab_planetsTests */,
+				3997B49720FC9267009B067E /* icdab_planetsUITests */,
+				3997B47220FC9266009B067E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3997B47220FC9266009B067E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3997B47120FC9266009B067E /* icdab_planets_facade.app */,
+				3997B48920FC9267009B067E /* icdab_planets_facadeTests.xctest */,
+				3997B49420FC9267009B067E /* icdab_planets_facadeUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3997B47320FC9266009B067E /* icdab_planets */ = {
+			isa = PBXGroup;
+			children = (
+				3997B47420FC9266009B067E /* AppDelegate.h */,
+				3997B47520FC9266009B067E /* AppDelegate.m */,
+				3997B47A20FC9266009B067E /* Main.storyboard */,
+				3997B4A620FC93A7009B067E /* PlanetViewController.h */,
+				3995A81120FC97F700903BFD /* planet_data.cpp */,
+				39A89CDF20FCF8BA003FB401 /* PlanetModel.h */,
+				39A89CE020FCF8BA003FB401 /* PlanetModel.mm */,
+				3995A81220FC97F800903BFD /* planet_data.hpp */,
+				3997B4A720FC93A7009B067E /* PlanetViewController.m */,
+				3997B47D20FC9267009B067E /* Assets.xcassets */,
+				3997B47F20FC9267009B067E /* LaunchScreen.storyboard */,
+				3997B48220FC9267009B067E /* Info.plist */,
+				3997B48320FC9267009B067E /* main.m */,
+			);
+			path = icdab_planets;
+			sourceTree = "<group>";
+		};
+		3997B48C20FC9267009B067E /* icdab_planetsTests */ = {
+			isa = PBXGroup;
+			children = (
+				3997B48D20FC9267009B067E /* icdab_planetsTests.mm */,
+				3997B48F20FC9267009B067E /* Info.plist */,
+			);
+			path = icdab_planetsTests;
+			sourceTree = "<group>";
+		};
+		3997B49720FC9267009B067E /* icdab_planetsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3997B49820FC9267009B067E /* icdab_planetsUITests.m */,
+				3997B49A20FC9267009B067E /* Info.plist */,
+			);
+			path = icdab_planetsUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3997B47020FC9266009B067E /* icdab_planets_facade */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3997B49D20FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planets_facade" */;
+			buildPhases = (
+				3997B46D20FC9266009B067E /* Sources */,
+				3997B46E20FC9266009B067E /* Frameworks */,
+				3997B46F20FC9266009B067E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = icdab_planets_facade;
+			productName = icdab_planets;
+			productReference = 3997B47120FC9266009B067E /* icdab_planets_facade.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3997B48820FC9267009B067E /* icdab_planets_facadeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3997B4A020FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planets_facadeTests" */;
+			buildPhases = (
+				3997B48520FC9267009B067E /* Sources */,
+				3997B48620FC9267009B067E /* Frameworks */,
+				3997B48720FC9267009B067E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3997B48B20FC9267009B067E /* PBXTargetDependency */,
+			);
+			name = icdab_planets_facadeTests;
+			productName = icdab_planetsTests;
+			productReference = 3997B48920FC9267009B067E /* icdab_planets_facadeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3997B49320FC9267009B067E /* icdab_planets_facadeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3997B4A320FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planets_facadeUITests" */;
+			buildPhases = (
+				3997B49020FC9267009B067E /* Sources */,
+				3997B49120FC9267009B067E /* Frameworks */,
+				3997B49220FC9267009B067E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3997B49620FC9267009B067E /* PBXTargetDependency */,
+			);
+			name = icdab_planets_facadeUITests;
+			productName = icdab_planetsUITests;
+			productReference = 3997B49420FC9267009B067E /* icdab_planets_facadeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3997B46920FC9266009B067E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = "Faisal Memon";
+				TargetAttributes = {
+					3997B47020FC9266009B067E = {
+						CreatedOnToolsVersion = 9.3;
+					};
+					3997B48820FC9267009B067E = {
+						CreatedOnToolsVersion = 9.3;
+						TestTargetID = 3997B47020FC9266009B067E;
+					};
+					3997B49320FC9267009B067E = {
+						CreatedOnToolsVersion = 9.3;
+						TestTargetID = 3997B47020FC9266009B067E;
+					};
+				};
+			};
+			buildConfigurationList = 3997B46C20FC9266009B067E /* Build configuration list for PBXProject "icdab_planets_facade" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3997B46820FC9266009B067E;
+			productRefGroup = 3997B47220FC9266009B067E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3997B47020FC9266009B067E /* icdab_planets_facade */,
+				3997B48820FC9267009B067E /* icdab_planets_facadeTests */,
+				3997B49320FC9267009B067E /* icdab_planets_facadeUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3997B46F20FC9266009B067E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3997B48120FC9267009B067E /* LaunchScreen.storyboard in Resources */,
+				3997B47E20FC9267009B067E /* Assets.xcassets in Resources */,
+				3997B47C20FC9266009B067E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3997B48720FC9267009B067E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3997B49220FC9267009B067E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3997B46D20FC9266009B067E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3997B4A820FC93A7009B067E /* PlanetViewController.m in Sources */,
+				3997B48420FC9267009B067E /* main.m in Sources */,
+				3997B47620FC9266009B067E /* AppDelegate.m in Sources */,
+				3995A81320FC97F800903BFD /* planet_data.cpp in Sources */,
+				39A89CE120FCF8BA003FB401 /* PlanetModel.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3997B48520FC9267009B067E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3997B48E20FC9267009B067E /* icdab_planetsTests.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3997B49020FC9267009B067E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3997B49920FC9267009B067E /* icdab_planetsUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3997B48B20FC9267009B067E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3997B47020FC9266009B067E /* icdab_planets_facade */;
+			targetProxy = 3997B48A20FC9267009B067E /* PBXContainerItemProxy */;
+		};
+		3997B49620FC9267009B067E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3997B47020FC9266009B067E /* icdab_planets_facade */;
+			targetProxy = 3997B49520FC9267009B067E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3997B47A20FC9266009B067E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3997B47B20FC9266009B067E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3997B47F20FC9267009B067E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3997B48020FC9267009B067E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3997B49B20FC9267009B067E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		3997B49C20FC9267009B067E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3997B49E20FC9267009B067E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.planets-facade";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3997B49F20FC9267009B067E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.planets-facade";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3997B4A120FC9267009B067E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planetsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-planetsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_planets_facade.app/icdab_planets_facade";
+			};
+			name = Debug;
+		};
+		3997B4A220FC9267009B067E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planetsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-planetsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_planets_facade.app/icdab_planets_facade";
+			};
+			name = Release;
+		};
+		3997B4A420FC9267009B067E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planetsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-planetsUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = icdab_planets;
+			};
+			name = Debug;
+		};
+		3997B4A520FC9267009B067E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_planetsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-planetsUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = icdab_planets;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3997B46C20FC9266009B067E /* Build configuration list for PBXProject "icdab_planets_facade" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3997B49B20FC9267009B067E /* Debug */,
+				3997B49C20FC9267009B067E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3997B49D20FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planets_facade" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3997B49E20FC9267009B067E /* Debug */,
+				3997B49F20FC9267009B067E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3997B4A020FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planets_facadeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3997B4A120FC9267009B067E /* Debug */,
+				3997B4A220FC9267009B067E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3997B4A320FC9267009B067E /* Build configuration list for PBXNativeTarget "icdab_planets_facadeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3997B4A420FC9267009B067E /* Debug */,
+				3997B4A520FC9267009B067E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3997B46920FC9266009B067E /* Project object */;
+}
