@@ -5,10 +5,6 @@ to Apple Silicon.  Note, our Xcode will only build for macOS, not iOS/tvOS/watch
 
 ## Existing Code
 
-### `icdab_thread` Needs work
-
-This has x86 specific thread state.  Needs migration.
-
 ### `icdab_sema` Needs work
 
 This has multiple targets, `icdab_sema_{mac, ios}`.  The mac variant compiles ok on the main Xcode 12.0 beta (12A8158a).  I need to test on the Apple Silicon version.
@@ -45,6 +41,11 @@ No changes needed.
 ### `icdab_sema`
 
 No changes needed.  But this app comes in two flavours, iOS and macOS so needs to be tested on Apple Silicon.
+
+### `icdab_thread` Needs work
+
+This has x86 specific thread state.  Needs migration.
+The API that was missing for setting thread state is now available.  Needs to be tested on Apple silicon.
 
 ## New Code
 

@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "pthread_helper.h"
 
 @interface icdab_thread_test : XCTestCase
 

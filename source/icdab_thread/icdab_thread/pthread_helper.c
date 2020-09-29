@@ -39,22 +39,6 @@ void *threaded_task(long t) {
     pthread_exit(0);
 }
 
-// These two functions are declared in mach/thread_policy.h, but are commented out.
-// They are documented here: https://developer.apple.com/library/archive/releasenotes/Performance/RN-AffinityAPI/index.html
-kern_return_t    thread_policy_set(
-                                   thread_t            thread,
-                                   thread_policy_flavor_t        flavor,
-                                   thread_policy_t            policy_info,
-                                   mach_msg_type_number_t        count);
-
-kern_return_t    thread_policy_get(
-                                   thread_t            thread,
-                                   thread_policy_flavor_t        flavor,
-                                   thread_policy_t            policy_info,
-                                   mach_msg_type_number_t        *count,
-                                   boolean_t            *get_default);
-
-
 void * thread_routine_1() {
     threaded_task(500);
     return NULL;
