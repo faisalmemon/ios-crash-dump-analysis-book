@@ -3,7 +3,7 @@
 workspaceFile=../icdab.xcworkspace
 
 # In your Devices manager, set the name for your attached iPad as follows
-testDevice=iPad_Pro_9_7_inch
+testDevice=iPod_touch_7_gen
 
 # In your Devices manager, set the name for Apple TV simulator as follows
 testAppleTv=apple_tv
