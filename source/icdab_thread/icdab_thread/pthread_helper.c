@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include <math.h>
 #import <mach/thread_act.h>
+#include <sys/types.h>
+
 
 
 /* A task that takes some time to complete. The id identifies distinct
@@ -44,13 +46,41 @@ void * thread_routine_1() {
     return NULL;
 }
 
+/*
+ Task related articles:
+ https://knight.sc/reverse%20engineering/2019/04/15/detecting-task-modifications.html
+ https://bazad.github.io/2018/10/bypassing-platform-binary-task-threads/
+ */
+
+
+int set_thread_state_from_another_process(mach_port_t port, thread_state_t revised_state, mach_msg_type_number_t state_count) {
+    pid_t processId;
+    if ((processId = fork()) == 0) {
+        printf("Spawned child process id %ld\n", (long)processId);
+        kern_return_t kr;
+        kr = thread_set_state(port, x86_THREAD_STATE64, revised_state, state_count);
+        if (kr != KERN_SUCCESS) {
+            printf("set state thread 1 failed with Mach error: 0x%x\n", kr);
+            return EXIT_FAILURE;
+        }
+    } else if (processId < 0) {
+        perror("fork error");
+    } else {
+        return EXIT_SUCCESS;
+    }
+    return EXIT_FAILURE;
+}
+
 void start_threads() {
     
     kern_return_t kr;
     mach_msg_type_number_t state_count = x86_THREAD_STATE64_COUNT;
 
     pthread_t thread1;
-    if(pthread_create_suspended_np(&thread1, NULL, thread_routine_1, NULL) != 0) abort();
+    if (pthread_create_suspended_np(&thread1, NULL, thread_routine_1, NULL) != 0) {
+        abort();
+    }
+    
     mach_port_t mach_thread1 = pthread_mach_thread_np(thread1);
     thread_affinity_policy_data_t policyData1 = { 1 };
     thread_policy_set(mach_thread1, THREAD_AFFINITY_POLICY, (thread_policy_t)&policyData1, 1);
@@ -63,20 +93,18 @@ void start_threads() {
     }
     x86_state.uts.ts64.__rip = 33;
 
-    kr = thread_set_state(mach_thread1, x86_THREAD_STATE64, (thread_state_t) &x86_state, state_count);
-    if (kr != KERN_SUCCESS) {
-        printf("set state thread 1 failed with Mach error: %d", kr);
+    if (set_thread_state_from_another_process(mach_thread1, (thread_state_t) &x86_state, state_count) != EXIT_SUCCESS) {
         return;
     }
+    
     kr = thread_resume(mach_thread1);
     if (kr != KERN_SUCCESS) {
         printf("resume thread 1 failed with Mach error: %d", kr);
         return;
     }
+    
     x86_state.uts.ts64.__rip = 44;
-    kr = thread_set_state(mach_thread1, x86_THREAD_STATE64, (thread_state_t) &x86_state, state_count);
-    if (kr != KERN_SUCCESS) {
-        printf("set state thread 1 rip 44 failed with Mach error: %d", kr);
+    if (set_thread_state_from_another_process(mach_thread1, (thread_state_t) &x86_state, state_count) != EXIT_SUCCESS) {
         return;
     }
     sleep(60);
