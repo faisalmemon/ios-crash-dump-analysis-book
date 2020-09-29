@@ -42,7 +42,7 @@ No changes needed.
 
 No changes needed.
 
-### `icdab_sema` Needs work
+### `icdab_sema`
 
 No changes needed.  But this app comes in two flavours, iOS and macOS so needs to be tested on Apple Silicon.
 

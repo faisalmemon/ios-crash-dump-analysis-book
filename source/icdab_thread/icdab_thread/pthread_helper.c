@@ -39,10 +39,6 @@ void *threaded_task(long t) {
     pthread_exit(0);
 }
 
-
-
-
-
 // These two functions are declared in mach/thread_policy.h, but are commented out.
 // They are documented here: https://developer.apple.com/library/archive/releasenotes/Performance/RN-AffinityAPI/index.html
 kern_return_t    thread_policy_set(
@@ -100,7 +96,6 @@ void start_threads() {
         return;
     }
     sleep(60);
-    
-    
+
     abort();
 }
