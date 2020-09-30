@@ -44,10 +44,10 @@ No changes needed.  But this app comes in two flavours, iOS and macOS so needs t
 
 ### `icdab_thread` 
 
-This has x86 specific thread state.  Needs migration.
-The API that was missing for setting thread state is now available.  Needs to be tested on Apple silicon.
-It seems that setting the thread state can no longer be done by other processes, so I cannot make it say a non-zero value
-for that in the crash dump.
+I have migrated this to OS X running ARM64.  I used TargetConditionals.h  Unfortunately, we can no longer
+`thread_set_state` from another process so we don't get the kind of crash dump we are looking for.  Our goal
+is to get the crash dump to report that the number of calls to `thread_set_state` was non-zero from other processes.
+Luckily we have historical data to show the statistic.  If we figure out a way forwards, we'll revisit this.
 
 ## New Code
 
