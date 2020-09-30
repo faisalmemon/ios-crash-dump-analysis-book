@@ -42,10 +42,12 @@ No changes needed.
 
 No changes needed.  But this app comes in two flavours, iOS and macOS so needs to be tested on Apple Silicon.
 
-### `icdab_thread` Needs work
+### `icdab_thread` 
 
 This has x86 specific thread state.  Needs migration.
 The API that was missing for setting thread state is now available.  Needs to be tested on Apple silicon.
+It seems that setting the thread state can no longer be done by other processes, so I cannot make it say a non-zero value
+for that in the crash dump.
 
 ## New Code
 
