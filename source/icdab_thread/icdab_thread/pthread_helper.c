@@ -75,6 +75,27 @@ int set_thread_state_from_another_process(mach_port_t port, thread_state_t revis
     return EXIT_FAILURE;
 }
 
+kern_return_t
+get_debug_state(mach_port_t port, struct x86_debug_state* result, mach_msg_type_number_t* state_count) {
+    kern_return_t kr;
+    kr = thread_get_state(port, x86_DEBUG_STATE, (thread_state_t)result, state_count);
+    if (kr != KERN_SUCCESS) {
+        printf("Getting x86 thread debug state failed with Mach error: 0x%x\n", kr);
+    }
+    return kr;
+}
+
+kern_return_t
+set_debug_state(mach_port_t port, struct x86_debug_state* update, mach_msg_type_number_t state_count) {
+    kern_return_t kr;
+
+    kr = thread_set_state(port, x86_DEBUG_STATE, (thread_state_t)update, state_count);
+    if (kr != KERN_SUCCESS) {
+        printf("Setting x86 thread debug state failed with Mach error: 0x%x\n", kr);
+    }
+    return kr;
+}
+
 void start_threads() {
     
     kern_return_t kr;
@@ -96,6 +117,18 @@ void start_threads() {
         return;
     }
     x86_state.uts.ts64.__rip = 33;
+    
+    struct x86_debug_state debug_state;
+    mach_msg_type_number_t debug_state_count = x86_DEBUG_STATE_COUNT;
+    get_debug_state(mach_thread1, &debug_state, &debug_state_count);
+    debug_state.uds.ds64.__dr0 = 43;
+    set_debug_state(mach_thread1, &debug_state, debug_state_count);
+    
+    kr = thread_set_state(mach_thread1, x86_THREAD_STATE64, (thread_state_t) &x86_state, state_count);
+    if (kr != KERN_SUCCESS) {
+        printf("set state from same process thread 1 failed with Mach error: 0x%x\n", kr);
+        return;
+    }
 
     if (set_thread_state_from_another_process(mach_thread1, (thread_state_t) &x86_state, state_count) != EXIT_SUCCESS) {
         return;
