@@ -62,6 +62,7 @@ thread_routine_1() {
  https://gist.github.com/Coneko/4234842
  */
 
+#if TARGET_CPU_X86_64
 kern_return_t
 get_debug_state(mach_port_t port, struct x86_debug_state* result, mach_msg_type_number_t* state_count) {
     kern_return_t kr;
@@ -84,6 +85,31 @@ set_debug_state(mach_port_t port, struct x86_debug_state* update, mach_msg_type_
     }
     return kr;
 }
+#endif // TARGET_CPU_X86_64
+
+#if TARGET_CPU_ARM64
+kern_return_t
+get_debug_state(mach_port_t port, struct arm_unified_thread_state* result, mach_msg_type_number_t* state_count) {
+    kern_return_t kr;
+    kr = thread_get_state(port, ARM_DEBUG_STATE, (thread_state_t)result, state_count);
+    if (kr != KERN_SUCCESS) {
+        printf("Getting arm64 thread debug state failed with Mach error: 0x%x\n", kr);
+    }
+    return kr;
+}
+
+kern_return_t
+set_debug_state(mach_port_t port, struct x86_debug_state* update, mach_msg_type_number_t state_count) {
+    kern_return_t kr;
+    kr = thread_set_state(port, ARM_DEBUG_STATE, (thread_state_t)update, state_count);
+    if (kr != KERN_SUCCESS) {
+        printf("Setting arm64 thread debug state failed with Mach error: 0x%x\n", kr);
+    } else {
+        printf("Successfully set arm64 thread debug state\n");
+    }
+    return kr;
+}
+#endif // TARGET_CPU_ARM64
 
 void *
 set_thread_state_from_another_thread(struct thread_management_payload_struct *payload) {
@@ -113,12 +139,22 @@ void start_threads() {
     thread_affinity_policy_data_t policyData1 = { 1 };
     thread_policy_set(mach_thread1, THREAD_AFFINITY_POLICY, (thread_policy_t)&policyData1, 1);
     thread_resume(mach_thread1);
-
+    
+#if TARGET_CPU_X86_64
     struct x86_debug_state debug_state;
     mach_msg_type_number_t debug_state_count = x86_DEBUG_STATE_COUNT;
+#endif
+#if TARGET_CPU_ARM64
+    struct arm_unified_thread_state debug_state;
+    mach_msg_type_number_t debug_state_count = ARM_DEBUG_STATE_COUNT;
+#endif
     get_debug_state(mach_thread1, &debug_state, &debug_state_count);
+#if TARGET_CPU_X86_64
     debug_state.uds.ds64.__dr0 = 43;
-
+#endif
+#if TARGET_CPU_ARM64
+    debug_state.ts_64.__pad = 43;
+#endif
     struct thread_management_payload_struct payload = {
         .port = mach_thread1,
         .state = debug_state,
