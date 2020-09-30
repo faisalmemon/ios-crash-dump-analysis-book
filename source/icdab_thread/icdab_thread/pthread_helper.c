@@ -16,7 +16,11 @@
 #import <mach/thread_act.h>
 #include <sys/types.h>
 
-
+/*
+ The purpose of this program is to try to do a thread_set_state from another
+ process, and then crash, so that we can produce a crash dump that shows the
+ thread crashed, but in its history, had someone externally affect it.
+ */
 
 /* A task that takes some time to complete. The id identifies distinct
  tasks for printed messages. */
