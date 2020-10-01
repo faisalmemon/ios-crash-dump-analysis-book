@@ -2,13 +2,19 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:icdab_as/icdab_as.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:icdab_asl/icdab_asl.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:icdab_cycle/icdab_cycle.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:icdab_edge/icdab_edge.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:icdab_thread/icdab_thread.xcodeproj">
+      location = "group:icdab_nsdata/icdab_nsdata.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:icdab_planets/icdab_planets.xcodeproj">
@@ -20,21 +26,15 @@
       location = "group:icdab_planets_stl/icdab_planets_stl.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:icdab_wrap/icdab_wrap.xcodeproj">
+      location = "group:icdab_sample/icdab_sample.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:icdab_sema/icdab_sema.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:icdab_as/icdab_as.xcodeproj">
+      location = "group:icdab_thread/icdab_thread.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:icdab_asl/icdab_asl.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:icdab_nsdata/icdab_nsdata.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:icdab_sample/icdab_sample.xcodeproj">
+      location = "group:icdab_wrap/icdab_wrap.xcodeproj">
    </FileRef>
 </Workspace>
