@@ -193,16 +193,16 @@
 				TargetAttributes = {
 					392BFDA42106268800AD1F5D = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1220;
 					};
 					392BFDB82106268900AD1F5D = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1220;
 						TestTargetID = 392BFDA42106268800AD1F5D;
 					};
 					392BFDC32106268900AD1F5D = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1220;
 						TestTargetID = 392BFDA42106268800AD1F5D;
 					};
 				};
@@ -446,7 +446,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-asl";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -465,7 +465,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-asl";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -485,7 +485,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-aslTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_asl.app/icdab_asl";
 			};
@@ -506,7 +506,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-aslTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_asl.app/icdab_asl";
 			};
@@ -526,7 +526,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-aslUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = icdab_asl;
 			};
@@ -546,7 +546,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-aslUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = icdab_asl;
 			};

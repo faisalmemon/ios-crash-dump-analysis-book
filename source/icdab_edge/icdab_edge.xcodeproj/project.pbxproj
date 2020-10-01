@@ -208,7 +208,7 @@
 				TargetAttributes = {
 					398035E621451EA600B54D89 = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1220;
 					};
 					398035FA21451EA700B54D89 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -464,7 +464,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "icdab_edge/icdab_edge-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -484,7 +484,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.perivalebluebell.icdab-edge";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "icdab_edge/icdab_edge-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

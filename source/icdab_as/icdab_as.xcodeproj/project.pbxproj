@@ -203,16 +203,16 @@
 				TargetAttributes = {
 					397F7990210252EE00809273 = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1220;
 					};
 					397F79A4210252EF00809273 = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1220;
 						TestTargetID = 397F7990210252EE00809273;
 					};
 					397F79AF210252EF00809273 = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1220;
 						TestTargetID = 397F7990210252EE00809273;
 					};
 				};
@@ -461,7 +461,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "icdab_as/icdab_as-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -482,7 +482,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-as";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "icdab_as/icdab_as-Bridging-Header.h";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -502,7 +502,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-asTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_as.app/icdab_as";
 			};
@@ -523,7 +523,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-asTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_as.app/icdab_as";
 			};
@@ -543,7 +543,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-asUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = icdab_as;
 			};
@@ -563,7 +563,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-asUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = icdab_as;
 			};
