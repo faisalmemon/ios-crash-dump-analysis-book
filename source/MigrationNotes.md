@@ -38,7 +38,6 @@ No changes needed.
 
 This has multiple targets, `icdab_sema_{mac, ios}`.  The mac variant compiles ok on the main Xcode 12.0 beta (12A8158a).  I need to test on the Apple Silicon version.
 
-
 ### `icdab_sema`
 
 No changes needed.  But this app comes in two flavours, iOS and macOS so needs to be tested on Apple Silicon.
