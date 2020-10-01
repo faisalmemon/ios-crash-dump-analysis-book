@@ -5,10 +5,6 @@ to Apple Silicon.  Note, our Xcode will only build for macOS, not iOS/tvOS/watch
 
 ## Existing Code
 
-### `icdab_sema` Needs work
-
-This has multiple targets, `icdab_sema_{mac, ios}`.  The mac variant compiles ok on the main Xcode 12.0 beta (12A8158a).  I need to test on the Apple Silicon version.
-
 ### `icdab_as`
 
 The prologues for the assembly of egg.s was out of date.  To get a proper modern prologue, we obtain it with the `scaffold.c` file.
@@ -38,6 +34,11 @@ No changes needed.
 
 No changes needed.
 
+### `icdab_sema` Needs work
+
+This has multiple targets, `icdab_sema_{mac, ios}`.  The mac variant compiles ok on the main Xcode 12.0 beta (12A8158a).  I need to test on the Apple Silicon version.
+
+
 ### `icdab_sema`
 
 No changes needed.  But this app comes in two flavours, iOS and macOS so needs to be tested on Apple Silicon.
@@ -48,6 +49,8 @@ I have migrated this to OS X running ARM64.  I used TargetConditionals.h  Unfort
 `thread_set_state` from another process so we don't get the kind of crash dump we are looking for.  Our goal
 is to get the crash dump to report that the number of calls to `thread_set_state` was non-zero from other processes.
 Luckily we have historical data to show the statistic.  If we figure out a way forwards, we'll revisit this.
+
+### `icdab_wrap`
 
 ## New Code
 
