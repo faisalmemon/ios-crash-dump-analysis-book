@@ -11,3 +11,7 @@ We got to this place by using `fold -s60 -w72`.  So we need to be narrower to 66
 
 I don't have the ARM Breakpoint Instruction or the Exception Syndrome Register setup properly.
 I have some if{csl - hanging} spurious text at the top of the bibliography.  See [bibliographyIssue.png](./bibliographyIssue.png)
+
+# Photograph Issue
+
+My portrait picture has a white background but the cover art would suit a black background.  See [faisal-portrait-25-6-2020.jpg](./faisal-portrait-25-6-2020.jpg)
