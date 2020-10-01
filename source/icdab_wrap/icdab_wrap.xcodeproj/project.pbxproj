@@ -199,16 +199,16 @@
 				TargetAttributes = {
 					39CD32A12101DAAE004B0E64 = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1220;
 					};
 					39CD32B52101DAB1004B0E64 = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1220;
 						TestTargetID = 39CD32A12101DAAE004B0E64;
 					};
 					39CD32C02101DAB1004B0E64 = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1220;
 						TestTargetID = 39CD32A12101DAAE004B0E64;
 					};
 				};
@@ -453,7 +453,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-wrap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -471,7 +471,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-wrap";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -491,7 +491,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-wrapTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_wrap.app/icdab_wrap";
 			};
@@ -512,7 +512,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-wrapTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_wrap.app/icdab_wrap";
 			};
@@ -532,7 +532,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-wrapUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = icdab_wrap;
 			};
@@ -552,7 +552,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "www.perivalebluebell.icdab-wrapUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = icdab_wrap;
 			};
