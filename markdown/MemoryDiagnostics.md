@@ -309,49 +309,30 @@ If we had done _File -> Export Memory Graph..._, to export the memgraph to `icda
 
 ```
 leaks icdab_cycle.memgraph
-
-Process:         icdab_cycle [15295]
-Path:            /Users/faisalm/Library/Developer/
-CoreSimulator/Devices/
-1616CA04-D1D0-4DF6-BE8E-F63541EC1EED/
-data/Containers/Bundle/Application/
-E44B9EFD-258B-4D0E-8637-CF374638D5FF/
-icdab_cycle.app/icdab_cycle
-Load Address:    0x106eb7000
+Process:         icdab_cycle [52119]
+Path:            /Users/faisalm/Library/Developer/CoreSimulator/Devices/3BC2C1DF-EBBA-41D3-A42F-87E6D86EF26D/data/Containers/Bundle/Application/A27B3F5B-5703-40D4-AA6C-D054F1289BDD/icdab_cycle.app/icdab_cycle
+Load Address:    0x10918a000
 Identifier:      icdab_cycle
 Version:         ???
 Code Type:       X86-64
-Parent Process:  debugserver [15296]
+Platform:        tvOS Simulator
+Parent Process:  debugserver [52123]
 
-Date/Time:       2018-09-14 16:38:23.008 +0100
-Launch Time:     2018-09-14 16:38:12.398 +0100
-OS Version:      Apple TVOS 12.0 (16J364)
+Date/Time:       2020-10-01 13:16:58.832 +0100
+Launch Time:     2020-10-01 13:16:36.315 +0100
+OS Version:      Apple TVOS 14.2 (18K5027e)
 Report Version:  7
-Analysis Tool:   /Users/faisalm/Downloads/
-Xcode.app/Contents/Developer/Platforms/
-AppleTVOS.platform/Developer/Library/CoreSimulator/
-Profiles/Runtimes/
-tvOS.simruntime/Contents/
-Resources/RuntimeRoot/Developer/Library/
-PrivateFrameworks/DVTInstrumentsFoundation.framework/
-LeakAgent
-Analysis Tool Version:  iOS Simulator 12.0 (16J364)
-
-Physical footprint:         38.9M
-Physical footprint (peak):  39.0M
+Analysis Tool:   /Volumes/SAMSUNG/Applications/Xcode12_2-beta.app/Contents/Developer/Platforms/AppleTVOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/tvOS.simruntime/Contents/Resources/RuntimeRoot/Developer/Library/PrivateFrameworks/DVTInstrumentsFoundation.framework/LeakAgent
+Analysis Tool Version:  iOS Simulator 14.2 (18K5027e)
 ----
 
-leaks Report Version: 3.0
-Process 15295: 30252 nodes malloced for 5385 KB
-Process 15295: 3 leaks for 144 total leaked bytes.
+leaks Report Version: 4.0, multi-line stacks
+Process 52119: 28212 nodes malloced for 3421 KB
+Process 52119: 3 leaks for 144 total leaked bytes.
 
-Leak: 0x600000d506c0  size=64  zone:
-DefaultMallocZone_0x11da72000
-   Song  Swift  icdab_cycle
-	Call stack: [thread 0x10a974380]: |
-   0x10a5f678d (libdyld.dylib) start |
-    0x106eba614 (icdab_cycle) main
-     AppDelegate.swift:12 ....
+STACK OF 1 INSTANCE OF 'ROOT CYCLE: <Album>':
+50  libdyld.dylib                      0x7fff201c2435 start + 1
+49  com.perivalebluebell.icdab-cycle        0x109190d2b main + 75  AppDelegate.swift:12 ....
 ```
 
 The code that causes this leak is:

@@ -14,13 +14,13 @@ The prologues for the assembly of egg.s was out of date.  To get a proper modern
 
 No changes needed.
 
-### `icdab_cycle` Needs work
+### `icdab_cycle`
 
-I think modernising has broken it.  Need to re-check
+I checked and this works correctly - it has a retain cycle caught by memory logging via Malloc Stack.
 
-### `icdab_edge` Needs work
+### `icdab_edge`
 
-Not all options cause a crash.  We don't get a crash with OvershootAllocated, and Uninitialized Memory.
+We properly get address sanitizer picking up OvershootAllocated.  We see the 0xAA scribble with Malloc Scribble enabled.
 
 ### `icdab_nsdata`
 
