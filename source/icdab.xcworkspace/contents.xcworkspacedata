@@ -11,9 +11,6 @@
       location = "group:icdab_thread/icdab_thread.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:icdab_use_after_free/icdab_use_after_free.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:icdab_planets/icdab_planets.xcodeproj">
    </FileRef>
    <FileRef
