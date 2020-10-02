@@ -113,6 +113,7 @@
 				3909AE7B252770B10064C9DE /* Frameworks */,
 				3909AE7C252770B10064C9DE /* CopyFiles */,
 				3909AEB825277C530064C9DE /* Sanity Check */,
+				3909AEC5252781E70064C9DE /* Deploy to tools directory */,
 			);
 			buildRules = (
 			);
@@ -193,6 +194,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "$BUILT_PRODUCTS_DIR/$TARGET_NAME $PROJECT_DIR/markdown_fold/testdata_mfold.md > $PROJECT_DIR/markdown_fold/autogen.md\ncomparison=$(cmp $PROJECT_DIR/markdown_fold/expected.md $PROJECT_DIR/markdown_fold/autogen.md)\n\nexit $comparison\n";
+		};
+		3909AEC5252781E70064C9DE /* Deploy to tools directory */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Deploy to tools directory";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "cp $BUILT_PRODUCTS_DIR/$TARGET_NAME ../../tools\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
