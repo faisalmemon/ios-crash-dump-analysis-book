@@ -311,9 +311,9 @@ If we had done _File -> Export Memory Graph..._, to export the memgraph to `icda
 leaks icdab_cycle.memgraph
 Process:         icdab_cycle [52119]
 Path:           
- /Users/faisalm/Library/Developer/CoreSimulator/Devices/3BC2C1DF-E
-BBA-41D3-A42F-87E6D86EF26D/data/Containers/Bundle/Application/A27B
-3F5B-5703-40D4-AA6C-D054F1289BDD/icdab_cycle.app/icdab_cycle
+ /Users/faisalm/Library/Developer/CoreSimulator/Devices/3BC2C1DF-
+EBBA-41D3-A42F-87E6D86EF26D/data/Containers/Bundle/Application/A2
+7B3F5B-5703-40D4-AA6C-D054F1289BDD/icdab_cycle.app/icdab_cycle
 Load Address:    0x10918a000
 Identifier:      icdab_cycle
 Version:         ???
@@ -326,11 +326,11 @@ Launch Time:     2020-10-01 13:16:36.315 +0100
 OS Version:      Apple TVOS 14.2 (18K5027e)
 Report Version:  7
 Analysis Tool:  
- /Volumes/SAMSUNG/Applications/Xcode12_2-beta.app/Contents/Develop
-er/Platforms/AppleTVOS.platform/Library/Developer/CoreSimulator/Pr
-ofiles/Runtimes/tvOS.simruntime/Contents/Resources/RuntimeRoot/Dev
-eloper/Library/PrivateFrameworks/DVTInstrumentsFoundation.framewor
-k/LeakAgent
+ /Volumes/SAMSUNG/Applications/Xcode12_2-beta.app/Contents/Develo
+per/Platforms/AppleTVOS.platform/Library/Developer/CoreSimulator/
+Profiles/Runtimes/tvOS.simruntime/Contents/Resources/RuntimeRoot/
+Developer/Library/PrivateFrameworks/DVTInstrumentsFoundation.fram
+ework/LeakAgent
 Analysis Tool Version:  iOS Simulator 14.2 (18K5027e)
 ----
 
@@ -340,8 +340,8 @@ Process 52119: 3 leaks for 144 total leaked bytes.
 
 STACK OF 1 INSTANCE OF 'ROOT CYCLE: <Album>':
 50  libdyld.dylib                      0x7fff201c2435 start + 1
-49  com.perivalebluebell.icdab-cycle        0x109190d2b main + 75 
- AppDelegate.swift:12 ....
+49  com.perivalebluebell.icdab-cycle        0x109190d2b main + 75
+  AppDelegate.swift:12 ....
 ```
 
 The code that causes this leak is:
