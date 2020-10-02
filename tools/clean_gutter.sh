@@ -50,8 +50,9 @@ do
     if [[ -a ${candidate} ]]
     then
         echo Processing ${candidate}
-        cp ${candidate} ${candidate}.orig
         $scriptPath/markdown_fold ${candidate} > ${candidate}.new
-        diff ${candidate}.orig ${candidate}.new
+        diff ${candidate} ${candidate}.new
+        mv ${candidate}.new ${candidate}
+        rm -f ${candidate}.new ${candidate}.orig
     fi
 done
