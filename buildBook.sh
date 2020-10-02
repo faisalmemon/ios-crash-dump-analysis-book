@@ -33,8 +33,8 @@ remainingArgs=$@
 
 rm -f foo.$langName.* boo.$langName.*
 
-filesToProcess=$(./get_markdown_for_lang.sh -l $langName $(cat frontPages.txt mainPages.txt))
-latexFilesToProcess=$(./get_markdown_for_lang.sh -l $langName $(cat frontPages_latex.txt mainPages.txt))
+filesToProcess=$(./tools/get_markdown_for_lang.sh -l $langName $(cat frontPages.txt mainPages.txt))
+latexFilesToProcess=$(./tools/get_markdown_for_lang.sh -l $langName $(cat frontPages_latex.txt mainPages.txt))
 
 
 # We allow first person in the preface and second person in the Introduction.
