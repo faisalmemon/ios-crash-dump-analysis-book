@@ -1,85 +1,50 @@
 # Memory Diagnostics
 
-In this chapter, we look at different diagnostic options for resolving 
-memory problems.
+In this chapter, we look at different diagnostic options for resolving memory problems.
 
 ## Basics of memory allocation
 
-The iOS platform allocates memory for our app either on the stack or 
-from the heap.
+The iOS platform allocates memory for our app either on the stack or from the heap.
 
-Memory is allocated on the stack whenever we create locally scoped 
-variables within functions.
-Memory is allocated from the heap whenever we call 
-`malloc`\index{command!malloc} (or its variants).
+Memory is allocated on the stack whenever we create locally scoped variables within functions.
+Memory is allocated from the heap whenever we call `malloc`\index{command!malloc} (or its variants).
 
-The minimum granularity of allocation on the heap is 16 bytes (an 
-implementation detail we are not to rely upon).  This means a small 
-overshoot can sometimes go undetected when we are accidentally 
-overwriting past the number of bytes we have allocated.
+The minimum granularity of allocation on the heap is 16 bytes (an implementation detail we are not to rely upon).  This means a small overshoot can sometimes go undetected when we are accidentally overwriting past the number of bytes we have allocated.
 
-When memory is allocated, it is placed into a 
-Virtual\index{memory!virtual} Memory region.  There are virtual memory 
-regions for allocations of approximately the same size.  For example, 
-we have regions `MALLOC_LARGE`, `MALLOC_SMALL`, and `MALLOC_TINY`.  
-This strategy tends to reduce the amount of fragmentation of memory.  
-Furthermore, there is a region for storing the bytes of an image, the 
-"CG image" region.  This allows the system to optimize the performance 
-of the system.
+When memory is allocated, it is placed into a Virtual\index{memory!virtual} Memory region.  There are virtual memory regions for allocations of approximately the same size.  For example, we have regions `MALLOC_LARGE`, `MALLOC_SMALL`, and `MALLOC_TINY`.  This strategy tends to reduce the amount of fragmentation of memory.  Furthermore, there is a region for storing the bytes of an image, the "CG image" region.  This allows the system to optimize the performance of the system.
 
-The hard part about memory allocation errors is that the symptoms can 
-be confusing because adjacent memory might be used for different 
-purposes, so one logical area of the system can interfere with an 
-unrelated area of the system.  Furthermore, there can be a delay (or 
-latency) so the problem is discovered much later than when the problem 
-was introduced.
+The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used for different purposes, so one logical area of the system can interfere with an unrelated area of the system.  Furthermore, there can be a delay (or latency) so the problem is discovered much later than when the problem was introduced.
 
 ## Address Sanitizer
 
-A very powerful tool can assist with memory diagnostics, called the 
-Address Sanitizer.
+A very powerful tool can assist with memory diagnostics, called the Address Sanitizer.
 (See @asanchecker)
 
-It requires us to recompile our code with the Scheme setting for 
-Address Sanitizer set:
+It requires us to recompile our code with the Scheme setting for Address Sanitizer set:
 
 ![](screenshots/diagnostic_santizer_setting.png)
 
-Address sanitizer does memory accounting (called Shadow Memory).  It 
-knows which memory locations are "poisoned".  That is, memory which has 
-not been allocated (or was allocated, and then freed).
+Address sanitizer does memory accounting (called Shadow Memory).  It knows which memory locations are "poisoned".  That is, memory which has not been allocated (or was allocated, and then freed).
 
 @wwdc2015_413
 
-Address sanitizer directly makes use of the compiler so that when code 
-is compiled, any access to memory entails a check against the Shadow 
-Memory to see if the memory location is poisoned.  If so, an error 
-report is generated.
+Address sanitizer directly makes use of the compiler so that when code is compiled, any access to memory entails a check against the Shadow Memory to see if the memory location is poisoned.  If so, an error report is generated.
 
-This is a very powerful tool because it tackles the two most important 
-classes of memory error:
+This is a very powerful tool because it tackles the two most important classes of memory error:
 
 1. Heap Buffer Overflow
 2. Heap Use After Free
 
-_Heap Buffer Overflow_ bugs are where we used more bytes than we were 
-allocated.
-_Heap Use After Free_  bugs are where we used memory after it had been 
-freed.
+_Heap Buffer Overflow_ bugs are where we used more bytes than we were allocated.
+_Heap Use After Free_  bugs are where we used memory after it had been freed.
 
-Address Sanitizer goes much further to address other classes of memory 
-error but those are less often encountered: stack buffer overflow, 
-global variable overflow, overflows in C++ containers, and use after 
-return bugs.
+Address Sanitizer goes much further to address other classes of memory error but those are less often encountered: stack buffer overflow, global variable overflow, overflows in C++ containers, and use after return bugs.
 
-The cost of this convenience is that our program can be x2 to x5 
-slower.  It is something worth switching on in our continuous 
-integration systems to shake out problems.
+The cost of this convenience is that our program can be x2 to x5 slower.  It is something worth switching on in our continuous integration systems to shake out problems.
 
 ## Memory overshoot example
 
-Consider the following code in the `icdab_edge` example program.  
-@icdabgithub
+Consider the following code in the `icdab_edge` example program.  @icdabgithub
 
 ```
 - (void)overshootAllocated
@@ -91,17 +56,12 @@ Consider the following code in the `icdab_edge` example program.
 }
 ```
 
-This code allocates the minimum amount of memory, 16 bytes.  Then it 
-writes to 17 consecutive memory locations.  We get a heap overflow bug.
+This code allocates the minimum amount of memory, 16 bytes.  Then it writes to 17 consecutive memory locations.  We get a heap overflow bug.
 
-This problem, itself, does not make our app crash immediately.  If we 
-rotate the device, the latent fault is triggered and we get a crash.  
-By enabling the address sanitizer, we immediately get a crash.
-This is a huge benefit.  Otherwise, we might have wasted a lot of time 
-in debugging screen rotation related code.
+This problem, itself, does not make our app crash immediately.  If we rotate the device, the latent fault is triggered and we get a crash.  By enabling the address sanitizer, we immediately get a crash.
+This is a huge benefit.  Otherwise, we might have wasted a lot of time in debugging screen rotation related code.
 
-The error report from Address Sanitizer is extensive.  We only show 
-selected portions of the report for ease of demonstration.
+The error report from Address Sanitizer is extensive.  We only show selected portions of the report for ease of demonstration.
 
 The error report begins with:
 ```
@@ -113,11 +73,9 @@ WRITE of size 1 at 0x60200003a5e0 thread T0
 #0 0x10394461a in -[Crash overshootAllocated] Crash.m:48
 ```
 
-This is enough context to be able to switch to the code, and start 
-understanding the problem.
+This is enough context to be able to switch to the code, and start understanding the problem.
 
-Further details are supplied showing we overshot the end of a 16-byte 
-allocation:
+Further details are supplied showing we overshot the end of a 16-byte allocation:
 ```
 0x60200003a5e0 is located 0 bytes to the right of
  16-byte region [0x60200003a5d0,0x60200003a5e0)
@@ -127,13 +85,9 @@ allocated by thread T0 here:
 #1 0x1039445ae in -[Crash overshootAllocated] Crash.m:46
 ```
 
-Note the use of a "half-open" number range number notation, where `[` 
-includes the lower range index, and `)` excludes the upper range index. 
- So our access to `0x60200003a5e0` is outside the allocated range 
-`[0x60200003a5d0,0x60200003a5e0)`
+Note the use of a "half-open" number range number notation, where `[` includes the lower range index, and `)` excludes the upper range index.  So our access to `0x60200003a5e0` is outside the allocated range `[0x60200003a5d0,0x60200003a5e0)`
 
-We also get a "map" of the memory around the problem, truncating 
-`0x1c0400007460` to `....7460` for ease of demonstration:
+We also get a "map" of the memory around the problem, truncating `0x1c0400007460` to `....7460` for ease of demonstration:
 ```
 SUMMARY: AddressSanitizer: heap-buffer-overflow Crash.m:48 in
  -[Crash overshootAllocated]
@@ -156,13 +110,11 @@ Shadow byte legend
   Heap left redzone:       fa
 ```
 
-From `[fa]` we see we hit the first byte of the "redzone" (poisoned 
-memory).
+From `[fa]` we see we hit the first byte of the "redzone" (poisoned memory).
 
 ## Use after free example
 
-Consider the following code in the `icdab_edge` example program.  
-@icdabgithub
+Consider the following code in the `icdab_edge` example program.  @icdabgithub
 
 ```
 - (void)useAfterFree
@@ -178,11 +130,9 @@ Consider the following code in the `icdab_edge` example program.
 }
 ```
 
-This code allocates the minimum amount of memory, 16 bytes, writes to 
-it, frees it and then tries a second time to write to the same memory.
+This code allocates the minimum amount of memory, 16 bytes, writes to it, frees it and then tries a second time to write to the same memory.
 
-Address Sanitizer reports where we accessed memory that has already 
-been freed:
+Address Sanitizer reports where we accessed memory that has already been freed:
 ```
 35711==ERROR: AddressSanitizer:
  heap-use-after-free on address
@@ -212,8 +162,7 @@ previously allocated by thread T0 here:
      -[Crash useAfterFree]
 ```
 
-Finally, it shows us a picture of memory around the faulty address, 
-truncating `0x1c0400006df0` to `....6df0` for ease of demonstration:
+Finally, it shows us a picture of memory around the faulty address, truncating `0x1c0400006df0` to `....6df0` for ease of demonstration:
 ```
     Shadow bytes around the buggy address:
   ....6df0: fa fa fd fd fa fa 00 00 fa fa fd fd fa fa fd fa
@@ -235,39 +184,27 @@ truncating `0x1c0400006df0` to `....6df0` for ease of demonstration:
       Freed heap region:       fd
 ```
 
-We see the entry, `[fd]` indicating a write to memory that has been 
-freed already.
+We see the entry, `[fd]` indicating a write to memory that has been freed already.
 
 ## Memory Management tools
 
-There is a collection of tools complementary to the Address Sanitizer 
-tool.  These are to be used when Address Sanitizer is off.  They catch 
-certain causes of failure that Address Sanitizer would miss.
+There is a collection of tools complementary to the Address Sanitizer tool.  These are to be used when Address Sanitizer is off.  They catch certain causes of failure that Address Sanitizer would miss.
 
-In contrast to the Address Sanitizer, the memory management tools do 
-not require a re-compilation of the project.
+In contrast to the Address Sanitizer, the memory management tools do not require a re-compilation of the project.
 
 ### Guard Malloc Tool
 
 This tool is only available on simulator targets, a major disadvantage.
-Every allocation is placed into its own memory page with guard pages 
-before and after.
+Every allocation is placed into its own memory page with guard pages before and after.
 This tool is largely superseded by Address Sanitizer.
 
 ### Malloc Scribble
 
-The purpose of Malloc Scribble is to make the symptoms of memory errors 
-predictable by having `malloc`-ed  or `free`-ed memory assigned to 
-fixed known values.  Allocated memory is given `0xAA` and deallocated 
-memory is given `0x55`.  It does not affect the behavior of data 
-allocated on the stack.  It is not compatible with Address Sanitizer.
+The purpose of Malloc Scribble is to make the symptoms of memory errors predictable by having `malloc`-ed  or `free`-ed memory assigned to fixed known values.  Allocated memory is given `0xAA` and deallocated memory is given `0x55`.  It does not affect the behavior of data allocated on the stack.  It is not compatible with Address Sanitizer.
 
-If we have an app that keeps crashing different ways each time it is 
-run, then Malloc Scribble is a good option.  It will help make the 
-crash predictable and repeatable.
+If we have an app that keeps crashing different ways each time it is run, then Malloc Scribble is a good option.  It will help make the crash predictable and repeatable.
 
-Consider the following code in the `icdab_edge` example program.  
-@icdabgithub
+Consider the following code in the `icdab_edge` example program.  @icdabgithub
 
 ```
 - (void)uninitializedMemory
@@ -280,49 +217,29 @@ Consider the following code in the `icdab_edge` example program.
 }
 ```
 
-First, `source` is given freshly allocated memory.  Since this memory 
-has not yet been initialized, it is set to 0xAA when Malloc Scribble 
-has been set (and address sanitizer reset) in the Scheme settings.
+First, `source` is given freshly allocated memory.  Since this memory has not yet been initialized, it is set to 0xAA when Malloc Scribble has been set (and address sanitizer reset) in the Scheme settings.
 
-Then, `target` is setup.  It is a buffer on the stack (not heap 
-memory).  Using the code, `= {0}`, we make the app set `0` in all 
-memory locations of this buffer.  Otherwise, it would be random memory 
-values.
+Then, `target` is setup.  It is a buffer on the stack (not heap memory).  Using the code, `= {0}`, we make the app set `0` in all memory locations of this buffer.  Otherwise, it would be random memory values.
 
-Then we enter a loop.  By breakpointing in the debugger, say at the 
-second iteration, we can print off the memory contents and see the 
-following:
+Then we enter a loop.  By breakpointing in the debugger, say at the second iteration, we can print off the memory contents and see the following:
 
 ![](screenshots/scribble.png)
 
-We see that the `target` buffer is zeros apart from the first two index 
-positions where it is `0xAA`.
+We see that the `target` buffer is zeros apart from the first two index positions where it is `0xAA`.
 We see that the `source` memory is always `0xAA`
 
-If we had not set Malloc Scribble, the target buffer would have been 
-filled with random values.
-In a complex program, such data could be fed to other subsystems 
-affecting the behavior of the program.
+If we had not set Malloc Scribble, the target buffer would have been filled with random values.
+In a complex program, such data could be fed to other subsystems affecting the behavior of the program.
 
 ### Zombie Objects
 
-The purpose of Zombie Objects is to detect use-after-free bugs in the 
-context of Objective-C `NSObject`s.  Particularly if we have a legacy 
-code base that uses Manual Reference Counting, it can be easy to over 
-release an object.  This means that messaging through the, now 
-dangling, pointer can have unpredictable effects.
+The purpose of Zombie Objects is to detect use-after-free bugs in the context of Objective-C `NSObject`s.  Particularly if we have a legacy code base that uses Manual Reference Counting, it can be easy to over release an object.  This means that messaging through the, now dangling, pointer can have unpredictable effects.
 
-This setting must only be made on debug builds because the code will no 
-longer release objects.  Its performance profile is equivalent to 
-leaking every object that should have been deallocated.  
+This setting must only be made on debug builds because the code will no longer release objects.  Its performance profile is equivalent to leaking every object that should have been deallocated.  
 
-This setting will make deallocated objects to instead become `NSZombie` 
-objects.  Any message sent to an `NSZombie` object results in an 
-immediate crash. Therefore, whenever an over-released object is 
-messaged, we are guaranteed a crash.
+This setting will make deallocated objects to instead become `NSZombie` objects.  Any message sent to an `NSZombie` object results in an immediate crash. Therefore, whenever an over-released object is messaged, we are guaranteed a crash.
 
-Consider the following code in the `icdab_edge` example program.  
-@icdabgithub
+Consider the following code in the `icdab_edge` example program.  @icdabgithub
 
 ```
 - (void)overReleasedObject
@@ -336,8 +253,7 @@ Consider the following code in the `icdab_edge` example program.
 }
 ```
 
-When the above code is called we get a crash, and the following is 
-logged:
+When the above code is called we get a crash, and the following is logged:
 
 ```
 2018-09-12 12:09:10.236058+0100 icdab_edge[92796:13650378]
@@ -352,30 +268,16 @@ Looking at the debugger, we see:
 Note how the type of the object instance `vc`
  is `_NSZombie_UIViewController *`.
 
-The type will be whatever the original type of the over released object 
-was, but prefixed with `_NSZombie_`.
-This is most helpful, and we should look out for this when studying the 
-program state in the debugger.
+The type will be whatever the original type of the over released object was, but prefixed with `_NSZombie_`.
+This is most helpful, and we should look out for this when studying the program state in the debugger.
 
 ### Malloc Stack
 
-Sometimes the past dynamic behavior of our app needs to be understood 
-in order to resolve why the application crashed.  For example, we may 
-have leaked memory, and then we were terminated by the system for using 
-too much memory.  We might have a data structure and wonder which part 
-of the code was responsible for allocating it.
+Sometimes the past dynamic behavior of our app needs to be understood in order to resolve why the application crashed.  For example, we may have leaked memory, and then we were terminated by the system for using too much memory.  We might have a data structure and wonder which part of the code was responsible for allocating it.
 
-The purpose of the `Malloc Stack` option is to provide the historical 
-data we require.  Memory analysis has been enhanced by Apple by 
-providing complementary visual tools.  Malloc Stack has a sub-option, 
-"All Allocation and Free History" or "Live Allocations Only"
+The purpose of the `Malloc Stack` option is to provide the historical data we require.  Memory analysis has been enhanced by Apple by providing complementary visual tools.  Malloc Stack has a sub-option, "All Allocation and Free History" or "Live Allocations Only"
 
-We recommend the "All Allocation" option, unless there is just too much 
-overhead experienced with it.  That may be due to having an app which 
-makes heavy use of memory allocation.  The "Live Allocations Only" 
-option is sufficient to catch memory leaks\index{memory!leak} as well 
-as being low overhead, so it is the default option in the User 
-Interface.
+We recommend the "All Allocation" option, unless there is just too much overhead experienced with it.  That may be due to having an app which makes heavy use of memory allocation.  The "Live Allocations Only" option is sufficient to catch memory leaks\index{memory!leak} as well as being low overhead, so it is the default option in the User Interface.
 
 The steps to follow are:
 
@@ -384,43 +286,34 @@ The steps to follow are:
 3. Press the Debug Memgraph Button
 4. For command line based analysis, _File -> Export Memory Graph..._
 
-The Memgraph visual tool within Xcode is comprehensive but can feel 
-daunting.
+The Memgraph visual tool within Xcode is comprehensive but can feel daunting.
 There is a helpful WWDC video to show the basics.  @wwdc2018_416
 
-There is normally too much low-level detail to review.  The best way to 
-use the graphical tool is when we have some hypothesis on why the app 
-is incorrectly using memory.
+There is normally too much low-level detail to review.  The best way to use the graphical tool is when we have some hypothesis on why the app is incorrectly using memory.
 
 #### Malloc Stack Memgraph example: detecting retain cycles
 
-A quick win is to see if we have any leaks.  These are memory locations 
-no longer reachable to be able to free up.
+A quick win is to see if we have any leaks.  These are memory locations no longer reachable to be able to free up.
 
-We use the tvOS\index{tvOS} example app `icdab_cycle` to show a retain 
-cycle found by Memgraph.  @icdabgithub
+We use the tvOS\index{tvOS} example app `icdab_cycle` to show a retain cycle found by Memgraph.  @icdabgithub
 
-Having set the Scheme settings for Malloc Stack, we then launch the app 
-and then press the Memgraph Button, shown below:
+Having set the Scheme settings for Malloc Stack, we then launch the app and then press the Memgraph Button, shown below:
 
 ![](screenshots/memgraphbutton.png)
 
-By pressing the exclamation mark filter button we can filter to only 
-showing leaks:
+By pressing the exclamation mark filter button we can filter to only showing leaks:
 
 ![](screenshots/retaincycle.png)
 
-If we had done _File -> Export Memory Graph..._, to export the memgraph 
-to `icdab_cycle.memgraph`, we could see the equivalent information from 
-the Mac Terminal app with the command line:\index{command!leaks}
+If we had done _File -> Export Memory Graph..._, to export the memgraph to `icdab_cycle.memgraph`, we could see the equivalent information from the Mac Terminal app with the command line:\index{command!leaks}
 
 ```
 leaks icdab_cycle.memgraph
 Process:         icdab_cycle [52119]
-Path:            
-/Users/faisalm/Library/Developer/CoreSimulator/Devices/3BC2C1DF-EBBA-41D
-3-A42F-87E6D86EF26D/data/Containers/Bundle/Application/A27B3F5B-5703-40D
-4-AA6C-D054F1289BDD/icdab_cycle.app/icdab_cycle
+Path:           
+ /Users/faisalm/Library/Developer/CoreSimulator/Devices/3BC2C1DF-E
+BBA-41D3-A42F-87E6D86EF26D/data/Containers/Bundle/Application/A27B
+3F5B-5703-40D4-AA6C-D054F1289BDD/icdab_cycle.app/icdab_cycle
 Load Address:    0x10918a000
 Identifier:      icdab_cycle
 Version:         ???
@@ -432,11 +325,12 @@ Date/Time:       2020-10-01 13:16:58.832 +0100
 Launch Time:     2020-10-01 13:16:36.315 +0100
 OS Version:      Apple TVOS 14.2 (18K5027e)
 Report Version:  7
-Analysis Tool:   
-/Volumes/SAMSUNG/Applications/Xcode12_2-beta.app/Contents/Developer/Plat
-forms/AppleTVOS.platform/Library/Developer/CoreSimulator/Profiles/Runtim
-es/tvOS.simruntime/Contents/Resources/RuntimeRoot/Developer/Library/Priv
-ateFrameworks/DVTInstrumentsFoundation.framework/LeakAgent
+Analysis Tool:  
+ /Volumes/SAMSUNG/Applications/Xcode12_2-beta.app/Contents/Develop
+er/Platforms/AppleTVOS.platform/Library/Developer/CoreSimulator/Pr
+ofiles/Runtimes/tvOS.simruntime/Contents/Resources/RuntimeRoot/Dev
+eloper/Library/PrivateFrameworks/DVTInstrumentsFoundation.framewor
+k/LeakAgent
 Analysis Tool Version:  iOS Simulator 14.2 (18K5027e)
 ----
 
@@ -446,8 +340,8 @@ Process 52119: 3 leaks for 144 total leaked bytes.
 
 STACK OF 1 INSTANCE OF 'ROOT CYCLE: <Album>':
 50  libdyld.dylib                      0x7fff201c2435 start + 1
-49  com.perivalebluebell.icdab-cycle        0x109190d2b main + 75  
-AppDelegate.swift:12 ....
+49  com.perivalebluebell.icdab-cycle        0x109190d2b main + 75 
+ AppDelegate.swift:12 ....
 ```
 
 The code that causes this leak is:
@@ -473,30 +367,15 @@ func buildMediaLibrary() {
 }
 ```
 
-The problem is that `createRetainCycleLeak()` `carnaval` `Song` makes a 
-strong reference to `salsa` `Album`, `salsa` makes a strong reference 
-to `carnaval` `Song`, and when we return from this method, there is no 
-reference to either object from another object.  The two objects become 
-disconnected from the rest of the object graph, and they cannot be 
-automatically released due to their mutual strong references (known as 
-a retain cycle\index{memory!retain cycle}).  A very similar object 
-relationship for `kylie` `Album` does not trigger a leak because that 
-is referenced by a top level graph object `mediaLibrary`
+The problem is that `createRetainCycleLeak()` `carnaval` `Song` makes a strong reference to `salsa` `Album`, `salsa` makes a strong reference to `carnaval` `Song`, and when we return from this method, there is no reference to either object from another object.  The two objects become disconnected from the rest of the object graph, and they cannot be automatically released due to their mutual strong references (known as a retain cycle\index{memory!retain cycle}).  A very similar object relationship for `kylie` `Album` does not trigger a leak because that is referenced by a top level graph object `mediaLibrary`
 
 ### Dynamic Linker API Usage
 
-Sometimes programs dynamically adapt or are extensible.  For such 
-programs, the dynamic linker\index{linker} API is used to 
-programmatically load up extra code modules.  When the configuration or 
-deployment of the app is faulty, this can result in crashes.
+Sometimes programs dynamically adapt or are extensible.  For such programs, the dynamic linker\index{linker} API is used to programmatically load up extra code modules.  When the configuration or deployment of the app is faulty, this can result in crashes.
 
-To debug such problems, set the `Dynamic Linker API Usage` flag.  This 
-can generate many messages so may cause problems on slower platforms 
-with limited start up times such as a 1st generation Apple 
-Watch\index{trademark!Apple Watch}\index{watchOS}.
+To debug such problems, set the `Dynamic Linker API Usage` flag.  This can generate many messages so may cause problems on slower platforms with limited start up times such as a 1st generation Apple Watch\index{trademark!Apple Watch}\index{watchOS}.
 
-An example app using the dynamic linker is available on GitHub. 
-@dynamicloadingeg
+An example app using the dynamic linker is available on GitHub. @dynamicloadingeg
 
 The kind of output when it is enabled is:
 
@@ -518,19 +397,11 @@ dlopen(DynamicFramework2.framework/DynamicFramework2)
 .
 ```
 
-A huge amount of logging is generated.  It is best to start by 
-searching for the `dlopen`\index{command!dlopen} command, and then 
-looking to see what other functions in the `dlopen` family are called.
+A huge amount of logging is generated.  It is best to start by searching for the `dlopen`\index{command!dlopen} command, and then looking to see what other functions in the `dlopen` family are called.
 
 ### Dynamic Library Loads
 
-Sometimes we have an early stage app crash during the initialization 
-phase where the dynamic loader is loading the app binary and its 
-dependent frameworks.  If we are confident that it is not custom code 
-using the dynamic linker API, but instead it is the assembly of 
-frameworks into the loaded binary we care about, then switching on the 
-`Dynamic Library Loads` flag is appropriate.  We get much shorter logs 
-than enabling the `Dynamic Linker API Usage` flag.
+Sometimes we have an early stage app crash during the initialization phase where the dynamic loader is loading the app binary and its dependent frameworks.  If we are confident that it is not custom code using the dynamic linker API, but instead it is the assembly of frameworks into the loaded binary we care about, then switching on the `Dynamic Library Loads` flag is appropriate.  We get much shorter logs than enabling the `Dynamic Linker API Usage` flag.
 
 Upon launch, we get a list of binaries loaded:
 
