@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="By Faisal Memon" />
-  <title>iOS Crash Dump Analysis</title>
+  <meta name="author" content="By Mr. Faisal Memon" />
+  <title>iOS Crash Dump Analysis, Second Edition</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -23,8 +23,8 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">iOS Crash Dump Analysis</h1>
-<p class="author">By Faisal Memon</p>
+<h1 class="title">iOS Crash Dump Analysis, Second Edition</h1>
+<p class="author">By Mr. Faisal Memon</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -1681,7 +1681,7 @@ transitionContext:] + 248</code></pre>
     sp: 0x000000016f8668d0   pc: 0x00000001b0e53d70 
       cpsr: 0x60000000
    esr: 0xf2000001  Address size fault</code></pre>
-<p>Here we see that for a ARM64 crash, we no longer get <code>0xbaddc0dedeadbead</code> set in <code>x11</code>. Instead, we get a new entry <code>esr:</code>. This means “Exception Syndrome Register”. <span class="citation" data-cites="ARMv8_ESR">(“Exception Syndrome Register,” n.d.)</span>.</p>
+<p>Here we see that for a ARM64 crash, we no longer get <code>0xbaddc0dedeadbead</code> set in <code>x11</code>. Instead, we get a new entry <code>esr:</code>. This means “Exception Syndrome Register”. <span class="citation" data-cites="ARMv8_ESR">(“Exception Syndrome Register” 2020)</span>.</p>
 <table>
 <thead>
 <tr class="header">
@@ -1704,7 +1704,7 @@ transitionContext:] + 248</code></pre>
 </tr>
 </tbody>
 </table>
-<p>In this instance bits <code>[31:26]</code> value <code>0b111100</code> means a <code>BRK</code> instruction was executed. Bit <code>25</code> whose value is <code>1</code> means in our case a <code>A64</code> <code>BRK</code> instruction was supplied. The bottom bits <code>[15:0]</code> value <code>1</code> means <code>1</code> when supplied when <code>BRK</code> was invoked. <span class="citation" data-cites="ARM_BRK">(“ARM Breakpoint Instruction,” n.d.)</span></p>
+<p>In this instance bits <code>[31:26]</code> value <code>0b111100</code> means a <code>BRK</code> instruction was executed. Bit <code>25</code> whose value is <code>1</code> means in our case a <code>A64</code> <code>BRK</code> instruction was supplied. The bottom bits <code>[15:0]</code> value <code>1</code> means <code>1</code> when supplied when <code>BRK</code> was invoked. <span class="citation" data-cites="ARM_BRK">(“ARM Breakpoint Instruction” 2020)</span></p>
 <h3 id="ios-crash-report-binary-images-section">iOS Crash Report Binary Images section</h3>
 <p>The Crash Report has a section enumerating all the binary images loaded by the process that crashed. It is usually a long list. It highlights the fact that there are many supporting frameworks for our apps. Most frameworks are private frameworks. The iOS development kit might seem a huge set of APIs, but that is just the tip of the iceberg.</p>
 <p>Here is an example list, edited for ease of demonstration:</p>
@@ -4953,7 +4953,7 @@ usr/lib/libBacktraceRecording.dylib
 <p>“Apple’s T2 Chip May Be Behind iMac Pro, Macbook Pro Crashes.” 2018. <a href="https://appleinsider.com/articles/18/07/26/apples-t2-chip-could-be-behind-small-number-of-crashes-in-imac-pro-new-macbook-pro">https://appleinsider.com/articles/18/07/26/apples-t2-chip-could-be-behind-small-number-of-crashes-in-imac-pro-new-macbook-pro</a>.</p>
 </div>
 <div id="ref-ARM_BRK">
-<p>“ARM Breakpoint Instruction.” n.d. <a href="https://developer.arm.com/documentation/100076/0100/a64-instruction-set-reference/a64-general-instructions/brk">https://developer.arm.com/documentation/100076/0100/a64-instruction-set-reference/a64-general-instructions/brk</a>.</p>
+<p>“ARM Breakpoint Instruction.” 2020. <a href="https://developer.arm.com/documentation/100076/0100/a64-instruction-set-reference/a64-general-instructions/brk">https://developer.arm.com/documentation/100076/0100/a64-instruction-set-reference/a64-general-instructions/brk</a>.</p>
 </div>
 <div id="ref-tn2123">
 <p>“CrashReport Technote 2123.” 2004. <a href="https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html">https://developer.apple.com/library/archive/technotes/tn2004/tn2123.html</a>.</p>
@@ -4968,7 +4968,7 @@ usr/lib/libBacktraceRecording.dylib
 <p>“Dynamic Loading Example.” 2018. <a href="https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework.git">https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework.git</a>.</p>
 </div>
 <div id="ref-ARMv8_ESR">
-<p>“Exception Syndrome Register.” n.d. <a href="https://developer.arm.com/docs/ddi0595/h/aarch64-system-registers/esr_el1">https://developer.arm.com/docs/ddi0595/h/aarch64-system-registers/esr_el1</a>.</p>
+<p>“Exception Syndrome Register.” 2020. <a href="https://developer.arm.com/docs/ddi0595/h/aarch64-system-registers/esr_el1">https://developer.arm.com/docs/ddi0595/h/aarch64-system-registers/esr_el1</a>.</p>
 </div>
 <div id="ref-impropersockets">
 <p>“Improper Use of Bsd Sockets.” 2018. <a href="https://stackoverflow.com/a/13790353/2715565">https://stackoverflow.com/a/13790353/2715565</a>.</p>
