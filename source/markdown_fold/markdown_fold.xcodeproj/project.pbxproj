@@ -192,7 +192,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "$BUILT_PRODUCTS_DIR/$TARGET_NAME $PROJECT_DIR/markdown_fold/testdata_mfold.md > $PROJECT_DIR/markdown_fold/autogen.processed.testdata_mfold.md\ncksum $PROJECT_DIR/markdown_fold/autogen.processed.testdata_mfold.md\n";
+			shellScript = "$BUILT_PRODUCTS_DIR/$TARGET_NAME $PROJECT_DIR/markdown_fold/testdata_mfold.md > $PROJECT_DIR/markdown_fold/autogen.md\ncomparison=$(cmp $PROJECT_DIR/markdown_fold/expected.md $PROJECT_DIR/markdown_fold/autogen.md)\n\nexit $comparison\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
