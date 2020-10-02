@@ -13,7 +13,7 @@
 
 enum {
     TAB_LENGTH = 4,
-    WIDTH = 66,
+    WIDTH = 65,
 };
 
 void
