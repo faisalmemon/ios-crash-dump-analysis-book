@@ -57,14 +57,27 @@ fold_string(char *string, int width, int tab_length) {
 	} else {
 	    col_pos++;
 	}
+	current_char++;
     }
+    fprintf(stderr,
+	"fold_string loop escaped with col_pos %ld ws_pos %ld *current_char %c ptrdiff %ld\n",
+	(long)col_pos, (long)ws_pos, *current_char, current_char - string);
+
+    if (col_pos <= width) {
+	fprintf(stdout, "%s", string);
+	// no more work needed; exit the recursion
+	return;
+    } else if (ws_pos > 0) {
+	current_char = string + ws_pos;
+    } else {
+	current_char = string + width;
+    }
+
     char *dup = strndup(string, current_char - string);
     assert(dup);
     fprintf(stdout, "%s\n", dup);
+    fold_string(current_char, width, tab_length);
     free(dup);
-    if (*current_char != '\0') {
-	fold_string(current_char, width, tab_length);
-    }
 }
 
 int
@@ -86,7 +99,7 @@ parse(FILE *fin, int width, int tab_length) {
 	    if (line_length <= width) {
 		fprintf(stdout, "%s", current_string);
 	    } else {
-		fold_string(current_string, width, tab_length) {
+		fold_string(current_string, width, tab_length);
 	    }
 	} else {
 	    fprintf(stdout, "%s", current_string);
