@@ -54,8 +54,11 @@ do
 
 done
 
-./tools/clean_gutter.sh $filesToProcess
+scriptPath="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
+./tools/clean_gutter.sh -r $scriptPath $filesToProcess
+
+exit 1
 echo
 
 echo Processing foo.$langName.html

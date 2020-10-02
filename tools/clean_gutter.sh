@@ -1,6 +1,40 @@
 #!/bin/bash
 
-filelist=$*
+usage() {
+  echo "Usage: $0 -r rootForRelativePaths relPath1 relPath2 ... relPathN " 1>&2
+}
+
+exit_abnormal() {
+  usage
+  exit 1
+}
+
+rootPath=_invalid_
+
+while getopts "r:" options; do
+  case "${options}" in
+    r)
+      rootPath=${OPTARG}
+      ;;
+    :)
+      echo "Error: -${OPTARG} requires an argument."
+      exit_abnormal
+      ;;
+    *)
+      exit_abnormal
+      ;;
+  esac
+done
+
+if [[ $rootPath == "_invalid_" ]]
+then
+    exit_abnormal
+fi
+
+echo root path is $rootPath
+
+shift $(($OPTIND - 1))
+remainingArgs=$@
 
 scriptPath="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
@@ -10,15 +44,14 @@ then
     exit 1
 fi
 
-for item in ${filelist}
+for item in ${remainingArgs}
 do
-    if [[ -f ${item} ]]
+    candidate=${rootPath}/${item}
+    if [[ -a ${candidate} ]]
     then
-	echo Processing $item
-	cp ${item} ${item}.orig
-	./markdown_fold ${item} > ${item}.new
-	mv ${item}.new ${item}
-	diff ${item}.orig ${item}
-	rm ${item}.orig
+        echo Processing ${candidate}
+        cp ${candidate} ${candidate}.orig
+        $scriptPath/markdown_fold ${candidate} > ${candidate}.new
+        diff ${candidate}.orig ${candidate}.new
     fi
 done
