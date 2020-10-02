@@ -4656,9 +4656,7 @@ Process detected doing insecure drawing while in secure mode</code></pre>
 <p>The iOS platform allocates memory for our app either on the stack or from the heap.</p>
 <p>Memory is allocated on the stack whenever we create locally scoped variables within functions. Memory is allocated from the heap whenever we call <code>malloc</code> (or its variants).</p>
 <p>The minimum granularity of allocation on the heap is 16 bytes (an implementation detail we are not to rely upon). This means a small overshoot can sometimes go undetected when we are accidentally overwriting past the number of bytes we have allocated.</p>
-<p>When memory is allocated, it is placed into a Virtual Memory region. There are virtual memory regions for allocations of approximately the same size. For example, we have regions <code>MALLOC_LARGE</code>, <code>MALLOC_SMALL</code>, and <code>MALLOC_TINY</code>.<br />
-This strategy tends to reduce the amount of fragmentation of memory.<br />
-Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimize the performance of the system.</p>
+<p>When memory is allocated, it is placed into a Virtual Memory region. There are virtual memory regions for allocations of approximately the same size. For example, we have regions <code>MALLOC_LARGE</code>, <code>MALLOC_SMALL</code>, and <code>MALLOC_TINY</code>. This strategy tends to reduce the amount of fragmentation of memory. Furthermore, there is a region for storing the bytes of an image, the “CG image” region. This allows the system to optimize the performance of the system.</p>
 <p>The hard part about memory allocation errors is that the symptoms can be confusing because adjacent memory might be used for different purposes, so one logical area of the system can interfere with an unrelated area of the system. Furthermore, there can be a delay (or latency) so the problem is discovered much later than when the problem was introduced.</p>
 <h2 id="address-sanitizer">Address Sanitizer</h2>
 <p>A very powerful tool can assist with memory diagnostics, called the Address Sanitizer. (See <span class="citation" data-cites="asanchecker">Serebryany et al. (2012)</span>)</p>
@@ -4676,8 +4674,7 @@ Furthermore, there is a region for storing the bytes of an image, the “CG imag
 <p>Address Sanitizer goes much further to address other classes of memory error but those are less often encountered: stack buffer overflow, global variable overflow, overflows in C++ containers, and use after return bugs.</p>
 <p>The cost of this convenience is that our program can be x2 to x5 slower. It is something worth switching on in our continuous integration systems to shake out problems.</p>
 <h2 id="memory-overshoot-example">Memory overshoot example</h2>
-<p>Consider the following code in the <code>icdab_edge</code> example program.<br />
-<span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)overshootAllocated
 {
     uint8_t *memory = malloc(16);
@@ -4686,8 +4683,7 @@ Furthermore, there is a region for storing the bytes of an image, the “CG imag
     }
 }</code></pre>
 <p>This code allocates the minimum amount of memory, 16 bytes. Then it writes to 17 consecutive memory locations. We get a heap overflow bug.</p>
-<p>This problem, itself, does not make our app crash immediately. If we rotate the device, the latent fault is triggered and we get a crash.<br />
-By enabling the address sanitizer, we immediately get a crash. This is a huge benefit. Otherwise, we might have wasted a lot of time in debugging screen rotation related code.</p>
+<p>This problem, itself, does not make our app crash immediately. If we rotate the device, the latent fault is triggered and we get a crash. By enabling the address sanitizer, we immediately get a crash. This is a huge benefit. Otherwise, we might have wasted a lot of time in debugging screen rotation related code.</p>
 <p>The error report from Address Sanitizer is extensive. We only show selected portions of the report for ease of demonstration.</p>
 <p>The error report begins with:</p>
 <pre><code>==21803==ERROR: AddressSanitizer:
@@ -4727,8 +4723,7 @@ Shadow byte legend
   Heap left redzone:       fa</code></pre>
 <p>From <code>[fa]</code> we see we hit the first byte of the “redzone” (poisoned memory).</p>
 <h2 id="use-after-free-example">Use after free example</h2>
-<p>Consider the following code in the <code>icdab_edge</code> example program.<br />
-<span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)useAfterFree
 {
     uint8_t *memory = malloc(16);         // line 54
@@ -4790,8 +4785,7 @@ freed by thread T0 here:
 <h3 id="malloc-scribble">Malloc Scribble</h3>
 <p>The purpose of Malloc Scribble is to make the symptoms of memory errors predictable by having <code>malloc</code>-ed or <code>free</code>-ed memory assigned to fixed known values. Allocated memory is given <code>0xAA</code> and deallocated memory is given <code>0x55</code>. It does not affect the behavior of data allocated on the stack. It is not compatible with Address Sanitizer.</p>
 <p>If we have an app that keeps crashing different ways each time it is run, then Malloc Scribble is a good option. It will help make the crash predictable and repeatable.</p>
-<p>Consider the following code in the <code>icdab_edge</code> example program.<br />
-<span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)uninitializedMemory
 {
     uint8_t *source = malloc(16);
@@ -4810,8 +4804,7 @@ freed by thread T0 here:
 <p>The purpose of Zombie Objects is to detect use-after-free bugs in the context of Objective-C <code>NSObject</code>s. Particularly if we have a legacy code base that uses Manual Reference Counting, it can be easy to over release an object. This means that messaging through the, now dangling, pointer can have unpredictable effects.</p>
 <p>This setting must only be made on debug builds because the code will no longer release objects. Its performance profile is equivalent to leaking every object that should have been deallocated.</p>
 <p>This setting will make deallocated objects to instead become <code>NSZombie</code> objects. Any message sent to an <code>NSZombie</code> object results in an immediate crash. Therefore, whenever an over-released object is messaged, we are guaranteed a crash.</p>
-<p>Consider the following code in the <code>icdab_edge</code> example program.<br />
-<span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>Consider the following code in the <code>icdab_edge</code> example program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>- (void)overReleasedObject
 {
     id vc = [[UIViewController alloc] init];
@@ -4852,10 +4845,10 @@ freed by thread T0 here:
 <p>If we had done <em>File -&gt; Export Memory Graph…</em>, to export the memgraph to <code>icdab_cycle.memgraph</code>, we could see the equivalent information from the Mac Terminal app with the command line:</p>
 <pre><code>leaks icdab_cycle.memgraph
 Process:         icdab_cycle [52119]
-Path:            
-/Users/faisalm/Library/Developer/CoreSimulator/Devices/3BC2C1DF-EBBA-41D
-3-A42F-87E6D86EF26D/data/Containers/Bundle/Application/A27B3F5B-5703-40D
-4-AA6C-D054F1289BDD/icdab_cycle.app/icdab_cycle
+Path:           
+ /Users/faisalm/Library/Developer/CoreSimulator/Devices/3BC2C1DF-E
+BBA-41D3-A42F-87E6D86EF26D/data/Containers/Bundle/Application/A27B
+3F5B-5703-40D4-AA6C-D054F1289BDD/icdab_cycle.app/icdab_cycle
 Load Address:    0x10918a000
 Identifier:      icdab_cycle
 Version:         ???
@@ -4867,11 +4860,12 @@ Date/Time:       2020-10-01 13:16:58.832 +0100
 Launch Time:     2020-10-01 13:16:36.315 +0100
 OS Version:      Apple TVOS 14.2 (18K5027e)
 Report Version:  7
-Analysis Tool:   
-/Volumes/SAMSUNG/Applications/Xcode12_2-beta.app/Contents/Developer/Plat
-forms/AppleTVOS.platform/Library/Developer/CoreSimulator/Profiles/Runtim
-es/tvOS.simruntime/Contents/Resources/RuntimeRoot/Developer/Library/Priv
-ateFrameworks/DVTInstrumentsFoundation.framework/LeakAgent
+Analysis Tool:  
+ /Volumes/SAMSUNG/Applications/Xcode12_2-beta.app/Contents/Develop
+er/Platforms/AppleTVOS.platform/Library/Developer/CoreSimulator/Pr
+ofiles/Runtimes/tvOS.simruntime/Contents/Resources/RuntimeRoot/Dev
+eloper/Library/PrivateFrameworks/DVTInstrumentsFoundation.framewor
+k/LeakAgent
 Analysis Tool Version:  iOS Simulator 14.2 (18K5027e)
 ----
 
@@ -4881,8 +4875,8 @@ Process 52119: 3 leaks for 144 total leaked bytes.
 
 STACK OF 1 INSTANCE OF &#39;ROOT CYCLE: &lt;Album&gt;&#39;:
 50  libdyld.dylib                      0x7fff201c2435 start + 1
-49  com.perivalebluebell.icdab-cycle        0x109190d2b main + 75  
-AppDelegate.swift:12 ....</code></pre>
+49  com.perivalebluebell.icdab-cycle        0x109190d2b main + 75 
+ AppDelegate.swift:12 ....</code></pre>
 <p>The code that causes this leak is:</p>
 <pre><code>var mediaLibrary: Album?
 
