@@ -8,10 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		3909AE8A252771130064C9DE /* mfold.c in Sources */ = {isa = PBXBuildFile; fileRef = 3909AE89252771130064C9DE /* mfold.c */; };
+		3909AEA3252775BE0064C9DE /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3909AEA2252775BE0064C9DE /* main.c */; };
+		3909AEAA252775DC0064C9DE /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3909AEA9252775DC0064C9DE /* main.c */; };
+		3909AEB2252778070064C9DE /* test_mfold.c in Sources */ = {isa = PBXBuildFile; fileRef = 3909AEB1252778070064C9DE /* test_mfold.c */; };
+		3909AEB5252778120064C9DE /* mfold.c in Sources */ = {isa = PBXBuildFile; fileRef = 3909AE89252771130064C9DE /* mfold.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		3909AE7C252770B10064C9DE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		3909AE9E252775BE0064C9DE /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -25,10 +38,23 @@
 /* Begin PBXFileReference section */
 		3909AE7E252770B10064C9DE /* markdown_fold */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = markdown_fold; sourceTree = BUILT_PRODUCTS_DIR; };
 		3909AE89252771130064C9DE /* mfold.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mfold.c; sourceTree = "<group>"; };
+		3909AEA0252775BE0064C9DE /* markdown_fold_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = markdown_fold_test; sourceTree = BUILT_PRODUCTS_DIR; };
+		3909AEA2252775BE0064C9DE /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		3909AEA9252775DC0064C9DE /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		3909AEAD252776000064C9DE /* mfold.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mfold.h; sourceTree = "<group>"; };
+		3909AEB0252778070064C9DE /* test_mfold.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_mfold.h; sourceTree = "<group>"; };
+		3909AEB1252778070064C9DE /* test_mfold.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = test_mfold.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		3909AE7B252770B10064C9DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3909AE9D252775BE0064C9DE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				3909AE80252770B10064C9DE /* markdown_fold */,
+				3909AEA1252775BE0064C9DE /* markdown_fold_test */,
 				3909AE7F252770B10064C9DE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				3909AE7E252770B10064C9DE /* markdown_fold */,
+				3909AEA0252775BE0064C9DE /* markdown_fold_test */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -58,8 +86,20 @@
 			isa = PBXGroup;
 			children = (
 				3909AE89252771130064C9DE /* mfold.c */,
+				3909AEAD252776000064C9DE /* mfold.h */,
+				3909AEA9252775DC0064C9DE /* main.c */,
 			);
 			path = markdown_fold;
+			sourceTree = "<group>";
+		};
+		3909AEA1252775BE0064C9DE /* markdown_fold_test */ = {
+			isa = PBXGroup;
+			children = (
+				3909AEA2252775BE0064C9DE /* main.c */,
+				3909AEB0252778070064C9DE /* test_mfold.h */,
+				3909AEB1252778070064C9DE /* test_mfold.c */,
+			);
+			path = markdown_fold_test;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -72,6 +112,7 @@
 				3909AE7A252770B10064C9DE /* Sources */,
 				3909AE7B252770B10064C9DE /* Frameworks */,
 				3909AE7C252770B10064C9DE /* CopyFiles */,
+				3909AEB825277C530064C9DE /* Sanity Check */,
 			);
 			buildRules = (
 			);
@@ -80,6 +121,23 @@
 			name = markdown_fold;
 			productName = markdown_fold;
 			productReference = 3909AE7E252770B10064C9DE /* markdown_fold */;
+			productType = "com.apple.product-type.tool";
+		};
+		3909AE9F252775BE0064C9DE /* markdown_fold_test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3909AEA6252775BE0064C9DE /* Build configuration list for PBXNativeTarget "markdown_fold_test" */;
+			buildPhases = (
+				3909AE9C252775BE0064C9DE /* Sources */,
+				3909AE9D252775BE0064C9DE /* Frameworks */,
+				3909AE9E252775BE0064C9DE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = markdown_fold_test;
+			productName = markdown_fold_test;
+			productReference = 3909AEA0252775BE0064C9DE /* markdown_fold_test */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -91,6 +149,9 @@
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
 					3909AE7D252770B10064C9DE = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					3909AE9F252775BE0064C9DE = {
 						CreatedOnToolsVersion = 12.2;
 					};
 				};
@@ -109,16 +170,49 @@
 			projectRoot = "";
 			targets = (
 				3909AE7D252770B10064C9DE /* markdown_fold */,
+				3909AE9F252775BE0064C9DE /* markdown_fold_test */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3909AEB825277C530064C9DE /* Sanity Check */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Sanity Check";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "$BUILT_PRODUCTS_DIR/$TARGET_NAME $PROJECT_DIR/markdown_fold/testdata_mfold.md > $PROJECT_DIR/markdown_fold/autogen.processed.testdata_mfold.md\ncksum $PROJECT_DIR/markdown_fold/autogen.processed.testdata_mfold.md\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3909AE7A252770B10064C9DE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3909AEAA252775DC0064C9DE /* main.c in Sources */,
 				3909AE8A252771130064C9DE /* mfold.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3909AE9C252775BE0064C9DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3909AEB5252778120064C9DE /* mfold.c in Sources */,
+				3909AEB2252778070064C9DE /* test_mfold.c in Sources */,
+				3909AEA3252775BE0064C9DE /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +350,26 @@
 			};
 			name = Release;
 		};
+		3909AEA4252775BE0064C9DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3909AEA5252775BE0064C9DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -273,6 +387,15 @@
 			buildConfigurations = (
 				3909AE86252770B10064C9DE /* Debug */,
 				3909AE87252770B10064C9DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3909AEA6252775BE0064C9DE /* Build configuration list for PBXNativeTarget "markdown_fold_test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3909AEA4252775BE0064C9DE /* Debug */,
+				3909AEA5252775BE0064C9DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

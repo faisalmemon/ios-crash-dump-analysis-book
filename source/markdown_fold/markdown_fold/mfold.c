@@ -4,10 +4,13 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#define TAB_LENGTH 4
-#define WIDTH 66
-#define BUFFER_SIZE 2048
-#define MF_DEBUG 0
+#include "mfold.h"
+
+enum {
+    BUFFER_SIZE = 2048
+};
+
+const int MF_DEBUG = 0;
 
 void
 usage() {
@@ -19,6 +22,11 @@ size_t
 strlen_with_tabs(char *source, int tab_length) {
     int n_tabs = 0;
     char *letter = source;
+    
+    if (!source) {
+        return 0;
+    }
+    
     while (*letter) {
         if (*letter == '\t') {
             n_tabs++;
@@ -33,7 +41,9 @@ strlen_with_tabs(char *source, int tab_length) {
     }
     
     // don't count trailing newline
-    length -= 1;
+    if (*(letter - 1) == '\n') {
+        length -= 1;
+    }
     
     return length;
 }
@@ -43,6 +53,10 @@ fold_string(char *string, int width, int tab_length) {
     int col_pos = 0;
     char *current_char = string;
     int ws_pos = 0;
+    
+    if (!string) {
+        return;
+    }
     
     while (*current_char) {
         if (*current_char == '\n') {
@@ -112,17 +126,4 @@ parse(FILE *fin, int width, int tab_length) {
     return EXIT_SUCCESS;
 }
 
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        usage();
-        return EXIT_SUCCESS;
-    }
-    char *filename = argv[1];
-    FILE *fin = fopen(filename, "r");
-    if (fin == NULL) {
-        perror(filename);
-        return EXIT_FAILURE;
-    }
-    int result = parse(fin, WIDTH, TAB_LENGTH);
-    return result;
-}
+
