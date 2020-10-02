@@ -54,6 +54,8 @@ do
 
 done
 
+./tools/clean_gutter.sh $filesToProcess
+
 echo
 
 echo Processing foo.$langName.html

@@ -2,7 +2,9 @@
 
 filelist=$*
 
-if ! [[ -f ./markdown_fold ]]
+scriptPath="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+if ! [[ -f $scriptPath/markdown_fold ]]
 then
     echo You need to build the markdown_fold tool first
     exit 1
