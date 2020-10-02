@@ -7,6 +7,7 @@
 #define TAB_LENGTH 4
 #define WIDTH 66
 #define BUFFER_SIZE 2048
+#define DEBUG 0
 
 void
 usage() {
@@ -59,7 +60,7 @@ fold_string(char *string, int width, int tab_length) {
 	}
 	current_char++;
     }
-    fprintf(stderr,
+    if (DEBUG) fprintf(stderr,
 	"fold_string loop escaped with col_pos %ld ws_pos %ld *current_char %c ptrdiff %ld\n",
 	(long)col_pos, (long)ws_pos, *current_char, current_char - string);
 
@@ -87,11 +88,11 @@ parse(FILE *fin, int width, int tab_length) {
     char *current_string = NULL;
     int line_length = 0;
 
-    fprintf(stderr, "Read line buffer is %zu\n", sizeof(buffer));
+    if (DEBUG) fprintf(stderr, "Read line buffer is %zu\n", sizeof(buffer));
 
     while ((current_string = fgets(buffer, sizeof(buffer), fin)) != NULL) {
 	if (strncmp(current_string, "```", 3) == 0) {
-	    fprintf(stderr, "Found verbose backticks\n");
+	    if (DEBUG) fprintf(stderr, "Found verbose backticks\n");
 	    inside_verbose_block = !inside_verbose_block;
 	}
 	if (inside_verbose_block) {
