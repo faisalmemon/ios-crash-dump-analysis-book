@@ -254,6 +254,7 @@
 <p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
 <p>Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.</p>
 <p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognised the following trademarks:</p>
+<p>ARM, Android, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iTunes Connect, macOS, tvOS, watchOS.</p>
 <h1 id="preface">Preface</h1>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
 <p>It’s hard to overstate the euphoria of the moment. The Internet was the next Industrial Revolution. Investors saw it as the best place to put their money. Hardware, software and services were all experiencing a Cambrian explosion of diversity and innovation.</p>
@@ -3252,7 +3253,7 @@ Binary Images:
 <p>The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime. Possibly, the application bundle is missing the library we desire.</p>
 <p>Sometimes we are integrating third party libraries that have dynamic code loading within them. In such cases, we need to use the Xcode diagnostics facilities.</p>
 <p>We do not have the source code for the XBMC application. However, there is an open source example demonstrating the use of the dynamic loader. <span class="citation" data-cites="dynamicloadingeg">(“Dynamic Loading Example” 2018)</span></p>
-<p>When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app. For older versions of Xcode, we can switch on <em>Dynamic Linker API Usage</em> by editing the Scheme settings as follows:</p>
+<p>When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app. For older versions of Xcode, we can switch on <em>Dynamic Linker API Usage</em>  by editing the Scheme settings as follows:</p>
 <p><img src="screenshots/dynamic_loading.png" /></p>
 <p>For Xcode 12.x, we can switch on equivalent functionality by setting environmental variables. It is worth experimenting with different options, but a good starting point is <code>DYLD_PRINT_LIBRARIES</code>. No particular value needs to be set for the environmental value. It is located in Scheme settings: <code>Product &gt; Scheme &gt; Edit Scheme</code>; <code>Run</code> target, <code>Arguments</code> tab, <code>Environment Variables</code> table. <span class="citation" data-cites="dynamicloadingenvvars">(“Logging Dynamic Loader Events” 2020)</span></p>
 <p><img src="screenshots/dynamic_loading_env.png" /></p>
