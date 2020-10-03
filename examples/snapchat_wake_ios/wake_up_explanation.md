@@ -52,7 +52,8 @@ Thread 21:
 	// rqReceiverDequeue + 0x64
 7       CoreMedia                     	0x18252dd38
  0x1824dc000 + 0x51d38
-	// __FigRemoteQueueReceiverSetHandler_block_invoke2 + 0xa0
+	// __FigRemoteQueueReceiverSetHandler_block_invoke2 +
+ 0xa0
 8       libdispatch.dylib             	0x193b71950
  0x193b70000 + 0x1950
 	// _dispatch_client_callout + 0xc

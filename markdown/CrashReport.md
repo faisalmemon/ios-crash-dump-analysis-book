@@ -385,13 +385,13 @@ The crashing thread in the above scenario had the thread backtrace:
 ```
 Thread 0 name:  Dispatch queue: com.apple.main-thread
 Thread 0 Crashed:
-0   libsystem_kernel.dylib        	0x2572ec5c __pthread_kill + 8
-
-1   libsystem_pthread.dylib       	0x257d8732 pthread_kill + 62
-
+0   libsystem_kernel.dylib        	0x2572ec5c __pthread_kill
+ + 8
+1   libsystem_pthread.dylib       	0x257d8732 pthread_kill +
+ 62
 2   libsystem_c.dylib             	0x256c30ac abort + 108
-3   libc++abi.dylib               	0x2521aae4 __cxa_bad_cast + 0
-
+3   libc++abi.dylib               	0x2521aae4 __cxa_bad_cast
+ + 0
 4   libc++abi.dylib               	0x2523369e
 default_terminate_handler+ 104094 () + 266
 5   libobjc.A.dylib               	0x2523f0b0
