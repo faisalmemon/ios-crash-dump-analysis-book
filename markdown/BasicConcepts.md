@@ -71,7 +71,8 @@ func handlePickerButtonPressed() {
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
         imagePicker.allowsEditing = true
-        self.present(imagePicker, animated: true, completion: nil)
+        self.present(imagePicker, animated: true, completion:
+ nil)
     }
 }
 ```
@@ -79,7 +80,11 @@ func handlePickerButtonPressed() {
 However when we run the code, via Xcode 12.2, we see a crash with a descriptive console message:
 
 ```
-2020-10-03 17:59:10.458176+0100 icdab_camera[6908:6483411] [access] This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app's Info.plist must contain an NSCameraUsageDescription key with a string value explaining to the user how the app uses this data.
+2020-10-03 17:59:10.458176+0100 icdab_camera[6908:6483411]
+ [access] This app has crashed because it attempted to access
+ privacy-sensitive data without a usage description.  The app's
+ Info.plist must contain an NSCameraUsageDescription key with a
+ string value explaining to the user how the app uses this data.
 Message from debugger: Terminated due to signal 9
 ```
 
