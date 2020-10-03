@@ -115,7 +115,8 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
 	if (dsema->dsema_value < dsema->dsema_orig) {
 		DISPATCH_CLIENT_CRASH(
       dsema->dsema_orig - dsema->dsema_value,
-				"Semaphore object deallocated while in use"
+				"Semaphore object deallocated
+ while in use"
     );
 	}
 

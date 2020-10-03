@@ -96,7 +96,8 @@ static void
 _dispatch_continuation_push(dispatch_queue_t dq,
    dispatch_continuation_t dc)
 {
-	dx_push(dq, dc, _dispatch_continuation_override_qos(dq, dc));
+	dx_push(dq, dc, _dispatch_continuation_override_qos(dq,
+ dc));
 }
 ```
 

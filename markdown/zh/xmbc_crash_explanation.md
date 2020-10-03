@@ -228,7 +228,8 @@ dlclose(0x600000157d90)
 -(void)loadCASHelloFromDynamicFramework1
 {
     void *framework1Handle = dlopen(
-      "DynamicFramework1.framework/DynamicFramework1", RTLD_LAZY);
+      "DynamicFramework1.framework/DynamicFramework1",
+ RTLD_LAZY);
 
     if (NSClassFromString(@"CASHello"))
     {
