@@ -1,4 +1,4 @@
-Copyright Faisal Memon 2018.  All Rights Reserved.
+Copyright Faisal Memon 2018-2020.  All Rights Reserved.
 
 This publication is provided "as is" without warranty of any kind, either express or implied, including, but not limited to, the implied warranties of merchantability, fitness for a particular purpose, or non-infringement.
 

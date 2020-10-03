@@ -37,9 +37,9 @@ Sometimes our app only crashes when deployed onto a customer device.
 If we cable up our laptop to the customer's device, we're probably doing a
 Debug\index{deployment!debug} release deployment.  This means push notification tokens will be the development tokens not the production tokens.  It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight\index{trademark!TestFlight} or App Store version of the app previously (production version).
 
-We should try switching deployment configuration via Command-< selecting Run in the left panel, Info tab in the right panel, Build Configuration setting
-Release\index{deployment!release}
-(not Debug).  We should also manually check any resource access grants in the iPad/iPhone settings.
+We should try switching deployment configuration via `Command-<`, selecting `Run` in the left panel, `Info` tab in the right panel, `Build Configuration` setting
+`Release`\index{deployment!release}
+(not `Debug`).  We should also manually check any resource access grants in the iPad/iPhone settings.
 
 ### Locale specific issues
 
@@ -69,9 +69,11 @@ One take away lesson from the above examples is that we need to think of our cod
 - presence of a debugger or profiler
 - the OS version of the target device
 
-As a first step in getting into the correct mindset to tackle app crashes, its worthwhile working through each of the above operating environment differences and trying to note down if such a difference ever resulted in a crash that we know about or suspect could happen.  This teaches us that crashes are much more about **environment** than about **source code**.  Another secondary insight is that the more able we are to produce a list of hypotheses given a specific environment difference, the more easily and quickly we will be able to find the root cause of crashes that seem mysterious to other people, and almost magical that we came up with a suggestion of where the problem could be.
+As a first step in getting into the correct mindset to tackle app crashes, its worthwhile working through each of the above operating environment differences and trying to note down if such a difference ever resulted in a crash that we know about or suspect could happen.  This teaches us that crashes are much more about **environment** than about **source code**.  Another secondary insight is: the more able we are to produce a list of hypotheses, given a specific environment difference, the more easily and quickly we will be able to find the root cause of crashes. 
+It may seem mysterious to other people, and almost magical, that we were able to come up with a suggestion of where the problem could be.
 
-Here are some curious examples of crashes from the Information Technology folklore to whet our appetite and get us thinking:
+
+Here are some curious examples of crashes from the Information Technology folklore to whet our appetite, and get us thinking:
 
 ### Locale based Crash
 

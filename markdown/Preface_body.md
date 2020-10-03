@@ -14,13 +14,13 @@ One thing struck me was that there was a book sitting on the desk of about a qua
 
 After acquiring a proper cubicle and getting to know my colleagues, I noticed that the engineers with the "Panic!" book just seemed to have that extra edge in handling low-level issues reported by Customers.  Collectively it lifted the problem solving IQ of the Answer Center where I worked.
 
-At Sun, there was a deep culture of learning.  We were given such extensive training and support it was often the case we'd be doing seven courses per year, each a week long.
+At Sun, there was a deep culture of learning.  We were given such extensive training, and support, it was often the case we'd be doing seven courses per year - each a week long.
 
 All was good until one course came up.  It was called Analytical Troubleshooting (ATS).  This caused great controversy within the Answer Center.  It was a formal methodology for solving problems.
 It could not tell you the answers, but it would ensure you were forced to ask the right questions.  It turned out that on our hardest problems, we were missing asking the right questions.
 
-This was a major step forwards again in productivity.  Nevertheless, some engineers, quite out of character, were loudly critical.  It turned out that these techniques were just things experienced engineers had learnt as part of their craft and they didn't want the magic to be laid bare for anyone to pick up cheaply.
+This was a major step improvement in productivity.  Nevertheless, some engineers, quite out of character, were loudly critical.  It turned out that these techniques were just things experienced engineers had learnt as part of their craft and they didn't want the magic to be laid bare for anyone to pick up cheaply.
 
 One day Chris Drake was in town and popped into our office.  He was the x86 architecture specialist that collaborated with Kimberley Brown to produce the "Panic!" book.  They arranged a workshop to educate us on SunOS crashes on x86 architecture.  It was something of a novelty at the time, prior to the remarkable rise of Linux and the GNU/Linux system.
 
-I remember one time, as an undergraduate student during an Operating Systems lecture, I looked across the room.  I noticed it was full of Sun Microsystems equipment;  I stared into the Sun logo and dreamed of one day working there.  It came true.  So in my workshop on x86 panics, I had another idea.  One day I would write a book.  It would be something quite focussed on a single technical problem.  It would be something that would convey the experiences I had obtained in my career.  It turns out that came true as well in the book you are reading now!
+I remember one time, as an undergraduate student, during an Operating Systems lecture, I looked across the room.  I noticed it was full of Sun Microsystems equipment;  I stared into the Sun logo and dreamed of one day working there.  It came true.  So in my workshop on x86 panics, I had another idea.  One day I would write a book.  It would be something quite focussed on a single technical problem.  It would be something that would convey the experiences I had obtained in my career.  It turns out that came true, as well, in the book you are reading now!
