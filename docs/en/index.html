@@ -248,7 +248,7 @@
 </ul>
 </nav>
 <h1 id="disclaimer">Disclaimer</h1>
-<p>Copyright Faisal Memon 2018. All Rights Reserved.</p>
+<p>Copyright Faisal Memon 2018-2020. All Rights Reserved.</p>
 <p>This publication is provided “as is” without warranty of any kind, either express or implied, including, but not limited to, the implied warranties of merchantability, fitness for a particular purpose, or non-infringement.</p>
 <p>This publication could include technical inaccuracies or typographical errors. Changes are periodically added to the information herein. These changes will be incorporated in new editions of the publication.</p>
 <p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
@@ -264,19 +264,20 @@
 <p>My first day was somewhat ignominious. I wasn’t even given my own cubicle. My desk looked like a school table. My keyboard had several faulty and inoperative keys. I sat in one corner of a vast cube-farm and actually forgot which corner it was at on the first day. After lunch, I returned to my desk after an extensive walk around the other corners.</p>
 <p>One thing struck me was that there was a book sitting on the desk of about a quarter of the 500 odd engineers. It proudly said on the front cover, “Panic!” <span class="citation" data-cites="panicbook">(<em>Panic! Unix System Crash Dump Analysis</em> 1995)</span>. It was a book on SunOS crash dump analysis.</p>
 <p>After acquiring a proper cubicle and getting to know my colleagues, I noticed that the engineers with the “Panic!” book just seemed to have that extra edge in handling low-level issues reported by Customers. Collectively it lifted the problem solving IQ of the Answer Center where I worked.</p>
-<p>At Sun, there was a deep culture of learning. We were given such extensive training and support it was often the case we’d be doing seven courses per year, each a week long.</p>
+<p>At Sun, there was a deep culture of learning. We were given such extensive training, and support, it was often the case we’d be doing seven courses per year - each a week long.</p>
 <p>All was good until one course came up. It was called Analytical Troubleshooting (ATS). This caused great controversy within the Answer Center. It was a formal methodology for solving problems. It could not tell you the answers, but it would ensure you were forced to ask the right questions. It turned out that on our hardest problems, we were missing asking the right questions.</p>
-<p>This was a major step forwards again in productivity. Nevertheless, some engineers, quite out of character, were loudly critical. It turned out that these techniques were just things experienced engineers had learnt as part of their craft and they didn’t want the magic to be laid bare for anyone to pick up cheaply.</p>
+<p>This was a major step improvement in productivity. Nevertheless, some engineers, quite out of character, were loudly critical. It turned out that these techniques were just things experienced engineers had learnt as part of their craft and they didn’t want the magic to be laid bare for anyone to pick up cheaply.</p>
 <p>One day Chris Drake was in town and popped into our office. He was the x86 architecture specialist that collaborated with Kimberley Brown to produce the “Panic!” book. They arranged a workshop to educate us on SunOS crashes on x86 architecture. It was something of a novelty at the time, prior to the remarkable rise of Linux and the GNU/Linux system.</p>
-<p>I remember one time, as an undergraduate student during an Operating Systems lecture, I looked across the room. I noticed it was full of Sun Microsystems equipment; I stared into the Sun logo and dreamed of one day working there. It came true. So in my workshop on x86 panics, I had another idea. One day I would write a book. It would be something quite focussed on a single technical problem. It would be something that would convey the experiences I had obtained in my career. It turns out that came true as well in the book you are reading now!</p>
+<p>I remember one time, as an undergraduate student, during an Operating Systems lecture, I looked across the room. I noticed it was full of Sun Microsystems equipment; I stared into the Sun logo and dreamed of one day working there. It came true. So in my workshop on x86 panics, I had another idea. One day I would write a book. It would be something quite focussed on a single technical problem. It would be something that would convey the experiences I had obtained in my career. It turns out that came true, as well, in the book you are reading now!</p>
 <h1 id="acknowledgements">Acknowledgements</h1>
 <p>I’d like to acknowledge the help and support of my colleagues for writing this book.</p>
 <p>Putting together this work was only possible because it was built upon generously provided open source tools, in particular <code>pandoc</code> which made writing the text of the book a pleasure.</p>
-<p>Lastly, I’d like to thank my supportive family whilst I was locked in my study and largely absent. Thank you Junghyun, and Christopher.</p>
+<p>Lastly, I’d like to thank my supportive family whilst I was locked in my study, and largely absent. Thank you Junghyun, and Christopher.</p>
 <h1 id="introduction">Introduction</h1>
 <p>This book fills a gap that has emerged between Application Developers and the platform they are developing for when a crash occurs. The mindset of the Application developer is largely understanding high-level concepts and abstractions. When a crash occurs, you can often feel rudely transported into a command line UNIX world of low level constructs, pointers and raw data.</p>
 <p>We focus exclusively on the Apple ecosystem.</p>
 <p>We cover iOS, macOS, tvOS, watchOS and BridgeOS platforms, ARM Assembly, and C (CoreFoundation), Objective-C, and Objective-C++ and Swift programming languages. This is because the older languages are more prone to crash bugs. Real world applications tend to end up being a hybrid between the safer Swift language and older technologies.</p>
+<p>We cover the newer developments of the Apple ecosystem. In particular, Mac Catalyst cross-platform development, and new issues arising from the use of Apple Silicon Macs.</p>
 <p>We assume you have at least an introductory knowledge of iOS programming and software engineering, and have access to a Mac with Xcode.</p>
 <p>The approach we take is to combine three different perspectives on the problem to give a rounded and robust view of the situation and how to resolve it.</p>
 <p>Our first perspective is to deliver a HOW-TO guide for using the excellent tooling available from Apple.</p>
@@ -306,7 +307,7 @@
 <h3 id="customer-device-deployment-issues">Customer device deployment issues</h3>
 <p>Sometimes our app only crashes when deployed onto a customer device.</p>
 <p>If we cable up our laptop to the customer’s device, we’re probably doing a Debug release deployment. This means push notification tokens will be the development tokens not the production tokens. It also may mean that resource access grants (to Camera for example) are no longer valid as they may have been approved via a TestFlight or App Store version of the app previously (production version).</p>
-<p>We should try switching deployment configuration via Command-&lt; selecting Run in the left panel, Info tab in the right panel, Build Configuration setting Release (not Debug). We should also manually check any resource access grants in the iPad/iPhone settings.</p>
+<p>We should try switching deployment configuration via <code>Command-&lt;</code>, selecting <code>Run</code> in the left panel, <code>Info</code> tab in the right panel, <code>Build Configuration</code> setting <code>Release</code> (not <code>Debug</code>). We should also manually check any resource access grants in the iPad/iPhone settings.</p>
 <h3 id="locale-specific-issues">Locale specific issues</h3>
 <p>Sometimes deploying with the customer’s locale causes a crash.</p>
 <p>Resource files might be absent in the wrong locale. Furthermore, locale handling is rife with undocumented special cases. We should try changing the locale temporarily to a known working one. Make a note to return to the issue when back in the office.</p>
@@ -331,8 +332,8 @@
 <li>presence of a debugger or profiler</li>
 <li>the OS version of the target device</li>
 </ul>
-<p>As a first step in getting into the correct mindset to tackle app crashes, its worthwhile working through each of the above operating environment differences and trying to note down if such a difference ever resulted in a crash that we know about or suspect could happen. This teaches us that crashes are much more about <strong>environment</strong> than about <strong>source code</strong>. Another secondary insight is that the more able we are to produce a list of hypotheses given a specific environment difference, the more easily and quickly we will be able to find the root cause of crashes that seem mysterious to other people, and almost magical that we came up with a suggestion of where the problem could be.</p>
-<p>Here are some curious examples of crashes from the Information Technology folklore to whet our appetite and get us thinking:</p>
+<p>As a first step in getting into the correct mindset to tackle app crashes, its worthwhile working through each of the above operating environment differences and trying to note down if such a difference ever resulted in a crash that we know about or suspect could happen. This teaches us that crashes are much more about <strong>environment</strong> than about <strong>source code</strong>. Another secondary insight is: the more able we are to produce a list of hypotheses, given a specific environment difference, the more easily and quickly we will be able to find the root cause of crashes. It may seem mysterious to other people, and almost magical, that we were able to come up with a suggestion of where the problem could be.</p>
+<p>Here are some curious examples of crashes from the Information Technology folklore to whet our appetite, and get us thinking:</p>
 <h3 id="locale-based-crash">Locale based Crash</h3>
 <p>The Russian locale caused a crash during date processing.</p>
 <p>This was because 1984-04-01 was being used as a sentinel date marker. However, in Russia, there is no such date/time because there is no midnight at that point in time. Daylight time started in Russia on that date with a +1 hour.</p>
@@ -378,28 +379,26 @@
 <p>Now lets consider the case of taking a photo using the camera.</p>
 <p>Introduced in iOS 10, when we want to access the Camera, a privacy sensitive feature, we need to define human readable text that is presented inside the system permission dialogue before access to the Camera is granted.</p>
 <p>If we don’t define the text in our <code>Info.plist</code> for <code>NSCameraUsageDescription</code> we still see the following code evaluating true and then attempting to present the image picker.</p>
-<pre><code>if UIImagePickerController.isSourceTypeAvailable(
-      UIImagePickerControllerSourceType.camera) {
-      // Use Xcode 9.4.1 to see it enter here
-      // Xcode 10.0 will skip over
-      let imagePicker = UIImagePickerController()
-      imagePicker.delegate = self
-      imagePicker.sourceType =
-       UIImagePickerControllerSourceType.camera
-      imagePicker.allowsEditing = false
-      self.present(imagePicker, animated: true, completion: nil)
-      }</code></pre>
-<p>However when we run the code, via Xcode 9.4.1, we see a crash with a descriptive console message:</p>
-<pre><code>2018-07-10 20:09:21.549897+0100 icdab_sample[1775:15601294]
+<pre><code>func handlePickerButtonPressed() {
+    if UIImagePickerController.isCameraDeviceAvailable(.front) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = true
+        self.present(imagePicker, animated: true, completion:
+ nil)
+    }
+}</code></pre>
+<p>However when we run the code, via Xcode 12.2, we see a crash with a descriptive console message:</p>
+<pre><code>2020-10-03 17:59:10.458176+0100 icdab_camera[6908:6483411]
  [access] This app has crashed because it attempted to access
-  privacy-sensitive data without a usage description.  
-  The app&#39;s Info.plist must contain an NSCameraUsageDescription
-   key with a string value explaining to the user how the app
-   uses this data.
+ privacy-sensitive data without a usage description.  The app&#39;s
+ Info.plist must contain an NSCameraUsageDescription key with a
+ string value explaining to the user how the app uses this data.
 Message from debugger: Terminated due to signal 9</code></pre>
 <h3 id="lessons-learnt">Lessons Learnt</h3>
 <p>Note the contrast here. In both cases there was a privacy sensitive API. However, in the camera case, Apple chose a policy of crashing our app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a <code>false</code> value to indicate the source type was not available.</p>
-<p>This seems like a harsh design choice. When Xcode 10.0 was introduced (it delivers the iOS 12 SDK) the behavior of the API changed. It returns <code>false</code> if the camera is not available due to a missing privacy string in the application <code>Info.plist</code></p>
+<p>This seems like a harsh design choice. The API in question originates from iOS 4.0. When Xcode 10.0 was introduced (this delivers the iOS 12 SDK) the behavior of the API changed. It returns <code>false</code> if the camera is not available due to a missing privacy string in the application <code>Info.plist</code> However by, Xcode 12.x (this delivers iOS 14.x SDK) logic has changed back to to the original logic of returning <code>true</code>.</p>
 <p>This underlies the point about there being two entities involved, the program and the operating environment (which includes its policies). Having correct source code does not guarantee crash free running. When we see a crash we need to think about the operating environment as much as the code itself.</p>
 <h2 id="application-policies">Application policies</h2>
 <p>The application we are writing can also request a crash. This is typically done via <code>assert</code> calls in our code. These calls ask the Operating Environment to terminate our app if any <code>assert</code> has failed. The Operating Environment then aborts our app. In the Crash Report we get a:</p>
@@ -451,10 +450,11 @@ Message from debugger: Terminated due to signal 9</code></pre>
     }</code></pre>
 <p>In fact, the last test fails because the OS returns a local address.</p>
 <h3 id="ui-testing-camera-access">UI Testing Camera access</h3>
-<p>For testing camera access, we have written a simple UI test case which just presses the Take Photo button (by means of an accessibility identifier <code>takePhotoButton</code>)</p>
-<pre><code>func testTakePhoto() {
+<p>For testing camera access, we have written a simple UI test case which just presses the <strong>Choose Picture</strong> button.</p>
+<pre><code>func testTakePhoto() throws {
     let app = XCUIApplication()
-    app.buttons[&quot;takePhotoButton&quot;].tap()
+    app.launch()
+    app.buttons[&quot;Choose Picture&quot;].tap()
 }</code></pre>
 <p>This UI test code caused an immediate crash.</p>
 <h1 id="tooling">Tooling</h1>
