@@ -165,7 +165,7 @@ We do not have the source code for the XBMC application.  However, there is an o
 @dynamicloadingeg
 
 When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app.
-For older versions of Xcode, we can switch on _Dynamic Linker API Usage_ by editing the Scheme settings as follows:
+For older versions of Xcode, we can switch on _Dynamic Linker API Usage_ \index{linker} by editing the Scheme settings as follows:
 
 ![](screenshots/dynamic_loading.png)
 

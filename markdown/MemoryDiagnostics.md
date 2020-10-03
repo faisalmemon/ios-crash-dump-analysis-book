@@ -403,6 +403,10 @@ A huge amount of logging is generated.  It is best to start by searching for the
 
 Sometimes we have an early stage app crash during the initialization phase where the dynamic loader is loading the app binary and its dependent frameworks.  If we are confident that it is not custom code using the dynamic linker API, but instead it is the assembly of frameworks into the loaded binary we care about, then switching on the `Dynamic Library Loads` flag is appropriate.  We get much shorter logs than enabling the `Dynamic Linker API Usage` flag.
 
+Older versions of Xcode allowed setting of the `Dynamic Library Loads` via the Scheme settings.  For the more recent Xcode 12.x, such an option is no longer present in the User Interface.  However, the same options can be switched on via Scheme Environment Variables settings. @dynamicloadingenvvars
+
+![](screenshots/dynamic_loading_env.png)
+
 Upon launch, we get a list of binaries loaded:
 
 ```
