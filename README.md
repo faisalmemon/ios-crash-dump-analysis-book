@@ -77,7 +77,6 @@ The software configuration management plan (SCM plan) is very simple.
 I followed an approach similar approach to http://rtalbert.org/how-i-wrote-my-book/ and Ben Watson at [Philosophical Geek](http://www.philosophicalgeek.com/2014/11/10/tips-for-writing-a-programming-book/) with a few amendments.  The process turned out to be:
 
 - Write the content of the book in markdown
-- Ensure there are no overlong lines by processing the markdown with `tools/markdown_fold filename.md`
 - Use pandoc to convert the markdown into MS Word `docx` format, `.epub`, `.latex`, and `.html`
 - Use BibDesk to track biliographic references
 - Use latex `\index` to create index links in the main body of the work
