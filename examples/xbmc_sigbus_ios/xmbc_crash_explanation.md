@@ -165,9 +165,13 @@ We do not have the source code for the XBMC application.  However, there is an o
 @dynamicloadingeg
 
 When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app.
-Furthermore, we can switch on _Dynamic Linker API Usage_ by editing the Scheme settings as follows:
+For older versions of Xcode, we can switch on _Dynamic Linker API Usage_ by editing the Scheme settings as follows:
 
 ![](screenshots/dynamic_loading.png)
+
+For Xcode 12.x, we can switch on equivalent functionality by setting environmental variables.  It is worth experimenting with different options, but a good starting point is `DYLD_PRINT_LIBRARIES`.  No particular value needs to be set for the environmental value.  It is located in Scheme settings: `Product > Scheme > Edit Scheme`; `Run` target, `Arguments` tab, `Environment Variables` table. @dynamicloadingenvvars
+
+![](screenshots/dynamic_loading_env.png)
 
 When this program is launched, we can see how it dynamically loads modules.  We get system-generated messages in addition to our app messages.  The system messages do not have a timestamp prefix, but the app messages do.
 

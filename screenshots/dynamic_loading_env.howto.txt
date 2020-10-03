@@ -1,0 +1,2 @@
+Open the project markdown_fold.
+Edit the scheme markdown_fold. Run target, Arguments Tab, Environmental Variables table.

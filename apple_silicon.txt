@@ -1,4 +1,4 @@
-t Survey all code and crash dump archive records
+x Survey all code and crash dump archive records
 t Work out a porting plan - which are mac examples and need dual flavours
 t Examine existing crashes on dtk-machine.local and save them
 t Look through my git history to get ideas for tasks I have not yet listed here
