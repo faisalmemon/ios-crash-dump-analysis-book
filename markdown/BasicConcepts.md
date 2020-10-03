@@ -65,28 +65,21 @@ Introduced in iOS 10\index{iOS!iOS 10}, when we want to access the Camera, a pri
 If we don't define the text in our `Info.plist`\index{Info.plist} for `NSCameraUsageDescription`\index{API!camera} we still see the following code evaluating true and then attempting to present the image picker.
 
 ```
-if UIImagePickerController.isSourceTypeAvailable(
-      UIImagePickerControllerSourceType.camera) {
-      // Use Xcode 9.4.1 to see it enter here
-      // Xcode 10.0 will skip over
-      let imagePicker = UIImagePickerController()
-      imagePicker.delegate = self
-      imagePicker.sourceType =
-       UIImagePickerControllerSourceType.camera
-      imagePicker.allowsEditing = false
-      self.present(imagePicker, animated: true, completion: nil)
-      }
+func handlePickerButtonPressed() {
+    if UIImagePickerController.isCameraDeviceAvailable(.front) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = true
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+}
 ```
 
-However when we run the code, via Xcode 9.4.1, we see a crash with a descriptive console message:
+However when we run the code, via Xcode 12.2, we see a crash with a descriptive console message:
 
 ```
-2018-07-10 20:09:21.549897+0100 icdab_sample[1775:15601294]
- [access] This app has crashed because it attempted to access
-  privacy-sensitive data without a usage description.  
-  The app's Info.plist must contain an NSCameraUsageDescription
-   key with a string value explaining to the user how the app
-   uses this data.
+2020-10-03 17:59:10.458176+0100 icdab_camera[6908:6483411] [access] This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app's Info.plist must contain an NSCameraUsageDescription key with a string value explaining to the user how the app uses this data.
 Message from debugger: Terminated due to signal 9
 ```
 
@@ -94,7 +87,7 @@ Message from debugger: Terminated due to signal 9
 
 Note the contrast here.  In both cases there was a privacy sensitive API\index{API!privacy}.  However, in the camera case, Apple chose a policy of crashing our app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a `false` value to indicate the source type was not available.
 
-This seems like a harsh design choice.  When Xcode 10.0 was introduced (it delivers the iOS 12\index{iOS!iOS 12} SDK) the behavior of the API changed.  It returns `false` if the camera is not available due to a missing privacy string in the application `Info.plist`
+This seems like a harsh design choice.  The API in question originates from iOS 4.0\index{iOS!iOS 4}.  When Xcode 10.0 was introduced (this delivers the iOS 12\index{iOS!iOS 12} SDK) the behavior of the API changed.  It returns `false` if the camera is not available due to a missing privacy string in the application `Info.plist`  However by, Xcode 12.x (this delivers iOS 14.x\index{iOS!iOS 14} SDK) logic has changed back to to the original logic of returning `true`.
 
 This underlies the point about there being two entities involved, the program and the operating environment\index{operating environment} (which includes its policies).  Having correct source code does not guarantee crash free running.  When we see a crash we need to think about the operating environment as much as the code itself.
 
@@ -175,12 +168,13 @@ In fact, the last test fails because the OS returns a local address.
 
 ### UI Testing Camera access
 
-For testing camera access, we have written a simple UI test case\index{testing!UI} which just presses the Take Photo button (by means of an accessibility identifier `takePhotoButton`)
+For testing camera access, we have written a simple UI test case\index{testing!UI} which just presses the __Choose Picture__ button.
 
 ```
-func testTakePhoto() {
+func testTakePhoto() throws {
     let app = XCUIApplication()
-    app.buttons["takePhotoButton"].tap()
+    app.launch()
+    app.buttons["Choose Picture"].tap()
 }
 ```
 

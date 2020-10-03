@@ -1,19 +1,19 @@
 x Survey all code and crash dump archive records
-t Work out a porting plan - which are mac examples and need dual flavours
-t Examine existing crashes on dtk-machine.local and save them
+x Work out a porting plan - which are mac examples and need dual flavours
+x Examine existing crashes on dtk-machine.local and save them
 t Look through my git history to get ideas for tasks I have not yet listed here
-t Search internet for Big Sur crashes / crash dumps
-t Check pastebin and stackoverflow for Big Sur crashes
-t Start a mini-book/diary which is the record of tasks/resources used to update the code
+x Search internet for Big Sur crashes / crash dumps
+x Check pastebin and stackoverflow for Big Sur crashes
+x Start a mini-book/diary which is the record of tasks/resources used to update the code
 t Update the code, recording what resources were used, hacks and tips in the diary
 t Write a summary of the diary with cohesive concepts learned
 t Read the existing CDA book
 t Create a list of new chapters and sections needed
-t Update book production tooling and build the old book
-t Research what is needed to do a second edition
-t Write a tool that wraps long lines to the limit now needed
+x Update book production tooling and build the old book
+x Research what is needed to do a second edition
+x Write a tool that wraps long lines to the limit now needed
 t Should I wait for the first Mac to be released - will I need to buy it to test my code?
-t Work out what KDP tasks are needed to publish a new book
+x Work out what KDP tasks are needed to publish a new book
 t Work out the new art work and back cover text
 t Work through the CDA book updating it
 t Work out what publicity and meta data material is needed for the book
