@@ -3254,7 +3254,7 @@ Binary Images:
 <p>We do not have the source code for the XBMC application. However, there is an open source example demonstrating the use of the dynamic loader. <span class="citation" data-cites="dynamicloadingeg">(“Dynamic Loading Example” 2018)</span></p>
 <p>When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app. For older versions of Xcode, we can switch on <em>Dynamic Linker API Usage</em> by editing the Scheme settings as follows:</p>
 <p><img src="screenshots/dynamic_loading.png" /></p>
-<p>For Xcode 12.x, we can switch on equivalent functionality by setting environmental variables. It is worth experimenting with different options, but a good starting point is <code>DYLD_PRINT_LIBRARIES</code>. No particular value needs to be set for the environmental value. It is located in Scheme settings: <code>Product &gt; Scheme &gt; Edit Scheme</code>; <code>Run</code> target, <code>Arguments</code> tab, <code>Environment Variables</code> table. <span class="citation" data-cites="dynamicloadingenvvars">Apple (n.d.)</span></p>
+<p>For Xcode 12.x, we can switch on equivalent functionality by setting environmental variables. It is worth experimenting with different options, but a good starting point is <code>DYLD_PRINT_LIBRARIES</code>. No particular value needs to be set for the environmental value. It is located in Scheme settings: <code>Product &gt; Scheme &gt; Edit Scheme</code>; <code>Run</code> target, <code>Arguments</code> tab, <code>Environment Variables</code> table. <span class="citation" data-cites="dynamicloadingenvvars">(“Logging Dynamic Loader Events” 2020)</span></p>
 <p><img src="screenshots/dynamic_loading_env.png" /></p>
 <p>When this program is launched, we can see how it dynamically loads modules. We get system-generated messages in addition to our app messages. The system messages do not have a timestamp prefix, but the app messages do.</p>
 <p>Here is a trimmed debug log to show the kind of output we see:</p>
@@ -4930,6 +4930,8 @@ dlopen(DynamicFramework2.framework/DynamicFramework2)
 <p>A huge amount of logging is generated. It is best to start by searching for the <code>dlopen</code> command, and then looking to see what other functions in the <code>dlopen</code> family are called.</p>
 <h3 id="dynamic-library-loads">Dynamic Library Loads</h3>
 <p>Sometimes we have an early stage app crash during the initialization phase where the dynamic loader is loading the app binary and its dependent frameworks. If we are confident that it is not custom code using the dynamic linker API, but instead it is the assembly of frameworks into the loaded binary we care about, then switching on the <code>Dynamic Library Loads</code> flag is appropriate. We get much shorter logs than enabling the <code>Dynamic Linker API Usage</code> flag.</p>
+<p>Older versions of Xcode allowed setting of the <code>Dynamic Library Loads</code> via the Scheme settings. For the more recent Xcode 12.x, such an option is no longer present in the User Interface. However, the same options can be switched on via Scheme Environment Variables settings. <span class="citation" data-cites="dynamicloadingenvvars">(“Logging Dynamic Loader Events” 2020)</span></p>
+<p><img src="screenshots/dynamic_loading_env.png" /></p>
 <p>Upon launch, we get a list of binaries loaded:</p>
 <pre><code>dyld: loaded: /Users/faisalm/Library/Developer/
 CoreSimulator/Devices/
@@ -4954,9 +4956,6 @@ usr/lib/libBacktraceRecording.dylib
 </div>
 <div id="ref-kepnertregoe">
 <p>“Analytic Troubleshooting.” 2018. <a href="https://www.kepner-tregoe.com">https://www.kepner-tregoe.com</a>.</p>
-</div>
-<div id="ref-dynamicloadingenvvars">
-<p>Apple. n.d. “Logging Dynamic Loader Events.” Accessed 2020.</p>
 </div>
 <div id="ref-tn2151">
 <p>“Apple Crash Dump Technote 2151.” 2018. <a href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html">https://developer.apple.com/library/archive/technotes/tn2151/_index.html</a>.</p>
@@ -5002,6 +5001,9 @@ usr/lib/libBacktraceRecording.dylib
 </div>
 <div id="ref-ios-devices">
 <p>“List of iOS Devices.” 2018. <a href="https://en.wikipedia.org/wiki/List_of_iOS_devices">https://en.wikipedia.org/wiki/List_of_iOS_devices</a>.</p>
+</div>
+<div id="ref-dynamicloadingenvvars">
+<p>“Logging Dynamic Loader Events.” 2020. <a href="https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/100-Articles/LoggingDynamicLoaderEvents.html">https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/100-Articles/LoggingDynamicLoaderEvents.html</a>.</p>
 </div>
 <div id="ref-exception-types">
 <p>“Mach Exception Types.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/exception_types.h#L68</a>.</p>
