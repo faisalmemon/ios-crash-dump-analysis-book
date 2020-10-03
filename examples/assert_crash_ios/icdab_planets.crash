@@ -1,18 +1,18 @@
-Incident Identifier: F3D4F9A4-E2EA-42A6-A3B2-A2FBFE4CA7D2
+Incident Identifier: 8597368E-5745-4E04-A754-7D606A681741
 CrashReporter Key:   252f1e420a58eb6260eb232abd24d6a588b2be95
 Hardware Model:      iPod9,1
-Process:             icdab_planets [31354]
-Path:                /private/var/containers/Bundle/Application/24C3ED6D-D100-4DB2-9998-336C6FA9B6E7/icdab_planets.app/icdab_planets
+Process:             icdab_planets [33416]
+Path:                /private/var/containers/Bundle/Application/9A6EA07A-B4D1-49B4-BF50-D5A3397DE36F/icdab_planets.app/icdab_planets
 Identifier:          www.perivalebluebell.icdab-planets
 Version:             1 (1.0)
 Code Type:           ARM-64 (Native)
 Role:                Foreground
 Parent Process:      launchd [1]
-Coalition:           www.perivalebluebell.icdab-planets [3083]
+Coalition:           www.perivalebluebell.icdab-planets [3711]
 
 
-Date/Time:           2020-10-03 14:05:10.5278 +0100
-Launch Time:         2020-10-03 14:05:10.4114 +0100
+Date/Time:           2020-10-03 15:41:04.7995 +0100
+Launch Time:         2020-10-03 15:41:04.7101 +0100
 OS Version:          iPhone OS 13.5 (17F75)
 Release Type:        User
 Baseband Version:    n/a
@@ -29,7 +29,7 @@ Thread 0 Crashed:
 1   libsystem_pthread.dylib       	0x00000001862a11e8 pthread_kill$VARIANT$mp + 136
 2   libsystem_c.dylib             	0x00000001861f4934 abort + 100
 3   libsystem_c.dylib             	0x00000001861f3d54 err + 0
-4   icdab_planets                 	0x0000000102ecd01c 0x102ec8000 + 20508
+4   icdab_planets                 	0x00000001045490f0 0x104544000 + 20720
 5   UIKitCore                     	0x0000000189ff2750 -[UIViewController _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
 6   UIKitCore                     	0x0000000189ff71e0 -[UIViewController loadViewIfRequired] + 936
 7   UIKitCore                     	0x0000000189ff75e8 -[UIViewController view] + 28
@@ -72,7 +72,7 @@ Thread 0 Crashed:
 44  CoreFoundation                	0x000000018650bce8 CFRunLoopRunSpecific + 424
 45  GraphicsServices              	0x000000019065638c GSEventRunModal + 160
 46  UIKitCore                     	0x000000018a63a444 UIApplicationMain + 1932
-47  icdab_planets                 	0x0000000102ecd82c 0x102ec8000 + 22572
+47  icdab_planets                 	0x00000001045498e0 0x104544000 + 22752
 48  libdyld.dylib                 	0x00000001863938f0 start + 4
 
 Thread 1:
@@ -87,11 +87,8 @@ Thread 3:
 Thread 4:
 0   libsystem_pthread.dylib       	0x00000001862ad738 start_wqthread + 0
 
+Thread 5 name:  com.apple.uikit.eventfetch-thread
 Thread 5:
-0   libsystem_pthread.dylib       	0x00000001862ad738 start_wqthread + 0
-
-Thread 6 name:  com.apple.uikit.eventfetch-thread
-Thread 6:
 0   libsystem_kernel.dylib        	0x0000000186367198 mach_msg_trap + 8
 1   libsystem_kernel.dylib        	0x000000018636660c mach_msg + 72
 2   CoreFoundation                	0x0000000186511468 __CFRunLoopServiceMachPort + 148
@@ -104,25 +101,28 @@ Thread 6:
 9   libsystem_pthread.dylib       	0x00000001862a9d98 _pthread_start + 156
 10  libsystem_pthread.dylib       	0x00000001862ad74c thread_start + 8
 
+Thread 6:
+0   libsystem_pthread.dylib       	0x00000001862ad738 start_wqthread + 0
+
 Thread 7:
 0   libsystem_pthread.dylib       	0x00000001862ad738 start_wqthread + 0
 
 Thread 0 crashed with ARM Thread State (64-bit):
     x0: 0x0000000000000000   x1: 0x0000000000000000   x2: 0x0000000000000000   x3: 0x0000000000000000
     x4: 0x0000000000000000   x5: 0x0000000000000003   x6: 0x3ff0000000000000   x7: 0x0000000000000000
-    x8: 0x0000000103285840   x9: 0x5ffb8b362917c1f2  x10: 0x00000001862a1160  x11: 0x000000000000000a
-   x12: 0x0000000000000000  x13: 0x0000000000000033  x14: 0x00000000ba404000  x15: 0x0000000000000008
-   x16: 0x0000000000000148  x17: 0x000000003a400000  x18: 0x0000000000000000  x19: 0x0000000000000006
-   x20: 0x0000000000000407  x21: 0x0000000000000021  x22: 0x0000000103285920  x23: 0x0000000102fe0000
-   x24: 0x00000001d1bed000  x25: 0x00000001cef73000  x26: 0x0000000103009dd0  x27: 0x0000000103004cb0
-   x28: 0x0000000000000001   fp: 0x000000016cf35030   lr: 0x00000001862a11e8
-    sp: 0x000000016cf35010   pc: 0x0000000186388d88 cpsr: 0x40000000
+    x8: 0x0000000104805840   x9: 0x1f45971da7174a41  x10: 0x00000001862a1160  x11: 0x000000000000000a
+   x12: 0x0000000000000000  x13: 0x0000000000000033  x14: 0x00000000b3033800  x15: 0x0000000000000067
+   x16: 0x0000000000000148  x17: 0x0000000033000000  x18: 0x0000000000000000  x19: 0x0000000000000006
+   x20: 0x0000000000000407  x21: 0x0000000000000021  x22: 0x0000000104805920  x23: 0x000000010475c000
+   x24: 0x00000001d1bed000  x25: 0x00000001cef73000  x26: 0x000000010490c650  x27: 0x0000000104905f30
+   x28: 0x0000000000000001   fp: 0x000000016b8b9020   lr: 0x00000001862a11e8
+    sp: 0x000000016b8b9000   pc: 0x0000000186388d88 cpsr: 0x40000000
    esr: 0x56000080  Address size fault
 
 Binary Images:
-0x102ec8000 - 0x102ed3fff icdab_planets arm64  <4506d701e78c3a18a45ecc3ad6f993d7> /var/containers/Bundle/Application/24C3ED6D-D100-4DB2-9998-336C6FA9B6E7/icdab_planets.app/icdab_planets
-0x102fc0000 - 0x102fcbfff libobjc-trampolines.dylib arm64  <927690b4ce6e3dbb8d54d00bd46e211c> /usr/lib/libobjc-trampolines.dylib
-0x103218000 - 0x10327bfff dyld arm64  <c9d0dd090ebd3364b6b6d3baeb788dbf> /usr/lib/dyld
+0x104544000 - 0x10454ffff icdab_planets arm64  <b6356bad2e313cba9e4fe12daca0d204> /var/containers/Bundle/Application/9A6EA07A-B4D1-49B4-BF50-D5A3397DE36F/icdab_planets.app/icdab_planets
+0x10472c000 - 0x104737fff libobjc-trampolines.dylib arm64  <927690b4ce6e3dbb8d54d00bd46e211c> /usr/lib/libobjc-trampolines.dylib
+0x104798000 - 0x1047fbfff dyld arm64  <c9d0dd090ebd3364b6b6d3baeb788dbf> /usr/lib/dyld
 0x186138000 - 0x18614efff libsystem_trace.dylib arm64  <c70a923b37ad3f8a8e0873a3157620b1> /usr/lib/system/libsystem_trace.dylib
 0x18614f000 - 0x186180fff libxpc.dylib arm64  <d54676d1b91b309b8f35ed171eff1612> /usr/lib/system/libxpc.dylib
 0x186181000 - 0x186181fff libsystem_blocks.dylib arm64  <5ecacf25aea7392db0edea47df03841f> /usr/lib/system/libsystem_blocks.dylib

@@ -55,16 +55,13 @@ would look like this (truncated for ease of demonstration)
 
 ```
 Thread 0 Crashed:
-0   libsystem_kernel.dylib              0x0000000186388d88 __pthread_kill + 8
-1   libsystem_pthread.dylib             0x00000001862a11e8 pthread_kill$VARIANT$mp + 136
-2   libsystem_c.dylib                   0x00000001861f4934 abort + 100
-3   libsystem_c.dylib                   0x00000001861f3d54 err + 0
-4   icdab_planets                       0x0000000102ecd01c 0x102ec8000 + 20508
-5   UIKitCore                           0x0000000189ff2750 -[UIViewController _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
-6   UIKitCore                           0x0000000189ff71e0 -[UIViewController loadViewIfRequired] + 936
-
-Binary Images:
-0x102ec8000 - 0x102ed3fff icdab_planets arm64  <4506d701e78c3a18a45ecc3ad6f993d7> /var/containers/Bundle/Application/24C3ED6D-D100-4DB2-9998-336C6FA9B6E7/icdab_planets.app/icdab_planets
+0   libsystem_kernel.dylib        	0x0000000186388d88 __pthread_kill + 8
+1   libsystem_pthread.dylib       	0x00000001862a11e8 pthread_kill$VARIANT$mp + 136
+2   libsystem_c.dylib             	0x00000001861f4934 abort + 100
+3   libsystem_c.dylib             	0x00000001861f3d54 err + 0
+4   icdab_planets                 	0x00000001045490f0 0x104544000 + 20720
+5   UIKitCore                     	0x0000000189ff2750 -[UIViewController _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
+6   UIKitCore                     	0x0000000189ff71e0 -[UIViewController loadViewIfRequired] + 936
 ```
 
 However, with the setting in place, a crash would instead be reported as:
@@ -112,9 +109,10 @@ In order to help us get comfortable with crash dump reports, we can demonstrate
 how the symbolification actually works.  In the first crash dump, we want to understand:
 
 ```
-4   icdab_planets                 	
-0x00000001008e45bc 0x1008e0000 + 17852
+4   icdab_planets                       0x00000001045490f0 0x104544000 + 20720
 ```
+
+The first number is the place where we were executing, the second number is the base address of the binary we were executing.  The third number is the offset from the base address to reach the place of execution.
 
 If we knew accurately the version of our code at the time of the crash, we can
 recompile our program, but with the DSYM setting switched on, and then get a
@@ -124,17 +122,10 @@ The crash dump program tells us where the program was loaded, in memory, at the
 time of the problem.  That tells us the master base offset\index{base offset} from
 which all other address (TEXT) locations are relative to.  
 
-At the bottom of the crash
-dump, we have line `0x1008e0000 - 0x1008ebfff icdab_planets`
-Therefore, the icdab_planets binary starts at location `0x1008e0000`
-
 Running the lookup command `atos`\index{command!atos} symbolicates the line of interest:
 ```
-# atos -arch arm64 -o
- ./icdab_planets.app.dSYM/Contents/Resources/DWARF/
-icdab_planets -l 0x1008e0000 0x00000001008e45bc
--[PlanetViewController viewDidLoad] (in icdab_planets)
- (PlanetViewController.mm:33)
+# atos -arch arm64 -o icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets -l 0x104544000 0x00000001045490f0
+-[PlanetViewController viewDidLoad] (in icdab_planets) (PlanetViewController.mm:33)
 ```
 
 The Crash Reporter tool fundamentally just uses `atos` to symbolicate the
@@ -154,9 +145,9 @@ We shall demonstrate our approach using the Hopper tool mentioned in the Tooling
 
 Launching hopper, we choose _File->Read Executable to Disassemble_.  The binary in our case is `examples/assert_crash_ios/icdab_planets`
 
-We need to "rebase" our disassembly so the addresses it shows mirror those of the program when it crashed.  We choose _Modify->Change File Base Address_.  As before, we supply `0x1008e0000`.
+We need to "rebase" our disassembly so the addresses it shows mirror those of the program when it crashed.  We choose _Modify->Change File Base Address_.  As before, we supply `0x104544000`.
 
-Now we can visit the code that crashed.  The address `0x00000001008e45bc` is actually the address the device would _return_ to after performing the function call in the stack trace.  Nevertheless, it puts us in the right part of the file.  We choose _Navigate->Go To Address or Symbol_ and supply `0x00000001008e45bc`
+Now we can visit the code that crashed.  The address `0x00000001045490f0` is actually the address the device would _return_ to after performing the function call in the stack trace.  Nevertheless, it puts us in the right part of the file.  We choose _Navigate->Go To Address or Symbol_ and supply `0x00000001045490f0`
 
 The overall view we see is
 
