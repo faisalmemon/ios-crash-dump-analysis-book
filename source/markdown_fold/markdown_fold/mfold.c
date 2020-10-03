@@ -63,7 +63,7 @@ void
 fold_string(char *string, int width, int tab_length) {
     int col_pos = 0;
     char *current_char = string;
-    int ws_pos = 0;
+    size_t ws_pos = 0;
     
     if (!string) {
         return;
@@ -75,10 +75,10 @@ fold_string(char *string, int width, int tab_length) {
         } else if (col_pos > width) {
             break;
         } else if (*current_char == '\t') {
-            ws_pos = col_pos;
+            ws_pos = current_char - string;
             col_pos += contribution_from_tab(col_pos, tab_length);
         } else if (*current_char == ' ') {
-            ws_pos = col_pos;
+            ws_pos = current_char - string;
             col_pos++;
         } else {
             col_pos++;
@@ -87,7 +87,7 @@ fold_string(char *string, int width, int tab_length) {
     }
     
     if (MF_DEBUG) fprintf(stderr,
-                          "fold_string loop escaped with col_pos %ld ws_pos %ld *current_char %c ptrdiff %ld\n",
+                          "fold_string loop escaped with col_pos %ld ws_pos %ld *current_char '%c' ptrdiff %ld\n",
                           (long)col_pos,
                           (long)ws_pos,
                           *current_char, current_char - string);

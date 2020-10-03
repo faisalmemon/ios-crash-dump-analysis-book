@@ -35,5 +35,20 @@ test_visual_len_with_tabs() {
 void
 test_fold_string() {
     fprintf(stdout, "test_fold_string()\n");
+
+    
+    /*
+     0000200    x   x   x   x   x   x   x   x   x   x   x   x   x  \n   0
+     0000220            l   i   b   s   y   s   t   e   m   _   k   e   r   n
+     0000240    e   l   .   d   y   l   i   b
+     0000260   \t   0   x   2   5   7   2   e   c   5   c       _   _   p   t
+     0000300    h   r   e   a   d   _   k   i   l   l       +       8  \n   1
+     0000320                a   n   o   t   h   e   r       l   i   n   e  \n
+     0000340    `   `   `  \n
+     */
+    char *candidate=
+    "0   libsystem_kernel.dylib        \t0x2572ec5c __pthread_kill + 8\n";
+    fold_string(candidate, 65, 8);
+    
     fold_string(NULL, 0, 0);
 }
