@@ -3252,8 +3252,10 @@ Binary Images:
 <p>The easiest way to diagnose such a problem is for the application to log its configuration before attempting to load optional software frameworks at runtime. Possibly, the application bundle is missing the library we desire.</p>
 <p>Sometimes we are integrating third party libraries that have dynamic code loading within them. In such cases, we need to use the Xcode diagnostics facilities.</p>
 <p>We do not have the source code for the XBMC application. However, there is an open source example demonstrating the use of the dynamic loader. <span class="citation" data-cites="dynamicloadingeg">(“Dynamic Loading Example” 2018)</span></p>
-<p>When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app. Furthermore, we can switch on <em>Dynamic Linker API Usage</em> by editing the Scheme settings as follows:</p>
+<p>When we run this program, we can see informative messages in its use of the dynamic loader, as coded by the app. For older versions of Xcode, we can switch on <em>Dynamic Linker API Usage</em> by editing the Scheme settings as follows:</p>
 <p><img src="screenshots/dynamic_loading.png" /></p>
+<p>For Xcode 12.x, we can switch on equivalent functionality by setting environmental variables. It is worth experimenting with different options, but a good starting point is <code>DYLD_PRINT_LIBRARIES</code>. No particular value needs to be set for the environmental value. It is located in Scheme settings: <code>Product &gt; Scheme &gt; Edit Scheme</code>; <code>Run</code> target, <code>Arguments</code> tab, <code>Environment Variables</code> table. <span class="citation" data-cites="dynamicloadingenvvars">Apple (n.d.)</span></p>
+<p><img src="screenshots/dynamic_loading_env.png" /></p>
 <p>When this program is launched, we can see how it dynamically loads modules. We get system-generated messages in addition to our app messages. The system messages do not have a timestamp prefix, but the app messages do.</p>
 <p>Here is a trimmed debug log to show the kind of output we see:</p>
 <pre><code>2018-08-18 12:26:51.989237+0100
@@ -4952,6 +4954,9 @@ usr/lib/libBacktraceRecording.dylib
 </div>
 <div id="ref-kepnertregoe">
 <p>“Analytic Troubleshooting.” 2018. <a href="https://www.kepner-tregoe.com">https://www.kepner-tregoe.com</a>.</p>
+</div>
+<div id="ref-dynamicloadingenvvars">
+<p>Apple. n.d. “Logging Dynamic Loader Events.” Accessed 2020.</p>
 </div>
 <div id="ref-tn2151">
 <p>“Apple Crash Dump Technote 2151.” 2018. <a href="https://developer.apple.com/library/archive/technotes/tn2151/_index.html">https://developer.apple.com/library/archive/technotes/tn2151/_index.html</a>.</p>
