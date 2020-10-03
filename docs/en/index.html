@@ -739,7 +739,7 @@ double plutos_to_fill_jupiter
 <h2 id="lessons-learnt-1">Lessons Learnt</h2>
 <p>The lesson here is that crashes can arise from special case handling. Since different languages and frameworks deal with special cases in their own idiomatic manner, it is safer to separate out our code and use a Facade if possible to keep each paradigm cleanly separated.</p>
 <h1 id="symbolification">Symbolification</h1>
-<p>This chapter explains crash dump symbolification. Symbolification is the process of mapping machine addresses into symbolic addresses meaningful to the programmer possessing the source code. Instead of seeing machine addresses, we want to see function names (plus any offset),</p>
+<p>This chapter explains crash dump symbolification. Symbolification is the process of mapping machine addresses into symbolic addresses meaningful to the programmer possessing the source code. Instead of seeing machine addresses, we want to see function names (plus any offset).</p>
 <p>We use the <code>icdab_planets</code> sample app to demonstrate a crash. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <p>When dealing with real world crashes, a number of different entities are involved. These can be the end user device, the settings allowing the Crash Report to be sent back to Apple, the symbols held by Apple and our local development environment setup to mirror such a configuration.</p>
 <p>In order to understand how things all fit together it is best to start from first principles and do the data conversion tasks ourselves so if we have to diagnose symbolification issues, we have some experience with the technologies at hand.</p>
@@ -784,46 +784,41 @@ double plutos_to_fill_jupiter
 <h2 id="observing-a-local-crash">Observing a local crash</h2>
 <p>The <code>icdab_planets</code> program is designed to crash upon launch due to an assertion.</p>
 <p>If the <code>DWARF with dSYM File</code> setting had not been made, we would get a partially symbolicated crash.</p>
-<p>The Crash Report, seen from <em>Windows-&gt;Devices and Simulators-&gt;View Device Logs</em>, would look like this (truncated for ease of demonstration)</p>
+<p>The Crash Report, seen from <em>Window-&gt;Devices and Simulators-&gt;View Device Logs</em>, would look like this (truncated for ease of demonstration)</p>
 <pre><code>Thread 0 Crashed:
-0   libsystem_kernel.dylib        
-0x0000000183a012ec __pthread_kill + 8
-1   libsystem_pthread.dylib       
-0x0000000183ba2288 pthread_kill$VARIANT$mp + 376
-2   libsystem_c.dylib               
-0x000000018396fd0c abort + 140
-3   libsystem_c.dylib               
-0x0000000183944000 basename_r + 0
-4   icdab_planets                   
-0x00000001008e45bc 0x1008e0000 + 17852
-5   UIKit                           
-0x000000018db56ee0
--[UIViewController loadViewIfRequired] + 1020
-
-Binary Images:
-0x1008e0000 - 0x1008ebfff icdab_planets arm64
-  &lt;9ff56cfacd66354ea85ff5973137f011&gt;
-   /var/containers/Bundle/Application/
-   BEF249D9-1520-40F7-93F4-8B99D913A4AC/
-   icdab_planets.app/icdab_planets</code></pre>
+0   libsystem_kernel.dylib          0x0000000186388d88
+ __pthread_kill + 8
+1   libsystem_pthread.dylib         0x00000001862a11e8
+ pthread_kill$VARIANT$mp + 136
+2   libsystem_c.dylib               0x00000001861f4934 abort
+ + 100
+3   libsystem_c.dylib               0x00000001861f3d54 err +
+ 0
+4   icdab_planets                   0x00000001045490f0
+ 0x104544000 + 20720
+5   UIKitCore                       0x0000000189ff2750
+ -[UIViewController
+ _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
+6   UIKitCore                       0x0000000189ff71e0
+ -[UIViewController loadViewIfRequired] + 936</code></pre>
 <p>However, with the setting in place, a crash would instead be reported as:</p>
 <pre><code>Thread 0 Crashed:
-0   libsystem_kernel.dylib          
-0x0000000183a012ec __pthread_kill + 8
-1   libsystem_pthread.dylib         
-0x0000000183ba2288
-pthread_kill$VARIANT$mp + 376
-2   libsystem_c.dylib               
-0x000000018396fd0c abort + 140
-3   libsystem_c.dylib               
-0x0000000183944000 basename_r + 0
-4   icdab_planets                   
-0x0000000104e145bc
--[PlanetViewController viewDidLoad] + 17852
+0   libsystem_kernel.dylib          0x0000000186388d88
+ __pthread_kill + 8
+1   libsystem_pthread.dylib         0x00000001862a11e8
+ pthread_kill$VARIANT$mp + 136
+2   libsystem_c.dylib               0x00000001861f4934 abort
+ + 100
+3   libsystem_c.dylib               0x00000001861f3d54 err +
+ 0
+4   icdab_planets                   0x00000001048290f0
+ -[PlanetViewController viewDidLoad] + 20720
  (PlanetViewController.mm:33)
-5   UIKit                           
-0x000000018db56ee0
--[UIViewController loadViewIfRequired] + 1020</code></pre>
+5   UIKitCore                       0x0000000189ff2750
+ -[UIViewController
+ _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
+6   UIKitCore                       0x0000000189ff71e0
+ -[UIViewController loadViewIfRequired] + 936</code></pre>
 <p>Lines 0, 1, 2, 5 are the same in both cases because our developer environment will have the symbols for the iOS release under test. In the second case, Xcode will look up the DSYM file to clarify line 4. It tells us this is line 33 in file PlanetViewController.mm. This is:</p>
 <pre><code>assert(pluto_volume != 0.0);</code></pre>
 <h2 id="dsym-structure">DSYM structure</h2>
@@ -838,15 +833,15 @@ icdab_planets.app.dSYM/Contents/Info.plist</code></pre>
 <p>From looking at our build log, we can see how the DSYM was generated. It is effectively just <code>dsymutil path_to_app_binary -o output_symbols_dir.dSYM</code></p>
 <h2 id="manual-symbolification">Manual Symbolification</h2>
 <p>In order to help us get comfortable with crash dump reports, we can demonstrate how the symbolification actually works. In the first crash dump, we want to understand:</p>
-<pre><code>4   icdab_planets                   
-0x00000001008e45bc 0x1008e0000 + 17852</code></pre>
+<pre><code>4   icdab_planets                       0x00000001045490f0
+ 0x104544000 + 20720</code></pre>
+<p>The first number is the place where we were executing, the second number is the base address of the binary we were executing. The third number is the offset from the base address to reach the place of execution.</p>
 <p>If we knew accurately the version of our code at the time of the crash, we can recompile our program, but with the DSYM setting switched on, and then get a DSYM file after the original crash. It should line up almost exactly.</p>
 <p>The crash dump program tells us where the program was loaded, in memory, at the time of the problem. That tells us the master base offset from which all other address (TEXT) locations are relative to.</p>
-<p>At the bottom of the crash dump, we have line <code>0x1008e0000 - 0x1008ebfff icdab_planets</code> Therefore, the icdab_planets binary starts at location <code>0x1008e0000</code></p>
 <p>Running the lookup command <code>atos</code> symbolicates the line of interest:</p>
 <pre><code># atos -arch arm64 -o
- ./icdab_planets.app.dSYM/Contents/Resources/DWARF/
-icdab_planets -l 0x1008e0000 0x00000001008e45bc
+ icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets -l
+ 0x104544000 0x00000001045490f0
 -[PlanetViewController viewDidLoad] (in icdab_planets)
  (PlanetViewController.mm:33)</code></pre>
 <p>The Crash Reporter tool fundamentally just uses <code>atos</code> to symbolicate the Crash Report, as well as providing other system related information.</p>
@@ -857,8 +852,8 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>When working with third parties there is typically a much larger turnaround time for diagnostics and troubleshooting. We find that well written and specific bug reports can speed up things a lot. The following approach can help provide the kind of specific information needed.</p>
 <p>We shall demonstrate our approach using the Hopper tool mentioned in the Tooling chapter.</p>
 <p>Launching hopper, we choose <em>File-&gt;Read Executable to Disassemble</em>. The binary in our case is <code>examples/assert_crash_ios/icdab_planets</code></p>
-<p>We need to “rebase” our disassembly so the addresses it shows mirror those of the program when it crashed. We choose <em>Modify-&gt;Change File Base Address</em>. As before, we supply <code>0x1008e0000</code>.</p>
-<p>Now we can visit the code that crashed. The address <code>0x00000001008e45bc</code> is actually the address the device would <em>return</em> to after performing the function call in the stack trace. Nevertheless, it puts us in the right part of the file. We choose <em>Navigate-&gt;Go To Address or Symbol</em> and supply <code>0x00000001008e45bc</code></p>
+<p>We need to “rebase” our disassembly so the addresses it shows mirror those of the program when it crashed. We choose <em>Modify-&gt;Change File Base Address</em>. As before, we supply <code>0x104544000</code>.</p>
+<p>Now we can visit the code that crashed. The address <code>0x00000001045490f0</code> is actually the address the device would <em>return</em> to after performing the function call in the stack trace. Nevertheless, it puts us in the right part of the file. We choose <em>Navigate-&gt;Go To Address or Symbol</em> and supply <code>0x00000001045490f0</code></p>
 <p>The overall view we see is</p>
 <p><img src="screenshots/hopperAddressView.png" /></p>
 <p>Zooming in on the code line, we have</p>
