@@ -29,7 +29,7 @@ done
 shift $(($OPTIND - 1))
 remainingArgs=$@
 
-./commatrademark.sh > trademarks.md
+./tools/commatrademark.sh boo.$langName.idx > trademarks.md
 
 rm -f foo.$langName.* boo.$langName.*
 
