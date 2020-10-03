@@ -8,6 +8,9 @@
       location = "group:icdab_asl/icdab_asl.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:icdab_camera/icdab_camera.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:icdab_cycle/icdab_cycle.xcodeproj">
    </FileRef>
    <FileRef
