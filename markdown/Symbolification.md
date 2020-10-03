@@ -1,7 +1,7 @@
 # Symbolification
 
 This chapter explains crash dump symbolification\index{symbolification}.
-Symbolification is the process of mapping machine addresses into symbolic addresses meaningful to the programmer possessing the source code.  Instead of seeing machine addresses, we want to see function names (plus any offset),
+Symbolification is the process of mapping machine addresses into symbolic addresses meaningful to the programmer possessing the source code.  Instead of seeing machine addresses, we want to see function names (plus any offset).
 
 We use the `icdab_planets` sample app to demonstrate a crash. @icdabgithub
 
