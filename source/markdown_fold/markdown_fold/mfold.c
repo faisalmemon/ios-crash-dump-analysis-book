@@ -19,9 +19,24 @@ usage() {
 }
 
 size_t
-strlen_with_tabs(char *source, int tab_length) {
-    int n_tabs = 0;
+contribution_from_tab(size_t col, int tab_length) {
+    // 0 - 8
+    // 1 - 7
+    // 7 - 1
+    // 8 - 8
+    
+    if (tab_length < 1) {
+        return 0;
+    }
+        
+    size_t result = tab_length - (col % tab_length);
+    return result;
+}
+
+size_t
+visual_len_with_tabs(char *source, int tab_length) {
     char *letter = source;
+    size_t col_pos = 0;
     
     if (!source) {
         return 0;
@@ -29,23 +44,19 @@ strlen_with_tabs(char *source, int tab_length) {
     
     while (*letter) {
         if (*letter == '\t') {
-            n_tabs++;
+            col_pos += contribution_from_tab(col_pos, tab_length);
+        } else {
+            col_pos++;
         }
         letter++;
-    }
-    size_t length = strlen(source);
-    
-    // extra contribution from tabs
-    if (tab_length > 1) {
-        length += n_tabs * (tab_length - 1);
     }
     
     // don't count trailing newline
     if (*(letter - 1) == '\n') {
-        length -= 1;
+        col_pos -= 1;
     }
     
-    return length;
+    return col_pos;
 }
 
 void
@@ -65,7 +76,7 @@ fold_string(char *string, int width, int tab_length) {
             break;
         } else if (*current_char == '\t') {
             ws_pos = col_pos;
-            col_pos += tab_length;
+            col_pos += contribution_from_tab(col_pos, tab_length);
         } else if (*current_char == ' ') {
             ws_pos = col_pos;
             col_pos++;
@@ -74,6 +85,7 @@ fold_string(char *string, int width, int tab_length) {
         }
         current_char++;
     }
+    
     if (MF_DEBUG) fprintf(stderr,
                           "fold_string loop escaped with col_pos %ld ws_pos %ld *current_char %c ptrdiff %ld\n",
                           (long)col_pos,
@@ -113,7 +125,7 @@ parse(FILE *fin, int width, int tab_length) {
             inside_verbose_block = !inside_verbose_block;
         }
         if (inside_verbose_block) {
-            line_length = strlen_with_tabs(current_string, tab_length);
+            line_length = visual_len_with_tabs(current_string, tab_length);
             if (line_length <= width) {
                 fprintf(stdout, "%s", current_string);
             } else {

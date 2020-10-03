@@ -9,7 +9,8 @@
 #include "test_mfold.h"
 
 int main(int argc, const char * argv[]) {
-    test_strlen_with_tabs();
+    test_contribution_from_tab();
+    test_visual_len_with_tabs();
     test_fold_string();
     return 0;
 }

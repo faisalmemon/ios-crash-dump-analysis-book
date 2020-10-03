@@ -11,7 +11,10 @@
 #include <stdio.h>
 
 void
-test_strlen_with_tabs(void);
+test_contribution_from_tab(void);
+
+void
+test_visual_len_with_tabs(void);
 
 void
 test_fold_string(void);
