@@ -55,26 +55,43 @@ would look like this (truncated for ease of demonstration)
 
 ```
 Thread 0 Crashed:
-0   libsystem_kernel.dylib        	0x0000000186388d88 __pthread_kill + 8
-1   libsystem_pthread.dylib       	0x00000001862a11e8 pthread_kill$VARIANT$mp + 136
-2   libsystem_c.dylib             	0x00000001861f4934 abort + 100
-3   libsystem_c.dylib             	0x00000001861f3d54 err + 0
-4   icdab_planets                 	0x00000001045490f0 0x104544000 + 20720
-5   UIKitCore                     	0x0000000189ff2750 -[UIViewController _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
-6   UIKitCore                     	0x0000000189ff71e0 -[UIViewController loadViewIfRequired] + 936
+0   libsystem_kernel.dylib        	0x0000000186388d88
+ __pthread_kill + 8
+1   libsystem_pthread.dylib       	0x00000001862a11e8
+ pthread_kill$VARIANT$mp + 136
+2   libsystem_c.dylib             	0x00000001861f4934 abort
+ + 100
+3   libsystem_c.dylib             	0x00000001861f3d54 err +
+ 0
+4   icdab_planets                 	0x00000001045490f0
+ 0x104544000 + 20720
+5   UIKitCore                     	0x0000000189ff2750
+ -[UIViewController
+ _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
+6   UIKitCore                     	0x0000000189ff71e0
+ -[UIViewController loadViewIfRequired] + 936
 ```
 
 However, with the setting in place, a crash would instead be reported as:
 
 ```
 Thread 0 Crashed:
-0   libsystem_kernel.dylib        	0x0000000186388d88 __pthread_kill + 8
-1   libsystem_pthread.dylib       	0x00000001862a11e8 pthread_kill$VARIANT$mp + 136
-2   libsystem_c.dylib             	0x00000001861f4934 abort + 100
-3   libsystem_c.dylib             	0x00000001861f3d54 err + 0
-4   icdab_planets                 	0x00000001048290f0 -[PlanetViewController viewDidLoad] + 20720 (PlanetViewController.mm:33)
-5   UIKitCore                     	0x0000000189ff2750 -[UIViewController _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
-6   UIKitCore                     	0x0000000189ff71e0 -[UIViewController loadViewIfRequired] + 936
+0   libsystem_kernel.dylib        	0x0000000186388d88
+ __pthread_kill + 8
+1   libsystem_pthread.dylib       	0x00000001862a11e8
+ pthread_kill$VARIANT$mp + 136
+2   libsystem_c.dylib             	0x00000001861f4934 abort
+ + 100
+3   libsystem_c.dylib             	0x00000001861f3d54 err +
+ 0
+4   icdab_planets                 	0x00000001048290f0
+ -[PlanetViewController viewDidLoad] + 20720
+ (PlanetViewController.mm:33)
+5   UIKitCore                     	0x0000000189ff2750
+ -[UIViewController
+ _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
+6   UIKitCore                     	0x0000000189ff71e0
+ -[UIViewController loadViewIfRequired] + 936
 ```
 
 Lines 0, 1, 2, 5 are the same in both cases because our developer environment will
@@ -109,7 +126,8 @@ In order to help us get comfortable with crash dump reports, we can demonstrate
 how the symbolification actually works.  In the first crash dump, we want to understand:
 
 ```
-4   icdab_planets                       0x00000001045490f0 0x104544000 + 20720
+4   icdab_planets                       0x00000001045490f0
+ 0x104544000 + 20720
 ```
 
 The first number is the place where we were executing, the second number is the base address of the binary we were executing.  The third number is the offset from the base address to reach the place of execution.
@@ -124,8 +142,11 @@ which all other address (TEXT) locations are relative to.
 
 Running the lookup command `atos`\index{command!atos} symbolicates the line of interest:
 ```
-# atos -arch arm64 -o icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets -l 0x104544000 0x00000001045490f0
--[PlanetViewController viewDidLoad] (in icdab_planets) (PlanetViewController.mm:33)
+# atos -arch arm64 -o
+ icdab_planets.app.dSYM/Contents/Resources/DWARF/icdab_planets -l
+ 0x104544000 0x00000001045490f0
+-[PlanetViewController viewDidLoad] (in icdab_planets)
+ (PlanetViewController.mm:33)
 ```
 
 The Crash Reporter tool fundamentally just uses `atos` to symbolicate the
