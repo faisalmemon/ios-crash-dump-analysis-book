@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="By Faisal Memon" />
-  <title>iOS Crash Dump Analysis</title>
+  <meta name="author" content="By Mr. Faisal Memon" />
+  <title>iOS Crash Dump Analysis, Second Edition</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -23,8 +23,8 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">iOS Crash Dump Analysis</h1>
-<p class="author">By Faisal Memon</p>
+<h1 class="title">iOS Crash Dump Analysis, Second Edition</h1>
+<p class="author">By Mr. Faisal Memon</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -1367,10 +1367,13 @@ __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 9
 <p>在上述情况下崩溃的线程有线程回溯：</p>
 <pre><code>Thread 0 name:  Dispatch queue: com.apple.main-thread
 Thread 0 Crashed:
-0   libsystem_kernel.dylib          0x2572ec5c __pthread_kill + 8
-1   libsystem_pthread.dylib         0x257d8732 pthread_kill + 62
+0   libsystem_kernel.dylib          0x2572ec5c __pthread_kill
+ + 8
+1   libsystem_pthread.dylib         0x257d8732 pthread_kill +
+ 62
 2   libsystem_c.dylib               0x256c30ac abort + 108
-3   libc++abi.dylib                 0x2521aae4 __cxa_bad_cast + 0
+3   libc++abi.dylib                 0x2521aae4 __cxa_bad_cast
+ + 0
 4   libc++abi.dylib                 0x2523369e
 default_terminate_handler+ 104094 () + 266
 5   libobjc.A.dylib                 0x2523f0b0
@@ -2757,7 +2760,8 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
     if (dsema-&gt;dsema_value &lt; dsema-&gt;dsema_orig) {
         DISPATCH_CLIENT_CRASH(
       dsema-&gt;dsema_orig - dsema-&gt;dsema_value,
-                &quot;Semaphore object deallocated while in use&quot;
+                &quot;Semaphore object deallocated
+ while in use&quot;
     );
     }
 
@@ -2868,7 +2872,8 @@ static void
 _dispatch_continuation_push(dispatch_queue_t dq,
    dispatch_continuation_t dc)
 {
-    dx_push(dq, dc, _dispatch_continuation_override_qos(dq, dc));
+    dx_push(dq, dc, _dispatch_continuation_override_qos(dq,
+ dc));
 }</code></pre>
 <p>我们正在从一个有错误内存位置的数据结构中解除内存引用。</p>
 <p>我们可以反汇编问题调用站点的macOS二进制文件<code>/usr/lib/system/libdispatch.dylib</code>。</p>
@@ -3233,7 +3238,8 @@ dlclose(0x600000157d90)
 <pre><code>-(void)loadCASHelloFromDynamicFramework1
 {
     void *framework1Handle = dlopen(
-      &quot;DynamicFramework1.framework/DynamicFramework1&quot;, RTLD_LAZY);
+      &quot;DynamicFramework1.framework/DynamicFramework1&quot;,
+ RTLD_LAZY);
 
     if (NSClassFromString(@&quot;CASHello&quot;))
     {
@@ -4168,7 +4174,8 @@ Thread 21:
     // rqReceiverDequeue + 0x64
 7       CoreMedia                       0x18252dd38
  0x1824dc000 + 0x51d38
-    // __FigRemoteQueueReceiverSetHandler_block_invoke2 + 0xa0
+    // __FigRemoteQueueReceiverSetHandler_block_invoke2 +
+ 0xa0
 8       libdispatch.dylib               0x193b71950
  0x193b70000 + 0x1950
     // _dispatch_client_callout + 0xc
