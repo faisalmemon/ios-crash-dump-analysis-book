@@ -50,53 +50,34 @@ The `icdab_planets` program is designed to crash upon launch due to an assertion
 
 If the `DWARF with dSYM File` setting had not been made, we would get a partially symbolicated crash.
 
-The Crash Report, seen from _Windows->Devices and Simulators->View Device Logs_,
+The Crash Report, seen from _Window->Devices and Simulators->View Device Logs_,
 would look like this (truncated for ease of demonstration)
 
 ```
 Thread 0 Crashed:
-0   libsystem_kernel.dylib        
-0x0000000183a012ec __pthread_kill + 8
-1   libsystem_pthread.dylib       
-0x0000000183ba2288 pthread_kill$VARIANT$mp + 376
-2   libsystem_c.dylib             	
-0x000000018396fd0c abort + 140
-3   libsystem_c.dylib             	
-0x0000000183944000 basename_r + 0
-4   icdab_planets                 	
-0x00000001008e45bc 0x1008e0000 + 17852
-5   UIKit                         	
-0x000000018db56ee0
--[UIViewController loadViewIfRequired] + 1020
+0   libsystem_kernel.dylib              0x0000000186388d88 __pthread_kill + 8
+1   libsystem_pthread.dylib             0x00000001862a11e8 pthread_kill$VARIANT$mp + 136
+2   libsystem_c.dylib                   0x00000001861f4934 abort + 100
+3   libsystem_c.dylib                   0x00000001861f3d54 err + 0
+4   icdab_planets                       0x0000000102ecd01c 0x102ec8000 + 20508
+5   UIKitCore                           0x0000000189ff2750 -[UIViewController _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
+6   UIKitCore                           0x0000000189ff71e0 -[UIViewController loadViewIfRequired] + 936
 
 Binary Images:
-0x1008e0000 - 0x1008ebfff icdab_planets arm64
-  <9ff56cfacd66354ea85ff5973137f011>
-   /var/containers/Bundle/Application/
-   BEF249D9-1520-40F7-93F4-8B99D913A4AC/
-   icdab_planets.app/icdab_planets
+0x102ec8000 - 0x102ed3fff icdab_planets arm64  <4506d701e78c3a18a45ecc3ad6f993d7> /var/containers/Bundle/Application/24C3ED6D-D100-4DB2-9998-336C6FA9B6E7/icdab_planets.app/icdab_planets
 ```
 
 However, with the setting in place, a crash would instead be reported as:
 
 ```
 Thread 0 Crashed:
-0   libsystem_kernel.dylib        	
-0x0000000183a012ec __pthread_kill + 8
-1   libsystem_pthread.dylib       	
-0x0000000183ba2288
-pthread_kill$VARIANT$mp + 376
-2   libsystem_c.dylib             	
-0x000000018396fd0c abort + 140
-3   libsystem_c.dylib             	
-0x0000000183944000 basename_r + 0
-4   icdab_planets                 	
-0x0000000104e145bc
--[PlanetViewController viewDidLoad] + 17852
- (PlanetViewController.mm:33)
-5   UIKit                         	
-0x000000018db56ee0
--[UIViewController loadViewIfRequired] + 1020
+0   libsystem_kernel.dylib        	0x0000000186388d88 __pthread_kill + 8
+1   libsystem_pthread.dylib       	0x00000001862a11e8 pthread_kill$VARIANT$mp + 136
+2   libsystem_c.dylib             	0x00000001861f4934 abort + 100
+3   libsystem_c.dylib             	0x00000001861f3d54 err + 0
+4   icdab_planets                 	0x00000001048290f0 -[PlanetViewController viewDidLoad] + 20720 (PlanetViewController.mm:33)
+5   UIKitCore                     	0x0000000189ff2750 -[UIViewController _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 100
+6   UIKitCore                     	0x0000000189ff71e0 -[UIViewController loadViewIfRequired] + 936
 ```
 
 Lines 0, 1, 2, 5 are the same in both cases because our developer environment will
