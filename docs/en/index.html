@@ -1366,10 +1366,13 @@ __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__ + 9
 <p>The crashing thread in the above scenario had the thread backtrace:</p>
 <pre><code>Thread 0 name:  Dispatch queue: com.apple.main-thread
 Thread 0 Crashed:
-0   libsystem_kernel.dylib          0x2572ec5c __pthread_kill + 8
-1   libsystem_pthread.dylib         0x257d8732 pthread_kill + 62
+0   libsystem_kernel.dylib          0x2572ec5c __pthread_kill
+ + 8
+1   libsystem_pthread.dylib         0x257d8732 pthread_kill +
+ 62
 2   libsystem_c.dylib               0x256c30ac abort + 108
-3   libc++abi.dylib                 0x2521aae4 __cxa_bad_cast + 0
+3   libc++abi.dylib                 0x2521aae4 __cxa_bad_cast
+ + 0
 4   libc++abi.dylib                 0x2523369e
 default_terminate_handler+ 104094 () + 266
 5   libobjc.A.dylib                 0x2523f0b0
@@ -2827,7 +2830,8 @@ _dispatch_semaphore_dispose(dispatch_object_t dou,
     if (dsema-&gt;dsema_value &lt; dsema-&gt;dsema_orig) {
         DISPATCH_CLIENT_CRASH(
       dsema-&gt;dsema_orig - dsema-&gt;dsema_value,
-                &quot;Semaphore object deallocated while in use&quot;
+                &quot;Semaphore object deallocated
+ while in use&quot;
     );
     }
 
@@ -2938,7 +2942,8 @@ static void
 _dispatch_continuation_push(dispatch_queue_t dq,
    dispatch_continuation_t dc)
 {
-    dx_push(dq, dc, _dispatch_continuation_override_qos(dq, dc));
+    dx_push(dq, dc, _dispatch_continuation_override_qos(dq,
+ dc));
 }</code></pre>
 <p>We are dereferencing memory from a data structure that has a bad memory location.</p>
 <p>We can disassemble the macOS binary, <code>/usr/lib/system/libdispatch.dylib</code> for the problem call site.</p>
@@ -3303,7 +3308,8 @@ dlclose(0x600000157d90)
 <pre><code>-(void)loadCASHelloFromDynamicFramework1
 {
     void *framework1Handle = dlopen(
-      &quot;DynamicFramework1.framework/DynamicFramework1&quot;, RTLD_LAZY);
+      &quot;DynamicFramework1.framework/DynamicFramework1&quot;,
+ RTLD_LAZY);
 
     if (NSClassFromString(@&quot;CASHello&quot;))
     {
@@ -4241,7 +4247,8 @@ Thread 21:
     // rqReceiverDequeue + 0x64
 7       CoreMedia                       0x18252dd38
  0x1824dc000 + 0x51d38
-    // __FigRemoteQueueReceiverSetHandler_block_invoke2 + 0xa0
+    // __FigRemoteQueueReceiverSetHandler_block_invoke2 +
+ 0xa0
 8       libdispatch.dylib               0x193b71950
  0x193b70000 + 0x1950
     // _dispatch_client_callout + 0xc
