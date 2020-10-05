@@ -2080,7 +2080,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <h1 id="apple-silicon">Apple Silicon</h1>
 <p>In this chapter we look at crashes on Apple Silicon Macs, and crashes arising from the use of the <code>Rosetta</code> translation system. Furthermore we look at new types of crashes that are possible from cross-platform code that supports both ARM and Intel CPUs.</p>
 <h2 id="what-is-rosetta">What is Rosetta?</h2>
-<p><code>Rosetta</code> is an instruction translator present on Apple Silicon Macs. When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them on-the-fly. Think of it as a Just In Time (JIT) compiler. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” n.d.)</span></p>
+<p><code>Rosetta</code> is an instruction translator present on Apple Silicon Macs. When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them on-the-fly. Think of it as a Just In Time (JIT) compiler. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span></p>
 <h3 id="forcing-rosetta-execution">Forcing Rosetta execution</h3>
 <p>If we accept the standard build architecture options for our program, which are <code>Build Active Architecture Only</code> set to <code>Yes</code> for <code>Debug</code> builds, and <code>No</code> for <code>Release</code> builds, then when running under the Debugger, we shall only see Native binaries. That is because in the Debug case, we do not want to waste time building an architecture not relevant to the machine we are testing on.</p>
 <p>If we do an archive build, <code>Product &gt; Archive</code>, and then select <code>Distribute App</code> we end up with a Release Build. With default settings, this will be a Fat Binary File offering <code>x86</code> and <code>arm64</code> within the multi-architecture binary.</p>
@@ -5150,7 +5150,7 @@ usr/lib/libBacktraceRecording.dylib
 <p>“2018 Macbook Pros Bridge Os Error.” 2018. <a href="https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/">https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/</a>.</p>
 </div>
 <div id="ref-rosetta">
-<p>“About the Rosetta Translation Environment.” n.d. Accessed 2020.</p>
+<p>“About the Rosetta Translation Environment.” 2020. <a href="https://developer.apple.com/documentation/apple_silicon/about_the_rosetta_translation_environment#3616845">https://developer.apple.com/documentation/apple_silicon/about_the_rosetta_translation_environment#3616845</a>.</p>
 </div>
 <div id="ref-wwdc2015_413">
 <p>“Advanced Debugging with Address Sanitizer.” 2015. <a href="https://developer.apple.com/videos/play/wwdc2015/413/">https://developer.apple.com/videos/play/wwdc2015/413/</a>.</p>
