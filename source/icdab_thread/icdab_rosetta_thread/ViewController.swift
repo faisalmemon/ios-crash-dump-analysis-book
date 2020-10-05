@@ -14,7 +14,9 @@ class ViewController: NSViewController {
     
     @IBAction func startThreadsTestButtonAction(_ sender: NSButtonCell) {
         print("about to start threads test")
-        start_threads()
+        DispatchQueue.global().async {
+            start_threads()
+        }
     }
     
     func updateEnvironmentLabel() {
