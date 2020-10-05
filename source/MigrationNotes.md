@@ -70,3 +70,5 @@ Since 1024 cast to BOOL is false on x86 but true on arm64 write some code which 
 ### Execute data as code
 
 Write a simple program that places assembly code in a data array and then jumps into it.  This simulates writing a JIT compiler.  The aim is to trigger execute on readonly data segments; see [Porting JIT on Apple Silicon](https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon)
+
+There is an interesting tutorial on JIT; https://github.com/spencertipping/jit-tutorial

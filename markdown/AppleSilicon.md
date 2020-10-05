@@ -17,7 +17,7 @@ Once we have a Fat binary we can use `Finder` app, right-click `File info` to se
 ![](screenshots/univeral_application_icdab_rosetta_thread.png)
 
 ## Code Translation Example
-Our working example in this chapter is the `icdab_thread` program; it is available on the web.  @icdabgithub  This program attempts to call `thread_set_state` and then deliberately crashes 60 seconds later using `abort`\index{command!abort}.  It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware.  Nevertheless, this program is interesting because of a closely related artefact upon crashing, the number of times `taskforpid` had been called.
+Our working example in this chapter is the `icdab_thread` program; it is available on the web.  @icdabgithub  This program attempts to call `thread_set_state` and then deliberately crashes 60 seconds later using `abort`\index{command!abort}.  It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware.  Nevertheless, this program is interesting because of a closely related artefact upon crashing, the number of times `task_for_pid`\index{command!task for pid} had been called.
 
 We have adapted the command line executable program `icdab_thread` into an application which merely calls the same underlying code.  The application is called `icdab_rosetta_thread`.  The reason for this is because UNIX command line executables are not eligible for running Translated but Applications are. 
 
@@ -121,4 +121,84 @@ Thread 1 crashed with X86 Thread State (64-bit):
    r8: 0x000000030600ad40   r9: 0x0000000000000000  r10: 0x000000030600b000  r11: 0x00007fff6bd37778
   r12: 0x0000000000003d03  r13: 0x0000000000000000  r14: 0x0000000000000006  r15: 0x0000000000000016
   rip: <unavailable>  rfl: 0x0000000000000287
+```
+
+### Translated Code information
+
+In the translated case, we get extra information, presumably useful for those engineers that work on debugging Rosetta:
+```
+Translated Code Information:
+  tmp0: 0xffffffffffffffff tmp1: 0x00007fff0144ff14 tmp2: 0x00007fff6bdc4808
+```
+
+### External Modification Summary
+
+In the native case, we saw:
+```
+External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 914636
+    thread_create: 0
+    thread_set_state: 804
+```
+
+Our code had attempted to call `thread_set_state` but was not able to (under any platform configuration due to macOS restrictions).
+
+Looking that the translated case,
+```
+External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 1
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 915091
+    thread_create: 0
+    thread_set_state: 804
+```
+
+We see almost the same statistics, but interestingly we have `task_for_pid`\index{command!task for pid} set to 1.  So the translation environment only did a mimimal observation/modification of the actual process under translation.
+
+### Virtual Memory Regions
+
+The translated version of the program runs a bit heavier on RAM usage than the native version.
+
+In the native case, we have:
+```
+                                VIRTUAL   REGION
+REGION TYPE                        SIZE    COUNT (non-coalesced)
+===========                     =======  =======
+TOTAL                              1.7G     2053
+TOTAL, minus reserved VM space     1.3G     2053
+```
+
+versus the translated case:
+
+```
+REGION TYPE                        SIZE    COUNT (non-coalesced)
+===========                     =======  =======
+TOTAL                              5.4G     1512
+TOTAL, minus reserved VM space     5.1G     1512
+```
+
+Note in the translated case we have additional Virtual Memory regions for Rosetta:
+```
+Rosetta Arena                     2048K        1
+Rosetta Generic                    864K       19
+Rosetta IndirectBranch             512K        1
+Rosetta JIT                      128.0M        1
+Rosetta Return Stack               192K       12
+Rosetta Thread Context             192K       12
 ```
