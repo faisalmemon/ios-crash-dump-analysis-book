@@ -25,6 +25,9 @@ class ViewController: NSViewController {
         } catch {
             currentEnvironmentLabelOutlet.stringValue = "Translation status unknown"
         }
+        
+//        let c_translated = processIsTranslated()
+//        print("c_translated returns \(c_translated)")
     }
     
     override func viewDidLoad() {

@@ -34,6 +34,7 @@ class RosettaHelper {
                 throw SystemError.SysCtlError(error: errno)
             }
         }
-        return true
+        let result = returnValuePointer.pointee
+        return result != 0
     }
 }

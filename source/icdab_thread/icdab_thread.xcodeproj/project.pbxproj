@@ -18,6 +18,8 @@
 		39303FCF2111B591009226AD /* pthread_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 39303FCE2111B591009226AD /* pthread_helper.c */; };
 		39303FD721120483009226AD /* icdab_thread_test.m in Sources */ = {isa = PBXBuildFile; fileRef = 39303FD621120483009226AD /* icdab_thread_test.m */; };
 		39303FDC21120650009226AD /* pthread_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 39303FCE2111B591009226AD /* pthread_helper.c */; };
+		CAB8B7C6252B5A3600D56072 /* rosetta_c_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = CAB8B7C5252B5A3600D56072 /* rosetta_c_helper.c */; };
+		CAB8B7CC252B5DD000D56072 /* pthread_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 39303FCE2111B591009226AD /* pthread_helper.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,9 @@
 		39303FD421120483009226AD /* icdab_thread_test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_thread_test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39303FD621120483009226AD /* icdab_thread_test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_thread_test.m; sourceTree = "<group>"; };
 		39303FD821120483009226AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CAB8B7C3252B5A3600D56072 /* icdab_rosetta_thread-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "icdab_rosetta_thread-Bridging-Header.h"; sourceTree = "<group>"; };
+		CAB8B7C4252B5A3600D56072 /* rosetta_c_helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rosetta_c_helper.h; sourceTree = "<group>"; };
+		CAB8B7C5252B5A3600D56072 /* rosetta_c_helper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rosetta_c_helper.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,10 +123,13 @@
 				3910598F252B4D3F005B35F6 /* AppDelegate.swift */,
 				39105991252B4D3F005B35F6 /* ViewController.swift */,
 				391059BE252B4F1A005B35F6 /* RosettaHelper.swift */,
+				CAB8B7C4252B5A3600D56072 /* rosetta_c_helper.h */,
+				CAB8B7C5252B5A3600D56072 /* rosetta_c_helper.c */,
 				39105993252B4D41005B35F6 /* Assets.xcassets */,
 				39105995252B4D41005B35F6 /* Main.storyboard */,
 				39105998252B4D41005B35F6 /* Info.plist */,
 				39105999252B4D41005B35F6 /* icdab_rosetta_thread.entitlements */,
+				CAB8B7C3252B5A3600D56072 /* icdab_rosetta_thread-Bridging-Header.h */,
 			);
 			path = icdab_rosetta_thread;
 			sourceTree = "<group>";
@@ -289,6 +297,7 @@
 				TargetAttributes = {
 					3910598C252B4D3F005B35F6 = {
 						CreatedOnToolsVersion = 12.2;
+						LastSwiftMigration = 1220;
 					};
 					3910599D252B4D41005B35F6 = {
 						CreatedOnToolsVersion = 12.2;
@@ -368,6 +377,8 @@
 			files = (
 				391059BF252B4F1A005B35F6 /* RosettaHelper.swift in Sources */,
 				39105992252B4D3F005B35F6 /* ViewController.swift in Sources */,
+				CAB8B7CC252B5DD000D56072 /* pthread_helper.c in Sources */,
+				CAB8B7C6252B5A3600D56072 /* rosetta_c_helper.c in Sources */,
 				39105990252B4D3F005B35F6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -438,6 +449,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = icdab_rosetta_thread/icdab_rosetta_thread.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -454,6 +466,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-rosetta-thread";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "icdab_rosetta_thread/icdab_rosetta_thread-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -464,6 +477,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = icdab_rosetta_thread/icdab_rosetta_thread.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -479,6 +493,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-rosetta-thread";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "icdab_rosetta_thread/icdab_rosetta_thread-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
