@@ -33,6 +33,7 @@ Here we go through each section of an iOS Crash Report and explain the fields. @
 
 tvOS\index{tvOS} and watchOS\index{watchOS} may be just considered subsets of iOS for our purposes and have similar Crash Reports.
 
+
 Note here we use the term "iOS Crash Report" to mean a Crash Report that came from a physical target device.
 After a crash, apps are often debugged on the Simulator.  The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.
 
@@ -823,6 +824,9 @@ The dynamic loader does many tasks in preparing our binary for execution.  If ou
 ## Guided tour of a macOS Crash Report
 
 The macOS Crash Report is similar to an iOS Crash Report even though macOS CrashReport and iOS CrashReport are distinctly different programs.  To avoid repetition, we just highlight notable differences from iOS.
+
+Traditionally Mac computers only used the Intel\index{trademark!Intel} CPU but that has changed with the introduction of Apple Silicon.  So we can now see both ARM-64\index{CPU!ARM-64} and X86-64\index{CPU!X86-64} crashes on Mac hardware.  
+A number of subtle issues can arise because Apple Silicon Macs can translate X86-64 instructions as well as running native ARM-64 binaries.  Therefore we shall focus on Intel X86-64 crashes in this chapter, and leave Apple Silicon Mac crashes to their own chapter.
 
 ### macOS Crash Report Header Section
 

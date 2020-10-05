@@ -7,11 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39105990252B4D3F005B35F6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3910598F252B4D3F005B35F6 /* AppDelegate.swift */; };
+		39105992252B4D3F005B35F6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39105991252B4D3F005B35F6 /* ViewController.swift */; };
+		39105994252B4D41005B35F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39105993252B4D41005B35F6 /* Assets.xcassets */; };
+		39105997252B4D41005B35F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39105995252B4D41005B35F6 /* Main.storyboard */; };
+		391059A3252B4D41005B35F6 /* icdab_rosetta_threadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391059A2252B4D41005B35F6 /* icdab_rosetta_threadTests.swift */; };
+		391059AE252B4D41005B35F6 /* icdab_rosetta_threadUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391059AD252B4D41005B35F6 /* icdab_rosetta_threadUITests.swift */; };
+		391059BF252B4F1A005B35F6 /* RosettaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 391059BE252B4F1A005B35F6 /* RosettaHelper.swift */; };
 		39303FC72111B570009226AD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39303FC62111B570009226AD /* main.m */; };
 		39303FCF2111B591009226AD /* pthread_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 39303FCE2111B591009226AD /* pthread_helper.c */; };
 		39303FD721120483009226AD /* icdab_thread_test.m in Sources */ = {isa = PBXBuildFile; fileRef = 39303FD621120483009226AD /* icdab_thread_test.m */; };
 		39303FDC21120650009226AD /* pthread_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 39303FCE2111B591009226AD /* pthread_helper.c */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3910599F252B4D41005B35F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39303FBB2111B570009226AD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3910598C252B4D3F005B35F6;
+			remoteInfo = icdab_rosetta_thread;
+		};
+		391059AA252B4D41005B35F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39303FBB2111B570009226AD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3910598C252B4D3F005B35F6;
+			remoteInfo = icdab_rosetta_thread;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		39303FC12111B570009226AD /* CopyFiles */ = {
@@ -26,6 +50,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3910598D252B4D3F005B35F6 /* icdab_rosetta_thread.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = icdab_rosetta_thread.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3910598F252B4D3F005B35F6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		39105991252B4D3F005B35F6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		39105993252B4D41005B35F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		39105996252B4D41005B35F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		39105998252B4D41005B35F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39105999252B4D41005B35F6 /* icdab_rosetta_thread.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = icdab_rosetta_thread.entitlements; sourceTree = "<group>"; };
+		3910599E252B4D41005B35F6 /* icdab_rosetta_threadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_rosetta_threadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		391059A2252B4D41005B35F6 /* icdab_rosetta_threadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = icdab_rosetta_threadTests.swift; sourceTree = "<group>"; };
+		391059A4252B4D41005B35F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		391059A9252B4D41005B35F6 /* icdab_rosetta_threadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_rosetta_threadUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		391059AD252B4D41005B35F6 /* icdab_rosetta_threadUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = icdab_rosetta_threadUITests.swift; sourceTree = "<group>"; };
+		391059AF252B4D41005B35F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		391059BE252B4F1A005B35F6 /* RosettaHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosettaHelper.swift; sourceTree = "<group>"; };
 		39303FC32111B570009226AD /* icdab_thread */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = icdab_thread; sourceTree = BUILT_PRODUCTS_DIR; };
 		39303FC62111B570009226AD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		39303FCD2111B591009226AD /* pthread_helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pthread_helper.h; sourceTree = "<group>"; };
@@ -36,6 +74,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3910598A252B4D3F005B35F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3910599B252B4D41005B35F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		391059A6252B4D41005B35F6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		39303FC02111B570009226AD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -53,11 +112,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3910598E252B4D3F005B35F6 /* icdab_rosetta_thread */ = {
+			isa = PBXGroup;
+			children = (
+				3910598F252B4D3F005B35F6 /* AppDelegate.swift */,
+				39105991252B4D3F005B35F6 /* ViewController.swift */,
+				391059BE252B4F1A005B35F6 /* RosettaHelper.swift */,
+				39105993252B4D41005B35F6 /* Assets.xcassets */,
+				39105995252B4D41005B35F6 /* Main.storyboard */,
+				39105998252B4D41005B35F6 /* Info.plist */,
+				39105999252B4D41005B35F6 /* icdab_rosetta_thread.entitlements */,
+			);
+			path = icdab_rosetta_thread;
+			sourceTree = "<group>";
+		};
+		391059A1252B4D41005B35F6 /* icdab_rosetta_threadTests */ = {
+			isa = PBXGroup;
+			children = (
+				391059A2252B4D41005B35F6 /* icdab_rosetta_threadTests.swift */,
+				391059A4252B4D41005B35F6 /* Info.plist */,
+			);
+			path = icdab_rosetta_threadTests;
+			sourceTree = "<group>";
+		};
+		391059AC252B4D41005B35F6 /* icdab_rosetta_threadUITests */ = {
+			isa = PBXGroup;
+			children = (
+				391059AD252B4D41005B35F6 /* icdab_rosetta_threadUITests.swift */,
+				391059AF252B4D41005B35F6 /* Info.plist */,
+			);
+			path = icdab_rosetta_threadUITests;
+			sourceTree = "<group>";
+		};
 		39303FBA2111B570009226AD = {
 			isa = PBXGroup;
 			children = (
 				39303FC52111B570009226AD /* icdab_thread */,
 				39303FD521120483009226AD /* icdab_thread_test */,
+				3910598E252B4D3F005B35F6 /* icdab_rosetta_thread */,
+				391059A1252B4D41005B35F6 /* icdab_rosetta_threadTests */,
+				391059AC252B4D41005B35F6 /* icdab_rosetta_threadUITests */,
 				39303FC42111B570009226AD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,6 +161,9 @@
 			children = (
 				39303FC32111B570009226AD /* icdab_thread */,
 				39303FD421120483009226AD /* icdab_thread_test.xctest */,
+				3910598D252B4D3F005B35F6 /* icdab_rosetta_thread.app */,
+				3910599E252B4D41005B35F6 /* icdab_rosetta_threadTests.xctest */,
+				391059A9252B4D41005B35F6 /* icdab_rosetta_threadUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -93,6 +190,59 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3910598C252B4D3F005B35F6 /* icdab_rosetta_thread */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 391059B6252B4D41005B35F6 /* Build configuration list for PBXNativeTarget "icdab_rosetta_thread" */;
+			buildPhases = (
+				39105989252B4D3F005B35F6 /* Sources */,
+				3910598A252B4D3F005B35F6 /* Frameworks */,
+				3910598B252B4D3F005B35F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = icdab_rosetta_thread;
+			productName = icdab_rosetta_thread;
+			productReference = 3910598D252B4D3F005B35F6 /* icdab_rosetta_thread.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3910599D252B4D41005B35F6 /* icdab_rosetta_threadTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 391059B7252B4D41005B35F6 /* Build configuration list for PBXNativeTarget "icdab_rosetta_threadTests" */;
+			buildPhases = (
+				3910599A252B4D41005B35F6 /* Sources */,
+				3910599B252B4D41005B35F6 /* Frameworks */,
+				3910599C252B4D41005B35F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				391059A0252B4D41005B35F6 /* PBXTargetDependency */,
+			);
+			name = icdab_rosetta_threadTests;
+			productName = icdab_rosetta_threadTests;
+			productReference = 3910599E252B4D41005B35F6 /* icdab_rosetta_threadTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		391059A8252B4D41005B35F6 /* icdab_rosetta_threadUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 391059B8252B4D41005B35F6 /* Build configuration list for PBXNativeTarget "icdab_rosetta_threadUITests" */;
+			buildPhases = (
+				391059A5252B4D41005B35F6 /* Sources */,
+				391059A6252B4D41005B35F6 /* Frameworks */,
+				391059A7252B4D41005B35F6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				391059AB252B4D41005B35F6 /* PBXTargetDependency */,
+			);
+			name = icdab_rosetta_threadUITests;
+			productName = icdab_rosetta_threadUITests;
+			productReference = 391059A9252B4D41005B35F6 /* icdab_rosetta_threadUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		39303FC22111B570009226AD /* icdab_thread */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 39303FCA2111B570009226AD /* Build configuration list for PBXNativeTarget "icdab_thread" */;
@@ -133,9 +283,21 @@
 		39303FBB2111B570009226AD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = "Faisal Memon";
 				TargetAttributes = {
+					3910598C252B4D3F005B35F6 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					3910599D252B4D41005B35F6 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 3910598C252B4D3F005B35F6;
+					};
+					391059A8252B4D41005B35F6 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 3910598C252B4D3F005B35F6;
+					};
 					39303FC22111B570009226AD = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -159,11 +321,37 @@
 			targets = (
 				39303FC22111B570009226AD /* icdab_thread */,
 				39303FD321120483009226AD /* icdab_thread_test */,
+				3910598C252B4D3F005B35F6 /* icdab_rosetta_thread */,
+				3910599D252B4D41005B35F6 /* icdab_rosetta_threadTests */,
+				391059A8252B4D41005B35F6 /* icdab_rosetta_threadUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3910598B252B4D3F005B35F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39105994252B4D41005B35F6 /* Assets.xcassets in Resources */,
+				39105997252B4D41005B35F6 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3910599C252B4D41005B35F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		391059A7252B4D41005B35F6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		39303FD221120483009226AD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -174,6 +362,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		39105989252B4D3F005B35F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				391059BF252B4F1A005B35F6 /* RosettaHelper.swift in Sources */,
+				39105992252B4D3F005B35F6 /* ViewController.swift in Sources */,
+				39105990252B4D3F005B35F6 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3910599A252B4D41005B35F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				391059A3252B4D41005B35F6 /* icdab_rosetta_threadTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		391059A5252B4D41005B35F6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				391059AE252B4D41005B35F6 /* icdab_rosetta_threadUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		39303FBF2111B570009226AD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -194,7 +408,182 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		391059A0252B4D41005B35F6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3910598C252B4D3F005B35F6 /* icdab_rosetta_thread */;
+			targetProxy = 3910599F252B4D41005B35F6 /* PBXContainerItemProxy */;
+		};
+		391059AB252B4D41005B35F6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3910598C252B4D3F005B35F6 /* icdab_rosetta_thread */;
+			targetProxy = 391059AA252B4D41005B35F6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		39105995252B4D41005B35F6 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39105996252B4D41005B35F6 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		391059B0252B4D41005B35F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = icdab_rosetta_thread/icdab_rosetta_thread.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = icdab_rosetta_thread/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-rosetta-thread";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		391059B1252B4D41005B35F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = icdab_rosetta_thread/icdab_rosetta_thread.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = icdab_rosetta_thread/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-rosetta-thread";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		391059B2252B4D41005B35F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_rosetta_threadTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-rosetta-threadTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_rosetta_thread.app/Contents/MacOS/icdab_rosetta_thread";
+			};
+			name = Debug;
+		};
+		391059B3252B4D41005B35F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_rosetta_threadTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-rosetta-threadTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_rosetta_thread.app/Contents/MacOS/icdab_rosetta_thread";
+			};
+			name = Release;
+		};
+		391059B4252B4D41005B35F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_rosetta_threadUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-rosetta-threadUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = icdab_rosetta_thread;
+			};
+			name = Debug;
+		};
+		391059B5252B4D41005B35F6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_rosetta_threadUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-rosetta-threadUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = icdab_rosetta_thread;
+			};
+			name = Release;
+		};
 		39303FC82111B570009226AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -364,6 +753,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		391059B6252B4D41005B35F6 /* Build configuration list for PBXNativeTarget "icdab_rosetta_thread" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				391059B0252B4D41005B35F6 /* Debug */,
+				391059B1252B4D41005B35F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		391059B7252B4D41005B35F6 /* Build configuration list for PBXNativeTarget "icdab_rosetta_threadTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				391059B2252B4D41005B35F6 /* Debug */,
+				391059B3252B4D41005B35F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		391059B8252B4D41005B35F6 /* Build configuration list for PBXNativeTarget "icdab_rosetta_threadUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				391059B4252B4D41005B35F6 /* Debug */,
+				391059B5252B4D41005B35F6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		39303FBE2111B570009226AD /* Build configuration list for PBXProject "icdab_thread" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
