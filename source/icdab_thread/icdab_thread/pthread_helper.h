@@ -32,4 +32,6 @@ struct thread_management_payload_struct {
 
 void start_threads(void);
 
+typedef void * _Nullable (* _Nonnull pthread_create_suspended_np_cmd)(void * _Nullable);
+
 #endif /* pthread_helper_h */

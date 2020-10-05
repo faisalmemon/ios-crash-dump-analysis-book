@@ -162,7 +162,11 @@ void start_threads() {
     };
     
     pthread_t thread2;
-    if (pthread_create_suspended_np(&thread2, NULL, set_thread_state_from_another_thread, &payload) != 0) {
+    if (pthread_create_suspended_np(&thread2,
+                                    NULL,
+                                    (pthread_create_suspended_np_cmd)
+                                    set_thread_state_from_another_thread,
+                                    &payload) != 0) {
         abort();
     }
     
