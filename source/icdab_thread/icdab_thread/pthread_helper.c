@@ -99,7 +99,7 @@ get_debug_state(mach_port_t port, struct arm_unified_thread_state* result, mach_
 }
 
 kern_return_t
-set_debug_state(mach_port_t port, struct x86_debug_state* update, mach_msg_type_number_t state_count) {
+set_debug_state(mach_port_t port, struct arm_unified_thread_state* update, mach_msg_type_number_t state_count) {
     kern_return_t kr;
     kr = thread_set_state(port, ARM_DEBUG_STATE, (thread_state_t)update, state_count);
     if (kr != KERN_SUCCESS) {

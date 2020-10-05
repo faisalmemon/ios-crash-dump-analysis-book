@@ -14,6 +14,7 @@ class ViewController: NSViewController {
     
     @IBAction func startThreadsTestButtonAction(_ sender: NSButtonCell) {
         print("about to start threads test")
+        start_threads()
     }
     
     func updateEnvironmentLabel() {
@@ -25,9 +26,6 @@ class ViewController: NSViewController {
         } catch {
             currentEnvironmentLabelOutlet.stringValue = "Translation status unknown"
         }
-        
-//        let c_translated = processIsTranslated()
-//        print("c_translated returns \(c_translated)")
     }
     
     override func viewDidLoad() {
