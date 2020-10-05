@@ -25,7 +25,8 @@ We have adapted the command line executable program `icdab_thread` into an appli
 
 The following command shows our application supports both ARM and Intel instructions.
 ```
-# lipo -archs icdab_rosetta_thread.app/Contents/MacOS/icdab_rosetta_thread
+# lipo -archs
+ icdab_rosetta_thread.app/Contents/MacOS/icdab_rosetta_thread
 x86_64 arm64
 ```
 
@@ -52,35 +53,60 @@ The crashed thread (and others) look similar, apart from the pointers are based 
 For the native crash we have:
 ```
 Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
-0   libsystem_kernel.dylib              0x00000001de3015d8 __pthread_kill + 8
-1   libsystem_pthread.dylib             0x00000001de3accbc pthread_kill + 292
-2   libsystem_c.dylib                   0x00000001de274904 abort + 104
-3   perivalebluebell.com.icdab-rosetta-thread   0x00000001002cd478 start_threads + 244
-4   perivalebluebell.com.icdab-rosetta-thread   0x00000001002cd858 thunk for @escaping @callee_guaranteed () -> () + 20
-5   libdispatch.dylib                   0x00000001de139658 _dispatch_call_block_and_release + 32
-6   libdispatch.dylib                   0x00000001de13b150 _dispatch_client_callout + 20
-7   libdispatch.dylib                   0x00000001de13e090 _dispatch_queue_override_invoke + 692
-8   libdispatch.dylib                   0x00000001de14b774 _dispatch_root_queue_drain + 356
-9   libdispatch.dylib                   0x00000001de14bf6c _dispatch_worker_thread2 + 116
-10  libsystem_pthread.dylib             0x00000001de3a9110 _pthread_wqthread + 216
-11  libsystem_pthread.dylib             0x00000001de3a7e80 start_wqthread + 8
+0   libsystem_kernel.dylib              0x00000001de3015d8
+ __pthread_kill + 8
+1   libsystem_pthread.dylib             0x00000001de3accbc
+ pthread_kill + 292
+2   libsystem_c.dylib                   0x00000001de274904 abort
+ + 104
+3   perivalebluebell.com.icdab-rosetta-thread  
+ 0x00000001002cd478 start_threads + 244
+4   perivalebluebell.com.icdab-rosetta-thread  
+ 0x00000001002cd858 thunk for @escaping @callee_guaranteed () ->
+ () + 20
+5   libdispatch.dylib                   0x00000001de139658
+ _dispatch_call_block_and_release + 32
+6   libdispatch.dylib                   0x00000001de13b150
+ _dispatch_client_callout + 20
+7   libdispatch.dylib                   0x00000001de13e090
+ _dispatch_queue_override_invoke + 692
+8   libdispatch.dylib                   0x00000001de14b774
+ _dispatch_root_queue_drain + 356
+9   libdispatch.dylib                   0x00000001de14bf6c
+ _dispatch_worker_thread2 + 116
+10  libsystem_pthread.dylib             0x00000001de3a9110
+ _pthread_wqthread + 216
+11  libsystem_pthread.dylib             0x00000001de3a7e80
+ start_wqthread + 8
 ```
 
 For the translated crash we have:
 ```
 Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
 0   ???                                 0x00007fff0144ff40 ???
-1   libsystem_kernel.dylib              0x00007fff6bdc4812 __pthread_kill + 10
-2   libsystem_c.dylib                   0x00007fff6bd377f0 abort + 120
-3   perivalebluebell.com.icdab-rosetta-thread   0x0000000100d1c5ab start_threads + 259
-4   perivalebluebell.com.icdab-rosetta-thread   0x0000000100d1ca1e thunk for @escaping @callee_guaranteed () -> () + 14
-5   libdispatch.dylib                   0x00007fff6bbf753d _dispatch_call_block_and_release + 12
-6   libdispatch.dylib                   0x00007fff6bbf8727 _dispatch_client_callout + 8
-7   libdispatch.dylib                   0x00007fff6bbfad7c _dispatch_queue_override_invoke + 777
-8   libdispatch.dylib                   0x00007fff6bc077a5 _dispatch_root_queue_drain + 326
-9   libdispatch.dylib                   0x00007fff6bc07f06 _dispatch_worker_thread2 + 92
-10  libsystem_pthread.dylib             0x00007fff6be8c4ac _pthread_wqthread + 244
-11  libsystem_pthread.dylib             0x00007fff6be8b4c3 start_wqthread + 15
+1   libsystem_kernel.dylib              0x00007fff6bdc4812
+ __pthread_kill + 10
+2   libsystem_c.dylib                   0x00007fff6bd377f0 abort
+ + 120
+3   perivalebluebell.com.icdab-rosetta-thread  
+ 0x0000000100d1c5ab start_threads + 259
+4   perivalebluebell.com.icdab-rosetta-thread  
+ 0x0000000100d1ca1e thunk for @escaping @callee_guaranteed () ->
+ () + 14
+5   libdispatch.dylib                   0x00007fff6bbf753d
+ _dispatch_call_block_and_release + 12
+6   libdispatch.dylib                   0x00007fff6bbf8727
+ _dispatch_client_callout + 8
+7   libdispatch.dylib                   0x00007fff6bbfad7c
+ _dispatch_queue_override_invoke + 777
+8   libdispatch.dylib                   0x00007fff6bc077a5
+ _dispatch_root_queue_drain + 326
+9   libdispatch.dylib                   0x00007fff6bc07f06
+ _dispatch_worker_thread2 + 92
+10  libsystem_pthread.dylib             0x00007fff6be8c4ac
+ _pthread_wqthread + 244
+11  libsystem_pthread.dylib             0x00007fff6be8b4c3
+ start_wqthread + 15
 ```
 
 Note the actual line of code in thread stack 0 is `???` in the translated case.  Presumably this is the actual translated code that is synthesised by Rosetta.
@@ -88,12 +114,16 @@ Note the actual line of code in thread stack 0 is `???` in the translated case. 
 Furthermore we have an additional two threads in the translated case, the exception server\index{Rosetta!Exception Server}, and the runtime environment:
 ```
 Thread 3:: com.apple.rosetta.exceptionserver
-0   runtime_t8027                       0x00007ffdfff76af8 0x7ffdfff74000 + 11000
-1   runtime_t8027                       0x00007ffdfff803cc 0x7ffdfff74000 + 50124
-2   runtime_t8027                       0x00007ffdfff82738 0x7ffdfff74000 + 59192
+0   runtime_t8027                       0x00007ffdfff76af8
+ 0x7ffdfff74000 + 11000
+1   runtime_t8027                       0x00007ffdfff803cc
+ 0x7ffdfff74000 + 50124
+2   runtime_t8027                       0x00007ffdfff82738
+ 0x7ffdfff74000 + 59192
 
 Thread 4:
-0   runtime_t8027                       0x00007ffdfffce8ac 0x7ffdfff74000 + 370860
+0   runtime_t8027                       0x00007ffdfffce8ac
+ 0x7ffdfff74000 + 370860
 ```
 
 ### Crashed Thread State Registers
@@ -101,25 +131,38 @@ Thread 4:
 In the native case, we get thread state registers:
 ```
 Thread 1 crashed with ARM Thread State (64-bit):
-    x0: 0x0000000000000000   x1: 0x0000000000000000   x2: 0x0000000000000000   x3: 0x0000000000000000
-    x4: 0x000000000000003c   x5: 0x0000000000000000   x6: 0x0000000000000000   x7: 0x0000000000000000
-    x8: 0x00000000000005b9   x9: 0xb91ed5337c66d7ee  x10: 0x0000000000003ffe  x11: 0x0000000206c1fa22
-   x12: 0x0000000206c1fa22  x13: 0x000000000000001e  x14: 0x0000000000000881  x15: 0x000000008000001f
-   x16: 0x0000000000000148  x17: 0x0000000200e28528  x18: 0x0000000000000000  x19: 0x0000000000000006
-   x20: 0x000000016fbbb000  x21: 0x0000000000001707  x22: 0x000000016fbbb0e0  x23: 0x0000000000000114
-   x24: 0x000000016fbbb0e0  x25: 0x000000020252d184  x26: 0x00000000000005ff  x27: 0x000000020252d6c0
-   x28: 0x0000000002ffffff   fp: 0x000000016fbbab70   lr: 0x00000001de3accbc
-    sp: 0x000000016fbbab50   pc: 0x00000001de3015d8 cpsr: 0x40000000
+    x0: 0x0000000000000000   x1: 0x0000000000000000   x2:
+ 0x0000000000000000   x3: 0x0000000000000000
+    x4: 0x000000000000003c   x5: 0x0000000000000000   x6:
+ 0x0000000000000000   x7: 0x0000000000000000
+    x8: 0x00000000000005b9   x9: 0xb91ed5337c66d7ee  x10:
+ 0x0000000000003ffe  x11: 0x0000000206c1fa22
+   x12: 0x0000000206c1fa22  x13: 0x000000000000001e  x14:
+ 0x0000000000000881  x15: 0x000000008000001f
+   x16: 0x0000000000000148  x17: 0x0000000200e28528  x18:
+ 0x0000000000000000  x19: 0x0000000000000006
+   x20: 0x000000016fbbb000  x21: 0x0000000000001707  x22:
+ 0x000000016fbbb0e0  x23: 0x0000000000000114
+   x24: 0x000000016fbbb0e0  x25: 0x000000020252d184  x26:
+ 0x00000000000005ff  x27: 0x000000020252d6c0
+   x28: 0x0000000002ffffff   fp: 0x000000016fbbab70   lr:
+ 0x00000001de3accbc
+    sp: 0x000000016fbbab50   pc: 0x00000001de3015d8 cpsr:
+ 0x40000000
    far: 0x0000000100ff8000  esr: 0x56000080
 ```
 
 In the translated case, we get thread state registers:
 ```
 Thread 1 crashed with X86 Thread State (64-bit):
-  rax: 0x0000000000000000  rbx: 0x000000030600b000  rcx: 0x0000000000000000  rdx: 0x0000000000000000
-  rdi: 0x0000000000000000  rsi: 0x0000000000000003  rbp: 0x0000000000000000  rsp: 0x000000000000003c
-   r8: 0x000000030600ad40   r9: 0x0000000000000000  r10: 0x000000030600b000  r11: 0x00007fff6bd37778
-  r12: 0x0000000000003d03  r13: 0x0000000000000000  r14: 0x0000000000000006  r15: 0x0000000000000016
+  rax: 0x0000000000000000  rbx: 0x000000030600b000  rcx:
+ 0x0000000000000000  rdx: 0x0000000000000000
+  rdi: 0x0000000000000000  rsi: 0x0000000000000003  rbp:
+ 0x0000000000000000  rsp: 0x000000000000003c
+   r8: 0x000000030600ad40   r9: 0x0000000000000000  r10:
+ 0x000000030600b000  r11: 0x00007fff6bd37778
+  r12: 0x0000000000003d03  r13: 0x0000000000000000  r14:
+ 0x0000000000000006  r15: 0x0000000000000016
   rip: <unavailable>  rfl: 0x0000000000000287
 ```
 
@@ -128,7 +171,8 @@ Thread 1 crashed with X86 Thread State (64-bit):
 In the translated case, we get extra information, presumably useful for those engineers that work on debugging Rosetta:
 ```
 Translated Code Information:
-  tmp0: 0xffffffffffffffff tmp1: 0x00007fff0144ff14 tmp2: 0x00007fff6bdc4808
+  tmp0: 0xffffffffffffffff tmp1: 0x00007fff0144ff14 tmp2:
+ 0x00007fff6bdc4808
 ```
 
 ### External Modification Summary
