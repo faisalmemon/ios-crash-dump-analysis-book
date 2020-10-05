@@ -92,7 +92,7 @@ Message from debugger: Terminated due to signal 9
 
 Note the contrast here.  In both cases there was a privacy sensitive API\index{API!privacy}.  However, in the camera case, Apple chose a policy of crashing our app instead of giving a warning, allowing a boilerplate standard explanation dialog, or returning a `false` value to indicate the source type was not available.
 
-This seems like a harsh design choice.  The API in question originates from iOS 4.0\index{iOS!iOS 4}.  When Xcode 10.0 was introduced (this delivers the iOS 12\index{iOS!iOS 12} SDK) the behavior of the API changed.  It returns `false` if the camera is not available due to a missing privacy string in the application `Info.plist`  However by, Xcode 12.x (this delivers iOS 14.x\index{iOS!iOS 14} SDK) logic has changed back to to the original logic of returning `true`.
+This seems like a harsh design choice.  The API in question originates from iOS 4.0\index{iOS!iOS 4}.  When Xcode 10.0 was introduced (this delivers the iOS 12\index{iOS!iOS 12} SDK) the behavior of the API changed.  It returns `false` if the camera is not available due to a missing privacy string in the application `Info.plist`  However by, Xcode 11.x (this delivers iOS 13.x\index{iOS!iOS 13} SDK) logic had changed back to to the original logic of returning `true`.
 
 This underlies the point about there being two entities involved, the program and the operating environment\index{operating environment} (which includes its policies).  Having correct source code does not guarantee crash free running.  When we see a crash we need to think about the operating environment as much as the code itself.
 
