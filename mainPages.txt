@@ -5,6 +5,7 @@ markdown/BuiltInHelp.md
 markdown/HybridEnvironments.md
 markdown/Symbolification.md
 markdown/CrashReport.md
+markdown/AppleSilicon.md
 markdown/AnalyticTroubleShooting.md
 examples/siri_crash_osx/siriCrashExplanation.md
 markdown/RuntimeEnvironmentCrashes.md
