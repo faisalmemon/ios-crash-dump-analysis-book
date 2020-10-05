@@ -30,7 +30,7 @@ The following command shows our application supports both ARM and Intel instruct
 x86_64 arm64
 ```
 
-## Comparing Native ARM crashes with Translated Intel crashes
+## Translated Crashes
 
 If we run the `icdab_rosetta_thread` application, clicking on `Start Threads Test`, after one minute we have a crash.  Comparing the crash dump between Native and Translated cases, we see differences in the Crash Report.
 
