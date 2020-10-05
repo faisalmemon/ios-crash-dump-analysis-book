@@ -141,6 +141,26 @@
 <li><a href="#macos-crash-report-system-profile-section">macOS Crash Report System Profile section</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#apple-silicon">Apple Silicon</a>
+<ul>
+<li><a href="#what-is-rosetta">What is Rosetta?</a>
+<ul>
+<li><a href="#forcing-rosetta-execution">Forcing Rosetta execution</a></li>
+</ul></li>
+<li><a href="#code-translation-example">Code Translation Example</a>
+<ul>
+<li><a href="#icdab_rosetta_thread-lipo-information"><code>icdab_rosetta_thread</code> Lipo Information</a></li>
+</ul></li>
+<li><a href="#comparing-native-arm-crashes-with-translated-intel-crashes">Comparing Native ARM crashes with Translated Intel crashes</a>
+<ul>
+<li><a href="#code-type">Code Type</a></li>
+<li><a href="#thread-dumps">Thread Dumps</a></li>
+<li><a href="#crashed-thread-state-registers">Crashed Thread State Registers</a></li>
+<li><a href="#translated-code-information">Translated Code information</a></li>
+<li><a href="#external-modification-summary">External Modification Summary</a></li>
+<li><a href="#virtual-memory-regions">Virtual Memory Regions</a></li>
+</ul></li>
+</ul></li>
 <li><a href="#analytic-troubleshooting">Analytic Troubleshooting</a>
 <ul>
 <li><a href="#prioritizing-our-problem">Prioritizing our problem</a>
@@ -874,7 +894,7 @@ There can be many pixel formats for images. An <code>assert</code> might lead us
 <p>Ordinarily as application developers, we don’t need to look much further. However, if our problems are potentially triggered by an unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our Crash Reports, we need to study the system diagnostics.</p>
 <h3 id="extracting-system-diagnostic-information">Extracting System Diagnostic Information</h3>
 <p>When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple provides a great web page covering each scenario. <span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” 2018)</span></p>
-<p>On iOS, the basic idea is that we install a profile, which alters our device to produce more logging, and then we reproduce the crash (or get the customer to do that). Then we press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code>, which extracts many log files. This can take 10 minutes to process, and produces a large file (compressed <code>tar</code> file) Then we share our local sysdiagnose file with our Mac. We go into menu <code>Settings &gt; Privacy &gt; Analytics and Improvements &gt; Analytics Data</code>. Scroll down looking for a file beginning with <code>sysdiagnose_YEAR.MONTH.DAY_*</code>. When this file is selected we get a blank screen but that is not a problem. We click on the <em>Share</em> icon in the top toolbar, and select an appropriate sharing destination. Inside this archive file are many system and subsystem logs, so we can see when crashes occur, the context that gave rise to them.</p>
+<p>On iOS, the basic idea is that we install a profile, which alters our device to produce more logging, and then we reproduce the crash (or get the customer to do that). Then we press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code>, which extracts many log files. This can take 10 minutes to process, and produces a large file (compressed <code>tar</code> file) Then we share our local sysdiagnose file with our Mac. We go into menu <code>Settings &gt; Privacy &gt; Analytics and Improvements &gt; Analytics Data</code>. Scroll down looking for a file beginning with <code>sysdiagnose_YEAR.MONTH.DAY_*</code>. When this file is selected we get a blank screen but that is not a problem. We click on the <em>Share</em> icon in the top toolbar, and select an appropriate sharing destination. Inside this archive file are many system and subsystem logs, so we can see whenever crashes occur, the context that gave rise to them.</p>
 <p>An equivalent approach is available on macOS as well.</p>
 <h2 id="guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</h2>
 <p>Here we go through each section of an iOS Crash Report and explain the fields. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
@@ -1755,6 +1775,8 @@ icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as</code></pre>
 <p>The dynamic loader does many tasks in preparing our binary for execution. If our binary references libraries, it will load them. If there are absent, it will fail to load our app. This is why it is possible to crash even before any code in <code>main.m</code> is called. Later on, we shall study how to diagnose such problems.</p>
 <h2 id="guided-tour-of-a-macos-crash-report">Guided tour of a macOS Crash Report</h2>
 <p>The macOS Crash Report is similar to an iOS Crash Report even though macOS CrashReport and iOS CrashReport are distinctly different programs. To avoid repetition, we just highlight notable differences from iOS.</p>
+<p>Traditionally Mac computers only used the Intel CPU but that has changed with the introduction of Apple Silicon. So we can now see both ARM-64 and X86-64 crashes on Mac hardware.<br />
+A number of subtle issues can arise because Apple Silicon Macs can translate X86-64 instructions as well as running native ARM-64 binaries. Therefore we shall focus on Intel X86-64 crashes in this chapter, and leave Apple Silicon Mac crashes to their own chapter.</p>
 <h3 id="macos-crash-report-header-section">macOS Crash Report Header Section</h3>
 <p>The crash dump starts with the header:</p>
 <pre><code>Process:               SiriNCService [1045]
@@ -2055,6 +2077,186 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <p>As application developers, we only see crashes in our app. If we have contact with the user who has provided a crash, we can ask if any other apps are crashing, or if any system stability issues are present.</p>
 <p>Another interesting aspect is that not all hardware is actively used by the system all the time. For example, when a MacBook Pro is connected to an external display, different graphics RAM is used and a different graphics card is used (external versus an internal GPU). If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.</p>
 <p>Running system diagnostics and looking to see if the problems are appearing against only specific Anonymous UUID Crash Reports are ways to try and understand if we have a machine specific hardware issue.</p>
+<h1 id="apple-silicon">Apple Silicon</h1>
+<p>In this chapter we look at crashes on Apple Silicon Macs, and crashes arising from the use of the <code>Rosetta</code> translation system. Furthermore we look at new types of crashes that are possible from cross-platform code that supports both ARM and Intel CPUs.</p>
+<h2 id="what-is-rosetta">What is Rosetta?</h2>
+<p><code>Rosetta</code> is an instruction translator present on Apple Silicon Macs. When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them on-the-fly. Think of it as a Just In Time (JIT) compiler. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” n.d.)</span></p>
+<h3 id="forcing-rosetta-execution">Forcing Rosetta execution</h3>
+<p>If we accept the standard build architecture options for our program, which are <code>Build Active Architecture Only</code> set to <code>Yes</code> for <code>Debug</code> builds, and <code>No</code> for <code>Release</code> builds, then when running under the Debugger, we shall only see Native binaries. That is because in the Debug case, we do not want to waste time building an architecture not relevant to the machine we are testing on.</p>
+<p>If we do an archive build, <code>Product &gt; Archive</code>, and then select <code>Distribute App</code> we end up with a Release Build. With default settings, this will be a Fat Binary File offering <code>x86</code> and <code>arm64</code> within the multi-architecture binary.</p>
+<p>Once we have a Fat binary we can use <code>Finder</code> app, right-click <code>File info</code> to set Rosetta to perform translation of our binary so that on an Apple Silicon Mac, the Intel instructions are translated from the Fat binary.</p>
+<p><img src="screenshots/univeral_application_icdab_rosetta_thread.png" /></p>
+<h2 id="code-translation-example">Code Translation Example</h2>
+<p>Our working example in this chapter is the <code>icdab_thread</code> program; it is available on the web. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> This program attempts to call <code>thread_set_state</code> and then deliberately crashes 60 seconds later using <code>abort</code>. It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware. Nevertheless, this program is interesting because of a closely related artefact upon crashing, the number of times <code>task_for_pid</code> had been called.</p>
+<p>We have adapted the command line executable program <code>icdab_thread</code> into an application which merely calls the same underlying code. The application is called <code>icdab_rosetta_thread</code>. The reason for this is because UNIX command line executables are not eligible for running Translated but Applications are.</p>
+<h3 id="icdab_rosetta_thread-lipo-information"><code>icdab_rosetta_thread</code> Lipo Information</h3>
+<p>The following command shows our application supports both ARM and Intel instructions.</p>
+<pre><code># lipo -archs
+ icdab_rosetta_thread.app/Contents/MacOS/icdab_rosetta_thread
+x86_64 arm64</code></pre>
+<h2 id="comparing-native-arm-crashes-with-translated-intel-crashes">Comparing Native ARM crashes with Translated Intel crashes</h2>
+<p>If we run the <code>icdab_rosetta_thread</code> application, clicking on <code>Start Threads Test</code>, after one minute we have a crash. Comparing the crash dump between Native and Translated cases, we see differences in the Crash Report.</p>
+<h3 id="code-type">Code Type</h3>
+<pre><code>Code Type:             ARM-64 (Native)</code></pre>
+<p>when running natively, becomes under translation,</p>
+<pre><code>Code Type:             X86-64 (Translated)</code></pre>
+<h3 id="thread-dumps">Thread Dumps</h3>
+<p>The crashed thread (and others) look similar, apart from the pointers are based much higher in the Translated case.</p>
+<p>For the native crash we have:</p>
+<pre><code>Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
+0   libsystem_kernel.dylib              0x00000001de3015d8
+ __pthread_kill + 8
+1   libsystem_pthread.dylib             0x00000001de3accbc
+ pthread_kill + 292
+2   libsystem_c.dylib                   0x00000001de274904 abort
+ + 104
+3   perivalebluebell.com.icdab-rosetta-thread  
+ 0x00000001002cd478 start_threads + 244
+4   perivalebluebell.com.icdab-rosetta-thread  
+ 0x00000001002cd858 thunk for @escaping @callee_guaranteed () -&gt;
+ () + 20
+5   libdispatch.dylib                   0x00000001de139658
+ _dispatch_call_block_and_release + 32
+6   libdispatch.dylib                   0x00000001de13b150
+ _dispatch_client_callout + 20
+7   libdispatch.dylib                   0x00000001de13e090
+ _dispatch_queue_override_invoke + 692
+8   libdispatch.dylib                   0x00000001de14b774
+ _dispatch_root_queue_drain + 356
+9   libdispatch.dylib                   0x00000001de14bf6c
+ _dispatch_worker_thread2 + 116
+10  libsystem_pthread.dylib             0x00000001de3a9110
+ _pthread_wqthread + 216
+11  libsystem_pthread.dylib             0x00000001de3a7e80
+ start_wqthread + 8</code></pre>
+<p>For the translated crash we have:</p>
+<pre><code>Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
+0   ???                                 0x00007fff0144ff40 ???
+1   libsystem_kernel.dylib              0x00007fff6bdc4812
+ __pthread_kill + 10
+2   libsystem_c.dylib                   0x00007fff6bd377f0 abort
+ + 120
+3   perivalebluebell.com.icdab-rosetta-thread  
+ 0x0000000100d1c5ab start_threads + 259
+4   perivalebluebell.com.icdab-rosetta-thread  
+ 0x0000000100d1ca1e thunk for @escaping @callee_guaranteed () -&gt;
+ () + 14
+5   libdispatch.dylib                   0x00007fff6bbf753d
+ _dispatch_call_block_and_release + 12
+6   libdispatch.dylib                   0x00007fff6bbf8727
+ _dispatch_client_callout + 8
+7   libdispatch.dylib                   0x00007fff6bbfad7c
+ _dispatch_queue_override_invoke + 777
+8   libdispatch.dylib                   0x00007fff6bc077a5
+ _dispatch_root_queue_drain + 326
+9   libdispatch.dylib                   0x00007fff6bc07f06
+ _dispatch_worker_thread2 + 92
+10  libsystem_pthread.dylib             0x00007fff6be8c4ac
+ _pthread_wqthread + 244
+11  libsystem_pthread.dylib             0x00007fff6be8b4c3
+ start_wqthread + 15</code></pre>
+<p>Note the actual line of code in thread stack 0 is <code>???</code> in the translated case. Presumably this is the actual translated code that is synthesised by Rosetta.</p>
+<p>Furthermore we have an additional two threads in the translated case, the exception server, and the runtime environment:</p>
+<pre><code>Thread 3:: com.apple.rosetta.exceptionserver
+0   runtime_t8027                       0x00007ffdfff76af8
+ 0x7ffdfff74000 + 11000
+1   runtime_t8027                       0x00007ffdfff803cc
+ 0x7ffdfff74000 + 50124
+2   runtime_t8027                       0x00007ffdfff82738
+ 0x7ffdfff74000 + 59192
+
+Thread 4:
+0   runtime_t8027                       0x00007ffdfffce8ac
+ 0x7ffdfff74000 + 370860</code></pre>
+<h3 id="crashed-thread-state-registers">Crashed Thread State Registers</h3>
+<p>In the native case, we get thread state registers:</p>
+<pre><code>Thread 1 crashed with ARM Thread State (64-bit):
+    x0: 0x0000000000000000   x1: 0x0000000000000000   x2:
+ 0x0000000000000000   x3: 0x0000000000000000
+    x4: 0x000000000000003c   x5: 0x0000000000000000   x6:
+ 0x0000000000000000   x7: 0x0000000000000000
+    x8: 0x00000000000005b9   x9: 0xb91ed5337c66d7ee  x10:
+ 0x0000000000003ffe  x11: 0x0000000206c1fa22
+   x12: 0x0000000206c1fa22  x13: 0x000000000000001e  x14:
+ 0x0000000000000881  x15: 0x000000008000001f
+   x16: 0x0000000000000148  x17: 0x0000000200e28528  x18:
+ 0x0000000000000000  x19: 0x0000000000000006
+   x20: 0x000000016fbbb000  x21: 0x0000000000001707  x22:
+ 0x000000016fbbb0e0  x23: 0x0000000000000114
+   x24: 0x000000016fbbb0e0  x25: 0x000000020252d184  x26:
+ 0x00000000000005ff  x27: 0x000000020252d6c0
+   x28: 0x0000000002ffffff   fp: 0x000000016fbbab70   lr:
+ 0x00000001de3accbc
+    sp: 0x000000016fbbab50   pc: 0x00000001de3015d8 cpsr:
+ 0x40000000
+   far: 0x0000000100ff8000  esr: 0x56000080</code></pre>
+<p>In the translated case, we get thread state registers:</p>
+<pre><code>Thread 1 crashed with X86 Thread State (64-bit):
+  rax: 0x0000000000000000  rbx: 0x000000030600b000  rcx:
+ 0x0000000000000000  rdx: 0x0000000000000000
+  rdi: 0x0000000000000000  rsi: 0x0000000000000003  rbp:
+ 0x0000000000000000  rsp: 0x000000000000003c
+   r8: 0x000000030600ad40   r9: 0x0000000000000000  r10:
+ 0x000000030600b000  r11: 0x00007fff6bd37778
+  r12: 0x0000000000003d03  r13: 0x0000000000000000  r14:
+ 0x0000000000000006  r15: 0x0000000000000016
+  rip: &lt;unavailable&gt;  rfl: 0x0000000000000287</code></pre>
+<h3 id="translated-code-information">Translated Code information</h3>
+<p>In the translated case, we get extra information, presumably useful for those engineers that work on debugging Rosetta:</p>
+<pre><code>Translated Code Information:
+  tmp0: 0xffffffffffffffff tmp1: 0x00007fff0144ff14 tmp2:
+ 0x00007fff6bdc4808</code></pre>
+<h3 id="external-modification-summary">External Modification Summary</h3>
+<p>In the native case, we saw:</p>
+<pre><code>External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 914636
+    thread_create: 0
+    thread_set_state: 804</code></pre>
+<p>Our code had attempted to call <code>thread_set_state</code> but was not able to (under any platform configuration due to macOS restrictions).</p>
+<p>Looking that the translated case,</p>
+<pre><code>External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 1
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 915091
+    thread_create: 0
+    thread_set_state: 804</code></pre>
+<p>We see almost the same statistics, but interestingly we have <code>task_for_pid</code> set to 1. So the translation environment only did a mimimal observation/modification of the actual process under translation.</p>
+<h3 id="virtual-memory-regions">Virtual Memory Regions</h3>
+<p>The translated version of the program runs a bit heavier on RAM usage than the native version.</p>
+<p>In the native case, we have:</p>
+<pre><code>                                VIRTUAL   REGION
+REGION TYPE                        SIZE    COUNT (non-coalesced)
+===========                     =======  =======
+TOTAL                              1.7G     2053
+TOTAL, minus reserved VM space     1.3G     2053</code></pre>
+<p>versus the translated case:</p>
+<pre><code>REGION TYPE                        SIZE    COUNT (non-coalesced)
+===========                     =======  =======
+TOTAL                              5.4G     1512
+TOTAL, minus reserved VM space     5.1G     1512</code></pre>
+<p>Note in the translated case we have additional Virtual Memory regions for Rosetta:</p>
+<pre><code>Rosetta Arena                     2048K        1
+Rosetta Generic                    864K       19
+Rosetta IndirectBranch             512K        1
+Rosetta JIT                      128.0M        1
+Rosetta Return Stack               192K       12
+Rosetta Thread Context             192K       12</code></pre>
 <h1 id="analytic-troubleshooting">Analytic Troubleshooting</h1>
 <p>This chapter discusses a formal technique for solving problems. The idea is to provide a framework that prompts the right questions to be asked.</p>
 <p>There is a famous phrase cautioning us on taking an overzealous approach:</p>
@@ -4946,6 +5148,9 @@ usr/lib/libBacktraceRecording.dylib
 <div id="refs" class="references hanging-indent" role="doc-bibliography">
 <div id="ref-macbookproT2">
 <p>“2018 Macbook Pros Bridge Os Error.” 2018. <a href="https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/">https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/</a>.</p>
+</div>
+<div id="ref-rosetta">
+<p>“About the Rosetta Translation Environment.” n.d. Accessed 2020.</p>
 </div>
 <div id="ref-wwdc2015_413">
 <p>“Advanced Debugging with Address Sanitizer.” 2015. <a href="https://developer.apple.com/videos/play/wwdc2015/413/">https://developer.apple.com/videos/play/wwdc2015/413/</a>.</p>
