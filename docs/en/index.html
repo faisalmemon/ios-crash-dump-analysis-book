@@ -151,7 +151,7 @@
 <ul>
 <li><a href="#icdab_rosetta_thread-lipo-information"><code>icdab_rosetta_thread</code> Lipo Information</a></li>
 </ul></li>
-<li><a href="#comparing-native-arm-crashes-with-translated-intel-crashes">Comparing Native ARM crashes with Translated Intel crashes</a>
+<li><a href="#translated-crashes">Translated Crashes</a>
 <ul>
 <li><a href="#code-type">Code Type</a></li>
 <li><a href="#thread-dumps">Thread Dumps</a></li>
@@ -274,7 +274,7 @@
 <p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
 <p>Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.</p>
 <p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognised the following trademarks:</p>
-<p>ARM, Android, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iTunes Connect, macOS, tvOS, watchOS.</p>
+<p>ARM, Android, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Intel, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Rosetta, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iTunes Connect, macOS, tvOS, watchOS.</p>
 <h1 id="preface">Preface</h1>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
 <p>It’s hard to overstate the euphoria of the moment. The Internet was the next Industrial Revolution. Investors saw it as the best place to put their money. Hardware, software and services were all experiencing a Cambrian explosion of diversity and innovation.</p>
@@ -2094,7 +2094,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <pre><code># lipo -archs
  icdab_rosetta_thread.app/Contents/MacOS/icdab_rosetta_thread
 x86_64 arm64</code></pre>
-<h2 id="comparing-native-arm-crashes-with-translated-intel-crashes">Comparing Native ARM crashes with Translated Intel crashes</h2>
+<h2 id="translated-crashes">Translated Crashes</h2>
 <p>If we run the <code>icdab_rosetta_thread</code> application, clicking on <code>Start Threads Test</code>, after one minute we have a crash. Comparing the crash dump between Native and Translated cases, we see differences in the Crash Report.</p>
 <h3 id="code-type">Code Type</h3>
 <pre><code>Code Type:             ARM-64 (Native)</code></pre>
