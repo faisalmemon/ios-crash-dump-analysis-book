@@ -7,6 +7,20 @@
 
 /*
  https://www.codeproject.com/Articles/874396/Crunching-Numbers-with-AVX-and-AVX
+ 
+ This function is uses an unsafe practice of not checking whether the platform
+ supports the instructions it wants to execute beforehand.  Ideally, a higher
+ level library, such as the Accelerate Framework should be used.
+ 
+ For this project, our non-default settings are:
+ 
+    Build Active Architecture Only set to YES for both Debug and Release.
+    - This stops an ARM-64 version being build from an Intel Mac.
+    Enable Additional Vector Extensions set to "AVX"
+    - This allows the _mm256_* instructions to be compiled.
+ 
+ We perform Product > Archive but from an Intel Mac.
+ The app is then run on an Apple Silicon Mac.  It will crash.
  */
 
 #include "advanced_instructions.h"
@@ -34,18 +48,6 @@ compute_delta() {
            f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7]);
     
     return;
-}
-
-int processIsTranslated() {
-   int ret = 0;
-   size_t size = sizeof(ret);
-   if (sysctlbyname("sysctl.proc_translated", &ret, &size, NULL, 0) == -1)
-   {
-      if (errno == ENOENT)
-         return 0;
-      return -1;
-   }
-   return ret;
 }
 
 bool

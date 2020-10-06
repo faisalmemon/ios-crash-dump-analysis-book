@@ -435,6 +435,7 @@
 				CODE_SIGN_ENTITLEMENTS = icdab_avx/icdab_avx.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5Y3322JWHB;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = icdab_avx/Info.plist;
@@ -467,6 +468,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-avx";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "icdab_avx/icdab_avx-Bridging-Header.h";
