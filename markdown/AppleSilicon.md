@@ -248,3 +248,24 @@ Rosetta JIT                      128.0M        1
 Rosetta Return Stack               192K       12
 Rosetta Thread Context             192K       12
 ```
+
+## Rosetta Crashes
+
+Rosetta is a powerful translation system.  But it does not translate all X86-64 instructions.  Vector instructions, as an example, cannot be translated and generate a crash when encountered.  @rosetta
+
+### `icdab_avx` vector instruction crash
+
+When an Intel AVX vector instruction is encountered on a Apple Silicon Mac running the app using translation, we get a crash.  We have a sample application, `icdab_avx`, that demonstrates this.
+
+
+The crash type will be `EXC_BAD_INSTRUCTION` as follows:
+
+```
+Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
+Exception Codes:       0x0000000000000001, 0x0000000000000000
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Termination Signal:    Illegal instruction: 4
+Termination Reason:    Namespace SIGNAL, Code 0x4
+Terminating Process:   exc handler [26823]
+```
