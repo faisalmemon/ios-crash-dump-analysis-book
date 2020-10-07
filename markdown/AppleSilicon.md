@@ -273,3 +273,5 @@ Rosetta Thread Context             192K       12
 ## Rosetta Crashes
 
 Rosetta is a powerful translation system.  But it does not translate all X86-64 instructions.  Vector instructions, as an example, cannot be translated and generate a crash when encountered.  @rosetta
+
+Before diagnosing specific problems, it is worth familiarising ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing.  @rosettaPortingGuide
