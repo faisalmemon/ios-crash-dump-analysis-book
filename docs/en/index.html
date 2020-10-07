@@ -146,6 +146,7 @@
 <li><a href="#what-is-rosetta">What is Rosetta?</a>
 <ul>
 <li><a href="#rosetta-binaries">Rosetta binaries</a></li>
+<li><a href="#rosetta-limitations">Rosetta limitations</a></li>
 <li><a href="#forcing-rosetta-execution">Forcing Rosetta execution</a></li>
 </ul></li>
 <li><a href="#code-translation-example">Code Translation Example</a>
@@ -2090,6 +2091,11 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <p>On Apple Silicon Macs, the Rosetta software resides in</p>
 <pre><code>/Library/Apple/usr/libexec/oah</code></pre>
 <p>Within this directory is the runtime engine, <code>runtime_t8027</code>, the translator <code>oahd-helper</code>, a command line tool <code>translate_tool</code>, and other artefacts. Its operation is largely transparent to end users apart from a small startup delay or slightly lower performance. From a crash dump perspective, we see its presence in terms of memory footprint, exception helper and runtime helpers.</p>
+<h3 id="rosetta-limitations">Rosetta limitations</h3>
+<p>Rosetta is a powerful system but it has some limitations. These concern mainly high performance multimedia applications and Operating System virtualization solutions.</p>
+<p>Excluded from Rosetta are: - Kernel extensions - <code>x86_64</code> vitualization support instructions - vector instructions, such as AVX, AVX2, and AVX512</p>
+<p>Interestingly, Rosetta does support Just-In-Time compilation apps. These applications are special because they generate their own code and then execute them. Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable). Presumbly this was because JIT is a common technology for the JavaScript runtime.</p>
+<p>Apple advise checking for optional hardware features before calling code that utilises such functionality. To determine what optional hardware support is present on your platform, we can run <code>sysctl hw | grep optional</code>. In code, we have the <code>sysctlbyname</code> function to achieve the same thing.</p>
 <h3 id="forcing-rosetta-execution">Forcing Rosetta execution</h3>
 <p>If we accept the standard build architecture options for our program, which are <code>Build Active Architecture Only</code> set to <code>Yes</code> for <code>Debug</code> builds, and <code>No</code> for <code>Release</code> builds, then when running under the Debugger, we shall only see Native binaries. That is because in the Debug case, we do not want to waste time building an architecture not relevant to the machine we are testing on.</p>
 <p>If we do an archive build, <code>Product &gt; Archive</code>, and then select <code>Distribute App</code> we end up with a Release Build. With default settings, this will be a Fat Binary File offering <code>x86</code> and <code>arm64</code> within the multi-architecture binary.</p>
