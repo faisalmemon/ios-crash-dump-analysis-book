@@ -1,6 +1,6 @@
 ### `icdab_avx` vector instruction crash
 
-When an Intel AVX vector instruction is encountered on a Apple Silicon Mac running the app using translation, we get a crash.  We have a sample application, `icdab_avx`, that demonstrates this.
+When an Intel AVX vector instruction\index{Vector instruction!AVX} is encountered on a Apple Silicon Mac running the app using translation, we get a crash.  We have a sample application, `icdab_avx`, that demonstrates this.
 
 The crash Code Type will be:
 ```
@@ -43,7 +43,7 @@ Binary Images:
  /Users/USER/Desktop/*/icdab_avx.app/Contents/MacOS/icdab_avx
 ```
 
-If we see that an Apple Silicon Mac has crashed our app in this way, we could quickly search for any vector instructions if we have such a suspicion.
+If we see that an Apple Silicon Mac has crashed our app in this way, we could quickly search for any vector instructions\index{Vector instruction!AVX} if we have such a suspicion.
 
 ```
 # objdump -d icdab_avx.app/Contents/MacOS/icdab_avx | grep vmov |
@@ -125,7 +125,7 @@ compute_delta() {
 }
 ```
 
-In order to avoid the problem we should have used a utility function to detect if the environment supported AVX, as follows:
+In order to avoid the problem we should have used a utility function to detect if the environment supported AVX\index{Vector instruction!AVX}, as follows:
 ```
 bool
 avx_v1_supported() {

@@ -15,6 +15,19 @@ On Apple Silicon Macs, the Rosetta software resides in
 
 Within this directory is the runtime engine, `runtime_t8027`, the translator `oahd-helper`, a command line tool `translate_tool`, and other artefacts.   Its operation is largely transparent to end users apart from a small startup delay or slightly lower performance.  From a crash dump perspective, we see its presence in terms of memory footprint, exception helper and runtime helpers.
 
+### Rosetta limitations
+
+Rosetta is a powerful system but it has some limitations.  These concern mainly high performance multimedia applications and Operating System virtualization solutions.
+
+Excluded from Rosetta are:
+- Kernel extensions
+- `x86_64` vitualization support instructions
+- vector instructions, such as AVX, AVX2, and AVX512\index{Vector instruction!AVX}
+
+Interestingly, Rosetta does support Just-In-Time compilation apps.  These applications are special because they generate their own code and then execute them.  Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable).  Presumbly this was because JIT is a common technology for the JavaScript runtime.
+
+Apple advise checking for optional hardware features before calling code that utilises such functionality.  To determine what optional hardware support is present on your platform, we can run `sysctl hw | grep optional`.  In code, we have the `sysctlbyname` function to achieve the same thing.
+
 ### Forcing Rosetta execution
 
 If we accept the standard build architecture options for our program, which are `Build Active Architecture Only` set to `Yes` for `Debug` builds, and `No` for `Release` builds, then when running under the Debugger, we shall only see Native binaries.  That is because in the Debug case, we do not want to waste time building an architecture not relevant to the machine we are testing on.
