@@ -31,8 +31,8 @@
 
 - (IBAction)openButtonAction:(id)sender {
     // Enable Strict Checking of objc_mesgSend Calls set to
-    // No (non-default value) in order to get the following
-    // to compile.
+    // No (non-default value) and use an Intel Mac in order
+    // to get the following to compile.
     objc_msgSend(self,
                  @selector(openFile:),
                  self.fileNameTextFieldOutlet.stringValue);
