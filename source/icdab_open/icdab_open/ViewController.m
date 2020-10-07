@@ -30,9 +30,14 @@
 }
 
 - (IBAction)openButtonAction:(id)sender {
-    // Enable Strict Checking of objc_mesgSend Calls set to
-    // No (non-default value) and use an Intel Mac in order
-    // to get the following to compile.
+    /*
+     In order to compile, we require:
+     - Enable Strict Checking of objc_mesgSend Calls set to
+        No (non-default value)
+     - an Intel Mac with Xcode
+     - Build Active Architecture Only set to YES for Release
+       (non-default value)
+     */
     objc_msgSend(self,
                  @selector(openFile:),
                  self.fileNameTextFieldOutlet.stringValue);
