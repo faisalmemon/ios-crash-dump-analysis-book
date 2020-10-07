@@ -190,3 +190,7 @@ The output are `foo.*` and `boo.*` files locally for ease of inspection.  They a
 For github pages, the GitHub documentation facility, the HTML documentation and supporting resources is copied into the `docs/<language-id>` directory and then they are checked in (the branch is required to be master).
 
 The build system also checks for uses of "you" - they should be "we" in all cases apart from the Introduction.
+
+The build system only picks up new trademarks on a second run of the book building script due to it relying on a built index from the prior run.
+
+The build system has one hardcode; the page number that the Disclaimer chapter starts on is hardcoded because it is based upon the number of pages used up by the automatically generated table of contents.
