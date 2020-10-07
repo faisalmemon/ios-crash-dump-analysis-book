@@ -34,7 +34,6 @@
 
 void
 compute_delta() {
-    
     /* Initialize the two argument vectors */
     __m256 evens = _mm256_set_ps(2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0);
     __m256 odds = _mm256_set_ps(1.0, 3.0, 5.0, 7.0, 9.0, 11.0, 13.0, 15.0);
@@ -52,7 +51,6 @@ compute_delta() {
 
 bool
 avx_v1_supported() {
-    
     int ret = 0;
     size_t size = sizeof(ret);
     if (sysctlbyname("hw.optional.avx1_0", &ret, &size, NULL, 0) == -1)
