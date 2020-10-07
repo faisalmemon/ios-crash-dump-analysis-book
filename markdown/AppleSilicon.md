@@ -20,6 +20,7 @@ Within this directory is the runtime engine, `runtime_t8027`, the translator `oa
 Rosetta is a powerful system but it has some limitations.  These concern mainly high performance multimedia applications and Operating System virtualization solutions.
 
 Excluded from Rosetta are:
+
 - Kernel extensions
 - `x86_64` vitualization support instructions
 - vector instructions, such as AVX, AVX2, and AVX512\index{Vector instruction!AVX}

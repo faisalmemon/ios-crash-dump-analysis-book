@@ -8,7 +8,7 @@ Code Type:             X86-64 (Translated)
 ```
 
 The crash type will be `EXC_BAD_INSTRUCTION` as follows:
-
+\index{signal!SIGILL}
 ```
 Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
 Exception Codes:       0x0000000000000001, 0x0000000000000000
