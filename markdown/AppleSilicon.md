@@ -1,12 +1,19 @@
 # Apple Silicon
 
-In this chapter we look at crashes on Apple Silicon Macs, and crashes arising from the use of the `Rosetta`\index{trademark!Rosetta} translation system.  Furthermore we look at new types of crashes that are possible from cross-platform code that supports both ARM\index{CPU!ARM} and Intel\index{CPU!Intel} CPUs.
+In this chapter we look at crashes on Apple Silicon Macs, and crashes arising from the use of the Rosetta\index{trademark!Rosetta} translation system.  Furthermore we look at new types of crashes that are possible from multi-architecture code that supports both ARM\index{CPU!ARM} and Intel\index{CPU!Intel} CPUs.
 
 ## What is Rosetta?
 
-`Rosetta`\index{trademark!Rosetta} is an instruction translator present on Apple Silicon Macs.  When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them.  Think of it as a Ahead Of Time (AOT)\index{JIT} compiler. @rosetta  The origins of the technology come from an earlier era when Macs were transitioning from the PowerPC chip to Intel chips.  Apple was assisted by technology from Transitive Technologies Ltd. to produce Rosetta version 1.  @transitive @rosetta_news  In Rosetta version 2, we have a system allowing on a per process basis, Intel instructions to be pre-translated to ARM instructions, and then run at native speed.
+Rosetta\index{trademark!Rosetta} is an instruction translator present on Apple Silicon Macs.  When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them.  Think of it as a Ahead Of Time (AOT)\index{JIT} compiler. @rosetta  The origins of the technology come from an earlier era when Macs were transitioning from the PowerPC chip to Intel chips.  Apple was assisted by technology from Transitive Technologies Ltd. to produce Rosetta version 1.  @transitive @rosetta_news  In Rosetta version 2, we have a system allowing on a per process basis, Intel instructions to be pre-translated to ARM instructions, and then run at native speed.
 
-On Apple Silicon Macs, the Rosetta software resides in `/Library/Apple/usr/libexec/oah`.  Within this directory is the runtime engine, `runtime_t8027`, the translator `oahd-helper`, a command line tool `translate_tool`, and other artefacts.   Its operation is largely transparent to end users apart from a small startup delay or slightly lower performance.  From a crash dump perspective, we see its presence in terms of memory footprint, exception helper and runtime helpers.
+### Rosetta binaries
+
+On Apple Silicon Macs, the Rosetta software resides in 
+```
+/Library/Apple/usr/libexec/oah
+```
+
+Within this directory is the runtime engine, `runtime_t8027`, the translator `oahd-helper`, a command line tool `translate_tool`, and other artefacts.   Its operation is largely transparent to end users apart from a small startup delay or slightly lower performance.  From a crash dump perspective, we see its presence in terms of memory footprint, exception helper and runtime helpers.
 
 ### Forcing Rosetta execution
 
