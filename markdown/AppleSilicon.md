@@ -26,7 +26,7 @@ Excluded from Rosetta are:
 
 Interestingly, Rosetta does support Just-In-Time compilation apps.  These applications are special because they generate their own code and then execute them.  Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable).  Presumbly this was because JIT is a common technology for the JavaScript runtime.
 
-Apple advise checking for optional hardware features before calling code that utilises such functionality.  To determine what optional hardware support is present on your platform, we can run `sysctl hw | grep optional`.  In code, we have the `sysctlbyname` function to achieve the same thing.
+Apple advise checking for optional hardware features before calling code that utilises such functionality.  To determine what optional hardware support is present on our platform, we can run `sysctl hw | grep optional`.  In code, we have the `sysctlbyname` function to achieve the same thing.
 
 ### Forcing Rosetta execution
 
