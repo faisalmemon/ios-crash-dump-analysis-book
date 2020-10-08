@@ -1,0 +1,586 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		39DD3C7B252F6472006570A5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DD3C7A252F6472006570A5 /* AppDelegate.m */; };
+		39DD3C7E252F6472006570A5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DD3C7D252F6472006570A5 /* ViewController.m */; };
+		39DD3C80252F6472006570A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39DD3C7F252F6472006570A5 /* Assets.xcassets */; };
+		39DD3C83252F6472006570A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39DD3C81252F6472006570A5 /* Main.storyboard */; };
+		39DD3C86252F6472006570A5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DD3C85252F6472006570A5 /* main.m */; };
+		39DD3C91252F6473006570A5 /* icdab_wxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DD3C90252F6473006570A5 /* icdab_wxTests.m */; };
+		39DD3C9C252F6473006570A5 /* icdab_wxUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DD3C9B252F6473006570A5 /* icdab_wxUITests.m */; };
+		39DD3CB6252F6681006570A5 /* Memory.m in Sources */ = {isa = PBXBuildFile; fileRef = 39DD3CB5252F6681006570A5 /* Memory.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		39DD3C8D252F6473006570A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39DD3C6E252F6472006570A5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 39DD3C75252F6472006570A5;
+			remoteInfo = icdab_wx;
+		};
+		39DD3C98252F6473006570A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39DD3C6E252F6472006570A5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 39DD3C75252F6472006570A5;
+			remoteInfo = icdab_wx;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		39DD3C76252F6472006570A5 /* icdab_wx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = icdab_wx.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		39DD3C79252F6472006570A5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		39DD3C7A252F6472006570A5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		39DD3C7C252F6472006570A5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		39DD3C7D252F6472006570A5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		39DD3C7F252F6472006570A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		39DD3C82252F6472006570A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		39DD3C84252F6472006570A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39DD3C85252F6472006570A5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		39DD3C87252F6472006570A5 /* icdab_wx.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = icdab_wx.entitlements; sourceTree = "<group>"; };
+		39DD3C8C252F6473006570A5 /* icdab_wxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_wxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39DD3C90252F6473006570A5 /* icdab_wxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_wxTests.m; sourceTree = "<group>"; };
+		39DD3C92252F6473006570A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39DD3C97252F6473006570A5 /* icdab_wxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = icdab_wxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39DD3C9B252F6473006570A5 /* icdab_wxUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = icdab_wxUITests.m; sourceTree = "<group>"; };
+		39DD3C9D252F6473006570A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39DD3CB5252F6681006570A5 /* Memory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Memory.m; sourceTree = "<group>"; };
+		39DD3CBD252F66EA006570A5 /* Memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Memory.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		39DD3C73252F6472006570A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39DD3C89252F6473006570A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39DD3C94252F6473006570A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		39DD3C6D252F6472006570A5 = {
+			isa = PBXGroup;
+			children = (
+				39DD3C78252F6472006570A5 /* icdab_wx */,
+				39DD3C8F252F6473006570A5 /* icdab_wxTests */,
+				39DD3C9A252F6473006570A5 /* icdab_wxUITests */,
+				39DD3C77252F6472006570A5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		39DD3C77252F6472006570A5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				39DD3C76252F6472006570A5 /* icdab_wx.app */,
+				39DD3C8C252F6473006570A5 /* icdab_wxTests.xctest */,
+				39DD3C97252F6473006570A5 /* icdab_wxUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		39DD3C78252F6472006570A5 /* icdab_wx */ = {
+			isa = PBXGroup;
+			children = (
+				39DD3C79252F6472006570A5 /* AppDelegate.h */,
+				39DD3C7A252F6472006570A5 /* AppDelegate.m */,
+				39DD3C7C252F6472006570A5 /* ViewController.h */,
+				39DD3C7D252F6472006570A5 /* ViewController.m */,
+				39DD3C7F252F6472006570A5 /* Assets.xcassets */,
+				39DD3C81252F6472006570A5 /* Main.storyboard */,
+				39DD3C84252F6472006570A5 /* Info.plist */,
+				39DD3C85252F6472006570A5 /* main.m */,
+				39DD3CB5252F6681006570A5 /* Memory.m */,
+				39DD3CBD252F66EA006570A5 /* Memory.h */,
+				39DD3C87252F6472006570A5 /* icdab_wx.entitlements */,
+			);
+			path = icdab_wx;
+			sourceTree = "<group>";
+		};
+		39DD3C8F252F6473006570A5 /* icdab_wxTests */ = {
+			isa = PBXGroup;
+			children = (
+				39DD3C90252F6473006570A5 /* icdab_wxTests.m */,
+				39DD3C92252F6473006570A5 /* Info.plist */,
+			);
+			path = icdab_wxTests;
+			sourceTree = "<group>";
+		};
+		39DD3C9A252F6473006570A5 /* icdab_wxUITests */ = {
+			isa = PBXGroup;
+			children = (
+				39DD3C9B252F6473006570A5 /* icdab_wxUITests.m */,
+				39DD3C9D252F6473006570A5 /* Info.plist */,
+			);
+			path = icdab_wxUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		39DD3C75252F6472006570A5 /* icdab_wx */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39DD3CA0252F6473006570A5 /* Build configuration list for PBXNativeTarget "icdab_wx" */;
+			buildPhases = (
+				39DD3C72252F6472006570A5 /* Sources */,
+				39DD3C73252F6472006570A5 /* Frameworks */,
+				39DD3C74252F6472006570A5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = icdab_wx;
+			productName = icdab_wx;
+			productReference = 39DD3C76252F6472006570A5 /* icdab_wx.app */;
+			productType = "com.apple.product-type.application";
+		};
+		39DD3C8B252F6473006570A5 /* icdab_wxTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39DD3CA3252F6473006570A5 /* Build configuration list for PBXNativeTarget "icdab_wxTests" */;
+			buildPhases = (
+				39DD3C88252F6473006570A5 /* Sources */,
+				39DD3C89252F6473006570A5 /* Frameworks */,
+				39DD3C8A252F6473006570A5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				39DD3C8E252F6473006570A5 /* PBXTargetDependency */,
+			);
+			name = icdab_wxTests;
+			productName = icdab_wxTests;
+			productReference = 39DD3C8C252F6473006570A5 /* icdab_wxTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		39DD3C96252F6473006570A5 /* icdab_wxUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 39DD3CA6252F6473006570A5 /* Build configuration list for PBXNativeTarget "icdab_wxUITests" */;
+			buildPhases = (
+				39DD3C93252F6473006570A5 /* Sources */,
+				39DD3C94252F6473006570A5 /* Frameworks */,
+				39DD3C95252F6473006570A5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				39DD3C99252F6473006570A5 /* PBXTargetDependency */,
+			);
+			name = icdab_wxUITests;
+			productName = icdab_wxUITests;
+			productReference = 39DD3C97252F6473006570A5 /* icdab_wxUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		39DD3C6E252F6472006570A5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					39DD3C75252F6472006570A5 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					39DD3C8B252F6473006570A5 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 39DD3C75252F6472006570A5;
+					};
+					39DD3C96252F6473006570A5 = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 39DD3C75252F6472006570A5;
+					};
+				};
+			};
+			buildConfigurationList = 39DD3C71252F6472006570A5 /* Build configuration list for PBXProject "icdab_wx" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 39DD3C6D252F6472006570A5;
+			productRefGroup = 39DD3C77252F6472006570A5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				39DD3C75252F6472006570A5 /* icdab_wx */,
+				39DD3C8B252F6473006570A5 /* icdab_wxTests */,
+				39DD3C96252F6473006570A5 /* icdab_wxUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		39DD3C74252F6472006570A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39DD3C80252F6472006570A5 /* Assets.xcassets in Resources */,
+				39DD3C83252F6472006570A5 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39DD3C8A252F6473006570A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39DD3C95252F6473006570A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		39DD3C72252F6472006570A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39DD3CB6252F6681006570A5 /* Memory.m in Sources */,
+				39DD3C7E252F6472006570A5 /* ViewController.m in Sources */,
+				39DD3C86252F6472006570A5 /* main.m in Sources */,
+				39DD3C7B252F6472006570A5 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39DD3C88252F6473006570A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39DD3C91252F6473006570A5 /* icdab_wxTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		39DD3C93252F6473006570A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39DD3C9C252F6473006570A5 /* icdab_wxUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		39DD3C8E252F6473006570A5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 39DD3C75252F6472006570A5 /* icdab_wx */;
+			targetProxy = 39DD3C8D252F6473006570A5 /* PBXContainerItemProxy */;
+		};
+		39DD3C99252F6473006570A5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 39DD3C75252F6472006570A5 /* icdab_wx */;
+			targetProxy = 39DD3C98252F6473006570A5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		39DD3C81252F6472006570A5 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				39DD3C82252F6472006570A5 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		39DD3C9E252F6473006570A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		39DD3C9F252F6473006570A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		39DD3CA1252F6473006570A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = icdab_wx/icdab_wx.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = icdab_wx/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-wx";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		39DD3CA2252F6473006570A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = icdab_wx/icdab_wx.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = icdab_wx/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-wx";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		39DD3CA4252F6473006570A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_wxTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-wxTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_wx.app/Contents/MacOS/icdab_wx";
+			};
+			name = Debug;
+		};
+		39DD3CA5252F6473006570A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_wxTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-wxTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/icdab_wx.app/Contents/MacOS/icdab_wx";
+			};
+			name = Release;
+		};
+		39DD3CA7252F6473006570A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_wxUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-wxUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = icdab_wx;
+			};
+			name = Debug;
+		};
+		39DD3CA8252F6473006570A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5Y3322JWHB;
+				INFOPLIST_FILE = icdab_wxUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "perivalebluebell.com.icdab-wxUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = icdab_wx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		39DD3C71252F6472006570A5 /* Build configuration list for PBXProject "icdab_wx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39DD3C9E252F6473006570A5 /* Debug */,
+				39DD3C9F252F6473006570A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39DD3CA0252F6473006570A5 /* Build configuration list for PBXNativeTarget "icdab_wx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39DD3CA1252F6473006570A5 /* Debug */,
+				39DD3CA2252F6473006570A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39DD3CA3252F6473006570A5 /* Build configuration list for PBXNativeTarget "icdab_wxTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39DD3CA4252F6473006570A5 /* Debug */,
+				39DD3CA5252F6473006570A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		39DD3CA6252F6473006570A5 /* Build configuration list for PBXNativeTarget "icdab_wxUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				39DD3CA7252F6473006570A5 /* Debug */,
+				39DD3CA8252F6473006570A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 39DD3C6E252F6472006570A5 /* Project object */;
+}
