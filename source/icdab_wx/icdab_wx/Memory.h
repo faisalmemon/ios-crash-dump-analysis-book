@@ -10,7 +10,7 @@
 
 @interface Memory : NSObject
 
-+ (void)map_jit_memory;
++ (void)map_jit_memoryStalled:(BOOL)stalled;
 
 @end
 

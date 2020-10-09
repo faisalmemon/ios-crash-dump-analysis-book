@@ -18,6 +18,7 @@
 #include <unistd.h>
 #include <string.h>
 
+
 @implementation Memory
 
 #define SIZE 4096
@@ -27,18 +28,27 @@
 # define MAP_ANONYMOUS MAP_ANON
 #endif
 
-+ (void)map_jit_memory {
-   int fd = open(SHM_NAME, O_RDWR | O_CREAT, 0666);
-   int r = ftruncate(fd, SIZE);
-   
-   void *buf1 = mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_JIT, fd, 0);
-   
-   strcpy(buf1, "Modified buffer");
-  
-   r = munmap(buf1, SIZE);
-   printf("munmap(buf1): %i\n", r);
-   r = shm_unlink(SHM_NAME);
-   printf("shm_unlink: %i\n", r);
+
+
+#define PT_TRACE_ME 0
+int ptrace(int, pid_t, caddr_t, int);
+
++ (void)map_jit_memoryStalled:(BOOL)stalled {
+    int fd = open(SHM_NAME, O_RDWR | O_CREAT, 0666);
+    int r = ftruncate(fd, SIZE);
+    
+    void *buf1 = mmap(0, SIZE, PROT_READ | PROT_WRITE, MAP_JIT, fd, 0);
+    
+    if (stalled) {
+        ptrace(PT_TRACE_ME, 0, NULL, 0);
+    }
+    
+    strcpy(buf1, "Modified buffer");
+    
+    r = munmap(buf1, SIZE);
+    printf("munmap(buf1): %i\n", r);
+    r = shm_unlink(SHM_NAME);
+    printf("shm_unlink: %i\n", r);
 }
 
 + (void)map_jit_memory1 {

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17503.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17502"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="77k-OE-LOb">
+                                <rect key="frame" x="128" y="433" width="159" height="30"/>
+                                <state key="normal" title="Trigger memmap crash"/>
+                                <connections>
+                                    <action selector="triggerMemmapCrashAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PBK-sK-sFE"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GvY-m2-Ng6">
+                                <rect key="frame" x="128" y="480" width="140" height="30"/>
+                                <state key="normal" title="Trigger stalled crash"/>
+                                <connections>
+                                    <action selector="triggerStalledCrashAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Clb-qk-iv8"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="77k-OE-LOb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="14K-hQ-24z"/>
+                            <constraint firstItem="77k-OE-LOb" firstAttribute="leading" secondItem="GvY-m2-Ng6" secondAttribute="leading" id="3Pc-x1-csO"/>
+                            <constraint firstItem="GvY-m2-Ng6" firstAttribute="top" secondItem="77k-OE-LOb" secondAttribute="bottom" constant="17" id="3yT-Pa-8U5"/>
+                            <constraint firstItem="77k-OE-LOb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="128" id="WOB-Vf-53d"/>
+                            <constraint firstItem="77k-OE-LOb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="a0I-HD-jnZ"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="89"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
