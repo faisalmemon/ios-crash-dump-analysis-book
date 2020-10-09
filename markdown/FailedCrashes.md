@@ -1,6 +1,6 @@
 # Failed Crashes
 
-In this chapter we discuss _Failed_ Crashes.  That is those crashes which did not end up with a proper crash report returned to us.
+In this chapter we discuss _Failed_ \index{crash!failed}Crashes.  That is those crashes which did not end up with a proper crash report returned to us.
 Sometimes this happens due to the third party crash reporting framework that is faulty.  In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.
 
 ## Signal handling failures
@@ -8,7 +8,7 @@ Sometimes this happens due to the third party crash reporting framework that is 
 When a program is being debugged, it is conceptually in a similar state to when it is crashed.  That is because we want to go into the process and inspect its state (or potentially change the program by inserting breakpoints).  In iOS 13.5 (fixed in iOS 14.x), there is a glitch where if an application tells the Operating System it is expecting to be debugged, then when the system wants to kill it off as a result of a crash 
 it finds that it cannot kill the app.  Instead, the entire platform jams up and needs a reset.
 
-If we have an application we has some anti-reverse engineering, or anti-debugging functionality, perhaps through framework, we might end up in this situation because making an app pretend it is already being debugged is a common technique to preventing a debugger attaching.
+If we have an application we has some anti-reverse engineering\index{software!anti-reverse engineering}, or anti-debugging\index{software!anti-debugging} functionality, perhaps through framework, we might end up in this situation because making an app pretend it is already being debugged is a common technique to preventing a debugger attaching.
 
 The application `icdab_pt` demonstrates the problem.  @icdabgithub.  @jitios.
 
