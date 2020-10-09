@@ -1,7 +1,7 @@
 x Survey all code and crash dump archive records
 x Work out a porting plan - which are mac examples and need dual flavours
 x Examine existing crashes on dtk-machine.local and save them
-t Look through my git history to get ideas for tasks I have not yet listed here
+x Look through my git history to get ideas for tasks I have not yet listed here
 x Search internet for Big Sur crashes / crash dumps
 x Check pastebin and stackoverflow for Big Sur crashes
 x Start a mini-book/diary which is the record of tasks/resources used to update the code
