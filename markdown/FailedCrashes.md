@@ -1,7 +1,7 @@
 # Failed Crashes
 
 In this chapter we discuss _Failed_ Crashes.  That is those crashes which did not end up with a proper crash report returned to us.
-Sometimes this happens due to the third party crash reporting framework we might have linked to our binary which crashed.  In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.
+Sometimes this happens due to the third party crash reporting framework we might have linked to our binary that crashed.  In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.
 
 ## Signal handling failures
 
@@ -44,7 +44,8 @@ int ptrace(int, pid_t, caddr_t, int); // private method
 ```
 
 The above code causes the same disruption to crash reporting on a simulator as it does on target hardware.
-For the sake of convenience, we focus on the simulator target as it is easy to reset and to compare different OS versions.
+For the sake of convenience, we focus on the simulator target as it is easy to reset, and to compare different OS versions.
 
 When we run on iOS 13.5\index{iOS!13.5} we find that the system hangs when passed in `YES`, but crashes properly when passed `NO`.  On iOS 14.x\index{iOS!14.x} we immediately get a crash in both circumstances.
 
+For more background information, see @jitios.

@@ -122,7 +122,7 @@ reSymbolication
 ication
 ```
 
-We can find the `CoreSymbolification`\index{CoreSymbolification} binary at
+We can find the `CoreSymbolification`\index{CoreSymbolification} binary at:
 ```
 /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.pla
 tform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simru
@@ -140,3 +140,4 @@ From the `pc`, looking at `CoreSymbolification` with Hopper, as we have done bef
 
 from the Apple Open Source C++ library, `libcpp`. @libcpp
 
+Historically, Symbolification has been a source of failures, and it is a major sub-system that crash reporting relies upon.
