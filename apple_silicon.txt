@@ -5,18 +5,20 @@ x Look through my git history to get ideas for tasks I have not yet listed here
 x Search internet for Big Sur crashes / crash dumps
 x Check pastebin and stackoverflow for Big Sur crashes
 x Start a mini-book/diary which is the record of tasks/resources used to update the code
-t Update the code, recording what resources were used, hacks and tips in the diary
-t Write a summary of the diary with cohesive concepts learned
-t Read the existing CDA book
-t Create a list of new chapters and sections needed
+x Update the code, recording what resources were used, hacks and tips in the diary
+x Write a summary of the diary with cohesive concepts learned
 x Update book production tooling and build the old book
 x Research what is needed to do a second edition
 x Write a tool that wraps long lines to the limit now needed
-t Should I wait for the first Mac to be released - will I need to buy it to test my code?
 x Work out what KDP tasks are needed to publish a new book
+
+t Should I wait for the first Mac to be released - will I need to buy it to test my code?
+t Read the existing CDA book
+t Create a list of new chapters and sections needed
 t Work out the new art work and back cover text
 t Work through the CDA book updating it
 t Work out what publicity and meta data material is needed for the book
 t Publish the new book
 t Consider UIStepper example which fails on macOS via Catalyst
 t Consider the analysis https://steipete.com/posts/forbidden-controls-in-catalyst-mac-idiom/ for the mac idiom and missing UI support
+t Fix the Bibliography spurious if text
