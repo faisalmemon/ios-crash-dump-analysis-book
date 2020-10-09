@@ -139,6 +139,32 @@
 <li><a href="#macos-崩溃报告虚拟内存部分">macOS 崩溃报告虚拟内存部分</a></li>
 <li><a href="#macos崩溃报告系统配置文件部分">macOS崩溃报告系统配置文件部分</a></li>
 </ul></li>
+<li><a href="#what-is-rosetta">What is Rosetta?</a>
+<ul>
+<li><a href="#rosetta-binaries">Rosetta binaries</a></li>
+<li><a href="#rosetta-limitations">Rosetta limitations</a></li>
+<li><a href="#forcing-rosetta-execution">Forcing Rosetta execution</a></li>
+</ul></li>
+<li><a href="#code-translation-example">Code Translation Example</a>
+<ul>
+<li><a href="#icdab_rosetta_thread-lipo-information"><code>icdab_rosetta_thread</code> Lipo Information</a></li>
+</ul></li>
+<li><a href="#translated-crashes">Translated Crashes</a>
+<ul>
+<li><a href="#code-type">Code Type</a></li>
+<li><a href="#thread-dumps">Thread Dumps</a></li>
+<li><a href="#crashed-thread-state-registers">Crashed Thread State Registers</a></li>
+<li><a href="#translated-code-information">Translated Code information</a></li>
+<li><a href="#external-modification-summary">External Modification Summary</a></li>
+<li><a href="#virtual-memory-regions">Virtual Memory Regions</a></li>
+</ul></li>
+<li><a href="#rosetta-crashes">Rosetta Crashes</a>
+<ul>
+<li><a href="#icdab_avx-vector-instruction-crash"><code>icdab_avx</code> vector instruction crash</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#分析性故障排除">分析性故障排除</a>
+<ul>
 <li><a href="#优先考虑自己的问题">优先考虑自己的问题</a>
 <ul>
 <li><a href="#根据影响确定优先级">根据影响确定优先级</a></li>
@@ -217,6 +243,11 @@
 <ul>
 <li><a href="#死锁崩溃">死锁崩溃</a></li>
 <li><a href="#不安全的绘制崩溃">不安全的绘制崩溃</a></li>
+</ul></li>
+<li><a href="#failed-crashes">Failed Crashes</a>
+<ul>
+<li><a href="#signal-handling-failures">Signal handling failures</a></li>
+<li><a href="#symbolification-failure">Symbolification Failure</a></li>
 </ul></li>
 <li><a href="#内存诊断">内存诊断</a>
 <ul>
@@ -2016,7 +2047,314 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <p>判断是否是硬件环境导致崩溃的关键是查看大量的崩溃报告以寻找某种规律。</p>
 <p>作为应用程序开发人员，我们只会看到应用程序中的崩溃。但如果我们与提供崩溃的用户联系，我们可以询问是否有其他应用程序崩溃，或者是否存在任何系统稳定性问题。</p>
 <p>另一个有趣的方面是，并非所有硬件都始终被系统主动使用。例如，当 MacBook Pro 连接到外部显示器时，将使用不同的图形RAM，并使用不同的图形卡（外部GPU与内部GPU）。如果我们的应用程序执行特殊操作，则在连接到外部显示器时，故障可能出在硬件而非我们的代码中，原因是它触发了硬件中的潜在故障。</p>
-<p>运行系统诊断程序并查看仅针对特定的匿名 UUID 故障报告是否出现问题，是尝试并了解应用程序是否存在特定的计算机硬件问题的方法。 # 分析性故障排除</p>
+<p>运行系统诊断程序并查看仅针对特定的匿名 UUID 故障报告是否出现问题，是尝试并了解应用程序是否存在特定的计算机硬件问题的方法。 # Apple Silicon</p>
+<p>In this chapter we look at crashes on Apple Silicon Macs, and crashes arising from the use of the Rosetta translation system. Furthermore we look at new types of crashes that are possible from multi-architecture code that supports both ARM and Intel CPUs.</p>
+<h2 id="what-is-rosetta">What is Rosetta?</h2>
+<p>Rosetta is an instruction translator present on Apple Silicon Macs. When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them. Think of it as a Ahead Of Time (AOT) compiler. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span> The origins of the technology come from an earlier era when Macs were transitioning from the PowerPC chip to Intel chips. Apple was assisted by technology from Transitive Technologies Ltd. to produce Rosetta version 1. <span class="citation" data-cites="transitive">(“Heroes of Software Engineering - the Men and Women at Transitive” 2020)</span> <span class="citation" data-cites="rosetta_news">(“The Brains Behind Apple’s Rosetta: Transitive” 2020)</span> In Rosetta version 2, we have a system allowing on a per process basis, Intel instructions to be pre-translated to ARM instructions, and then run at native speed.</p>
+<h3 id="rosetta-binaries">Rosetta binaries</h3>
+<p>On Apple Silicon Macs, the Rosetta software resides in</p>
+<pre><code>/Library/Apple/usr/libexec/oah</code></pre>
+<p>Within this directory is the runtime engine, <code>runtime_t8027</code>, the translator <code>oahd-helper</code>, a command line tool <code>translate_tool</code>, and other artefacts. Its operation is largely transparent to end users apart from a small startup delay or slightly lower performance. From a crash dump perspective, we see its presence in terms of memory footprint, exception helper and runtime helpers.</p>
+<h3 id="rosetta-limitations">Rosetta limitations</h3>
+<p>Rosetta is a powerful system but it has some limitations. These concern mainly high performance multimedia applications and Operating System virtualization solutions.</p>
+<p>Excluded from Rosetta are:</p>
+<ul>
+<li>Kernel extensions</li>
+<li><code>x86_64</code> vitualization support instructions</li>
+<li>vector instructions, such as AVX, AVX2, and AVX512</li>
+</ul>
+<p>Interestingly, Rosetta does support Just-In-Time compilation apps. These applications are special because they generate their own code and then execute them. Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable). Presumbly this was because JIT is a common technology for the JavaScript runtime.</p>
+<p>Apple advise checking for optional hardware features before calling code that utilises such functionality. To determine what optional hardware support is present on our platform, we can run <code>sysctl hw | grep optional</code>. In code, we have the <code>sysctlbyname</code> function to achieve the same thing.</p>
+<h3 id="forcing-rosetta-execution">Forcing Rosetta execution</h3>
+<p>If we accept the standard build architecture options for our program, which are <code>Build Active Architecture Only</code> set to <code>Yes</code> for <code>Debug</code> builds, and <code>No</code> for <code>Release</code> builds, then when running under the Debugger, we shall only see Native binaries. That is because in the Debug case, we do not want to waste time building an architecture not relevant to the machine we are testing on.</p>
+<p>If we do an archive build, <code>Product &gt; Archive</code>, and then select <code>Distribute App</code> we end up with a Release Build. With default settings, this will be a Fat Binary File offering <code>x86</code> and <code>arm64</code> within the multi-architecture binary.</p>
+<p>Once we have a Fat binary we can use <code>Finder</code> app, right-click <code>File info</code> to set Rosetta to perform translation of our binary so that on an Apple Silicon Mac, the Intel instructions are translated from the Fat binary.</p>
+<p><img src="screenshots/univeral_application_icdab_rosetta_thread.png" /></p>
+<h2 id="code-translation-example">Code Translation Example</h2>
+<p>Our working example in this chapter is the <code>icdab_thread</code> program; it is available on the web. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> This program attempts to call <code>thread_set_state</code> and then deliberately crashes 60 seconds later using <code>abort</code>. It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware. Nevertheless, this program is interesting because of a closely related artefact upon crashing, the number of times <code>task_for_pid</code> had been called.</p>
+<p>We have adapted the command line executable program <code>icdab_thread</code> into an application which merely calls the same underlying code. The application is called <code>icdab_rosetta_thread</code>. The reason for this is because UNIX command line executables are not eligible for running Translated but Applications are.</p>
+<h3 id="icdab_rosetta_thread-lipo-information"><code>icdab_rosetta_thread</code> Lipo Information</h3>
+<p>The following command shows our application supports both ARM and Intel instructions.</p>
+<pre><code># lipo -archs
+ icdab_rosetta_thread.app/Contents/MacOS/icdab_rosetta_thread
+x86_64 arm64</code></pre>
+<h2 id="translated-crashes">Translated Crashes</h2>
+<p>If we run the <code>icdab_rosetta_thread</code> application, clicking on <code>Start Threads Test</code>, after one minute we have a crash. Comparing the crash dump between Native and Translated cases, we see differences in the Crash Report.</p>
+<h3 id="code-type">Code Type</h3>
+<pre><code>Code Type:             ARM-64 (Native)</code></pre>
+<p>when running natively, becomes under translation,</p>
+<pre><code>Code Type:             X86-64 (Translated)</code></pre>
+<h3 id="thread-dumps">Thread Dumps</h3>
+<p>The crashed thread (and others) look similar, apart from the pointers are based much higher in the Translated case.</p>
+<p>For the native crash we have:</p>
+<pre><code>Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
+0   libsystem_kernel.dylib              0x00000001de3015d8
+ __pthread_kill + 8
+1   libsystem_pthread.dylib             0x00000001de3accbc
+ pthread_kill + 292
+2   libsystem_c.dylib                   0x00000001de274904 abort
+ + 104
+3   perivalebluebell.com.icdab-rosetta-thread  
+ 0x00000001002cd478 start_threads + 244
+4   perivalebluebell.com.icdab-rosetta-thread  
+ 0x00000001002cd858 thunk for @escaping @callee_guaranteed () -&gt;
+ () + 20
+5   libdispatch.dylib                   0x00000001de139658
+ _dispatch_call_block_and_release + 32
+6   libdispatch.dylib                   0x00000001de13b150
+ _dispatch_client_callout + 20
+7   libdispatch.dylib                   0x00000001de13e090
+ _dispatch_queue_override_invoke + 692
+8   libdispatch.dylib                   0x00000001de14b774
+ _dispatch_root_queue_drain + 356
+9   libdispatch.dylib                   0x00000001de14bf6c
+ _dispatch_worker_thread2 + 116
+10  libsystem_pthread.dylib             0x00000001de3a9110
+ _pthread_wqthread + 216
+11  libsystem_pthread.dylib             0x00000001de3a7e80
+ start_wqthread + 8</code></pre>
+<p>For the translated crash we have:</p>
+<pre><code>Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
+0   ???                                 0x00007fff0144ff40 ???
+1   libsystem_kernel.dylib              0x00007fff6bdc4812
+ __pthread_kill + 10
+2   libsystem_c.dylib                   0x00007fff6bd377f0 abort
+ + 120
+3   perivalebluebell.com.icdab-rosetta-thread  
+ 0x0000000100d1c5ab start_threads + 259
+4   perivalebluebell.com.icdab-rosetta-thread  
+ 0x0000000100d1ca1e thunk for @escaping @callee_guaranteed () -&gt;
+ () + 14
+5   libdispatch.dylib                   0x00007fff6bbf753d
+ _dispatch_call_block_and_release + 12
+6   libdispatch.dylib                   0x00007fff6bbf8727
+ _dispatch_client_callout + 8
+7   libdispatch.dylib                   0x00007fff6bbfad7c
+ _dispatch_queue_override_invoke + 777
+8   libdispatch.dylib                   0x00007fff6bc077a5
+ _dispatch_root_queue_drain + 326
+9   libdispatch.dylib                   0x00007fff6bc07f06
+ _dispatch_worker_thread2 + 92
+10  libsystem_pthread.dylib             0x00007fff6be8c4ac
+ _pthread_wqthread + 244
+11  libsystem_pthread.dylib             0x00007fff6be8b4c3
+ start_wqthread + 15</code></pre>
+<p>Note the actual line of code in thread stack 0 is <code>???</code> in the translated case. Presumably this is the actual translated code that is synthesised by Rosetta.</p>
+<p>Furthermore we have an additional two threads in the translated case, the exception server, and the runtime environment:</p>
+<pre><code>Thread 3:: com.apple.rosetta.exceptionserver
+0   runtime_t8027                       0x00007ffdfff76af8
+ 0x7ffdfff74000 + 11000
+1   runtime_t8027                       0x00007ffdfff803cc
+ 0x7ffdfff74000 + 50124
+2   runtime_t8027                       0x00007ffdfff82738
+ 0x7ffdfff74000 + 59192
+
+Thread 4:
+0   runtime_t8027                       0x00007ffdfffce8ac
+ 0x7ffdfff74000 + 370860</code></pre>
+<h3 id="crashed-thread-state-registers">Crashed Thread State Registers</h3>
+<p>In the native case, we get thread state registers:</p>
+<pre><code>Thread 1 crashed with ARM Thread State (64-bit):
+    x0: 0x0000000000000000   x1: 0x0000000000000000   x2:
+ 0x0000000000000000   x3: 0x0000000000000000
+    x4: 0x000000000000003c   x5: 0x0000000000000000   x6:
+ 0x0000000000000000   x7: 0x0000000000000000
+    x8: 0x00000000000005b9   x9: 0xb91ed5337c66d7ee  x10:
+ 0x0000000000003ffe  x11: 0x0000000206c1fa22
+   x12: 0x0000000206c1fa22  x13: 0x000000000000001e  x14:
+ 0x0000000000000881  x15: 0x000000008000001f
+   x16: 0x0000000000000148  x17: 0x0000000200e28528  x18:
+ 0x0000000000000000  x19: 0x0000000000000006
+   x20: 0x000000016fbbb000  x21: 0x0000000000001707  x22:
+ 0x000000016fbbb0e0  x23: 0x0000000000000114
+   x24: 0x000000016fbbb0e0  x25: 0x000000020252d184  x26:
+ 0x00000000000005ff  x27: 0x000000020252d6c0
+   x28: 0x0000000002ffffff   fp: 0x000000016fbbab70   lr:
+ 0x00000001de3accbc
+    sp: 0x000000016fbbab50   pc: 0x00000001de3015d8 cpsr:
+ 0x40000000
+   far: 0x0000000100ff8000  esr: 0x56000080</code></pre>
+<p>In the translated case, we get thread state registers:</p>
+<pre><code>Thread 1 crashed with X86 Thread State (64-bit):
+  rax: 0x0000000000000000  rbx: 0x000000030600b000  rcx:
+ 0x0000000000000000  rdx: 0x0000000000000000
+  rdi: 0x0000000000000000  rsi: 0x0000000000000003  rbp:
+ 0x0000000000000000  rsp: 0x000000000000003c
+   r8: 0x000000030600ad40   r9: 0x0000000000000000  r10:
+ 0x000000030600b000  r11: 0x00007fff6bd37778
+  r12: 0x0000000000003d03  r13: 0x0000000000000000  r14:
+ 0x0000000000000006  r15: 0x0000000000000016
+  rip: &lt;unavailable&gt;  rfl: 0x0000000000000287</code></pre>
+<h3 id="translated-code-information">Translated Code information</h3>
+<p>In the translated case, we get extra information, presumably useful for those engineers that work on debugging Rosetta:</p>
+<pre><code>Translated Code Information:
+  tmp0: 0xffffffffffffffff tmp1: 0x00007fff0144ff14 tmp2:
+ 0x00007fff6bdc4808</code></pre>
+<h3 id="external-modification-summary">External Modification Summary</h3>
+<p>In the native case, we saw:</p>
+<pre><code>External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 914636
+    thread_create: 0
+    thread_set_state: 804</code></pre>
+<p>Our code had attempted to call <code>thread_set_state</code> but was not able to (under any platform configuration due to macOS restrictions).</p>
+<p>Looking that the translated case,</p>
+<pre><code>External Modification Summary:
+  Calls made by other processes targeting this process:
+    task_for_pid: 1
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by this process:
+    task_for_pid: 0
+    thread_create: 0
+    thread_set_state: 0
+  Calls made by all processes on this machine:
+    task_for_pid: 915091
+    thread_create: 0
+    thread_set_state: 804</code></pre>
+<p>We see almost the same statistics, but interestingly we have <code>task_for_pid</code> set to 1. So the translation environment only did a mimimal observation/modification of the actual process under translation.</p>
+<h3 id="virtual-memory-regions">Virtual Memory Regions</h3>
+<p>The translated version of the program runs a bit heavier on RAM usage than the native version.</p>
+<p>In the native case, we have:</p>
+<pre><code>                                VIRTUAL   REGION
+REGION TYPE                        SIZE    COUNT (non-coalesced)
+===========                     =======  =======
+TOTAL                              1.7G     2053
+TOTAL, minus reserved VM space     1.3G     2053</code></pre>
+<p>versus the translated case:</p>
+<pre><code>REGION TYPE                        SIZE    COUNT (non-coalesced)
+===========                     =======  =======
+TOTAL                              5.4G     1512
+TOTAL, minus reserved VM space     5.1G     1512</code></pre>
+<p>Note in the translated case we have additional Virtual Memory regions for Rosetta:</p>
+<pre><code>Rosetta Arena                     2048K        1
+Rosetta Generic                    864K       19
+Rosetta IndirectBranch             512K        1
+Rosetta JIT                      128.0M        1
+Rosetta Return Stack               192K       12
+Rosetta Thread Context             192K       12</code></pre>
+<h2 id="rosetta-crashes">Rosetta Crashes</h2>
+<p>Rosetta is a powerful translation system. But it does not translate all X86-64 instructions. Vector instructions, as an example, cannot be translated and generate a crash when encountered. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span></p>
+<p>Before diagnosing specific problems, it is worth familiarising ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing. <span class="citation" data-cites="rosettaPortingGuide">(“Porting Your macOS Apps to Apple Silicon” 2020)</span></p>
+<h3 id="icdab_avx-vector-instruction-crash"><code>icdab_avx</code> vector instruction crash</h3>
+<p>When an Intel AVX vector instruction is encountered on a Apple Silicon Mac running the app using translation, we get a crash. We have a sample application, <code>icdab_avx</code>, that demonstrates this.</p>
+<p>The crash Code Type will be:</p>
+<pre><code>Code Type:             X86-64 (Translated)</code></pre>
+<p>The crash type will be <code>EXC_BAD_INSTRUCTION</code> as follows: </p>
+<pre><code>Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
+Exception Codes:       0x0000000000000001, 0x0000000000000000
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Termination Signal:    Illegal instruction: 4
+Termination Reason:    Namespace SIGNAL, Code 0x4
+Terminating Process:   exc handler [26823]</code></pre>
+<p>The thread state upon crash in our case is:</p>
+<pre><code>Thread 0 crashed with X86 Thread State (64-bit):
+  rax: 0x0000000000000001  rbx: 0x0000600001fcf5c0  rcx:
+ 0x00007f87d143f8c0  rdx: 0x00007f87d143f8c0
+  rdi: 0x00000001047d6fa0  rsi: 0x00000001047d770a  rbp:
+ 0x000000030d132ab0  rsp: 0x000000030d132ab0
+   r8: 0x0000000000000003   r9: 0x0000000104b0e000  r10:
+ 0x00000001047dc702  r11: 0x00000001047d57d0
+  r12: 0x00006000012d5100  r13: 0x00007fff6a9d4000  r14:
+ 0x00007f87d143f8c0  r15: 0x00000001047d770a
+  rip: 0x00000001047d56cb  rfl: 0x0000000000000206</code></pre>
+<p>The application binary (program text) is loaded as follows:</p>
+<pre><code>Binary Images:
+       0x1047d4000 -        0x1047d7fff
+ +perivalebluebell.com.icdab-avx (1.0 - 1)
+ &lt;3D9E0DED-2C66-30EE-AC6C-7C426246332E&gt;
+ /Users/USER/Desktop/*/icdab_avx.app/Contents/MacOS/icdab_avx</code></pre>
+<p>If we see that an Apple Silicon Mac has crashed our app in this way, we could quickly search for any vector instructions if we have such a suspicion.</p>
+<pre><code># objdump -d icdab_avx.app/Contents/MacOS/icdab_avx | grep vmov |
+ head
+100004527: c5 fa 10 84 24 a4 00 00 00      vmovss    164(%rsp),
+ %xmm0
+100004530: c5 fa 10 8c 24 a0 00 00 00      vmovss    160(%rsp),
+ %xmm1
+10000453f: c5 fa 10 8c 24 a8 00 00 00      vmovss    168(%rsp),
+ %xmm1
+10000454e: c5 fa 10 8c 24 ac 00 00 00      vmovss    172(%rsp),
+ %xmm1
+10000455d: c5 fa 10 8c 24 b4 00 00 00      vmovss    180(%rsp),
+ %xmm1
+100004566: c5 fa 10 94 24 b0 00 00 00      vmovss    176(%rsp),
+ %xmm2
+100004575: c5 fa 10 94 24 b8 00 00 00      vmovss    184(%rsp),
+ %xmm2
+100004584: c5 fa 10 94 24 bc 00 00 00      vmovss    188(%rsp),
+ %xmm2
+100004593: c5 f8 29 8c 24 90 00 00 00      vmovaps    %xmm1,
+ 144(%rsp)
+10000459c: c5 f8 29 84 24 80 00 00 00      vmovaps    %xmm0,
+ 128(%rsp)</code></pre>
+<p>However, to be more precise, we can make use of the instruction pointer at the time of the crash. We see that from the crashed thread state, we have:</p>
+<pre><code>  rip: 0x00000001047d56cb  rfl: 0x0000000000000206</code></pre>
+<p>and we see from Binary Images, the program was loaded at address <code>0x1047d4000</code>.</p>
+<p>Using the techniques we explored in the <em>Symbolification</em> chapter, we can load up the icdab_avx binary in Hopper, change the base address of the binary to <code>0x1047d4000</code> and then goto the instruction pointer, <code>rip</code>, address <code>0x00000001047d56cb</code>.</p>
+<p>We then see the assembly dump:</p>
+<pre><code>_compute_delta:
+push       rbp          ; CODE
+ XREF=_$s9icdab_avx14ViewControllerC31runVectorOperationsButtonAc
+tionyySo12NSButtonCellCF+32
+mov        rbp, rsp
+and        rsp, 0xffffffffffffffe0
+sub        rsp, 0x160
+mov        dword [rsp+0x160+var_A4], 0x40000000
+mov        dword [rsp+0x160+var_A8], 0x40800000
+mov        dword [rsp+0x160+var_AC], 0x40c00000
+mov        dword [rsp+0x160+var_B0], 0x41000000
+mov        dword [rsp+0x160+var_B4], 0x41200000
+mov        dword [rsp+0x160+var_B8], 0x41400000
+mov        dword [rsp+0x160+var_BC], 0x41600000
+mov        dword [rsp+0x160+var_C0], 0x41800000
+vmovss     xmm0, dword [rsp+0x160+var_BC]
+vmovss     xmm1, dword [rsp+0x160+var_C0]</code></pre>
+<p>So we didn’t land on the extact instruction that failed, but we did land on the function at fault, <code>compute_delta</code>, which looks to have been inlined in this Release binary due to it being within the <code>runVectorOperationsButtonAction</code> method. Nevertheless, we’ve been given enough help to be able to explore the binary in the relevant area and establish confirmation that the vector operation, <code>vmovss</code> was called. This is not supported by Rosetta.</p>
+<p>Our original code that caused the issue was:</p>
+<pre><code>void
+compute_delta() {
+    /* Initialize the two argument vectors */
+    __m256 evens = _mm256_set_ps(2.0, 4.0, 6.0, 8.0, 10.0, 12.0,
+ 14.0, 16.0);
+    __m256 odds = _mm256_set_ps(1.0, 3.0, 5.0, 7.0, 9.0, 11.0,
+ 13.0, 15.0);
+    
+    /* Compute the difference between the two vectors */
+    __m256 result = _mm256_sub_ps(evens, odds);
+    
+    /* Display the elements of the result vector */
+    float* f = (float*)&amp;result;
+    printf(&quot;%f %f %f %f %f %f %f %f\n&quot;,
+           f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7]);
+    
+    return;
+}</code></pre>
+<p>In order to avoid the problem we should have used a utility function to detect if the environment supported AVX, as follows:</p>
+<pre><code>bool
+avx_v1_supported() {
+    int ret = 0;
+    size_t size = sizeof(ret);
+    if (sysctlbyname(&quot;hw.optional.avx1_0&quot;, &amp;ret, &amp;size, NULL, 0)
+ == -1)
+    {
+       if (errno == ENOENT)
+          return false;
+       return false;
+    }
+    bool supported = (ret != 0);
+    return supported;
+}</code></pre>
+<p>This function returns <code>true</code> is AVX version 1 is supported (and there was no error in retrieving the information).</p>
+<h1 id="分析性故障排除">分析性故障排除</h1>
 <p>本章将讨论一个解决问题的正式技巧。这个技巧是提供一个询问正确问题的框架。</p>
 <p>有一个著名的俗语告诫我们不要过渡狂热：</p>
 <blockquote>
@@ -4584,6 +4922,162 @@ Binary Images (Other):
 <pre><code>SPRINGBOARD,
 Process detected doing insecure drawing while in secure mode</code></pre>
 <p>我们并不期望 Apple 提供的应用程序 MobileSMS 会发生崩溃。仔细查看 <code>Binary Images</code> 部分，我们可以看到应用程序进行了 “tweaked”。由于崩溃报告中出现了 <code>CydiaSubstrate</code>，我们可以认定该手机已经越狱了。 我们不能安全的依赖这些需要具有原始设计完整性任何应用程序。也许在这款手机上，MobileSMS 应用程序进行了调整，并添加了额外的功能，但引入了一个绘制相关的 bug。</p>
+<h1 id="failed-crashes">Failed Crashes</h1>
+<p>In this chapter we discuss <em>Failed</em> Crashes. That is those crashes which did not end up with a proper crash report returned to us. Sometimes this happens due to the third party crash reporting framework that is faulty. In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.</p>
+<h2 id="signal-handling-failures">Signal handling failures</h2>
+<p>When a program is being debugged, it is conceptually in a similar state to when it is crashed. That is because we want to go into the process and inspect its state (or potentially change the program by inserting breakpoints). In iOS 13.5 (fixed in iOS 14.x), there is a glitch where if an application tells the Operating System it is expecting to be debugged, then when the system wants to kill it off as a result of a crash it finds that it cannot kill the app. Instead, the entire platform jams up and needs a reset.</p>
+<p>If we have an application we has some anti-reverse engineering, or anti-debugging functionality, perhaps through framework, we might end up in this situation because making an app pretend it is already being debugged is a common technique to preventing a debugger attaching.</p>
+<p>The application <code>icdab_pt</code> demonstrates the problem. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span>. <span class="citation" data-cites="jitios">(“Jailed Just in Time Compilation on iOS” 2020)</span>.</p>
+<pre><code>#define SIZE 4096
+#define SHM_NAME &quot;map-jit-memory&quot;
+
+#define PT_TRACE_ME 0
+int ptrace(int, pid_t, caddr_t, int); // private method
+
++ (void)crashThenStallCrashReporting:(BOOL)stall {
+    int fd = open(SHM_NAME, O_RDWR | O_CREAT, 0666);
+    int result = ftruncate(fd, SIZE);
+    
+    // we are not privileged so this will not be successful
+    void *buf1 = mmap(0,
+                      SIZE,
+                      PROT_READ | PROT_WRITE,
+                      MAP_JIT,
+                      fd,
+                      0);
+    
+    if (stall) {
+        ptrace(PT_TRACE_ME, 0, NULL, 0);
+    }
+    
+    // trigger crash by accessing a bad buffer
+    strcpy(buf1, &quot;Modified buffer&quot;);
+    
+    result = munmap(buf1, SIZE);
+    result = shm_unlink(SHM_NAME);
+}</code></pre>
+<p>The above code causes the same disruption to crash reporting on a simulator as it does on target hardware. For the sake of convenience, we focus on the simulator target as it is easy to reset, and to compare different OS versions.</p>
+<p>When we run on iOS 13.5 we find that the system hangs when passed in <code>YES</code>, but crashes properly when passed <code>NO</code>. On iOS 14.x we immediately get a crash in both circumstances.</p>
+<h2 id="symbolification-failure">Symbolification Failure</h2>
+<p>The crash reporting program, <code>ReportCrash</code>, can itself fail. Fortunately, there is a fail safe mechanism that allows <code>ReportCrash</code> failures to be reported by <code>ReportCrash</code>.</p>
+<p>In our example, we see that the Symbolification phase failed.</p>
+<pre><code>Incident Identifier: FD5D3125-4CD2-4A42-8C4C-86022EDED6B7
+CrashReporter Key:   28184df1e2804fabaabb19f3a67639f76eb8f299
+Hardware Model:      iPhone11,8
+Process:             ReportCrash [2437]
+Path:                /System/Library/CoreServices/ReportCrash
+Identifier:          ReportCrash
+Version:             ???
+Code Type:           ARM-64 (Native)
+Role:                Unspecified
+Parent Process:      launchd [1]
+Coalition:           com.apple.ReportCrash [570]</code></pre>
+<pre><code>Exception Type:  EXC_BAD_ACCESS (SIGBUS)
+Exception Subtype: UNKNOWN_0x32 at 0x000000017e012290
+VM Region Info: 0x17e012290 is in 0x16f180000-0x17f180000;  bytes
+ after start: 250159760  bytes before end: 18275695
+      REGION TYPE                      START - END             [
+ VSIZE] PRT/MAX SHRMOD  REGION DETAIL
+      Stack                  000000016f0f8000-000000016f180000 [ 
+ 544K] rw-/rwx SM=COW  thread 5
+---&gt;  mapped file            000000016f180000-000000017f180000
+ [256.0M] r-x/r-x SM=COW  ...t_id=555409f3
+      GAP OF 0x2cdbc000 BYTES
+      unused shlib __TEXT    00000001abf3c000-00000001abf78000 [ 
+ 240K] r-x/r-x SM=COW  ... this process
+
+Termination Signal: Bus error: 10
+Termination Reason: Namespace SIGNAL, Code 0xa
+Terminating Process: exc handler [2437]
+Triggered by Thread:  1</code></pre>
+<pre><code>0   CoreSymbolication                   0x00000001c63b9138
+ 0x1c6357000 + 401720
+1   CoreSymbolication                   0x00000001c63b8e50
+ 0x1c6357000 + 400976
+2   CoreSymbolication                   0x00000001c63b8e50
+ 0x1c6357000 + 400976
+3   CoreSymbolication                   0x00000001c63b3884
+ 0x1c6357000 + 379012
+4   libdyld.dylib                       0x00000001ac19c374
+ 0x1ac194000 + 33652
+5   CoreSymbolication                   0x00000001c63b3620
+ 0x1c6357000 + 378400
+6   CoreSymbolication                   0x00000001c63b83b0
+ 0x1c6357000 + 398256
+7   CoreSymbolication                   0x00000001c63b9f88
+ 0x1c6357000 + 405384
+8   Symbolication                       0x00000001ccac7598
+ 0x1cca9d000 + 173464
+9   Symbolication                       0x00000001ccac8220
+ 0x1cca9d000 + 176672
+10  ReportCrash                         0x0000000100f417e0
+ 0x100f3c000 + 22496
+11  ReportCrash                         0x0000000100f3e6c8
+ 0x100f3c000 + 9928
+12  ReportCrash                         0x0000000100f3fb70
+ 0x100f3c000 + 15216
+13  ReportCrash                         0x0000000100f4a3e0
+ 0x100f3c000 + 58336
+14  ReportCrash                         0x0000000100f4d6f0
+ 0x100f3c000 + 71408
+15  ReportCrash                         0x0000000100f4d78c
+ 0x100f3c000 + 71564
+16  libsystem_kernel.dylib              0x00000001ac16867c
+ 0x1ac165000 + 13948
+17  ReportCrash                         0x0000000100f49a8c
+ 0x100f3c000 + 55948
+18  libsystem_pthread.dylib             0x00000001ac0a9d50
+ 0x1ac0a8000 + 7504
+19  libsystem_pthread.dylib             0x00000001ac0b1c88
+ 0x1ac0a8000 + 40072</code></pre>
+<pre><code>Thread 1 crashed with ARM Thread State (64-bit):
+    x0: 0x000000014df61b80   x1: 0x00000000000387bf   x2:
+ 0x0000000000000080   x3: 0x0000000000036df0
+    x4: 0x0000000000000000   x5: 0x0000000000000000   x6:
+ 0x0000000000000080   x7: 0x000000017e012290
+    x8: 0x00000001489f8000   x9: 0x0000000148a2edf0  x10:
+ 0x0000000000000080  x11: 0x000000017e014000
+   x12: 0x0000000010000000  x13: 0x00000001b0000000  x14:
+ 0x0000000000000000  x15: 0x000000014f0852e0
+   x16: 0x00000001a0000000  x17: 0xffffffffffffffff  x18:
+ 0x0000000000000000  x19: 0x000000014df61b80
+   x20: 0x000000014df61b80  x21: 0x00000001aee92290  x22:
+ 0x0000000000000080  x23: 0x000000017e012290
+   x24: 0x0000000000000001  x25: 0x00000000005cf000  x26:
+ 0x0000000138f54000  x27: 0x000000016ef48e68
+   x28: 0x0000000000036df0   fp: 0x000000016ef486b0   lr:
+ 0x843bf481c63b8e50
+    sp: 0x000000016ef486a0   pc: 0x00000001c63b9138 cpsr:
+ 0x20000000
+   esr: 0x92000006 (Data Abort) byte read Translation fault
+
+Binary Images:
+0x100f3c000 - 0x100f53fff ReportCrash arm64e 
+ &lt;280941d3f7a93468982d7b115aa1f8a1&gt;
+ /System/Library/CoreServices/ReportCrash
+.
+.
+0x1c6357000 - 0x1c63dcfff CoreSymbolication arm64e 
+ &lt;19219f5e25623142895af16a024bf332&gt;
+ /System/Library/PrivateFrameworks/CoreSymbolication.framework/Co
+reSymbolication
+.
+.
+0x1cca9d000 - 0x1ccb1bfff Symbolication arm64e 
+ &lt;f8f62c98901f34fb82c75a0d61044452&gt;
+ /System/Library/PrivateFrameworks/Symbolication.framework/Symbol
+ication</code></pre>
+<p>We can find the <code>CoreSymbolification</code> binary at:</p>
+<pre><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.pla
+tform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simru
+ntime/Contents/Resources/RuntimeRoot/System/Library/PrivateFramew
+orks/CoreSymbolication.framework</code></pre>
+<p>From the <code>pc</code>, looking at <code>CoreSymbolification</code> with Hopper, as we have done before, by relocating our binary to <code>0x1c6357000</code> and inspecting <code>0x00000001c63b9138</code> we find that the crash is due to a C++ routine manipulating memory:</p>
+<pre><code>  std::__1::__split_buffer&lt;TRawRegion&lt;Pointer64&gt;,
+ std::__1::allocator&lt;TRawRegion&lt;Pointer64&gt;
+ &gt;&amp;&gt;::__split_buffer(&amp;var_38, r1, r2);</code></pre>
+<p>from the Apple Open Source C++ library, <code>libcpp</code>. <span class="citation" data-cites="libcpp">(“Libcpp Apple Open Source” 2020)</span></p>
+<p>Historically, Symbolification has been a source of failures, and it is a major sub-system that crash reporting relies upon.</p>
 <h1 id="内存诊断">内存诊断</h1>
 <p>在本章中，我们着眼于解决内存问题的不同诊断选项。</p>
 <h2 id="内存分配基础">内存分配基础</h2>
@@ -4887,6 +5381,9 @@ usr/lib/libBacktraceRecording.dylib
 <div id="ref-macbookproT2">
 <p>“2018 Macbook Pros Bridge Os Error.” 2018. <a href="https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/">https://forums.macrumors.com/threads/2018-macbook-pros-crashing-with-bridge-os-error.2128976/</a>.</p>
 </div>
+<div id="ref-rosetta">
+<p>“About the Rosetta Translation Environment.” 2020. <a href="https://developer.apple.com/documentation/apple_silicon/about_the_rosetta_translation_environment#3616845">https://developer.apple.com/documentation/apple_silicon/about_the_rosetta_translation_environment#3616845</a>.</p>
+</div>
 <div id="ref-wwdc2015_413">
 <p>“Advanced Debugging with Address Sanitizer.” 2015. <a href="https://developer.apple.com/videos/play/wwdc2015/413/">https://developer.apple.com/videos/play/wwdc2015/413/</a>.</p>
 </div>
@@ -4905,6 +5402,9 @@ usr/lib/libBacktraceRecording.dylib
 <div id="ref-dynamicloadingeg">
 <p>“Dynamic Loading Example.” 2018. <a href="https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework.git">https://github.com/patriknyblad/ios-runtime-loading-dynamic-framework.git</a>.</p>
 </div>
+<div id="ref-transitive">
+<p>“Heroes of Software Engineering - the Men and Women at Transitive.” 2020. <a href="https://www.software.ac.uk/blog/2016-09-30-heroes-software-engineering-men-and-women-transitive">https://www.software.ac.uk/blog/2016-09-30-heroes-software-engineering-men-and-women-transitive</a>.</p>
+</div>
 <div id="ref-impropersockets">
 <p>“Improper Use of Bsd Sockets.” 2018. <a href="https://stackoverflow.com/a/13790353/2715565">https://stackoverflow.com/a/13790353/2715565</a>.</p>
 </div>
@@ -4916,6 +5416,12 @@ usr/lib/libBacktraceRecording.dylib
 </div>
 <div id="ref-wwdc2018_416">
 <p>“IOS Memory Deep Dive.” 2018. <a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/416n2fmzz0fz88f/416/416_ios_memory_deep_dive.pdf?dl=1">https://devstreaming-cdn.apple.com/videos/wwdc/2018/416n2fmzz0fz88f/416/416_ios_memory_deep_dive.pdf?dl=1</a>.</p>
+</div>
+<div id="ref-jitios">
+<p>“Jailed Just in Time Compilation on iOS.” 2020. <a href="https://saagarjha.com/blog/2020/02/23/jailed-just-in-time-compilation-on-ios/">https://saagarjha.com/blog/2020/02/23/jailed-just-in-time-compilation-on-ios/</a>.</p>
+</div>
+<div id="ref-libcpp">
+<p>“Libcpp Apple Open Source.” 2020. <a href="https://opensource.apple.com/source/libcpp/libcpp-19/include/__split_buffer.auto.html">https://opensource.apple.com/source/libcpp/libcpp-19/include/__split_buffer.auto.html</a>.</p>
 </div>
 <div id="ref-libdispatchtar">
 <p>“Libdispatch Open Source.” 2018. <a href="https://opensource.apple.com/tarballs/libdispatch/">https://opensource.apple.com/tarballs/libdispatch/</a>.</p>
@@ -4935,8 +5441,14 @@ usr/lib/libBacktraceRecording.dylib
 <div id="ref-plcrashreporter">
 <p>“Plausible Labs Crash Reporter.” 2018. <a href="https://github.com/plausiblelabs/plcrashreporter">https://github.com/plausiblelabs/plcrashreporter</a>.</p>
 </div>
+<div id="ref-rosettaPortingGuide">
+<p>“Porting Your macOS Apps to Apple Silicon.” 2020. <a href="https://developer.apple.com/documentation/xcode/porting_your_macos_apps_to_apple_silicon">https://developer.apple.com/documentation/xcode/porting_your_macos_apps_to_apple_silicon</a>.</p>
+</div>
 <div id="ref-asanchecker">
 <p>Serebryany, Konstantin, Derek Bruening, Alexander Potapenko, and Dmitry Vyukov. 2012. “AddressSanitizer: A Fast Address Sanity Checker.” In <em>USENIX Atc 2012</em>. <a href="https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker">https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker</a>.</p>
+</div>
+<div id="ref-rosetta_news">
+<p>“The Brains Behind Apple’s Rosetta: Transitive.” 2020. <a href="https://www.cnet.com/news/the-brains-behind-apples-rosetta-transitive/">https://www.cnet.com/news/the-brains-behind-apples-rosetta-transitive/</a>.</p>
 </div>
 <div id="ref-threadstatus">
 <p>“Thread Status Values in Mach.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h</a>.</p>
