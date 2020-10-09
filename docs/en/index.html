@@ -254,6 +254,11 @@
 <li><a href="#deadlock-crash">Deadlock Crash</a></li>
 <li><a href="#insecure-drawing-crash">Insecure Drawing Crash</a></li>
 </ul></li>
+<li><a href="#failed-crashes">Failed Crashes</a>
+<ul>
+<li><a href="#signal-handling-failures">Signal handling failures</a></li>
+<li><a href="#symbolification-failure">Symbolification Failure</a></li>
+</ul></li>
 <li><a href="#memory-diagnostics">Memory Diagnostics</a>
 <ul>
 <li><a href="#basics-of-memory-allocation">Basics of memory allocation</a></li>
@@ -280,7 +285,6 @@
 <p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
 <p>Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.</p>
 <p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognised the following trademarks:</p>
-<p>ARM, Android, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Intel, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Rosetta, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iTunes Connect, macOS, tvOS, watchOS.</p>
 <h1 id="preface">Preface</h1>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
 <p>It’s hard to overstate the euphoria of the moment. The Internet was the next Industrial Revolution. Investors saw it as the best place to put their money. Hardware, software and services were all experiencing a Cambrian explosion of diversity and innovation.</p>
@@ -2279,11 +2283,12 @@ Rosetta Return Stack               192K       12
 Rosetta Thread Context             192K       12</code></pre>
 <h2 id="rosetta-crashes">Rosetta Crashes</h2>
 <p>Rosetta is a powerful translation system. But it does not translate all X86-64 instructions. Vector instructions, as an example, cannot be translated and generate a crash when encountered. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span></p>
+<p>Before diagnosing specific problems, it is worth familiarising ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing. <span class="citation" data-cites="rosettaPortingGuide">(“Porting Your macOS Apps to Apple Silicon” 2020)</span></p>
 <h3 id="icdab_avx-vector-instruction-crash"><code>icdab_avx</code> vector instruction crash</h3>
 <p>When an Intel AVX vector instruction is encountered on a Apple Silicon Mac running the app using translation, we get a crash. We have a sample application, <code>icdab_avx</code>, that demonstrates this.</p>
 <p>The crash Code Type will be:</p>
 <pre><code>Code Type:             X86-64 (Translated)</code></pre>
-<p>The crash type will be <code>EXC_BAD_INSTRUCTION</code> as follows:</p>
+<p>The crash type will be <code>EXC_BAD_INSTRUCTION</code> as follows: </p>
 <pre><code>Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
 Exception Codes:       0x0000000000000001, 0x0000000000000000
 Exception Note:        EXC_CORPSE_NOTIFY
@@ -4989,6 +4994,161 @@ Binary Images (Other):
 <pre><code>SPRINGBOARD,
 Process detected doing insecure drawing while in secure mode</code></pre>
 <p>We would not expect an Apple provided app, MobileSMS, to crash. Looking carefully at the <code>Binary Images</code> section we can see that the Operating System has been “tweaked”. This phone has been jailbroken due to the reference to <code>CydiaSubstrate</code>. We cannot safely rely on any of the apps as having their original design integrity. Perhaps on this phone the MobileSMS app was tweaked to add extra functionality but has introduced a drawing related bug.</p>
+<h1 id="failed-crashes">Failed Crashes</h1>
+<p>In this chapter we discuss <em>Failed</em> Crashes. That is those crashes which did not end up with a proper crash report returned to us. Sometimes this happens due to the third party crash reporting framework we might have linked to our binary which crashed. In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.</p>
+<h2 id="signal-handling-failures">Signal handling failures</h2>
+<p>When a program is being debugged, it is conceptually in a similar state to when it is crashed. That is because we want to go into the process and inspect its state (or potentially change the program by inserting breakpoints). In iOS 13.5 (fixed in iOS 14.x), there is a glitch where if an application tells the Operating System it is expecting to be debugged, then when the system wants to kill it off as a result of a crash it finds that it cannot kill the app. Instead, the entire platform jams up and needs a reset.</p>
+<p>If we have an application we has some anti-reverse engineering, or anti-debugging functionality, perhaps through framework, we might end up in this situation because making an app pretend it is already being debugged is a common technique to preventing a debugger attaching.</p>
+<p>The application <code>icdab_pt</code> demonstrates the problem. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<pre><code>#define SIZE 4096
+#define SHM_NAME &quot;map-jit-memory&quot;
+
+#define PT_TRACE_ME 0
+int ptrace(int, pid_t, caddr_t, int); // private method
+
++ (void)crashThenStallCrashReporting:(BOOL)stall {
+    int fd = open(SHM_NAME, O_RDWR | O_CREAT, 0666);
+    int result = ftruncate(fd, SIZE);
+    
+    // we are not privileged so this will not be successful
+    void *buf1 = mmap(0,
+                      SIZE,
+                      PROT_READ | PROT_WRITE,
+                      MAP_JIT,
+                      fd,
+                      0);
+    
+    if (stall) {
+        ptrace(PT_TRACE_ME, 0, NULL, 0);
+    }
+    
+    // trigger crash by accessing a bad buffer
+    strcpy(buf1, &quot;Modified buffer&quot;);
+    
+    result = munmap(buf1, SIZE);
+    result = shm_unlink(SHM_NAME);
+}</code></pre>
+<p>The above code causes the same disruption to crash reporting on a simulator as it does on target hardware. For the sake of convenience, we focus on the simulator target as it is easy to reset and to compare different OS versions.</p>
+<p>When we run on iOS 13.5 we find that the system hangs when passed in <code>YES</code>, but crashes properly when passed <code>NO</code>. On iOS 14.x we immediately get a crash in both circumstances.</p>
+<h2 id="symbolification-failure">Symbolification Failure</h2>
+<p>The crash reporting program, <code>ReportCrash</code>, can itself fail. Fortunately, there is a fail safe mechanism that allows <code>ReportCrash</code> failures to be reported by <code>ReportCrash</code>.</p>
+<p>In our example, we see that the Symbolification phase failed.</p>
+<pre><code>Incident Identifier: FD5D3125-4CD2-4A42-8C4C-86022EDED6B7
+CrashReporter Key:   28184df1e2804fabaabb19f3a67639f76eb8f299
+Hardware Model:      iPhone11,8
+Process:             ReportCrash [2437]
+Path:                /System/Library/CoreServices/ReportCrash
+Identifier:          ReportCrash
+Version:             ???
+Code Type:           ARM-64 (Native)
+Role:                Unspecified
+Parent Process:      launchd [1]
+Coalition:           com.apple.ReportCrash [570]</code></pre>
+<pre><code>Exception Type:  EXC_BAD_ACCESS (SIGBUS)
+Exception Subtype: UNKNOWN_0x32 at 0x000000017e012290
+VM Region Info: 0x17e012290 is in 0x16f180000-0x17f180000;  bytes
+ after start: 250159760  bytes before end: 18275695
+      REGION TYPE                      START - END             [
+ VSIZE] PRT/MAX SHRMOD  REGION DETAIL
+      Stack                  000000016f0f8000-000000016f180000 [ 
+ 544K] rw-/rwx SM=COW  thread 5
+---&gt;  mapped file            000000016f180000-000000017f180000
+ [256.0M] r-x/r-x SM=COW  ...t_id=555409f3
+      GAP OF 0x2cdbc000 BYTES
+      unused shlib __TEXT    00000001abf3c000-00000001abf78000 [ 
+ 240K] r-x/r-x SM=COW  ... this process
+
+Termination Signal: Bus error: 10
+Termination Reason: Namespace SIGNAL, Code 0xa
+Terminating Process: exc handler [2437]
+Triggered by Thread:  1</code></pre>
+<pre><code>0   CoreSymbolication                   0x00000001c63b9138
+ 0x1c6357000 + 401720
+1   CoreSymbolication                   0x00000001c63b8e50
+ 0x1c6357000 + 400976
+2   CoreSymbolication                   0x00000001c63b8e50
+ 0x1c6357000 + 400976
+3   CoreSymbolication                   0x00000001c63b3884
+ 0x1c6357000 + 379012
+4   libdyld.dylib                       0x00000001ac19c374
+ 0x1ac194000 + 33652
+5   CoreSymbolication                   0x00000001c63b3620
+ 0x1c6357000 + 378400
+6   CoreSymbolication                   0x00000001c63b83b0
+ 0x1c6357000 + 398256
+7   CoreSymbolication                   0x00000001c63b9f88
+ 0x1c6357000 + 405384
+8   Symbolication                       0x00000001ccac7598
+ 0x1cca9d000 + 173464
+9   Symbolication                       0x00000001ccac8220
+ 0x1cca9d000 + 176672
+10  ReportCrash                         0x0000000100f417e0
+ 0x100f3c000 + 22496
+11  ReportCrash                         0x0000000100f3e6c8
+ 0x100f3c000 + 9928
+12  ReportCrash                         0x0000000100f3fb70
+ 0x100f3c000 + 15216
+13  ReportCrash                         0x0000000100f4a3e0
+ 0x100f3c000 + 58336
+14  ReportCrash                         0x0000000100f4d6f0
+ 0x100f3c000 + 71408
+15  ReportCrash                         0x0000000100f4d78c
+ 0x100f3c000 + 71564
+16  libsystem_kernel.dylib              0x00000001ac16867c
+ 0x1ac165000 + 13948
+17  ReportCrash                         0x0000000100f49a8c
+ 0x100f3c000 + 55948
+18  libsystem_pthread.dylib             0x00000001ac0a9d50
+ 0x1ac0a8000 + 7504
+19  libsystem_pthread.dylib             0x00000001ac0b1c88
+ 0x1ac0a8000 + 40072</code></pre>
+<pre><code>Thread 1 crashed with ARM Thread State (64-bit):
+    x0: 0x000000014df61b80   x1: 0x00000000000387bf   x2:
+ 0x0000000000000080   x3: 0x0000000000036df0
+    x4: 0x0000000000000000   x5: 0x0000000000000000   x6:
+ 0x0000000000000080   x7: 0x000000017e012290
+    x8: 0x00000001489f8000   x9: 0x0000000148a2edf0  x10:
+ 0x0000000000000080  x11: 0x000000017e014000
+   x12: 0x0000000010000000  x13: 0x00000001b0000000  x14:
+ 0x0000000000000000  x15: 0x000000014f0852e0
+   x16: 0x00000001a0000000  x17: 0xffffffffffffffff  x18:
+ 0x0000000000000000  x19: 0x000000014df61b80
+   x20: 0x000000014df61b80  x21: 0x00000001aee92290  x22:
+ 0x0000000000000080  x23: 0x000000017e012290
+   x24: 0x0000000000000001  x25: 0x00000000005cf000  x26:
+ 0x0000000138f54000  x27: 0x000000016ef48e68
+   x28: 0x0000000000036df0   fp: 0x000000016ef486b0   lr:
+ 0x843bf481c63b8e50
+    sp: 0x000000016ef486a0   pc: 0x00000001c63b9138 cpsr:
+ 0x20000000
+   esr: 0x92000006 (Data Abort) byte read Translation fault
+
+Binary Images:
+0x100f3c000 - 0x100f53fff ReportCrash arm64e 
+ &lt;280941d3f7a93468982d7b115aa1f8a1&gt;
+ /System/Library/CoreServices/ReportCrash
+.
+.
+0x1c6357000 - 0x1c63dcfff CoreSymbolication arm64e 
+ &lt;19219f5e25623142895af16a024bf332&gt;
+ /System/Library/PrivateFrameworks/CoreSymbolication.framework/Co
+reSymbolication
+.
+.
+0x1cca9d000 - 0x1ccb1bfff Symbolication arm64e 
+ &lt;f8f62c98901f34fb82c75a0d61044452&gt;
+ /System/Library/PrivateFrameworks/Symbolication.framework/Symbol
+ication</code></pre>
+<p>We can find the <code>CoreSymbolification</code> binary at</p>
+<pre><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.pla
+tform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simru
+ntime/Contents/Resources/RuntimeRoot/System/Library/PrivateFramew
+orks/CoreSymbolication.framework</code></pre>
+<p>From the <code>pc</code>, looking at <code>CoreSymbolification</code> with Hopper, as we have done before, by relocating our binary to <code>0x1c6357000</code> and inspecting <code>0x00000001c63b9138</code> we find that the crash is due to a C++ routine manipulating memory:</p>
+<pre><code>  std::__1::__split_buffer&lt;TRawRegion&lt;Pointer64&gt;,
+ std::__1::allocator&lt;TRawRegion&lt;Pointer64&gt;
+ &gt;&amp;&gt;::__split_buffer(&amp;var_38, r1, r2);</code></pre>
+<p>from the Apple Open Source C++ library, <code>libcpp</code>. <span class="citation" data-cites="libcpp">(n.d.)</span></p>
 <h1 id="memory-diagnostics">Memory Diagnostics</h1>
 <p>In this chapter, we look at different diagnostic options for resolving memory problems.</p>
 <h2 id="basics-of-memory-allocation">Basics of memory allocation</h2>
@@ -5362,6 +5522,9 @@ usr/lib/libBacktraceRecording.dylib
 <div id="ref-plcrashreporter">
 <p>“Plausible Labs Crash Reporter.” 2018. <a href="https://github.com/plausiblelabs/plcrashreporter">https://github.com/plausiblelabs/plcrashreporter</a>.</p>
 </div>
+<div id="ref-rosettaPortingGuide">
+<p>“Porting Your macOS Apps to Apple Silicon.” 2020. <a href="https://developer.apple.com/documentation/xcode/porting_your_macos_apps_to_apple_silicon">https://developer.apple.com/documentation/xcode/porting_your_macos_apps_to_apple_silicon</a>.</p>
+</div>
 <div id="ref-resource-management">
 <p>“Resource Management.” 2015. <a href="http://newosxbook.com/files/MSAse2015.pdf">http://newosxbook.com/files/MSAse2015.pdf</a>.</p>
 </div>
@@ -5373,6 +5536,9 @@ usr/lib/libBacktraceRecording.dylib
 </div>
 <div id="ref-threadstatus">
 <p>“Thread Status Values in Mach.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h</a>.</p>
+</div>
+<div id="ref-libcpp">
+<p>n.d. Accessed 2020.</p>
 </div>
 </div>
 </body>
