@@ -4996,11 +4996,11 @@ Binary Images (Other):
 Process detected doing insecure drawing while in secure mode</code></pre>
 <p>We would not expect an Apple provided app, MobileSMS, to crash. Looking carefully at the <code>Binary Images</code> section we can see that the Operating System has been “tweaked”. This phone has been jailbroken due to the reference to <code>CydiaSubstrate</code>. We cannot safely rely on any of the apps as having their original design integrity. Perhaps on this phone the MobileSMS app was tweaked to add extra functionality but has introduced a drawing related bug.</p>
 <h1 id="failed-crashes">Failed Crashes</h1>
-<p>In this chapter we discuss <em>Failed</em> Crashes. That is those crashes which did not end up with a proper crash report returned to us. Sometimes this happens due to the third party crash reporting framework we might have linked to our binary that crashed. In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.</p>
+<p>In this chapter we discuss <em>Failed</em> Crashes. That is those crashes which did not end up with a proper crash report returned to us. Sometimes this happens due to the third party crash reporting framework that is faulty. In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.</p>
 <h2 id="signal-handling-failures">Signal handling failures</h2>
 <p>When a program is being debugged, it is conceptually in a similar state to when it is crashed. That is because we want to go into the process and inspect its state (or potentially change the program by inserting breakpoints). In iOS 13.5 (fixed in iOS 14.x), there is a glitch where if an application tells the Operating System it is expecting to be debugged, then when the system wants to kill it off as a result of a crash it finds that it cannot kill the app. Instead, the entire platform jams up and needs a reset.</p>
 <p>If we have an application we has some anti-reverse engineering, or anti-debugging functionality, perhaps through framework, we might end up in this situation because making an app pretend it is already being debugged is a common technique to preventing a debugger attaching.</p>
-<p>The application <code>icdab_pt</code> demonstrates the problem. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>The application <code>icdab_pt</code> demonstrates the problem. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span>. <span class="citation" data-cites="jitios">(“Jailed Just in Time Compilation on iOS” 2020)</span>.</p>
 <pre><code>#define SIZE 4096
 #define SHM_NAME &quot;map-jit-memory&quot;
 
@@ -5031,7 +5031,6 @@ int ptrace(int, pid_t, caddr_t, int); // private method
 }</code></pre>
 <p>The above code causes the same disruption to crash reporting on a simulator as it does on target hardware. For the sake of convenience, we focus on the simulator target as it is easy to reset, and to compare different OS versions.</p>
 <p>When we run on iOS 13.5 we find that the system hangs when passed in <code>YES</code>, but crashes properly when passed <code>NO</code>. On iOS 14.x we immediately get a crash in both circumstances.</p>
-<p>For more background information, see <span class="citation" data-cites="jitios">(“Jailed Just in Time Compilation on iOS” 2020)</span>.</p>
 <h2 id="symbolification-failure">Symbolification Failure</h2>
 <p>The crash reporting program, <code>ReportCrash</code>, can itself fail. Fortunately, there is a fail safe mechanism that allows <code>ReportCrash</code> failures to be reported by <code>ReportCrash</code>.</p>
 <p>In our example, we see that the Symbolification phase failed.</p>
@@ -5150,7 +5149,7 @@ orks/CoreSymbolication.framework</code></pre>
 <pre><code>  std::__1::__split_buffer&lt;TRawRegion&lt;Pointer64&gt;,
  std::__1::allocator&lt;TRawRegion&lt;Pointer64&gt;
  &gt;&amp;&gt;::__split_buffer(&amp;var_38, r1, r2);</code></pre>
-<p>from the Apple Open Source C++ library, <code>libcpp</code>. <span class="citation" data-cites="libcpp">(2020)</span></p>
+<p>from the Apple Open Source C++ library, <code>libcpp</code>. <span class="citation" data-cites="libcpp">(“Libcpp Apple Open Source” 2020)</span></p>
 <p>Historically, Symbolification has been a source of failures, and it is a major sub-system that crash reporting relies upon.</p>
 <h1 id="memory-diagnostics">Memory Diagnostics</h1>
 <p>In this chapter, we look at different diagnostic options for resolving memory problems.</p>
@@ -5498,6 +5497,9 @@ usr/lib/libBacktraceRecording.dylib
 <div id="ref-jitios">
 <p>“Jailed Just in Time Compilation on iOS.” 2020. <a href="https://saagarjha.com/blog/2020/02/23/jailed-just-in-time-compilation-on-ios/">https://saagarjha.com/blog/2020/02/23/jailed-just-in-time-compilation-on-ios/</a>.</p>
 </div>
+<div id="ref-libcpp">
+<p>“Libcpp Apple Open Source.” 2020. <a href="https://opensource.apple.com/source/libcpp/libcpp-19/include/__split_buffer.auto.html">https://opensource.apple.com/source/libcpp/libcpp-19/include/__split_buffer.auto.html</a>.</p>
+</div>
 <div id="ref-libdispatchtar">
 <p>“Libdispatch Open Source.” 2018. <a href="https://opensource.apple.com/tarballs/libdispatch/">https://opensource.apple.com/tarballs/libdispatch/</a>.</p>
 </div>
@@ -5542,9 +5544,6 @@ usr/lib/libBacktraceRecording.dylib
 </div>
 <div id="ref-threadstatus">
 <p>“Thread Status Values in Mach.” 2018. <a href="https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h">https://github.com/apple/darwin-xnu/blob/0a798f6738bc1db01281fc08ae024145e84df927/osfmk/mach/arm/thread_status.h</a>.</p>
-</div>
-<div id="ref-libcpp">
-<p>2020. <a href="https://opensource.apple.com/source/libcpp/libcpp-19/include/__split_buffer.auto.html">https://opensource.apple.com/source/libcpp/libcpp-19/include/__split_buffer.auto.html</a>.</p>
 </div>
 </div>
 </body>
