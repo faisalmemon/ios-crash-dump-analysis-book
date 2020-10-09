@@ -43,4 +43,7 @@
    <FileRef
       location = "group:icdab_wrap/icdab_wrap.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:icdab_wx/icdab_wx.xcodeproj">
+   </FileRef>
 </Workspace>
