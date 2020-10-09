@@ -16,11 +16,11 @@
 @implementation ViewController
 
 - (IBAction)triggerMemmapCrashAction:(id)sender {
-    [Memory map_jit_memoryStalled:NO];
+    [Memory crashThenStallCrashReporting:NO];
 }
 
 - (IBAction)triggerStalledCrashAction:(id)sender {
-    [Memory map_jit_memoryStalled:YES];
+    [Memory crashThenStallCrashReporting:YES];
 }
 
 - (void)viewDidLoad {

@@ -13,7 +13,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [Memory map_jit_memory];
+    [Memory crashThenStallCrashReporting:YES];
 }
 
 
