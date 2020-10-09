@@ -1,7 +1,7 @@
 # Failed Crashes
 
 In this chapter we discuss _Failed_ Crashes.  That is those crashes which did not end up with a proper crash report returned to us.
-Sometimes this happens due to the third party crash reporting framework we might have linked to our binary that crashed.  In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.
+Sometimes this happens due to the third party crash reporting framework that is faulty.  In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.
 
 ## Signal handling failures
 
@@ -10,7 +10,7 @@ it finds that it cannot kill the app.  Instead, the entire platform jams up and 
 
 If we have an application we has some anti-reverse engineering, or anti-debugging functionality, perhaps through framework, we might end up in this situation because making an app pretend it is already being debugged is a common technique to preventing a debugger attaching.
 
-The application `icdab_pt` demonstrates the problem.  @icdabgithub
+The application `icdab_pt` demonstrates the problem.  @icdabgithub.  @jitios.
 
 ```
 #define SIZE 4096
@@ -48,4 +48,3 @@ For the sake of convenience, we focus on the simulator target as it is easy to r
 
 When we run on iOS 13.5\index{iOS!13.5} we find that the system hangs when passed in `YES`, but crashes properly when passed `NO`.  On iOS 14.x\index{iOS!14.x} we immediately get a crash in both circumstances.
 
-For more background information, see @jitios.
