@@ -284,7 +284,7 @@
 <p>This publication could include technical inaccuracies or typographical errors. Changes are periodically added to the information herein. These changes will be incorporated in new editions of the publication.</p>
 <p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
 <p>Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.</p>
-<p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognised the following trademarks:</p>
+<p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognized the following trademarks:</p>
 <p>ARM, Android, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Intel, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Rosetta, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iTunes Connect, macOS, tvOS, watchOS.</p>
 <h1 id="preface">Preface</h1>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
@@ -331,7 +331,7 @@
 <p>If we’ve recently updated Xcode, or pulled code updates on top of a compiled project, we can perform an Option-Command-Shift-K clean which cleans the build area of intermediates, and then re-build as normal.</p>
 <h3 id="simulator-only-issue">Simulator only issue</h3>
 <p>Sometimes our app crashes only on simulator.</p>
-<p>Here we should try Simulator Hardware-&gt;Reset all content and settings. We can try iPad simulator instead of iPhone simulator or vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.</p>
+<p>Here we should try Simulator Hardware-&gt;Reset all content and settings. We can try iPad simulator instead of iPhone simulator or vice-versa. Sample projects are often used to explain a particular technology without regard to productization or generality.</p>
 <h3 id="site-specific-issues">Site specific issues</h3>
 <p>Sometimes our app only crashes when at customer site.</p>
 <p>We can check Wi-Fi settings or try hot-spotting our iPad to an iPhone. Sometimes network issues such as connectivity, or latency are overlooked when developing our app in the office/home environment. We should make a note to fix networking assumptions if that is the problem.</p>
@@ -544,8 +544,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <h3 id="analysis-methodology">Analysis Methodology</h3>
 <p>Another complementary approach for analyzing and proactively avoiding crashes is to run the Code Analyzer. This is invoked using Command-Shift-B</p>
 <p>In the sample app <code>icdab_sample</code> the Analyzer reports:</p>
-<pre><code>/Users/faisalm/dev/icdab/source/icdab_sample/icdab_sample/
-macAddress.m:22:12:
+<pre><code>.../source/icdab_sample/icdab_sample/macAddress.m:22:12:
  warning: Null pointer argument in call to string length function
     assert(strlen(nullPointer) == 0);</code></pre>
 <p>and conveniently marks up our source code</p>
@@ -653,7 +652,7 @@ double plutos_to_fill_jupiter
 
     loaded_data = true;
 }</code></pre>
-<p>The problem indirectly is because <code>database.planets[name]</code> discovered that there was no entry for Pluto so created one via the no-arg constructor as this is the behaviour for STL map data structures.</p>
+<p>The problem indirectly is because <code>database.planets[name]</code> discovered that there was no entry for Pluto so created one via the no-arg constructor as this is the behavior for STL map data structures.</p>
 <pre><code>planet::planet() {
     this-&gt;name = &quot;&quot;;
     this-&gt;diameter = 0.0;
@@ -876,7 +875,7 @@ icdab_planets.app.dSYM/Contents/Info.plist</code></pre>
 -[PlanetViewController viewDidLoad] (in icdab_planets)
  (PlanetViewController.mm:33)</code></pre>
 <p>The Crash Reporter tool fundamentally just uses <code>atos</code> to symbolicate the Crash Report, as well as providing other system related information.</p>
-<p>Symbolification is described further by an Apple Technote in case we want to get into it in more detail. <span class="citation" data-cites="tn2123">(“CrashReport Technote 2123” 2004)</span></p>
+<p>Symbolification is described further by an Apple Tech-note in case we want to get into it in more detail. <span class="citation" data-cites="tn2123">(“CrashReport Technote 2123” 2004)</span></p>
 <h2 id="reverse-engineering-approach">Reverse Engineering Approach</h2>
 <p>In the above example we have the source code, and symbols, for the crash dump so can do Symbolification.</p>
 <p>Sometimes we may have included a third party binary framework in our project for which we do not have the source code. It is good practice for the vendor to supply symbol information for their framework to allow crash dump analysis. When symbol information is not available, it is still possible to make progress by applying some reverse engineering.</p>
@@ -2101,18 +2100,18 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <p>Excluded from Rosetta are:</p>
 <ul>
 <li>Kernel extensions</li>
-<li><code>x86_64</code> vitualization support instructions</li>
+<li><code>x86_64</code> virtualization support instructions</li>
 <li>vector instructions, such as AVX, AVX2, and AVX512</li>
 </ul>
-<p>Interestingly, Rosetta does support Just-In-Time compilation apps. These applications are special because they generate their own code and then execute them. Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable). Presumbly this was because JIT is a common technology for the JavaScript runtime.</p>
-<p>Apple advise checking for optional hardware features before calling code that utilises such functionality. To determine what optional hardware support is present on our platform, we can run <code>sysctl hw | grep optional</code>. In code, we have the <code>sysctlbyname</code> function to achieve the same thing.</p>
+<p>Interestingly, Rosetta does support Just-In-Time compilation apps. These applications are special because they generate their own code and then execute them. Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable). Presumably this was because JIT is a common technology for the JavaScript runtime.</p>
+<p>Apple advise checking for optional hardware features before calling code that utilizes such functionality. To determine what optional hardware support is present on our platform, we can run <code>sysctl hw | grep optional</code>. In code, we have the <code>sysctlbyname</code> function to achieve the same thing.</p>
 <h3 id="forcing-rosetta-execution">Forcing Rosetta execution</h3>
 <p>If we accept the standard build architecture options for our program, which are <code>Build Active Architecture Only</code> set to <code>Yes</code> for <code>Debug</code> builds, and <code>No</code> for <code>Release</code> builds, then when running under the Debugger, we shall only see Native binaries. That is because in the Debug case, we do not want to waste time building an architecture not relevant to the machine we are testing on.</p>
 <p>If we do an archive build, <code>Product &gt; Archive</code>, and then select <code>Distribute App</code> we end up with a Release Build. With default settings, this will be a Fat Binary File offering <code>x86</code> and <code>arm64</code> within the multi-architecture binary.</p>
 <p>Once we have a Fat binary we can use <code>Finder</code> app, right-click <code>File info</code> to set Rosetta to perform translation of our binary so that on an Apple Silicon Mac, the Intel instructions are translated from the Fat binary.</p>
 <p><img src="screenshots/univeral_application_icdab_rosetta_thread.png" /></p>
 <h2 id="code-translation-example">Code Translation Example</h2>
-<p>Our working example in this chapter is the <code>icdab_thread</code> program; it is available on the web. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> This program attempts to call <code>thread_set_state</code> and then deliberately crashes 60 seconds later using <code>abort</code>. It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware. Nevertheless, this program is interesting because of a closely related artefact upon crashing, the number of times <code>task_for_pid</code> had been called.</p>
+<p>Our working example in this chapter is the <code>icdab_thread</code> program; it is available on the web. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> This program attempts to call <code>thread_set_state</code> and then deliberately crashes 60 seconds later using <code>abort</code>. It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware. Nevertheless, this program is interesting because of a closely related artifact upon crashing, the number of times <code>task_for_pid</code> had been called.</p>
 <p>We have adapted the command line executable program <code>icdab_thread</code> into an application which merely calls the same underlying code. The application is called <code>icdab_rosetta_thread</code>. The reason for this is because UNIX command line executables are not eligible for running Translated but Applications are.</p>
 <h3 id="icdab_rosetta_thread-lipo-information"><code>icdab_rosetta_thread</code> Lipo Information</h3>
 <p>The following command shows our application supports both ARM and Intel instructions.</p>
@@ -2180,7 +2179,7 @@ x86_64 arm64</code></pre>
  _pthread_wqthread + 244
 11  libsystem_pthread.dylib             0x00007fff6be8b4c3
  start_wqthread + 15</code></pre>
-<p>Note the actual line of code in thread stack 0 is <code>???</code> in the translated case. Presumably this is the actual translated code that is synthesised by Rosetta.</p>
+<p>Note the actual line of code in thread stack 0 is <code>???</code> in the translated case. Presumably this is the actual translated code that is synthesized by Rosetta.</p>
 <p>Furthermore we have an additional two threads in the translated case, the exception server, and the runtime environment:</p>
 <pre><code>Thread 3:: com.apple.rosetta.exceptionserver
 0   runtime_t8027                       0x00007ffdfff76af8
@@ -2261,7 +2260,7 @@ Thread 4:
     task_for_pid: 915091
     thread_create: 0
     thread_set_state: 804</code></pre>
-<p>We see almost the same statistics, but interestingly we have <code>task_for_pid</code> set to 1. So the translation environment only did a mimimal observation/modification of the actual process under translation.</p>
+<p>We see almost the same statistics, but interestingly we have <code>task_for_pid</code> set to 1. So the translation environment only did a minimal observation/modification of the actual process under translation.</p>
 <h3 id="virtual-memory-regions">Virtual Memory Regions</h3>
 <p>The translated version of the program runs a bit heavier on RAM usage than the native version.</p>
 <p>In the native case, we have:</p>
@@ -2284,7 +2283,7 @@ Rosetta Return Stack               192K       12
 Rosetta Thread Context             192K       12</code></pre>
 <h2 id="rosetta-crashes">Rosetta Crashes</h2>
 <p>Rosetta is a powerful translation system. But it does not translate all X86-64 instructions. Vector instructions, as an example, cannot be translated and generate a crash when encountered. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span></p>
-<p>Before diagnosing specific problems, it is worth familiarising ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing. <span class="citation" data-cites="rosettaPortingGuide">(“Porting Your macOS Apps to Apple Silicon” 2020)</span></p>
+<p>Before diagnosing specific problems, it is worth familiarizing ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing. <span class="citation" data-cites="rosettaPortingGuide">(“Porting Your macOS Apps to Apple Silicon” 2020)</span></p>
 <h3 id="icdab_avx-vector-instruction-crash"><code>icdab_avx</code> vector instruction crash</h3>
 <p>When an Intel AVX vector instruction is encountered on a Apple Silicon Mac running the app using translation, we get a crash. We have a sample application, <code>icdab_avx</code>, that demonstrates this.</p>
 <p>The crash Code Type will be:</p>
@@ -2359,7 +2358,7 @@ mov        dword [rsp+0x160+var_BC], 0x41600000
 mov        dword [rsp+0x160+var_C0], 0x41800000
 vmovss     xmm0, dword [rsp+0x160+var_BC]
 vmovss     xmm1, dword [rsp+0x160+var_C0]</code></pre>
-<p>So we didn’t land on the extact instruction that failed, but we did land on the function at fault, <code>compute_delta</code>, which looks to have been inlined in this Release binary due to it being within the <code>runVectorOperationsButtonAction</code> method. Nevertheless, we’ve been given enough help to be able to explore the binary in the relevant area and establish confirmation that the vector operation, <code>vmovss</code> was called. This is not supported by Rosetta.</p>
+<p>So we didn’t land on the exact instruction that failed, but we did land on the function at fault, <code>compute_delta</code>, which looks to have been inlined in this Release binary due to it being within the <code>runVectorOperationsButtonAction</code> method. Nevertheless, we’ve been given enough help to be able to explore the binary in the relevant area and establish confirmation that the vector operation, <code>vmovss</code> was called. This is not supported by Rosetta.</p>
 <p>Our original code that caused the issue was:</p>
 <pre><code>void
 compute_delta() {
@@ -2993,7 +2992,7 @@ SiriUXHeater *heater; // @synthesize heater=_heater;
 __weak id &lt;SiriUXHeaterDelegate&gt; delegate;
  // @synthesize delegate=_delegate;
 - (void)_suggestPreheat;</code></pre>
-<p>It seems that this component can be prepared and made ready and has a variety of levels of initialisation and de-initialisation. Maybe this complexity is to make the user interface responsive. But it sends us a message that this component needs an integration test suite that codifies the state machine so we know the lifecycle of the service.</p>
+<p>It seems that this component can be prepared and made ready and has a variety of levels of initialization and de-initialization. Maybe this complexity is to make the user interface responsive. But it sends us a message that this component needs an integration test suite that codifies the state machine so we know the lifecycle of the service.</p>
 <h2 id="lessons-learnt-2">Lessons Learnt</h2>
 <p>We went from using HOWTO knowledge (understanding the Crash Report) to using tooling to get a baseline level of knowledge. Then we started to apply Software Engineering experiences, and then we started reasoning about the actual design of the component to ask how we got here and what should be done to avoid the problem. This journey from looking at the artefacts of a problem to getting to the root of what needs to be done is a common theme during crash dump analysis. It cannot be achieved by just focusing on the HOWTO of comprehending crash reports. We need to switch hats and see things from different perspectives in order to really make progress.</p>
 <h1 id="runtime-environment-crashes">Runtime Environment Crashes</h1>
