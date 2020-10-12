@@ -116,7 +116,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
     cpsr: 0x60000000
 ```
 
-However, modern register dumps, and our unwrapped Nil case, show:
+However, modern register dumps, and in our unwrapped `nil` case, show:
 ```
 Thread 0 crashed with ARM Thread State (64-bit):
     x0: 0x0000000104708000   x1: 0x00000002820a3800   x2:
