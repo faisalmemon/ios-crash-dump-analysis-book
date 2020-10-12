@@ -51,7 +51,9 @@ Incident Identifier: 83DD2BB9-9C75-4BE5-98E5-FD3FD9CCC604
 CrashReporter Key:   d3e622273dd1296e8599964c99f70e07d25c8ddc
 Hardware Model:      iPhone12,1
 Process:             icdab_nsdata [842]
-Path:                /private/var/containers/Bundle/Application/93CF6ABD-2876-4DEA-9B4D-0123C5CD8AE2/icdab_nsdata.app/icdab_nsdata
+Path:               
+ /private/var/containers/Bundle/Application/93CF6ABD-2876-4DEA-9B
+4D-0123C5CD8AE2/icdab_nsdata.app/icdab_nsdata
 Identifier:          www.perivalebluebell.icdab-nsdata
 Version:             1 (1.0)
 Code Type:           ARM-64 (Native)
@@ -75,14 +77,25 @@ Application Specific Information:
 abort() called
 
 Last Exception Backtrace:
-0   CoreFoundation                      0x1aa7cc904 __exceptionPreprocess + 220
-1   libobjc.A.dylib                     0x1bf1fbc50 objc_exception_throw + 59
-2   CoreFoundation                      0x1aa6d3b0c -[NSObject+ 183052 (NSObject) doesNotRecognizeSelector:] + 143
-3   CoreFoundation                      0x1aa7cf4d0 ___forwarding___ + 1443
-4   CoreFoundation                      0x1aa7d17d0 _CF_forwarding_prep_0 + 95
-5   Foundation                          0x1aba6eabc -[_NSPlaceholderData initWithData:] + 131
-6   icdab_nsdata                        0x10061e61c -[AppDelegate application:didFinishLaunchingWithOptions:] + 26140 (AppDelegate.m:26)
-7   UIKitCore                           0x1ad170604 -[UIApplication _handleDelegateCallbacksWithOptions:isSuspended:restoreState:] + 359
+0   CoreFoundation                      0x1aa7cc904
+ __exceptionPreprocess + 220
+1   libobjc.A.dylib                     0x1bf1fbc50
+ objc_exception_throw + 59
+2   CoreFoundation                      0x1aa6d3b0c -[NSObject+
+ 183052 (NSObject) doesNotRecognizeSelector:] + 143
+3   CoreFoundation                      0x1aa7cf4d0
+ ___forwarding___ + 1443
+4   CoreFoundation                      0x1aa7d17d0
+ _CF_forwarding_prep_0 + 95
+5   Foundation                          0x1aba6eabc
+ -[_NSPlaceholderData initWithData:] + 131
+6   icdab_nsdata                        0x10061e61c -[AppDelegate
+ application:didFinishLaunchingWithOptions:] + 26140
+ (AppDelegate.m:26)
+7   UIKitCore                           0x1ad170604
+ -[UIApplication
+ _handleDelegateCallbacksWithOptions:isSuspended:restoreState:] +
+ 359
 .
 .
 .
@@ -93,15 +106,32 @@ Furthermore, we get the following information in the system log (console log of 
 
 ```
 2020-10-12 14:29:55.024195+0100 icdab_nsdata[881:101507] 
-My data is {length = 0, bytes = 0x} - ok since we can handle a nil
+My data is {length = 0, bytes = 0x} - ok since we can handle a
+ nil
 2020-10-12 14:29:55.024276+0100 icdab_nsdata[881:101507] 
--[__NSCFConstantString _isDispatchData]: unrecognized selector sent to instance 0x1042480a8
+-[__NSCFConstantString _isDispatchData]: unrecognized selector
+ sent to instance 0x1042480a8
 2020-10-12 14:29:55.024403+0100 icdab_nsdata[881:101507] 
-*** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to instance 0x1042480a8'
+*** Terminating app due to uncaught exception
+ 'NSInvalidArgumentException', reason: '-[__NSCFConstantString
+ _isDispatchData]: unrecognized selector sent to instance
+ 0x1042480a8'
 *** First throw call stack:
-(0x1aa7cc904 0x1bf1fbc50 0x1aa6d3b0c 0x1aa7cf4d0 0x1aa7d17d0 0x1aba6eabc 0x10424661c 0x1ad170604 0x1ad17266c 0x1ad1780c8 0x1ac7d0e28 0x1acd3e0ac 0x1ac7d19c0 0x1ac7d13c8 0x1ac7d17d0 0x1ac7d100c 0x1ac7d9558 0x1acc4ad90 0x1acd567d4 0x1ac7d9250 0x1ac600fac 0x1ac5ff920 0x1ac600bd4 0x1ad176268 0x1acc745bc 0x1b9fa4afc 0x1b9fd0444 0x1b9fb3be0 0x1b9fd0108 0x104559780 0x10455d0c0 0x1b9ff8990 0x1b9ff8620 0x1b9ff8b74 0x1aa7487f8 0x1aa7486f4 0x1aa7479ec 0x1aa741b18 0x1aa7412a8 0x1c1ccc784 0x1ad1742c4 0x1ad179b38 0x1042464b4 0x1aa4016c0)
-libc++abi.dylib: terminating with uncaught exception of type NSException
-*** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to instance 0x1042480a8'
+(0x1aa7cc904 0x1bf1fbc50 0x1aa6d3b0c 0x1aa7cf4d0 0x1aa7d17d0
+ 0x1aba6eabc 0x10424661c 0x1ad170604 0x1ad17266c 0x1ad1780c8
+ 0x1ac7d0e28 0x1acd3e0ac 0x1ac7d19c0 0x1ac7d13c8 0x1ac7d17d0
+ 0x1ac7d100c 0x1ac7d9558 0x1acc4ad90 0x1acd567d4 0x1ac7d9250
+ 0x1ac600fac 0x1ac5ff920 0x1ac600bd4 0x1ad176268 0x1acc745bc
+ 0x1b9fa4afc 0x1b9fd0444 0x1b9fb3be0 0x1b9fd0108 0x104559780
+ 0x10455d0c0 0x1b9ff8990 0x1b9ff8620 0x1b9ff8b74 0x1aa7487f8
+ 0x1aa7486f4 0x1aa7479ec 0x1aa741b18 0x1aa7412a8 0x1c1ccc784
+ 0x1ad1742c4 0x1ad179b38 0x1042464b4 0x1aa4016c0)
+libc++abi.dylib: terminating with uncaught exception of type
+ NSException
+*** Terminating app due to uncaught exception
+ 'NSInvalidArgumentException', reason: '-[__NSCFConstantString
+ _isDispatchData]: unrecognized selector sent to instance
+ 0x1042480a8'
 ```
 
 From here we can see the problem is that `__NSCFConstantString` is unable to respond to `_isDispatchData` because `NSString` is not a data providing object.
