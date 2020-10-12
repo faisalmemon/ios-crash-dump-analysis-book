@@ -47,128 +47,61 @@ If we run the code, we get the following Crash Report, truncated for ease of dem
 ### Deserialization Crash Report
 
 ```
-Incident Identifier: 12F72C5C-E9BD-495F-A017-832E3BBF285E
-CrashReporter Key:   56ec2b40764a1453466998785343f1e51c8b3849
-Hardware Model:      iPod5,1
-Process:             icdab_nsdata [324]
-Path:                /private/var/containers/Bundle/Application/
-98F79023-562D-4A76-BC72-5E56D378AD98/
-icdab_nsdata.app/icdab_nsdata
+Incident Identifier: 83DD2BB9-9C75-4BE5-98E5-FD3FD9CCC604
+CrashReporter Key:   d3e622273dd1296e8599964c99f70e07d25c8ddc
+Hardware Model:      iPhone12,1
+Process:             icdab_nsdata [842]
+Path:                /private/var/containers/Bundle/Application/93CF6ABD-2876-4DEA-9B4D-0123C5CD8AE2/icdab_nsdata.app/icdab_nsdata
 Identifier:          www.perivalebluebell.icdab-nsdata
 Version:             1 (1.0)
-Code Type:           ARM (Native)
+Code Type:           ARM-64 (Native)
+Role:                Foreground
 Parent Process:      launchd [1]
+Coalition:           www.perivalebluebell.icdab-nsdata [1021]
+
+Date/Time:           2020-10-12 14:14:37.8842 +0100
+Launch Time:         2020-10-12 14:14:37.7953 +0100
+OS Version:          iPhone OS 14.2 (18B5061e)
+Release Type:        Beta
+Baseband Version:    2.02.00
+Report Version:      104
+
 Exception Type:  EXC_CRASH (SIGABRT)
 Exception Codes: 0x0000000000000000, 0x0000000000000000
 Exception Note:  EXC_CORPSE_NOTIFY
 Triggered by Thread:  0
 
-Filtered syslog:
-None found
+Application Specific Information:
+abort() called
 
 Last Exception Backtrace:
-0   CoreFoundation                	0x25aa3916
- __exceptionPreprocess + 122
-1   libobjc.A.dylib               	0x2523ee12
- objc_exception_throw + 33
-2   CoreFoundation                	0x25aa92b0
--[NSObject+ 1045168 (NSObject) doesNotRecognizeSelector:]
- + 183
-3   CoreFoundation                	0x25aa6edc
- ___forwarding___ + 695
-4   CoreFoundation                	0x259d2234
- _CF_forwarding_prep_0 + 19
-5   Foundation                    	0x2627e9a0
--[_NSPlaceholderData initWithData:] + 123
-6   icdab_nsdata                  	0x000f89ba
--[AppDelegate application:
-didFinishLaunchingWithOptions:] + 27066 (AppDelegate.m:26)
-7   UIKit                         	0x2a093780
- -[UIApplication _handleDelegateCallbacksWithOptions:
- isSuspended:restoreState:] + 387
-8   UIKit                         	0x2a2bb2cc
- -[UIApplication _callInitializationDelegatesForMainScene:
- transitionContext:] + 3075
-9   UIKit                         	0x2a2bf280
--[UIApplication _runWithMainScene:transitionContext:
-completion:] + 1583
-10  UIKit                         	0x2a2d3838
-__84-[UIApplication _handleApplicationActivationWithScene:
-transitionContext:completion:]_block_invoke3286 + 31
-11  UIKit                         	0x2a2bc7ae
- -[UIApplication workspaceDidEndTransaction:] + 129
-12  FrontBoardServices            	0x27146c02
- __FBSSERIALQUEUE_IS_CALLING_OUT_TO_A_BLOCK__ + 13
-13  FrontBoardServices            	0x27146ab4
--[FBSSerialQueue _performNext] + 219
-14  FrontBoardServices            	0x27146db4
--[FBSSerialQueue _performNextFromRunLoopSource] + 43
-15  CoreFoundation                	0x25a65dfa
-__CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE0_PERFORM_FUNCTION__
- + 9
-16  CoreFoundation                	0x25a659e8
-__CFRunLoopDoSources0 + 447
-17  CoreFoundation                	0x25a63d56
- __CFRunLoopRun + 789
-18  CoreFoundation                	0x259b3224
- CFRunLoopRunSpecific + 515
-19  CoreFoundation                	0x259b3010
-CFRunLoopRunInMode + 103
-20  UIKit                         	0x2a08cc38
- -[UIApplication _run] + 519
-21  UIKit                         	0x2a087184
- UIApplicationMain + 139
-22  icdab_nsdata                  	0x000f8830
- main + 26672 (main.m:14)
-23  libdyld.dylib                 	0x2565b86e tlv_get_addr
- + 41
+0   CoreFoundation                      0x1aa7cc904 __exceptionPreprocess + 220
+1   libobjc.A.dylib                     0x1bf1fbc50 objc_exception_throw + 59
+2   CoreFoundation                      0x1aa6d3b0c -[NSObject+ 183052 (NSObject) doesNotRecognizeSelector:] + 143
+3   CoreFoundation                      0x1aa7cf4d0 ___forwarding___ + 1443
+4   CoreFoundation                      0x1aa7d17d0 _CF_forwarding_prep_0 + 95
+5   Foundation                          0x1aba6eabc -[_NSPlaceholderData initWithData:] + 131
+6   icdab_nsdata                        0x10061e61c -[AppDelegate application:didFinishLaunchingWithOptions:] + 26140 (AppDelegate.m:26)
+7   UIKitCore                           0x1ad170604 -[UIApplication _handleDelegateCallbacksWithOptions:isSuspended:restoreState:] + 359
+.
+.
+.
 ```
 
-Unfortunately, this type of crash does not inject further helpful information, such as `Application Specific Information`, into the Crash Report.
 
-However, we do get information in the system log (console log of the app):
+Furthermore, we get the following information in the system log (console log of the app):
 
 ```
-default	13:36:58.000000 +0000	icdab_nsdata	 
-My data is <> - ok since we can handle a nil
-
-default	13:36:58.000000 +0100	icdab_nsdata	 
--[__NSCFConstantString _isDispatchData]:
-unrecognized selector sent to instance 0x3f054
-
-default	13:36:58.000000 +0100	icdab_nsdata
-	 *** Terminating app due to uncaught exception
-    'NSInvalidArgumentException', reason:
-    '-[__NSCFConstantString _isDispatchData]:
-     unrecognized selector sent to instance 0x3f054'
-
-	*** First throw call stack:
-	(0x25aa391b 0x2523ee17 0x25aa92b5 0x25aa6ee1 0x259d2238
-     0x2627e9a5 0x3d997
-     0x2a093785 0x2a2bb2d1 0x2a2bf285 0x2a2d383d 0x2a2bc7b3
-      0x27146c07
-      0x27146ab9 0x27146db9 0x25a65dff 0x25a659ed 0x25a63d5b
-       0x259b3229
-      0x259b3015 0x2a08cc3d 0x2a087189 0x3d80d 0x2565b873)
-
-default	13:36:58.000000 +0100
-	SpringBoard Application
-  'UIKitApplication:www.perivalebluebell.icdab-nsdata[0x51b9]'
-    crashed.
-
-default	13:36:58.000000 +0100
-UserEventAgent
-	 2769630555571: id=www.perivalebluebell.icdab-nsdata
-   pid=386, state=0
-
-default	13:36:58.000000 +0000	ReportCrash
-	 Formulating report for corpse[386] icdab_nsdata
-
-default	13:36:58.000000 +0000	ReportCrash
-	 Saved type '109(109_icdab_nsdata)'
-    report (2 of max 25) at
-    /var/mobile/Library/Logs/CrashReporter/
-    icdab_nsdata-2018-07-27-133658.ips
+2020-10-12 14:29:55.024195+0100 icdab_nsdata[881:101507] 
+My data is {length = 0, bytes = 0x} - ok since we can handle a nil
+2020-10-12 14:29:55.024276+0100 icdab_nsdata[881:101507] 
+-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to instance 0x1042480a8
+2020-10-12 14:29:55.024403+0100 icdab_nsdata[881:101507] 
+*** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to instance 0x1042480a8'
+*** First throw call stack:
+(0x1aa7cc904 0x1bf1fbc50 0x1aa6d3b0c 0x1aa7cf4d0 0x1aa7d17d0 0x1aba6eabc 0x10424661c 0x1ad170604 0x1ad17266c 0x1ad1780c8 0x1ac7d0e28 0x1acd3e0ac 0x1ac7d19c0 0x1ac7d13c8 0x1ac7d17d0 0x1ac7d100c 0x1ac7d9558 0x1acc4ad90 0x1acd567d4 0x1ac7d9250 0x1ac600fac 0x1ac5ff920 0x1ac600bd4 0x1ad176268 0x1acc745bc 0x1b9fa4afc 0x1b9fd0444 0x1b9fb3be0 0x1b9fd0108 0x104559780 0x10455d0c0 0x1b9ff8990 0x1b9ff8620 0x1b9ff8b74 0x1aa7487f8 0x1aa7486f4 0x1aa7479ec 0x1aa741b18 0x1aa7412a8 0x1c1ccc784 0x1ad1742c4 0x1ad179b38 0x1042464b4 0x1aa4016c0)
+libc++abi.dylib: terminating with uncaught exception of type NSException
+*** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[__NSCFConstantString _isDispatchData]: unrecognized selector sent to instance 0x1042480a8'
 ```
 
 From here we can see the problem is that `__NSCFConstantString` is unable to respond to `_isDispatchData` because `NSString` is not a data providing object.
