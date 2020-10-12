@@ -100,7 +100,7 @@ vmovss     xmm0, dword [rsp+0x160+var_BC]
 vmovss     xmm1, dword [rsp+0x160+var_C0]
 ```
 
-So we didn't land on the extact instruction that failed, but we did land on the function at fault, `compute_delta`, which looks to have been inlined in this Release binary due to it being within the `runVectorOperationsButtonAction` method.  Nevertheless, we've been given enough help to be able to explore the binary in the relevant area and establish confirmation that the vector operation, `vmovss` was called.  This is not supported by Rosetta.
+So we didn't land on the exact instruction that failed, but we did land on the function at fault, `compute_delta`, which looks to have been inlined in this Release binary due to it being within the `runVectorOperationsButtonAction` method.  Nevertheless, we've been given enough help to be able to explore the binary in the relevant area and establish confirmation that the vector operation, `vmovss` was called.  This is not supported by Rosetta.
 
 
 Our original code that caused the issue was:

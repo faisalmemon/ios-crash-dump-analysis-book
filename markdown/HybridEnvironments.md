@@ -111,7 +111,7 @@ void planet_database::load_data() {
 }
 ```
 
-The problem indirectly is because `database.planets[name]` discovered that there was no entry for Pluto so created one via the no-arg constructor as this is the behaviour for STL map data structures.
+The problem indirectly is because `database.planets[name]` discovered that there was no entry for Pluto so created one via the no-arg constructor as this is the behavior for STL map data structures.
 
 ```
 planet::planet() {

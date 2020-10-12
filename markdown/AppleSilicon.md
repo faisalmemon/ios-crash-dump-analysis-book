@@ -22,12 +22,12 @@ Rosetta is a powerful system but it has some limitations.  These concern mainly 
 Excluded from Rosetta are:
 
 - Kernel extensions
-- `x86_64` vitualization support instructions
+- `x86_64` virtualization support instructions
 - vector instructions, such as AVX, AVX2, and AVX512\index{Vector instruction!AVX}
 
-Interestingly, Rosetta does support Just-In-Time compilation apps.  These applications are special because they generate their own code and then execute them.  Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable).  Presumbly this was because JIT is a common technology for the JavaScript runtime.
+Interestingly, Rosetta does support Just-In-Time compilation apps.  These applications are special because they generate their own code and then execute them.  Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable).  Presumably this was because JIT is a common technology for the JavaScript runtime.
 
-Apple advise checking for optional hardware features before calling code that utilises such functionality.  To determine what optional hardware support is present on our platform, we can run `sysctl hw | grep optional`.  In code, we have the `sysctlbyname` function to achieve the same thing.
+Apple advise checking for optional hardware features before calling code that utilizes such functionality.  To determine what optional hardware support is present on our platform, we can run `sysctl hw | grep optional`.  In code, we have the `sysctlbyname` function to achieve the same thing.
 
 ### Forcing Rosetta execution
 
@@ -40,7 +40,7 @@ Once we have a Fat binary we can use `Finder` app, right-click `File info` to se
 ![](screenshots/univeral_application_icdab_rosetta_thread.png)
 
 ## Code Translation Example
-Our working example in this chapter is the `icdab_thread` program; it is available on the web.  @icdabgithub  This program attempts to call `thread_set_state` and then deliberately crashes 60 seconds later using `abort`\index{command!abort}.  It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware.  Nevertheless, this program is interesting because of a closely related artefact upon crashing, the number of times `task_for_pid`\index{command!task for pid} had been called.
+Our working example in this chapter is the `icdab_thread` program; it is available on the web.  @icdabgithub  This program attempts to call `thread_set_state` and then deliberately crashes 60 seconds later using `abort`\index{command!abort}.  It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware.  Nevertheless, this program is interesting because of a closely related artifact upon crashing, the number of times `task_for_pid`\index{command!task for pid} had been called.
 
 We have adapted the command line executable program `icdab_thread` into an application which merely calls the same underlying code.  The application is called `icdab_rosetta_thread`.  The reason for this is because UNIX command line executables are not eligible for running Translated but Applications are. 
 
@@ -132,7 +132,7 @@ Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
  start_wqthread + 15
 ```
 
-Note the actual line of code in thread stack 0 is `???` in the translated case.  Presumably this is the actual translated code that is synthesised by Rosetta.
+Note the actual line of code in thread stack 0 is `???` in the translated case.  Presumably this is the actual translated code that is synthesized by Rosetta.
 
 Furthermore we have an additional two threads in the translated case, the exception server\index{Rosetta!Exception Server}, and the runtime environment:
 ```
@@ -236,7 +236,7 @@ External Modification Summary:
     thread_set_state: 804
 ```
 
-We see almost the same statistics, but interestingly we have `task_for_pid`\index{command!task for pid} set to 1.  So the translation environment only did a mimimal observation/modification of the actual process under translation.
+We see almost the same statistics, but interestingly we have `task_for_pid`\index{command!task for pid} set to 1.  So the translation environment only did a minimal observation/modification of the actual process under translation.
 
 ### Virtual Memory Regions
 
@@ -274,4 +274,4 @@ Rosetta Thread Context             192K       12
 
 Rosetta is a powerful translation system.  But it does not translate all X86-64 instructions.  Vector instructions, as an example, cannot be translated and generate a crash when encountered.  @rosetta
 
-Before diagnosing specific problems, it is worth familiarising ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing.  @rosettaPortingGuide
+Before diagnosing specific problems, it is worth familiarizing ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing.  @rosettaPortingGuide

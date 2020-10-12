@@ -22,7 +22,7 @@ If we've recently updated Xcode, or pulled code updates on top of a compiled pro
 ### Simulator only issue
 Sometimes our app crashes only on simulator\index{crash!simulator only}.
 
-Here we should try Simulator Hardware->Reset all content and settings.  We can try iPad\index{trademark!iPad} simulator instead of iPhone\index{trademark!iPhone} simulator or vice-versa. Sample projects are often used to explain a particular technology without regard to productisation or generality.
+Here we should try Simulator Hardware->Reset all content and settings.  We can try iPad\index{trademark!iPad} simulator instead of iPhone\index{trademark!iPhone} simulator or vice-versa. Sample projects are often used to explain a particular technology without regard to productization or generality.
 
 ### Site specific issues
 

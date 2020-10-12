@@ -151,7 +151,7 @@ __weak id <SiriUXHeaterDelegate> delegate;
 - (void)_suggestPreheat;
 ```
 
-It seems that this component can be prepared and made ready and has a variety of levels of initialisation and de-initialisation.  Maybe this complexity is to make the user interface responsive.  But it sends us a message that this component needs an integration test suite that codifies the state machine so we know the lifecycle of the service.
+It seems that this component can be prepared and made ready and has a variety of levels of initialization and de-initialization.  Maybe this complexity is to make the user interface responsive.  But it sends us a message that this component needs an integration test suite that codifies the state machine so we know the lifecycle of the service.
 
 ## Lessons Learnt
 

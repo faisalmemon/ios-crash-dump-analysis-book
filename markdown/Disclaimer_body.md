@@ -8,4 +8,4 @@ Apple makes no explicit or implied endorsement of this work.  Materials in this 
 
 Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.
 
-Every effort has been made to identify trademark terms in this text.  If there is an error or omission, please contact the author.  We have thus far recognised the following trademarks:
+Every effort has been made to identify trademark terms in this text.  If there is an error or omission, please contact the author.  We have thus far recognized the following trademarks:

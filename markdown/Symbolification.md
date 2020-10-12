@@ -152,7 +152,7 @@ Running the lookup command `atos`\index{command!atos} symbolicates the line of i
 The Crash Reporter tool fundamentally just uses `atos` to symbolicate the
 Crash Report, as well as providing other system related information.
 
-Symbolification is described further by an Apple Technote in case we want to get into it in more detail. @tn2123
+Symbolification is described further by an Apple Tech-note in case we want to get into it in more detail. @tn2123
 
 ## Reverse Engineering Approach
 
