@@ -55,10 +55,10 @@ This code will crash, since it implicitly unwraps the optional, which has been s
 When we get a crash from the swift runtime force unwrapping\index{Swift!force unwrapping optional} a nil optional we see:
 ```
 Exception Type:  EXC_BREAKPOINT (SIGTRAP)
-Exception Codes: 0x0000000000000001, 0x00000001011f7ff8
+Exception Codes: 0x0000000000000001, 0x00000001ae3bbbb4
 Termination Signal: Trace/BPT trap: 5
 Termination Reason: Namespace SIGNAL, Code 0x5
-Terminating Process: exc handler [0]
+Terminating Process: exc handler [623]
 Triggered by Thread:  0
 ```
 
@@ -70,21 +70,15 @@ This is identified by seeing the swift core library at the top of the stack.
 ```
 Thread 0 name:  Dispatch queue: com.apple.main-thread
 Thread 0 Crashed:
-0   libswiftCore.dylib            	
-0x00000001011f7ff8 0x101050000 + 1736696
-1   libswiftCore.dylib            	
-0x00000001011f7ff8 0x101050000 + 1736696
-2   libswiftCore.dylib            	
-0x00000001010982b8 0x101050000 + 295608
-3   icdab_wrap                    	
-0x0000000100d3d404
- PlanetViewController.imageDownloaded(_:)
-  + 37892 (PlanetViewController.swift:45)
-
+0   libswiftCore.dylib                  0x00000001ae3bbbb4 closure #1 in closure #1 in closure #1 in _assertionFailure+ 228276 (_:_:file:line:flags:) + 384
+1   libswiftCore.dylib                  0x00000001ae3bbbb4 closure #1 in closure #1 in closure #1 in _assertionFailure+ 228276 (_:_:file:line:flags:) + 384
+2   libswiftCore.dylib                  0x00000001ae3bb090 _assertionFailure+ 225424 (_:_:file:line:flags:) + 472
+3   icdab_wrap                          0x00000001046a7da4 PlanetViewController.imageDownloaded(_:) + 48548 (PlanetViewController.swift:0)
 ```
 
-Another subtle cue that there is an uninitialized pointer is that a machine register has the special value `0xbaddc0dedeadbead`\index{0xbaddc0dedeadbead}.
-This is set by the compiler to indicate an uninitialized pointer:
+#### Uninitialized pointers
+
+Older versions of the Swift Runtime, perhaps through the underlying C++ compiler technology,  would place a special value `0xbaddc0dedeadbead`\index{0xbaddc0dedeadbead} to indicate an uninitialized pointer, such as in the following register dump.
 
 ```
 Thread 0 crashed with ARM Thread State (64-bit):
@@ -113,4 +107,19 @@ Thread 0 crashed with ARM Thread State (64-bit):
    lr: 0x00000001011f7ff8
     sp: 0x000000016f0ca8a0   pc: 0x00000001011f7ff8
     cpsr: 0x60000000
+```
+
+However, modern register dumps, and our unwrapped Nil case, show:
+```
+Thread 0 crashed with ARM Thread State (64-bit):
+    x0: 0x0000000104708000   x1: 0x00000002820a3800   x2: 0x0000000000000007   x3: 0x00000001ba034cf0
+    x4: 0x00000000000062dc   x5: 0x0000000000000013   x6: 0x0000000000000020   x7: 0x0000000000000001
+    x8: 0x000000000000007f   x9: 0x0000000000000071  x10: 0x00000000000007fb  x11: 0x00000000000007fd
+   x12: 0x0000000000000001  x13: 0x00000000c6609046  x14: 0x00000000c6809800  x15: 0x0000000000000013
+   x16: 0x0000000080000000  x17: 0x0000000046800000  x18: 0x0000000000000000  x19: 0x000000000000002d
+   x20: 0x0000000000000000  x21: 0x0000000000000002  x22: 0x0000000000000002  x23: 0x0000000000000044
+   x24: 0x00000001046ab200  x25: 0x00000001047f79a0  x26: 0x00000000000020ff  x27: 0x0000000000000114
+   x28: 0x00000001046ab19a   fp: 0x000000016b762830   lr: 0x465a8e01ae3bbbb4
+    sp: 0x000000016b762810   pc: 0x00000001ae3bbbb4 cpsr: 0x60000000
+   esr: 0xf2000001  Address size fault
 ```
