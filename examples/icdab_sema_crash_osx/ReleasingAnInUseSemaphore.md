@@ -16,10 +16,10 @@ The Crash Report is as follows (truncated for ease of demonstration):
 
 ```
 Exception Type:  EXC_BREAKPOINT (SIGTRAP)
-Exception Codes: 0x0000000000000001, 0x00000001814076b8
+Exception Codes: 0x0000000000000001, 0x00000001aa3f4788
 Termination Signal: Trace/BPT trap: 5
 Termination Reason: Namespace SIGNAL, Code 0x5
-Terminating Process: exc handler [0]
+Terminating Process: exc handler [738]
 Triggered by Thread:  0
 
 Application Specific Information:
@@ -27,41 +27,26 @@ BUG IN CLIENT OF LIBDISPATCH:
  Semaphore object deallocated while in use
 Abort Cause 1
 
-Filtered syslog:
-None found
-
 Thread 0 name:  Dispatch queue: com.apple.main-thread
 Thread 0 Crashed:
-0   libdispatch.dylib             	0x00000001814076b8
- _dispatch_semaphore_dispose$VARIANT$mp + 76
-1   libdispatch.dylib             	0x00000001814067f0
- _dispatch_dispose$VARIANT$mp + 80
-2   icdab_sema_ios                	0x00000001006ea98c
- use_sema + 27020 (main.m:18)
-3   icdab_sema_ios                	0x00000001006ea9bc
- main + 27068 (main.m:22)
-4   libdyld.dylib                 	0x0000000181469fc0
- start + 4
+0   libdispatch.dylib                   0x00000001aa3f4788 _dispatch_semaphore_dispose.cold.1 + 40
+1   libdispatch.dylib                   0x00000001aa3c1954 _dispatch_semaphore_signal_slow + 0
+2   libdispatch.dylib                   0x00000001aa3bfc58 _dispatch_dispose + 188
+3   icdab_sema_ios                      0x000000010010e810 use_sema + 26640 (main.m:17)
+4   icdab_sema_ios                      0x000000010010e840 main + 26688 (main.m:23)
+5   libdyld.dylib                       0x00000001aa4016c0 start + 4
 
 Thread 0 crashed with ARM Thread State (64-bit):
-    x0: 0x00000001c409df10   x1: 0x000000016f71ba4f
-       x2: 0xffffffffffffffe0   x3: 0x00000001c409df20
-    x4: 0x00000001c409df80   x5: 0x0000000000000044
-       x6: 0x000000018525c984   x7: 0x0000000000000400
-    x8: 0x0000000000000001   x9: 0x0000000000000000
-      x10: 0x000000018140766c  x11: 0x000000000001dc01
-   x12: 0x000000000001db00  x13: 0x0000000000000001
-     x14: 0x0000000000000000  x15: 0x0001dc010001dcc0
-   x16: 0x000000018140766c  x17: 0x0000000181404b58
-     x18: 0x0000000000000000  x19: 0x00000001b38f4c80
-   x20: 0x0000000000000000  x21: 0x0000000000000000
-     x22: 0x00000001c409df10  x23: 0x0000000000000000
-   x24: 0x0000000000000000  x25: 0x0000000000000000
-     x26: 0x0000000000000000  x27: 0x0000000000000000
-   x28: 0x000000016f71bb18   fp: 0x000000016f71ba70
-      lr: 0x00000001814067f0
-    sp: 0x000000016f71ba40   pc: 0x00000001814076b8
-     cpsr: 0x80000000
+    x0: 0x000000028243c120   x1: 0x0000000000000001   x2: 0x0000000000000000   x3: 0x000000028243c100
+    x4: 0x000000028243c140   x5: 0x0000000000000000   x6: 0x0000000000000000   x7: 0x0000000000000000
+    x8: 0x0000000000000001   x9: 0x0000000000000000  x10: 0x00000002096b02c0  x11: 0x000000000000000f
+   x12: 0x0000000000f86e00  x13: 0x00000000c000000f  x14: 0x0000000000000005  x15: 0x00000002096af268
+   x16: 0x0000000000000000  x17: 0x00000001aa3c04d4  x18: 0x0000000000000000  x19: 0x000000028243c0f0
+   x20: 0x0000000000000000  x21: 0x0000000000000000  x22: 0x00000002096b02c0  x23: 0x0000000000000000
+   x24: 0x0000000000000000  x25: 0x0000000000000000  x26: 0x0000000000000000  x27: 0x0000000000000000
+   x28: 0x000000016fcf7ac0   fp: 0x000000016fcf79f0   lr: 0x00000001aa3c1954
+    sp: 0x000000016fcf79f0   pc: 0x00000001aa3f4788 cpsr: 0x80000000
+   esr: 0xf2000001  Address size fault
 ```
 
 ### Faulty semaphore code
