@@ -13,13 +13,13 @@ x Write a tool that wraps long lines to the limit now needed
 x Work out what KDP tasks are needed to publish a new book
 x Consider UIStepper example which fails on macOS via Catalyst
 x Consider the analysis https://steipete.com/posts/forbidden-controls-in-catalyst-mac-idiom/ for the mac idiom and missing UI support
-
-t Should I wait for the first Mac to be released - will I need to buy it to test my code?
-t Read the existing CDA book
+x Read the existing CDA book
 x Create a list of new chapters and sections needed
-t Work out the new art work and back cover text
+x Fix the Bibliography spurious if text
+x Fix the zh pdf generation issues; tried a few approaches and may need to leave this one
+
 t Work through the CDA book updating it
+t Should I wait for the first Mac to be released - will I need to buy it to test my code?
+t Work out the new art work and back cover text
 t Work out what publicity and meta data material is needed for the book
 t Publish the new book
-t Fix the Bibliography spurious if text
-t Fix the zh pdf generation issues
