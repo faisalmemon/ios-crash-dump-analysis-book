@@ -2060,18 +2060,18 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <p>Excluded from Rosetta are:</p>
 <ul>
 <li>Kernel extensions</li>
-<li><code>x86_64</code> vitualization support instructions</li>
+<li><code>x86_64</code> virtualization support instructions</li>
 <li>vector instructions, such as AVX, AVX2, and AVX512</li>
 </ul>
-<p>Interestingly, Rosetta does support Just-In-Time compilation apps. These applications are special because they generate their own code and then execute them. Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable). Presumbly this was because JIT is a common technology for the JavaScript runtime.</p>
-<p>Apple advise checking for optional hardware features before calling code that utilises such functionality. To determine what optional hardware support is present on our platform, we can run <code>sysctl hw | grep optional</code>. In code, we have the <code>sysctlbyname</code> function to achieve the same thing.</p>
+<p>Interestingly, Rosetta does support Just-In-Time compilation apps. These applications are special because they generate their own code and then execute them. Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable). Presumably this was because JIT is a common technology for the JavaScript runtime.</p>
+<p>Apple advise checking for optional hardware features before calling code that utilizes such functionality. To determine what optional hardware support is present on our platform, we can run <code>sysctl hw | grep optional</code>. In code, we have the <code>sysctlbyname</code> function to achieve the same thing.</p>
 <h3 id="forcing-rosetta-execution">Forcing Rosetta execution</h3>
 <p>If we accept the standard build architecture options for our program, which are <code>Build Active Architecture Only</code> set to <code>Yes</code> for <code>Debug</code> builds, and <code>No</code> for <code>Release</code> builds, then when running under the Debugger, we shall only see Native binaries. That is because in the Debug case, we do not want to waste time building an architecture not relevant to the machine we are testing on.</p>
 <p>If we do an archive build, <code>Product &gt; Archive</code>, and then select <code>Distribute App</code> we end up with a Release Build. With default settings, this will be a Fat Binary File offering <code>x86</code> and <code>arm64</code> within the multi-architecture binary.</p>
 <p>Once we have a Fat binary we can use <code>Finder</code> app, right-click <code>File info</code> to set Rosetta to perform translation of our binary so that on an Apple Silicon Mac, the Intel instructions are translated from the Fat binary.</p>
 <p><img src="screenshots/univeral_application_icdab_rosetta_thread.png" /></p>
 <h2 id="code-translation-example">Code Translation Example</h2>
-<p>Our working example in this chapter is the <code>icdab_thread</code> program; it is available on the web. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> This program attempts to call <code>thread_set_state</code> and then deliberately crashes 60 seconds later using <code>abort</code>. It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware. Nevertheless, this program is interesting because of a closely related artefact upon crashing, the number of times <code>task_for_pid</code> had been called.</p>
+<p>Our working example in this chapter is the <code>icdab_thread</code> program; it is available on the web. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> This program attempts to call <code>thread_set_state</code> and then deliberately crashes 60 seconds later using <code>abort</code>. It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware. Nevertheless, this program is interesting because of a closely related artifact upon crashing, the number of times <code>task_for_pid</code> had been called.</p>
 <p>We have adapted the command line executable program <code>icdab_thread</code> into an application which merely calls the same underlying code. The application is called <code>icdab_rosetta_thread</code>. The reason for this is because UNIX command line executables are not eligible for running Translated but Applications are.</p>
 <h3 id="icdab_rosetta_thread-lipo-information"><code>icdab_rosetta_thread</code> Lipo Information</h3>
 <p>The following command shows our application supports both ARM and Intel instructions.</p>
@@ -2139,7 +2139,7 @@ x86_64 arm64</code></pre>
  _pthread_wqthread + 244
 11  libsystem_pthread.dylib             0x00007fff6be8b4c3
  start_wqthread + 15</code></pre>
-<p>Note the actual line of code in thread stack 0 is <code>???</code> in the translated case. Presumably this is the actual translated code that is synthesised by Rosetta.</p>
+<p>Note the actual line of code in thread stack 0 is <code>???</code> in the translated case. Presumably this is the actual translated code that is synthesized by Rosetta.</p>
 <p>Furthermore we have an additional two threads in the translated case, the exception server, and the runtime environment:</p>
 <pre><code>Thread 3:: com.apple.rosetta.exceptionserver
 0   runtime_t8027                       0x00007ffdfff76af8
@@ -2220,7 +2220,7 @@ Thread 4:
     task_for_pid: 915091
     thread_create: 0
     thread_set_state: 804</code></pre>
-<p>We see almost the same statistics, but interestingly we have <code>task_for_pid</code> set to 1. So the translation environment only did a mimimal observation/modification of the actual process under translation.</p>
+<p>We see almost the same statistics, but interestingly we have <code>task_for_pid</code> set to 1. So the translation environment only did a minimal observation/modification of the actual process under translation.</p>
 <h3 id="virtual-memory-regions">Virtual Memory Regions</h3>
 <p>The translated version of the program runs a bit heavier on RAM usage than the native version.</p>
 <p>In the native case, we have:</p>
@@ -2243,7 +2243,7 @@ Rosetta Return Stack               192K       12
 Rosetta Thread Context             192K       12</code></pre>
 <h2 id="rosetta-crashes">Rosetta Crashes</h2>
 <p>Rosetta is a powerful translation system. But it does not translate all X86-64 instructions. Vector instructions, as an example, cannot be translated and generate a crash when encountered. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span></p>
-<p>Before diagnosing specific problems, it is worth familiarising ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing. <span class="citation" data-cites="rosettaPortingGuide">(“Porting Your macOS Apps to Apple Silicon” 2020)</span></p>
+<p>Before diagnosing specific problems, it is worth familiarizing ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing. <span class="citation" data-cites="rosettaPortingGuide">(“Porting Your macOS Apps to Apple Silicon” 2020)</span></p>
 <h3 id="icdab_avx-vector-instruction-crash"><code>icdab_avx</code> vector instruction crash</h3>
 <p>When an Intel AVX vector instruction is encountered on a Apple Silicon Mac running the app using translation, we get a crash. We have a sample application, <code>icdab_avx</code>, that demonstrates this.</p>
 <p>The crash Code Type will be:</p>
@@ -2318,7 +2318,7 @@ mov        dword [rsp+0x160+var_BC], 0x41600000
 mov        dword [rsp+0x160+var_C0], 0x41800000
 vmovss     xmm0, dword [rsp+0x160+var_BC]
 vmovss     xmm1, dword [rsp+0x160+var_C0]</code></pre>
-<p>So we didn’t land on the extact instruction that failed, but we did land on the function at fault, <code>compute_delta</code>, which looks to have been inlined in this Release binary due to it being within the <code>runVectorOperationsButtonAction</code> method. Nevertheless, we’ve been given enough help to be able to explore the binary in the relevant area and establish confirmation that the vector operation, <code>vmovss</code> was called. This is not supported by Rosetta.</p>
+<p>So we didn’t land on the exact instruction that failed, but we did land on the function at fault, <code>compute_delta</code>, which looks to have been inlined in this Release binary due to it being within the <code>runVectorOperationsButtonAction</code> method. Nevertheless, we’ve been given enough help to be able to explore the binary in the relevant area and establish confirmation that the vector operation, <code>vmovss</code> was called. This is not supported by Rosetta.</p>
 <p>Our original code that caused the issue was:</p>
 <pre><code>void
 compute_delta() {
