@@ -29,7 +29,11 @@
 <nav id="TOC" role="doc-toc">
 <ul>
 <li><a href="#disclaimer">Disclaimer</a></li>
-<li><a href="#preface">Preface</a></li>
+<li><a href="#preface">Preface</a>
+<ul>
+<li><a href="#first-edition">First Edition</a></li>
+</ul></li>
+<li><a href="#second-edition">Second Edition</a></li>
 <li><a href="#acknowledgements">Acknowledgements</a></li>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#quick-start">Quick Start</a>
@@ -287,6 +291,7 @@
 <p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognized the following trademarks:</p>
 <p>ARM, Android, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Intel, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Rosetta, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iTunes Connect, macOS, tvOS, watchOS.</p>
 <h1 id="preface">Preface</h1>
+<h2 id="first-edition">First Edition</h2>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
 <p>It’s hard to overstate the euphoria of the moment. The Internet was the next Industrial Revolution. Investors saw it as the best place to put their money. Hardware, software and services were all experiencing a Cambrian explosion of diversity and innovation.</p>
 <p>I found myself at the center of things. I was newly recruited to Sun Microsystems. At that time, if you had a great idea for a website and wanted to start serving your customers, Sun Microsystems computers were an essential purchase. These were servers that you would either house yourself or place with a co-location provider.</p>
@@ -300,6 +305,12 @@
 <p>This was a major step improvement in productivity. Nevertheless, some engineers, quite out of character, were loudly critical. It turned out that these techniques were just things experienced engineers had learnt as part of their craft and they didn’t want the magic to be laid bare for anyone to pick up cheaply.</p>
 <p>One day Chris Drake was in town and popped into our office. He was the x86 architecture specialist that collaborated with Kimberley Brown to produce the “Panic!” book. They arranged a workshop to educate us on SunOS crashes on x86 architecture. It was something of a novelty at the time, prior to the remarkable rise of Linux and the GNU/Linux system.</p>
 <p>I remember one time, as an undergraduate student, during an Operating Systems lecture, I looked across the room. I noticed it was full of Sun Microsystems equipment; I stared into the Sun logo and dreamed of one day working there. It came true. So in my workshop on x86 panics, I had another idea. One day I would write a book. It would be something quite focussed on a single technical problem. It would be something that would convey the experiences I had obtained in my career. It turns out that came true, as well, in the book you are reading now!</p>
+<h1 id="second-edition">Second Edition</h1>
+<p>It has been a mere two years, but the pace of development of Apple Technologies is as fast as ever.</p>
+<p>My professional journey has been most interesting during this period, as I was hired as a contractor (known as a vendor-on-site contractor) for Apple. Like many engineers before me, I was firmly of the opinion that getting through the hiring process was some kind of fluke, or mistake. Holding the Apple badge in my hand, it felt like it was a magical key; so clean, perfectly formed, and succinct, as any Apple product. As a matter of fact, I never worked on the secret stuff at Apple, but other people did. There was a running joke, however. “Have you found the secret room?” one engineer would ask the new hires. I puzzled about it during the first couple of weeks, and then found it hiding in plain sight! A cavern. At Apple, it was more a matter of being a master of the public APIs in your focus area, and working with other engineers to solve problems in those areas (my area was Accessibility). An intense, but interesting, two years.</p>
+<p>This second edition of the book was prompted by a long-speculated addition to the Apple product line-up, Apple Silicon Macs.</p>
+<p>I’ve updated the text, and modernized the examples, to reflect the latest OS versions and SDKs. As of the time of writing, these are iOS 12.2, macOS 11.0 Big Sur, and Xcode 12.2.</p>
+<p>With respect to Crash Dump Analysis, the main new concept we see introduced is that the system can be running in a translation mode, translating X86-64  instructions on an ARM64  platform.</p>
 <h1 id="acknowledgements">Acknowledgements</h1>
 <p>I’d like to acknowledge the help and support of my colleagues for writing this book.</p>
 <p>Putting together this work was only possible because it was built upon generously provided open source tools, in particular <code>pandoc</code> which made writing the text of the book a pleasure.</p>
