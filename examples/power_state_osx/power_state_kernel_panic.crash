@@ -1,0 +1,202 @@
+panic(cpu 1 caller 0xffffff8003814e17): "AMDFramebufferSI::setPowerState(0xffffff802d117800 : 0xffffff7f84637d76, 0 -> 1) timed out after 45732 ms"@/AppleInternal/BuildRoot/Library/Caches/com.apple.xbs/Sources/xnu/xnu-6153.141.2/iokit/Kernel/IOServicePM.cpp:5296
+Backtrace (CPU 1), Frame : Return Address
+0xffffff81e7debb40 : 0xffffff800311a65d 
+0xffffff81e7debb90 : 0xffffff8003254a75 
+0xffffff81e7debbd0 : 0xffffff80032465fe 
+0xffffff81e7debc20 : 0xffffff80030c0a40 
+0xffffff81e7debc40 : 0xffffff8003119d27 
+0xffffff81e7debd40 : 0xffffff800311a117 
+0xffffff81e7debd90 : 0xffffff80038c1a6c 
+0xffffff81e7debe00 : 0xffffff8003814e17 
+0xffffff81e7debe50 : 0xffffff80038146f9 
+0xffffff81e7debe60 : 0xffffff800382bc8e 
+0xffffff81e7debea0 : 0xffffff80038134a8 
+0xffffff81e7debec0 : 0xffffff800315c605 
+0xffffff81e7debf40 : 0xffffff800315c131 
+0xffffff81e7debfa0 : 0xffffff80030c013e 
+
+BSD process name corresponding to current thread: kernel_task
+
+Mac OS version:
+19H2
+
+Kernel version:
+Darwin Kernel Version 19.6.0: Mon Aug 31 22:12:52 PDT 2020; root:xnu-6153.141.2~1/RELEASE_X86_64
+Kernel UUID: 05D51A3D-3A87-3FF0-98C3-9CF3827A3EDD
+Kernel slide:     0x0000000002e00000
+Kernel text base: 0xffffff8003000000
+__HIB  text base: 0xffffff8002f00000
+System model name: iMac15,1 (Mac-42FD25EABCABB274)
+System shutdown begun: NO
+Panic diags file available: YES (0x0)
+
+System uptime in nanoseconds: 387443259139658
+last loaded kext at 355279221669615: >!AXsanScheme	3 (addr 0xffffff7f87cc3000, size 32768)
+last unloaded kext at 352604342274324: >!UMergeNub	900.4.2 (addr 0xffffff7f87c28000, size 12288)
+loaded kexts:
+com.google.drivefs.filesystems.dfsfuse	42.0.12
+org.virtualbox.kext.VBoxNetAdp	6.0.12
+org.virtualbox.kext.VBoxNetFlt	6.0.12
+org.virtualbox.kext.VBoxUSB	6.0.12
+org.virtualbox.kext.VBoxDrv	6.0.12
+com.Cycling74.driver.Soundflower	2
+>!A!BMultitouch	97
+@filesystems.afpfs	11.2
+@nke.asp-tcp	8.1
+@fileutil	20.036.15
+>AGPM	111.4.4
+>!APlatformEnabler	2.7.0d0
+>X86PlatformShim	1.0.0
+@filesystems.autofs	3.0
+>!AMikeyHIDDriver	131
+>!AUpstreamUserClient	3.6.8
+@kext.AMDRadeonServiceManager	3.1.0
+@kext.AMDFramebuffer	3.1.0
+>!AHDA	283.15
+@kext.AMDRadeonX4000	3.1.0
+>!AGraphicsDevicePolicy	5.2.6
+@AGDCPluginDisplayMetrics	5.2.6
+>!AHV	1
+|IOUserEthernet	1.0.1
+|IO!BSerialManager	7.0.6f7
+>pmtelemetry	1
+>!AMikeyDriver	283.15
+@Dont_Steal_Mac_OS_X	7.0.0
+>!A!IHD5000Graphics	14.0.7
+>eficheck	1
+>!AMCCSControl	1.14
+@kext.AMD7000!C	3.1.0
+>!ALPC	3.1
+>!ASMCLMU	212
+>!A!ISlowAdaptiveClocking	4.0.0
+>!AThunderboltIP	3.1.4
+>!A!IFramebufferAzul	14.0.7
+>AudioAUUC	1.70
+>!AVirtIO	1.0
+@filesystems.hfs.kext	522.100.5
+@!AFSCompression.!AFSCompressionTypeDataless	1.0.0d1
+@BootCache	40
+@!AFSCompression.!AFSCompressionTypeZlib	1.0.0
+@filesystems.apfs	1412.141.1
+@private.KextAudit	1.0
+>AirPort.BrcmNIC	1400.1.1
+>!ASDXC	1.7.7
+|!ABCM5701Ethernet	10.3.5
+>!AAHCIPort	341.140.1
+>!ARTC	2.0
+>!AACPIButtons	6.1
+>!AHPET	1.8
+>!ASMBIOS	2.1
+>!AACPIEC	6.1
+>!AAPIC	1.7
+$!AImage4	1
+@nke.applicationfirewall	303
+$TMSafetyNet	8
+@!ASystemPolicy	2.0.0
+|EndpointSecurity	1
+>!AXsanScheme	3
+>usb.cdc.acm	5.0.0
+>usb.serial	6.0.0
+>usb.cdc.ecm	5.0.0
+>!UMergeNub	900.4.2
+>usb.cdc.ncm	5.0.0
+>usb.cdc	5.0.0
+>IO!BHIDDriver	7.0.6f7
+>!AMultitouchDriver	3440.1
+>!AInputDeviceSupport	3440.8
+$SecureRemotePassword	1.0
+|IOUSBUserClient	900.4.2
+@kext.triggers	1.0
+>DspFuncLib	283.15
+@kext.OSvKernDSPLib	529
+@kext.AMDRadeonX4030HWLibs	1.0
+@kext.AMDRadeonX4000HWServices	3.1.0
+>!AGraphicsControl	5.2.6
+|IOAVB!F	850.1
+@kext.AMDSupport	3.1.0
+>!AHDA!C	283.15
+|IOHDA!F	283.15
+@!AGPUWrangler	5.2.6
+>X86PlatformPlugin	1.0.0
+>IOPlatformPlugin!F	6.0.0d8
+|IONDRVSupport	576.1
+|IOSlowAdaptiveClocking!F	1.0.0
+>!AThunderboltEDMSink	4.2.3
+@!AGraphicsDeviceControl	5.2.6
+|IOAccelerator!F2	438.7.3
+|IOGraphics!F	576.1
+>!ASMBus!C	1.0.18d1
+>!ASMBusPCI	1.0.14d1
+@plugin.IOgPTPPlugin	840.3
+|Broadcom!BHost!CUSBTransport	7.0.6f7
+|IO!BHost!CUSBTransport	7.0.6f7
+|IO!BHost!CTransport	7.0.6f7
+|IO!B!F	7.0.6f7
+|IO!BPacketLogger	7.0.6f7
+>!UAudio	323.4
+>usb.networking	5.0.0
+>usb.!UHostCompositeDevice	1.2
+>usb.!UHub	1.2
+|IOAudio!F	300.2
+@vecLib.kext	1.2.0
+|IOSerial!F	11
+|IOSurface	269.11
+@filesystems.hfs.encodings.kext	1
+>!AThunderboltDPOutAdapter	6.2.6
+>!AThunderboltDPInAdapter	6.2.6
+>!AThunderboltDPAdapter!F	6.2.6
+>!AThunderboltPCIDownAdapter	2.5.4
+>!AThunderboltNHI	5.8.6
+|IOThunderbolt!F	7.6.1
+|IOAHCIBlock!S	316.100.5
+|IO80211!F	1200.12.2b1
+>corecapture	1.0.4
+|IOSkywalk!F	1
+|IOEthernetAVB!C	1.1.0
+>mDNSOffloadUserClient	1.0.1b8
+|IOAHCI!F	290.0.1
+>usb.!UXHCIPCI	1.2
+>usb.!UXHCI	1.2
+|IOUSB!F	900.4.2
+>!AEFINVRAM	2.1
+>!AEFIRuntime	2.1
+|IOSMBus!F	1.1
+|IOHID!F	2.0.0
+$quarantine	4
+$sandbox	300.0
+@kext.!AMatch	1.0.0d1
+>DiskImages	493.0.0
+>!AFDEKeyStore	28.30
+>!AEffaceable!S	1.0
+>!ASSE	1.0
+>!AKeyStore	2
+>!UTDM	489.120.1
+|IOSCSIBlockCommandsDevice	422.120.3
+>!ACredentialManager	1.0
+>KernelRelayHost	1
+>!ASEPManager	1.0.1
+>IOSlaveProcessor	1
+|IOUSBMass!SDriver	157.140.1
+|IOSCSIArchitectureModel!F	422.120.3
+|IO!S!F	2.1
+|IOUSBHost!F	1.2
+>!UHostMergeProperties	1.2
+>usb.!UCommon	1.0
+>!ABusPower!C	1.0
+|CoreAnalytics!F	1
+>!AMobileFileIntegrity	1.0.5
+@kext.CoreTrust	1
+|IOTimeSync!F	840.3
+|IONetworking!F	3.4
+|IOReport!F	47
+>!AACPIPlatform	6.1
+>!ASMC	3.1.9
+>watchdog	1
+|IOPCI!F	2.9
+|IOACPI!F	1.4
+@kec.pthread	1
+@kec.corecrypto	1.0
+@kec.Libm	1
+
+
+
