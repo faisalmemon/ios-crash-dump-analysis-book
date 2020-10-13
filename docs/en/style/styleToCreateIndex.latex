@@ -40,6 +40,8 @@ $endif$
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provides euro and other symbols
+  % Added for font support
+   \DeclareUnicodeCharacter{00E4}{\"a}
 \else % if luatex or xelatex
 $if(mathspec)$
   \ifxetex
