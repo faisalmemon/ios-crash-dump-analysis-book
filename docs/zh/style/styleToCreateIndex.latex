@@ -42,6 +42,7 @@ $endif$
   \usepackage{textcomp} % provides euro and other symbols
   % Added for font support
    \DeclareUnicodeCharacter{00E4}{\"a}
+   \DeclareUnicodeCharacter{3002}{\".}
 \else % if luatex or xelatex
 $if(mathspec)$
   \ifxetex
