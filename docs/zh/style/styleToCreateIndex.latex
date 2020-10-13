@@ -49,6 +49,7 @@ $endif$
    \DeclareUnicodeCharacter{6709}{\".}
    \DeclareUnicodeCharacter{6743}{\".}
    \DeclareUnicodeCharacter{5229}{\".}
+   \DeclareUnicodeCharacter{672C}{\".}
 \else % if luatex or xelatex
 $if(mathspec)$
   \ifxetex
