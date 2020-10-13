@@ -16,7 +16,7 @@ x Consider the analysis https://steipete.com/posts/forbidden-controls-in-catalys
 
 t Should I wait for the first Mac to be released - will I need to buy it to test my code?
 t Read the existing CDA book
-t Create a list of new chapters and sections needed
+x Create a list of new chapters and sections needed
 t Work out the new art work and back cover text
 t Work through the CDA book updating it
 t Work out what publicity and meta data material is needed for the book

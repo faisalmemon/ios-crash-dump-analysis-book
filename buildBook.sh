@@ -34,7 +34,7 @@ remainingArgs=$@
 rm -f foo.$langName.* boo.$langName.*
 
 filesToProcess=$(./tools/get_markdown_for_lang.sh -l $langName $(cat frontPages.txt mainPages.txt))
-latexFilesToProcess=$(./tools/get_markdown_for_lang.sh -l $langName $(cat frontPages_latex.txt mainPages.txt))
+latexFilesToProcess=$(./tools/get_markdown_for_lang.sh -l $langName $(cat frontPages_latex.txt mainPages.txt backPages_latex.txt))
 
 
 # We allow first person in the preface and second person in the Introduction.
@@ -63,7 +63,11 @@ echo
 echo Processing foo.$langName.html
 pandoc $filesToProcess pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc -c style/gitHubStyle.css -o foo.$langName.html
 echo Processing boo.$langName.latex
+echo Performing pandoc $latexFilesToProcess pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --template=style/styleToCreateIndex.latex -V documentclass=book -o boo.$langName.latex
 pandoc $latexFilesToProcess pandocMetaData.yaml -f markdown+smart --standalone --bibliography bibliography.bib --toc --template=style/styleToCreateIndex.latex -V documentclass=book -o boo.$langName.latex
+
+echo Cleaning up csl indent remarks
+sed -e '/if(csl-hanging-indent)/{N;d;}' -i.bak boo.$langName.latex
 
 echo Indexing pass 0
 pdflatex boo.$langName.latex > boo.$langName.pass.0.log </dev/null
