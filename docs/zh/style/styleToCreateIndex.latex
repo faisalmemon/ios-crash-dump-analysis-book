@@ -43,7 +43,7 @@ $endif$
   % Added for font support
    \DeclareUnicodeCharacter{00E4}{\"a}
    \DeclareUnicodeCharacter{3002}{\".}
-   \DeclareUnicodeCharacter{4FDD}{\"保}
+   \DeclareUnicodeCharacter{4FDD}{\".}
 \else % if luatex or xelatex
 $if(mathspec)$
   \ifxetex
