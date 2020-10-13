@@ -41,15 +41,6 @@ $endif$
   \usepackage[utf8x]{inputenc}
   \usepackage{textcomp} % provides euro and other symbols
   % Added for font support
-   \DeclareUnicodeCharacter{00E4}{\"a}
-   \DeclareUnicodeCharacter{3002}{\".}
-   \DeclareUnicodeCharacter{4FDD}{\".}
-   \DeclareUnicodeCharacter{7559}{\".}
-   \DeclareUnicodeCharacter{6240}{\".}
-   \DeclareUnicodeCharacter{6709}{\".}
-   \DeclareUnicodeCharacter{6743}{\".}
-   \DeclareUnicodeCharacter{5229}{\".}
-   \DeclareUnicodeCharacter{672C}{\".}
 \else % if luatex or xelatex
 $if(mathspec)$
   \ifxetex
