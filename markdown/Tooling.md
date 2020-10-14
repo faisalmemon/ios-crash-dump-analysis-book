@@ -38,7 +38,7 @@ The class dump tool allows us to look at what Objective C classes, methods and p
 
 ## Third Party Crash Reporting
 
-The Apple Crash Reporter tool and supporting infrastructure in iTunes Connect\index{trademark!iTunes Connect} is excellent but has some room for improvement.
+The Apple Crash Reporter tool and supporting infrastructure in App Store Connect\index{trademark!App Store} is excellent but has some room for improvement.
 
 A formidable piece of Open Source software, `plcrashreporter`\index{command!plcrashreporter}, has been written by Landon Fuller, of Plausible Labs.  @plcrashreporter
 
