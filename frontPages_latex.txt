@@ -3,6 +3,8 @@ markdown/Disclaimer_body.md
 trademarks.md
 markdown/Preface_heading_latex.md
 markdown/Preface_body.md
+markdown/Preface_2nd_ed_heading_latex.md
+markdown/Preface_2nd_ed_body.md
 markdown/Acknowledgements_heading_latex.md
 markdown/Acknowledgements_body.md
 markdown/Introduction_heading_latex.md
