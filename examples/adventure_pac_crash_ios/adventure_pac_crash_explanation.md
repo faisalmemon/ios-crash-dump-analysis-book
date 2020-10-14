@@ -74,4 +74,4 @@ Binary Images:
 ```
 
 We see that the faulting address `0x41fc821e000001b0` has top 24-bits `41fc82`.  This is the _Pointer Authentication Code_ (PAC)\index{PAC}.
-We see that the faulting function `InterruptionListener` takes two pointers as arguments, and that we have register `x8` with address `0x41fc821e00000000`.  So presumably our failing code is using this address, plus some small offset, `0x1b0`.
+We see that the faulting function `InterruptionListener` takes two pointers as arguments, and that we have register `x8` with address `0x41fc821e00000000`.  So presumably our failing code is using this address, plus some small offset, `0x1b0`.  It could be that manual pointer arithmetic is being used causing a non-authenticated pointer to be utilised.
