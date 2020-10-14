@@ -74,11 +74,11 @@ Most software developers know what they "should" be doing; clean code, proper te
 
 We recommend taking a measured approach.  There is a time for hacking together a sample app to understand a concept.  There is a time to write a prototype that just needs to prove a business use case.  There is a time to write heavily trusted code used by many people.
 
-We take the view that maximizing economic impact is the one that matters most because most developers are involved in professional software development.  Alternatively, if we are working on non-commercial projects or hobby projects, the economic cost is really our personal free time which we will want to use most effectively.
+We take the view that maximizing economic impact is the goal that matters the most because most developers are involved in professional software development.  Alternatively, if we are working on non-commercial projects or hobby projects, the economic impact is really our personal free time which we will want to use most effectively.
 
 We recommend:
 
 - For Sample apps and concept exploration, just code the app.
 - For Prototype Development, just use the Execution Methodology when we hit problems.
-- For Individual Product Development, from the beginning, run the Analyzer automatically and informally incorporate it into our workflow when we see something important.  From the beginning write tests but selectively where we get big impact.
+- For Individual Product Development, from the beginning, run the Analyzer automatically and informally incorporate it into our workflow when we see something important.  From the beginning write tests but selectively where we would get a big impact.
 - For Team-based Product Development, add in the Process Methodology.  Start becoming comprehensive with Testing.
