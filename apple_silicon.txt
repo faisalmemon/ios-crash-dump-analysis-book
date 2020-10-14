@@ -23,3 +23,7 @@ t Should I wait for the first Mac to be released - will I need to buy it to test
 t Work out the new art work and back cover text
 t Work out what publicity and meta data material is needed for the book
 t Publish the new book
+t It seems that the latest Apple documentation describes how App Thinning affects App Store crashes.  We need to discuss this in the Symbolification Chapter.
+t Explain how when the debugger is attached upon a crash condition, it is possible to make it crash by detaching at the debugger.
+t Talk about Jetsum crashes https://developer.apple.com/documentation/xcode/diagnosing_issues_using_crash_reports_and_device_logs/identifying_high-memory_use_with_jetsam_event_reports
+t Talk about PAC crashes https://developer.apple.com/documentation/security/preparing_your_app_to_work_with_pointer_authentication
