@@ -126,7 +126,7 @@ The thing to keep in mind is that any code that touches upon the policies the Op
 
 In the `icdab_sample` project we have created Unit tests and UI tests.
 
-Test cases always feel over-the-top when applied to trivial programs.  But consider a large program that has an extensive `Info.plist`\index{Info.plist} file.  A new version of the app is called for so another `Info.plist` is created.  Then keeping the privilege settings in sync between the different build targets becomes an issue.  The UI test code shown here which merely launches the camera can catch such problems easily so has practical business value.  
+Test cases always feel over-the-top when applied to trivial programs.  But consider a large program that has an extensive `Info.plist`\index{Info.plist} file.  A new variant of the app is designed, so another `Info.plist` is created.  Then keeping the privilege settings in sync between the different build targets becomes an issue.  The UI test code shown here, which merely launches the camera, can catch such problems easily so has practical business value.  
 
 Similarly, if our app has a lot of low-level code and then is ported\index{software!porting} from iOS to tvOS\index{operating system!tvOS}\index{trademark!tvOS}, for example, how much of that OS-sensitive code is still applicable?
 
