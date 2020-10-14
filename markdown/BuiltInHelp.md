@@ -14,7 +14,7 @@ By opening the project `icdab_sample` @icdabgithub and looking at the Scheme def
 
 ### Execution Methodology
 
-If we have a crash that is reproducible from our own developer environment and source code, then a methodology for finding is to switch on the appropriate diagnostic setting and then re-run our application.
+If we have a crash that is reproducible from our own developer environment and source code, then a methodology for finding the cause of the crash is to switch on the appropriate diagnostic setting, and then re-run our application.
 
 As we become familiar with each diagnostic, we will know which option to switch on.  We shall work through different scenarios so we understand when to use each.  But when we are just starting out its worth just going through each one-by-one to get a feel for what is available.  The basic approach is:
 
