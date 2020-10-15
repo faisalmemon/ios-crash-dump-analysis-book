@@ -1,8 +1,6 @@
 ### Pointer Authentication Control crash
 
-Devices using the Apple A12\index{CPU!A12} chip, or later, utilise a security feature known as _Pointer Authentication_\index{Pointer Authentication} as part of the ARMv8.3-A\index{ARM!v8.3-A} architecture.  For example, iPhone XS\index{trademark!iPhone XS}, iPhone XS Max\index{trademark!iPhone XS Max}, and iPhone XR\index{trademark!iPhone XR} use the A12 chip.  The basic idea is that there unused bits in a 64-bit pointer because it can already address such a vast range of addresses, only 40 bits are allocated to such purposes. @iospac  The remaining bits can therefore be used to store a hash value computed after combining the intended pointer address with a context value and a secret key.  Then if the pointer address were to be changed, either because of a bug or malicious action, the pointer would be known to be invalid and would eventually cause a `SIGSEGV`.
-
-Here is an example which causes such a crash, truncated for ease of demonstration:
+Earlier, in chapter _Pointer Authentication_ we saw a user space crash with Pointer Authentication switched on.  Here we see a crash in system libraries that use Pointer Authentication.
 
 ```
 Incident Identifier: 692E5696-6994-4FB3-B42D-C9317D956EE7
