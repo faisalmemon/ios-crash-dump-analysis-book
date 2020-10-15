@@ -931,19 +931,23 @@ There can be many pixel formats for images. An <code>assert</code> might lead us
 <p>Note here we use the term “iOS Crash Report” to mean a Crash Report that came from a physical target device. After a crash, apps are often debugged on the Simulator. The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.</p>
 <h3 id="ios-crash-report-header-section">iOS Crash Report Header Section</h3>
 <p>A Crash Report starts with the following header:</p>
-<pre><code>Incident Identifier: E030D9E4-32B5-4C11-8B39-C12045CABE26
-CrashReporter Key:   b544a32d592996e0efdd7f5eaafd1f4164a2e13c
-Hardware Model:      iPad6,3
-Process:             icdab_planets [2726]
-Path:                /private/var/containers/Bundle/Application/
-BEF249D9-1520-40F7-93F4-8B99D913A4AC/
-icdab_planets.app/icdab_planets
-Identifier:          www.perivalebluebell.icdab-planets
-Version:             1 (1.0)
+<pre><code>Incident Identifier: 692E5696-6994-4FB3-B42D-C9317D956EE7
+CrashReporter Key:   1f2cdb7448d354584634e8576c1e5257634fc0cd
+Hardware Model:      iPhone12,1
+Process:             get [1737]
+Path:               
+ /private/var/containers/Bundle/Application/2BF678BB-7CC6-4CAC-BF
+49-0298B611F1BA/get.app/get
+Identifier:         
+ com.soul.merge.cat.cute.simulator.adventure.get
+Version:             44 (1.4.4)
+AppStoreTools:       11C29
+AppVariant:          1:iPhone12,1:13
 Code Type:           ARM-64 (Native)
 Role:                Foreground
 Parent Process:      launchd [1]
-Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
+Coalition:          
+ com.soul.merge.cat.cute.simulator.adventure.get [757]</code></pre>
 <p>These items are explained by the following table:</p>
 <table>
 <colgroup>
@@ -962,28 +966,44 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 <td>Unique report number of crash</td>
 </tr>
 <tr class="even">
+<td>Beta Identifier</td>
+<td>Unique identifer scoped to the software author and client device in TestFlight builds</td>
+</tr>
+<tr class="odd">
 <td>CrashReporter Key</td>
 <td>Unique identifier for the device that crashed</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Hardware Model</td>
 <td>Apple Hardware Model <span class="citation" data-cites="ios-devices">(“List of iOS Devices” 2018)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Process</td>
 <td>Process name (number) that crashed</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Path</td>
 <td>Full pathname of crashing program on the device file system</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Identifier</td>
 <td>Bundle identifier from <code>Info.plist</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Version</td>
 <td>CFBundleVersion; also CFBundleVersionString in brackets</td>
+</tr>
+<tr class="odd">
+<td>AppStoreTools</td>
+<td>The version of Xcode the app author used to build the app for when <em>bitcode</em> was enabled</td>
+</tr>
+<tr class="even">
+<td>AppVariant</td>
+<td>The variant of the app produced by <em>app thinning</em> by the App Store before it was deployed to the device</td>
+</tr>
+<tr class="odd">
+<td>Beta</td>
+<td>YES if the crash was TestFlight beta software otherwise absent</td>
 </tr>
 <tr class="even">
 <td>Code Type</td>
@@ -1003,6 +1023,7 @@ Coalition:           www.perivalebluebell.icdab-planets [1935]</code></pre>
 </tr>
 </tbody>
 </table>
+<p>The <code>AppVariant</code> field, when present, is explained by <em>internalVersion</em>:<em>nameOfVariantClass</em>:<em>osVersionVariant</em>. Field|Meaning –|– internalVersion|Private field used in the Apple implementation nameOfVariantClass|Usually a product name or something that characterises a type of hardware device class osVersionVariant|Variant introduced from a given version of the OS</p>
 <p>The first thing to look at is the version. Typically, if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.</p>
 <p>If we have many crashes then a pattern may emerge. It could be one customer (common CrashReporter key seen), or many customers (different CrashReporter keys seen). This may affect how we rank the priority of the crash.</p>
 <p>The hardware model could be interesting. Is it iPad only devices, or iPhone only, or both? Maybe our code has less testing or unique code paths for a given platform. The hardware model might indicate an older device, which we have not tested on.</p>
@@ -1041,10 +1062,14 @@ Report Version:      104</code></pre>
 <td>Operating System Version (Build number). <span class="citation" data-cites="ios-versions">(“IOS Version History” 2018)</span></td>
 </tr>
 <tr class="even">
+<td>Release Type</td>
+<td><em>Beta</em> when the OS was Beta software</td>
+</tr>
+<tr class="odd">
 <td>Baseband Version</td>
 <td>Version number of the firmware of the cellular modem (used for phone calls) or <code>n/a</code> if the device has no cellular modem (most iPads, iPod Touch, etc.)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Report Version</td>
 <td>The version of ReportCrash used to produce the report</td>
 </tr>
@@ -1129,7 +1154,7 @@ Triggered by Thread:  0</code></pre>
 </tr>
 <tr class="even">
 <td><code>EXC_BAD_ACCESS (SIGSEGV)</code> or <code>EXC_BAD_ACCESS (SIGBUS)</code></td>
-<td>Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it. The memory might have been deallocated due to memory pressure. The pointer to memory we used might have become changed and thus become invalid due to Pointer Authentication Control (PAC)</td>
+<td>Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it. The memory might have been deallocated due to memory pressure. The pointer to memory we used might have become changed and thus become invalid due to Pointer Authentication</td>
 </tr>
 <tr class="odd">
 <td><code>EXC_BREAKPOINT (SIGTRAP)</code></td>
@@ -1301,6 +1326,7 @@ Thread 5 Crashed:
 <pre><code>Filtered syslog:
 None found</code></pre>
 <p>This is an anomalous section because it is supposed to look at the process ID of the crashed process and then look to see if there are any syslog (System Log) entries for that process. We have never seen filtered entries in a crash, and only see <code>None found</code> reported.</p>
+<p>In later versions of the iOS Crash Report, this section has been removed.</p>
 <h3 id="ios-crash-report-exception-backtrace-section">iOS Crash Report Exception Backtrace section</h3>
 <p>When our app has detected a problem and has asked the Operating System to terminate the app, we get an Exception Backtrace section of the report. This covers the cases of calling <code>abort</code>, <code>NSException</code>, <code>_NSLockError</code>, or <code>objc_exception_throw</code> either ourselves or indirectly through the Swift, Objective-C or C runtime support libraries.</p>
 <p>What we don’t get is the text of the actual assertion that had occurred. One presumes that the prior section for filtered syslog information was supposed to do that job. Nevertheless, <em>Window-&gt;Devices and Simulators-&gt;Open Console</em> will allow us to recover that information.</p>
