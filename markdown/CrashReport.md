@@ -82,13 +82,12 @@ Parent Process|Parent of the crashing process\index{process}. `launchd`\index{co
 Coalition\index{task!coalition}|Tasks are grouped into coalitions so they can pool together their consumption of resources @resource-management
 
 The `AppVariant` field, when present, is explained by _internalVersion_:_nameOfVariantClass_:_osVersionVariant_.
+
 Field|Meaning
 --|--
 internalVersion|Private field used in the Apple implementation
 nameOfVariantClass|Usually a product name or something that characterises a type of hardware device class
 osVersionVariant|Variant introduced from a given version of the OS
-
-
 
 The first thing to look at is the version.  Typically, if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.
 
