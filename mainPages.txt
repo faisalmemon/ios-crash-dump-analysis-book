@@ -8,6 +8,7 @@ markdown/CrashReport.md
 markdown/AppleSilicon.md
 examples/icdab_avx_osx/avxCrashExplanation.md
 markdown/PointerAuthentication.md
+examples/icdab_ptr_ios/icdab_ptr_ios_explanation.md
 markdown/AnalyticTroubleShooting.md
 examples/siri_crash_osx/siriCrashExplanation.md
 markdown/RuntimeEnvironmentCrashes.md
