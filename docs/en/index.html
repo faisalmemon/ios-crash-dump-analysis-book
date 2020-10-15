@@ -176,6 +176,7 @@
 <li><a href="#configuring-pointer-authentication">Configuring Pointer Authentication</a></li>
 <li><a href="#manipulating-pointers">Manipulating Pointers</a></li>
 <li><a href="#icdab_ptr-pac-crash"><code>icdab_ptr</code> PAC crash</a></li>
+<li><a href="#pointer-authentication-debugging-tips">Pointer Authentication Debugging Tips</a></li>
 </ul></li>
 <li><a href="#analytic-troubleshooting">Analytic Troubleshooting</a>
 <ul>
@@ -2660,6 +2661,76 @@ VM Region Info: 0x100ae9df8 is in 0x100ae4000-0x100aec000;  bytes
 <p>From the previous section, we know that the code which checks the PAC in our program is:</p>
 <pre><code>blraaz  x8</code></pre>
 <p>Our <code>x8</code> register was <code>0x045d340100ae9df8</code> so presumably the faulty PAC was <code>0x045d34</code>.</p>
+<h2 id="pointer-authentication-debugging-tips">Pointer Authentication Debugging Tips</h2>
+<p>In this section we point out some differences when running the debugger on a Architecture <code>armv8e</code> target. We also show how to match a crash report to a debugging session.</p>
+<p>When we print out pointers, we get the pointer with the PAC value stripped out. For example, for a pointer <code>0x36f93010201ddf8</code>, our <code>result</code> variable, we would get:</p>
+<pre><code>(lldb) po result
+(actual=0x000000010201ddf8 icdab_ptr`nextInterestingJumpToFunc at
+ ViewController.m:25)</code></pre>
+<p>This value is from the execution that produced the following output</p>
+<pre><code>ptr addresses as uintptr_t are 0x36f93010201ddd8
+ 0xc7777b010201ddf8
+delta is 0xc407e80000000020 clean_delta is 0x20
+ptrFn result is 0x36f93010201ddf8</code></pre>
+<p>Whilst we are attached via the debugger, we don’t see the crash dump report. However, if we detach our debugger:</p>
+<pre><code>(lldb) detach</code></pre>
+<p>the system will continue on, and perform a crash, and then generate a report.</p>
+<pre><code>Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
+Exception Subtype: KERN_INVALID_ADDRESS at 0x200000010201ddf8 -&gt;
+ 0x000000010201ddf8 (possible pointer authentication failure)
+VM Region Info: 0x10201ddf8 is in 0x10201c000-0x102020000;  bytes
+ after start: 7672  bytes before end: 8711
+      REGION TYPE                 START - END      [ VSIZE]
+ PRT/MAX SHRMOD  REGION DETAIL
+      __TEXT                   102018000-10201c000 [   16K]
+ r-x/r-x SM=COW  ...app/icdab_ptr
+---&gt;  __TEXT                   10201c000-102020000 [   16K]
+ r-x/rwx SM=COW  ...app/icdab_ptr
+      __DATA_CONST             102020000-102024000 [   16K]
+ r--/rw- SM=COW  ...app/icdab_ptr
+
+Termination Signal: Segmentation fault: 11
+Termination Reason: Namespace SIGNAL, Code 0xb
+Terminating Process: exc handler [2477]
+Triggered by Thread:  0
+
+Thread 0 name:  Dispatch queue: com.apple.main-thread
+Thread 0 Crashed:
+0   icdab_ptr                       0x000000010201ddf8
+ nextInterestingJumpToFunc + 24056 (ViewController.m:25)
+1   icdab_ptr                       0x000000010201dcf0
+ -[ViewController viewDidLoad] + 23792 (ViewController.m:34)
+2   UIKitCore                       0x00000001aca4cda0
+ -[UIViewController
+ _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 108
+3   UIKitCore                       0x00000001aca515fc
+ -[UIViewController loadViewIfRequired] + 956
+4   UIKitCore                       0x00000001aca519c0
+ -[UIViewController view] + 32
+.
+.
+
+Thread 0 crashed with ARM Thread State (64-bit):
+    x0: 0x000000010c80a738   x1: 0x000000010c80a738   x2:
+ 0x000000000000000d   x3: 0x0000000000000000
+    x4: 0x000000016dde59b8   x5: 0x0000000000000040   x6:
+ 0x0000000000000033   x7: 0x0000000000000800
+    x8: 0x036f93010201ddf8   x9: 0xb179df14ab2900d1  x10:
+ 0x000000010c80a738  x11: 0x00000000000007fd
+   x12: 0x0000000000000001  x13: 0x00000000b3e33897  x14:
+ 0x00000000b4034000  x15: 0x0000000000000068
+   x16: 0x582bcd01bf21b57c  x17: 0x00000002057e0758  x18:
+ 0x0000000000000000  x19: 0x000000010be0d760
+   x20: 0x0000000000000000  x21: 0x0000000209717000  x22:
+ 0x00000001f615ffcb  x23: 0x0000000000000001
+   x24: 0x0000000000000001  x25: 0x00000001ffac7000  x26:
+ 0x0000000280436140  x27: 0x00000002057a44a8
+   x28: 0x00000001f5cfa024   fp: 0x000000016dde5b60   lr:
+ 0x000000010201dcf0
+    sp: 0x000000016dde5b30   pc: 0x000000010201ddf8 cpsr:
+ 0x60000000
+   esr: 0x82000004 (Instruction Abort) Translation fault</code></pre>
+<p>This approach is handy because then we can directly correlate the crash dump report to our analysis in the debugger. Notice that the <code>x8</code> register is exactly the <code>result</code> value we explored earlier.</p>
 <h1 id="analytic-troubleshooting">Analytic Troubleshooting</h1>
 <p>This chapter discusses a formal technique for solving problems. The idea is to provide a framework that prompts the right questions to be asked.</p>
 <p>There is a famous phrase cautioning us on taking an overzealous approach:</p>
