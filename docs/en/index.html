@@ -173,6 +173,7 @@
 </ul></li>
 <li><a href="#pointer-authentication">Pointer Authentication</a>
 <ul>
+<li><a href="#configuring-pointer-authentication">Configuring Pointer Authentication</a></li>
 <li><a href="#manipulating-pointers">Manipulating Pointers</a></li>
 <li><a href="#icdab_ptr-pac-crash"><code>icdab_ptr</code> PAC crash</a></li>
 </ul></li>
@@ -2416,6 +2417,7 @@ avx_v1_supported() {
 <p>In this chapter we shall examine Pointer Authentication, and related crashes.</p>
 <p>Devices using the Apple A12 chip, or later, utilise a security feature known as <em>Pointer Authentication</em> as part of the ARMv8.3-A architecture. For example, iPhone XS, iPhone XS Max, and iPhone XR use the A12 chip. The basic idea is that there are unused bits in a 64-bit pointer because it can already address such a vast range of addresses, only 40 bits are allocated to such purposes. <span class="citation" data-cites="iospac">(“Examining Pointer Authentication on the iPhone Xs” 2019)</span> The remaining bits can therefore be used to store a hash value computed after combining the intended pointer address with a context value and a secret key. Then if the pointer address were to be changed, either because of a bug or malicious action, the pointer would be known to be invalid and would eventually cause a <code>SIGSEGV</code> if it were to be used to change the control flow of a program.</p>
 <p>In actual fact, Pointer Authentication is used in a number of scenarios, such as ensuring C++ virtual dispatch tables have not been tampered with. But we shall look only at the simple case of an incorrectly manipulated jump address.</p>
+<h2 id="configuring-pointer-authentication">Configuring Pointer Authentication</h2>
 <p>Pointer Authentication is enabled by Apple in the kernel on Devices using the A12 chip, and newer. For user space code, Pointer Authentication is an opt-in feature. It can be enabled via the Build Settings for the project as seen here in Figure <em>Enable Pointer Authentication</em> for <code>icdab_ptr</code> <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> We add Architecture <code>arm64e</code> to the Architectures setting.</p>
 <figure>
 <img src="screenshots/enable_ptr_auth.png" alt="Enable Pointer Authentication" /><figcaption aria-hidden="true">Enable Pointer Authentication</figcaption>
