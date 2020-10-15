@@ -6,6 +6,8 @@ Devices using the Apple A12\index{CPU!A12} chip, or later, utilise a security fe
 
 In actual fact, Pointer Authentication is used in a number of scenarios, such as ensuring C++ virtual dispatch tables have not been tampered with.  But we shall look only at the simple case of an incorrectly manipulated jump address.
 
+## Configuring Pointer Authentication
+
 Pointer Authentication is enabled by Apple in the kernel on Devices using the A12 chip, and newer.  For user space code, Pointer Authentication is an opt-in feature.  It can be enabled via the Build Settings for the project as seen here in Figure _Enable Pointer Authentication_ for `icdab_ptr`  @icdabgithub  We add Architecture `arm64e` to the Architectures setting.
 
 ![Enable Pointer Authentication](screenshots/enable_ptr_auth.png)
