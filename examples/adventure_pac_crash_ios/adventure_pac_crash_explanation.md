@@ -1,6 +1,6 @@
-### Pointer Authentication Control crash
+### Pointer Authentication crash
 
-Earlier, in chapter _Pointer Authentication_ we saw a user space crash with Pointer Authentication switched on.  Here we see a crash in system libraries that use Pointer Authentication.
+Earlier, in chapter _Pointer Authentication_, we saw a user space crash with Pointer Authentication switched on.  Here we see a crash in system libraries that use Pointer Authentication.
 
 ```
 Incident Identifier: 692E5696-6994-4FB3-B42D-C9317D956EE7
