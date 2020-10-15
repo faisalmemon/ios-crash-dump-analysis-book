@@ -1,0 +1,1 @@
+Open project icdab_ptr and look for arm64e in Build Settings.
