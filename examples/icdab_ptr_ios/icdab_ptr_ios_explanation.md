@@ -134,12 +134,14 @@ In this section we point out some differences when running the debugger on a Arc
 When we print out pointers, we get the pointer with the PAC value stripped out.  For example, for a pointer `0x36f93010201ddf8`, our `result` variable, we would get:
 ```
 (lldb) po result
-(actual=0x000000010201ddf8 icdab_ptr`nextInterestingJumpToFunc at ViewController.m:25)
+(actual=0x000000010201ddf8 icdab_ptr`nextInterestingJumpToFunc at
+ ViewController.m:25)
 ```
 
 This value is from the execution that produced the following output
 ```
-ptr addresses as uintptr_t are 0x36f93010201ddd8 0xc7777b010201ddf8
+ptr addresses as uintptr_t are 0x36f93010201ddd8
+ 0xc7777b010201ddf8
 delta is 0xc407e80000000020 clean_delta is 0x20
 ptrFn result is 0x36f93010201ddf8
 ```
@@ -152,12 +154,18 @@ the system will continue on, and perform a crash, and then generate a report.
 
 ```
 Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
-Exception Subtype: KERN_INVALID_ADDRESS at 0x200000010201ddf8 -> 0x000000010201ddf8 (possible pointer authentication failure)
-VM Region Info: 0x10201ddf8 is in 0x10201c000-0x102020000;  bytes after start: 7672  bytes before end: 8711
-      REGION TYPE                 START - END      [ VSIZE] PRT/MAX SHRMOD  REGION DETAIL
-      __TEXT                   102018000-10201c000 [   16K] r-x/r-x SM=COW  ...app/icdab_ptr
---->  __TEXT                   10201c000-102020000 [   16K] r-x/rwx SM=COW  ...app/icdab_ptr
-      __DATA_CONST             102020000-102024000 [   16K] r--/rw- SM=COW  ...app/icdab_ptr
+Exception Subtype: KERN_INVALID_ADDRESS at 0x200000010201ddf8 ->
+ 0x000000010201ddf8 (possible pointer authentication failure)
+VM Region Info: 0x10201ddf8 is in 0x10201c000-0x102020000;  bytes
+ after start: 7672  bytes before end: 8711
+      REGION TYPE                 START - END      [ VSIZE]
+ PRT/MAX SHRMOD  REGION DETAIL
+      __TEXT                   102018000-10201c000 [   16K]
+ r-x/r-x SM=COW  ...app/icdab_ptr
+--->  __TEXT                   10201c000-102020000 [   16K]
+ r-x/rwx SM=COW  ...app/icdab_ptr
+      __DATA_CONST             102020000-102024000 [   16K]
+ r--/rw- SM=COW  ...app/icdab_ptr
 
 Termination Signal: Segmentation fault: 11
 Termination Reason: Namespace SIGNAL, Code 0xb
@@ -166,24 +174,39 @@ Triggered by Thread:  0
 
 Thread 0 name:  Dispatch queue: com.apple.main-thread
 Thread 0 Crashed:
-0   icdab_ptr                     	0x000000010201ddf8 nextInterestingJumpToFunc + 24056 (ViewController.m:25)
-1   icdab_ptr                     	0x000000010201dcf0 -[ViewController viewDidLoad] + 23792 (ViewController.m:34)
-2   UIKitCore                     	0x00000001aca4cda0 -[UIViewController _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 108
-3   UIKitCore                     	0x00000001aca515fc -[UIViewController loadViewIfRequired] + 956
-4   UIKitCore                     	0x00000001aca519c0 -[UIViewController view] + 32
+0   icdab_ptr                     	0x000000010201ddf8
+ nextInterestingJumpToFunc + 24056 (ViewController.m:25)
+1   icdab_ptr                     	0x000000010201dcf0
+ -[ViewController viewDidLoad] + 23792 (ViewController.m:34)
+2   UIKitCore                     	0x00000001aca4cda0
+ -[UIViewController
+ _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 108
+3   UIKitCore                     	0x00000001aca515fc
+ -[UIViewController loadViewIfRequired] + 956
+4   UIKitCore                     	0x00000001aca519c0
+ -[UIViewController view] + 32
 .
 .
 
 Thread 0 crashed with ARM Thread State (64-bit):
-    x0: 0x000000010c80a738   x1: 0x000000010c80a738   x2: 0x000000000000000d   x3: 0x0000000000000000
-    x4: 0x000000016dde59b8   x5: 0x0000000000000040   x6: 0x0000000000000033   x7: 0x0000000000000800
-    x8: 0x036f93010201ddf8   x9: 0xb179df14ab2900d1  x10: 0x000000010c80a738  x11: 0x00000000000007fd
-   x12: 0x0000000000000001  x13: 0x00000000b3e33897  x14: 0x00000000b4034000  x15: 0x0000000000000068
-   x16: 0x582bcd01bf21b57c  x17: 0x00000002057e0758  x18: 0x0000000000000000  x19: 0x000000010be0d760
-   x20: 0x0000000000000000  x21: 0x0000000209717000  x22: 0x00000001f615ffcb  x23: 0x0000000000000001
-   x24: 0x0000000000000001  x25: 0x00000001ffac7000  x26: 0x0000000280436140  x27: 0x00000002057a44a8
-   x28: 0x00000001f5cfa024   fp: 0x000000016dde5b60   lr: 0x000000010201dcf0
-    sp: 0x000000016dde5b30   pc: 0x000000010201ddf8 cpsr: 0x60000000
+    x0: 0x000000010c80a738   x1: 0x000000010c80a738   x2:
+ 0x000000000000000d   x3: 0x0000000000000000
+    x4: 0x000000016dde59b8   x5: 0x0000000000000040   x6:
+ 0x0000000000000033   x7: 0x0000000000000800
+    x8: 0x036f93010201ddf8   x9: 0xb179df14ab2900d1  x10:
+ 0x000000010c80a738  x11: 0x00000000000007fd
+   x12: 0x0000000000000001  x13: 0x00000000b3e33897  x14:
+ 0x00000000b4034000  x15: 0x0000000000000068
+   x16: 0x582bcd01bf21b57c  x17: 0x00000002057e0758  x18:
+ 0x0000000000000000  x19: 0x000000010be0d760
+   x20: 0x0000000000000000  x21: 0x0000000209717000  x22:
+ 0x00000001f615ffcb  x23: 0x0000000000000001
+   x24: 0x0000000000000001  x25: 0x00000001ffac7000  x26:
+ 0x0000000280436140  x27: 0x00000002057a44a8
+   x28: 0x00000001f5cfa024   fp: 0x000000016dde5b60   lr:
+ 0x000000010201dcf0
+    sp: 0x000000016dde5b30   pc: 0x000000010201ddf8 cpsr:
+ 0x60000000
    esr: 0x82000004 (Instruction Abort) Translation fault
 ```
 
