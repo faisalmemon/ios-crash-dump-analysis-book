@@ -1,0 +1,21 @@
+{
+  "crashReporterKey" : "d3e622273dd1296e8599964c99f70e07d25c8ddc",
+  "kernel" : "Darwin Kernel Version 20.1.0: Mon Sep 21 00:09:01 PDT 2020; root:xnu-7195.40.113.0.2~22\/RELEASE_ARM64_T8030",
+  "product" : "iPhone12,1",
+  "incident" : "F675B753-22CC-49BB-B3CB-DCFBFE94BFEC",
+  "date" : "2020-10-15 14:23:01.82 +0100",
+  "build" : "iPhone OS 14.2 (18B5061e)",
+  "timeDelta" : 16,
+  "memoryStatus" : {
+  "compressorSize" : 92526,
+  "compressions" : 2800838,
+  "decompressions" : 2351610,
+  "zoneMapCap" : 1472872448,
+  "largestZone" : "APFS_4K_OBJS",
+  "largestZoneSize" : 21938176,
+  "pageSize" : 16384,
+  "uncompressed" : 240275,
+  "zoneMapSize" : 168968192,
+  "memoryPages" : {
+    "active" : 50541,
+    "throttled" : 0,

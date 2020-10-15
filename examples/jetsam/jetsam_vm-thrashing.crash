@@ -1,0 +1,48 @@
+{"timestamp":"2016-04-15 23:52:13.13 +0200","bug_type":"298","os_version":"iPhone OS 9.3 (13E234)"}
+{
+"crashReporterKey" : "bec1fa98267fbf2d761102140fcf61aa7b6b5e25",
+"kernel" : "Darwin Kernel Version 15.4.0: Fri Feb 19 13:54:52 PST 2016; root:xnu-3248.41.4~28\/RELEASE_ARM64_S8000",
+"product" : "iPhone8,1",
+"incident" : "A2B3C5FF-8ECC-4E07-BEDA-E847061F396B",
+"date" : "2016-04-15 23:52:13.13 +0200",
+"build" : "iPhone OS 9.3 (13E234)",
+"timeDelta" : 1739,
+"memoryStatus" : {
+"compressorSize" : 76679,
+"pageSize" : 16384,
+"compressions" : 2526427,
+"memoryPages" : {
+   "active" : 24493,
+   "throttled" : 0,
+   "fileBacked" : 24113,
+   "wired" : 13007,
+   "anonymous" : 12915,
+   "purgeable" : 127,
+   "inactive" : 10955,
+   "free" : 2290,
+   "speculative" : 1580
+},
+"uncompressed" : 125795,
+"decompressions" : 143684
+},
+"largestProcess" : "Facebook",
+"processes" : [
+{
+...
+{
+   "rpages" : 2050,
+   "states" : [
+     "frontmost",
+     "resume"
+   ],
+   "name" : "KodiMusicRemoteP",
+   "pid" : 1518,
+   "reason" : "vm-thrashing",
+   "fds" : 50,
+   "uuid" : "5103a88a-917f-319e-8553-c0189dd1abac",
+   "purgeable" : 127,
+   "cpuTime" : 4.619693,
+   "lifetimeMax" : 3557
+},
+...
+}

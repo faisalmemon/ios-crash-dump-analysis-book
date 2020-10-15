@@ -1,0 +1,21 @@
+{
+  "kernel" : "Darwin Kernel Version 20.0.0: Wed Aug 26 21:15:44 PDT 2020; root:xnu-7195.2.3~1\/RELEASE_ARM64_T8006",
+  "date" : "2020-10-14 12:34:36.52 +0100",
+  "crashReporterKey" : "55c6eeeb731473171126812615559887a41ae2b6",
+  "product" : "Watch4,2",
+  "build" : "Watch OS 7.0.1 (18R395)",
+  "incident" : "C755B194-197E-4DF0-8D00-E636291AE542",
+  "memoryStatus" : {
+  "largestZone" : "kext.kalloc.16384",
+  "pageSize" : 16384,
+  "decompressions" : 11456789,
+  "zoneMapSize" : 72974336,
+  "compressorSize" : 15089,
+  "largestZoneSize" : 5177344,
+  "memoryPages" : {
+    "fileBacked" : 12905,
+    "anonymous" : 19876,
+    "inactive" : 15757,
+    "active" : 16376,
+    "wired" : 13991,
+    "speculative" : 648,

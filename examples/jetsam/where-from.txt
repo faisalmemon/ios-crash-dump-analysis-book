@@ -1,0 +1,18 @@
+https://github.com/apple/darwin-xnu/blob/a449c6a3b8014d9406c2ddbdc81795da24aa7443/bsd/kern/kern_memorystatus.c#L77
+
+static const char *memorystatus_kill_cause_name[] = {
+	""								,		/* kMemorystatusInvalid							*/
+	"jettisoned"					,		/* kMemorystatusKilled							*/
+	"highwater"						,		/* kMemorystatusKilledHiwat						*/
+	"vnode-limit"					,		/* kMemorystatusKilledVnodes					*/
+	"vm-pageshortage"				,		/* kMemorystatusKilledVMPageShortage			*/
+	"proc-thrashing"				,		/* kMemorystatusKilledProcThrashing				*/
+	"fc-thrashing"					,		/* kMemorystatusKilledFCThrashing				*/
+	"per-process-limit"				,		/* kMemorystatusKilledPerProcessLimit			*/
+	"disk-space-shortage"			,		/* kMemorystatusKilledDiskSpaceShortage			*/
+	"idle-exit"						,		/* kMemorystatusKilledIdleExit					*/
+	"zone-map-exhaustion"			,		/* kMemorystatusKilledZoneMapExhaustion			*/
+	"vm-compressor-thrashing"		,		/* kMemorystatusKilledVMCompressorThrashing		*/
+	"vm-compressor-space-shortage"	,		/* kMemorystatusKilledVMCompressorSpaceShortage	*/
+};
+
