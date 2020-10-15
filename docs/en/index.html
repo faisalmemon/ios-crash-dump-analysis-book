@@ -2472,8 +2472,8 @@ static void nextInterestingJumpToFunc(void) {
  0x22b810102c55df8
 delta is 0xd8e5690000000020 clean_delta is 0x20
 ptrFn result is 0x2946180102c55df8</code></pre>
-<p>We see that when a pointer to function, <code>interestingJumpToFunc</code> is obtained, and then stored in an integer big enough to hold a pointer address, we get a large value, <code>0x2946180102c55dd8</code>. That is because the top 24 bits of the address are the Pointer Authentication Code (PAC). The PAC in this instance is <code>0x294618</code> and the effective pointer is <code>0x0102c55dd8</code>.</p>
-<p>The next pointer, which is physically adjacent, <code>nextInterestingJumpToFunc</code> is <code>0x22b810102c55df8</code>; clearly it shares a similar effective address, <code>0x0102c55df8</code> but has an entirely different PAC, <code>0x22b81</code>.</p>
+<p>We see that when a pointer to function, <code>interestingJumpToFunc</code>, is obtained, and then stored in an integer big enough to hold a pointer address, we get a large value, <code>0x2946180102c55dd8</code>. That is because the top 24 bits of the address are the Pointer Authentication Code (PAC). The PAC in this instance is <code>0x294618</code> and the effective pointer is <code>0x0102c55dd8</code>.</p>
+<p>The next pointer, which is physically adjacent, <code>nextInterestingJumpToFunc</code> is <code>0x22b810102c55df8</code>; clearly it shares a similar effective address, <code>0x0102c55df8</code>, but has an entirely different PAC, <code>0x22b81</code>.</p>
 <h1 id="analytic-troubleshooting">Analytic Troubleshooting</h1>
 <p>This chapter discusses a formal technique for solving problems. The idea is to provide a framework that prompts the right questions to be asked.</p>
 <p>There is a famous phrase cautioning us on taking an overzealous approach:</p>
