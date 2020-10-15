@@ -234,7 +234,7 @@
 <ul>
 <li><a href="#fud-crash">fud crash</a></li>
 <li><a href="#leakagent-crash">LeakAgent crash</a></li>
-<li><a href="#pointer-authentication-control-crash">Pointer Authentication Control crash</a></li>
+<li><a href="#pointer-authentication-crash">Pointer Authentication crash</a></li>
 </ul></li>
 <li><a href="#bus-error-sigbus-crashes">Bus error (SIGBUS) crashes</a>
 <ul>
@@ -3679,8 +3679,8 @@ Thread 4 crashed with ARM Thread State (64-bit):
 <p>We can see that the kernel address at fault is <code>0x0000000000000000</code> so it’s a NULL pointer dereference. The call site where we crash is a Swift library that demangles symbols. The Xcode instrument is trying to provide human readable object type definitions from the activity it has seen on the iPad.</p>
 <p>If we were the user trying to profile our app, and hit this bug in the <code>LeakAgent</code>, we would need to try and figure out a way to avoid the problem.</p>
 <p>Since the problem is due to symbolification, it may be wise to clear our build directory and then do a clean build. Sometimes an Xcode update switches us to a new object file format that is incompatible. It is worthwhile checking profiling with another project, perhaps a trivial test program. There are alternative memory analysis facilities, such as the Diagnostics Tab for the scheme we are running, so memory analysis could be done in a different way. See the later chapter, Memory Diagnostics, for further information.</p>
-<h3 id="pointer-authentication-control-crash">Pointer Authentication Control crash</h3>
-<p>Earlier, in chapter <em>Pointer Authentication</em> we saw a user space crash with Pointer Authentication switched on. Here we see a crash in system libraries that use Pointer Authentication.</p>
+<h3 id="pointer-authentication-crash">Pointer Authentication crash</h3>
+<p>Earlier, in chapter <em>Pointer Authentication</em>, we saw a user space crash with Pointer Authentication switched on. Here we see a crash in system libraries that use Pointer Authentication.</p>
 <pre><code>Incident Identifier: 692E5696-6994-4FB3-B42D-C9317D956EE7
 CrashReporter Key:   1f2cdb7448d354584634e8576c1e5257634fc0cd
 Hardware Model:      iPhone12,1
