@@ -42,19 +42,19 @@ After a crash, apps are often debugged on the Simulator.  The exception code may
 A Crash Report starts with the following header:
 
 ```
-Incident Identifier: E030D9E4-32B5-4C11-8B39-C12045CABE26
-CrashReporter Key:   b544a32d592996e0efdd7f5eaafd1f4164a2e13c
-Hardware Model:      iPad6,3
-Process:             icdab_planets [2726]
-Path:                /private/var/containers/Bundle/Application/
-BEF249D9-1520-40F7-93F4-8B99D913A4AC/
-icdab_planets.app/icdab_planets
-Identifier:          www.perivalebluebell.icdab-planets
-Version:             1 (1.0)
+Incident Identifier: 692E5696-6994-4FB3-B42D-C9317D956EE7
+CrashReporter Key:   1f2cdb7448d354584634e8576c1e5257634fc0cd
+Hardware Model:      iPhone12,1
+Process:             get [1737]
+Path:                /private/var/containers/Bundle/Application/2BF678BB-7CC6-4CAC-BF49-0298B611F1BA/get.app/get
+Identifier:          com.soul.merge.cat.cute.simulator.adventure.get
+Version:             44 (1.4.4)
+AppStoreTools:       11C29
+AppVariant:          1:iPhone12,1:13
 Code Type:           ARM-64 (Native)
 Role:                Foreground
 Parent Process:      launchd [1]
-Coalition:           www.perivalebluebell.icdab-planets [1935]
+Coalition:           com.soul.merge.cat.cute.simulator.adventure.get [757]
 ```
 
 These items are explained by the following table:
@@ -62,16 +62,29 @@ These items are explained by the following table:
 Entry|Meaning
 --|--
 Incident Identifier|Unique report number of crash
+Beta Identifier|Unique identifer scoped to the software author and client device in TestFlight\index{trademark!TestFlight} builds
 CrashReporter Key|Unique identifier for the device that crashed
 Hardware Model|Apple Hardware Model @ios-devices
 Process|Process\index{process} name (number) that crashed
 Path|Full pathname of crashing program on the device file system
 Identifier|Bundle identifier from `Info.plist`\index{Info.plist}
 Version|CFBundleVersion; also CFBundleVersionString in brackets
+AppStoreTools|The version of Xcode the app author used to build the app for when _bitcode_ was enabled
+AppVariant|The variant of the app produced by _app thinning_ by the App Store before it was deployed to the device
+Beta|YES if the crash was TestFlight beta software otherwise absent
 Code Type|Target architecture of the process that crashed
 Role\index{task!role}|The process `task_role`.  An indicator if we were in the background, foreground, or was a console app.  Mainly affects the scheduling priority of the process.
 Parent Process|Parent of the crashing process\index{process}. `launchd`\index{command!launchd} is a process launcher and is often the parent.
 Coalition\index{task!coalition}|Tasks are grouped into coalitions so they can pool together their consumption of resources @resource-management
+
+The `AppVariant` field, when present, is explained by _internalVersion_:_nameOfVariantClass_:_osVersionVariant_.
+Field|Meaning
+--|--
+internalVersion|Private field used in the Apple implementation
+nameOfVariantClass|Usually a product name or something that characterises a type of hardware device class
+osVersionVariant|Variant introduced from a given version of the OS
+
+
 
 The first thing to look at is the version.  Typically, if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.
 
@@ -105,6 +118,7 @@ Entry|Meaning
 Date/Time|When the crash occurred
 Launch Time|When the process\index{process} was originally launched before crashing
 OS Version| Operating System Version (Build number).  @ios-versions
+Release Type| _Beta_ when the OS was Beta software
 Baseband Version| Version number of the firmware of the cellular modem (used for phone calls) or `n/a` if the device has no cellular modem (most iPads, iPod Touch, etc.)
 Report Version|The version of ReportCrash used to produce the report
 
@@ -156,7 +170,7 @@ Exception Type|Meaning
 `EXC_CRASH (SIGABRT)` |Our program raised a programming language exception such as a failed assertion and this caused the OS to Abort our app
 `EXC_CRASH (SIGQUIT)` |A process received a quit signal from another process that is managing it.  Typically, this means a Keyboard extension took too long or used up too much memory.  App extensions are given only limited amounts of memory.
 `EXC_CRASH (SIGKILL)` |The system killed our app (or app extension), usually because some resource limit had been reached.  The Termination Reason needs to be looked at to work out what policy violation was the reason for termination.
-`EXC_BAD_ACCESS (SIGSEGV)` or `EXC_BAD_ACCESS (SIGBUS)` |Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to memory pressure.  The pointer to memory we used might have become changed and thus become invalid due to Pointer Authentication Control (PAC)\index{Pointer Authentication Control}\index{PAC}
+`EXC_BAD_ACCESS (SIGSEGV)` or `EXC_BAD_ACCESS (SIGBUS)` |Our program most likely tried to access a bad memory location or the address was good but we did not have the privilege to access it.  The memory might have been deallocated due to memory pressure.  The pointer to memory we used might have become changed and thus become invalid due to Pointer Authentication\index{Pointer Authentication}\index{PAC}
 `EXC_BREAKPOINT (SIGTRAP)` |This is due to an `NSException` being raised (possibly by a library on our behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
 `EXC_BAD_INSTRUCTION (SIGILL)` |\index{signal!SIGILL}This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; perhaps a compiler or optimizer bug, or faulty hand written assembly code.  On Simulator, it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).  Furthermore, for Apple Silicon Macs running an app in Rosetta\index{trademark!Rosetta} Translation mode, this may suggest an unsupported instruction.
 `EXC_GUARD`|This is when the program closed a file descriptor that was guarded.  An example is the SQLite database used by the system.
@@ -259,6 +273,8 @@ None found
 ```
 
 This is an anomalous section because it is supposed to look at the process\index{process!ID} ID of the crashed process and then look to see if there are any syslog \index{command!syslog}(System Log) entries for that process.  We have never seen filtered entries in a crash, and only see `None found` reported.
+
+In later versions of the iOS Crash Report, this section has been removed.
 
 ### iOS Crash Report Exception Backtrace section
 
