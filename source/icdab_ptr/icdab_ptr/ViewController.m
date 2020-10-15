@@ -21,8 +21,7 @@ static void interestingJumpToFunc(void) {
     NSLog(@"Simple interestingJumpToFunc\n");
 }
 
-// Must be defined immediately after the above interestingJumpToFunc function
-// so it is the next function in the program text.
+// this function's address is where we will be jumping to
 static void nextInterestingJumpToFunc(void) {
     NSLog(@"Simple nextInterestingJumpToFunc\n");
 }
