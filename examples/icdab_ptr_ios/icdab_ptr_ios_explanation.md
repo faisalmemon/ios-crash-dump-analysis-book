@@ -17,7 +17,6 @@ Role:                Foreground
 Parent Process:      launchd [1]
 Coalition:           perivalebluebell.com.icdab-ptr [1288]
 
-
 Date/Time:           2020-10-14 23:09:20.9645 +0100
 Launch Time:         2020-10-14 23:09:20.6958 +0100
 OS Version:          iPhone OS 14.2 (18B5061e)
@@ -119,7 +118,7 @@ VM Region Info: 0x100ae9df8 is in 0x100ae4000-0x100aec000;  bytes
  r--/rw- SM=COW  ...app/icdab_ptr
 ```
 
-Our pointer, `0x2000000100ae9df8` points to the text region of the program at `0x0000000100ae9df8` but the upper 24 bits of the pointer are incorrect, hence the message `(possible pointer authentication failure)` and this results in the `SIGSEGV`.  Notice the PAC is a special value `0x200000' which presumably the value representing `invalid PAC`.
+Our pointer, `0x2000000100ae9df8` points to the text region of the program at `0x0000000100ae9df8` but the upper 24 bits of the pointer are incorrect, hence the message `(possible pointer authentication failure)` and this results in the `SIGSEGV`.  Notice the PAC is a special value `0x200000` which presumably the value representing `invalid PAC`.
 
 From the previous section, we know that the code which checks the PAC in our program is:
 ```
