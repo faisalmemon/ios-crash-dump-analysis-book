@@ -174,6 +174,7 @@
 <li><a href="#pointer-authentication">Pointer Authentication</a>
 <ul>
 <li><a href="#manipulating-pointers">Manipulating Pointers</a></li>
+<li><a href="#icdab_ptr-pac-crash"><code>icdab_ptr</code> PAC crash</a></li>
 </ul></li>
 <li><a href="#analytic-troubleshooting">Analytic Troubleshooting</a>
 <ul>
@@ -2412,7 +2413,9 @@ avx_v1_supported() {
 }</code></pre>
 <p>This function returns <code>true</code> is AVX version 1 is supported (and there was no error in retrieving the information).</p>
 <h1 id="pointer-authentication">Pointer Authentication</h1>
+<p>In this chapter we shall examine Pointer Authentication, and related crashes.</p>
 <p>Devices using the Apple A12 chip, or later, utilise a security feature known as <em>Pointer Authentication</em> as part of the ARMv8.3-A architecture. For example, iPhone XS, iPhone XS Max, and iPhone XR use the A12 chip. The basic idea is that there are unused bits in a 64-bit pointer because it can already address such a vast range of addresses, only 40 bits are allocated to such purposes. <span class="citation" data-cites="iospac">(“Examining Pointer Authentication on the iPhone Xs” 2019)</span> The remaining bits can therefore be used to store a hash value computed after combining the intended pointer address with a context value and a secret key. Then if the pointer address were to be changed, either because of a bug or malicious action, the pointer would be known to be invalid and would eventually cause a <code>SIGSEGV</code> if it were to be used to change the control flow of a program.</p>
+<p>In actual fact, Pointer Authentication is used in a number of scenarios, such as ensuring C++ virtual dispatch tables have not been tampered with. But we shall look only at the simple case of an incorrectly manipulated jump address.</p>
 <p>Pointer Authentication is enabled by Apple in the kernel on Devices using the A12 chip, and newer. For user space code, Pointer Authentication is an opt-in feature. It can be enabled via the Build Settings for the project as seen here in Figure <em>Enable Pointer Authentication</em> for <code>icdab_ptr</code> <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> We add Architecture <code>arm64e</code> to the Architectures setting.</p>
 <figure>
 <img src="screenshots/enable_ptr_auth.png" alt="Enable Pointer Authentication" /><figcaption aria-hidden="true">Enable Pointer Authentication</figcaption>
@@ -2474,6 +2477,136 @@ delta is 0xd8e5690000000020 clean_delta is 0x20
 ptrFn result is 0x2946180102c55df8</code></pre>
 <p>We see that when a pointer to function, <code>interestingJumpToFunc</code>, is obtained, and then stored in an integer big enough to hold a pointer address, we get a large value, <code>0x2946180102c55dd8</code>. That is because the top 24 bits of the address are the Pointer Authentication Code (PAC). The PAC in this instance is <code>0x294618</code> and the effective pointer is <code>0x0102c55dd8</code>.</p>
 <p>The next pointer, which is physically adjacent, <code>nextInterestingJumpToFunc</code> is <code>0x22b810102c55df8</code>; clearly it shares a similar effective address, <code>0x0102c55df8</code>, but has an entirely different PAC, <code>0x22b81</code>.</p>
+<p>When we compute the delta between the pointers, we will clearly get a nonsense address because of the PAC portion of the value of the pointers. In order to correctly calculate the delta between the effective address of the pointers, we need to use the <code>ptrauth_strip</code> utility function. This is implemented as a built-in macro assembly instruction.</p>
+<p>After macro preprocessing, the code is:</p>
+<pre><code>ptrdiff_t clean_delta =
+    __builtin_ptrauth_strip(&amp;nextInterestingJumpToFunc,
+ ptrauth_key_asia) -
+
+    __builtin_ptrauth_strip(&amp;interestingJumpToFunc,
+ ptrauth_key_asia);</code></pre>
+<p>The assembly instructions produced are of the form:</p>
+<pre><code>    xpaci   x9</code></pre>
+<p>when the <code>__builtin_ptrauth_strip</code> strip function is used. This removes the PAC from a register, in this case <code>x9</code>.</p>
+<p>The benefit of using the strip functions was that we are able to correctly determine the distance between the two functions of interest. It is <code>0x20</code>. Our function <code>generatePtrToFn</code> essentially just adds the delta onto the address of <code>interestingJumpToFunc</code> to calculate the address of <code>nextInterestingJumpToFunc</code>, but it does it erroneously; it leaves the PAC for <code>interestingJumpToFunc</code> in the address it has calculated.</p>
+<p>Notice none of this pointer manipulation causes a crash. The time of checking the pointer is when it is used for changing the link register. That is, when we act upon the pointer value to change the control flow of the program.</p>
+<p>In the function <code>viewDidLoad()</code> when have the code</p>
+<pre><code>result(); // will crash; deferences a pointer with a bad PAC</code></pre>
+<p>The pointer used is our bad pointer <code>0x2946180102c55df8</code>. The bad pointer is detected by the assembly instruction</p>
+<pre><code>blraaz  x8</code></pre>
+<p>This is Branch with Link to Register, with pointer authentication using Instruction Key A.</p>
+<p>Note that when we were stripping the pointer, we used <code>ptrauth_key_asia</code> to remove Instruction Key A. However, we do not have access to the special values needed to do the reverse, to sign a pointer with Instruction Key A with the appropriate “salt” values to get a contextually correct signed pointer.</p>
+<p>Now that we have examined our faulty code, let us look what happens when it crashes.</p>
+<h2 id="icdab_ptr-pac-crash"><code>icdab_ptr</code> PAC crash</h2>
+<p>On an iPhone 11, which has an A13 Bionic chip, we see the following crash when running the <code>icdab_ptr</code> program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<pre><code>Incident Identifier: DA9FE0C7-6127-4660-A214-5DF5D432DBD9
+CrashReporter Key:   d3e622273dd1296e8599964c99f70e07d25c8ddc
+Hardware Model:      iPhone12,1
+Process:             icdab_ptr [2125]
+Path:               
+ /private/var/containers/Bundle/Application/32E9356D-AF19-4F30-BB
+87-E4C056468063/icdab_ptr.app/icdab_ptr
+Identifier:          perivalebluebell.com.icdab-ptr
+Version:             1 (1.0)
+Code Type:           ARM-64 (Native)
+Role:                Foreground
+Parent Process:      launchd [1]
+Coalition:           perivalebluebell.com.icdab-ptr [1288]
+
+
+Date/Time:           2020-10-14 23:09:20.9645 +0100
+Launch Time:         2020-10-14 23:09:20.6958 +0100
+OS Version:          iPhone OS 14.2 (18B5061e)
+Release Type:        Beta
+Baseband Version:    2.02.00
+Report Version:      104
+
+Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
+Exception Subtype: KERN_INVALID_ADDRESS at 0x2000000100ae9df8 -&gt;
+ 0x0000000100ae9df8 (possible pointer authentication failure)
+VM Region Info: 0x100ae9df8 is in 0x100ae4000-0x100aec000;  bytes
+ after start: 24056  bytes before end: 8711
+      REGION TYPE                 START - END      [ VSIZE]
+ PRT/MAX SHRMOD  REGION DETAIL
+      UNUSED SPACE AT START
+---&gt;  __TEXT                   100ae4000-100aec000 [   32K]
+ r-x/r-x SM=COW  ...app/icdab_ptr
+      __DATA_CONST             100aec000-100af0000 [   16K]
+ r--/rw- SM=COW  ...app/icdab_ptr
+
+Termination Signal: Segmentation fault: 11
+Termination Reason: Namespace SIGNAL, Code 0xb
+Terminating Process: exc handler [2125]
+Triggered by Thread:  0
+
+Thread 0 name:  Dispatch queue: com.apple.main-thread
+Thread 0 Crashed:
+0   icdab_ptr                           0x0000000100ae9df8
+ nextInterestingJumpToFunc + 24056 (ViewController.m:26)
+1   icdab_ptr                           0x0000000100ae9cf0
+ -[ViewController viewDidLoad] + 23792 (ViewController.m:35)
+2   UIKitCore                           0x00000001aca4cda0
+ -[UIViewController
+ _sendViewDidLoadWithAppearanceProxyObjectTaggingEnabled] + 108
+3   UIKitCore                           0x00000001aca515fc
+ -[UIViewController loadViewIfRequired] + 956
+4   UIKitCore                           0x00000001aca519c0
+ -[UIViewController view] + 32
+.
+.
+
+Thread 0 crashed with ARM Thread State (64-bit):
+    x0: 0x0000000103809718   x1: 0x0000000103809718   x2:
+ 0x0000000000000000   x3: 0x00000000000036c8
+    x4: 0x00000000000062dc   x5: 0x000000016f319b20   x6:
+ 0x0000000000000031   x7: 0x0000000000000700
+    x8: 0x045d340100ae9df8   x9: 0x786bdebd0a110081  x10:
+ 0x0000000103809718  x11: 0x00000000000007fd
+   x12: 0x0000000000000001  x13: 0x00000000d14208c1  x14:
+ 0x00000000d1621000  x15: 0x0000000000000042
+   x16: 0xe16d9e01bf21b57c  x17: 0x00000002057e0758  x18:
+ 0x0000000000000000  x19: 0x0000000102109620
+   x20: 0x0000000000000000  x21: 0x0000000209717000  x22:
+ 0x00000001f615ffcb  x23: 0x0000000000000001
+   x24: 0x0000000000000001  x25: 0x00000001ffac7000  x26:
+ 0x0000000282c599a0  x27: 0x00000002057a44a8
+   x28: 0x00000001f5cfa024   fp: 0x000000016f319dd0   lr:
+ 0x0000000100ae9cf0
+    sp: 0x000000016f319da0   pc: 0x0000000100ae9df8 cpsr:
+ 0x60000000
+   esr: 0x82000004 (Instruction Abort) Translation fault
+
+Binary Images:
+0x100ae4000 - 0x100aebfff icdab_ptr arm64e 
+ &lt;83e44566e30039258fd14db647344501&gt;
+ /var/containers/Bundle/Application/32E9356D-AF19-4F30-BB87-E4C05
+6468063/icdab_ptr.app/icdab_ptr</code></pre>
+<p>Firstly, we notice that the point at which we crashed was <code>ViewController.m:26</code> from</p>
+<pre><code>0   icdab_ptr                           0x0000000100ae9df8
+ nextInterestingJumpToFunc + 24056 (ViewController.m:26)</code></pre>
+<p>Our source code has:</p>
+<pre><code>24 // this function&#39;s address is where we will be jumping to
+25 static void nextInterestingJumpToFunc(void) {
+26     NSLog(@&quot;Simple nextInterestingJumpToFunc\n&quot;);
+27 }</code></pre>
+<p>The purpose of the program was to calculate the address of the <code>nextInterestingJumpToFunc</code> function by means of pointer arithmetic and then jump to it. It managed to do so but then crashed. We know from the previous section that this was because we deliberately used the function address PAC borrowed from the <code>interestingJumpToFunc</code> function.</p>
+<p>The crash reporting system demangles the pointer understanding what the effective pointer address is given the faulty pointer. We have:</p>
+<pre><code>Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
+Exception Subtype: KERN_INVALID_ADDRESS at 0x2000000100ae9df8 -&gt;
+ 0x0000000100ae9df8 (possible pointer authentication failure)
+VM Region Info: 0x100ae9df8 is in 0x100ae4000-0x100aec000;  bytes
+ after start: 24056  bytes before end: 8711
+      REGION TYPE                 START - END      [ VSIZE]
+ PRT/MAX SHRMOD  REGION DETAIL
+      UNUSED SPACE AT START
+---&gt;  __TEXT                   100ae4000-100aec000 [   32K]
+ r-x/r-x SM=COW  ...app/icdab_ptr
+      __DATA_CONST             100aec000-100af0000 [   16K]
+ r--/rw- SM=COW  ...app/icdab_ptr</code></pre>
+<p>Our pointer, <code>0x2000000100ae9df8</code> points to the text region of the program at <code>0x0000000100ae9df8</code> but the upper 24 bits of the pointer are incorrect, hence the message <code>(possible pointer authentication failure)</code> and this results in the <code>SIGSEGV</code>. Notice the PAC is a special value <code>0x200000' which presumably the value representing</code>invalid PAC`.</p>
+<p>From the previous section, we know that the code which checks the PAC in our program is:</p>
+<pre><code>blraaz  x8</code></pre>
+<p>Our <code>x8</code> register was <code>0x045d340100ae9df8</code> so presumably the faulty PAC was <code>0x045d34</code>.</p>
 <h1 id="analytic-troubleshooting">Analytic Troubleshooting</h1>
 <p>This chapter discusses a formal technique for solving problems. The idea is to provide a framework that prompts the right questions to be asked.</p>
 <p>There is a famous phrase cautioning us on taking an overzealous approach:</p>
