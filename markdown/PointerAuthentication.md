@@ -85,9 +85,11 @@ After macro preprocessing, the code is:
 
 ```
 ptrdiff_t clean_delta =
-    __builtin_ptrauth_strip(&nextInterestingJumpToFunc, ptrauth_key_asia) -
+    __builtin_ptrauth_strip(&nextInterestingJumpToFunc,
+ ptrauth_key_asia) -
 
-    __builtin_ptrauth_strip(&interestingJumpToFunc, ptrauth_key_asia);
+    __builtin_ptrauth_strip(&interestingJumpToFunc,
+ ptrauth_key_asia);
 ```
 
 The assembly instructions produced are of the form:
