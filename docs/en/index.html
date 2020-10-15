@@ -2513,7 +2513,6 @@ Role:                Foreground
 Parent Process:      launchd [1]
 Coalition:           perivalebluebell.com.icdab-ptr [1288]
 
-
 Date/Time:           2020-10-14 23:09:20.9645 +0100
 Launch Time:         2020-10-14 23:09:20.6958 +0100
 OS Version:          iPhone OS 14.2 (18B5061e)
@@ -2603,7 +2602,7 @@ VM Region Info: 0x100ae9df8 is in 0x100ae4000-0x100aec000;  bytes
  r-x/r-x SM=COW  ...app/icdab_ptr
       __DATA_CONST             100aec000-100af0000 [   16K]
  r--/rw- SM=COW  ...app/icdab_ptr</code></pre>
-<p>Our pointer, <code>0x2000000100ae9df8</code> points to the text region of the program at <code>0x0000000100ae9df8</code> but the upper 24 bits of the pointer are incorrect, hence the message <code>(possible pointer authentication failure)</code> and this results in the <code>SIGSEGV</code>. Notice the PAC is a special value <code>0x200000' which presumably the value representing</code>invalid PAC`.</p>
+<p>Our pointer, <code>0x2000000100ae9df8</code> points to the text region of the program at <code>0x0000000100ae9df8</code> but the upper 24 bits of the pointer are incorrect, hence the message <code>(possible pointer authentication failure)</code> and this results in the <code>SIGSEGV</code>. Notice the PAC is a special value <code>0x200000</code> which presumably the value representing <code>invalid PAC</code>.</p>
 <p>From the previous section, we know that the code which checks the PAC in our program is:</p>
 <pre><code>blraaz  x8</code></pre>
 <p>Our <code>x8</code> register was <code>0x045d340100ae9df8</code> so presumably the faulty PAC was <code>0x045d34</code>.</p>
