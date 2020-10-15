@@ -46,15 +46,19 @@ Incident Identifier: 692E5696-6994-4FB3-B42D-C9317D956EE7
 CrashReporter Key:   1f2cdb7448d354584634e8576c1e5257634fc0cd
 Hardware Model:      iPhone12,1
 Process:             get [1737]
-Path:                /private/var/containers/Bundle/Application/2BF678BB-7CC6-4CAC-BF49-0298B611F1BA/get.app/get
-Identifier:          com.soul.merge.cat.cute.simulator.adventure.get
+Path:               
+ /private/var/containers/Bundle/Application/2BF678BB-7CC6-4CAC-BF
+49-0298B611F1BA/get.app/get
+Identifier:         
+ com.soul.merge.cat.cute.simulator.adventure.get
 Version:             44 (1.4.4)
 AppStoreTools:       11C29
 AppVariant:          1:iPhone12,1:13
 Code Type:           ARM-64 (Native)
 Role:                Foreground
 Parent Process:      launchd [1]
-Coalition:           com.soul.merge.cat.cute.simulator.adventure.get [757]
+Coalition:          
+ com.soul.merge.cat.cute.simulator.adventure.get [757]
 ```
 
 These items are explained by the following table:
