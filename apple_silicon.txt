@@ -27,4 +27,4 @@ t Work out the new art work and back cover text
 t Work out what publicity and meta data material is needed for the book
 t Publish the new book
 t It seems that the latest Apple documentation describes how App Thinning affects App Store crashes.  We need to discuss this in the Symbolification Chapter.
-t Talk about Jetsum crashes https://developer.apple.com/documentation/xcode/diagnosing_issues_using_crash_reports_and_device_logs/identifying_high-memory_use_with_jetsam_event_reports
+t Talk about Jetsum crashes https://developer.apple.com/documentation/xcode/diagnosing_issues_using_crash_reports_and_device_logs/identifying_high-memory_use_with_jetsam_event_reports maybe by writing a share extension https://blog.kulman.sk/dealing-with-memory-limits-in-app-extensions/
