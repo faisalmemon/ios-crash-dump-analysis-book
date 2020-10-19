@@ -136,7 +136,7 @@ In this code example, each layer of abstraction assumes the other side will re-m
 ### STL Solution
 
 We have a variant of the code which does things "properly" from an STL point of view. @icdabgithub
-It is `example/planets_stl`.  On the consumer side, we have a helper method:
+It is `icdab_planets_stl/icdab_planets`.  On the consumer side, we have a helper method:
 
 ```
 - (BOOL)loadPlanetData {
@@ -164,7 +164,7 @@ Then Objective-C++ can be dispensed with in the ViewController code; it can be m
 
 ### Facade Solution
 
-Here is a facade\index{software!facade} implementation `example/facade_planets` that overcomes the mixing of paradigms problem.
+Here is a facade\index{software!facade} implementation `icdab_planets_facade/icdab_planets` that overcomes the mixing of paradigms problem.
 
 The facade is:
 ```

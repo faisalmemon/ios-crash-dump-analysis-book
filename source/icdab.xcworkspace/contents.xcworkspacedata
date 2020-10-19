@@ -32,6 +32,9 @@
       location = "group:icdab_planets_stl/icdab_planets_stl.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:icdab_ptr/icdab_ptr.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:icdab_sample/icdab_sample.xcodeproj">
    </FileRef>
    <FileRef
