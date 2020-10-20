@@ -1195,6 +1195,10 @@ Triggered by Thread:  0</code></pre>
 <td><code>EXC_GUARD</code></td>
 <td>This is when the program closed a file descriptor that was guarded. An example is the SQLite database used by the system.</td>
 </tr>
+<tr class="even">
+<td><code>EXC_RESOURCE</code></td>
+<td>This is when the system killed the app because too much of a resource, such as CPU usage, was consumed. In more recent crash reports, this information is replaced with an Event information section.</td>
+</tr>
 </tbody>
 </table>
 <p>When Termination Reason is present, we can look up the Code as follows:</p>
