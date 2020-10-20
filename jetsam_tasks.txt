@@ -1,0 +1,9 @@
+Jetsam is inevitable so keep background memory use to < 50MB.  Taking a burst of photos can use of a lot of memory.
+
+Use signposts to assist diagnosis.
+Implement state restoration.
+
+Describe metric kit.
+There is an interesting wrapper library https://github.com/ChimeHQ/Meter/blob/main/Meter/MetricKitWrappers.swift
+
+

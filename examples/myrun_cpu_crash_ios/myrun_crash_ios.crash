@@ -1,0 +1,135 @@
+{"app_name":"MapMyRun","timestamp":"2018-09-22 08:59:45.18 -0500","app_version":"18.8.5_beta_670e","slice_uuid":"A7173537-ED4B-3677-9893-4C882D0EB93A","adam_id":0,"build_version":"1809212128","bundleID":"com.mapmyfitness.MapMyRun","share_with_app_devs":false,"is_first_party":false,"bug_type":"206","os_version":"iPhone OS 11.4.1 (15G77)","incident_id":"26C70EF6-4844-4EC0-82B5-8F0D64022375","name":"MapMyRun"}
+Date/Time:       2018-09-22 08:58:50.113113 -0500
+OS Version:      iPhone OS 11.4.1 (Build 15G77)
+Architecture:    arm64
+Report Version:  19
+
+
+Command:         MapMyRun
+Path:            /private/var/containers/Bundle/Application/B76F8244-CE8E-468E-9073-A2DFAA089DEB/MapMyRun.app/MapMyRun
+Version:         18.8.5_beta_670e (1809212128)
+Beta Identifier: 2FFE057C-B975-449C-B538-08A1D58CD510
+PID:             2489
+
+
+Event:           cpu usage
+Action taken:    Process killed
+CPU:             48 seconds cpu time over 54 seconds (88% cpu average), exceeding limit of 80% cpu over 60 seconds
+CPU limit:       48s
+Limit duration:  60s
+CPU used:        48s
+Duration:        54.45s
+Steps:           15
+
+
+Hardware model:  iPhone9,3
+Active cpus:     2
+
+
+
+
+Powerstats for:  MapMyRun [2489]
+UUID:            A7173537-ED4B-3677-9893-4C882D0EB93A
+Start time:      2018-09-22 08:59:29 -0500
+End time:        2018-09-22 08:59:44 -0500
+Microstackshots: 15 samples (100%)
+Primary state:   11 samples Frontmost App, User mode, Effective Thread QoS Background, Requested Thread QoS User Interactive, Override Thread QoS Unspecified
+User Activity:   15 samples Idle, 0 samples Active
+Power Source:    15 samples on Battery, 0 samples on AC
+  11 ??? (libdyld.dylib + 4032) [0x1839a9fc0]
+    11 ??? (MapMyRun + 1630896) [0x1044ae2b0]
+      11 ??? (UIKit + 3266392) [0x18df38758]
+        11 ??? (GraphicsServices + 45088) [0x185efe020]
+          11 ??? (CoreFoundation + 48552) [0x183f18da8]
+            6  ??? (CoreFoundation + 964740) [0x183ff8884]
+              5  ??? (CoreFoundation + 963128) [0x183ff8238]
+                5  ??? (CoreFoundation + 973072) [0x183ffa910]
+                  5  ??? (QuartzCore + 770096) [0x188175030]
+                    5  ??? (QuartzCore + 766384) [0x1881741b0]
+                      4  ??? (QuartzCore + 606344) [0x18814d088]
+                        4  ??? (QuartzCore + 603520) [0x18814c580]
+                          4  ??? (QuartzCore + 1251792) [0x1881ea9d0]
+                            4  ??? (QuartzCore + 1251792) [0x1881ea9d0]
+                              4  ??? (QuartzCore + 1251792) [0x1881ea9d0]
+                                4  ??? (QuartzCore + 1251792) [0x1881ea9d0]
+                                  4  ??? (QuartzCore + 1251792) [0x1881ea9d0]
+                                    4  ??? (QuartzCore + 1251792) [0x1881ea9d0]
+                                      4  ??? (QuartzCore + 1251792) [0x1881ea9d0]
+                                        4  ??? (QuartzCore + 1251792) [0x1881ea9d0]
+                                          4  ??? (QuartzCore + 1251952) [0x1881eaa70]
+                                            2  ??? (QuartzCore + 1253400) [0x1881eb018]
+                                              2  ??? (QuartzCore + 1411144) [0x188211848]
+                                                2  ??? (QuartzCore + 1410688) [0x188211680]
+                                                  2  ??? (QuartzCore + 1409784) [0x1882112f8]
+                                                    2  ??? (QuartzCore + 1395808) [0x18820dc60]
+                                                      1  ??? (QuartzCore + 501636) [0x188133784]
+                                                        1  ??? (QuartzCore + 480884) [0x18812e674]
+                                                      1  ??? (QuartzCore + 501064) [0x188133548]
+                                                        1  ??? (QuartzCore + 1398052) [0x18820e524]
+                                                          1  ??? (QuartzCore + 1399040) [0x18820e900]
+                                            1  ??? (QuartzCore + 1253704) [0x1881eb148]
+                                              1  ??? (QuartzCore + 1600600) [0x18823fc58]
+                                                1  ??? (QuartzCore + 44152) [0x1880c3c78]
+                                            1  ??? (QuartzCore + 1253736) [0x1881eb168]
+                                              1  ??? (QuartzCore + 1611460) [0x1882426c4]
+                                                1  ??? (QuartzCore + 1588620) [0x18823cd8c]
+                      1  ??? (QuartzCore + 594984) [0x18814a428]
+              1  ??? (CoreFoundation + 23828) [0x183f12d14]
+            5  ??? (CoreFoundation + 965576) [0x183ff8bc8]
+              5  ??? (CoreFoundation + 974960) [0x183ffb070]
+                5  ??? (libdispatch.dylib + 58972) [0x18395165c]
+                  5  ??? (libdispatch.dylib + 6752) [0x183944a60]
+                    4  ??? (QuartzCore + 1254252) [0x1881eb36c]
+                      4  ??? (UIKit + 1224652) [0x18dd45fcc]
+                        4  ??? (UIKit + 266424) [0x18dc5c0b8]
+                          4  ??? (UIKit + 268080) [0x18dc5c730]
+                            4  ??? (<4540B641-4362-33B5-952B-C1F6465EEF3F> + 32732) [0x10668ffdc]
+                              4  ??? (<4540B641-4362-33B5-952B-C1F6465EEF3F> + 32320) [0x10668fe40]
+                                4  ??? (UIKit + 2538032) [0x18de86a30]
+                                  3  ??? (UIKit + 258904) [0x18dc5a358]
+                                    2  ??? (<4540B641-4362-33B5-952B-C1F6465EEF3F> + 32496) [0x10668fef0]
+                                      2  ??? (QuartzCore + 1194600) [0x1881dca68]
+                                        2  ??? (QuartzCore + 1207156) [0x1881dfb74]
+                                          1  ??? (libobjc.A.dylib + 117032) [0x183220928]
+                                          1  ??? (QuartzCore + 1177944) [0x1881d8958]
+                                            1  ??? (QuartzCore + 1218176) [0x1881e2680]
+                                              1  ??? (libsystem_malloc.dylib + 5596) [0x183b0f5dc]
+                                                1  ??? (libsystem_malloc.dylib + 6308) [0x183b0f8a4]
+                                                  1  ??? (libsystem_malloc.dylib + 11568) [0x183b10d30]
+                                    1  ??? (<4540B641-4362-33B5-952B-C1F6465EEF3F> + 32448) [0x10668fec0]
+                                      1  ??? (UIKit + 1263660) [0x18dd4f82c]
+                                        1  ??? (QuartzCore + 1170632) [0x1881d6cc8]
+                                          1  ??? (QuartzCore + 1207164) [0x1881dfb7c]
+                                            1  ??? (QuartzCore + 765228) [0x188173d2c]
+                                              1  ??? (libsystem_malloc.dylib + 14392) [0x183b11838]
+                                  1  ??? (UIKit + 258844) [0x18dc5a31c]
+                                    1  ??? (UIKit + 260928) [0x18dc5ab40]
+                                      1  ??? (UIKit + 261704) [0x18dc5ae48]
+                                        1  ??? (libobjc.A.dylib + 154564) [0x183229bc4]
+                                          1  ??? (libobjc.A.dylib + 83920) [0x1832187d0]
+                                            1  ??? (libsystem_malloc.dylib + 16224) [0x183b11f60]
+                                              1  ??? (libsystem_malloc.dylib + 16428) [0x183b1202c]
+                                                1  ??? (libsystem_malloc.dylib + 76316) [0x183b20a1c]
+                                                  1  ??? (libsystem_platform.dylib + 26896) [0x183c73910]
+                    1  ??? (QuartzCore + 1254104) [0x1881eb2d8]
+                      1  ??? (QuartzCore + 1217544) [0x1881e2408]
+                        1  ??? (QuartzCore + 1396236) [0x18820de0c]
+                          1  ??? (QuartzCore + 1548264) [0x188232fe8]
+                            1  ??? (libsystem_platform.dylib + 25660) [0x183c7343c]
+  4  ??? (libsystem_pthread.dylib + 2820) [0x183c77b04]
+    4  
+
+
+  Binary Images:
+         0x104320000 -                ???  com.mapmyfitness.MapMyRun 18.8.5_beta_670e (1809212128)  /private/var/containers/Bundle/Application/B76F8244-CE8E-468E-9073-A2DFAA089DEB/MapMyRun.app/MapMyRun
+         0x106688000 -                ???  ??? <4540B641-4362-33B5-952B-C1F6465EEF3F>
+         0x183204000 -        0x1838bffff  libobjc.A.dylib  /usr/lib/libobjc.A.dylib
+         0x183943000 -        0x1839a8fff  libdispatch.dylib <0C931AC7-6013-3DE1-87BB-6F440BEED5EB> /usr/lib/system/libdispatch.dylib
+         0x1839a9000 -        0x1839c3fff  libdyld.dylib <6225B1CD-3984-3071-A64A-DD8F31B09C36> /usr/lib/system/libdyld.dylib
+         0x183b0e000 -        0x183b29fff  libsystem_malloc.dylib <6DD6981A-DEF5-30B3-B606-2F29ADE13BB2> /usr/lib/system/libsystem_malloc.dylib
+         0x183c6d000 -        0x183c76fff  libsystem_platform.dylib <97DAE109-BAD6-3E58-8E5D-63B8DBDDADCF> /usr/lib/system/libsystem_platform.dylib
+         0x183c77000 -        0x183c86fff  libsystem_pthread.dylib <07C87E38-74B7-3D12-8F0F-A331D8894B97> /usr/lib/system/libsystem_pthread.dylib
+         0x183f0d000 -        0x1842a3fff  com.apple.CoreFoundation 6.9 (1452.23) <533C841E-D6E9-313D-8ADB-02388744E2EF> /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation
+         0x185ef3000 -        0x185f06fff  com.apple.GraphicsServices 1.0 (1.0) <5011EC25-11D7-3A56-AF50-1E8207D54962> /System/Library/PrivateFrameworks/GraphicsServices.framework/GraphicsServices
+         0x1880b9000 -        0x1882ecfff  com.apple.QuartzCore 1.11 (584.63) <10C9D621-C7ED-36F1-AE23-CFC2E8A83E9C> /System/Library/Frameworks/QuartzCore.framework/QuartzCore
+         0x18dc1b000 -        0x18ec99fff  com.apple.UIKit 1.0 (1000)  /System/Library/Frameworks/UIKit.framework/UIKit

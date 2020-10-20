@@ -177,6 +177,7 @@ Exception Type|Meaning
 `EXC_BREAKPOINT (SIGTRAP)` |This is due to an `NSException` being raised (possibly by a library on our behalf) or `_NSLockError` or `objc_exception_throw` being called.  For example, this can be the Swift environment detecting an anomaly such as force unwrapping a nil optional
 `EXC_BAD_INSTRUCTION (SIGILL)` |\index{signal!SIGILL}This is when the program code itself is faulty, not the memory it might be accessing.  This should be rare on iOS devices; perhaps a compiler or optimizer bug, or faulty hand written assembly code.  On Simulator, it is a different story as using an undefined opcode is a technique used by the Swift runtime to stop on access to zombie objects (deallocated objects).  Furthermore, for Apple Silicon Macs running an app in Rosetta\index{trademark!Rosetta} Translation mode, this may suggest an unsupported instruction.
 `EXC_GUARD`|This is when the program closed a file descriptor that was guarded.  An example is the SQLite database used by the system.
+`EXC_RESOURCE`|This is when the system killed the app because too much of a resource, such as CPU usage, was consumed.  In more recent crash reports, this information is replaced with an Event information section.
 
 When Termination Reason\index{termination reason} is present, we can look up the Code as follows:
 
