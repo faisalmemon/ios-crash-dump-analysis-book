@@ -20,11 +20,11 @@ x Fix the zh pdf generation issues; tried a few approaches and may need to leave
 x Talk about PAC crashes https://developer.apple.com/documentation/security/preparing_your_app_to_work_with_pointer_authentication
 x Explain AppVariant:          1:iPhone12,1:13 and AppStoreTools:       11C29
 x Explain how when the debugger is attached upon a crash condition, it is possible to make it crash by detaching at the debugger.
+x Talk about Jetsum crashes https://developer.apple.com/documentation/xcode/diagnosing_issues_using_crash_reports_and_device_logs/identifying_high-memory_use_with_jetsam_event_reports maybe by writing a share extension https://blog.kulman.sk/dealing-with-memory-limits-in-app-extensions/
+x It seems that the latest Apple documentation describes how App Thinning affects App Store crashes.  We need to discuss this in the Symbolification Chapter.  I think I will skip this until I have an app in the store crashing.
 
 t Work through the CDA book updating it
 t Should I wait for the first Mac to be released - will I need to buy it to test my code?
-t Work out the new art work and back cover text
+t Work out the new art work and back cover text.  Maybe use the black walls newly painted nearby for a new headshot?
 t Work out what publicity and meta data material is needed for the book
 t Publish the new book
-t It seems that the latest Apple documentation describes how App Thinning affects App Store crashes.  We need to discuss this in the Symbolification Chapter.
-t Talk about Jetsum crashes https://developer.apple.com/documentation/xcode/diagnosing_issues_using_crash_reports_and_device_logs/identifying_high-memory_use_with_jetsam_event_reports maybe by writing a share extension https://blog.kulman.sk/dealing-with-memory-limits-in-app-extensions/
