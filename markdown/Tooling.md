@@ -39,9 +39,11 @@ We recommend installing the `class-dump`\index{command!class-dump} tool right aw
 
 The class dump tool allows us to look at what Objective C classes, methods and properties are present in a given program.
 
-## Third Party Crash Reporting
+## Crash Reporting Services
 
 The Apple Crash Reporter tool and supporting infrastructure in App Store Connect\index{trademark!App Store} is excellent but has some room for improvement.
+
+### `plcrashreporter` based reporting
 
 A formidable piece of Open Source software, `plcrashreporter`\index{command!plcrashreporter}, has been written by Landon Fuller, of Plausible Labs.  @plcrashreporter
 
@@ -62,4 +64,14 @@ The Mobile Software Development field has grown into a big industry over the las
 A good place to start is the `rollout.io` blog posting that reviewed different players in the market.
 @3rdpartycrashtools
 
-We expect the pace of development to continue in this space because since iOS 14\index{iOS!14} there has been a substantial improvement in first party support for diagnostics reporting.  Firstly, there is the `MetricKit`\index{framework!MetricKit} framework which allows apps in their beta or release phase to report diagnostic information to our app.  We think of this as a well-defined conduit, whose data would typically be passed onto a web service to further analyze the crash, or diagnostic condition.  This will place third party crash reporting services on an official API footing.  Secondly, the App Store Connect website overall has been made available as a web service with a public API.  This provides equivalent functionality but improves the developer workflow by allowing continuous integration systems to more deeply embed the true end-to-end lifecycle of app development.  As a hypothetical example, a CI\index{continuous integration}\index{CI} system could detect a high crash rate and push out an emergency update based on an earlier release.  This would reduce the pressure on the engineering staff to conduct an analysis of why a bad release was made, allowing time to prepare the appropriate fix for the problem.
+### `MetricKit` based reporting
+
+Since iOS 14\index{iOS!14} there has been a substantial improvement in first party support for diagnostics reporting, and there has been a newly updated web service API for App Store Connect.
+
+Firstly, there is the `MetricKit`\index{framework!MetricKit} framework which allows apps in their beta or release phase to report diagnostic information to our app.  We think of this as a well-defined conduit, whose data would typically be passed onto a web service to further analyze the crash, or diagnostic condition.  This will place third party crash reporting services on an official API footing.
+
+### App Store Connect based reporting
+
+Since 2020, there has been a newly updated web service API for App Store Connect.
+
+The App Store Connect website overall has been made available as a web service with a public API.  The API now allows diagnostic information to be retrieved.  This improves the developer workflow by allowing continuous integration systems to more deeply embed the true end-to-end lifecycle of app development.  As a hypothetical example, a CI\index{continuous integration}\index{CI} system could detect a high crash rate and push out an emergency update based on an earlier release.  This would reduce the pressure on the engineering staff to conduct an analysis of why a bad release was made, allowing time to prepare the appropriate fix for the problem.
