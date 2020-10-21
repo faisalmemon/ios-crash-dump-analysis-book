@@ -12,6 +12,8 @@
 
 @interface Memory : NSObject
 
+- (void)dereferenceBadPointer;
+
 @end
 
 
