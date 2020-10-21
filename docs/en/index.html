@@ -80,7 +80,12 @@
 <li><a href="#overview">Overview</a></li>
 <li><a href="#reverse-engineering">Reverse Engineering</a></li>
 <li><a href="#class-dump-tool">Class Dump Tool</a></li>
-<li><a href="#third-party-crash-reporting">Third Party Crash Reporting</a></li>
+<li><a href="#crash-reporting-services">Crash Reporting Services</a>
+<ul>
+<li><a href="#plcrashreporter-based-reporting"><code>plcrashreporter</code> based reporting</a></li>
+<li><a href="#metrickit-based-reporting"><code>MetricKit</code> based reporting</a></li>
+<li><a href="#app-store-connect-based-reporting">App Store Connect based reporting</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#xcode-built-in-help">Xcode Built-In Help</a>
 <ul>
@@ -534,8 +539,9 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>One of the great things about the Objective-C runtime is that it carries lots of rich program structure information in its built binaries. These allow the dynamic aspects of the language to work. In fact, its flexibility of dynamic dispatch is a source for many crashes.</p>
 <p>We recommend installing the <code>class-dump</code> tool right away because we shall reference its usage in later chapters. See <span class="citation" data-cites="class-dump-tool">Nygard (2018)</span></p>
 <p>The class dump tool allows us to look at what Objective C classes, methods and properties are present in a given program.</p>
-<h2 id="third-party-crash-reporting">Third Party Crash Reporting</h2>
+<h2 id="crash-reporting-services">Crash Reporting Services</h2>
 <p>The Apple Crash Reporter tool and supporting infrastructure in App Store Connect is excellent but has some room for improvement.</p>
+<h3 id="plcrashreporter-based-reporting"><code>plcrashreporter</code> based reporting</h3>
 <p>A formidable piece of Open Source software, <code>plcrashreporter</code>, has been written by Landon Fuller, of Plausible Labs. <span class="citation" data-cites="plcrashreporter">(“Plausible Labs Crash Reporter” 2018)</span></p>
 <p>The idea is to make our app handle all the possible signals and exceptions that can occur that would otherwise be unimplemented by the app and thus lead to the underlying Operating System to handle the crash.</p>
 <p>With this solution, the crash data can be recorded, and then later communicated to a server of our own choice.</p>
@@ -545,7 +551,12 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>A number of commercial solutions are available, largely based upon the above Open Source project.</p>
 <p>The Mobile Software Development field has grown into a big industry over the last few years. Many specialist companies serve App Developers as their customers. The field is very active in terms of mergers and acquisitions. Therefore, we cannot name the competitors in the Crash Reporting space in this book, as the list would be constantly changing.</p>
 <p>A good place to start is the <code>rollout.io</code> blog posting that reviewed different players in the market. <span class="citation" data-cites="3rdpartycrashtools">(“IOS Crash Reporting Tools” 2017)</span></p>
-<p>We expect the pace of development to continue in this space because since iOS 14 there has been a substantial improvement in first party support for diagnostics reporting. Firstly, there is the <code>MetricKit</code> framework which allows apps in their beta or release phase to report diagnostic information to our app. We think of this as a well-defined conduit, whose data would typically be passed onto a web service to further analyze the crash, or diagnostic condition. This will place third party crash reporting services on an official API footing. Secondly, the App Store Connect website overall has been made available as a web service with a public API. This provides equivalent functionality but improves the developer workflow by allowing continuous integration systems to more deeply embed the true end-to-end lifecycle of app development. As a hypothetical example, a CI system could detect a high crash rate and push out an emergency update based on an earlier release. This would reduce the pressure on the engineering staff to conduct an analysis of why a bad release was made, allowing time to prepare the appropriate fix for the problem.</p>
+<h3 id="metrickit-based-reporting"><code>MetricKit</code> based reporting</h3>
+<p>Since iOS 14 there has been a substantial improvement in first party support for diagnostics reporting, and there has been a newly updated web service API for App Store Connect.</p>
+<p>Firstly, there is the <code>MetricKit</code> framework which allows apps in their beta or release phase to report diagnostic information to our app. We think of this as a well-defined conduit, whose data would typically be passed onto a web service to further analyze the crash, or diagnostic condition. This will place third party crash reporting services on an official API footing.</p>
+<h3 id="app-store-connect-based-reporting">App Store Connect based reporting</h3>
+<p>Since 2020, there has been a newly updated web service API for App Store Connect.</p>
+<p>The App Store Connect website overall has been made available as a web service with a public API. The API now allows diagnostic information to be retrieved. This improves the developer workflow by allowing continuous integration systems to more deeply embed the true end-to-end lifecycle of app development. As a hypothetical example, a CI system could detect a high crash rate and push out an emergency update based on an earlier release. This would reduce the pressure on the engineering staff to conduct an analysis of why a bad release was made, allowing time to prepare the appropriate fix for the problem.</p>
 <h1 id="xcode-built-in-help">Xcode Built-In Help</h1>
 <p>Xcode provides significant help to developers in understanding and preventing crashes.</p>
 <p>We think of Xcode in layers of sophistication, where at the lowest layer of sophistication Xcode directly tells us the common error it has seen with suggested corrections, up to the highest level were Xcode is telling the raw information, but we need Operating Systems knowledge to interpret the information ourselves.</p>
