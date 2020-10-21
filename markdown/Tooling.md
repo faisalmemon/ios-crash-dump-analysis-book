@@ -68,7 +68,7 @@ A good place to start is the `rollout.io` blog posting that reviewed different p
 
 Since iOS 14\index{iOS!14} there has been a substantial improvement in first party support for diagnostics reporting.
 
-The `MetricKit`\index{framework!MetricKit} framework which allows apps in their beta or release phase to report diagnostic information to our app.  We think of this as a well-defined conduit, whose data would typically be passed onto a web service to further analyze the crash, or diagnostic condition.  This will place third party crash reporting services on an official API footing.
+The `MetricKit`\index{framework!MetricKit} framework allows apps in their beta or release phase to report diagnostic information to our app.  We think of this as a well-defined conduit, whose data would typically be passed onto a web service to further analyze the crash, or diagnostic condition.  This will place third party crash reporting services on an official API footing rather than using a `plcrashreporter`-based solution.
 
 ### App Store Connect based reporting
 
