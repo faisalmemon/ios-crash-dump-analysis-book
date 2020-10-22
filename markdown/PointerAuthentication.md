@@ -12,6 +12,7 @@ Pointer Authentication is enabled by Apple in the kernel on Devices using the A1
 
 ![Enable Pointer Authentication](screenshots/enable_ptr_auth.png)
 
+If we are writing security sensitive software, it is worthwhile being an early adopter of this feature.
 
 ## Manipulating Pointers
 
