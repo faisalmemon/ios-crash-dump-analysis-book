@@ -1313,7 +1313,7 @@ sd
 <h2 id="guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</h2>
 <p>Here we go through each section of an iOS Crash Report and explain the fields. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
 <p>tvOS and watchOS may be just considered subsets of iOS for our purposes and have similar Crash Reports.</p>
-<p>Note here we use the term “iOS Crash Report” to mean a Crash Report that came from a physical target device. After a crash, apps are often debugged on the Simulator. The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.</p>
+<p>Note here we use the term “iOS Crash Report” to mean a Crash Report that came from a physical target device. After a crash, apps are often debugged on the Simulator. The exception code may be different in that case because the Simulator uses a different methodology to cause the app to stop under the debugger.</p>
 <h3 id="ios-crash-report-header-section">iOS Crash Report Header Section</h3>
 <p>A Crash Report starts with the following header:</p>
 <pre><code>Incident Identifier: 692E5696-6994-4FB3-B42D-C9317D956EE7
@@ -1352,7 +1352,7 @@ Coalition:
 </tr>
 <tr class="even">
 <td>Beta Identifier</td>
-<td>Unique identifer scoped to the software author and client device in TestFlight builds</td>
+<td>Unique identifier scoped to the software author and client device in TestFlight builds</td>
 </tr>
 <tr class="odd">
 <td>CrashReporter Key</td>
@@ -1437,7 +1437,7 @@ Coalition:
 </table>
 <p>The first thing to look at is the version. Typically, if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.</p>
 <p>If we have many crashes then a pattern may emerge. It could be one customer (common CrashReporter key seen), or many customers (different CrashReporter keys seen). This may affect how we rank the priority of the crash.</p>
-<p>The hardware model could be interesting. Is it iPad only devices, or iPhone only, or both? Maybe our code has less testing or unique code paths for a given platform. The hardware model might indicate an older device, which we have not tested on.</p>
+<p>The hardware model could be interesting. Is it iPad only devices, or iPhone only, or both? Maybe our code has less testing, or unique code paths, for a given platform. The hardware model might indicate an older device which we have not tested on.</p>
 <p>Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested whilst they are in the background. For example, we might receive a phone call, or have task switched between apps.</p>
 <p>The Code Type (target architecture) is now mostly 64-bit ARM. However, we might see ARM being reported - the original 32-bit ARM.</p>
 <h3 id="ios-crash-report-date-and-version-section">iOS Crash Report Date and Version Section</h3>
@@ -1491,12 +1491,12 @@ Report Version:      104</code></pre>
 <p>Is the date a sensible value? Sometimes a device is set back or forwards in time, perhaps to trigger date checks on security certificates or license keys. Make sure the date is a realistic looking one.</p>
 <p>Normally the baseband version is not interesting. The presence of the baseband means we could be interrupted by a phone call (of course there is VOIP calling as well in any case). iPad software is generally written to assume we’re not going to get a phone call but iPads can be purchased with a cellular modem option.</p>
 <h3 id="ios-crash-report-exception-section">iOS Crash Report Exception Section</h3>
-<p>A Crash Report will next have exception information:</p>
+<p>A Crash Report will next have an exception information section:</p>
 <pre><code>Exception Type:  EXC_CRASH (SIGABRT)
 Exception Codes: 0x0000000000000000, 0x0000000000000000
 Exception Note:  EXC_CORPSE_NOTIFY
 Triggered by Thread:  0</code></pre>
-<p>or it may have a more detailed exception information:</p>
+<p>or it may provide a more detailed exception information section:</p>
 <pre><code>Exception Type:  EXC_CRASH (SIGKILL)
 Exception Codes: 0x0000000000000000, 0x0000000000000000
 Exception Note:  EXC_CORPSE_NOTIFY
@@ -2110,7 +2110,7 @@ transitionContext:] + 248</code></pre>
 <h3 id="ios-crash-report-thread-state-section">iOS Crash Report Thread State Section</h3>
 <p>iOS Crash Reports will be either from ARM-64 binaries (most common) or legacy ARM 32 bit binaries.</p>
 <p>In each case, we get similar looking information describing the state of the ARM registers.</p>
-<p>One thing to look out for is the special hex code, <code>0xbaddc0dedeadbead</code> which means a non-initialized pointer.However, newer versions of the Swift runtime don’t make use of this.</p>
+<p>One thing to look out for is the special hex code, <code>0xbaddc0dedeadbead</code> which means a non-initialized pointer. However, newer versions of the Swift runtime don’t make use of this.</p>
 <h4 id="bit-thread-state">32-bit thread state</h4>
 <pre><code>Thread 0 crashed with ARM Thread State (32-bit):
     r0: 0x00000000    r1: 0x00000000      r2: 0x00000000
@@ -2242,11 +2242,11 @@ UUID: 25BCB4EC-21DE-3CE6-97A8-B759F31501B7
 icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as</code></pre>
 <p>The fifth part is the path to the binary as it appears on the device.</p>
 <p>Most of the binaries have a self-explanatory name. The <code>dyld</code> binary is the dynamic loader. It is seen at the bottom of all stack backtraces because it is responsible for commencing the loading of binaries before their execution.</p>
-<p>The dynamic loader does many tasks in preparing our binary for execution. If our binary references libraries, it will load them. If there are absent, it will fail to load our app. This is why it is possible to crash even before any code in <code>main.m</code> is called. Later on, we shall study how to diagnose such problems.</p>
+<p>The dynamic loader does many tasks in preparing our binary for execution. If our binary references libraries, it will load them. If they are absent, it will fail to load our app. This is why it is possible to crash even before any code in <code>main.m</code> is called. Later on, we shall study how to diagnose such problems.</p>
 <h2 id="guided-tour-of-a-macos-crash-report">Guided tour of a macOS Crash Report</h2>
 <p>The macOS Crash Report is similar to an iOS Crash Report even though macOS CrashReport and iOS CrashReport are distinctly different programs. To avoid repetition, we just highlight notable differences from iOS.</p>
-<p>Traditionally Mac computers only used the Intel CPU but that has changed with the introduction of Apple Silicon. So we can now see both ARM-64 and X86-64 crashes on Mac hardware.<br />
-A number of subtle issues can arise because Apple Silicon Macs can translate X86-64 instructions as well as running native ARM-64 binaries. Therefore we shall focus on Intel X86-64 crashes in this chapter, and leave Apple Silicon Mac crashes to their own chapter.</p>
+<p>Traditionally Mac computers only used the Intel CPU but that has changed with the introduction of Apple Silicon. So we can now see both ARM-64 and X86-64 crashes on Mac hardware.</p>
+<p>A number of subtle issues can arise because Apple Silicon Macs can translate X86-64 instructions as well as running native ARM-64 binaries. Therefore we shall focus on Intel X86-64 crashes in this chapter, and leave Apple Silicon Mac crashes to their own chapter.</p>
 <h3 id="macos-crash-report-header-section">macOS Crash Report Header Section</h3>
 <p>The crash dump starts with the header:</p>
 <pre><code>Process:               SiriNCService [1045]
@@ -2447,7 +2447,7 @@ Trap Number:     14</code></pre>
     task_for_pid: 72970
     thread_create: 0
     thread_set_state: 0</code></pre>
-<p>macOS is a more open platform than iOS. This permits under certain conditions modification of our process. We need to know if such a thing happened because it can invalidate any design assumption in the code because registers can be modified of the process and thus a crash can be induced.</p>
+<p>macOS is a more open platform than iOS. This permits, under certain conditions, modification of our process. We need to know if such a thing happened. It can invalidate any design assumption in our the code. Changing the registers of a running process can induce a crash.</p>
 <p>Ordinarily the above snapshot would be seen. Notably <code>thread_set_state</code> is zero in all cases. This means no process has directly attached to the process to change the state of a register. Such actions would be acceptable for implementations of managed runtimes, or debuggers. Outside of these scenarios, such actions would be suspicious and need further investigation.</p>
 <p>In the following example, we see that the thread state had been changed by an external process on one occasion, in addition to 200 <code>task_for_pid</code> calls.</p>
 <pre><code>External Modification Summary:
