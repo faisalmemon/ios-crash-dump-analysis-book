@@ -6,5 +6,5 @@ This second edition of the book was prompted by a long-speculated addition to th
 
 I've updated the text, and modernized the examples, to reflect the latest OS versions and SDKs.  As of the time of writing, these are iOS 12.2\index{iOS!14.2}, macOS 11.0 Big Sur\index{macOS!Big Sur}\index{macOS!11.0}, and Xcode 12.2\index{Xcode!12.2}. 
 
-With respect to Crash Dump Analysis, the main new concept we see introduced is that the system can be running in a translation mode, translating X86-64 \index{Intel!X86-64} instructions on an ARM64 \index{ARM!ARM64} platform.  I have also added a chapter on Pointer Authentication\index{Pointer Authentication}.  Whilst this feature is mainly used to protect the kernel, it is an opt-in feature for user space programs, and may be of interest if you are writing security-sensitive software applications\index{software!security sensitive} that are experiencing Pointer Authentication related crashes.  
+It seems to me the direction of travel of Apple Products is towards Apple Silicon chips, which utilise the ARM\index{trademark!ARM} ABI\index{ABI}, and the advanced features that come with recent versions of this architecture.  To this end, I have introduced chapters on translation mode crashes on Apple Silicon, and Pointer Authentication crashes.
 
