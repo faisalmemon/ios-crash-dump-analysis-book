@@ -1034,7 +1034,7 @@ Power Source:     0 samples on Battery, 18 samples on AC
 
   Binary Images:
            0x104f2c000 -                ???  apfs_defragd        
-     &lt;047D42ED-E41C-38AE-81BE-E4ABCF05A703&gt; 
+     &lt;047D42ED-E41C-38AE-81BE-E4ABCF05A703&gt;
  /System/Library/Filesystems/apfs.fs/apfs_defragd
 .
 .
@@ -1057,11 +1057,11 @@ Power Source:     0 samples on Battery, 3 samples on AC
 .
 
   Binary Images:
-           0x104e78000 -                ??? 
+           0x104e78000 -                ???
  PerfPowerServicesExtended &lt;AC943755-DBF7-306D-8D54-5F1FA7D45C1A&gt;
   /usr/bin/PerfPowerServicesExtended
            0x191455000 -        0x191497fff  libdispatch.dylib   
-      &lt;187D8E52-371D-33F2-B0D4-C6D154917885&gt; 
+      &lt;187D8E52-371D-33F2-B0D4-C6D154917885&gt;
  /usr/lib/system/libdispatch.dylib
 .
 .</code></pre>
@@ -1154,20 +1154,62 @@ Power Source:     0 samples on Battery, 6 samples on AC
 
   Binary Images:
            0x104bf4000 -                ???  assetsd             
-    &lt;6192DA47-C99E-33F4-8FC5-CF071E4EE26B&gt; 
+    &lt;6192DA47-C99E-33F4-8FC5-CF071E4EE26B&gt;
  /System/Library/Frameworks/AssetsLibrary.framework/Support/asset
 sd
            0x191455000 -        0x191497fff  libdispatch.dylib   
-    &lt;187D8E52-371D-33F2-B0D4-C6D154917885&gt; 
+    &lt;187D8E52-371D-33F2-B0D4-C6D154917885&gt;
  /usr/lib/system/libdispatch.dylib
 .
 .</code></pre>
 <h3 id="jetsam-reports">Jetsam reports</h3>
-<p>Jetsam is the system in iOS that ejects applications from memory in order to service the needs of the current foremost app. Aggressive memory management is a hallmark of iOS as compared to macOS which has very liberal limits on memory usage. Mobile Devices have traditionally been memory constrained devices. However, as Mobile Devices become more capable, in particular iPad devices, the difference is reduced. In modern times, it is the Apple Watch that is considered a memory constrained device. Nevertheless, the strict memory management system of Jetsam serves us well to keep the user experience optimal for a given amount of RAM.</p>
+<p>Jetsam is the system in iOS that ejects applications from memory in order to service the needs of the current foremost app.</p>
+<p>Aggressive memory management is a hallmark of iOS as compared to macOS which has very liberal limits on memory usage. Mobile Devices have traditionally been memory constrained devices. However, as Mobile Devices become more capable, in particular iPad devices, the difference is reduced. In modern times, it is the Apple Watch that is considered a memory constrained device. Nevertheless, the strict memory management system of Jetsam serves us well to keep the user experience optimal for a given amount of RAM.</p>
 <p>The term “Jetsam” is originally a Nautical term, where a ship would throw off unwanted items into the sea, to lighten the ship.</p>
-<p>It is best to think of Jetsam as a normal behaviour, and being ejected from memory is not necessarily a fault of the design of our app. We could have been running in the background consuming a modest amount of memory when the user used the Camera app and did a burst of photo taking and image effects that drove up memory usage. If we get ejected from memory frequently, we must consider whether we are using too much memory in the background; we should aim for about 50 MB or less. We should also write our app to save context, destroy caches, and save state so it can then be resumed from the saved state. Then we should hook in such functionality whenever we get a message from the system indicating memory pressure, such as the <code>applicationDidReceiveMemoryWarning:</code> callback in our <code>AppDelegate</code>.</p>
+<p>It is best to think of Jetsam as a normal behaviour, and being ejected from memory is not necessarily a fault of the design of our app. We could have been running in the background consuming a modest amount of memory when the user used the Camera app and did a burst of photo taking and image effects that drove up memory usage.</p>
+<p>If we get ejected from memory frequently, we must consider whether we are using too much memory in the background; we should aim for about 50 MB or less. We should also write our app to save context, destroy caches, and save state so it can then be resumed from the saved state. Then we should hook in such functionality whenever we get a message from the system indicating memory pressure, such as the <code>applicationDidReceiveMemoryWarning:</code> callback in our <code>AppDelegate</code>.</p>
 <p>Apple document the various reasons that a Jetsam event can occur, and memory management techniques to avoid them. <span class="citation" data-cites="jetsamreport">(“Identifying High-Memory Use with Jetsam Event Reports” 2020)</span></p>
-<p>The first thing to look for in a Jetsam report is the “reason” field. It can be one of: <code>per-process-limit</code>, <code>vm-pageshortage</code>, <code>vnode-limit</code>, <code>highwater</code>, <code>fc-thrashing</code>, <code>jettisoned</code>. (In practice, we have not seen <code>fc-thrashing</code> or <code>jettisoned</code> but they remain a possibility.)</p>
+<p>The actual limits are not documented, but generally apps can have more background memory use than app extensions. App extensions come in various types of extension, each with their own limits. For example, a photo editing Application Extension will have a large limit due to it generally being a heavy-weight image processing program.</p>
+<p>The first thing to look for in a Jetsam report is the <em>reason</em> field.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Jetsam Reason</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>per-process-limit</code></td>
+<td>The resident memory limit was reached. The limit varies depending type of the app, or app extension.</td>
+</tr>
+<tr class="even">
+<td><code>vm-pageshortage</code></td>
+<td>The kernel wants to give clean pages to another process but has run out of them, so killed our process.</td>
+</tr>
+<tr class="odd">
+<td><code>vnode-limit</code></td>
+<td>The kernel has run out of vnodes (a generalisation of UNIX files) so is killing our process to free some more vnodes.</td>
+</tr>
+<tr class="even">
+<td><code>highwater</code></td>
+<td>Too much physical memory used by process.</td>
+</tr>
+<tr class="odd">
+<td><code>fc-thrashing</code></td>
+<td>Too much random access to memory mapped files causing fragmentation/thrashing of the file cache.</td>
+</tr>
+<tr class="even">
+<td><code>jettisoned</code></td>
+<td>Some other reason for the Jetsam.</td>
+</tr>
+</tbody>
+</table>
+<p>In practice, we have not seen <code>fc-thrashing</code> or <code>jettisoned</code> but they remain a possibility.</p>
 <p>Jetsam reports are named <code>JetsamEvent-YEAR.MONTH.DAY_*.ips.synced</code>.</p>
 <p>Here is an example report showing a “highwater” event for <code>wifianalyticsd</code>:</p>
 <pre><code>{&quot;bug_type&quot;:&quot;298&quot;,&quot;timestamp&quot;:&quot;2020-10-15 17:29:58.79
