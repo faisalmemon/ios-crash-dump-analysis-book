@@ -118,12 +118,12 @@
 <li><a href="#manual-symbolification">Manual Symbolification</a></li>
 <li><a href="#reverse-engineering-approach">Reverse Engineering Approach</a></li>
 </ul></li>
-<li><a href="#the-crash-report">The Crash Report</a>
-<ul>
 <li><a href="#system-diagnostics">System Diagnostics</a>
 <ul>
 <li><a href="#extracting-system-diagnostic-information">Extracting System Diagnostic Information</a></li>
 </ul></li>
+<li><a href="#the-crash-report">The Crash Report</a>
+<ul>
 <li><a href="#guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</a>
 <ul>
 <li><a href="#ios-crash-report-header-section">iOS Crash Report Header Section</a></li>
@@ -302,7 +302,7 @@
 <p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
 <p>Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.</p>
 <p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognized the following trademarks:</p>
-<p>ARM, Android, App Store, Apple, BridgeOS, Hopper, IDA Pro, Kepner-Tregoe, Objective-C, Objective-C++, QuickEdit, Sun Microsystems, Swift, TestFlight, Xcode, iOS, iPad, iPhone, macOS, tvOS, watchOS.</p>
+<p>ARM, Android, App Store, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Intel, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Rosetta, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iPhone 11, iPhone XR, iPhone XS, iPhone XS Max, macOS, tvOS, watchOS.</p>
 <h1 id="preface">Preface</h1>
 <h2 id="first-edition">First Edition</h2>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
@@ -925,16 +925,10 @@ icdab_planets.app.dSYM/Contents/Info.plist</code></pre>
 <p>In a more complex case, imagine we were using an image conversion library that was crashing.<br />
 There can be many pixel formats for images. An <code>assert</code> might lead us to notice it was the particular format that was asserting. Therefore, we could just try a different pixel format.</p>
 <p>Another example would be a security library. Security code often gives back generic error codes, not specific fault codes to allow for future code enhancement and avoid leaking internal details (a security risk). A crash dump in a security library might point out exactly the kind of security issue, and help us correct some data structure passed into the library much earlier on.</p>
-<h1 id="the-crash-report">The Crash Report</h1>
-<p>In this chapter, we get into the details of what comprises a Crash Report. Our main focus is the iOS Crash Report. We also cover the macOS Crash Report, which carries a slightly different structure but serves the same purpose.</p>
-<p>Note, it is possible for an app to install crash handlers from third parties, either to get enhanced crash reporting diagnostics, or to link application crashes to a web-based service for managing Crash Reports across a potentially large population of users. In this chapter we assume the app has not done this, and therefore the Apple CrashReport tool comes into play.</p>
-<p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
-<p>When symbol information is available, Xcode will symbolicate the Crash Report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
-<p>Apple has produced a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
-<h2 id="system-diagnostics">System Diagnostics</h2>
+<h1 id="system-diagnostics">System Diagnostics</h1>
 <p>Crash Reports are just one part of a much bigger diagnostic reporting story.</p>
 <p>Ordinarily as application developers, we don’t need to look much further. However, if our problems are potentially triggered by an unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our Crash Reports, we need to study the system diagnostics.</p>
-<h3 id="extracting-system-diagnostic-information">Extracting System Diagnostic Information</h3>
+<h2 id="extracting-system-diagnostic-information">Extracting System Diagnostic Information</h2>
 <p>When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple provides a great web page covering each scenario. <span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” 2018)</span></p>
 <p>On iOS, the basic idea is that we install a profile, which alters our device to produce more logging, and then we reproduce the crash (or get the customer to do that). Then we press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code>, which extracts many log files. This can take 10 minutes to process, and produces a large file (compressed <code>tar</code> file).<br />
 Then we share our local sysdiagnose file with our Mac. We go into menu <code>Settings &gt; Privacy &gt; Analytics and Improvements &gt; Analytics Data</code>. Scroll down looking for a file beginning with <code>sysdiagnose_YEAR.MONTH.DAY_*</code>.</p>
@@ -947,6 +941,12 @@ Then we share our local sysdiagnose file with our Mac. We go into menu <code>Set
 </figure>
 <p>Inside this archive file are many system and subsystem logs, so we can see whenever crashes occur, the context that gave rise to them.</p>
 <p>An equivalent approach is available on macOS as well.</p>
+<h1 id="the-crash-report">The Crash Report</h1>
+<p>In this chapter, we get into the details of what comprises a Crash Report. Our main focus is the iOS Crash Report. We also cover the macOS Crash Report, which carries a slightly different structure but serves the same purpose.</p>
+<p>Note, it is possible for an app to install crash handlers from third parties, either to get enhanced crash reporting diagnostics, or to link application crashes to a web-based service for managing Crash Reports across a potentially large population of users. In this chapter we assume the app has not done this, and therefore the Apple CrashReport tool comes into play.</p>
+<p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
+<p>When symbol information is available, Xcode will symbolicate the Crash Report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
+<p>Apple has produced a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
 <h2 id="guided-tour-of-an-ios-crash-report">Guided tour of an iOS Crash Report</h2>
 <p>Here we go through each section of an iOS Crash Report and explain the fields. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
 <p>tvOS and watchOS may be just considered subsets of iOS for our purposes and have similar Crash Reports.</p>
@@ -1788,7 +1788,7 @@ transitionContext:] + 248</code></pre>
      cpsr: 0x80000000</code></pre>
 <h4 id="bit-thread-state-on-newer-swift-runtimes">64-bit thread state on newer Swift runtimes</h4>
 <pre><code>Thread 0 crashed with ARM Thread State (64-bit):
-    x0: 0x00000001005f0000   x1: 0x000000028041e980 
+    x0: 0x00000001005f0000   x1: 0x000000028041e980
       x2: 0x0000000000000007   x3: 0x00000001a3688d84
     x4: 0x0000000000000000   x5: 0x0000000000000013   
       x6: 0x0000000000000020   x7: 0x00000000000003f8
@@ -1804,7 +1804,7 @@ transitionContext:] + 248</code></pre>
       x26: 0x000000010086d920  x27: 0x00000000000020ff
    x28: 0x00000001005a6f6a   fp: 0x000000016f8668f0   
       lr: 0x00000001b0e53d70
-    sp: 0x000000016f8668d0   pc: 0x00000001b0e53d70 
+    sp: 0x000000016f8668d0   pc: 0x00000001b0e53d70
       cpsr: 0x60000000
    esr: 0xf2000001  Address size fault</code></pre>
 <p>Here we see that for a ARM64 crash, we no longer get <code>0xbaddc0dedeadbead</code> set in <code>x11</code>. Instead, we get a new entry <code>esr:</code>. This means “Exception Syndrome Register”. <span class="citation" data-cites="ARMv8_ESR">(“Exception Syndrome Register” 2020)</span>.</p>
