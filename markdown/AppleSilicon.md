@@ -13,7 +13,7 @@ On Apple Silicon Macs, the Rosetta software resides in
 /Library/Apple/usr/libexec/oah
 ```
 
-Within this directory is the runtime engine, `runtime_t8027`, the translator `oahd-helper`, a command line tool `translate_tool`, and other artefacts.   Its operation is largely transparent to end users apart from a small startup delay or slightly lower performance.  From a crash dump perspective, we see its presence in terms of memory footprint, exception helper and runtime helpers.
+Within this directory is the runtime engine, `runtime_t8027`, the translator `oahd-helper`, a command line tool `translate_tool`, and other artifacts.   Its operation is largely transparent to end users apart from a small startup delay or slightly lower performance.  From a crash dump perspective, we see its presence in terms of memory footprint, exception helper and runtime helpers.
 
 ### Rosetta limitations
 
