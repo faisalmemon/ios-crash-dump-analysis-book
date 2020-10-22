@@ -23,8 +23,12 @@ x Explain how when the debugger is attached upon a crash condition, it is possib
 x Talk about Jetsum crashes https://developer.apple.com/documentation/xcode/diagnosing_issues_using_crash_reports_and_device_logs/identifying_high-memory_use_with_jetsam_event_reports maybe by writing a share extension https://blog.kulman.sk/dealing-with-memory-limits-in-app-extensions/
 x It seems that the latest Apple documentation describes how App Thinning affects App Store crashes.  We need to discuss this in the Symbolification Chapter.  I think I will skip this until I have an app in the store crashing.
 x Should I wait for the first Mac to be released - will I need to buy it to test my code?  I need to wait for the Mac to be released to talk about it.
+x Jetsam is inevitable so keep background memory use to < 50MB.  Taking a burst of photos can use of a lot of memory.  Use signposts to assist diagnosis.  Implement state restoration.  Describe metric kit.  There is an interesting wrapper library https://github.com/ChimeHQ/Meter/blob/main/Meter/MetricKitWrappers.swift
+x Work through the CDA book updating it
 
-t Work through the CDA book updating it
 t Work out the new art work and back cover text.  Maybe use the black walls newly painted nearby for a new headshot?
 t Work out what publicity and meta data material is needed for the book
 t Publish the new book
+
+
+
