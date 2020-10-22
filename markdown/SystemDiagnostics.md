@@ -251,11 +251,9 @@ sd
 
 ### Jetsam reports
 
-Jetsam\index{Memory!Jetsam}\index{Jetsam} is the system in iOS that ejects applications from memory in order to service the needs of the current foremost app.
+The term "Jetsam" is originally a Nautical term, where a ship would throw off unwanted items into the sea, to lighten the ship.  In iOS, Jetsam\index{Memory!Jetsam}\index{Jetsam} is the system that ejects applications from memory in order to service the needs of the current foremost app.
 
 Aggressive memory management is a hallmark of iOS as compared to macOS which has very liberal limits on memory usage.  Mobile Devices have traditionally been memory constrained devices.  However, as Mobile Devices become more capable, in particular iPad\index{iPad} devices, the difference is reduced.  In modern times, it is the Apple Watch\index{Apple Watch} that is considered a memory constrained device.  Nevertheless, the strict memory management system of Jetsam serves us well to keep the user experience optimal for a given amount of RAM.
-
-The term "Jetsam" is originally a Nautical term, where a ship would throw off unwanted items into the sea, to lighten the ship.
 
 It is best to think of Jetsam as a normal behaviour, and being ejected from memory is not necessarily a fault of the design of our app.  We could have been running in the background consuming a modest amount of memory when the user used the Camera app and did a burst of photo taking and image effects that drove up memory usage.
 
