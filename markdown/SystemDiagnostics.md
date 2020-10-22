@@ -255,7 +255,7 @@ The term "Jetsam" is originally a Nautical term, where a ship would throw off un
 
 Aggressive memory management is a hallmark of iOS as compared to macOS which has very liberal limits on memory usage.  Mobile Devices have traditionally been memory constrained devices.  However, as Mobile Devices become more capable, in particular iPad\index{iPad} devices, the difference is reduced.  In modern times, it is the Apple Watch\index{Apple Watch} that is considered a memory constrained device.  Nevertheless, the strict memory management system of Jetsam serves us well to keep the user experience optimal for a given amount of RAM.
 
-It is best to think of Jetsam as a normal behaviour, and being ejected from memory is not necessarily a fault of the design of our app.  We could have been running in the background consuming a modest amount of memory when the user used the Camera app and did a burst of photo taking and image effects that drove up memory usage.
+It is best to think of Jetsam as a normal behavior, and being ejected from memory is not necessarily a fault of the design of our app.  We could have been running in the background consuming a modest amount of memory when the user used the Camera app and did a burst of photo taking and image effects that drove up memory usage.
 
 If we get ejected from memory frequently, we must consider whether we are using too much memory in the background; we should aim for about 50 MB or less.  We should also write our app to save context, destroy caches, and save state so it can then be resumed from the saved state.  Then we should hook in such functionality whenever we get a message from the system indicating memory pressure, such as the `applicationDidReceiveMemoryWarning:`\index{applicationDidReceiveMemoryWarning} callback in our `AppDelegate`.
 
@@ -269,7 +269,7 @@ Jetsam Reason|Meaning
 --|--
 `per-process-limit`|  The resident memory limit was reached.  The limit varies depending type of the app, or app extension.
 `vm-pageshortage`| The kernel wants to give clean pages to another process but has run out of them, so killed our process.
-`vnode-limit`| The kernel has run out of vnodes (a generalisation of UNIX files) so is killing our process to free some more vnodes.
+`vnode-limit`| The kernel has run out of vnodes (a generalization of UNIX files) so is killing our process to free some more vnodes.
 `highwater`|Too much physical memory used by process.
 `fc-thrashing`| Too much random access to memory mapped files causing fragmentation/thrashing of the file cache.
 `jettisoned`|  Some other reason for the Jetsam.

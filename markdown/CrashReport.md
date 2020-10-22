@@ -70,7 +70,7 @@ The `AppVariant` field, when present, is explained by _internalVersion_:_nameOfV
 Field|Meaning
 --|--
 internalVersion|Private field used in the Apple implementation
-nameOfVariantClass|Usually a product name or something that characterises a type of hardware device class
+nameOfVariantClass|Usually a product name or something that characterizes a type of hardware device class
 osVersionVariant|Variant introduced from a given version of the OS
 
 The first thing to look at is the version.  Typically, if we are a small team or an individual, we will not have the resources to diagnose crashes in older versions of our app, so the first thing might be to get the customer to install the latest version.
