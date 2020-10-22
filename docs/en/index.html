@@ -302,7 +302,7 @@
 <p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
 <p>Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.</p>
 <p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognized the following trademarks:</p>
-<p>ARM, Android, App Store, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Intel, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Rosetta, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iPhone 11, iPhone XR, iPhone XS, iPhone XS Max, macOS, tvOS, watchOS.</p>
+<p>ARM, Android, App Store, Apple, BridgeOS, Hopper, IDA Pro, Kepner-Tregoe, Objective-C, Objective-C++, QuickEdit, Sun Microsystems, Swift, TestFlight, Xcode, iOS, iPad, iPhone, macOS, tvOS, watchOS.</p>
 <h1 id="preface">Preface</h1>
 <h2 id="first-edition">First Edition</h2>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
@@ -939,11 +939,11 @@ There can be many pixel formats for images. An <code>assert</code> might lead us
 <p>On iOS, the basic idea is that we install a profile, which alters our device to produce more logging, and then we reproduce the crash (or get the customer to do that). Then we press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code>, which extracts many log files. This can take 10 minutes to process, and produces a large file (compressed <code>tar</code> file).<br />
 Then we share our local sysdiagnose file with our Mac. We go into menu <code>Settings &gt; Privacy &gt; Analytics and Improvements &gt; Analytics Data</code>. Scroll down looking for a file beginning with <code>sysdiagnose_YEAR.MONTH.DAY_*</code>.</p>
 <figure>
-<img src="../screenshots/sysdiagnose_example.jpeg" alt="An example sysdiagnose log file" /><figcaption aria-hidden="true">An example sysdiagnose log file</figcaption>
+<img src="screenshots/sysdiagnose_example.jpeg" alt="An example sysdiagnose log file" /><figcaption aria-hidden="true">An example sysdiagnose log file</figcaption>
 </figure>
 <p>When this file is selected we get a blank screen but that is not a problem. We click on the <em>Share</em> icon in the top toolbar, and select an appropriate sharing destination.</p>
 <figure>
-<img src="../screenshots/sysdiagnose_share.jpeg" alt="Sharing the sysdiagnose log" /><figcaption aria-hidden="true">Sharing the sysdiagnose log</figcaption>
+<img src="screenshots/sysdiagnose_share.jpeg" alt="Sharing the sysdiagnose log" /><figcaption aria-hidden="true">Sharing the sysdiagnose log</figcaption>
 </figure>
 <p>Inside this archive file are many system and subsystem logs, so we can see whenever crashes occur, the context that gave rise to them.</p>
 <p>An equivalent approach is available on macOS as well.</p>
