@@ -4,6 +4,7 @@ markdown/Tooling.md
 markdown/BuiltInHelp.md
 markdown/HybridEnvironments.md
 markdown/Symbolification.md
+markdown/SystemDiagnostics.md
 markdown/CrashReport.md
 markdown/AppleSilicon.md
 examples/icdab_avx_osx/avxCrashExplanation.md

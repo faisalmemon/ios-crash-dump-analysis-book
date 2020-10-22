@@ -12,27 +12,11 @@ When symbol information is available, Xcode will symbolicate the Crash Report to
 
 Apple has produced a detailed document explaining the anatomy of a crash dump.  @tn2151
 
-## System Diagnostics
-
-Crash Reports are just one part of a much bigger diagnostic reporting story.
-
-Ordinarily as application developers, we don't need to look much further.  However, if our problems are potentially triggered by an unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our Crash Reports, we need to study the system diagnostics.
-
-### Extracting System Diagnostic Information
-When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing).  Apple provides a great web page covering each scenario.  @apple-sysdiag  
-
-On iOS, the basic idea is that we install a profile, which alters our device to produce more logging, and then we reproduce the crash (or get the customer to do that).  Then we press a special key sequence on the device (for example, both volume buttons and the side button).  The system vibrates briefly to indicate it is running a program, `sysdiagnose`\index{command!sysdiagnose}, which extracts many log files.  This can take 10 minutes to process, and produces a large file (compressed `tar` file)
-Then we share our local sysdiagnose file with our Mac.  We go into menu `Settings > Privacy > Analytics and Improvements > Analytics Data`.  Scroll down looking for a file beginning with `sysdiagnose_YEAR.MONTH.DAY_*`.  When this file is selected we get a blank screen but that is not a problem.  We click on the _Share_ icon in the top toolbar, and select an appropriate sharing destination.
-Inside this archive file are many system and subsystem logs, so we can see whenever crashes occur, the context that gave rise to them.
-
-An equivalent approach is available on macOS as well.
-
 ## Guided tour of an iOS Crash Report
 
 Here we go through each section of an iOS Crash Report and explain the fields. @tn2151
 
 tvOS\index{tvOS} and watchOS\index{watchOS} may be just considered subsets of iOS for our purposes and have similar Crash Reports.
-
 
 Note here we use the term "iOS Crash Report" to mean a Crash Report that came from a physical target device.
 After a crash, apps are often debugged on the Simulator.  The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.
@@ -736,7 +720,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
 
 ```
 Thread 0 crashed with ARM Thread State (64-bit):
-    x0: 0x00000001005f0000   x1: 0x000000028041e980 
+    x0: 0x00000001005f0000   x1: 0x000000028041e980
       x2: 0x0000000000000007   x3: 0x00000001a3688d84
     x4: 0x0000000000000000   x5: 0x0000000000000013   
       x6: 0x0000000000000020   x7: 0x00000000000003f8
@@ -752,7 +736,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
       x26: 0x000000010086d920  x27: 0x00000000000020ff
    x28: 0x00000001005a6f6a   fp: 0x000000016f8668f0   
       lr: 0x00000001b0e53d70
-    sp: 0x000000016f8668d0   pc: 0x00000001b0e53d70 
+    sp: 0x000000016f8668d0   pc: 0x00000001b0e53d70
       cpsr: 0x60000000
    esr: 0xf2000001  Address size fault
 ```
