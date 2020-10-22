@@ -6,5 +6,5 @@ This second edition of the book was prompted by a long-speculated addition to th
 
 I've updated the text, and modernized the examples, to reflect the latest OS versions and SDKs.  As of the time of writing, these are iOS 12.2\index{iOS!14.2}, macOS 11.0 Big Sur\index{macOS!Big Sur}\index{macOS!11.0}, and Xcode 12.2\index{Xcode!12.2}. 
 
-It seems to me the direction of travel of Apple Products is towards Apple Silicon chips, which utilise the ARM\index{trademark!ARM} ABI\index{ABI}, and the advanced features that come with recent versions of this architecture.  To this end, I have introduced chapters on translation mode crashes on Apple Silicon, and Pointer Authentication crashes.
+It seems to me the direction of travel of Apple Products is towards Apple Silicon chips, which utilize the ARM\index{trademark!ARM} ABI\index{ABI}, and the advanced features that come with recent versions of this architecture.  To this end, I have introduced chapters on translation mode crashes on Apple Silicon, and Pointer Authentication crashes.
 
