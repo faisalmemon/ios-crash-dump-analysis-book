@@ -19,7 +19,7 @@ Here we go through each section of an iOS Crash Report and explain the fields. @
 tvOS\index{tvOS} and watchOS\index{watchOS} may be just considered subsets of iOS for our purposes and have similar Crash Reports.
 
 Note here we use the term "iOS Crash Report" to mean a Crash Report that came from a physical target device.
-After a crash, apps are often debugged on the Simulator.  The exception code may be different in that case because the Simulator uses different methodology to cause the app to stop under the debugger.
+After a crash, apps are often debugged on the Simulator.  The exception code may be different in that case because the Simulator uses a different methodology to cause the app to stop under the debugger.
 
 ### iOS Crash Report Header Section
 
@@ -50,7 +50,7 @@ These items are explained by the following table:
 Entry|Meaning
 --|--
 Incident Identifier|Unique report number of crash
-Beta Identifier|Unique identifer scoped to the software author and client device in TestFlight\index{trademark!TestFlight} builds
+Beta Identifier|Unique identifier scoped to the software author and client device in TestFlight\index{trademark!TestFlight} builds
 CrashReporter Key|Unique identifier for the device that crashed
 Hardware Model|Apple Hardware Model @ios-devices
 Process|Process\index{process} name (number) that crashed
@@ -79,8 +79,8 @@ If we have many crashes then a pattern may emerge.  It could be one customer (co
 This may affect how we rank the priority of the crash.
 
 The hardware model could be interesting.  Is it iPad only devices, or iPhone only, or both?
-Maybe our code has less testing or unique code paths for a given platform.
-The hardware model might indicate an older device, which we have not tested on.
+Maybe our code has less testing, or unique code paths, for a given platform.
+The hardware model might indicate an older device which we have not tested on.
 
 Whether the app crashed in the Foreground or Background (the Role) is interesting because most applications are not tested whilst they are in the background.  For example, we might receive a phone call, or have task switched between apps.
 
@@ -119,7 +119,7 @@ Normally the baseband version is not interesting.  The presence of the baseband 
 
 ### iOS Crash Report Exception Section
 
-A Crash Report will next have exception\index{exception} information:
+A Crash Report will next have an exception\index{exception} information section:
 
 ```
 Exception Type:  EXC_CRASH (SIGABRT)
@@ -128,7 +128,8 @@ Exception Note:  EXC_CORPSE_NOTIFY
 Triggered by Thread:  0
 ```
 
-or it may have a more detailed exception information:
+or it may provide a more detailed exception information section:
+
 ```
 Exception Type:  EXC_CRASH (SIGKILL)
 Exception Codes: 0x0000000000000000, 0x0000000000000000
@@ -668,7 +669,7 @@ iOS Crash Reports will be either from ARM-64 binaries\index{CPU!ARM-64} (most co
 
 In each case, we get similar looking information describing the state of the ARM registers\index{CPU!register}.
 
-One thing to look out for is the special hex code, `0xbaddc0dedeadbead`\index{0xbaddc0dedeadbead} which means a non-initialized pointer.However, newer versions of the Swift runtime don't make use of this.
+One thing to look out for is the special hex code, `0xbaddc0dedeadbead`\index{0xbaddc0dedeadbead} which means a non-initialized pointer.  However, newer versions of the Swift runtime don't make use of this.
 
 #### 32-bit thread state
 
@@ -822,7 +823,7 @@ The fifth part is the path to the binary as it appears on the device.
 Most of the binaries have a self-explanatory name.  The `dyld` binary is the dynamic loader\index{file!dynamic loader}.
 It is seen at the bottom of all stack backtraces because it is responsible for commencing the loading of binaries before their execution.
 
-The dynamic loader does many tasks in preparing our binary for execution.  If our binary references libraries, it will load them.  If there are absent, it will fail to load our app.  This is why it is possible to crash even before any code in `main.m` is called.  Later on, we shall study how to diagnose such problems.
+The dynamic loader does many tasks in preparing our binary for execution.  If our binary references libraries, it will load them.  If they are absent, it will fail to load our app.  This is why it is possible to crash even before any code in `main.m` is called.  Later on, we shall study how to diagnose such problems.
 
 
 ## Guided tour of a macOS Crash Report
@@ -830,6 +831,7 @@ The dynamic loader does many tasks in preparing our binary for execution.  If ou
 The macOS Crash Report is similar to an iOS Crash Report even though macOS CrashReport and iOS CrashReport are distinctly different programs.  To avoid repetition, we just highlight notable differences from iOS.
 
 Traditionally Mac computers only used the Intel\index{trademark!Intel} CPU but that has changed with the introduction of Apple Silicon.  So we can now see both ARM-64\index{CPU!ARM-64} and X86-64\index{CPU!X86-64} crashes on Mac hardware.  
+
 A number of subtle issues can arise because Apple Silicon Macs can translate X86-64 instructions as well as running native ARM-64 binaries.  Therefore we shall focus on Intel X86-64 crashes in this chapter, and leave Apple Silicon Mac crashes to their own chapter.
 
 ### macOS Crash Report Header Section
@@ -1108,7 +1110,7 @@ External Modification Summary:
     thread_set_state: 0
 ```
 
-macOS is a more open platform than iOS.  This permits under certain conditions modification of our process.  We need to know if such a thing happened because it can invalidate any design assumption in the code because registers can be modified of the process and thus a crash can be induced.
+macOS is a more open platform than iOS.  This permits, under certain conditions, modification of our process.  We need to know if such a thing happened. It can invalidate any design assumption in our the code. Changing the registers of a running process can induce a crash.
 
 Ordinarily the above snapshot would be seen.  Notably `thread_set_state`\index{thread!set state} is zero in all cases.  This means no process has directly attached to the process\index{process!attachment} to change the state of a register.  Such actions would be acceptable for implementations of managed runtimes, or debuggers.  Outside of these scenarios, such actions would be suspicious and need further investigation.
 
