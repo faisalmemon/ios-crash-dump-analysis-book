@@ -1,0 +1,92 @@
+Sleep Wake failure in EFI
+
+Failure code:: 0xffffffff 0x0000001f
+
+Please IGNORE the below stackshot
+
+================================================================
+Date/Time:        2020-10-23 07:22:27 +0100
+OS Version:       ??? ??? (Build ???)
+Architecture:     x86_64
+Report Version:   29
+
+Data Source:      Stackshots
+Shared Cache:     0x1b64000 83EE494B-9FE8-35E6-81D5-DBDB250F72CB
+
+Event:            Sleep Wake Failure
+Duration:         0.00s
+Steps:            1
+
+Time Awake Since Boot: 23s
+
+
+
+Process:          swd [373]
+Architecture:     x86_64
+Footprint:        368 KB
+Start time:       2020-10-23 07:22:27 +0100
+End time:         2020-10-23 07:22:27 +0100
+Num samples:      1 (1)
+
+  Thread 0x9bd    1 sample (1)    priority 4 (base 4)
+  <thread QoS background (requested background), thread darwinbg, process darwinbg, IO tier 2>
+  1  start + 1 (libdyld.dylib + 109769) [0x7fff68d69cc9] 1
+    1  ??? [0x100c4e454] 1
+      1  ??? [0x100c4e1dd] 1
+        1  __stack_snapshot_with_config + 10 (libsystem_kernel.dylib + 135862) [0x7fff68ecb2b6] 1
+         *1  ??? [0xffffff80002c1206] 1
+           *1  ??? [0xffffff8000984be7] 1
+             *1  ??? [0xffffff800089d771] 1
+               *1  ??? [0xffffff80002e49e7] (running) 1
+
+  Binary Images:
+        0x7fff68d4f000 -     0x7fff68d85fff  libdyld.dylib (750.6)               <789A18C2-8AC7-3C88-813D-CD674376585D>  /usr/lib/system/libdyld.dylib
+        0x7fff68eaa000 -     0x7fff68ed6fff  libsystem_kernel.dylib (6153.141.2) <A576A1CF-7726-3146-B04B-A26E1CDB9757>  /usr/lib/system/libsystem_kernel.dylib
+
+System Profile:
+Network Service: Wi-Fi, AirPort, en1
+Thunderbolt Bus: iMac, Apple Inc., 26.1
+Boot Volume File System Type: apfs
+Memory Module: BANK 0/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C, 0x31364B544631473634485A2D314736453220
+Memory Module: BANK 1/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C, 0x31364B544631473634485A2D314736453220
+USB Device: USB 3.0 Bus
+USB Device: 4-Port USB 3.0 Hub
+USB Device: 4-Port USB 3.0 Hub
+USB Device: Portable SSD T5
+USB Device: BRCM20702 Hub
+USB Device: Bluetooth USB Host Controller
+USB Device: FaceTime HD Camera (Built-in)
+USB Device: 4-Port USB 2.0 Hub
+USB Device: 4-Port USB 2.0 Hub
+USB Device: USB Keyboard
+USB Device: Composite Device
+USB Device: HD Pro Webcam C920
+USB Device: US-2x2
+Serial ATA Device: APPLE SSD SM0512F, 500.28 GB
+Model: iMac15,1, BootROM 235.0.0.0.0, 4 processors, Quad-Core Intel Core i5, 3.5 GHz, 16 GB, SMC 2.22f16
+Graphics: kHW_AMDRadeonR9M290XItem, AMD Radeon R9 M290X, spdisplays_pcie_device, 2 GB
+AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142), Broadcom BCM43xx 1.0 (7.77.111.1 AirPortDriverBrcmNIC-1615.2)
+Bluetooth: Version 7.0.6f7, 3 services, 27 devices, 1 incoming serial ports
+Model: iMac15,1, BootROM 235.0.0.0.0, 4 processors, Quad-Core Intel Core i5, 3.5 GHz, 16 GB, SMC 2.22f16
+Graphics: kHW_AMDRadeonR9M290XItem, AMD Radeon R9 M290X, spdisplays_pcie_device, 2 GB
+Memory Module: BANK 0/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C, 0x31364B544631473634485A2D314736453220
+Memory Module: BANK 1/DIMM0, 8 GB, DDR3, 1600 MHz, 0x802C, 0x31364B544631473634485A2D314736453220
+AirPort: spairport_wireless_card_type_airport_extreme (0x14E4, 0x142), Broadcom BCM43xx 1.0 (7.77.111.1 AirPortDriverBrcmNIC-1615.2)
+Bluetooth: Version 7.0.6f7, 3 services, 27 devices, 1 incoming serial ports
+Network Service: Wi-Fi, AirPort, en1
+Serial ATA Device: APPLE SSD SM0512F, 500.28 GB
+USB Device: USB 3.0 Bus
+USB Device: 4-Port USB 3.0 Hub
+USB Device: 4-Port USB 3.0 Hub
+USB Device: Portable SSD T5
+USB Device: BRCM20702 Hub
+USB Device: Bluetooth USB Host Controller
+USB Device: FaceTime HD Camera (Built-in)
+USB Device: 4-Port USB 2.0 Hub
+USB Device: 4-Port USB 2.0 Hub
+USB Device: USB Keyboard
+USB Device: Composite Device
+USB Device: HD Pro Webcam C920
+USB Device: US-2x2
+Thunderbolt Bus: iMac, Apple Inc., 26.1
+
