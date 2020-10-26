@@ -1,0 +1,5 @@
+Need to run the sysdiagnose key sequence to trigger a diagnose.
+E.g. both volume buttons and the side button.
+
+Go into Settings > Privacy > Analytics and Improvements > Analytics Data
+to find any sysdiagnose recorded.

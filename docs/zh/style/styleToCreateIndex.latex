@@ -38,9 +38,8 @@ $endif$
 \usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
-  \usepackage[utf8x]{inputenc}
+  \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provides euro and other symbols
-  % Added for font support
 \else % if luatex or xelatex
 $if(mathspec)$
   \ifxetex
