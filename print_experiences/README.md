@@ -12,8 +12,10 @@ I wrote the tool `markdown_fold` which is a 65 width markdown aware version of f
 
 I don't have the ARM Breakpoint Instruction or the Exception Syndrome Register setup properly.  I fixed that by adding a Url in addition to the BSD Url, and also adding a Year.
 
-I have some if{csl - hanging} spurious text at the top of the bibliography.  See [bibliographyIssue.png](./bibliographyIssue.png)  I need to study this.
+I have some if{csl - hanging} spurious text at the top of the bibliography.  See [bibliographyIssue.png](./bibliographyIssue.png)  I fixed this by patching the latex raw code.
 
 # Photograph Issue
 
 My portrait picture has a white background but the cover art would suit a black background.  See [faisal-portrait-25-6-2020.jpg](./faisal-portrait-25-6-2020.jpg)
+
+I fixed this by doing a Clip -> Set with a bezier path.
