@@ -1,5 +1,41 @@
 # Kindle Direct Publishing Metadata
 
+## Paperback Details
+
+Language: English
+
+Book Title: iOS Crash Dump Analysis, Second Edition
+Subtitle: Understand, resolve and avoid application crashes
+
+Series: NA
+
+Edition Number: 2
+
+Author: Mr. Faisal Memon
+
+Contributors: Translator: Xia Wenqiang
+
+Description:
+Ever wondered why your app is crashing?
+
+For the experienced software professional, see this book as a way to check off the advanced level iOS skills check box. It adds to your arsenal of tools, and techniques, to be a highly productive software engineer. For some of those mysterious and odd problems that result in a crash, this book could help you save hours, or days. Whether you are on consulting gigs looking to delight your customer, or in a corporate environment earning your way up through the ranks, the knowledge in this book is a definite step along that journey. 
+
+For the student, this book adds something special. We don't just look at the anatomy of a crash report. We look into the underlying software engineering approach that caused the problem, and discuss techniques for avoiding such issues. We also delve into a formal trouble shooting methodology as it applies to crash dump analysis. The result is that, from the get-go, you can develop your skills, using best practice, and avoid the traps others fall into. It means you can hand in your assignment, on-time, without undue stress!
+
+New in the second edition are Apple Silicon crashes, an exploration of Rosetta, updates for Xcode 12.x, iOS 14.x, macOS 11.x, and ARMv8.3-A Pointer Authentication issues.
+
+Copyright: I own the copyright
+
+Keywords: iOS, macOS, Crash Dump, Operating Systems, Apple Silicon, Apple
+
+Categories:
+- Nonfiction > Computers > Operating Systems > Macintosh
+- Nonfiction > Computers > Internet > Application Development
+
+Adult Content: No
+
+## Paperback Content
+
 Print: ISBN 9798692642844
 Imprint: Independently published
 
