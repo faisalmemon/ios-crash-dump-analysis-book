@@ -96,3 +96,39 @@ Binary Images:
 The above sample of binaries shows that both AppKit and UIKit are present and the system is providing support frameworks in order to allow iOS apps to see the frameworks they are expecting.
 
 For the most part, these crashes can be analysed as if they were straightforward crashes on iOS.  The more likely problem area is one of assumptions about the environment.  For example, iOS devices have a gyroscope but macOS devices do not.
+
+## Supporting the Mac from iOS
+
+Apple provide guidance on best practice when deploying iOS apps on Mac; @iosOnMac.  The choices would be:
+
+1. Decide that the iOS app is not suitable for macOS.  In App Store Connect\index{App Store Connect} it can be de-configured.
+2. Allow the app to be installed on iOS but add checks for available optional hardware functionality.
+3. Enhance the app to use alternate features more accessible to Mac users.  For example, add iOS keyboard support.
+4. Add code to detect the iOS-on-Mac scenario. \index{iOS on Mac}
+5. Do a port to Mac, via Mac Catalyst \index{Mac Catalyst} technology.  This would first mean having a great iPadOS app as a starting point.
+6. Write a native macOS app.
+
+For example, in the app `icdab_gyro` we show how to detect the iOS-on-Mac scenario:
+
+```
+        let info = ProcessInfo()
+        if #available(iOS 14.0, *) {
+            if info.isiOSAppOnMac {
+                print("We are an iOS app running on a Mac")
+            }
+        }
+```
+
+Furthermore, when using the Gyroscope, we have
+```
+var motion = CMMotionManager()
+```
+
+and use the gyroscope only if available:
+```
+if motion.isGyroAvailable {
+          self.motion.gyroUpdateInterval = 1.0 / 60.0
+          self.motion.startGyroUpdates()
+.
+.
+```
