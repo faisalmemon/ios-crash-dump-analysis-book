@@ -45,13 +45,12 @@ You will be able to spend less time fixing crashes, and more time writing valuab
 
 ## Current Status
 
-As of 27th September 2020, the project status is:
+As of 14th November 2020, the project status is:
+- With the public announcement of Apple's new M1 chip and range of Macs, we can now release the second edition materials describing the new technologies!
+- The 2nd edition is published here in web form to cover Apple Silicon, etc.
 - There is a published 1st edition (print, kindle, web)
-- A web-only Chinese language translation is available (our most recent change)
-- Public updates are paused, but Private progress is active:
-  - Until Apple Silicon Macs are released, we cannot document respective crash-related information
-  - Updates are underway for modernisation for the latest Betas (Xcode 12.x and iOS/tvOS/watchOS/macOS)
-- One week after the transition to Apple Silicon we shall do a bulk update of this git repository
+- A web-only Chinese language translation is available (first edition elements are chinese, second edition elements not yet translated)
+- I am preparing the kindle and print editions of the second edition.
 
 ## Directory Structure
 
