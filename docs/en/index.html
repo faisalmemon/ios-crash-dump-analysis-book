@@ -181,6 +181,9 @@
 <ul>
 <li><a href="#icdab_avx-vector-instruction-crash"><code>icdab_avx</code> vector instruction crash</a></li>
 </ul></li>
+<li><a href="#mac-hosting-ios-apps">Mac Hosting iOS apps</a></li>
+<li><a href="#icdab_wrap-ios-app-crash-on-macos"><code>icdab_wrap</code> iOS app crash on macOS</a></li>
+<li><a href="#supporting-the-mac-from-ios">Supporting the Mac from iOS</a></li>
 </ul></li>
 <li><a href="#pointer-authentication">Pointer Authentication</a>
 <ul>
@@ -308,7 +311,6 @@
 <p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
 <p>Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.</p>
 <p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognized the following trademarks:</p>
-<p>ARM, Android, App Store, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Intel, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Rosetta, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iPhone 11, iPhone XR, iPhone XS, iPhone XS Max, macOS, tvOS, watchOS.</p>
 <h1 id="preface">Preface</h1>
 <h2 id="first-edition">First Edition</h2>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
@@ -1307,6 +1309,7 @@ sd
 <h1 id="the-crash-report">The Crash Report</h1>
 <p>In this chapter, we get into the details of what comprises a Crash Report. Our main focus is the iOS Crash Report. We also cover the macOS Crash Report, which carries a slightly different structure but serves the same purpose.</p>
 <p>Note, it is possible for an app to install crash handlers from third parties, either to get enhanced crash reporting diagnostics, or to link application crashes to a web-based service for managing Crash Reports across a potentially large population of users. In this chapter we assume the app has not done this, and therefore the Apple CrashReport tool comes into play.</p>
+<p>Furthermore, there are other variant scenarios where we can crash. It could be a macOS Intel X86 program running translated on an Apple Silicon Mac, or it could be a iOS ARM app running on an Apple Silicon Mac. Those subtleties are separated out into the chapter covering Apple Silicon.</p>
 <p>When a crash occurs the <code>ReportCrash</code> program extracts information from the crashing process from the Operating System. The result is a text file with a <code>.crash</code> extension.</p>
 <p>When symbol information is available, Xcode will symbolicate the Crash Report to show symbolic names instead of machine addresses. This improves the comprehensibility of the report.</p>
 <p>Apple has produced a detailed document explaining the anatomy of a crash dump. <span class="citation" data-cites="tn2151">(“Apple Crash Dump Technote 2151” 2018)</span></p>
@@ -2247,6 +2250,7 @@ icdab_as.app.dSYM/Contents/Resources/DWARF/icdab_as</code></pre>
 <p>The macOS Crash Report is similar to an iOS Crash Report even though macOS CrashReport and iOS CrashReport are distinctly different programs. To avoid repetition, we just highlight notable differences from iOS.</p>
 <p>Traditionally Mac computers only used the Intel CPU but that has changed with the introduction of Apple Silicon. So we can now see both ARM-64 and X86-64 crashes on Mac hardware.</p>
 <p>A number of subtle issues can arise because Apple Silicon Macs can translate X86-64 instructions as well as running native ARM-64 binaries. Therefore we shall focus on Intel X86-64 crashes in this chapter, and leave Apple Silicon Mac crashes to their own chapter.</p>
+<p>Since Apple Silicon Macs and iOS devices share the same underlying CPU architecture, Apple has provided support for unmodified iOS apps to be run on Apple Silicon Macs. One way to think of this is that macOS is a host operating system but provides iOS support libraries so that guest iOS apps can still make use of the frameworks they are expecting to be in place. We cover this variant in the Apple Silicon chapter.</p>
 <h3 id="macos-crash-report-header-section">macOS Crash Report Header Section</h3>
 <p>The crash dump starts with the header:</p>
 <pre><code>Process:               SiriNCService [1045]
@@ -2548,7 +2552,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <p>Another interesting aspect is that not all hardware is actively used by the system all the time. For example, when a MacBook Pro is connected to an external display, different graphics RAM is used and a different graphics card is used (external versus an internal GPU). If our app does something special, when connected to an external display, the fault may be in the hardware instead of our code due to it triggering a latent fault in the hardware.</p>
 <p>Running system diagnostics and looking to see if the problems are appearing against only specific Anonymous UUID Crash Reports are ways to try and understand if we have a machine specific hardware issue.</p>
 <h1 id="apple-silicon">Apple Silicon</h1>
-<p>In this chapter we look at crashes on Apple Silicon Macs, and crashes arising from the use of the Rosetta translation system. Furthermore we look at new types of crashes that are possible from multi-architecture code that supports both ARM and Intel CPUs.</p>
+<p>In this chapter we look at crashes on Apple Silicon Macs, crashes arising from the use of the Rosetta translation system, and crashes arising from unmodified iOS apps running on macOS. Furthermore we look at new types of crashes that are possible from multi-architecture code that supports both ARM and Intel CPUs.</p>
 <h2 id="what-is-rosetta">What is Rosetta?</h2>
 <p>Rosetta is an instruction translator present on Apple Silicon Macs. When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them. Think of it as a Ahead Of Time (AOT) compiler. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span> The origins of the technology come from an earlier era when Macs were transitioning from the PowerPC chip to Intel chips. Apple was assisted by technology from Transitive Technologies Ltd. to produce Rosetta version 1. <span class="citation" data-cites="transitive">(“Heroes of Software Engineering - the Men and Women at Transitive” 2020)</span> <span class="citation" data-cites="rosetta_news">(“The Brains Behind Apple’s Rosetta: Transitive” 2020)</span> In Rosetta version 2, we have a system allowing on a per process basis, Intel instructions to be pre-translated to ARM instructions, and then run at native speed.</p>
 <h3 id="rosetta-binaries">Rosetta binaries</h3>
@@ -2854,6 +2858,160 @@ avx_v1_supported() {
     return supported;
 }</code></pre>
 <p>This function returns <code>true</code> is AVX version 1 is supported (and there was no error in retrieving the information).</p>
+<h2 id="mac-hosting-ios-apps">Mac Hosting iOS apps</h2>
+<p>A surprising “bonus feature” arising from the introduction of Apple Silicon Macs is that since they share the same CPU architecture as iOS devices, it is possible for unmodified iOS apps to run on macOS. For this to work, Apple Silicon Macs in macOS have special support libraries.</p>
+<p>The way we can think about it is that macOS is the <em>host</em> that provides support libraries and frameworks, such as <code>UIKit</code>, that iOS <em>guest</em> apps expect to be in place.</p>
+<p>When such an app crashes, we get a crash report that is a macOS crash report, but most of the details involve iOS libraries.</p>
+<h2 id="icdab_wrap-ios-app-crash-on-macos"><code>icdab_wrap</code> iOS app crash on macOS</h2>
+<p>If we run the <code>icdab_wrap</code> iOS app natively on an Apple Silicon Mac, it will launch because macOS provides the <code>UIKit</code> framework that <code>icdab_wrap</code> assumes is present. This app is written to demonstrate a problem when a nil optional is dereferenced.</p>
+<p>Upon crash, we see:</p>
+<pre><code>Code Type:             ARM-64 (Native)
+Parent Process:        ??? [1]
+Responsible:           icdab_wrap [2802]
+User ID:               501</code></pre>
+<p>This shows that the application was running native code, not translated code.</p>
+<pre><code>Date/Time:             2020-11-14 11:58:17.668 +0000
+OS Version:            Mac OS X 10.16 (20A5343i)
+Report Version:        12
+Anonymous UUID:        0118DF8D-2876-0263-8668-41B1482DDC38</code></pre>
+<p>This shows we were obviously running on a Mac.</p>
+<pre><code>System Integrity Protection: enabled
+
+Crashed Thread:        0  Dispatch queue: com.apple.main-thread
+
+Exception Type:        EXC_BREAKPOINT (SIGTRAP)
+Exception Codes:       EXC_ARM_BREAKPOINT at 0x00000001c6c8f1f0
+ (brk 1)
+Exception Note:        EXC_CORPSE_NOTIFY
+
+Termination Signal:    Trace/BPT trap: 5
+Termination Reason:    Namespace SIGNAL, Code 0x5
+Terminating Process:   exc handler [2802]
+
+Application Specific Information:
+dyld3 mode
+Fatal error: Unexpectedly found nil while implicitly unwrapping
+ an Optional value: file icdab_wrap/PlanetViewController.swift,
+ line 45</code></pre>
+<p>This shows the program crashed unwrapping a nil optional.</p>
+<pre><code>Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libswiftCore.dylib                  0x00000001c6c8f1f0
+ closure #1 in closure #1 in closure #1 in
+ _assertionFailure(_:_:file:line:flags:) + 404
+1   libswiftCore.dylib                  0x00000001c6c8f1f0
+ closure #1 in closure #1 in closure #1 in
+ _assertionFailure(_:_:file:line:flags:) + 404
+2   libswiftCore.dylib                  0x00000001c6c8e660
+ _assertionFailure(_:_:file:line:flags:) + 488
+3   www.perivalebluebell.icdab-wrap     0x0000000104937da4
+ PlanetViewController.imageDownloaded(_:) + 196
+ (PlanetViewController.swift:45)
+.
+.
+.
+
+16  com.apple.AppKit                    0x0000000189740824
+ _DPSNextEvent + 880
+17  com.apple.AppKit                    0x000000018973f1fc
+ -[NSApplication(NSEvent)
+ _nextEventMatchingEventMask:untilDate:inMode:dequeue:] + 1300
+18  com.apple.AppKit                    0x00000001897313c4
+ -[NSApplication run] + 600
+19  com.apple.AppKit                    0x0000000189703550
+ NSApplicationMain + 1064
+20  com.apple.AppKit                    0x00000001899e92f8
+ _NSApplicationMainWithInfoDictionary + 24
+21  com.apple.UIKitMacHelper            0x00000001bd9a6038
+ UINSApplicationMain + 476
+22  com.apple.UIKitCore                 0x00000001d333d1b0
+ UIApplicationMain + 2108
+23  www.perivalebluebell.icdab-wrap     0x0000000104933a38 main +
+ 88 (AppDelegate.swift:12)
+24  libdyld.dylib                       0x00000001c758ca50 start
+ + 4</code></pre>
+<p>This shows that when the program was loaded by <code>libdyld.dylib</code>, the UKit it expected, <code>UIKitCore</code>, was implemented via <code>UIKitMacHelper</code> support layer.</p>
+<pre><code>Binary Images:
+       0x10492c000 -        0x10493bfff
+ +www.perivalebluebell.icdab-wrap (1.0 - 1)
+ &lt;E9A2E2CC-E879-37B0-820C-F336DF2AACDA&gt;
+ /Users/USER/Library/Developer/Xcode/DerivedData/icdab-gbtgrhpqeh
+gqogaglrpuvzajteku/Build/Products/Debug-iphoneos/icdab_wrap.app/i
+cdab_wrap
+       0x104a1c000 -        0x104a27fff 
+ libobjc-trampolines.dylib (817)
+ &lt;4A2C66DE-9358-3AE9-A69F-36687DB19CE3&gt;
+ /usr/lib/libobjc-trampolines.dylib
+       0x104b34000 -        0x104baffff  dyld (828)
+ &lt;7A9F335B-50E3-3018-A9CC-26E57B61D907&gt; /usr/lib/dyld
+.
+.
+
+       0x189700000 -        0x18a400fff  com.apple.AppKit (6.9 -
+ 2004.102) &lt;96941AAC-01D7-36E7-9253-2C1187864719&gt;
+ /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit
+.
+.
+
+       0x1bd77f000 -        0x1bd9a1fff  com.apple.UIFoundation
+ (1.0 - 714) &lt;D3335C2E-2366-30AD-A5F3-6058164D69EE&gt;
+ /System/Library/PrivateFrameworks/UIFoundation.framework/Version
+s/A/UIFoundation
+       0x1bd9a2000 -        0x1bda37fff  com.apple.UIKitMacHelper
+ (1.0 - 3979.1.400) &lt;F2F6D8F7-8178-3113-856E-F99614A4F13E&gt;
+ /System/Library/PrivateFrameworks/UIKitMacHelper.framework/Versi
+ons/A/UIKitMacHelper
+       0x1bda38000 -        0x1bda4bfff  com.apple.UIKitServices
+ (1.0 - 1) &lt;D8C4D101-A04C-37E6-87A3-6AD9ADFEC787&gt;
+ /System/Library/PrivateFrameworks/UIKitServices.framework/Versio
+ns/A/UIKitServices
+.
+.
+
+       0x1c9b1b000 -        0x1c9b1bfff 
+ com.apple.MobileCoreServices (1112.0.10 - 1112.0.10)
+ &lt;992DAEC7-6964-3686-A910-4365B353D925&gt;
+ /System/iOSSupport/System/Library/Frameworks/MobileCoreServices.
+framework/Versions/A/MobileCoreServices
+.
+.
+
+       0x1d333a000 -        0x1d462ffff  com.apple.UIKitCore (1.0
+ - 3979.1.400) &lt;023078DD-44DA-3A11-82CA-12F8412661A2&gt;
+ /System/iOSSupport/System/Library/PrivateFrameworks/UIKitCore.fr
+amework/Versions/A/UIKitCore
+.
+.
+
+       0x1d72fa000 -        0x1d7337fff  libswiftUIKit.dylib (15)
+ &lt;68377BCA-6493-3E34-920E-0765BD07F2A7&gt;
+ /System/iOSSupport/usr/lib/swift/libswiftUIKit.dylib</code></pre>
+<p>The above sample of binaries shows that both AppKit and UIKit are present and the system is providing support frameworks in order to allow iOS apps to see the frameworks they are expecting.</p>
+<p>For the most part, these crashes can be analysed as if they were straightforward crashes on iOS. The more likely problem area is one of assumptions about the environment. For example, iOS devices have a gyroscope but macOS devices do not.</p>
+<h2 id="supporting-the-mac-from-ios">Supporting the Mac from iOS</h2>
+<p>Apple provide guidance on best practice when deploying iOS apps on Mac; <span class="citation" data-cites="iosOnMac">(“Running Your iOS Apps on macOS” 2020)</span>. The choices would be:</p>
+<ol type="1">
+<li>Decide that the iOS app is not suitable for macOS. In App Store Connect it can be de-configured.</li>
+<li>Allow the app to be installed on iOS but add checks for available optional hardware functionality.</li>
+<li>Enhance the app to use alternate features more accessible to Mac users. For example, add iOS keyboard support.</li>
+<li>Add code to detect the iOS-on-Mac scenario. </li>
+<li>Do a port to Mac, via Mac Catalyst  technology. This would first mean having a great iPadOS app as a starting point.</li>
+<li>Write a native macOS app.</li>
+</ol>
+<p>For example, in the app <code>icdab_gyro</code> we show how to detect the iOS-on-Mac scenario:</p>
+<pre><code>        let info = ProcessInfo()
+        if #available(iOS 14.0, *) {
+            if info.isiOSAppOnMac {
+                print(&quot;We are an iOS app running on a Mac&quot;)
+            }
+        }</code></pre>
+<p>Furthermore, when using the Gyroscope, we have</p>
+<pre><code>var motion = CMMotionManager()</code></pre>
+<p>and use the gyroscope only if available:</p>
+<pre><code>if motion.isGyroAvailable {
+          self.motion.gyroUpdateInterval = 1.0 / 60.0
+          self.motion.startGyroUpdates()
+.
+.</code></pre>
 <h1 id="pointer-authentication">Pointer Authentication</h1>
 <p>In this chapter we shall examine Pointer Authentication, and related crashes.</p>
 <p>Devices using the Apple A12 chip, or later, utilize a security feature known as <em>Pointer Authentication</em> as part of the ARMv8.3-A architecture. For example, iPhone XS, iPhone XS Max, and iPhone XR use the A12 chip. The basic idea is that there are unused bits in a 64-bit pointer because it can already address such a vast range of addresses, only 40 bits are allocated to such purposes. <span class="citation" data-cites="iospac">(“Examining Pointer Authentication on the iPhone Xs” 2019)</span> The remaining bits can therefore be used to store a hash value computed after combining the intended pointer address with a context value and a secret key. Then if the pointer address were to be changed, either because of a bug or malicious action, the pointer would be known to be invalid and would eventually cause a <code>SIGSEGV</code> if it were to be used to change the control flow of a program.</p>
@@ -6366,6 +6524,9 @@ usr/lib/libBacktraceRecording.dylib
 </div>
 <div id="ref-resource-management">
 <p>“Resource Management.” 2015. <a href="http://newosxbook.com/files/MSAse2015.pdf">http://newosxbook.com/files/MSAse2015.pdf</a>.</p>
+</div>
+<div id="ref-iosOnMac">
+<p>“Running Your iOS Apps on macOS.” 2020. <a href="https://developer.apple.com/documentation/apple_silicon/running_your_ios_apps_on_macos">https://developer.apple.com/documentation/apple_silicon/running_your_ios_apps_on_macos</a>.</p>
 </div>
 <div id="ref-asanchecker">
 <p>Serebryany, Konstantin, Derek Bruening, Alexander Potapenko, and Dmitry Vyukov. 2012. “AddressSanitizer: A Fast Address Sanity Checker.” In <em>USENIX Atc 2012</em>. <a href="https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker">https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker</a>.</p>
