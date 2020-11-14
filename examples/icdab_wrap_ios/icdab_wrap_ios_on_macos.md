@@ -82,7 +82,7 @@ Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
  + 4
 ```
 
-This shows that when the program was loaded by `libdyld.dylib`, the UKit it expected, `UIKitCore`, was implemented via `UIKitMacHelper` support layer.
+This shows that when the program was loaded by `libdyld.dylib`, the UIKit it expected, `UIKitCore`, was implemented via `UIKitMacHelper` support layer.
 
 ```
 Binary Images:
@@ -144,7 +144,7 @@ amework/Versions/A/UIKitCore
 
 The above sample of binaries shows that both AppKit and UIKit are present and the system is providing support frameworks in order to allow iOS apps to see the frameworks they are expecting.
 
-For the most part, these crashes can be analysed as if they were straightforward crashes on iOS.  The more likely problem area is one of assumptions about the environment.  For example, iOS devices have a gyroscope but macOS devices do not.
+For the most part, these crashes can be analyzed as if they were straightforward crashes on iOS.  The more likely problem area is one of assumptions about the environment.  For example, iOS devices have a gyroscope but macOS devices do not.
 
 ### Supporting the Mac from iOS
 
