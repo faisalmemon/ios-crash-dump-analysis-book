@@ -134,11 +134,11 @@ My chinese translator was a welcome surprise and integrating his work was very e
 
 The book is now a nice length, 239 sheets of paper, with the last page numbered 221.  The first edition had a last page numbered 170.
 
-The new material is 3.4 hrs per page.  But there is original research in there so that low number feels like great productivity. Also some of the pages have been re-worked, we code modernisation, new screenshots, etc.  These don't show in the numbers.
+The new material is 3.4 hrs per page.  But there is original research in there so that low number feels like great productivity. Also some of the pages have been re-worked, with code modernisation, new screenshots, etc.  These don't show in the numbers.
 
-Overall I was surprised how much additions and modernisations I needed to do for the book.  Especially with the archicture transition to Apple Silicon, I think this is a especially fast-moving period in the Apple developer ecosystem.
+Overall I was surprised how many additions and modernisations I needed to do for the book.  Especially with the archicture transition to Apple Silicon, I think this is a especially fast-moving period in the Apple developer ecosystem.
 
-Producing the actual print edition and kindle editions was easy because my approach and tooling made the book more-or-less fit for publishing straight away.  I did not need to do any fix-ups.
+Producing the actual print edition, and kindle edition was easy because my approach, and tooling, made the book more-or-less fit for publishing straight away.  I did not need to do any fix-ups.
 
 I am making the second edition, in ebook, and in print, as cheap as I reasonably can, with only a small margin over costs.  I think I am providing good value!
 
