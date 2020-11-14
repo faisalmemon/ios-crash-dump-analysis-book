@@ -20,6 +20,9 @@
       location = "group:icdab_edge/icdab_edge.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:icdab_gyro/icdab_gyro.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:icdab_nsdata/icdab_nsdata.xcodeproj">
    </FileRef>
    <FileRef
