@@ -182,9 +182,11 @@
 <ul>
 <li><a href="#icdab_avx-vector-instruction-crash"><code>icdab_avx</code> vector instruction crash</a></li>
 </ul></li>
-<li><a href="#ios-on-mac">iOS on Mac</a></li>
+<li><a href="#ios-on-mac">iOS on Mac</a>
+<ul>
 <li><a href="#icdab_wrap-ios-app-crash-on-macos"><code>icdab_wrap</code> iOS app crash on macOS</a></li>
 <li><a href="#supporting-the-mac-from-ios">Supporting the Mac from iOS</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#pointer-authentication">Pointer Authentication</a>
 <ul>
@@ -2556,7 +2558,7 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <h1 id="apple-silicon">Apple Silicon</h1>
 <p>In this chapter we look at crashes on Apple Silicon Macs, crashes arising from the use of the Rosetta translation system, and crashes arising from unmodified iOS apps running on macOS. Furthermore we look at new types of crashes that are possible from multi-architecture code that supports both ARM and Intel CPUs.</p>
 <h2 id="what-is-an-apple-silicon-mac">What is an Apple Silicon Mac?</h2>
-<p>Apple Silicon means the design of the chip is from Apple, not from a third party. The A-series chips from Apple can be considered Apple Silicon. However, the focus of this chapter are Apple Silicon Macs. These have commenced with the Apple M1  chip. Presumably the reason why these Mac are not called “ARM-based Macs” is that Apple have made a significant contribution at the design level whilst still conforming to the ARM ABI, and these provide the benefits for the customer when switching from Intel-based Macs to Apple Silicon Macs.</p>
+<p>Apple Silicon means the design of the chip is from Apple, not from a third party. The A-series chips from Apple can be considered Apple Silicon. However, the focus of this chapter are Apple Silicon Macs. These have commenced with the Apple M1  chip. Presumably the reason why these Macs are not called “ARM-based Macs” is that Apple have made a significant contribution at the design level whilst still conforming to the ARM ABI. These provide marketable benefits for the customer when switching from Intel-based Macs to Apple Silicon Macs, such as long battery life and high performance.</p>
 <h2 id="what-is-rosetta">What is Rosetta?</h2>
 <p>Rosetta is an instruction translator present on Apple Silicon Macs. When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them. Think of it as a Ahead Of Time (AOT) compiler. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span> The origins of the technology come from an earlier era when Macs were transitioning from the PowerPC chip to Intel chips. Apple was assisted by technology from Transitive Technologies Ltd. to produce Rosetta version 1. <span class="citation" data-cites="transitive">(“Heroes of Software Engineering - the Men and Women at Transitive” 2020)</span> <span class="citation" data-cites="rosetta_news">(“The Brains Behind Apple’s Rosetta: Transitive” 2020)</span> In Rosetta version 2, we have a system allowing on a per process basis, Intel instructions to be pre-translated to ARM instructions, and then run at native speed.</p>
 <h3 id="rosetta-binaries">Rosetta binaries</h3>
@@ -2863,10 +2865,10 @@ avx_v1_supported() {
 }</code></pre>
 <p>This function returns <code>true</code> is AVX version 1 is supported (and there was no error in retrieving the information).</p>
 <h2 id="ios-on-mac">iOS on Mac</h2>
-<p>Since Apple Silicon Macs and iOS devices share the same ARM CPU architecture, Apple has made available a “bonus feature”. It is possible for unmodified iOS apps to run on ARM-based macOS. For this to work, ARM-based macOS have special support libraries.</p>
+<p>Since Apple Silicon Macs and iOS devices share the same ARM CPU architecture, Apple has made available a “bonus feature”. It is possible for unmodified iOS apps to run on ARM-based macOS. For this to work, ARM-based macOS has some special iOS support libraries.</p>
 <p>The way we can think about it is that macOS is the <em>host</em> that provides support libraries and frameworks, such as <code>UIKit</code>, that iOS <em>guest</em> apps expect to be in place.</p>
 <p>When such an app crashes, we get a crash report that is a macOS crash report, but most of the details involve iOS libraries.</p>
-<h2 id="icdab_wrap-ios-app-crash-on-macos"><code>icdab_wrap</code> iOS app crash on macOS</h2>
+<h3 id="icdab_wrap-ios-app-crash-on-macos"><code>icdab_wrap</code> iOS app crash on macOS</h3>
 <p>If we run the <code>icdab_wrap</code> iOS app natively on an Apple Silicon Mac, it will launch because macOS provides the <code>UIKit</code> framework that <code>icdab_wrap</code> assumes is present. This app is written to demonstrate a problem when a nil optional is dereferenced.</p>
 <p>Upon crash, we see:</p>
 <pre><code>Code Type:             ARM-64 (Native)
@@ -2991,7 +2993,7 @@ amework/Versions/A/UIKitCore
  /System/iOSSupport/usr/lib/swift/libswiftUIKit.dylib</code></pre>
 <p>The above sample of binaries shows that both AppKit and UIKit are present and the system is providing support frameworks in order to allow iOS apps to see the frameworks they are expecting.</p>
 <p>For the most part, these crashes can be analysed as if they were straightforward crashes on iOS. The more likely problem area is one of assumptions about the environment. For example, iOS devices have a gyroscope but macOS devices do not.</p>
-<h2 id="supporting-the-mac-from-ios">Supporting the Mac from iOS</h2>
+<h3 id="supporting-the-mac-from-ios">Supporting the Mac from iOS</h3>
 <p>Apple provide guidance on best practice when deploying iOS apps on Mac; <span class="citation" data-cites="iosOnMac">(“Running Your iOS Apps on macOS” 2020)</span>. The choices would be:</p>
 <ol type="1">
 <li>Decide that the iOS app is not suitable for macOS. In App Store Connect it can be de-configured.</li>
