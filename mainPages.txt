@@ -8,6 +8,7 @@ markdown/SystemDiagnostics.md
 markdown/CrashReport.md
 markdown/AppleSilicon.md
 examples/icdab_avx_osx/avxCrashExplanation.md
+markdown/MacHostingiOS.md
 markdown/PointerAuthentication.md
 examples/icdab_ptr_ios/icdab_ptr_ios_explanation.md
 markdown/AnalyticTroubleShooting.md

@@ -1,6 +1,6 @@
 # Apple Silicon
 
-In this chapter we look at crashes on Apple Silicon Macs, and crashes arising from the use of the Rosetta\index{trademark!Rosetta} translation system.  Furthermore we look at new types of crashes that are possible from multi-architecture code that supports both ARM\index{CPU!ARM} and Intel\index{CPU!Intel} CPUs.
+In this chapter we look at crashes on Apple Silicon Macs, crashes arising from the use of the Rosetta\index{trademark!Rosetta} translation system, and crashes arising from unmodified iOS apps running on macOS.  Furthermore we look at new types of crashes that are possible from multi-architecture code that supports both ARM\index{CPU!ARM} and Intel\index{CPU!Intel} CPUs.
 
 ## What is Rosetta?
 

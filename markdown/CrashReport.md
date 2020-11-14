@@ -6,6 +6,8 @@ which carries a slightly different structure but serves the same purpose.
 
 Note, it is possible for an app to install crash handlers from third parties, either to get enhanced crash reporting diagnostics, or to link application crashes to a web-based service for managing Crash Reports across a potentially large population of users.  In this chapter we assume the app has not done this, and therefore the Apple CrashReport tool comes into play.
 
+Furthermore, there are other variant scenarios where we can crash.  It could be a macOS Intel X86 program running translated on an Apple Silicon Mac, or it could be a iOS ARM app running on an Apple Silicon Mac.  Those subtleties are separated out into the chapter covering Apple Silicon.
+
 When a crash occurs the `ReportCrash`\index{command!ReportCrash} program extracts information from the crashing process\index{process} from the Operating System.  The result is a text file with a `.crash`\index{extension!.crash} extension.
 
 When symbol information is available, Xcode will symbolicate the Crash Report to show symbolic names instead of machine addresses.  This improves the comprehensibility of the report.
@@ -833,6 +835,8 @@ The macOS Crash Report is similar to an iOS Crash Report even though macOS Crash
 Traditionally Mac computers only used the Intel\index{trademark!Intel} CPU but that has changed with the introduction of Apple Silicon.  So we can now see both ARM-64\index{CPU!ARM-64} and X86-64\index{CPU!X86-64} crashes on Mac hardware.  
 
 A number of subtle issues can arise because Apple Silicon Macs can translate X86-64 instructions as well as running native ARM-64 binaries.  Therefore we shall focus on Intel X86-64 crashes in this chapter, and leave Apple Silicon Mac crashes to their own chapter.
+
+Since Apple Silicon Macs and iOS devices share the same underlying CPU architecture, Apple has provided support for unmodified iOS apps to be run on Apple Silicon Macs.  One way to think of this is that macOS is a host operating system but provides iOS support libraries so that guest iOS apps can still make use of the frameworks they are expecting to be in place.  We cover this variant in the Apple Silicon chapter.
 
 ### macOS Crash Report Header Section
 
