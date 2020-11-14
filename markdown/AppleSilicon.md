@@ -2,6 +2,10 @@
 
 In this chapter we look at crashes on Apple Silicon Macs, crashes arising from the use of the Rosetta\index{trademark!Rosetta} translation system, and crashes arising from unmodified iOS apps running on macOS.  Furthermore we look at new types of crashes that are possible from multi-architecture code that supports both ARM\index{CPU!ARM} and Intel\index{CPU!Intel} CPUs.
 
+## What is an Apple Silicon Mac?
+
+Apple Silicon means the design of the chip is from Apple, not from a third party.  The A-series chips from Apple can be considered Apple Silicon.  However, the focus of this chapter are Apple Silicon Macs.  These have commenced with the Apple M1 \index{CPU!M1} chip.  Presumably the reason why these Mac are not called "ARM-based Macs" is that Apple have made a significant contribution at the design level whilst still conforming to the ARM ABI, and these provide the benefits for the customer when switching from Intel-based Macs to Apple Silicon Macs.
+
 ## What is Rosetta?
 
 Rosetta\index{trademark!Rosetta} is an instruction translator present on Apple Silicon Macs.  When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them.  Think of it as a Ahead Of Time (AOT)\index{JIT} compiler. @rosetta  The origins of the technology come from an earlier era when Macs were transitioning from the PowerPC chip to Intel chips.  Apple was assisted by technology from Transitive Technologies Ltd. to produce Rosetta version 1.  @transitive @rosetta_news  In Rosetta version 2, we have a system allowing on a per process basis, Intel instructions to be pre-translated to ARM instructions, and then run at native speed.
