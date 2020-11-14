@@ -122,6 +122,28 @@ I wrote over a period of 3 months but had other tasks and duties during that tim
 
 I planned to write more but I had some work opportunities that came up that were potentially going to limit my time to spend on the book and wasn't sure if it was going to pass the "moonlighting" test for private work.  I would have written chapters explaining about Operating Systems architecture, assembly programming basics, and performance analysis with Instruments.
 
+### Second edition
+
+I wrote the second edition of the book, full-time, over 1 month.  I didn't track my time as closely but I think I was more efficient at doing things.
+
+I improved my tooling, to automatically clean the gutter (by wrapping lines which were in markdown verbose sections).  That took one day.  I also cleaned up my scripting a bit.  I added scripting to allow a translated edition to be produced in a way that would safely fall back to English for missing translations.  I could not fix the Chinese latex issues.  I think my lack of Chinese was going to make it unfeasible to resolve.  I also spent one day learning how to use inkscape to cut out my portrait and then actually doing the cut out work, so I could insert it into the back cover.  So I think I had total 4 days of non-writing overhead in the month.
+
+I finished writing too early because Apple Silicon was released later than my expectations. In fact, the surprises were mostly on the content side.  I knew I had to write about Apple Silicon but did not realise that Pointer Authentication was a relevant topic.  I also missed that I could actually test iOS on Mac with my development setup - I thought that was going to come in later tooling.  I also realised I needed a chapter to cover diagnostic related crashes (such as resource usage related terminations).  So my writing plans did change, but it showed up some very interesting topics.  It also allowed me to provide original research material in the book.
+
+My chinese translator was a welcome surprise and integrating his work was very easy so I got "bonus" material by way of a 1st edition translation in Chinese.
+
+The book is now a nice length, 239 sheets of paper, with the last page numbered 221.  The first edition had a last page numbered 170.
+
+The new material is 3.4 hrs per page.  But there is original research in there so that low number feels like great productivity. Also some of the pages have been re-worked, we code modernisation, new screenshots, etc.  These don't show in the numbers.
+
+Overall I was surprised how much additions and modernisations I needed to do for the book.  Especially with the archicture transition to Apple Silicon, I think this is a especially fast-moving period in the Apple developer ecosystem.
+
+Producing the actual print edition and kindle editions was easy because my approach and tooling made the book more-or-less fit for publishing straight away.  I did not need to do any fix-ups.
+
+I am making the second edition, in ebook, and in print, as cheap as I reasonably can, with only a small margin over costs.  I think I am providing good value!
+
+I think a two year update cycle feels right for this kind of book.  Lets see what the future holds!
+
 ## Supporting software
 
 ### Essential Software
