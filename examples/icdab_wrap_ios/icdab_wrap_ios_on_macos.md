@@ -1,4 +1,4 @@
-## `icdab_wrap` iOS app crash on macOS
+### `icdab_wrap` iOS app crash on macOS
 
 If we run the `icdab_wrap` iOS app natively on an Apple Silicon Mac, it will launch because macOS provides the `UIKit` framework that `icdab_wrap` assumes is present.  This app is written to demonstrate a problem when a nil optional is dereferenced.
 
@@ -146,7 +146,7 @@ The above sample of binaries shows that both AppKit and UIKit are present and th
 
 For the most part, these crashes can be analysed as if they were straightforward crashes on iOS.  The more likely problem area is one of assumptions about the environment.  For example, iOS devices have a gyroscope but macOS devices do not.
 
-## Supporting the Mac from iOS
+### Supporting the Mac from iOS
 
 Apple provide guidance on best practice when deploying iOS apps on Mac; @iosOnMac.  The choices would be:
 

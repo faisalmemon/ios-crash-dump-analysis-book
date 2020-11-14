@@ -4,7 +4,7 @@ In this chapter we look at crashes on Apple Silicon Macs, crashes arising from t
 
 ## What is an Apple Silicon Mac?
 
-Apple Silicon means the design of the chip is from Apple, not from a third party.  The A-series chips from Apple can be considered Apple Silicon.  However, the focus of this chapter are Apple Silicon Macs.  These have commenced with the Apple M1 \index{CPU!M1} chip.  Presumably the reason why these Mac are not called "ARM-based Macs" is that Apple have made a significant contribution at the design level whilst still conforming to the ARM ABI, and these provide the benefits for the customer when switching from Intel-based Macs to Apple Silicon Macs.
+Apple Silicon means the design of the chip is from Apple, not from a third party.  The A-series chips from Apple can be considered Apple Silicon.  However, the focus of this chapter are Apple Silicon Macs.  These have commenced with the Apple M1 \index{CPU!M1} chip.  Presumably the reason why these Macs are not called "ARM-based Macs" is that Apple have made a significant contribution at the design level whilst still conforming to the ARM ABI.  These provide marketable benefits for the customer when switching from Intel-based Macs to Apple Silicon Macs, such as long battery life and high performance.
 
 ## What is Rosetta?
 
