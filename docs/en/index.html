@@ -314,7 +314,7 @@
 <p>Apple makes no explicit or implied endorsement of this work. Materials in this book have been determined from public information sources and binaries, or materials provided by the Apple Software Development Kits.</p>
 <p>Positions held by the author, as an employee or contractor, at past or future companies and institutions makes no explicit or implied endorsement of this work by those entities.</p>
 <p>Every effort has been made to identify trademark terms in this text. If there is an error or omission, please contact the author. We have thus far recognized the following trademarks:</p>
-<p>ARM, Android, App Store, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Intel, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Rosetta, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iPhone 11, iPhone XR, iPhone XS, iPhone XS Max, macOS, tvOS, watchOS.</p>
+<p>ARM, Android, Apple, Apple Watch, BridgeOS, GitHub, Hopper, IDA Pro, Kepner-Tregoe, Kindle Create, MacBook Pro, Objective-C, Objective-C++, QuickEdit, Siri, Snapchat, Sun Microsystems, Swift, TestFlight, UNIX, Xcode, Xcode Instruments, iOS, iPad, iPhone, iTunes Connect, macOS, tvOS, watchOS.</p>
 <h1 id="preface">Preface</h1>
 <h2 id="first-edition">First Edition</h2>
 <p>This book grew from an inspiration gained back in the late 1990s.</p>
@@ -2935,7 +2935,7 @@ Fatal error: Unexpectedly found nil while implicitly unwrapping
  88 (AppDelegate.swift:12)
 24  libdyld.dylib                       0x00000001c758ca50 start
  + 4</code></pre>
-<p>This shows that when the program was loaded by <code>libdyld.dylib</code>, the UKit it expected, <code>UIKitCore</code>, was implemented via <code>UIKitMacHelper</code> support layer.</p>
+<p>This shows that when the program was loaded by <code>libdyld.dylib</code>, the UIKit it expected, <code>UIKitCore</code>, was implemented via <code>UIKitMacHelper</code> support layer.</p>
 <pre><code>Binary Images:
        0x10492c000 -        0x10493bfff
  +www.perivalebluebell.icdab-wrap (1.0 - 1)
@@ -2992,7 +2992,7 @@ amework/Versions/A/UIKitCore
  &lt;68377BCA-6493-3E34-920E-0765BD07F2A7&gt;
  /System/iOSSupport/usr/lib/swift/libswiftUIKit.dylib</code></pre>
 <p>The above sample of binaries shows that both AppKit and UIKit are present and the system is providing support frameworks in order to allow iOS apps to see the frameworks they are expecting.</p>
-<p>For the most part, these crashes can be analysed as if they were straightforward crashes on iOS. The more likely problem area is one of assumptions about the environment. For example, iOS devices have a gyroscope but macOS devices do not.</p>
+<p>For the most part, these crashes can be analyzed as if they were straightforward crashes on iOS. The more likely problem area is one of assumptions about the environment. For example, iOS devices have a gyroscope but macOS devices do not.</p>
 <h3 id="supporting-the-mac-from-ios">Supporting the Mac from iOS</h3>
 <p>Apple provide guidance on best practice when deploying iOS apps on Mac; <span class="citation" data-cites="iosOnMac">(“Running Your iOS Apps on macOS” 2020)</span>. The choices would be:</p>
 <ol type="1">
