@@ -5,13 +5,15 @@
 一般来说，作为应用程序的开发人员，我们比不需要再深入研究。但是，如果我们的问题可能是由一系列无法解释的事件或更加复杂的系统与硬件或 Apple 提供的系统服务的交互而引发的话，那么我们不仅需要查看崩溃报告，还需要研究系统诊断信息。
 
 ## 提取系统诊断信息
-在我们复现崩溃环境时，我们可能需要安装移动设备管理配置文件（以打开某些调试子系统），或创建虚拟网络接口（用于网络嗅探）。苹果提供了一个涵盖每个场景的网页。  @apple-sysdiag  
+在我们复现崩溃环境时，我们可能需要安装移动设备管理配置文件（以打开某些调试子系统），或创建虚拟网络接口（用于网络嗅探）。苹果提供了一个涵盖每个场景的网页。@apple-sysdiag  
 
 在 iOS 设备上，基本的思路是我们安装一个配置文件，该配置文件会更改设备以产生更多日志记录，然后重现崩溃（或是让客户进行这样的操作）。然后，我们按设备上的特殊键序列（例如，音量按钮和侧面按钮）。 设备会短暂振动，表明它正在运行程序 `sysdiagnose`\index{command!sysdiagnose}，该程序会提取许多日志文件。  这可能需要花费 10分钟来处理，并生成一个大文件（压缩的tar文件）。
 
 然后，与Mac共享本地sysdiagnosis文件。我们点开菜单 `Settings > Privacy > Analytics and Improvements > Analytics Data`。 向下滚动以查找开头的文件 `sysdiagnose_YEAR.MONTH.DAY_*`.
 
 ![An example sysdiagnose log file](screenshots/sysdiagnose_example.jpeg)
+
+一个 sysdiagnose 日志文件示例
 
 选择此文件后，我们将得到一个空白屏幕，但这不是问题。 我们单击顶部工具栏中的 _Share_ 图标，然后选择适当的共享目标。
 
@@ -21,15 +23,15 @@
 
 在 macOS 上也可以使用等效方法。
 
-## Resource Profile logs
+## 资源配置文件日志
 
-Alongside the `sysdiagnose` logs we see that our device will have many other files.  These give insights into the general health of the system.
+除了`sysdiagnose` 日志，我们可以看到我们的设备还有很多其他文件。这些信息可以让我们了解系统的总体运行状况。
 
-### CPU Resource logs
+### CPU 资源日志
 
-`SUBSYSTEM.cpu_resource-YEAR.MONTH.DAY_*.ips.synced` covers _CPU Resource_ profile logs.
+`SUBSYSTEM.cpu_resource-YEAR.MONTH.DAY_*.ips.synced` 包含 _CPU Resource_ 配置文件日志。
 
-Here is an example from `apfs_defragd`, the APFS\index{filesystem!APFS} filesystem defragmenter.
+这是一个来自 `apfs_defragd` 的例子，APFS\index{filesystem!APFS} 文件系统碎片整理程序。
 
 ```
 {"share_with_app_devs":1,"app_version":"","bug_type":"202","times
@@ -147,11 +149,11 @@ Power Source:     0 samples on Battery, 3 samples on AC
 .
 ```
 
-### Disk Utilization Logs
+### 磁盘利用率日志
 
-`SUBSYSTEM.diskwrites_resource-YEAR.MONTH.DAY_*.ips.synced` covers _Disk Utilization_ profile logs.
+`SUBSYSTEM.diskwrites_resource-YEAR.MONTH.DAY_*.ips.synced` 包含 _Disk Utilization_ 配置文件日志。
 
-Here is an example from `assetd`, the Asset Manager.
+这是一个来自 `assetd` 的例子，Asset 管理软件。
 ```
 {"share_with_app_devs":1,"app_version":"","bug_type":"145","times
 tamp":"2020-10-18 02:55:57.00 +0100","os_version":"iPhone OS 14.2
@@ -251,35 +253,35 @@ sd
 
 ### Jetsam 报告
 
-The term "Jetsam" is originally a Nautical term, where a ship would throw off unwanted items into the sea, to lighten the ship.  In iOS, Jetsam\index{Memory!Jetsam}\index{Jetsam} is the system that ejects applications from memory in order to service the needs of the current foremost app.
+`Jetsam` 一词最初是一个航海术语，指船只将不想要的东西扔进海里，以减轻船的重量。在 iOS 中，`Jetsam` \index{Memory!Jetsam}\index{Jetsam} 是将当前应用从内存中弹出以满足当前最重要应用需求的系统。
 
-Aggressive memory management is a hallmark of iOS as compared to macOS which has very liberal limits on memory usage.  Mobile Devices have traditionally been memory constrained devices.  However, as Mobile Devices become more capable, in particular iPad\index{iPad} devices, the difference is reduced.  In modern times, it is the Apple Watch\index{Apple Watch} that is considered a memory constrained device.  Nevertheless, the strict memory management system of Jetsam serves us well to keep the user experience optimal for a given amount of RAM.
+与 macOS 相比，激进（积极）的内存管理是 iOS 的一个特点，macOS 对内存使用有非常宽松的限制。通俗来说，移动设备是内存受限的设备。然而，随着移动设备的功能越来越强大，特别是 iPad\index{iPad} 设备，这种差异已经越来越小。现在，Apple Watch\index{Apple Watch} 被认为是内存受限的设备。然而，`Jetsam`  严格的内存管理系统为我们提供了良好的服务，在给定的 RAM 量下保证最佳的用户体验。 
 
-It is best to think of Jetsam as a normal behavior, and being ejected from memory is not necessarily a fault of the design of our app.  We could have been running in the background consuming a modest amount of memory when the user used the Camera app and did a burst of photo taking and image effects that drove up memory usage.
+最好把 `Jetsam` 看作是正常的行为，从内存中弹出并不一定是我们应用程序设计的错误。我们本来可以在后台运行，当用户使用拍照功能进行大量的拍照和图像特效时，内存使用量会增加。
 
-If we get ejected from memory frequently, we must consider whether we are using too much memory in the background; we should aim for about 50 MB or less.  We should also write our app to save context, destroy caches, and save state so it can then be resumed from the saved state.  Then we should hook in such functionality whenever we get a message from the system indicating memory pressure, such as the `applicationDidReceiveMemoryWarning:`\index{applicationDidReceiveMemoryWarning} callback in our `AppDelegate`.
+如果我们经常从内存中弹出，我们必须考虑我们是否在后台使用了过多的内存； 我们的目标应该是不超过 50 MB或更小。我们还应该编写程序方法来保存上下文、销毁缓存和保存状态，以便从保存的状态恢复。然后我们应该 Hook 在这样的功能，当我们从系统得到一个内存警告消息时，如 `AppDelegate` 中的 `applicationDidReceiveMemoryWarning:` \index{applicationDidReceiveMemoryWarning}  的回调 ，执行该方法。
 
-Apple document the various reasons that a Jetsam event can occur, and memory management techniques to avoid them.  @jetsamreport
+Apple 记录了 `Jetsam` 事件可能发生的各种原因，以及如何避免它们的内存管理技术。@jetsamreport
 
-The actual limits are not documented, but generally apps can have more background memory use than app extensions.  App extensions come in various types of extension, each with their own limits.  For example, a photo editing Application Extension\index{Application Extension} will have a large limit due to it generally being a heavy-weight image processing program.
+并没有实际的文档说明这种限制，但是通常应用程序比应用程序扩展拥有有更多的后台内存使用。应用程序扩展有各种类型的扩展，每一种都有自己的限制。例如，一个照片编辑应用程序扩展会有很大的限制，因为它通常是一个重量级的图像处理程序。
 
-The first thing to look for in a Jetsam report is the *reason* field.
+在 Jetsam 报告中首先要查找的是 *reason* 字段。
 
 Jetsam Reason|Meaning
 --|--
-`per-process-limit`|  The resident memory limit was reached.  The limit varies depending type of the app, or app extension.
-`vm-pageshortage`| The kernel wants to give clean pages to another process but has run out of them, so killed our process.
-`vnode-limit`| The kernel has run out of vnodes (a generalization of UNIX files) so is killing our process to free some more vnodes.
-`highwater`|Too much physical memory used by process.
-`fc-thrashing`| Too much random access to memory mapped files causing fragmentation/thrashing of the file cache.
-`jettisoned`|  Some other reason for the Jetsam.
+`per-process-limit`| 已达到常驻内存限制。 该限制因应用程序或扩展程序的类型而异。 
+`vm-pageshortage`| 内核希望提供干净的页面给另一个进程，但是已经用完了，因此杀死了我们的进程。 
+`vnode-limit`| 内核已经用完了 vnode（UNIX文件的一种泛化），因此正在终止我们释放更多vnode的进程。 
+`highwater`|进程使用过多的物理内存。
+`fc-thrashing`| 对内存映射文件的过多随机访问导致了文件缓存的碎片/抖动。 
+`jettisoned`| Jetsam 的其他原因。 
 
-In practice, we have not seen `fc-thrashing` or `jettisoned` but they remain a possibility.
+实际上，我们还没有见过 `fc-thrashing` 或 `jettisoned `的情况，但是它们仍然是可能的。
 
 
-Jetsam reports are named `JetsamEvent-YEAR.MONTH.DAY_*.ips.synced`.
+Jetsam 报告被命名 `JetsamEvent-YEAR.MONTH.DAY_*.ips.synced`.
 
-Here is an example report showing a "highwater" event for `wifianalyticsd`:
+下面是一个例子报告说明了 `highwater` 事件的 `wifianalyticsd`：
 
 ```
 {"bug_type":"298","timestamp":"2020-10-15 17:29:58.79
