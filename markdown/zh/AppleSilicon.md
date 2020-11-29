@@ -1,83 +1,83 @@
 # Apple Silicon
 
-In this chapter we look at crashes on Apple Silicon Macs, crashes arising from the use of the Rosetta\index{trademark!Rosetta} translation system, and crashes arising from unmodified iOS apps running on macOS.  Furthermore we look at new types of crashes that are possible from multi-architecture code that supports both ARM\index{CPU!ARM} and Intel\index{CPU!Intel} CPUs.
+在本章中，我们着眼于 Apple Silicon Mac 上的崩溃，比如，因使用 Rosetta \index{trademark!Rosetta} 翻译系统而引起的崩溃以及因在 macOS 上运行的未修改 iOS 应用程序而引起的崩溃。 此外，我们还将研究同时支持 ARM \index{CPU!ARM} 和 Intel \index{CPU!Intel}  CPU的多体系结构代码可能导致的新型崩溃。
 
-## What is an Apple Silicon Mac?
+## 什么是 Apple Silicon Mac?
 
-Apple Silicon means the design of the chip is from Apple, not from a third party.  The A-series chips from Apple can be considered Apple Silicon.  However, the focus of this chapter are Apple Silicon Macs.  These have commenced with the Apple M1 \index{CPU!M1} chip.  Presumably the reason why these Macs are not called "ARM-based Macs" is that Apple have made a significant contribution at the design level whilst still conforming to the ARM ABI.  These provide marketable benefits for the customer when switching from Intel-based Macs to Apple Silicon Macs, such as long battery life and high performance.
+Apple Silicon表示该芯片的设计来自Apple，而不是第三方。 苹果公司的A系列芯片可以被认为是苹果芯片。 但是，本章重点是Apple Silicon Macs。 这些始于Apple M1芯片。 这些Mac之所以不被称为 _基于ARM的Mac_，可能是因为Apple在设计水平上做出了重大贡献，同时仍然符合ARM ABI。 当从基于 Intel 的 Mac 切换到 Apple Silicon Mac 时，这为客户带来了更优益的市场收益，例如更长的电池寿命和高性能。
 
-## What is Rosetta?
+## 什么是 Rosetta?
 
-Rosetta\index{trademark!Rosetta} is an instruction translator present on Apple Silicon Macs.  When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them.  Think of it as a Ahead Of Time (AOT)\index{JIT} compiler. @rosetta  The origins of the technology come from an earlier era when Macs were transitioning from the PowerPC chip to Intel chips.  Apple was assisted by technology from Transitive Technologies Ltd. to produce Rosetta version 1.  @transitive @rosetta_news  In Rosetta version 2, we have a system allowing on a per process basis, Intel instructions to be pre-translated to ARM instructions, and then run at native speed.
+Rosetta\index{trademark!Rosetta} 是 Apple Silicon Mac 上的指令翻译器。当应用程序将 Intel 指令作为二进制代码的一部分时，它可以将这些指令转换为 ARM 指令，然后运行它们。可以把它看作 AOT \index{JIT} 编译器。@rosetta 这项技术的起源可以追溯到更早的时期，当时mac正在从 PowerPC 芯片过渡到 Intel 芯片。苹果在 Transitive Technologies Ltd. 的技术帮助下研发出了 Rosetta 的第一个版本。@transitive @rosetta_news 在 Rosetta 的第二个版本中，我们的系统允许在每个进程的基础上，将 Intel 指令预先翻译成 ARM 指令，然后以原生速度运行。
 
-### Rosetta binaries
+### Rosetta 的二进制文件
 
-On Apple Silicon Macs, the Rosetta software resides in 
+在 Apple Silicon Mac 上，Rosetta 软件驻留在
 ```
 /Library/Apple/usr/libexec/oah
 ```
 
-Within this directory is the runtime engine, `runtime_t8027`, the translator `oahd-helper`, a command line tool `translate_tool`, and other artifacts.   Its operation is largely transparent to end users apart from a small startup delay or slightly lower performance.  From a crash dump perspective, we see its presence in terms of memory footprint, exception helper and runtime helpers.
+在这个目录下有运行时引擎 `runtime_t8027`、翻译器` oahd-helper`、命令行工具 `translate_tool`和其他工具。它的操作对终端用户来说基本是透明的，除了启动延迟较小或性能稍低。从崩溃分析的角度来看，我们可以从内存占用量，异常帮助程序和运行时帮助程序的角度看到它的存在。
 
-### Rosetta limitations
+### Rosetta 的局限性
 
-Rosetta is a powerful system but it has some limitations.  These concern mainly high performance multimedia applications and Operating System virtualization solutions.
+Rosetta 是一个功能强大的系统，但有一些局限性。这些主要涉及高性能多媒体应用程序和操作系统虚拟化解决方案。
 
-Excluded from Rosetta are:
+Rosetta 并不包括：
 
-- Kernel extensions
-- `x86_64` virtualization support instructions
-- vector instructions, such as AVX, AVX2, and AVX512\index{Vector instruction!AVX}
+- 内核扩展
+- `x86_64` 虚拟化支持说明
+- 矢量指令，例如AVX, AVX2, 和 AVX512\index{Vector instruction!AVX}
 
-Interestingly, Rosetta does support Just-In-Time compilation apps.  These applications are special because they generate their own code and then execute them.  Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable).  Presumably this was because JIT is a common technology for the JavaScript runtime.
+有趣的是，Rosetta 支持即时编译应用程序。这些应用程序非常特殊，因为它们自己生成代码，然后执行代码。大多数应用程序都只有固定的只读代码（程序文本），然后执行这些代码，它们的数据只是可变的（但不是可执行的）。这大概是因为JIT是JavaScript运行时的常用技术。
 
-Apple advise checking for optional hardware features before calling code that utilizes such functionality.  To determine what optional hardware support is present on our platform, we can run `sysctl hw | grep optional`.  In code, we have the `sysctlbyname` function to achieve the same thing.
+Apple 建议在调用使用这种功能的代码之前先检查可选的硬件功能。 我们可以通过运行 `sysctl hw | grep optional` 来确定平台上存在哪些可选硬件支持。在代码中，我们可以调用`sysctlbyname` 方法来实现同样的功能。
 
-### Forcing Rosetta execution
+### 强制执行 Rosetta
 
-If we accept the standard build architecture options for our program, which are `Build Active Architecture Only` set to `Yes` for `Debug` builds, and `No` for `Release` builds, then when running under the Debugger, we shall only see Native binaries.  That is because in the Debug case, we do not want to waste time building an architecture not relevant to the machine we are testing on.
+如果我们默认给自己的项目使用标准的构建选项，当在 `Debug` 时将`Build Active Architecture Only` 设置成为`Yes`，而对于`Release`构建则设置为`No`，然后再调试时，我们将只看到本机的二进制文件。 这是因为在 `Debug` 时，我们不想浪费时间来构建与我们正在测试的机器无关的体系结构。
 
-If we do an archive build, `Product > Archive`, and then select `Distribute App` we end up with a Release Build.  With default settings, this will be a Fat Binary\index{file!Fat} File offering `x86` and `arm64` within the multi-architecture binary.
+如果我们进行 `Archive` 构建，`Product > Archive`，然后选择 `Distribute App` 我们最终获得了一个可供发布的版本。 在默认设置下，这将是Fat Binary \index{file!Fat} （我们将其称为胖二进制）文件，在多体系结构的二进制文件中提供 `x86` 和 `arm64`。
 
-Once we have a Fat binary we can use `Finder` app, right-click `File info` to set Rosetta to perform translation of our binary so that on an Apple Silicon Mac, the Intel instructions are translated from the Fat binary.
+一旦我们有了一个 Fat Binary 文件，我们可以使用 `Finder` 应用程序，右键单击`File info`设置 Rosetta 来执行我们的二进制文件的翻译，这样在一个 Apple Silicon Mac 上，Intel 指令就会从 Fat Binary 中翻译出来。
 
 ![](screenshots/univeral_application_icdab_rosetta_thread.png)
 
-## Code Translation Example
-Our working example in this chapter is the `icdab_thread` program; it is available on the web.  @icdabgithub  This program attempts to call `thread_set_state` and then deliberately crashes 60 seconds later using `abort`\index{command!abort}.  It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware.  Nevertheless, this program is interesting because of a closely related artifact upon crashing, the number of times `task_for_pid`\index{command!task for pid} had been called.
+## 翻译后的应用程序示例
+本章的工作示例是`icdab_thread `程序。 可以在网上找到。@icdabgithub  该程序尝试调用 `thread_set_state`，然后在 60 秒后调用`abort` \index{command!abort} 主动崩溃。实际上它并没有办法达到这个效果，因为最近 macOS 的安全增强，以防止使用这样的API，它是恶意软件的攻击载体。尽管如此，这个程序还是很有趣的，因为在崩溃时，一个紧密相关的部分`task_for_pid` \index{command!task for pid} 被多次调用了 。
 
-We have adapted the command line executable program `icdab_thread` into an application which merely calls the same underlying code.  The application is called `icdab_rosetta_thread`.  The reason for this is because UNIX command line executables are not eligible for running Translated but Applications are. 
+我们已经将命令行可执行程序 `icdab_thread` 修改为仅调用相同基础代码的应用程序。这个应用程序就是 `icdab_rosetta_thread`。这是因为 UNIX 命令行可执行文件不适合运行转换后的程序，而应用程序可以。
 
-### `icdab_rosetta_thread` Lipo Information
+### `icdab_rosetta_thread` Lipo 信息
 
-The following command shows our application supports both ARM and Intel instructions.
+以下命令显示我们的应用程序同时支持 ARM 和 Intel 指令。
 ```
 # lipo -archs
  icdab_rosetta_thread.app/Contents/MacOS/icdab_rosetta_thread
 x86_64 arm64
 ```
 
-## Translated Crashes
+## 翻译后的程序崩溃
 
-If we run the `icdab_rosetta_thread` application, clicking on `Start Threads Test`, after one minute we have a crash.  Comparing the crash dump between Native and Translated cases, we see differences in the Crash Report.
+如果我们运行 `icdab_rosetta_thread` 应用程序，点击 `Start Threads Test`，在一分钟后，应用程序发生崩溃。比较原生案例与已翻译案例之间的崩溃分析，我们可以从崩溃报告中的找到差异。
 
-### Code Type
+### 代码类型
 
 ```
 Code Type:             ARM-64 (Native)
 ```
 
-when running natively, becomes under translation,
+当在本地运行时，变成了已翻译
 
 ```
 Code Type:             X86-64 (Translated)
 ```
 
-### Thread Dumps
+### 线程转储
 
-The crashed thread (and others) look similar, apart from the pointers are based much higher in the Translated case.
+崩溃的线程（和其他线程）看起来很相似，只是指针在翻译后的情况下基于更高的指针。
+对于原生的崩溃，我们有：
 
-For the native crash we have:
 ```
 Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
 0   libsystem_kernel.dylib              0x00000001de3015d8
@@ -107,7 +107,7 @@ Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
  start_wqthread + 8
 ```
 
-For the translated crash we have:
+而对于翻译后的案例中崩溃，则有
 ```
 Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
 0   ???                                 0x00007fff0144ff40 ???
@@ -136,9 +136,9 @@ Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
  start_wqthread + 15
 ```
 
-Note the actual line of code in thread stack 0 is `???` in the translated case.  Presumably this is the actual translated code that is synthesized by Rosetta.
+注意，在翻译后的案例中，线程堆栈 0 中的实际代码行是 `???`。 大概这是 Rosetta 合成的实际翻译代码。
 
-Furthermore we have an additional two threads in the translated case, the exception server\index{Rosetta!Exception Server}, and the runtime environment:
+此外，在翻译后的案例中，我们还有另外两个线程，异常服务器\index{Rosetta!Exception Server}和运行时环境：
 ```
 Thread 3:: com.apple.rosetta.exceptionserver
 0   runtime_t8027                       0x00007ffdfff76af8
@@ -153,9 +153,9 @@ Thread 4:
  0x7ffdfff74000 + 370860
 ```
 
-### Crashed Thread State Registers
+### 崩溃的线程状态寄存器
 
-In the native case, we get thread state registers:
+在原生的例子中，我们得到了线程状态寄存器：
 ```
 Thread 1 crashed with ARM Thread State (64-bit):
     x0: 0x0000000000000000   x1: 0x0000000000000000   x2:
@@ -179,7 +179,7 @@ Thread 1 crashed with ARM Thread State (64-bit):
    far: 0x0000000100ff8000  esr: 0x56000080
 ```
 
-In the translated case, we get thread state registers:
+在翻译后的案例中，同样也有线程状态寄存器：
 ```
 Thread 1 crashed with X86 Thread State (64-bit):
   rax: 0x0000000000000000  rbx: 0x000000030600b000  rcx:
@@ -193,18 +193,18 @@ Thread 1 crashed with X86 Thread State (64-bit):
   rip: <unavailable>  rfl: 0x0000000000000287
 ```
 
-### Translated Code information
+### 翻译的代码信息
 
-In the translated case, we get extra information, presumably useful for those engineers that work on debugging Rosetta:
+在翻译后的案例中，我们会获得更多信息，这可能对那些从事调试Rosetta的工程师有用：
 ```
 Translated Code Information:
   tmp0: 0xffffffffffffffff tmp1: 0x00007fff0144ff14 tmp2:
  0x00007fff6bdc4808
 ```
 
-### External Modification Summary
+### 外部修改摘要
 
-In the native case, we saw:
+在原生的例子中，我们看到：
 ```
 External Modification Summary:
   Calls made by other processes targeting this process:
@@ -221,9 +221,10 @@ External Modification Summary:
     thread_set_state: 804
 ```
 
-Our code had attempted to call `thread_set_state` but was not able to (under any platform configuration due to macOS restrictions).
+我们的代码曾尝试调用 `thread_set_state`，但未能（由于 macOS 限制，在任何平台配置下都不行）。
 
-Looking that the translated case,
+然后我们看一下翻译后的示例：
+
 ```
 External Modification Summary:
   Calls made by other processes targeting this process:
@@ -240,13 +241,13 @@ External Modification Summary:
     thread_set_state: 804
 ```
 
-We see almost the same statistics, but interestingly we have `task_for_pid`\index{command!task for pid} set to 1.  So the translation environment only did a minimal observation/modification of the actual process under translation.
+我们看到几乎相同的统计信息，但是有趣的是，我们将`task_for_pid` \index{command!task for pid} 设置为 1。因此，翻译环境仅对翻译过程进行了最小的观察/修改。
 
-### Virtual Memory Regions
+### 虚拟内存区域
 
-The translated version of the program runs a bit heavier on RAM usage than the native version.
+该程序的翻译版本在 RAM 使用率上比原生版本高。
 
-In the native case, we have:
+在原生的案例中，我们可以看到：
 ```
                                 VIRTUAL   REGION
 REGION TYPE                        SIZE    COUNT (non-coalesced)
@@ -255,7 +256,7 @@ TOTAL                              1.7G     2053
 TOTAL, minus reserved VM space     1.3G     2053
 ```
 
-versus the translated case:
+而翻译后的情况则是：
 
 ```
 REGION TYPE                        SIZE    COUNT (non-coalesced)
@@ -264,7 +265,7 @@ TOTAL                              5.4G     1512
 TOTAL, minus reserved VM space     5.1G     1512
 ```
 
-Note in the translated case we have additional Virtual Memory regions for Rosetta:
+请注意，在翻译后的情况下，我们为 Rosetta 提供了其他虚拟内存区域：
 ```
 Rosetta Arena                     2048K        1
 Rosetta Generic                    864K       19
@@ -274,8 +275,8 @@ Rosetta Return Stack               192K       12
 Rosetta Thread Context             192K       12
 ```
 
-## Rosetta Crashes
+## Rosetta 崩溃
 
-Rosetta is a powerful translation system.  But it does not translate all X86-64 instructions.  Vector instructions, as an example, cannot be translated and generate a crash when encountered.  @rosetta
+Rosetta 是功能强大的翻译系统。 但是它不能翻译所有 X86-64指令。 例如，矢量指令无法翻译，遇到时会发生崩溃。 @rosetta
 
-Before diagnosing specific problems, it is worth familiarizing ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing.  @rosettaPortingGuide
+在诊断特定问题之前，有必要先熟悉一下 Apple 的 Porting Guide，因为这可以帮助我们针对程序可能崩溃的原因提出合理的假设。 @rosettaPortingGuide

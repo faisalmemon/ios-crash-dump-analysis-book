@@ -6,5 +6,5 @@
 
 我更新了文章内容，并对示例进行了现代化处理，以反映最新的 OS 版本及SDK。在撰写本文时，它们是 iOS 12.2\index{iOS!14.2}，macOS 11.0 Big Sur\index{macOS!Big Sur}\index{macOS!11.0} 和 Xcode 12.2\index{Xcode!12.2}。
 
-在我看来，Apple 产品的发展方向是朝着 Apple Silicon芯片发展，该芯片利用 ARM\index{trademark!ARM} ABI\index{ABI} ，以及该体系结构的最新版本所提供的高级功能。为此，我将引入一些新的章节，介绍 Apple Silicon 上的模式转换崩溃和 Pointer Authentication （指针校验）崩溃。
+在我看来，Apple 产品的发展方向是朝着 Apple Silicon芯片发展，该芯片利用 ARM\index{trademark!ARM} ABI\index{ABI} ，以及该体系结构的最新版本所提供的高级功能。为此，我将引入一些新的章节，介绍 Apple Silicon 上的模式转换崩溃和 Pointer Authentication （指针验证机制）崩溃。
 
