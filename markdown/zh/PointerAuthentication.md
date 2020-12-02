@@ -8,7 +8,7 @@
 
 ## 配置指针验证机制
 
-在使用 A12 或更高版本的设备，Apple 在设备内核中启用了指针验证机制。对于用户空间代码，指针身份验证是一项可选功能。可以在项目的 构建设置 中来启用它，如图为`icdab_ptr` 示例__Enable Pointer Authentication_（启用指针验证机制）。 @icdabgithub  我们将架构 `arm64e`  添加到架构设置中。
+在使用 A12 或更高版本的设备，Apple 在设备内核中启用了指针验证机制。对于用户空间代码，指针身份验证是一项可选功能。可以在项目的_构建设置_中来启用它，如图为 `icdab_ptr` 示例 _Enable Pointer Authentication_（启用指针验证机制）。 @icdabgithub  我们将架构 `arm64e`  添加到架构设置中。
 
 ![Enable Pointer Authentication](screenshots/enable_ptr_auth.png)
 

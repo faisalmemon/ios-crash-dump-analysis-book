@@ -1,16 +1,16 @@
-# Failed Crashes
+# Failed的崩溃
 
-In this chapter we discuss _Failed_ \index{crash!failed}Crashes.  That is those crashes which did not end up with a proper crash report returned to us.
-Sometimes this happens due to the third party crash reporting framework that is faulty.  In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.
+在本章中，我们讨论 _Failed_\index{crash!failed} 崩溃。 就是那些没有以正确的崩溃报告返回给我们的崩溃。
 
-## Signal handling failures
+有时，这是由于第三方崩溃报告框架的错误造成的。在本章中，我们将重点讨论失败的原生原因，并解释一些可能是导致这种现象发生的场景。
 
-When a program is being debugged, it is conceptually in a similar state to when it is crashed.  That is because we want to go into the process and inspect its state (or potentially change the program by inserting breakpoints).  In iOS 13.5 (fixed in iOS 14.x), there is a glitch where if an application tells the Operating System it is expecting to be debugged, then when the system wants to kill it off as a result of a crash 
-it finds that it cannot kill the app.  Instead, the entire platform jams up and needs a reset.
+## 信号处理失败
 
-If we have an application we has some anti-reverse engineering\index{software!anti-reverse engineering}, or anti-debugging\index{software!anti-debugging} functionality, perhaps through framework, we might end up in this situation because making an app pretend it is already being debugged is a common technique to preventing a debugger attaching.
+在调试程序时，从概念上讲，它与崩溃时的状态类似。 这是因为我们要进入流程并检查其状态（或可能通过插入断点来更改程序）。 在iOS 13.5（在iOS 14.x中已修复）中，有一个小故障：如果应用程序告诉操作系统它希望进行调试，那么当系统希望由于崩溃而将其杀死时它发现它无法杀死该应用程序。 然后，整个系统卡死，需要重新设置。
 
-The application `icdab_pt` demonstrates the problem.  @icdabgithub.  @jitios.
+如果我们有一个应用程序，则可能具有一些反逆向工程\index{software!anti-reverse engineering}或反调试功能\index{software!anti-debugging} （可能通过框架），我们可能最终会遇到这种情况，因为使一个应用程序假装它已经被调试是防止调试器连接的一种常用技术。
+
+应用程序 `icdab_pt` 演示了该问题。 @icdabgithub.  @jitios.
 
 ```
 #define SIZE 4096
@@ -43,8 +43,8 @@ int ptrace(int, pid_t, caddr_t, int); // private method
 }
 ```
 
-The above code causes the same disruption to crash reporting on a simulator as it does on target hardware.
-For the sake of convenience, we focus on the simulator target as it is easy to reset, and to compare different OS versions.
+上面的代码会使得在模拟器上崩溃报告与在目标硬件上造成的崩溃报告相同。
+为了方便起见，我们将重点放在测试模拟器上，因为它易于重置，并且可以比较不同的 OS 版本。
 
-When we run on iOS 13.5\index{iOS!13.5} we find that the system hangs when passed in `YES`, but crashes properly when passed `NO`.  On iOS 14.x\index{iOS!14.x} we immediately get a crash in both circumstances.
+当我们在 iOS 13.5\index{iOS!13.5} 上运行时，我们发现当传值为 `YES` 时系统挂起，但是当传值为 `NO` 时系统正常崩溃。在 iOS 14.x\index{iOS!14.x}，这两种情况下都会立即崩溃。
 

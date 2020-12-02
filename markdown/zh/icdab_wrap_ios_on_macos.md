@@ -1,8 +1,8 @@
 ### `icdab_wrap` iOS应用程序在macOS上崩溃
 
-If we run the `icdab_wrap` iOS app natively on an Apple Silicon Mac, it will launch because macOS provides the `UIKit` framework that `icdab_wrap` assumes is present.  This app is written to demonstrate a problem when a nil optional is dereferenced.
+如果我们在 Apple Silicon Mac 上运行 iOS 应用 `icdab_wrap` ，它可以正常加载，是因为macOS提供了 `UIKit` 框架，而 `icdab_wrap` 也假定该框架已存在。改应用程序是为了来演示一个问题，解包 Nil 可选项。
 
-Upon crash, we see:
+崩溃时，我们可以看到：
 ```
 Code Type:             ARM-64 (Native)
 Parent Process:        ??? [1]
@@ -10,7 +10,7 @@ Responsible:           icdab_wrap [2802]
 User ID:               501
 ```
 
-This shows that the application was running native code, not translated code.
+这表明应用程序正在运行原生代码，而不是翻译过的代码。
 
 ```
 Date/Time:             2020-11-14 11:58:17.668 +0000
@@ -19,7 +19,7 @@ Report Version:        12
 Anonymous UUID:        0118DF8D-2876-0263-8668-41B1482DDC38
 ```
 
-This shows we were obviously running on a Mac.
+这表明我们很明显的是在 Mac 上运行。
 
 ```
 System Integrity Protection: enabled
@@ -42,7 +42,7 @@ Fatal error: Unexpectedly found nil while implicitly unwrapping
  line 45
 ```
 
-This shows the program crashed unwrapping a nil optional.
+这说明程序崩溃时正在解包 Nil 可选项。
 
 ```
 Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
@@ -82,7 +82,7 @@ Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
  + 4
 ```
 
-This shows that when the program was loaded by `libdyld.dylib`, the UIKit it expected, `UIKitCore`, was implemented via `UIKitMacHelper` support layer.
+这表明当程序被加载时 `libdyld.dylib`，它所期望的 UIKit `UIKitCore` 是通过 `UIKitMacHelper` 支持层实现的。
 
 ```
 Binary Images:
@@ -144,20 +144,20 @@ amework/Versions/A/UIKitCore
 
 The above sample of binaries shows that both AppKit and UIKit are present and the system is providing support frameworks in order to allow iOS apps to see the frameworks they are expecting.
 
-For the most part, these crashes can be analyzed as if they were straightforward crashes on iOS.  The more likely problem area is one of assumptions about the environment.  For example, iOS devices have a gyroscope but macOS devices do not.
+在大多数情况下，这些崩溃可以像在 iOS 上崩溃一样直接进行分析。问题很有可能是由于不同的物理环境导致的。例如，iOS 设备具有陀螺仪，而 macOS 设备则没有。
 
-### Supporting the Mac from iOS
+### 在 Mac 上支持 iOS
 
-Apple provide guidance on best practice when deploying iOS apps on Mac; @iosOnMac.  The choices would be:
+Apple 提供了在 Mac 上部署 iOS 应用程序的最佳实践指南； @iosOnMac。你可以进行如下操作：
 
-1. Decide that the iOS app is not suitable for macOS.  In App Store Connect\index{App Store Connect} it can be de-configured.
-2. Allow the app to be installed on iOS but add checks for available optional hardware functionality.
-3. Enhance the app to use alternate features more accessible to Mac users.  For example, add iOS keyboard support.
-4. Add code to detect the iOS-on-Mac scenario. \index{iOS on Mac}
-5. Do a port to Mac, via Mac Catalyst \index{Mac Catalyst} technology.  This would first mean having a great iPadOS app as a starting point.
-6. Write a native macOS app.
+1. 如果确定自己的 iOS 应用程序不适合 macOS。在 App Store Connect\index{App Store Connect} 中可以取消配置。
+2. 允许在 iOS 上安装的应用程序安装在 macOS 上，但是添加检查可用的可选硬件功能。
+3. 增强该应用程序，使 Mac 用户更易于使用替代功能。 例如，添加iOS键盘支持。
+4. 添加代码以检测 _iOS-on-Mac_ 的场景。\index{iOS on Mac}
+5. 通过 Mac Catalyst \index{Mac Catalyst}  技术连接到Mac。这意味着首先得拥有一个出色的iPadOS应用。
+6. 编写纯原生 macOS 应用程序。
 
-For example, in the app `icdab_gyro` we show how to detect the iOS-on-Mac scenario:
+例如，在应用程序 `icdab_gyro` 我们将展示如何检测 _iOS-on-Mac_ 的场景：
 
 ```
         let info = ProcessInfo()
@@ -168,12 +168,12 @@ For example, in the app `icdab_gyro` we show how to detect the iOS-on-Mac scenar
         }
 ```
 
-Furthermore, when using the Gyroscope, we have
+此外，当使用陀螺仪时
 ```
 var motion = CMMotionManager()
 ```
 
-and use the gyroscope only if available:
+并仅在可用时使用陀螺仪：
 ```
 if motion.isGyroAvailable {
           self.motion.gyroUpdateInterval = 1.0 / 60.0

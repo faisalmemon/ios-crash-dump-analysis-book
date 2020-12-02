@@ -1,14 +1,13 @@
-### `icdab_avx` vector instruction crash
+### `icdab_avx` 矢量指令崩溃
 
-When an Intel AVX vector instruction\index{Vector instruction!AVX} is encountered on a Apple Silicon Mac running the app using translation, we get a crash.  We have a sample application, `icdab_avx`, that demonstrates this.
+当在使用翻译运行应用程序的 Apple Silicon Mac 上遇到英特尔 AVX 矢量指令\index{Vector instruction!AVX} 时，我们就会崩溃。我们用一个示例应用程序 `icdab_avx  `来演示了这一点。
 
-The crash Code Type will be:
+崩溃代码类型将为：
 ```
 Code Type:             X86-64 (Translated)
 ```
 
-The crash type will be `EXC_BAD_INSTRUCTION` as follows:
-\index{signal!SIGILL}
+崩溃类型将为`EXC_BAD_INSTRUCTION`，如下所示：\index{signal!SIGILL}
 ```
 Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
 Exception Codes:       0x0000000000000001, 0x0000000000000000
@@ -19,7 +18,7 @@ Termination Reason:    Namespace SIGNAL, Code 0x4
 Terminating Process:   exc handler [26823]
 ```
 
-The thread state upon crash in our case is:
+在我们的情况下，崩溃时的线程状态为：
 
 ```
 Thread 0 crashed with X86 Thread State (64-bit):
@@ -34,7 +33,7 @@ Thread 0 crashed with X86 Thread State (64-bit):
   rip: 0x00000001047d56cb  rfl: 0x0000000000000206
 ```
 
-The application binary (program text) is loaded as follows:
+应用程序二进制文件（程序文本）按如下方式加载:
 ```
 Binary Images:
        0x1047d4000 -        0x1047d7fff
@@ -43,7 +42,7 @@ Binary Images:
  /Users/USER/Desktop/*/icdab_avx.app/Contents/MacOS/icdab_avx
 ```
 
-If we see that an Apple Silicon Mac has crashed our app in this way, we could quickly search for any vector instructions\index{Vector instruction!AVX} if we have such a suspicion.
+如果我们发现Apple Silicon Mac 以这种方式使我们的应用程序崩溃，如果我们有这样的怀疑，我们可以迅速搜索任何矢量指令 \index{Vector instruction!AVX}。
 
 ```
 # objdump -d icdab_avx.app/Contents/MacOS/icdab_avx | grep vmov |
@@ -70,16 +69,17 @@ If we see that an Apple Silicon Mac has crashed our app in this way, we could qu
  128(%rsp)
 ```
 
-However, to be more precise, we can make use of the instruction pointer at the time of the crash.
-We see that from the crashed thread state, we have:
+但是，更确切地说，我们可以在崩溃时使用指令指针。
+我们从崩溃的线程状态中看到，我们有：
+
 ```
   rip: 0x00000001047d56cb  rfl: 0x0000000000000206
 ```
-and we see from Binary Images, the program was loaded at address `0x1047d4000`.
+我们从Binary Images中看到，该程序已加载到地址`0x1047d4000`。
 
-Using the techniques we explored in the _Symbolification_ chapter, we can load up the icdab_avx binary in Hopper, change the base address of the binary to `0x1047d4000` and then goto the instruction pointer, `rip`, address `0x00000001047d56cb`.
+使用我们在 _Symbolification_ 章节中探讨的技术，我们可以在 Hopper 中加载icdab_avx 二进制文件，将二进制文件的基址更改为`0x1047d4000`，然后转到指令指针`rip`和地址`0x00000001047d56cb`。
 
-We then see the assembly dump:
+然后，我们看到程序集转储：
 ```
 _compute_delta:
 push       rbp          ; CODE
@@ -100,10 +100,10 @@ vmovss     xmm0, dword [rsp+0x160+var_BC]
 vmovss     xmm1, dword [rsp+0x160+var_C0]
 ```
 
-So we didn't land on the exact instruction that failed, but we did land on the function at fault, `compute_delta`, which looks to have been inlined in this Release binary due to it being within the `runVectorOperationsButtonAction` method.  Nevertheless, we've been given enough help to be able to explore the binary in the relevant area and establish confirmation that the vector operation, `vmovss` was called.  This is not supported by Rosetta.
+因此，虽然我们没有找到失败的确切指令，但是找到了出现错误的函数 `compute_delta`，它位于`runVectorOperationsButtonAction `方法中，它看起来已经被内联到这个版本二进制文件中。尽管如此，我们已经获得了足够的帮助，能够在相关区域中探索二进制文件并确定确认进行了向量操作`vmovss`。 Rosetta不支持此功能。
 
 
-Our original code that caused the issue was:
+导致该问题的原始代码为：
 ```
 void
 compute_delta() {
@@ -125,7 +125,7 @@ compute_delta() {
 }
 ```
 
-In order to avoid the problem we should have used a utility function to detect if the environment supported AVX\index{Vector instruction!AVX}, as follows:
+为了避免此问题，我们应该使用一个有用的方法来检测环境是否支持 AVX\index{Vector instruction!AVX}，如下所示：
 ```
 bool
 avx_v1_supported() {
@@ -143,5 +143,5 @@ avx_v1_supported() {
 }
 ```
 
-This function returns `true` is AVX version 1 is supported (and there was no error in retrieving the information).
+如果支持 AVX 版本1（并且在检索信息时没有错误），此函数返回 `true`。
 
