@@ -1,4 +1,4 @@
-# Failed的崩溃
+# Failed 的崩溃
 
 在本章中，我们讨论 _Failed_\index{crash!failed} 崩溃。 就是那些没有以正确的崩溃报告返回给我们的崩溃。
 

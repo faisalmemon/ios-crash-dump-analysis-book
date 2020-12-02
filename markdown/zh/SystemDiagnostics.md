@@ -2,18 +2,18 @@
 
 崩溃报告仅仅是更大的系统诊断报告的一部分。
 
-一般来说，作为应用程序的开发人员，我们比不需要再深入研究。但是，如果我们的问题可能是由一系列无法解释的事件或更加复杂的系统与硬件或 Apple 提供的系统服务的交互而引发的话，那么我们不仅需要查看崩溃报告，还需要研究系统诊断信息。
+一般来说，作为应用程序的开发人员，我们并不需要再深入研究。但是，如果我们的问题可能是由一系列无法解释的事件或更加复杂的系统与硬件或 Apple 提供的系统服务的交互而引发的话，那么我们不仅需要查看崩溃报告，还需要研究系统诊断信息。
 
 ## 提取系统诊断信息
 在我们复现崩溃环境时，我们可能需要安装移动设备管理配置文件（以打开某些调试子系统），或创建虚拟网络接口（用于网络嗅探）。苹果提供了一个涵盖每个场景的网页。@apple-sysdiag  
 
 在 iOS 设备上，基本的思路是我们安装一个配置文件，该配置文件会更改设备以产生更多日志记录，然后重现崩溃（或是让客户进行这样的操作）。然后，我们按设备上的特殊键序列（例如，音量按钮和侧面按钮）。 设备会短暂振动，表明它正在运行程序 `sysdiagnose`\index{command!sysdiagnose}，该程序会提取许多日志文件。  这可能需要花费 10分钟来处理，并生成一个大文件（压缩的tar文件）。
 
-然后，与Mac共享本地sysdiagnosis文件。我们点开菜单 `Settings > Privacy > Analytics and Improvements > Analytics Data`。 向下滚动以查找开头的文件 `sysdiagnose_YEAR.MONTH.DAY_*`.
+然后，与Mac共享本地sysdiagnosis文件。我们点开菜单 `Settings > Privacy > Analytics and Improvements > Analytics Data`。向下滚动以查找开头的文件 `sysdiagnose_YEAR.MONTH.DAY_*`。
 
 ![An example sysdiagnose log file](screenshots/sysdiagnose_example.jpeg)
 
-一个 sysdiagnose 日志文件示例
+这是一个 `sysdiagnose` 日志文件示例
 
 选择此文件后，我们将得到一个空白屏幕，但这不是问题。 我们单击顶部工具栏中的 _Share_ 图标，然后选择适当的共享目标。
 

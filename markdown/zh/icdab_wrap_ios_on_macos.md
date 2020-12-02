@@ -1,6 +1,6 @@
-### `icdab_wrap` iOS应用程序在macOS上崩溃
+### `icdab_wrap` iOS 应用程序在 macOS 上崩溃
 
-如果我们在 Apple Silicon Mac 上运行 iOS 应用 `icdab_wrap` ，它可以正常加载，是因为macOS提供了 `UIKit` 框架，而 `icdab_wrap` 也假定该框架已存在。改应用程序是为了来演示一个问题，解包 Nil 可选项。
+如果我们在 Apple Silicon Mac 上运行 iOS 应用 `icdab_wrap` ，它可以正常加载，是因为 macOS 提供了 `UIKit` 框架，而 `icdab_wrap` 也假定该框架已存在。该应用程序是为了来演示一个问题，解包 Nil 可选项。
 
 崩溃时，我们可以看到：
 ```
@@ -142,13 +142,11 @@ amework/Versions/A/UIKitCore
  /System/iOSSupport/usr/lib/swift/libswiftUIKit.dylib
 ```
 
-The above sample of binaries shows that both AppKit and UIKit are present and the system is providing support frameworks in order to allow iOS apps to see the frameworks they are expecting.
-
 在大多数情况下，这些崩溃可以像在 iOS 上崩溃一样直接进行分析。问题很有可能是由于不同的物理环境导致的。例如，iOS 设备具有陀螺仪，而 macOS 设备则没有。
 
-### 在 Mac 上支持 iOS
+### 在 Mac 上支持 iOS 应用程序
 
-Apple 提供了在 Mac 上部署 iOS 应用程序的最佳实践指南； @iosOnMac。你可以进行如下操作：
+Apple 提供了在 Mac 上部署 iOS 应用程序的最佳实践指南。@iosOnMac你可以进行如下操作：
 
 1. 如果确定自己的 iOS 应用程序不适合 macOS。在 App Store Connect\index{App Store Connect} 中可以取消配置。
 2. 允许在 iOS 上安装的应用程序安装在 macOS 上，但是添加检查可用的可选硬件功能。

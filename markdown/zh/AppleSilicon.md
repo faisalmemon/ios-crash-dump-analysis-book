@@ -8,7 +8,7 @@ Apple Silicon表示该芯片的设计来自Apple，而不是第三方。 苹果�
 
 ## 什么是 Rosetta?
 
-Rosetta\index{trademark!Rosetta} 是 Apple Silicon Mac 上的指令翻译器。当应用程序将 Intel 指令作为二进制代码的一部分时，它可以将这些指令转换为 ARM 指令，然后运行它们。可以把它看作 AOT \index{JIT} 编译器。@rosetta 这项技术的起源可以追溯到更早的时期，当时mac正在从 PowerPC 芯片过渡到 Intel 芯片。苹果在 Transitive Technologies Ltd. 的技术帮助下研发出了 Rosetta 的第一个版本。@transitive @rosetta_news 在 Rosetta 的第二个版本中，我们的系统允许在每个进程的基础上，将 Intel 指令预先翻译成 ARM 指令，然后以原生速度运行。
+Rosetta\index{trademark!Rosetta} 是 Apple Silicon Mac 上的指令翻译器。当应用程序将 Intel 指令作为二进制代码的一部分时，它可以将这些指令转换为 ARM 指令，然后运行它们。可以把它看作 AOT \index{JIT} 编译器。@rosetta 这项技术的起源可以追溯到更早的时期，当时 mac 正在从 PowerPC 芯片过渡到 Intel 芯片。苹果在 Transitive Technologies Ltd. 的技术帮助下研发出了 Rosetta 的第一个版本。@transitive @rosetta_news 在 Rosetta 的第二个版本中，我们的系统允许在每个进程的基础上，将 Intel 指令预先翻译成 ARM 指令，然后以原生速度运行。
 
 ### Rosetta 的二进制文件
 
@@ -17,17 +17,17 @@ Rosetta\index{trademark!Rosetta} 是 Apple Silicon Mac 上的指令翻译器。�
 /Library/Apple/usr/libexec/oah
 ```
 
-在这个目录下有运行时引擎 `runtime_t8027`、翻译器` oahd-helper`、命令行工具 `translate_tool`和其他工具。它的操作对终端用户来说基本是透明的，除了启动延迟较小或性能稍低。从崩溃分析的角度来看，我们可以从内存占用量，异常帮助程序和运行时帮助程序的角度看到它的存在。
+在这个目录下有运行时引擎 `runtime_t8027`、翻译器 ` oahd-helper`、命令行工具 `translate_tool`和其他工具。它的操作对终端用户来说基本是透明的，除了启动延迟较小或性能稍低。从崩溃分析的角度来看，我们可以从内存占用量，异常帮助程序和运行时帮助程序的角度看到它的存在。
 
 ### Rosetta 的局限性
 
 Rosetta 是一个功能强大的系统，但有一些局限性。这些主要涉及高性能多媒体应用程序和操作系统虚拟化解决方案。
 
-Rosetta 并不包括：
+Rosetta 并不包括以下功能：
 
 - 内核扩展
 - `x86_64` 虚拟化支持说明
-- 矢量指令，例如AVX, AVX2, 和 AVX512\index{Vector instruction!AVX}
+- 矢量指令，例如 AVX，AVX2 和 AVX512\index{Vector instruction!AVX}
 
 有趣的是，Rosetta 支持即时编译应用程序。这些应用程序非常特殊，因为它们自己生成代码，然后执行代码。大多数应用程序都只有固定的只读代码（程序文本），然后执行这些代码，它们的数据只是可变的（但不是可执行的）。这大概是因为JIT是JavaScript运行时的常用技术。
 
@@ -37,7 +37,7 @@ Apple 建议在调用使用这种功能的代码之前先检查可选的硬件�
 
 如果我们默认给自己的项目使用标准的构建选项，当在 `Debug` 时将`Build Active Architecture Only` 设置成为`Yes`，而对于`Release`构建则设置为`No`，然后再调试时，我们将只看到本机的二进制文件。 这是因为在 `Debug` 时，我们不想浪费时间来构建与我们正在测试的机器无关的体系结构。
 
-如果我们进行 `Archive` 构建，`Product > Archive`，然后选择 `Distribute App` 我们最终获得了一个可供发布的版本。 在默认设置下，这将是Fat Binary \index{file!Fat} （我们将其称为胖二进制）文件，在多体系结构的二进制文件中提供 `x86` 和 `arm64`。
+如果我们进行 `Archive` 构建，`Product > Archive`，然后选择 `Distribute App` 我们最终获得了一个可供发布的版本。 在默认设置下，这将是 Fat Binary \index{file!Fat} （我们将其称为胖二进制）文件，在多体系结构的二进制文件中提供 `x86` 和 `arm64`。
 
 一旦我们有了一个 Fat Binary 文件，我们可以使用 `Finder` 应用程序，右键单击`File info`设置 Rosetta 来执行我们的二进制文件的翻译，这样在一个 Apple Silicon Mac 上，Intel 指令就会从 Fat Binary 中翻译出来。
 
@@ -195,7 +195,7 @@ Thread 1 crashed with X86 Thread State (64-bit):
 
 ### 翻译的代码信息
 
-在翻译后的案例中，我们会获得更多信息，这可能对那些从事调试Rosetta的工程师有用：
+在翻译后的案例中，我们会获得更多信息，这可能对那些从事调试 Rosetta 的工程师有用：
 ```
 Translated Code Information:
   tmp0: 0xffffffffffffffff tmp1: 0x00007fff0144ff14 tmp2:

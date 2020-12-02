@@ -33,7 +33,7 @@ Thread 0 crashed with X86 Thread State (64-bit):
   rip: 0x00000001047d56cb  rfl: 0x0000000000000206
 ```
 
-应用程序二进制文件（程序文本）按如下方式加载:
+应用程序二进制文件（程序文本）按如下方式加载：
 ```
 Binary Images:
        0x1047d4000 -        0x1047d7fff
@@ -77,7 +77,7 @@ Binary Images:
 ```
 我们从Binary Images中看到，该程序已加载到地址`0x1047d4000`。
 
-使用我们在 _Symbolification_ 章节中探讨的技术，我们可以在 Hopper 中加载icdab_avx 二进制文件，将二进制文件的基址更改为`0x1047d4000`，然后转到指令指针`rip`和地址`0x00000001047d56cb`。
+使用我们在 _Symbolification_ 章节中探讨的技术，我们可以在 Hopper 中加载 icdab_avx 二进制文件，将二进制文件的基址更改为`0x1047d4000`，然后转到指令指针 `rip `和地址 `0x00000001047d56cb`。
 
 然后，我们看到程序集转储：
 ```
@@ -125,7 +125,7 @@ compute_delta() {
 }
 ```
 
-为了避免此问题，我们应该使用一个有用的方法来检测环境是否支持 AVX\index{Vector instruction!AVX}，如下所示：
+为了避免此问题，我们应该使用一个有用的方法来检测当前环境是否支持 AVX\index{Vector instruction!AVX}，如下所示：
 ```
 bool
 avx_v1_supported() {
