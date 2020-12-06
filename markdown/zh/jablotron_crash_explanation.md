@@ -140,7 +140,7 @@ __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__
  MyJablotron.ChartThermoPlotSpace (ChartThermoPlotSpace.swift:0)
 ```
 
-“元数据访问器”短语很有趣，因为它暗示我们正在运行编译器生成的代码，而不是我们直接编写的代码。 也许，作为一种解决方法，我们可以简化代码以使用更简单的语言功能。
+_**元数据访问器**_ 短语很有趣，因为它暗示我们正在运行编译器生成的代码，而不是我们直接编写的代码。 也许，作为一种解决方法，我们可以简化代码以使用更简单的语言功能。
 
 在这里，我们的目标是通过采用`ChartThermoPlotSpace `类并简化它来编写一个简单的测试用例，直到找到发生崩溃的必要代码为止。
 
