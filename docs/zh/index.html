@@ -31,9 +31,10 @@
 <li><a href="#免责声明">免责声明</a></li>
 <li><a href="#前言">前言</a>
 <ul>
-<li><a href="#second-edition">Second Edition</a></li>
+<li><a href="#第二版">第二版</a></li>
 </ul></li>
 <li><a href="#致谢">致谢</a></li>
+<li><a href="#介绍">介绍</a></li>
 <li><a href="#快速入门">快速入门</a>
 <ul>
 <li><a href="#故障排除">故障排除</a>
@@ -111,21 +112,21 @@
 <li><a href="#着手符号化">着手符号化</a></li>
 <li><a href="#逆向工程方法">逆向工程方法</a></li>
 </ul></li>
-<li><a href="#system-diagnostics">System Diagnostics</a>
+<li><a href="#系统诊断">系统诊断</a>
 <ul>
-<li><a href="#extracting-system-diagnostic-information">Extracting System Diagnostic Information</a></li>
-<li><a href="#resource-profile-logs">Resource Profile logs</a>
+<li><a href="#提取系统诊断信息">提取系统诊断信息</a></li>
+<li><a href="#资源配置文件日志">资源配置文件日志</a>
 <ul>
-<li><a href="#cpu-resource-logs">CPU Resource logs</a></li>
-<li><a href="#disk-utilization-logs">Disk Utilization Logs</a></li>
-<li><a href="#jetsam-reports">Jetsam reports</a></li>
+<li><a href="#cpu-资源日志">CPU 资源日志</a></li>
+<li><a href="#磁盘利用率日志">磁盘利用率日志</a></li>
+<li><a href="#jetsam-报告">Jetsam 报告</a></li>
 </ul></li>
 </ul></li>
 <li><a href="#崩溃报告">崩溃报告</a>
 <ul>
-<li><a href="#系统诊断">系统诊断</a>
+<li><a href="#系统诊断-1">系统诊断</a>
 <ul>
-<li><a href="#提取系统诊断信息">提取系统诊断信息</a></li>
+<li><a href="#提取系统诊断信息-1">提取系统诊断信息</a></li>
 </ul></li>
 <li><a href="#ios-崩溃报告导览">iOS 崩溃报告导览</a>
 <ul>
@@ -152,45 +153,45 @@
 <li><a href="#macos-崩溃报告虚拟内存部分">macOS 崩溃报告虚拟内存部分</a></li>
 <li><a href="#macos崩溃报告系统配置文件部分">macOS崩溃报告系统配置文件部分</a></li>
 </ul></li>
-<li><a href="#what-is-an-apple-silicon-mac">What is an Apple Silicon Mac?</a></li>
-<li><a href="#what-is-rosetta">What is Rosetta?</a>
-<ul>
-<li><a href="#rosetta-binaries">Rosetta binaries</a></li>
-<li><a href="#rosetta-limitations">Rosetta limitations</a></li>
-<li><a href="#forcing-rosetta-execution">Forcing Rosetta execution</a></li>
 </ul></li>
-<li><a href="#code-translation-example">Code Translation Example</a>
+<li><a href="#apple-silicon">Apple Silicon</a>
 <ul>
-<li><a href="#icdab_rosetta_thread-lipo-information"><code>icdab_rosetta_thread</code> Lipo Information</a></li>
-</ul></li>
-<li><a href="#translated-crashes">Translated Crashes</a>
+<li><a href="#什么是-apple-silicon-mac">什么是 Apple Silicon Mac?</a></li>
+<li><a href="#什么是-rosetta">什么是 Rosetta?</a>
 <ul>
-<li><a href="#code-type">Code Type</a></li>
-<li><a href="#thread-dumps">Thread Dumps</a></li>
-<li><a href="#crashed-thread-state-registers">Crashed Thread State Registers</a></li>
-<li><a href="#translated-code-information">Translated Code information</a></li>
-<li><a href="#external-modification-summary">External Modification Summary</a></li>
-<li><a href="#virtual-memory-regions">Virtual Memory Regions</a></li>
+<li><a href="#rosetta-的二进制文件">Rosetta 的二进制文件</a></li>
+<li><a href="#rosetta-的局限性">Rosetta 的局限性</a></li>
+<li><a href="#强制执行-rosetta">强制执行 Rosetta</a></li>
 </ul></li>
-<li><a href="#rosetta-crashes">Rosetta Crashes</a>
+<li><a href="#翻译后的应用程序示例">翻译后的应用程序示例</a>
 <ul>
-<li><a href="#icdab_avx-vector-instruction-crash"><code>icdab_avx</code> vector instruction crash</a></li>
+<li><a href="#icdab_rosetta_thread-lipo-信息"><code>icdab_rosetta_thread</code> Lipo 信息</a></li>
 </ul></li>
-<li><a href="#ios-on-mac">iOS on Mac</a>
+<li><a href="#翻译后的程序崩溃">翻译后的程序崩溃</a>
 <ul>
-<li><a href="#icdab_wrap-ios-app-crash-on-macos"><code>icdab_wrap</code> iOS app crash on macOS</a></li>
-<li><a href="#supporting-the-mac-from-ios">Supporting the Mac from iOS</a></li>
+<li><a href="#代码类型">代码类型</a></li>
+<li><a href="#线程转储">线程转储</a></li>
+<li><a href="#崩溃的线程状态寄存器">崩溃的线程状态寄存器</a></li>
+<li><a href="#翻译的代码信息">翻译的代码信息</a></li>
+<li><a href="#外部修改摘要">外部修改摘要</a></li>
+<li><a href="#虚拟内存区域">虚拟内存区域</a></li>
 </ul></li>
-</ul></li>
-<li><a href="#pointer-authentication">Pointer Authentication</a>
+<li><a href="#rosetta-崩溃">Rosetta 崩溃</a>
 <ul>
-<li><a href="#configuring-pointer-authentication">Configuring Pointer Authentication</a></li>
-<li><a href="#manipulating-pointers">Manipulating Pointers</a></li>
-<li><a href="#icdab_ptr-pac-crash"><code>icdab_ptr</code> PAC crash</a></li>
-<li><a href="#pointer-authentication-debugging-tips">Pointer Authentication Debugging Tips</a></li>
+<li><a href="#icdab_avx-矢量指令崩溃"><code>icdab_avx</code> 矢量指令崩溃</a></li>
 </ul></li>
-<li><a href="#分析性故障排除">分析性故障排除</a>
+<li><a href="#在-mac-上运行-ios">在 Mac 上运行 iOS</a>
 <ul>
+<li><a href="#icdab_wrap-ios-应用程序在-macos-上崩溃"><code>icdab_wrap</code> iOS 应用程序在 macOS 上崩溃</a></li>
+<li><a href="#在-mac-上支持-ios-应用程序">在 Mac 上支持 iOS 应用程序</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#pointer-authentication指针验证机制">Pointer Authentication（指针验证机制）</a>
+<ul>
+<li><a href="#配置指针验证机制">配置指针验证机制</a></li>
+<li><a href="#操纵指针">操纵指针</a></li>
+<li><a href="#icdab_ptr-pac-崩溃"><code>icdab_ptr</code> PAC 崩溃</a></li>
+<li><a href="#指针验证机制调试技巧">指针验证机制调试技巧</a></li>
 <li><a href="#优先考虑自己的问题">优先考虑自己的问题</a>
 <ul>
 <li><a href="#根据影响确定优先级">根据影响确定优先级</a></li>
@@ -243,7 +244,7 @@
 <ul>
 <li><a href="#fud-崩溃">fud 崩溃</a></li>
 <li><a href="#leakagent-崩溃">LeakAgent 崩溃</a></li>
-<li><a href="#pointer-authentication-crash">Pointer Authentication crash</a></li>
+<li><a href="#指针验证机制崩溃">指针验证机制崩溃</a></li>
 </ul></li>
 <li><a href="#总线错误sigbus崩溃">总线错误（SIGBUS）崩溃</a>
 <ul>
@@ -271,10 +272,10 @@
 <li><a href="#死锁崩溃">死锁崩溃</a></li>
 <li><a href="#不安全的绘制崩溃">不安全的绘制崩溃</a></li>
 </ul></li>
-<li><a href="#failed-crashes">Failed Crashes</a>
+<li><a href="#failed-的崩溃">Failed 的崩溃</a>
 <ul>
-<li><a href="#signal-handling-failures">Signal handling failures</a></li>
-<li><a href="#symbolification-failure">Symbolification Failure</a></li>
+<li><a href="#信号处理失败">信号处理失败</a></li>
+<li><a href="#符号化失败">符号化失败</a></li>
 </ul></li>
 <li><a href="#内存诊断">内存诊断</a>
 <ul>
@@ -296,7 +297,7 @@
 </ul>
 </nav>
 <h1 id="免责声明">免责声明</h1>
-<p>Copyright Faisal Memon 2018。保留所有权利。</p>
+<p>Copyright Faisal Memon 2018-2020。保留所有权利。</p>
 <p>本书按“原样”提供，保证没有任何形式的明示或暗示，包括但不限于保证对适销性，针对特定目的的适用性或不侵权的暗示。</p>
 <p>本书可能包含技术上的不准确性或印刷错误（笔误）。作者会定期进行更改并修正本书。这些修改将并入本书的新版本中。</p>
 <p>Apple 没有明示或暗示地认可这项工作。本书中的资源是根据公共信息和二进制文件或 Apple 软件工具提供的资料确定的。</p>
@@ -316,28 +317,31 @@
 <p>这是生产力再次迈出的重要一步。但是，有些工程师非常不合时宜，非常挑剔。事实证明，这些技术只是经验丰富的工程师在实践过程中所学到的，他们并不希望任何人毫不费力的得到。</p>
 <p>有一天，Chris Drake 来到了我们的办公室。他是与 Kimberley Brown 合作编写《Panic!》一书的 x86 架构专家。他们安排了一个研讨会来指导我们关于 x86 架构上的 SunOS 崩溃。在 Linux 和 GNU/Linux 系统显著崛起之前，这在当时是一件新鲜事物。</p>
 <p>我记得有一次，在一节操作系统课上，我环顾整个教室。我注意到教室里到处都是 Sun Microsystems 公司的设备；我凝视着 Sun 的标志，梦想有一天可以在那里工作。梦想实现了。因此，在有关 x86 紧急情况的研讨会上，我有了另一个想法。有一天我要写一本书。这本书将完全集中在讨论单个技术问题上。这本书将记载着我在职业生涯中获得的经验。这就是你现在阅读的这本书。</p>
-<h2 id="second-edition">Second Edition</h2>
-<p>It has been a mere two years, but the pace of development of Apple Technologies is as fast as ever.</p>
-<p>My professional journey has been most interesting during this period, as I was hired as a contractor (known as a vendor-on-site contractor) for Apple. Like many engineers before me, I was firmly of the opinion that getting through the hiring process was some kind of fluke, or mistake. Holding the Apple badge in my hand, it felt like it was a magical key; so clean, perfectly formed, and succinct, as any Apple product. As a matter of fact, I never worked on the secret stuff at Apple, but other people did. There was a running joke, however. “Have you found the secret room?” one engineer would ask the new hires. I puzzled about it during the first couple of weeks, and then found it hiding in plain sight! A cavern. At Apple, it was more a matter of being a master of the public APIs in your focus area, and working with other engineers to solve problems in those areas (my area was Accessibility). An intense, but interesting, two years.</p>
-<p>This second edition of the book was prompted by a long-speculated addition to the Apple product line-up, Apple Silicon Macs.</p>
-<p>I’ve updated the text, and modernized the examples, to reflect the latest OS versions and SDKs. As of the time of writing, these are iOS 12.2, macOS 11.0 Big Sur, and Xcode 12.2.</p>
-<p>It seems to me the direction of travel of Apple Products is towards Apple Silicon chips, which utilize the ARM ABI, and the advanced features that come with recent versions of this architecture. To this end, I have introduced chapters on translation mode crashes on Apple Silicon, and Pointer Authentication crashes.</p>
+<h2 id="第二版">第二版</h2>
+<p>虽然才仅仅过去两年，但 Apple 的技术发展速度还是一如既往的快。</p>
+<p>在这期间，我的职业生涯发生了有趣的改变，我被 Apple 公司聘为承包商（称为“现场供应商承包商”）。和我之前的许多工程师一样吗，我认为我通过招聘的过程，更多的是一种侥幸或者说 Apple 的错误。手里拿着 Apple 的徽章，感觉就像是一把神奇的钥匙。 它就像 Apple 的任何一款产品一样，一样的干净，完美，简洁。事实上，我并没有和其他人一样，为 Apple 公司从事什么隐秘的工作。但是，有一个笑话。 “你找到秘密房间了吗？” 一位工程师会这样询问新员工。在最初的几周内，我对此感到困惑，然后发现它就在众目睽睽之下！。在 Apple，更多的是需要你要成为所关注领域的公共 API 的大师，并与其他工程师合作来解决那些领域中的问题（我的领域是Accessibility（可访问性））。紧张而有趣的两年。</p>
+<p>本书的第二版源自于人们长期以来对 APP 产品系列关注，例如 Apple Silicon Macs 系列的发布。</p>
+<p>我更新了文章内容，并对示例进行了现代化处理，以反映最新的 OS 版本及SDK。在撰写本文时，它们是 iOS 12.2，macOS 11.0 Big Sur 和 Xcode 12.2。</p>
+<p>在我看来，Apple 产品的发展方向是朝着 Apple Silicon芯片发展，该芯片利用 ARM ABI ，以及该体系结构的最新版本所提供的高级功能。为此，我将引入一些新的章节，介绍 Apple Silicon 上的模式转换崩溃和 Pointer Authentication （指针验证机制）崩溃。</p>
 <h1 id="致谢">致谢</h1>
-<p>在此感谢我的同事们对我编写这本书提供的帮助和支持。</p>
+<p>在此感谢我的同事们的帮助和支持。</p>
+<p>我要感谢本书的中文翻译者夏文强的支持，以帮助使该书的中文版得以实现。</p>
 <p>感谢哪些被慷慨提供的开源工具，使得本书的信息汇总工作成为一种可能，特别是 <code>pandoc</code> ，它让我更愉快的编写本书。</p>
-<p>最后，我要感谢支持我的家庭成员，当我因为在书房中闭关而缺席大部分的家庭活动。谢谢，Junghyun 和 Christopher。 # 介绍</p>
+<p>最后，我要感谢支持我的家庭成员，当我因为在书房中闭关而缺席大部分的家庭活动。谢谢，Junghyun 和 Christopher。</p>
+<h1 id="介绍">介绍</h1>
 <p>本书填补了当崩溃发生时应用程序开发人员与开发平台之间出现的空白。应用程序开发人员主要想的是高级概念和抽象话。当应用发生崩溃时，现实会把你粗鲁的拉到底层架构、指针和原始数据的 UNIX 世界中。</p>
-<p>我们的焦点只在 Apple 的生态系统。</p>
-<p>我们的讨论涵盖了 iOS、macOS、tvOS、watchOS和BridgeOS这些平台，ARM 架构和 C（核心框架）、Objective-C、Objective-C++ 和Swift等多种语言。现实世界中的应用程序最终往往会成为由更安全的Swift语言和旧技术的混合体。</p>
-<p>我们假设您至少具有 iOS 编程和软件工程的入门知识，并且可以在 Mac 上运用 Xcode 软件。</p>
-<p>我们将通过三种不同的观点来统一我们对待问题的方法，让您能全面、稳定的了解情况以及如何解决问题。</p>
-<p>首先，我们将会为您提供一份如何使用 Apple 提供的出色的自带工具的 <code>HOW-TO</code> 指南。</p>
-<p>其次，我们旨在讨论一个防止和解决崩溃的软件工程概念。</p>
-<p>最后，我们提供一种正式的解决问题的方法，但该方法适用于崩溃分析。</p>
+<p>我们只专注于Apple生态系统。</p>
+<p>我们的讨论涵盖了 iOS、macOS、tvOS、watchOS和BridgeOS这些平台，ARM 架构和 C（核心框架）、Objective-C、Objective-C++ 和Swift等多种语言。这是因为较旧的语言更容易崩溃。现实世界中的应用程序最终往往会成为由更安全的 Swift 语言和旧技术的混合体。</p>
+<p>我们介绍了苹果生态系统的最新发展。 特别是，由于使用Apple Silicon Macs而引起的新问题。</p>
+<p>我们假设你至少具有 iOS 编程和软件工程的入门知识，并且可以在 Mac 上运用 Xcode 软件。</p>
+<p>我们采取的方法是将关于问题的三种不同观点结合起来，让你能以全面，稳健地了解情况以及如何解决问题。</p>
+<p>首先，我们将会为你提供一份如何使用 Apple 提供的出色自带工具的 <code>HOW-TO</code> 指南。</p>
+<p>其次，我们提供一个针对防止和解决崩溃的软件工程概念的讨论。。</p>
+<p>最后，我们将提供一种正式的解决问题的方法，但该方法主要适用于崩溃分析。</p>
 <p>编程文献全面分析了软件工程概念，而 Apple 通过 Guides 和 WWDC 视频介绍了其 crash dump 工具。</p>
 <p>在软件工程界一般很少讨论如何去解决正式的问题，可能是因为解决问题被视作软件工程师的一种能力。它被认作是一门研究后增加”自身“能力的学科，这些能力似乎是为了从其他人群中区分出”有技术头脑“的人。</p>
 <p>我们的目标并不是羞于重复那些我们在其他地方看到过或阅读过的知识，而是采取一种统一的方式来解释整个观点。 为什么 crash dump 分析如此困难的原因在于，它假定工程师具备大量的背景知识，以便腾出空间专注于特定工具或崩溃报告的具体细节。这会使得工程师出现认知障碍，本书就是要克服这种障碍。</p>
-<p>作为本书的补充，还会有一个资源网站，用于结合书本内容一起使用，以便您可以自己设置并运行示例项目然后进行试验。本书最后的所有参考文献都收录在书目章节中。例如，您可以在其中找到资源的URL。</p>
+<p>作为本书的补充，还会有一个资源网站，用于结合书本内容一起使用，以便您可以自己设置并运行示例项目然后进行试验。本书最后的所有参考文献都收录在书目章节中。例如，你可以在其中找到资源的URL。</p>
 <p>支持该书的GitHub网站位于@icdabgithub</p>
 <h1 id="快速入门">快速入门</h1>
 <p>当近期的代码修改导致应用程序发生崩溃时，我们可以很容易的对崩溃进行分析然后找到相关代码并进行修改。但是通常，崩溃只是由于操作环境的变化而出现。那可能是最烦人的。例如，应用程序在办公室中正常运行，但在客户站点崩溃。我们没有时间去探究为什么崩溃，但需要快速解决或提出解决方法。当探索一个新项目时，会出现另一个常见的问题场景。 在这里，我们没有使用代码库的经验，但是在编译和运行应用程序后立即会遇到崩溃问题。</p>
@@ -517,7 +521,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 }</code></pre>
 <p>这个 UI 测试代码会导致立即崩溃。</p>
 <blockquote>
-<p>如果未授权的话</p>
+<p>如果用户并未授权的时候</p>
 </blockquote>
 <h1 id="工具">工具</h1>
 <h2 id="概览">概览</h2>
@@ -929,27 +933,28 @@ icdab_planets -l 0x1008e0000 0x00000001008e45bc
 <p>现在至少对于当前的问题吗，我们可以编写一个错误报告，指明由于 Pluto 的体积为零，导致代码崩溃了。对框架的提供者来说，这就足以解决问题了。</p>
 <p>在更复杂的情况下，想象我们使用了一个发生崩溃的图片转换库。图片可能有多种像素格式。使用 <code>assert</code> 可以让我们注意到某些特定的像素格式。因此，我们可以尝试其他的像素格式。</p>
 <p>另一个例子是 security 库。安全代码通常会返回通用错误代码，而不是特定的故障代码，以便将来进行代码增强并避免泄漏内部细节（安全风险）。安全库中的 crash dump 程序可能会指出安全问题的类型，并帮助我们更早地更正传递到库中的某些数据结构。</p>
-<h1 id="system-diagnostics">System Diagnostics</h1>
-<p>Crash Reports are just one part of a much bigger diagnostic reporting story.</p>
-<p>Ordinarily as application developers, we don’t need to look much further. However, if our problems are potentially triggered by an unexplained series of events or a more complex system interaction with hardware or Apple provided system services, then not only do we need to look at our Crash Reports, we need to study the system diagnostics.</p>
-<h2 id="extracting-system-diagnostic-information">Extracting System Diagnostic Information</h2>
-<p>When understanding the environment that gave rise to our crash, we may need to install Mobile Device Management Profiles (to switch on certain debugging subsystems), or create virtual network interfaces (for network sniffing). Apple provides a great web page covering each scenario. <span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” 2018)</span></p>
-<p>On iOS, the basic idea is that we install a profile, which alters our device to produce more logging, and then we reproduce the crash (or get the customer to do that). Then we press a special key sequence on the device (for example, both volume buttons and the side button). The system vibrates briefly to indicate it is running a program, <code>sysdiagnose</code>, which extracts many log files. This can take 10 minutes to process, and produces a large file (compressed <code>tar</code> file).</p>
-<p>Then we share our local sysdiagnose file with our Mac. We go into menu <code>Settings &gt; Privacy &gt; Analytics and Improvements &gt; Analytics Data</code>. Scroll down looking for a file beginning with <code>sysdiagnose_YEAR.MONTH.DAY_*</code>.</p>
+<h1 id="系统诊断">系统诊断</h1>
+<p>崩溃报告仅仅是更大的系统诊断报告的一部分。</p>
+<p>一般来说，作为应用程序的开发人员，我们并不需要再深入研究。但是，如果我们的问题可能是由一系列无法解释的事件或更加复杂的系统与硬件或 Apple 提供的系统服务的交互而引发的话，那么我们不仅需要查看崩溃报告，还需要研究系统诊断信息。</p>
+<h2 id="提取系统诊断信息">提取系统诊断信息</h2>
+<p>在我们复现崩溃环境时，我们可能需要安装移动设备管理配置文件（以打开某些调试子系统），或创建虚拟网络接口（用于网络嗅探）。苹果提供了一个涵盖每个场景的网页。<span class="citation" data-cites="apple-sysdiag">(“Diagnostic Profiles and Logs” 2018)</span></p>
+<p>在 iOS 设备上，基本的思路是我们安装一个配置文件，该配置文件会更改设备以产生更多日志记录，然后重现崩溃（或是让客户进行这样的操作）。然后，我们按设备上的特殊键序列（例如，音量按钮和侧面按钮）。 设备会短暂振动，表明它正在运行程序 <code>sysdiagnose</code>，该程序会提取许多日志文件。 这可能需要花费 10分钟来处理，并生成一个大文件（压缩的tar文件）。</p>
+<p>然后，与Mac共享本地sysdiagnosis文件。我们点开菜单 <code>Settings &gt; Privacy &gt; Analytics and Improvements &gt; Analytics Data</code>。向下滚动以查找开头的文件 <code>sysdiagnose_YEAR.MONTH.DAY_*</code>。</p>
 <figure>
 <img src="screenshots/sysdiagnose_example.jpeg" alt="An example sysdiagnose log file" /><figcaption aria-hidden="true">An example sysdiagnose log file</figcaption>
 </figure>
-<p>When this file is selected we get a blank screen but that is not a problem. We click on the <em>Share</em> icon in the top toolbar, and select an appropriate sharing destination.</p>
+<p>这是一个 <code>sysdiagnose</code> 日志文件示例</p>
+<p>选择此文件后，我们将得到一个空白屏幕，但这不是问题。 我们单击顶部工具栏中的 <em>Share</em> 图标，然后选择适当的共享目标。</p>
 <figure>
 <img src="screenshots/sysdiagnose_share.jpeg" alt="Sharing the sysdiagnose log" /><figcaption aria-hidden="true">Sharing the sysdiagnose log</figcaption>
 </figure>
-<p>Inside this archive file are many system and subsystem logs, so we can see whenever crashes occur, the context that gave rise to them.</p>
-<p>An equivalent approach is available on macOS as well.</p>
-<h2 id="resource-profile-logs">Resource Profile logs</h2>
-<p>Alongside the <code>sysdiagnose</code> logs we see that our device will have many other files. These give insights into the general health of the system.</p>
-<h3 id="cpu-resource-logs">CPU Resource logs</h3>
-<p><code>SUBSYSTEM.cpu_resource-YEAR.MONTH.DAY_*.ips.synced</code> covers <em>CPU Resource</em> profile logs.</p>
-<p>Here is an example from <code>apfs_defragd</code>, the APFS filesystem defragmenter.</p>
+<p>在此存档文件中，有许多系统和子系统日志，因此我们可以随时查看崩溃发生的原因。</p>
+<p>在 macOS 上也可以使用等效方法。</p>
+<h2 id="资源配置文件日志">资源配置文件日志</h2>
+<p>除了<code>sysdiagnose</code> 日志，我们可以看到我们的设备还有很多其他文件。这些信息可以让我们了解系统的总体运行状况。</p>
+<h3 id="cpu-资源日志">CPU 资源日志</h3>
+<p><code>SUBSYSTEM.cpu_resource-YEAR.MONTH.DAY_*.ips.synced</code> 包含 <em>CPU Resource</em> 配置文件日志。</p>
+<p>这是一个来自 <code>apfs_defragd</code> 的例子，APFS 文件系统碎片整理程序。</p>
 <pre><code>{&quot;share_with_app_devs&quot;:1,&quot;app_version&quot;:&quot;&quot;,&quot;bug_type&quot;:&quot;202&quot;,&quot;times
 tamp&quot;:&quot;2020-10-19 23:49:02.00 +0100&quot;,&quot;os_version&quot;:&quot;iPhone OS 14.2
  (18B5072f)&quot;,&quot;slice_uuid&quot;:&quot;047D42ED-E41C-38AE-81BE-E4ABCF05A703&quot;,
@@ -1063,9 +1068,9 @@ Power Source:     0 samples on Battery, 3 samples on AC
  /usr/lib/system/libdispatch.dylib
 .
 .</code></pre>
-<h3 id="disk-utilization-logs">Disk Utilization Logs</h3>
-<p><code>SUBSYSTEM.diskwrites_resource-YEAR.MONTH.DAY_*.ips.synced</code> covers <em>Disk Utilization</em> profile logs.</p>
-<p>Here is an example from <code>assetd</code>, the Asset Manager.</p>
+<h3 id="磁盘利用率日志">磁盘利用率日志</h3>
+<p><code>SUBSYSTEM.diskwrites_resource-YEAR.MONTH.DAY_*.ips.synced</code> 包含 <em>Disk Utilization</em> 配置文件日志。</p>
+<p>这是一个来自 <code>assetd</code> 的例子，Asset 管理软件。</p>
 <pre><code>{&quot;share_with_app_devs&quot;:1,&quot;app_version&quot;:&quot;&quot;,&quot;bug_type&quot;:&quot;145&quot;,&quot;times
 tamp&quot;:&quot;2020-10-18 02:55:57.00 +0100&quot;,&quot;os_version&quot;:&quot;iPhone OS 14.2
  (18B5072f)&quot;,&quot;slice_uuid&quot;:&quot;6192DA47-C99E-33F4-8FC5-CF071E4EE26B&quot;,
@@ -1160,19 +1165,15 @@ sd
  /usr/lib/system/libdispatch.dylib
 .
 .</code></pre>
-<h3 id="jetsam-reports">Jetsam reports</h3>
-<p>The term “Jetsam” is originally a Nautical term, where a ship would throw off unwanted items into the sea, to lighten the ship. In iOS, Jetsam is the system that ejects applications from memory in order to service the needs of the current foremost app.</p>
-<p>Aggressive memory management is a hallmark of iOS as compared to macOS which has very liberal limits on memory usage. Mobile Devices have traditionally been memory constrained devices. However, as Mobile Devices become more capable, in particular iPad devices, the difference is reduced. In modern times, it is the Apple Watch that is considered a memory constrained device. Nevertheless, the strict memory management system of Jetsam serves us well to keep the user experience optimal for a given amount of RAM.</p>
-<p>It is best to think of Jetsam as a normal behavior, and being ejected from memory is not necessarily a fault of the design of our app. We could have been running in the background consuming a modest amount of memory when the user used the Camera app and did a burst of photo taking and image effects that drove up memory usage.</p>
-<p>If we get ejected from memory frequently, we must consider whether we are using too much memory in the background; we should aim for about 50 MB or less. We should also write our app to save context, destroy caches, and save state so it can then be resumed from the saved state. Then we should hook in such functionality whenever we get a message from the system indicating memory pressure, such as the <code>applicationDidReceiveMemoryWarning:</code> callback in our <code>AppDelegate</code>.</p>
-<p>Apple document the various reasons that a Jetsam event can occur, and memory management techniques to avoid them. <span class="citation" data-cites="jetsamreport">(“Identifying High-Memory Use with Jetsam Event Reports” 2020)</span></p>
-<p>The actual limits are not documented, but generally apps can have more background memory use than app extensions. App extensions come in various types of extension, each with their own limits. For example, a photo editing Application Extension will have a large limit due to it generally being a heavy-weight image processing program.</p>
-<p>The first thing to look for in a Jetsam report is the <em>reason</em> field.</p>
+<h3 id="jetsam-报告">Jetsam 报告</h3>
+<p><code>Jetsam</code> 一词最初是一个航海术语，指船只将不想要的东西扔进海里，以减轻船的重量。在 iOS 中，<code>Jetsam</code>  是将当前应用从内存中弹出以满足当前最重要应用需求的系统。</p>
+<p>与 macOS 相比，激进（积极）的内存管理是 iOS 的一个特点，macOS 对内存使用有非常宽松的限制。通俗来说，移动设备是内存受限的设备。然而，随着移动设备的功能越来越强大，特别是 iPad 设备，这种差异已经越来越小。现在，Apple Watch 被认为是内存受限的设备。然而，<code>Jetsam</code> 严格的内存管理系统为我们提供了良好的服务，在给定的 RAM 量下保证最佳的用户体验。</p>
+<p>最好把 <code>Jetsam</code> 看作是正常的行为，从内存中弹出并不一定是我们应用程序设计的错误。我们本来可以在后台运行，当用户使用拍照功能进行大量的拍照和图像特效时，内存使用量会增加。</p>
+<p>如果我们经常从内存中弹出，我们必须考虑我们是否在后台使用了过多的内存； 我们的目标应该是不超过 50 MB或更小。我们还应该编写程序方法来保存上下文、销毁缓存和保存状态，以便从保存的状态恢复。然后我们应该 Hook 在这样的功能，当我们从系统得到一个内存警告消息时，如 <code>AppDelegate</code> 中的 <code>applicationDidReceiveMemoryWarning:</code>  的回调 ，执行该方法。</p>
+<p>Apple 记录了 <code>Jetsam</code> 事件可能发生的各种原因，以及如何避免它们的内存管理技术。<span class="citation" data-cites="jetsamreport">(“Identifying High-Memory Use with Jetsam Event Reports” 2020)</span></p>
+<p>并没有实际的文档说明这种限制，但是通常应用程序比应用程序扩展拥有有更多的后台内存使用。应用程序扩展有各种类型的扩展，每一种都有自己的限制。例如，一个照片编辑应用程序扩展会有很大的限制，因为它通常是一个重量级的图像处理程序。</p>
+<p>在 Jetsam 报告中首先要查找的是 <em>reason</em> 字段。</p>
 <table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <thead>
 <tr class="header">
 <th>Jetsam Reason</th>
@@ -1182,33 +1183,33 @@ sd
 <tbody>
 <tr class="odd">
 <td><code>per-process-limit</code></td>
-<td>The resident memory limit was reached. The limit varies depending type of the app, or app extension.</td>
+<td>已达到常驻内存限制。 该限制因应用程序或扩展程序的类型而异。</td>
 </tr>
 <tr class="even">
 <td><code>vm-pageshortage</code></td>
-<td>The kernel wants to give clean pages to another process but has run out of them, so killed our process.</td>
+<td>内核希望提供干净的页面给另一个进程，但是已经用完了，因此杀死了我们的进程。</td>
 </tr>
 <tr class="odd">
 <td><code>vnode-limit</code></td>
-<td>The kernel has run out of vnodes (a generalization of UNIX files) so is killing our process to free some more vnodes.</td>
+<td>内核已经用完了 vnode（UNIX文件的一种泛化），因此正在终止我们释放更多vnode的进程。</td>
 </tr>
 <tr class="even">
 <td><code>highwater</code></td>
-<td>Too much physical memory used by process.</td>
+<td>进程使用过多的物理内存。</td>
 </tr>
 <tr class="odd">
 <td><code>fc-thrashing</code></td>
-<td>Too much random access to memory mapped files causing fragmentation/thrashing of the file cache.</td>
+<td>对内存映射文件的过多随机访问导致了文件缓存的碎片/抖动。</td>
 </tr>
 <tr class="even">
 <td><code>jettisoned</code></td>
-<td>Some other reason for the Jetsam.</td>
+<td>Jetsam 的其他原因。</td>
 </tr>
 </tbody>
 </table>
-<p>In practice, we have not seen <code>fc-thrashing</code> or <code>jettisoned</code> but they remain a possibility.</p>
-<p>Jetsam reports are named <code>JetsamEvent-YEAR.MONTH.DAY_*.ips.synced</code>.</p>
-<p>Here is an example report showing a “highwater” event for <code>wifianalyticsd</code>:</p>
+<p>实际上，我们还没有见过 <code>fc-thrashing</code> 或 <code>jettisoned</code>的情况，但是它们仍然是可能的。</p>
+<p>Jetsam 报告被命名 <code>JetsamEvent-YEAR.MONTH.DAY_*.ips.synced</code>.</p>
+<p>下面是一个例子报告说明了 <code>highwater</code> 事件的 <code>wifianalyticsd</code>：</p>
 <pre><code>{&quot;bug_type&quot;:&quot;298&quot;,&quot;timestamp&quot;:&quot;2020-10-15 17:29:58.79
  +0100&quot;,&quot;os_version&quot;:&quot;iPhone OS 14.2
  (18B5061e)&quot;,&quot;incident_id&quot;:&quot;B04A36B1-19EC-4895-B203-6AE21BE52B02&quot;
@@ -1309,10 +1310,10 @@ sd
 <p>当 App 发生奔溃时，<code>ReportCrash</code>从操作系统的崩溃过程中提取相关信息，并生成拓展名为<code>.crash</code>的文本文件。</p>
 <p>当符号信息可用时，Xcode 将符号化奔溃报告然后显示符号化以后的名称而不是机器地址。这就提高了报告的可阅读性，更容易理解。</p>
 <p>App 已经制作了一份详细的文档来解释 <code>crash dump</code> 的全部结构。</p>
-<h2 id="系统诊断">系统诊断</h2>
+<h2 id="系统诊断-1">系统诊断</h2>
 <p>崩溃报告只是更大的系统诊断报告中的一部分。</p>
 <p>通常，作为 App 的开发人员我们并不需要有进一步的更多的了解。但是，如果我们的问题可能是由一系列无解释的事件，或者是与硬件或与 Apple 提供的系统服务之间更复杂的交互而引起的，这时候我们不仅仅需要查看奔溃报告，而需要研究系统诊断报告。</p>
-<h3 id="提取系统诊断信息">提取系统诊断信息</h3>
+<h3 id="提取系统诊断信息-1">提取系统诊断信息</h3>
 <p>当需要了解导致崩溃发生的环境时，我们可能需要安装手机设备管理配置文件（用于打开调试某些子系统），或创建虚拟网络接口（用于网络监测）。 Apple 提供了一个涵盖每个场景的 <a href="https://developer.apple.com/bug-reporting/profiles-and-logs/">网页</a>。</p>
 <p>在 iOS 上，基本思路是我们先安装一个配置文件，这个配置文件会让设备记录更多的日志，然后复现崩溃操作（或者让客户这么操作）。 然后我们按下设备上的特殊按键组合（例如，同时按下音量按钮和侧按钮）。系统会短暂振动，表明它正在运行<code>sysdiagnose</code> 程序，这个程序会提取很多日志文件。然后我们用 iTunes 同步设备以检索生成的<code>sysdiagnose_date_name.tar.gz</code> 文件。打包文件中包含许多系统和子系统日志，我们可以看到崩溃发生的时间以及引起崩溃的上下文。</p>
 <p>在 macOS 上我们也可以执行相同的操作。</p>
@@ -2453,48 +2454,48 @@ Bluetooth: Version 6.0.6f2, 3 services, 27 devices,
 <p>判断是否是硬件环境导致崩溃的关键是查看大量的崩溃报告以寻找某种规律。</p>
 <p>作为应用程序开发人员，我们只会看到应用程序中的崩溃。但如果我们与提供崩溃的用户联系，我们可以询问是否有其他应用程序崩溃，或者是否存在任何系统稳定性问题。</p>
 <p>另一个有趣的方面是，并非所有硬件都始终被系统主动使用。例如，当 MacBook Pro 连接到外部显示器时，将使用不同的图形RAM，并使用不同的图形卡（外部GPU与内部GPU）。如果我们的应用程序执行特殊操作，则在连接到外部显示器时，故障可能出在硬件而非我们的代码中，原因是它触发了硬件中的潜在故障。</p>
-<p>运行系统诊断程序并查看仅针对特定的匿名 UUID 故障报告是否出现问题，是尝试并了解应用程序是否存在特定的计算机硬件问题的方法。 # Apple Silicon</p>
-<p>In this chapter we look at crashes on Apple Silicon Macs, crashes arising from the use of the Rosetta translation system, and crashes arising from unmodified iOS apps running on macOS. Furthermore we look at new types of crashes that are possible from multi-architecture code that supports both ARM and Intel CPUs.</p>
-<h2 id="what-is-an-apple-silicon-mac">What is an Apple Silicon Mac?</h2>
-<p>Apple Silicon means the design of the chip is from Apple, not from a third party. The A-series chips from Apple can be considered Apple Silicon. However, the focus of this chapter are Apple Silicon Macs. These have commenced with the Apple M1  chip. Presumably the reason why these Macs are not called “ARM-based Macs” is that Apple have made a significant contribution at the design level whilst still conforming to the ARM ABI. These provide marketable benefits for the customer when switching from Intel-based Macs to Apple Silicon Macs, such as long battery life and high performance.</p>
-<h2 id="what-is-rosetta">What is Rosetta?</h2>
-<p>Rosetta is an instruction translator present on Apple Silicon Macs. When presented an Application with Intel instructions as part of the binary, it can translate those to ARM instructions, and then run them. Think of it as a Ahead Of Time (AOT) compiler. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span> The origins of the technology come from an earlier era when Macs were transitioning from the PowerPC chip to Intel chips. Apple was assisted by technology from Transitive Technologies Ltd. to produce Rosetta version 1. <span class="citation" data-cites="transitive">(“Heroes of Software Engineering - the Men and Women at Transitive” 2020)</span> <span class="citation" data-cites="rosetta_news">(“The Brains Behind Apple’s Rosetta: Transitive” 2020)</span> In Rosetta version 2, we have a system allowing on a per process basis, Intel instructions to be pre-translated to ARM instructions, and then run at native speed.</p>
-<h3 id="rosetta-binaries">Rosetta binaries</h3>
-<p>On Apple Silicon Macs, the Rosetta software resides in</p>
+<p>运行系统诊断程序并查看仅针对特定的匿名 UUID 故障报告是否出现问题，是尝试并了解应用程序是否存在特定的计算机硬件问题的方法。</p>
+<h1 id="apple-silicon">Apple Silicon</h1>
+<p>在本章中，我们着眼于 Apple Silicon Mac 上的崩溃，比如，因使用 Rosetta  翻译系统而引起的崩溃以及因在 macOS 上运行的未修改 iOS 应用程序而引起的崩溃。 此外，我们还将研究同时支持 ARM  和 Intel  CPU的多体系结构代码可能导致的新型崩溃。</p>
+<h2 id="什么是-apple-silicon-mac">什么是 Apple Silicon Mac?</h2>
+<p>Apple Silicon表示该芯片的设计来自Apple，而不是第三方。 苹果公司的A系列芯片可以被认为是苹果芯片。 但是，本章重点是Apple Silicon Macs。 这些始于Apple M1芯片。 这些Mac之所以不被称为 <em>基于ARM的Mac</em>，可能是因为Apple在设计水平上做出了重大贡献，同时仍然符合ARM ABI。 当从基于 Intel 的 Mac 切换到 Apple Silicon Mac 时，这为客户带来了更优益的市场收益，例如更长的电池寿命和高性能。</p>
+<h2 id="什么是-rosetta">什么是 Rosetta?</h2>
+<p>Rosetta 是 Apple Silicon Mac 上的指令翻译器。当应用程序将 Intel 指令作为二进制代码的一部分时，它可以将这些指令转换为 ARM 指令，然后运行它们。可以把它看作 AOT  编译器。<span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span> 这项技术的起源可以追溯到更早的时期，当时 mac 正在从 PowerPC 芯片过渡到 Intel 芯片。苹果在 Transitive Technologies Ltd. 的技术帮助下研发出了 Rosetta 的第一个版本。<span class="citation" data-cites="transitive">(“Heroes of Software Engineering - the Men and Women at Transitive” 2020)</span> <span class="citation" data-cites="rosetta_news">(“The Brains Behind Apple’s Rosetta: Transitive” 2020)</span> 在 Rosetta 的第二个版本中，我们的系统允许在每个进程的基础上，将 Intel 指令预先翻译成 ARM 指令，然后以原生速度运行。</p>
+<h3 id="rosetta-的二进制文件">Rosetta 的二进制文件</h3>
+<p>在 Apple Silicon Mac 上，Rosetta 软件驻留在</p>
 <pre><code>/Library/Apple/usr/libexec/oah</code></pre>
-<p>Within this directory is the runtime engine, <code>runtime_t8027</code>, the translator <code>oahd-helper</code>, a command line tool <code>translate_tool</code>, and other artifacts. Its operation is largely transparent to end users apart from a small startup delay or slightly lower performance. From a crash dump perspective, we see its presence in terms of memory footprint, exception helper and runtime helpers.</p>
-<h3 id="rosetta-limitations">Rosetta limitations</h3>
-<p>Rosetta is a powerful system but it has some limitations. These concern mainly high performance multimedia applications and Operating System virtualization solutions.</p>
-<p>Excluded from Rosetta are:</p>
+<p>在这个目录下有运行时引擎 <code>runtime_t8027</code>、翻译器 <code>oahd-helper</code>、命令行工具 <code>translate_tool</code>和其他工具。它的操作对终端用户来说基本是透明的，除了启动延迟较小或性能稍低。从崩溃分析的角度来看，我们可以从内存占用量，异常帮助程序和运行时帮助程序的角度看到它的存在。</p>
+<h3 id="rosetta-的局限性">Rosetta 的局限性</h3>
+<p>Rosetta 是一个功能强大的系统，但有一些局限性。这些主要涉及高性能多媒体应用程序和操作系统虚拟化解决方案。</p>
+<p>Rosetta 并不包括以下功能：</p>
 <ul>
-<li>Kernel extensions</li>
-<li><code>x86_64</code> virtualization support instructions</li>
-<li>vector instructions, such as AVX, AVX2, and AVX512</li>
+<li>内核扩展</li>
+<li><code>x86_64</code> 虚拟化支持说明</li>
+<li>矢量指令，例如 AVX，AVX2 和 AVX512</li>
 </ul>
-<p>Interestingly, Rosetta does support Just-In-Time compilation apps. These applications are special because they generate their own code and then execute them. Most applications have fixed read-only code (the program text) which is then executed, and only have their data as mutable (but not executable). Presumably this was because JIT is a common technology for the JavaScript runtime.</p>
-<p>Apple advise checking for optional hardware features before calling code that utilizes such functionality. To determine what optional hardware support is present on our platform, we can run <code>sysctl hw | grep optional</code>. In code, we have the <code>sysctlbyname</code> function to achieve the same thing.</p>
-<h3 id="forcing-rosetta-execution">Forcing Rosetta execution</h3>
-<p>If we accept the standard build architecture options for our program, which are <code>Build Active Architecture Only</code> set to <code>Yes</code> for <code>Debug</code> builds, and <code>No</code> for <code>Release</code> builds, then when running under the Debugger, we shall only see Native binaries. That is because in the Debug case, we do not want to waste time building an architecture not relevant to the machine we are testing on.</p>
-<p>If we do an archive build, <code>Product &gt; Archive</code>, and then select <code>Distribute App</code> we end up with a Release Build. With default settings, this will be a Fat Binary File offering <code>x86</code> and <code>arm64</code> within the multi-architecture binary.</p>
-<p>Once we have a Fat binary we can use <code>Finder</code> app, right-click <code>File info</code> to set Rosetta to perform translation of our binary so that on an Apple Silicon Mac, the Intel instructions are translated from the Fat binary.</p>
+<p>有趣的是，Rosetta 支持即时编译应用程序。这些应用程序非常特殊，因为它们自己生成代码，然后执行代码。大多数应用程序都只有固定的只读代码（程序文本），然后执行这些代码，它们的数据只是可变的（但不是可执行的）。这大概是因为JIT是JavaScript运行时的常用技术。</p>
+<p>Apple 建议在调用使用这种功能的代码之前先检查可选的硬件功能。 我们可以通过运行 <code>sysctl hw | grep optional</code> 来确定平台上存在哪些可选硬件支持。在代码中，我们可以调用<code>sysctlbyname</code> 方法来实现同样的功能。</p>
+<h3 id="强制执行-rosetta">强制执行 Rosetta</h3>
+<p>如果我们默认给自己的项目使用标准的构建选项，当在 <code>Debug</code> 时将<code>Build Active Architecture Only</code> 设置成为<code>Yes</code>，而对于<code>Release</code>构建则设置为<code>No</code>，然后再调试时，我们将只看到本机的二进制文件。 这是因为在 <code>Debug</code> 时，我们不想浪费时间来构建与我们正在测试的机器无关的体系结构。</p>
+<p>如果我们进行 <code>Archive</code> 构建，<code>Product &gt; Archive</code>，然后选择 <code>Distribute App</code> 我们最终获得了一个可供发布的版本。 在默认设置下，这将是 Fat Binary  （我们将其称为胖二进制）文件，在多体系结构的二进制文件中提供 <code>x86</code> 和 <code>arm64</code>。</p>
+<p>一旦我们有了一个 Fat Binary 文件，我们可以使用 <code>Finder</code> 应用程序，右键单击<code>File info</code>设置 Rosetta 来执行我们的二进制文件的翻译，这样在一个 Apple Silicon Mac 上，Intel 指令就会从 Fat Binary 中翻译出来。</p>
 <p><img src="screenshots/univeral_application_icdab_rosetta_thread.png" /></p>
-<h2 id="code-translation-example">Code Translation Example</h2>
-<p>Our working example in this chapter is the <code>icdab_thread</code> program; it is available on the web. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> This program attempts to call <code>thread_set_state</code> and then deliberately crashes 60 seconds later using <code>abort</code>. It is not able to actually do this because of recent security enhancements in macOS to prevent the use of such an API; it was an attack vector for malware. Nevertheless, this program is interesting because of a closely related artifact upon crashing, the number of times <code>task_for_pid</code> had been called.</p>
-<p>We have adapted the command line executable program <code>icdab_thread</code> into an application which merely calls the same underlying code. The application is called <code>icdab_rosetta_thread</code>. The reason for this is because UNIX command line executables are not eligible for running Translated but Applications are.</p>
-<h3 id="icdab_rosetta_thread-lipo-information"><code>icdab_rosetta_thread</code> Lipo Information</h3>
-<p>The following command shows our application supports both ARM and Intel instructions.</p>
+<h2 id="翻译后的应用程序示例">翻译后的应用程序示例</h2>
+<p>本章的工作示例是<code>icdab_thread</code>程序。 可以在网上找到。<span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> 该程序尝试调用 <code>thread_set_state</code>，然后在 60 秒后调用<code>abort</code>  主动崩溃。实际上它并没有办法达到这个效果，因为最近 macOS 的安全增强，以防止使用这样的API，它是恶意软件的攻击载体。尽管如此，这个程序还是很有趣的，因为在崩溃时，一个紧密相关的部分<code>task_for_pid</code>  被多次调用了 。</p>
+<p>我们已经将命令行可执行程序 <code>icdab_thread</code> 修改为仅调用相同基础代码的应用程序。这个应用程序就是 <code>icdab_rosetta_thread</code>。这是因为 UNIX 命令行可执行文件不适合运行转换后的程序，而应用程序可以。</p>
+<h3 id="icdab_rosetta_thread-lipo-信息"><code>icdab_rosetta_thread</code> Lipo 信息</h3>
+<p>以下命令显示我们的应用程序同时支持 ARM 和 Intel 指令。</p>
 <pre><code># lipo -archs
  icdab_rosetta_thread.app/Contents/MacOS/icdab_rosetta_thread
 x86_64 arm64</code></pre>
-<h2 id="translated-crashes">Translated Crashes</h2>
-<p>If we run the <code>icdab_rosetta_thread</code> application, clicking on <code>Start Threads Test</code>, after one minute we have a crash. Comparing the crash dump between Native and Translated cases, we see differences in the Crash Report.</p>
-<h3 id="code-type">Code Type</h3>
+<h2 id="翻译后的程序崩溃">翻译后的程序崩溃</h2>
+<p>如果我们运行 <code>icdab_rosetta_thread</code> 应用程序，点击 <code>Start Threads Test</code>，在一分钟后，应用程序发生崩溃。比较原生案例与已翻译案例之间的崩溃分析，我们可以从崩溃报告中的找到差异。</p>
+<h3 id="代码类型">代码类型</h3>
 <pre><code>Code Type:             ARM-64 (Native)</code></pre>
-<p>when running natively, becomes under translation,</p>
+<p>当在本地运行时，变成了已翻译</p>
 <pre><code>Code Type:             X86-64 (Translated)</code></pre>
-<h3 id="thread-dumps">Thread Dumps</h3>
-<p>The crashed thread (and others) look similar, apart from the pointers are based much higher in the Translated case.</p>
-<p>For the native crash we have:</p>
+<h3 id="线程转储">线程转储</h3>
+<p>崩溃的线程（和其他线程）看起来很相似，只是指针在翻译后的情况下基于更高的指针。 对于原生的崩溃，我们有：</p>
 <pre><code>Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
 0   libsystem_kernel.dylib              0x00000001de3015d8
  __pthread_kill + 8
@@ -2521,7 +2522,7 @@ x86_64 arm64</code></pre>
  _pthread_wqthread + 216
 11  libsystem_pthread.dylib             0x00000001de3a7e80
  start_wqthread + 8</code></pre>
-<p>For the translated crash we have:</p>
+<p>而对于翻译后的案例中崩溃，则有</p>
 <pre><code>Thread 1 Crashed:: Dispatch queue: com.apple.root.default-qos
 0   ???                                 0x00007fff0144ff40 ???
 1   libsystem_kernel.dylib              0x00007fff6bdc4812
@@ -2547,8 +2548,8 @@ x86_64 arm64</code></pre>
  _pthread_wqthread + 244
 11  libsystem_pthread.dylib             0x00007fff6be8b4c3
  start_wqthread + 15</code></pre>
-<p>Note the actual line of code in thread stack 0 is <code>???</code> in the translated case. Presumably this is the actual translated code that is synthesized by Rosetta.</p>
-<p>Furthermore we have an additional two threads in the translated case, the exception server, and the runtime environment:</p>
+<p>注意，在翻译后的案例中，线程堆栈 0 中的实际代码行是 <code>???</code>。 大概这是 Rosetta 合成的实际翻译代码。</p>
+<p>此外，在翻译后的案例中，我们还有另外两个线程，异常服务器和运行时环境：</p>
 <pre><code>Thread 3:: com.apple.rosetta.exceptionserver
 0   runtime_t8027                       0x00007ffdfff76af8
  0x7ffdfff74000 + 11000
@@ -2560,8 +2561,8 @@ x86_64 arm64</code></pre>
 Thread 4:
 0   runtime_t8027                       0x00007ffdfffce8ac
  0x7ffdfff74000 + 370860</code></pre>
-<h3 id="crashed-thread-state-registers">Crashed Thread State Registers</h3>
-<p>In the native case, we get thread state registers:</p>
+<h3 id="崩溃的线程状态寄存器">崩溃的线程状态寄存器</h3>
+<p>在原生的例子中，我们得到了线程状态寄存器：</p>
 <pre><code>Thread 1 crashed with ARM Thread State (64-bit):
     x0: 0x0000000000000000   x1: 0x0000000000000000   x2:
  0x0000000000000000   x3: 0x0000000000000000
@@ -2582,7 +2583,7 @@ Thread 4:
     sp: 0x000000016fbbab50   pc: 0x00000001de3015d8 cpsr:
  0x40000000
    far: 0x0000000100ff8000  esr: 0x56000080</code></pre>
-<p>In the translated case, we get thread state registers:</p>
+<p>在翻译后的案例中，同样也有线程状态寄存器：</p>
 <pre><code>Thread 1 crashed with X86 Thread State (64-bit):
   rax: 0x0000000000000000  rbx: 0x000000030600b000  rcx:
  0x0000000000000000  rdx: 0x0000000000000000
@@ -2593,13 +2594,13 @@ Thread 4:
   r12: 0x0000000000003d03  r13: 0x0000000000000000  r14:
  0x0000000000000006  r15: 0x0000000000000016
   rip: &lt;unavailable&gt;  rfl: 0x0000000000000287</code></pre>
-<h3 id="translated-code-information">Translated Code information</h3>
-<p>In the translated case, we get extra information, presumably useful for those engineers that work on debugging Rosetta:</p>
+<h3 id="翻译的代码信息">翻译的代码信息</h3>
+<p>在翻译后的案例中，我们会获得更多信息，这可能对那些从事调试 Rosetta 的工程师有用：</p>
 <pre><code>Translated Code Information:
   tmp0: 0xffffffffffffffff tmp1: 0x00007fff0144ff14 tmp2:
  0x00007fff6bdc4808</code></pre>
-<h3 id="external-modification-summary">External Modification Summary</h3>
-<p>In the native case, we saw:</p>
+<h3 id="外部修改摘要">外部修改摘要</h3>
+<p>在原生的例子中，我们看到：</p>
 <pre><code>External Modification Summary:
   Calls made by other processes targeting this process:
     task_for_pid: 0
@@ -2613,8 +2614,8 @@ Thread 4:
     task_for_pid: 914636
     thread_create: 0
     thread_set_state: 804</code></pre>
-<p>Our code had attempted to call <code>thread_set_state</code> but was not able to (under any platform configuration due to macOS restrictions).</p>
-<p>Looking that the translated case,</p>
+<p>我们的代码曾尝试调用 <code>thread_set_state</code>，但未能（由于 macOS 限制，在任何平台配置下都不行）。</p>
+<p>然后我们看一下翻译后的示例：</p>
 <pre><code>External Modification Summary:
   Calls made by other processes targeting this process:
     task_for_pid: 1
@@ -2628,35 +2629,35 @@ Thread 4:
     task_for_pid: 915091
     thread_create: 0
     thread_set_state: 804</code></pre>
-<p>We see almost the same statistics, but interestingly we have <code>task_for_pid</code> set to 1. So the translation environment only did a minimal observation/modification of the actual process under translation.</p>
-<h3 id="virtual-memory-regions">Virtual Memory Regions</h3>
-<p>The translated version of the program runs a bit heavier on RAM usage than the native version.</p>
-<p>In the native case, we have:</p>
+<p>我们看到几乎相同的统计信息，但是有趣的是，我们将<code>task_for_pid</code>  设置为 1。因此，翻译环境仅对翻译过程进行了最小的观察/修改。</p>
+<h3 id="虚拟内存区域">虚拟内存区域</h3>
+<p>该程序的翻译版本在 RAM 使用率上比原生版本高。</p>
+<p>在原生的案例中，我们可以看到：</p>
 <pre><code>                                VIRTUAL   REGION
 REGION TYPE                        SIZE    COUNT (non-coalesced)
 ===========                     =======  =======
 TOTAL                              1.7G     2053
 TOTAL, minus reserved VM space     1.3G     2053</code></pre>
-<p>versus the translated case:</p>
+<p>而翻译后的情况则是：</p>
 <pre><code>REGION TYPE                        SIZE    COUNT (non-coalesced)
 ===========                     =======  =======
 TOTAL                              5.4G     1512
 TOTAL, minus reserved VM space     5.1G     1512</code></pre>
-<p>Note in the translated case we have additional Virtual Memory regions for Rosetta:</p>
+<p>请注意，在翻译后的情况下，我们为 Rosetta 提供了其他虚拟内存区域：</p>
 <pre><code>Rosetta Arena                     2048K        1
 Rosetta Generic                    864K       19
 Rosetta IndirectBranch             512K        1
 Rosetta JIT                      128.0M        1
 Rosetta Return Stack               192K       12
 Rosetta Thread Context             192K       12</code></pre>
-<h2 id="rosetta-crashes">Rosetta Crashes</h2>
-<p>Rosetta is a powerful translation system. But it does not translate all X86-64 instructions. Vector instructions, as an example, cannot be translated and generate a crash when encountered. <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span></p>
-<p>Before diagnosing specific problems, it is worth familiarizing ourselves with the Porting Guide from Apple because this can help us develop a reasonable hypothesis for why our program may be crashing. <span class="citation" data-cites="rosettaPortingGuide">(“Porting Your macOS Apps to Apple Silicon” 2020)</span></p>
-<h3 id="icdab_avx-vector-instruction-crash"><code>icdab_avx</code> vector instruction crash</h3>
-<p>When an Intel AVX vector instruction is encountered on a Apple Silicon Mac running the app using translation, we get a crash. We have a sample application, <code>icdab_avx</code>, that demonstrates this.</p>
-<p>The crash Code Type will be:</p>
+<h2 id="rosetta-崩溃">Rosetta 崩溃</h2>
+<p>Rosetta 是功能强大的翻译系统。 但是它不能翻译所有 X86-64指令。 例如，矢量指令无法翻译，遇到时会发生崩溃。 <span class="citation" data-cites="rosetta">(“About the Rosetta Translation Environment” 2020)</span></p>
+<p>在诊断特定问题之前，有必要先熟悉一下 Apple 的 Porting Guide，因为这可以帮助我们针对程序可能崩溃的原因提出合理的假设。 <span class="citation" data-cites="rosettaPortingGuide">(“Porting Your macOS Apps to Apple Silicon” 2020)</span></p>
+<h3 id="icdab_avx-矢量指令崩溃"><code>icdab_avx</code> 矢量指令崩溃</h3>
+<p>当在使用翻译运行应用程序的 Apple Silicon Mac 上遇到英特尔 AVX 矢量指令 时，我们就会崩溃。我们用一个示例应用程序 <code>icdab_avx</code>来演示了这一点。</p>
+<p>崩溃代码类型将为：</p>
 <pre><code>Code Type:             X86-64 (Translated)</code></pre>
-<p>The crash type will be <code>EXC_BAD_INSTRUCTION</code> as follows: </p>
+<p>崩溃类型将为<code>EXC_BAD_INSTRUCTION</code>，如下所示：</p>
 <pre><code>Exception Type:        EXC_BAD_INSTRUCTION (SIGILL)
 Exception Codes:       0x0000000000000001, 0x0000000000000000
 Exception Note:        EXC_CORPSE_NOTIFY
@@ -2664,7 +2665,7 @@ Exception Note:        EXC_CORPSE_NOTIFY
 Termination Signal:    Illegal instruction: 4
 Termination Reason:    Namespace SIGNAL, Code 0x4
 Terminating Process:   exc handler [26823]</code></pre>
-<p>The thread state upon crash in our case is:</p>
+<p>在我们的情况下，崩溃时的线程状态为：</p>
 <pre><code>Thread 0 crashed with X86 Thread State (64-bit):
   rax: 0x0000000000000001  rbx: 0x0000600001fcf5c0  rcx:
  0x00007f87d143f8c0  rdx: 0x00007f87d143f8c0
@@ -2675,13 +2676,13 @@ Terminating Process:   exc handler [26823]</code></pre>
   r12: 0x00006000012d5100  r13: 0x00007fff6a9d4000  r14:
  0x00007f87d143f8c0  r15: 0x00000001047d770a
   rip: 0x00000001047d56cb  rfl: 0x0000000000000206</code></pre>
-<p>The application binary (program text) is loaded as follows:</p>
+<p>应用程序二进制文件（程序文本）按如下方式加载：</p>
 <pre><code>Binary Images:
        0x1047d4000 -        0x1047d7fff
  +perivalebluebell.com.icdab-avx (1.0 - 1)
  &lt;3D9E0DED-2C66-30EE-AC6C-7C426246332E&gt;
  /Users/USER/Desktop/*/icdab_avx.app/Contents/MacOS/icdab_avx</code></pre>
-<p>If we see that an Apple Silicon Mac has crashed our app in this way, we could quickly search for any vector instructions if we have such a suspicion.</p>
+<p>如果我们发现Apple Silicon Mac 以这种方式使我们的应用程序崩溃，如果我们有这样的怀疑，我们可以迅速搜索任何矢量指令 。</p>
 <pre><code># objdump -d icdab_avx.app/Contents/MacOS/icdab_avx | grep vmov |
  head
 100004527: c5 fa 10 84 24 a4 00 00 00      vmovss    164(%rsp),
@@ -2704,11 +2705,11 @@ Terminating Process:   exc handler [26823]</code></pre>
  144(%rsp)
 10000459c: c5 f8 29 84 24 80 00 00 00      vmovaps    %xmm0,
  128(%rsp)</code></pre>
-<p>However, to be more precise, we can make use of the instruction pointer at the time of the crash. We see that from the crashed thread state, we have:</p>
+<p>但是，更确切地说，我们可以在崩溃时使用指令指针。 我们从崩溃的线程状态中看到，我们有：</p>
 <pre><code>  rip: 0x00000001047d56cb  rfl: 0x0000000000000206</code></pre>
-<p>and we see from Binary Images, the program was loaded at address <code>0x1047d4000</code>.</p>
-<p>Using the techniques we explored in the <em>Symbolification</em> chapter, we can load up the icdab_avx binary in Hopper, change the base address of the binary to <code>0x1047d4000</code> and then goto the instruction pointer, <code>rip</code>, address <code>0x00000001047d56cb</code>.</p>
-<p>We then see the assembly dump:</p>
+<p>我们从Binary Images中看到，该程序已加载到地址<code>0x1047d4000</code>。</p>
+<p>使用我们在 <em>Symbolification</em> 章节中探讨的技术，我们可以在 Hopper 中加载 icdab_avx 二进制文件，将二进制文件的基址更改为<code>0x1047d4000</code>，然后转到指令指针 <code>rip</code>和地址 <code>0x00000001047d56cb</code>。</p>
+<p>然后，我们看到程序集转储：</p>
 <pre><code>_compute_delta:
 push       rbp          ; CODE
  XREF=_$s9icdab_avx14ViewControllerC31runVectorOperationsButtonAc
@@ -2726,8 +2727,8 @@ mov        dword [rsp+0x160+var_BC], 0x41600000
 mov        dword [rsp+0x160+var_C0], 0x41800000
 vmovss     xmm0, dword [rsp+0x160+var_BC]
 vmovss     xmm1, dword [rsp+0x160+var_C0]</code></pre>
-<p>So we didn’t land on the exact instruction that failed, but we did land on the function at fault, <code>compute_delta</code>, which looks to have been inlined in this Release binary due to it being within the <code>runVectorOperationsButtonAction</code> method. Nevertheless, we’ve been given enough help to be able to explore the binary in the relevant area and establish confirmation that the vector operation, <code>vmovss</code> was called. This is not supported by Rosetta.</p>
-<p>Our original code that caused the issue was:</p>
+<p>因此，虽然我们没有找到失败的确切指令，但是找到了出现错误的函数 <code>compute_delta</code>，它位于<code>runVectorOperationsButtonAction</code>方法中，它看起来已经被内联到这个版本二进制文件中。尽管如此，我们已经获得了足够的帮助，能够在相关区域中探索二进制文件并确定确认进行了向量操作<code>vmovss</code>。 Rosetta不支持此功能。</p>
+<p>导致该问题的原始代码为：</p>
 <pre><code>void
 compute_delta() {
     /* Initialize the two argument vectors */
@@ -2746,7 +2747,7 @@ compute_delta() {
     
     return;
 }</code></pre>
-<p>In order to avoid the problem we should have used a utility function to detect if the environment supported AVX, as follows:</p>
+<p>为了避免此问题，我们应该使用一个有用的方法来检测当前环境是否支持 AVX，如下所示：</p>
 <pre><code>bool
 avx_v1_supported() {
     int ret = 0;
@@ -2761,24 +2762,24 @@ avx_v1_supported() {
     bool supported = (ret != 0);
     return supported;
 }</code></pre>
-<p>This function returns <code>true</code> is AVX version 1 is supported (and there was no error in retrieving the information).</p>
-<h2 id="ios-on-mac">iOS on Mac</h2>
-<p>Since Apple Silicon Macs and iOS devices share the same ARM CPU architecture, Apple has made available a “bonus feature”. It is possible for unmodified iOS apps to run on ARM-based macOS. For this to work, ARM-based macOS has some special iOS support libraries.</p>
-<p>The way we can think about it is that macOS is the <em>host</em> that provides support libraries and frameworks, such as <code>UIKit</code>, that iOS <em>guest</em> apps expect to be in place.</p>
-<p>When such an app crashes, we get a crash report that is a macOS crash report, but most of the details involve iOS libraries.</p>
-<h3 id="icdab_wrap-ios-app-crash-on-macos"><code>icdab_wrap</code> iOS app crash on macOS</h3>
-<p>If we run the <code>icdab_wrap</code> iOS app natively on an Apple Silicon Mac, it will launch because macOS provides the <code>UIKit</code> framework that <code>icdab_wrap</code> assumes is present. This app is written to demonstrate a problem when a nil optional is dereferenced.</p>
-<p>Upon crash, we see:</p>
+<p>如果支持 AVX 版本1（并且在检索信息时没有错误），此函数返回 <code>true</code>。</p>
+<h2 id="在-mac-上运行-ios">在 Mac 上运行 iOS</h2>
+<p>由于 Apple Silicon Mac 和 iOS 设备共享相同的 ARM CPU 体系结构，因此Apple提供了_附加功能_。 未经修改的 iOS 应用程序可能会在基于 ARM 的 macOS 上运行。 为此，基于 ARM 的 macOS 拥有了一些特殊的 iOS 支持库。</p>
+<p>我们可以这样想，macOS （<em>主语</em>）是提供支持库和框架的 ，提供 iOS（ <em>宾语</em> ）应用程序期望的 UIKit。</p>
+<p>当此类应用程序崩溃时，我们会获得崩溃报告，该报告是 macOS 崩溃报告，但大多数细节都涉及 iOS 库。</p>
+<h3 id="icdab_wrap-ios-应用程序在-macos-上崩溃"><code>icdab_wrap</code> iOS 应用程序在 macOS 上崩溃</h3>
+<p>如果我们在 Apple Silicon Mac 上运行 iOS 应用 <code>icdab_wrap</code> ，它可以正常加载，是因为 macOS 提供了 <code>UIKit</code> 框架，而 <code>icdab_wrap</code> 也假定该框架已存在。该应用程序是为了来演示一个问题，解包 Nil 可选项。</p>
+<p>崩溃时，我们可以看到：</p>
 <pre><code>Code Type:             ARM-64 (Native)
 Parent Process:        ??? [1]
 Responsible:           icdab_wrap [2802]
 User ID:               501</code></pre>
-<p>This shows that the application was running native code, not translated code.</p>
+<p>这表明应用程序正在运行原生代码，而不是翻译过的代码。</p>
 <pre><code>Date/Time:             2020-11-14 11:58:17.668 +0000
 OS Version:            Mac OS X 10.16 (20A5343i)
 Report Version:        12
 Anonymous UUID:        0118DF8D-2876-0263-8668-41B1482DDC38</code></pre>
-<p>This shows we were obviously running on a Mac.</p>
+<p>这表明我们很明显的是在 Mac 上运行。</p>
 <pre><code>System Integrity Protection: enabled
 
 Crashed Thread:        0  Dispatch queue: com.apple.main-thread
@@ -2797,7 +2798,7 @@ dyld3 mode
 Fatal error: Unexpectedly found nil while implicitly unwrapping
  an Optional value: file icdab_wrap/PlanetViewController.swift,
  line 45</code></pre>
-<p>This shows the program crashed unwrapping a nil optional.</p>
+<p>这说明程序崩溃时正在解包 Nil 可选项。</p>
 <pre><code>Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
 0   libswiftCore.dylib                  0x00000001c6c8f1f0
  closure #1 in closure #1 in closure #1 in
@@ -2833,7 +2834,7 @@ Fatal error: Unexpectedly found nil while implicitly unwrapping
  88 (AppDelegate.swift:12)
 24  libdyld.dylib                       0x00000001c758ca50 start
  + 4</code></pre>
-<p>This shows that when the program was loaded by <code>libdyld.dylib</code>, the UIKit it expected, <code>UIKitCore</code>, was implemented via <code>UIKitMacHelper</code> support layer.</p>
+<p>这表明当程序被加载时 <code>libdyld.dylib</code>，它所期望的 UIKit <code>UIKitCore</code> 是通过 <code>UIKitMacHelper</code> 支持层实现的。</p>
 <pre><code>Binary Images:
        0x10492c000 -        0x10493bfff
  +www.perivalebluebell.icdab-wrap (1.0 - 1)
@@ -2889,45 +2890,44 @@ amework/Versions/A/UIKitCore
        0x1d72fa000 -        0x1d7337fff  libswiftUIKit.dylib (15)
  &lt;68377BCA-6493-3E34-920E-0765BD07F2A7&gt;
  /System/iOSSupport/usr/lib/swift/libswiftUIKit.dylib</code></pre>
-<p>The above sample of binaries shows that both AppKit and UIKit are present and the system is providing support frameworks in order to allow iOS apps to see the frameworks they are expecting.</p>
-<p>For the most part, these crashes can be analyzed as if they were straightforward crashes on iOS. The more likely problem area is one of assumptions about the environment. For example, iOS devices have a gyroscope but macOS devices do not.</p>
-<h3 id="supporting-the-mac-from-ios">Supporting the Mac from iOS</h3>
-<p>Apple provide guidance on best practice when deploying iOS apps on Mac; <span class="citation" data-cites="iosOnMac">(“Running Your iOS Apps on macOS” 2020)</span>. The choices would be:</p>
+<p>在大多数情况下，这些崩溃可以像在 iOS 上崩溃一样直接进行分析。问题很有可能是由于不同的物理环境导致的。例如，iOS 设备具有陀螺仪，而 macOS 设备则没有。</p>
+<h3 id="在-mac-上支持-ios-应用程序">在 Mac 上支持 iOS 应用程序</h3>
+<p>Apple 提供了在 Mac 上部署 iOS 应用程序的最佳实践指南。<span class="citation" data-cites="iosOnMac你可以进行如下操作">(<span class="citeproc-not-found" data-reference-id="iosOnMac你可以进行如下操作"><strong>???</strong></span>)</span>：</p>
 <ol type="1">
-<li>Decide that the iOS app is not suitable for macOS. In App Store Connect it can be de-configured.</li>
-<li>Allow the app to be installed on iOS but add checks for available optional hardware functionality.</li>
-<li>Enhance the app to use alternate features more accessible to Mac users. For example, add iOS keyboard support.</li>
-<li>Add code to detect the iOS-on-Mac scenario. </li>
-<li>Do a port to Mac, via Mac Catalyst  technology. This would first mean having a great iPadOS app as a starting point.</li>
-<li>Write a native macOS app.</li>
+<li>如果确定自己的 iOS 应用程序不适合 macOS。在 App Store Connect 中可以取消配置。</li>
+<li>允许在 iOS 上安装的应用程序安装在 macOS 上，但是添加检查可用的可选硬件功能。</li>
+<li>增强该应用程序，使 Mac 用户更易于使用替代功能。 例如，添加iOS键盘支持。</li>
+<li>添加代码以检测 <em>iOS-on-Mac</em> 的场景。</li>
+<li>通过 Mac Catalyst  技术连接到Mac。这意味着首先得拥有一个出色的iPadOS应用。</li>
+<li>编写纯原生 macOS 应用程序。</li>
 </ol>
-<p>For example, in the app <code>icdab_gyro</code> we show how to detect the iOS-on-Mac scenario:</p>
+<p>例如，在应用程序 <code>icdab_gyro</code> 我们将展示如何检测 <em>iOS-on-Mac</em> 的场景：</p>
 <pre><code>        let info = ProcessInfo()
         if #available(iOS 14.0, *) {
             if info.isiOSAppOnMac {
                 print(&quot;We are an iOS app running on a Mac&quot;)
             }
         }</code></pre>
-<p>Furthermore, when using the Gyroscope, we have</p>
+<p>此外，当使用陀螺仪时</p>
 <pre><code>var motion = CMMotionManager()</code></pre>
-<p>and use the gyroscope only if available:</p>
+<p>并仅在可用时使用陀螺仪：</p>
 <pre><code>if motion.isGyroAvailable {
           self.motion.gyroUpdateInterval = 1.0 / 60.0
           self.motion.startGyroUpdates()
 .
 .</code></pre>
-<h1 id="pointer-authentication">Pointer Authentication</h1>
-<p>In this chapter we shall examine Pointer Authentication, and related crashes.</p>
-<p>Devices using the Apple A12 chip, or later, utilize a security feature known as <em>Pointer Authentication</em> as part of the ARMv8.3-A architecture. For example, iPhone XS, iPhone XS Max, and iPhone XR use the A12 chip. The basic idea is that there are unused bits in a 64-bit pointer because it can already address such a vast range of addresses, only 40 bits are allocated to such purposes. <span class="citation" data-cites="iospac">(“Examining Pointer Authentication on the iPhone Xs” 2019)</span> The remaining bits can therefore be used to store a hash value computed after combining the intended pointer address with a context value and a secret key. Then if the pointer address were to be changed, either because of a bug or malicious action, the pointer would be known to be invalid and would eventually cause a <code>SIGSEGV</code> if it were to be used to change the control flow of a program.</p>
-<p>In actual fact, Pointer Authentication is used in a number of scenarios, such as ensuring C++ virtual dispatch tables have not been tampered with. But we shall look only at the simple case of an incorrectly manipulated jump address.</p>
-<h2 id="configuring-pointer-authentication">Configuring Pointer Authentication</h2>
-<p>Pointer Authentication is enabled by Apple in the kernel on Devices using the A12 chip, and newer. For user space code, Pointer Authentication is an opt-in feature. It can be enabled via the Build Settings for the project as seen here in Figure <em>Enable Pointer Authentication</em> for <code>icdab_ptr</code> <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> We add Architecture <code>arm64e</code> to the Architectures setting.</p>
+<h1 id="pointer-authentication指针验证机制">Pointer Authentication（指针验证机制）</h1>
+<p>在本章中，我们将研究指针验证机制以及相关的崩溃。</p>
+<p>使用 Apple A12 芯片或更高版本的设备将称为 <em>Pointer Authentication</em> 的安全功能作为 ARMv8.3-A 体系结构的一部分。例如， iPhone XS，iPhone XS Max, 和 iPhone XR 使用 A12芯片。其基本思想是在 64 位指针中存在未使用的位，因为它已经可以寻址相当广泛的地址，因此只有 40 位被分配给这样的目的。 <span class="citation" data-cites="iospac">(“Examining Pointer Authentication on the iPhone Xs” 2019)</span> 因此，剩余的位可用于存储在将预期的指针地址与上下文值和密钥组合后计算出的哈希值。 然后，如果由于错误或恶意操作而要更改指针地址，则该指针将被认为是无效的，并且如果将其用于更改程序的控制流，则最终将导致 SIGSEGV。</p>
+<p>实际上，在许多情况下都使用了指针验证机制，例如确保 C++ 虚拟调度表未被篡改。 但是，我们只看一个错误操作跳转地址的简单情况。因此，我们只看一个错误操作跳转地址的简单情况。</p>
+<h2 id="配置指针验证机制">配置指针验证机制</h2>
+<p>在使用 A12 或更高版本的设备，Apple 在设备内核中启用了指针验证机制。对于用户空间代码，指针身份验证是一项可选功能。可以在项目的_构建设置_中来启用它，如图为 <code>icdab_ptr</code> 示例 <em>Enable Pointer Authentication</em>（启用指针验证机制）。 <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span> 我们将架构 <code>arm64e</code> 添加到架构设置中。</p>
 <figure>
 <img src="screenshots/enable_ptr_auth.png" alt="Enable Pointer Authentication" /><figcaption aria-hidden="true">Enable Pointer Authentication</figcaption>
 </figure>
-<p>If we are writing security sensitive software, it is worthwhile being an early adopter of this feature.</p>
-<h2 id="manipulating-pointers">Manipulating Pointers</h2>
-<p>Let us consider the following program which manipulates pointers, albeit in an artificial way, to expose some of the ideas behind pointer authentication.</p>
+<p>如果我们正在编写对安全性敏感的软件，那么值得尽早的采用此功能。</p>
+<h2 id="操纵指针">操纵指针</h2>
+<p>让我们考虑下面的程序，该程序以人工方式操纵指针，以揭示指针验证机制背后的一些思想。</p>
 <pre><code>#import &quot;ViewController.h&quot;
 
 #include &quot;ptrauth.h&quot;
@@ -2976,35 +2976,35 @@ static void nextInterestingJumpToFunc(void) {
  component
     return func;
 }</code></pre>
-<p>If we run the above program, we get a crash. The logging output of the program is:</p>
+<p>如果运行上述程序，则会崩溃。 该程序的日志输出为：</p>
 <pre><code>ptr addresses as uintptr_t are 0x2946180102c55dd8
  0x22b810102c55df8
 delta is 0xd8e5690000000020 clean_delta is 0x20
 ptrFn result is 0x2946180102c55df8</code></pre>
-<p>We see that when a pointer to function, <code>interestingJumpToFunc</code>, is obtained, and then stored in an integer big enough to hold a pointer address, we get a large value, <code>0x2946180102c55dd8</code>. That is because the top 24 bits of the address are the Pointer Authentication Code (PAC). The PAC in this instance is <code>0x294618</code> and the effective pointer is <code>0x0102c55dd8</code>.</p>
-<p>The next pointer, which is physically adjacent, <code>nextInterestingJumpToFunc</code> is <code>0x22b810102c55df8</code>; clearly it shares a similar effective address, <code>0x0102c55df8</code>, but has an entirely different PAC, <code>0x22b81</code>.</p>
-<p>When we compute the delta between the pointers, we will clearly get a nonsense address because of the PAC portion of the value of the pointers. In order to correctly calculate the delta between the effective address of the pointers, we need to use the <code>ptrauth_strip</code> utility function. This is implemented as a built-in macro assembly instruction.</p>
-<p>After macro preprocessing, the code is:</p>
+<p>我们看到，当获得指向函数<code>interestingJumpToFunc</code> 的指针，然后将其存储在足以容纳指针地址的整数中时，我们将获得一个较大的值<code>0x2946180102c55dd8</code>。 这是因为地址的前24位是指针验证码（PAC）。 在这种情况下，PAC为 <code>0x294618</code> ，有效指针为<code>0x0102c55dd8</code>。</p>
+<p>在物理上相邻的下一个指针 <code>nextInterestingJumpToFunc</code> 是 <code>0x22b810102c55df8</code>； 显然，它具有相似的有效地址<code>0x0102c55df8</code>，但具有完全不同的PAC <code>0x22b81</code>。</p>
+<p>当我们计算指针之间的增量时，由于指针值的PAC部分，我们显然会得到一个无意义的地址。 为了正确计算指针的有效地址之间的增量，我们需要使用 <code>ptrauth_strip</code>实用程序函数。 这是作为内置宏汇编指令实现的。</p>
+<p>经过宏预处理后，代码为：</p>
 <pre><code>ptrdiff_t clean_delta =
     __builtin_ptrauth_strip(&amp;nextInterestingJumpToFunc,
  ptrauth_key_asia) -
 
     __builtin_ptrauth_strip(&amp;interestingJumpToFunc,
  ptrauth_key_asia);</code></pre>
-<p>The assembly instructions produced are of the form:</p>
+<p>生成的装配说明的格式为：</p>
 <pre><code>    xpaci   x9</code></pre>
-<p>when the <code>__builtin_ptrauth_strip</code> strip function is used. This removes the PAC from a register, in this case <code>x9</code>.</p>
-<p>The benefit of using the strip functions was that we are able to correctly determine the distance between the two functions of interest. It is <code>0x20</code>. Our function <code>generatePtrToFn</code> essentially just adds the delta onto the address of <code>interestingJumpToFunc</code> to calculate the address of <code>nextInterestingJumpToFunc</code>, but it does it erroneously; it leaves the PAC for <code>interestingJumpToFunc</code> in the address it has calculated.</p>
-<p>Notice none of this pointer manipulation causes a crash. The time of checking the pointer is when it is used for changing the link register. That is, when we act upon the pointer value to change the control flow of the program.</p>
-<p>In the function <code>viewDidLoad()</code> when have the code</p>
+<p>当使用 <code>__builtin_ptrauth_strip</code> 剥离功能时。 这将从寄存器（在本例中为<code>x9</code>）中删除PAC。</p>
+<p>使用带状函数的好处是我们能够正确确定感兴趣的两个函数之间的距离。它是 <code>0x20</code>。 我们的函数 <code>generatePtrToFn</code> 实际上只是将delta加到<code>interestingJumpToFunc</code>的地址上来计算 <code>nextInterestingJumpToFunc</code> 的地址，但是这样做是错误的。 它将PAC在其计算出的地址中留给<code>interestingJumpToFunc</code>。</p>
+<p>请注意，这类指针操作均不会导致崩溃。 检查指针的时间是用于更改链接寄存器 的时间。 也就，当我们根据指针值来更改程序的控制流时。</p>
+<p>在函数 <code>viewDidLoad（）</code>中存在我们有以下</p>
 <pre><code>result(); // will crash; deferences a pointer with a bad PAC</code></pre>
-<p>The pointer used is our bad pointer <code>0x2946180102c55df8</code>. The bad pointer is detected by the assembly instruction</p>
+<p>使用的指针是我们的错误指针<code>0x2946180102c55df8</code>。 汇编指令检测到错误的指针</p>
 <pre><code>blraaz  x8</code></pre>
-<p>This is Branch with Link to Register, with pointer authentication using Instruction Key A.</p>
-<p>Note that when we were stripping the pointer, we used <code>ptrauth_key_asia</code> to remove Instruction Key A. However, we do not have access to the special values needed to do the reverse, to sign a pointer with Instruction Key A with the appropriate “salt” values to get a contextually correct signed pointer.</p>
-<p>Now that we have examined our faulty code, let us look what happens when it crashes.</p>
-<h2 id="icdab_ptr-pac-crash"><code>icdab_ptr</code> PAC crash</h2>
-<p>On an iPhone 11, which has an A13 Bionic chip, we see the following crash when running the <code>icdab_ptr</code> program. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>这是具有指向注册的链接的分支，具有使用指令密钥 A 的指针身份验证。</p>
+<p>请注意，当我们剥离指针时，我们使用了<code>ptrauth_key_asia</code>来删除指令密钥A。但是，我们无法访问执行相反操作所需的特殊值，而是使用带有适当的 <em>salt</em> 的指令密钥A来对指针进行签名值以获取上下文中正确的带符号指针。</p>
+<p>现在，我们已经检查了错误的代码，让我们看看崩溃时会发生什么。</p>
+<h2 id="icdab_ptr-pac-崩溃"><code>icdab_ptr</code> PAC 崩溃</h2>
+<p>在具有 A13 仿生芯片的 iPhone 11上，运行<code>icdab_ptr</code> 程序时会看到以下崩溃信息。<span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>Incident Identifier: DA9FE0C7-6127-4660-A214-5DF5D432DBD9
 CrashReporter Key:   d3e622273dd1296e8599964c99f70e07d25c8ddc
 Hardware Model:      iPhone12,1
@@ -3086,16 +3086,16 @@ Binary Images:
  &lt;83e44566e30039258fd14db647344501&gt;
  /var/containers/Bundle/Application/32E9356D-AF19-4F30-BB87-E4C05
 6468063/icdab_ptr.app/icdab_ptr</code></pre>
-<p>Firstly, we notice that the point at which we crashed was <code>ViewController.m:26</code> from</p>
+<p>首先，我们注意到崩溃的点是 <code>ViewController.m：26</code></p>
 <pre><code>0   icdab_ptr                           0x0000000100ae9df8
  nextInterestingJumpToFunc + 24056 (ViewController.m:26)</code></pre>
-<p>Our source code has:</p>
+<p>我们的源代码有：</p>
 <pre><code>24 // this function&#39;s address is where we will be jumping to
 25 static void nextInterestingJumpToFunc(void) {
 26     NSLog(@&quot;Simple nextInterestingJumpToFunc\n&quot;);
 27 }</code></pre>
-<p>The purpose of the program was to calculate the address of the <code>nextInterestingJumpToFunc</code> function by means of pointer arithmetic and then jump to it. It managed to do so but then crashed. We know from the previous section that this was because we deliberately used the function address PAC borrowed from the <code>interestingJumpToFunc</code> function.</p>
-<p>The crash reporting system demangles the pointer understanding what the effective pointer address is given the faulty pointer. We have:</p>
+<p>这个程序的目的是通过指针运算来计算<code>nextInterestingJumpToFunc</code> 函数的地址，然后跳转到它。它成功地做到了，然后崩溃了。从上一节我们知道这是因为我们故意使用了从<code>interestingJumpToFunc</code>函数借用的函数地址PAC。</p>
+<p>崩溃报告系统会对指针进行拆解，以推导出所给的错误指针的有效指针地址。 我们有：</p>
 <pre><code>Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
 Exception Subtype: KERN_INVALID_ADDRESS at 0x2000000100ae9df8 -&gt;
  0x0000000100ae9df8 (possible pointer authentication failure)
@@ -3108,24 +3108,24 @@ VM Region Info: 0x100ae9df8 is in 0x100ae4000-0x100aec000;  bytes
  r-x/r-x SM=COW  ...app/icdab_ptr
       __DATA_CONST             100aec000-100af0000 [   16K]
  r--/rw- SM=COW  ...app/icdab_ptr</code></pre>
-<p>Our pointer, <code>0x2000000100ae9df8</code> points to the text region of the program at <code>0x0000000100ae9df8</code> but the upper 24 bits of the pointer are incorrect, hence the message <code>(possible pointer authentication failure)</code> and this results in the <code>SIGSEGV</code>. Notice the PAC is a special value <code>0x200000</code> which presumably the value representing <code>invalid PAC</code>.</p>
-<p>From the previous section, we know that the code which checks the PAC in our program is:</p>
+<p>我们的指针<code>0x2000000100ae9df8</code> 指向程序的文本区域<code>0x0000000100ae9df8</code>，但是指针的高 24 位不正确，因此显示了消息<code>（可能的指针身份验证失败）</code>，并导致了<code>SIGSEGV</code>。 注意，PAC是一个特殊值“ 0x200000”，大概是代表<code>无效PAC</code>的值。</p>
+<p>从上一节中，我们知道可以通过下面的代码检查程序中PAC：</p>
 <pre><code>blraaz  x8</code></pre>
-<p>Our <code>x8</code> register was <code>0x045d340100ae9df8</code> so presumably the faulty PAC was <code>0x045d34</code>.</p>
-<h2 id="pointer-authentication-debugging-tips">Pointer Authentication Debugging Tips</h2>
-<p>In this section we point out some differences when running the debugger on a Architecture <code>armv8e</code> target. We also show how to match a crash report to a debugging session.</p>
-<p>When we print out pointers, we get the pointer with the PAC value stripped out. For example, for a pointer <code>0x36f93010201ddf8</code>, our <code>result</code> variable, we would get:</p>
+<p>我们的 <code>x8</code>寄存器是<code>0x045d340100ae9df8</code>，所以估计出错误的 PAC 是<code>0x045d34</code>。</p>
+<h2 id="指针验证机制调试技巧">指针验证机制调试技巧</h2>
+<p>在本节中，我们将指出在架构构 <code>armv8e</code> 目标上运行调试器时的一些区别。我们还将展示如何将崩溃报告与调试会话匹配。</p>
+<p>当我们打印出指针时，我们得到了去掉PAC值的指针。例如，对于指针<code>0x36f93010201ddf8</code>，我们的<code>result</code> 变量，我们会得到：</p>
 <pre><code>(lldb) po result
 (actual=0x000000010201ddf8 icdab_ptr`nextInterestingJumpToFunc at
  ViewController.m:25)</code></pre>
-<p>This value is from the execution that produced the following output</p>
+<p>该值来自产生以下输出的执行</p>
 <pre><code>ptr addresses as uintptr_t are 0x36f93010201ddd8
  0xc7777b010201ddf8
 delta is 0xc407e80000000020 clean_delta is 0x20
 ptrFn result is 0x36f93010201ddf8</code></pre>
-<p>Whilst we are attached via the debugger, we don’t see the crash dump report. However, if we detach our debugger:</p>
+<p>通过调试器进行连接时，看不到崩溃分析报告。 但是，如果我们分离调试器：</p>
 <pre><code>(lldb) detach</code></pre>
-<p>the system will continue on, and perform a crash, and then generate a report.</p>
+<p>系统将继续运行，并出发崩溃，然后生成报告。</p>
 <pre><code>Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
 Exception Subtype: KERN_INVALID_ADDRESS at 0x200000010201ddf8 -&gt;
  0x000000010201ddf8 (possible pointer authentication failure)
@@ -3181,8 +3181,7 @@ Thread 0 crashed with ARM Thread State (64-bit):
     sp: 0x000000016dde5b30   pc: 0x000000010201ddf8 cpsr:
  0x60000000
    esr: 0x82000004 (Instruction Abort) Translation fault</code></pre>
-<p>This approach is handy because then we can directly correlate the crash dump report to our analysis in the debugger. Notice that the <code>x8</code> register is exactly the <code>result</code> value we explored earlier.</p>
-<h1 id="分析性故障排除">分析性故障排除</h1>
+<p>这种方法很方便，因为这样我们就可以将故障转储报告与调试器中的分析直接关联起来。 请注意，<code>x8</code> 寄存器恰好是我们先前探讨的<code>result</code>值。 # 分析性故障排除</p>
 <p>本章将讨论一个解决问题的正式技巧。这个技巧是提供一个询问正确问题的框架。</p>
 <p>有一个著名的俗语告诫我们不要过渡狂热：</p>
 <blockquote>
@@ -4204,8 +4203,8 @@ Thread 4 crashed with ARM Thread State (64-bit):
 <p>我们可以看到出错的内核地址是<code>0x0000000000000000</code>，所以它是一个空指针解引用。我们崩溃的调用站点是一个分解符号的 Swift 库。Xcode 工具试图从它在 iPad 上看到的活动中提供人类可读的对象类型定义。</p>
 <p>如果我们是用户并视图分析我们的应用程序，然后在<code>LeakAgent</code>中遇到此错误，那么我们需要尝试找出避免该问题的方法。</p>
 <p>由于问题是由于符号化造成的，所以明智的做法是清除构建目录，然后进行一次干净的构建。有时，Xcode更新会将我们切换到不兼容的新目标文件格式。 值得与另一个项目（可能是微不足道的测试程序）一起检查性能。 还有其他内存分析工具，例如我们正在运行的方案的诊断选项，因此可以用不同的方式进行内存分析。 有关更多信息，请参见下一章内存诊断 。</p>
-<h3 id="pointer-authentication-crash">Pointer Authentication crash</h3>
-<p>Earlier, in chapter <em>Pointer Authentication</em>, we saw a user space crash with Pointer Authentication switched on. Here we see a crash in system libraries that use Pointer Authentication.</p>
+<h3 id="指针验证机制崩溃">指针验证机制崩溃</h3>
+<p>之前，在_指针验证机制_ 一章中，我们看到了用户启用指针验证机制会导致崩溃。接下来我们看一些使用指针验证机制的系统库发生的崩溃。</p>
 <pre><code>Incident Identifier: 692E5696-6994-4FB3-B42D-C9317D956EE7
 CrashReporter Key:   1f2cdb7448d354584634e8576c1e5257634fc0cd
 Hardware Model:      iPhone12,1
@@ -4318,7 +4317,8 @@ Binary Images:
  &lt;48e72efe02243faabf3e1760bb4c2731&gt;
  /System/Library/Frameworks/AudioToolbox.framework/libEmbeddedSys
 temAUs.dylib</code></pre>
-<p>We see that the faulting address <code>0x41fc821e000001b0</code> has top 24-bits <code>41fc82</code>. This is the <em>Pointer Authentication Code</em> (PAC). We see that the faulting function <code>InterruptionListener</code> takes two pointers as arguments, and that we have register <code>x8</code> with address <code>0x41fc821e00000000</code>. So presumably our failing code is using this address, plus some small offset, <code>0x1b0</code>. It could be that manual pointer arithmetic is being used causing a non-authenticated pointer to be utilised.</p>
+<p>这里，我们看到故障地址 <code>0x41fc821e000001b0</code>最高 24 位为<code>41fc82</code>。 这就是 <em>指针校验验证码</em>（PAC）。</p>
+<p>我们看到故障函数 <code>InterruptionListener</code> 使用两个指针作为参数，并且我们已经将寄存器 <code>x8</code> 的地址设置为<code>0x41fc821e00000000</code>。 因此，大概我们的失败代码正在使用该地址，加上一些小的偏移量 <code>0x1b0</code>。 这可能是由于使用了手动指针算法，导致使用了未经身份验证的指针。</p>
 <h2 id="总线错误sigbus崩溃">总线错误（SIGBUS）崩溃</h2>
 <h3 id="xbmc-崩溃">xbmc 崩溃</h3>
 <p><code>xbmc</code> 应用程序是一款实用程序应用程序，其作用类似于电视媒体播放器的遥控器。</p>
@@ -4692,7 +4692,7 @@ __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__
 8   MyJablotron_dev                      0x00606c60
  MyJablotron.ChartThermoPlotSpace.__allocating_init ()
  MyJablotron.ChartThermoPlotSpace (ChartThermoPlotSpace.swift:0)</code></pre>
-<p>“元数据访问器”短语很有趣，因为它暗示我们正在运行编译器生成的代码，而不是我们直接编写的代码。 也许，作为一种解决方法，我们可以简化代码以使用更简单的语言功能。</p>
+<p><em><strong>元数据访问器</strong></em> 短语很有趣，因为它暗示我们正在运行编译器生成的代码，而不是我们直接编写的代码。 也许，作为一种解决方法，我们可以简化代码以使用更简单的语言功能。</p>
 <p>在这里，我们的目标是通过采用<code>ChartThermoPlotSpace</code>类并简化它来编写一个简单的测试用例，直到找到发生崩溃的必要代码为止。</p>
 <p>苹果通过更新其编译器来纠正 Swift Generics 错误，从而解决了该崩溃问题。</p>
 <h1 id="应用程序中止崩溃">应用程序中止崩溃</h1>
@@ -5865,12 +5865,13 @@ Binary Images (Other):
 <pre><code>SPRINGBOARD,
 Process detected doing insecure drawing while in secure mode</code></pre>
 <p>我们并不期望 Apple 提供的应用程序 MobileSMS 会发生崩溃。仔细查看 <code>Binary Images</code> 部分，我们可以看到应用程序进行了 “tweaked”。由于崩溃报告中出现了 <code>CydiaSubstrate</code>，我们可以认定该手机已经越狱了。 我们不能安全的依赖这些需要具有原始设计完整性任何应用程序。也许在这款手机上，MobileSMS 应用程序进行了调整，并添加了额外的功能，但引入了一个绘制相关的 bug。</p>
-<h1 id="failed-crashes">Failed Crashes</h1>
-<p>In this chapter we discuss <em>Failed</em> Crashes. That is those crashes which did not end up with a proper crash report returned to us. Sometimes this happens due to the third party crash reporting framework that is faulty. In this chapter we focus on first party reasons for failed crashes, and explain some scenarios that can be the cause.</p>
-<h2 id="signal-handling-failures">Signal handling failures</h2>
-<p>When a program is being debugged, it is conceptually in a similar state to when it is crashed. That is because we want to go into the process and inspect its state (or potentially change the program by inserting breakpoints). In iOS 13.5 (fixed in iOS 14.x), there is a glitch where if an application tells the Operating System it is expecting to be debugged, then when the system wants to kill it off as a result of a crash it finds that it cannot kill the app. Instead, the entire platform jams up and needs a reset.</p>
-<p>If we have an application we has some anti-reverse engineering, or anti-debugging functionality, perhaps through framework, we might end up in this situation because making an app pretend it is already being debugged is a common technique to preventing a debugger attaching.</p>
-<p>The application <code>icdab_pt</code> demonstrates the problem. <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span>. <span class="citation" data-cites="jitios">(“Jailed Just in Time Compilation on iOS” 2020)</span>.</p>
+<h1 id="failed-的崩溃">Failed 的崩溃</h1>
+<p>在本章中，我们讨论 <em>Failed</em> 崩溃。 就是那些没有以正确的崩溃报告返回给我们的崩溃。</p>
+<p>有时，这是由于第三方崩溃报告框架的错误造成的。在本章中，我们将重点讨论失败的原生原因，并解释一些可能是导致这种现象发生的场景。</p>
+<h2 id="信号处理失败">信号处理失败</h2>
+<p>在调试程序时，从概念上讲，它与崩溃时的状态类似。 这是因为我们要进入流程并检查其状态（或可能通过插入断点来更改程序）。 在iOS 13.5（在iOS 14.x中已修复）中，有一个小故障：如果应用程序告诉操作系统它希望进行调试，那么当系统希望由于崩溃而将其杀死时它发现它无法杀死该应用程序。 然后，整个系统卡死，需要重新设置。</p>
+<p>如果我们有一个应用程序，则可能具有一些反逆向工程或反调试功能 （可能通过框架），我们可能最终会遇到这种情况，因为使一个应用程序假装它已经被调试是防止调试器连接的一种常用技术。</p>
+<p>应用程序 <code>icdab_pt</code> 演示了该问题。 <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span>. <span class="citation" data-cites="jitios">(“Jailed Just in Time Compilation on iOS” 2020)</span>.</p>
 <pre><code>#define SIZE 4096
 #define SHM_NAME &quot;map-jit-memory&quot;
 
@@ -5899,11 +5900,11 @@ int ptrace(int, pid_t, caddr_t, int); // private method
     result = munmap(buf1, SIZE);
     result = shm_unlink(SHM_NAME);
 }</code></pre>
-<p>The above code causes the same disruption to crash reporting on a simulator as it does on target hardware. For the sake of convenience, we focus on the simulator target as it is easy to reset, and to compare different OS versions.</p>
-<p>When we run on iOS 13.5 we find that the system hangs when passed in <code>YES</code>, but crashes properly when passed <code>NO</code>. On iOS 14.x we immediately get a crash in both circumstances.</p>
-<h2 id="symbolification-failure">Symbolification Failure</h2>
-<p>The crash reporting program, <code>ReportCrash</code>, can itself fail. Fortunately, there is a fail safe mechanism that allows <code>ReportCrash</code> failures to be reported by <code>ReportCrash</code>.</p>
-<p>In our example, we see that the Symbolification phase failed.</p>
+<p>上面的代码会使得在模拟器上崩溃报告与在目标硬件上造成的崩溃报告相同。 为了方便起见，我们将重点放在测试模拟器上，因为它易于重置，并且可以比较不同的 OS 版本。</p>
+<p>当我们在 iOS 13.5 上运行时，我们发现当传值为 <code>YES</code> 时系统挂起，但是当传值为 <code>NO</code> 时系统正常崩溃。在 iOS 14.x，这两种情况下都会立即崩溃。</p>
+<h2 id="符号化失败">符号化失败</h2>
+<p>崩溃报告程序<code>ReportCrash</code> 本身可能会失败。 幸运的是，有一个故障保护机制，允许<code>ReportCrash</code>报告<code>ReportCrash</code>故障。</p>
+<p>在我们的示例中，我们看到Symbolification  阶段失败。</p>
 <pre><code>Incident Identifier: FD5D3125-4CD2-4A42-8C4C-86022EDED6B7
 CrashReporter Key:   28184df1e2804fabaabb19f3a67639f76eb8f299
 Hardware Model:      iPhone11,8
@@ -6010,17 +6011,17 @@ reSymbolication
  &lt;f8f62c98901f34fb82c75a0d61044452&gt;
  /System/Library/PrivateFrameworks/Symbolication.framework/Symbol
 ication</code></pre>
-<p>We can find the <code>CoreSymbolification</code> binary at:</p>
+<p>我们可以在以下位置找到 <code>CoreSymbolification</code>  的二进制文件：</p>
 <pre><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.pla
 tform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simru
 ntime/Contents/Resources/RuntimeRoot/System/Library/PrivateFramew
 orks/CoreSymbolication.framework</code></pre>
-<p>From the <code>pc</code>, looking at <code>CoreSymbolification</code> with Hopper, as we have done before, by relocating our binary to <code>0x1c6357000</code> and inspecting <code>0x00000001c63b9138</code> we find that the crash is due to a C++ routine manipulating memory:</p>
+<p>从 <code>pc</code> 上，像以前一样，使用 Hopper 观察<code>CoreSymbolification</code>，通过将二进制文件重新定位到<code>0x1c6357000</code>并检查<code>0x00000001c63b9138</code>，我们发现崩溃是由于一个 C++ 例行程序操纵内存造成的：</p>
 <pre><code>  std::__1::__split_buffer&lt;TRawRegion&lt;Pointer64&gt;,
  std::__1::allocator&lt;TRawRegion&lt;Pointer64&gt;
  &gt;&amp;&gt;::__split_buffer(&amp;var_38, r1, r2);</code></pre>
-<p>from the Apple Open Source C++ library, <code>libcpp</code>. <span class="citation" data-cites="libcpp">(“Libcpp Apple Open Source” 2020)</span></p>
-<p>Historically, Symbolification has been a source of failures, and it is a major sub-system that crash reporting relies upon.</p>
+<p>来自Apple Open Source C++ 库， <code>libcpp</code>。<span class="citation" data-cites="libcpp">(“Libcpp Apple Open Source” 2020)</span></p>
+<p>从历史上看，符号化一直是失败的根源，它是崩溃报告所依赖的主要子系统。</p>
 <h1 id="内存诊断">内存诊断</h1>
 <p>在本章中，我们着眼于解决内存问题的不同诊断选项。</p>
 <h2 id="内存分配基础">内存分配基础</h2>
@@ -6395,9 +6396,6 @@ usr/lib/libBacktraceRecording.dylib
 </div>
 <div id="ref-rosettaPortingGuide">
 <p>“Porting Your macOS Apps to Apple Silicon.” 2020. <a href="https://developer.apple.com/documentation/xcode/porting_your_macos_apps_to_apple_silicon">https://developer.apple.com/documentation/xcode/porting_your_macos_apps_to_apple_silicon</a>.</p>
-</div>
-<div id="ref-iosOnMac">
-<p>“Running Your iOS Apps on macOS.” 2020. <a href="https://developer.apple.com/documentation/apple_silicon/running_your_ios_apps_on_macos">https://developer.apple.com/documentation/apple_silicon/running_your_ios_apps_on_macos</a>.</p>
 </div>
 <div id="ref-asanchecker">
 <p>Serebryany, Konstantin, Derek Bruening, Alexander Potapenko, and Dmitry Vyukov. 2012. “AddressSanitizer: A Fast Address Sanity Checker.” In <em>USENIX Atc 2012</em>. <a href="https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker">https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker</a>.</p>
