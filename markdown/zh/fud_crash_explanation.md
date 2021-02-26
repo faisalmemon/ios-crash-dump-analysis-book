@@ -83,7 +83,7 @@ Trap Number:     14
 ```
 
 我们显然有一个不好的内存问题，因为我们有一个`EXC_BAD_ACCESS (SIGSEGV)`（SIGSEGV）异常。
-我们看到的错误代码是 14，在https://github.com/apple/darwin-xnu中属于缺页中断。
+我们看到的错误代码是 14，在https://github.com/apple/darwin-xnu中这属于缺页中断。
 
 由于 `libdispatch`是 Apple 开源的，我们甚至可以查找触发崩溃的函数。@libdispatchtar
 
