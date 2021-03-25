@@ -192,6 +192,9 @@
 <li><a href="#操纵指针">操纵指针</a></li>
 <li><a href="#icdab_ptr-pac-崩溃"><code>icdab_ptr</code> PAC 崩溃</a></li>
 <li><a href="#指针验证机制调试技巧">指针验证机制调试技巧</a></li>
+</ul></li>
+<li><a href="#分析性故障排除">分析性故障排除</a>
+<ul>
 <li><a href="#优先考虑自己的问题">优先考虑自己的问题</a>
 <ul>
 <li><a href="#根据影响确定优先级">根据影响确定优先级</a></li>
@@ -226,9 +229,12 @@
 </ul></li>
 <li><a href="#运行时崩溃">运行时崩溃</a>
 <ul>
+<li><a href="#解包-nil-可选类型">解包 Nil 可选类型</a>
+<ul>
 <li><a href="#ios-uikit-outlets">iOS UIKit Outlets</a></li>
 <li><a href="#所有权规则">所有权规则</a></li>
 <li><a href="#解包-nil-可选类型的崩溃报告">解包 nil 可选类型的崩溃报告</a></li>
+</ul></li>
 <li><a href="#释放正在使用的信号量">释放正在使用的信号量</a>
 <ul>
 <li><a href="#释放信号量的崩溃示例">释放信号量的崩溃示例</a></li>
@@ -272,7 +278,7 @@
 <li><a href="#死锁崩溃">死锁崩溃</a></li>
 <li><a href="#不安全的绘制崩溃">不安全的绘制崩溃</a></li>
 </ul></li>
-<li><a href="#failed-的崩溃">Failed 的崩溃</a>
+<li><a href="#失败的崩溃">失败的崩溃</a>
 <ul>
 <li><a href="#信号处理失败">信号处理失败</a></li>
 <li><a href="#符号化失败">符号化失败</a></li>
@@ -2892,7 +2898,7 @@ amework/Versions/A/UIKitCore
  /System/iOSSupport/usr/lib/swift/libswiftUIKit.dylib</code></pre>
 <p>在大多数情况下，这些崩溃可以像在 iOS 上崩溃一样直接进行分析。问题很有可能是由于不同的物理环境导致的。例如，iOS 设备具有陀螺仪，而 macOS 设备则没有。</p>
 <h3 id="在-mac-上支持-ios-应用程序">在 Mac 上支持 iOS 应用程序</h3>
-<p>Apple 提供了在 Mac 上部署 iOS 应用程序的最佳实践指南。<span class="citation" data-cites="iosOnMac你可以进行如下操作">(<span class="citeproc-not-found" data-reference-id="iosOnMac你可以进行如下操作"><strong>???</strong></span>)</span>：</p>
+<p>Apple 提供了在 Mac 上部署 iOS 应用程序的最佳实践指南。<span class="citation" data-cites="iosOnMac">(“Running Your iOS Apps on macOS” 2020)</span> 你可以进行如下操作：</p>
 <ol type="1">
 <li>如果确定自己的 iOS 应用程序不适合 macOS。在 App Store Connect 中可以取消配置。</li>
 <li>允许在 iOS 上安装的应用程序安装在 macOS 上，但是添加检查可用的可选硬件功能。</li>
@@ -2981,9 +2987,9 @@ static void nextInterestingJumpToFunc(void) {
  0x22b810102c55df8
 delta is 0xd8e5690000000020 clean_delta is 0x20
 ptrFn result is 0x2946180102c55df8</code></pre>
-<p>我们看到，当获得指向函数<code>interestingJumpToFunc</code> 的指针，然后将其存储在足以容纳指针地址的整数中时，我们将获得一个较大的值<code>0x2946180102c55dd8</code>。 这是因为地址的前24位是指针验证码（PAC）。 在这种情况下，PAC为 <code>0x294618</code> ，有效指针为<code>0x0102c55dd8</code>。</p>
-<p>在物理上相邻的下一个指针 <code>nextInterestingJumpToFunc</code> 是 <code>0x22b810102c55df8</code>； 显然，它具有相似的有效地址<code>0x0102c55df8</code>，但具有完全不同的PAC <code>0x22b81</code>。</p>
-<p>当我们计算指针之间的增量时，由于指针值的PAC部分，我们显然会得到一个无意义的地址。 为了正确计算指针的有效地址之间的增量，我们需要使用 <code>ptrauth_strip</code>实用程序函数。 这是作为内置宏汇编指令实现的。</p>
+<p>我们看到，当获得指向函数<code>interestingJumpToFunc</code> 的指针，然后将其存储在足以容纳指针地址的整数中时，我们将获得一个较大的值<code>0x2946180102c55dd8</code>。 这是因为地址的前24位是指针验证码（PAC）。 在这种情况下，PAC 为 <code>0x294618</code> ，有效指针为<code>0x0102c55dd8</code>。</p>
+<p>在物理上相邻的下一个指针 <code>nextInterestingJumpToFunc</code> 是 <code>0x22b810102c55df8</code>； 显然，它具有相似的有效地址<code>0x0102c55df8</code>，但具有完全不同的 PAC <code>0x22b81</code>。</p>
+<p>当我们计算指针之间的增量时，由于指针值的 PAC 部分，我们显然会得到一个无意义的地址。 为了正确计算指针的有效地址之间的增量，我们需要使用 <code>ptrauth_strip</code>实用程序函数。 这是作为内置宏汇编指令实现的。</p>
 <p>经过宏预处理后，代码为：</p>
 <pre><code>ptrdiff_t clean_delta =
     __builtin_ptrauth_strip(&amp;nextInterestingJumpToFunc,
@@ -2996,7 +3002,7 @@ ptrFn result is 0x2946180102c55df8</code></pre>
 <p>当使用 <code>__builtin_ptrauth_strip</code> 剥离功能时。 这将从寄存器（在本例中为<code>x9</code>）中删除PAC。</p>
 <p>使用带状函数的好处是我们能够正确确定感兴趣的两个函数之间的距离。它是 <code>0x20</code>。 我们的函数 <code>generatePtrToFn</code> 实际上只是将delta加到<code>interestingJumpToFunc</code>的地址上来计算 <code>nextInterestingJumpToFunc</code> 的地址，但是这样做是错误的。 它将PAC在其计算出的地址中留给<code>interestingJumpToFunc</code>。</p>
 <p>请注意，这类指针操作均不会导致崩溃。 检查指针的时间是用于更改链接寄存器 的时间。 也就，当我们根据指针值来更改程序的控制流时。</p>
-<p>在函数 <code>viewDidLoad（）</code>中存在我们有以下</p>
+<p>在函数 <code>viewDidLoad()</code> 我们存在以下代码</p>
 <pre><code>result(); // will crash; deferences a pointer with a bad PAC</code></pre>
 <p>使用的指针是我们的错误指针<code>0x2946180102c55df8</code>。 汇编指令检测到错误的指针</p>
 <pre><code>blraaz  x8</code></pre>
@@ -3004,7 +3010,7 @@ ptrFn result is 0x2946180102c55df8</code></pre>
 <p>请注意，当我们剥离指针时，我们使用了<code>ptrauth_key_asia</code>来删除指令密钥A。但是，我们无法访问执行相反操作所需的特殊值，而是使用带有适当的 <em>salt</em> 的指令密钥A来对指针进行签名值以获取上下文中正确的带符号指针。</p>
 <p>现在，我们已经检查了错误的代码，让我们看看崩溃时会发生什么。</p>
 <h2 id="icdab_ptr-pac-崩溃"><code>icdab_ptr</code> PAC 崩溃</h2>
-<p>在具有 A13 仿生芯片的 iPhone 11上，运行<code>icdab_ptr</code> 程序时会看到以下崩溃信息。<span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
+<p>在具有 A13 仿生芯片的 iPhone 11上，运行<code>icdab_ptr</code> 程序时会得到以下崩溃信息。<span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <pre><code>Incident Identifier: DA9FE0C7-6127-4660-A214-5DF5D432DBD9
 CrashReporter Key:   d3e622273dd1296e8599964c99f70e07d25c8ddc
 Hardware Model:      iPhone12,1
@@ -3086,15 +3092,15 @@ Binary Images:
  &lt;83e44566e30039258fd14db647344501&gt;
  /var/containers/Bundle/Application/32E9356D-AF19-4F30-BB87-E4C05
 6468063/icdab_ptr.app/icdab_ptr</code></pre>
-<p>首先，我们注意到崩溃的点是 <code>ViewController.m：26</code></p>
+<p>首先，我们注意到的点是崩溃发生在 <code>ViewController.m:26</code></p>
 <pre><code>0   icdab_ptr                           0x0000000100ae9df8
  nextInterestingJumpToFunc + 24056 (ViewController.m:26)</code></pre>
-<p>我们的源代码有：</p>
+<p>在我们的源代码里有：</p>
 <pre><code>24 // this function&#39;s address is where we will be jumping to
 25 static void nextInterestingJumpToFunc(void) {
 26     NSLog(@&quot;Simple nextInterestingJumpToFunc\n&quot;);
 27 }</code></pre>
-<p>这个程序的目的是通过指针运算来计算<code>nextInterestingJumpToFunc</code> 函数的地址，然后跳转到它。它成功地做到了，然后崩溃了。从上一节我们知道这是因为我们故意使用了从<code>interestingJumpToFunc</code>函数借用的函数地址PAC。</p>
+<p>这个程序的目的是通过指针运算来计算<code>nextInterestingJumpToFunc</code> 函数的地址，然后跳转到它。它成功地做到了，然后崩溃了。从上一节我们知道这是因为我们故意使用了从 <code>interestingJumpToFunc</code>函数借用的函数地址 PAC。</p>
 <p>崩溃报告系统会对指针进行拆解，以推导出所给的错误指针的有效指针地址。 我们有：</p>
 <pre><code>Exception Type:  EXC_BAD_ACCESS (SIGSEGV)
 Exception Subtype: KERN_INVALID_ADDRESS at 0x2000000100ae9df8 -&gt;
@@ -3108,13 +3114,13 @@ VM Region Info: 0x100ae9df8 is in 0x100ae4000-0x100aec000;  bytes
  r-x/r-x SM=COW  ...app/icdab_ptr
       __DATA_CONST             100aec000-100af0000 [   16K]
  r--/rw- SM=COW  ...app/icdab_ptr</code></pre>
-<p>我们的指针<code>0x2000000100ae9df8</code> 指向程序的文本区域<code>0x0000000100ae9df8</code>，但是指针的高 24 位不正确，因此显示了消息<code>（可能的指针身份验证失败）</code>，并导致了<code>SIGSEGV</code>。 注意，PAC是一个特殊值“ 0x200000”，大概是代表<code>无效PAC</code>的值。</p>
-<p>从上一节中，我们知道可以通过下面的代码检查程序中PAC：</p>
+<p>我们的指针 <code>0x2000000100ae9df8</code> 指向程序的文本区域 <code>0x0000000100ae9df8</code>，但是指针的高 24 位不正确，因此显示了消息 <code>（可能的指针身份验证失败）</code>，并导致了<code>SIGSEGV</code>。 注意，PAC是一个特殊值 <code>0x200000</code>，大概是代表 <code>无效PAC</code>的值。</p>
+<p>从上一节中，我们知道可以通过下面的代码检查程序中 PAC：</p>
 <pre><code>blraaz  x8</code></pre>
-<p>我们的 <code>x8</code>寄存器是<code>0x045d340100ae9df8</code>，所以估计出错误的 PAC 是<code>0x045d34</code>。</p>
+<p>我们的 <code>x8</code> 寄存器是 <code>0x045d340100ae9df8</code>，所以估计出错误的 PAC 是 <code>0x045d34</code>。</p>
 <h2 id="指针验证机制调试技巧">指针验证机制调试技巧</h2>
 <p>在本节中，我们将指出在架构构 <code>armv8e</code> 目标上运行调试器时的一些区别。我们还将展示如何将崩溃报告与调试会话匹配。</p>
-<p>当我们打印出指针时，我们得到了去掉PAC值的指针。例如，对于指针<code>0x36f93010201ddf8</code>，我们的<code>result</code> 变量，我们会得到：</p>
+<p>当我们打印出指针时，我们得到了去掉 PAC 值的指针。例如，对于指针<code>0x36f93010201ddf8</code>，我们的 <code>result</code> 变量，我们会得到：</p>
 <pre><code>(lldb) po result
 (actual=0x000000010201ddf8 icdab_ptr`nextInterestingJumpToFunc at
  ViewController.m:25)</code></pre>
@@ -3181,7 +3187,8 @@ Thread 0 crashed with ARM Thread State (64-bit):
     sp: 0x000000016dde5b30   pc: 0x000000010201ddf8 cpsr:
  0x60000000
    esr: 0x82000004 (Instruction Abort) Translation fault</code></pre>
-<p>这种方法很方便，因为这样我们就可以将故障转储报告与调试器中的分析直接关联起来。 请注意，<code>x8</code> 寄存器恰好是我们先前探讨的<code>result</code>值。 # 分析性故障排除</p>
+<p>这种方法很方便，因为这样我们就可以将故障转储报告与调试器中的分析直接关联起来。 请注意，<code>x8</code> 寄存器恰好是我们先前探讨的 <code>result</code>值。</p>
+<h1 id="分析性故障排除">分析性故障排除</h1>
 <p>本章将讨论一个解决问题的正式技巧。这个技巧是提供一个询问正确问题的框架。</p>
 <p>有一个著名的俗语告诫我们不要过渡狂热：</p>
 <blockquote>
@@ -3760,7 +3767,8 @@ __weak id &lt;SiriUXHeaterDelegate&gt; delegate;
 <h1 id="运行时崩溃">运行时崩溃</h1>
 <p>在本章中，我们将展示那些运行时检测到问题并导致应用崩溃的示例。</p>
 <p>在崩溃报告中，我们可以通过异常类型 <code>EXC_BREAKPOINT (SIGTRAP)</code> 来区分这些崩溃。</p>
-<p>我们考虑两个例子。 第一个例子，说明运行时如何处理强制展开nil可选项的情况。 我们的第二个例子说明运行时如何处理释放正在等待的信号量。 ## 解包 Nil 可选类型</p>
+<p>我们考虑两个例子。 第一个例子，说明运行时如何处理强制展开nil可选项的情况。 我们的第二个例子说明运行时如何处理释放正在等待的信号量。</p>
+<h2 id="解包-nil-可选类型">解包 Nil 可选类型</h2>
 <p>Swift 编程语言是朝着编写默认安全代码迈出的重要一步。</p>
 <p>Swift 的核心概念是明确地处理可选性。在类型声明中，尾随的 <code>?</code> 表示该值可以不存在，用 <code>nil</code> 表示。这些类型需要显式展开来访问它们存储的值。</p>
 <p>当一个值在对象初始化时不可用，但在对象生命周期的后期，然后尾随’ !’用于保存值的类型。这意味着可以在代码中处理该值，而不需要显式解包。它被称为可选的隐式解包可选。 注意，从 Swift 4.2 开始，在实现级别，它是可选的，带有注释，表明可以使用它而无需显式解包。</p>
@@ -3836,7 +3844,7 @@ Thread 0 Crashed:
     sp: 0x000000016f0ca8a0   pc: 0x00000001011f7ff8
     cpsr: 0x60000000</code></pre>
 <h2 id="释放正在使用的信号量">释放正在使用的信号量</h2>
-<p><code>libdispatch</code>库支持识别运行时问题。 出现此类问题时，应用程序崩溃并显示异常类型， <code>EXC_BREAKPOINT (SIGTRAP)</code></p>
+<p><code>libdispatch</code> 库支持识别运行时问题。 出现此类问题时，应用程序崩溃并显示异常类型， <code>EXC_BREAKPOINT (SIGTRAP)</code></p>
 <p>我们使用 <code>icdab_sema</code>示例程序来演示 <code>libdispatch</code> 检测到的由于错误使用信号量而导致的崩溃。<span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
 <p><code>libdispatch</code> 库是用于管理并发的操作系统库（称为Grand Central Dispatch或GCD）。该库可从Apple处以开源形式获得。<span class="citation" data-cites="libdispatchtar">(“Libdispatch Open Source” 2018)</span></p>
 <p>该库抽象了操作系统如何提供对多核CPU资源的访问的详细信息。 在崩溃期间，它会向崩溃报告提供其他信息。 这意味着，如果我们愿意，我们可以找到检测到运行时问题的代码。</p>
@@ -4027,7 +4035,7 @@ Thread 1 crashed with X86 Thread State (64-bit):
 Logical CPU:     3
 Error Code:      0x00000004
 Trap Number:     14</code></pre>
-<p>我们显然有一个不好的内存问题，因为我们有一个<code>EXC_BAD_ACCESS (SIGSEGV)</code>（SIGSEGV）异常。 我们看到的错误代码是 14，在https://github.com/apple/darwin-xnu中属于缺页中断。</p>
+<p>我们显然有一个不好的内存问题，因为我们有一个<code>EXC_BAD_ACCESS (SIGSEGV)</code>（SIGSEGV）异常。 我们看到的错误代码是 14，在https://github.com/apple/darwin-xnu中这属于缺页中断。</p>
 <p>由于 <code>libdispatch</code>是 Apple 开源的，我们甚至可以查找触发崩溃的函数。<span class="citation" data-cites="libdispatchtar">(“Libdispatch Open Source” 2018)</span></p>
 <p>我们看到：</p>
 <pre><code>#define dx_push(x, y, z) dx_vtable(x)-&gt;do_push(x, y, z)
@@ -4204,7 +4212,7 @@ Thread 4 crashed with ARM Thread State (64-bit):
 <p>如果我们是用户并视图分析我们的应用程序，然后在<code>LeakAgent</code>中遇到此错误，那么我们需要尝试找出避免该问题的方法。</p>
 <p>由于问题是由于符号化造成的，所以明智的做法是清除构建目录，然后进行一次干净的构建。有时，Xcode更新会将我们切换到不兼容的新目标文件格式。 值得与另一个项目（可能是微不足道的测试程序）一起检查性能。 还有其他内存分析工具，例如我们正在运行的方案的诊断选项，因此可以用不同的方式进行内存分析。 有关更多信息，请参见下一章内存诊断 。</p>
 <h3 id="指针验证机制崩溃">指针验证机制崩溃</h3>
-<p>之前，在_指针验证机制_ 一章中，我们看到了用户启用指针验证机制会导致崩溃。接下来我们看一些使用指针验证机制的系统库发生的崩溃。</p>
+<p>之前，在 <em>指针验证机制</em> 一章中，我们看到了用户启用指针验证机制会导致崩溃。接下来我们看一些使用指针验证机制的系统库发生的崩溃。</p>
 <pre><code>Incident Identifier: 692E5696-6994-4FB3-B42D-C9317D956EE7
 CrashReporter Key:   1f2cdb7448d354584634e8576c1e5257634fc0cd
 Hardware Model:      iPhone12,1
@@ -5865,12 +5873,12 @@ Binary Images (Other):
 <pre><code>SPRINGBOARD,
 Process detected doing insecure drawing while in secure mode</code></pre>
 <p>我们并不期望 Apple 提供的应用程序 MobileSMS 会发生崩溃。仔细查看 <code>Binary Images</code> 部分，我们可以看到应用程序进行了 “tweaked”。由于崩溃报告中出现了 <code>CydiaSubstrate</code>，我们可以认定该手机已经越狱了。 我们不能安全的依赖这些需要具有原始设计完整性任何应用程序。也许在这款手机上，MobileSMS 应用程序进行了调整，并添加了额外的功能，但引入了一个绘制相关的 bug。</p>
-<h1 id="failed-的崩溃">Failed 的崩溃</h1>
-<p>在本章中，我们讨论 <em>Failed</em> 崩溃。 就是那些没有以正确的崩溃报告返回给我们的崩溃。</p>
-<p>有时，这是由于第三方崩溃报告框架的错误造成的。在本章中，我们将重点讨论失败的原生原因，并解释一些可能是导致这种现象发生的场景。</p>
+<h1 id="失败的崩溃">失败的崩溃</h1>
+<p>在本章中，我们讨论 <em>失败的</em> 崩溃。就是那些没有以正确的崩溃报告返回给我们的崩溃。</p>
+<p>有时，这是由于第三方崩溃报告框架的错误造成的。而在本章中，我们将重点讨论原生的失败原因，并解释一些可能是导致这种现象发生的场景。</p>
 <h2 id="信号处理失败">信号处理失败</h2>
-<p>在调试程序时，从概念上讲，它与崩溃时的状态类似。 这是因为我们要进入流程并检查其状态（或可能通过插入断点来更改程序）。 在iOS 13.5（在iOS 14.x中已修复）中，有一个小故障：如果应用程序告诉操作系统它希望进行调试，那么当系统希望由于崩溃而将其杀死时它发现它无法杀死该应用程序。 然后，整个系统卡死，需要重新设置。</p>
-<p>如果我们有一个应用程序，则可能具有一些反逆向工程或反调试功能 （可能通过框架），我们可能最终会遇到这种情况，因为使一个应用程序假装它已经被调试是防止调试器连接的一种常用技术。</p>
+<p>在调试程序时，从概念上讲，它与崩溃时的状态类似。 这是因为我们要进入流程并检查其状态（或可能通过插入断点来更改程序）。 在iOS 13.5（在iOS 14.x中已修复）中，有一个小故障：如果应用程序告诉操作系统它希望进行调试，那么当系统希望通过崩溃而将应用程序杀死时，却发现无法杀死该应用程序。然后，整个系统卡死，需要重启设备。</p>
+<p>如果我们有一个应用程序，可能具有一些反逆向工程或反调试功能 （可能通过框架），那么我们可能最终会遇到这种情况，因为使一个应用程序假装它已经被调试是防止调试器连接的一种常用技术。</p>
 <p>应用程序 <code>icdab_pt</code> 演示了该问题。 <span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span>. <span class="citation" data-cites="jitios">(“Jailed Just in Time Compilation on iOS” 2020)</span>.</p>
 <pre><code>#define SIZE 4096
 #define SHM_NAME &quot;map-jit-memory&quot;
@@ -5903,7 +5911,7 @@ int ptrace(int, pid_t, caddr_t, int); // private method
 <p>上面的代码会使得在模拟器上崩溃报告与在目标硬件上造成的崩溃报告相同。 为了方便起见，我们将重点放在测试模拟器上，因为它易于重置，并且可以比较不同的 OS 版本。</p>
 <p>当我们在 iOS 13.5 上运行时，我们发现当传值为 <code>YES</code> 时系统挂起，但是当传值为 <code>NO</code> 时系统正常崩溃。在 iOS 14.x，这两种情况下都会立即崩溃。</p>
 <h2 id="符号化失败">符号化失败</h2>
-<p>崩溃报告程序<code>ReportCrash</code> 本身可能会失败。 幸运的是，有一个故障保护机制，允许<code>ReportCrash</code>报告<code>ReportCrash</code>故障。</p>
+<p>崩溃报告程序 <code>ReportCrash</code> 本身可能会失败。 幸运的是，有一个故障保护机制，允许 <code>ReportCrash</code> 报告 <code>ReportCrash</code> 故障。</p>
 <p>在我们的示例中，我们看到Symbolification  阶段失败。</p>
 <pre><code>Incident Identifier: FD5D3125-4CD2-4A42-8C4C-86022EDED6B7
 CrashReporter Key:   28184df1e2804fabaabb19f3a67639f76eb8f299
@@ -6023,7 +6031,7 @@ orks/CoreSymbolication.framework</code></pre>
 <p>来自Apple Open Source C++ 库， <code>libcpp</code>。<span class="citation" data-cites="libcpp">(“Libcpp Apple Open Source” 2020)</span></p>
 <p>从历史上看，符号化一直是失败的根源，它是崩溃报告所依赖的主要子系统。</p>
 <h1 id="内存诊断">内存诊断</h1>
-<p>在本章中，我们着眼于解决内存问题的不同诊断选项。</p>
+<p>在本章中，我们着眼于基于不同的诊断选项来解决内存问题。</p>
 <h2 id="内存分配基础">内存分配基础</h2>
 <p>iOS 平台在堆栈上或堆上为我们的应用分配内存。</p>
 <p>每当我们在函数范围内创建局部变量时，就会在堆栈上分配内存。每当我们调用 <code>malloc</code> 方法（或其变体）时，都会从堆中分配内存。</p>
@@ -6396,6 +6404,9 @@ usr/lib/libBacktraceRecording.dylib
 </div>
 <div id="ref-rosettaPortingGuide">
 <p>“Porting Your macOS Apps to Apple Silicon.” 2020. <a href="https://developer.apple.com/documentation/xcode/porting_your_macos_apps_to_apple_silicon">https://developer.apple.com/documentation/xcode/porting_your_macos_apps_to_apple_silicon</a>.</p>
+</div>
+<div id="ref-iosOnMac">
+<p>“Running Your iOS Apps on macOS.” 2020. <a href="https://developer.apple.com/documentation/apple_silicon/running_your_ios_apps_on_macos">https://developer.apple.com/documentation/apple_silicon/running_your_ios_apps_on_macos</a>.</p>
 </div>
 <div id="ref-asanchecker">
 <p>Serebryany, Konstantin, Derek Bruening, Alexander Potapenko, and Dmitry Vyukov. 2012. “AddressSanitizer: A Fast Address Sanity Checker.” In <em>USENIX Atc 2012</em>. <a href="https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker">https://www.usenix.org/conference/usenixfederatedconferencesweek/addresssanitizer-fast-address-sanity-checker</a>.</p>
