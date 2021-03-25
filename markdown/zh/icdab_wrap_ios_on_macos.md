@@ -146,7 +146,7 @@ amework/Versions/A/UIKitCore
 
 ### 在 Mac 上支持 iOS 应用程序
 
-Apple 提供了在 Mac 上部署 iOS 应用程序的最佳实践指南。@iosOnMac你可以进行如下操作：
+Apple 提供了在 Mac 上部署 iOS 应用程序的最佳实践指南。@iosOnMac 你可以进行如下操作：
 
 1. 如果确定自己的 iOS 应用程序不适合 macOS。在 App Store Connect\index{App Store Connect} 中可以取消配置。
 2. 允许在 iOS 上安装的应用程序安装在 macOS 上，但是添加检查可用的可选硬件功能。

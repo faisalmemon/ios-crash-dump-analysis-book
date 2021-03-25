@@ -78,11 +78,11 @@ delta is 0xd8e5690000000020 clean_delta is 0x20
 ptrFn result is 0x2946180102c55df8
 ```
 
-我们看到，当获得指向函数`interestingJumpToFunc` 的指针，然后将其存储在足以容纳指针地址的整数中时，我们将获得一个较大的值`0x2946180102c55dd8`。 这是因为地址的前24位是指针验证码（PAC）\index{Pointer Authentication Code}\index{PAC}。 在这种情况下，PAC为 `0x294618` ，有效指针为`0x0102c55dd8`。
+我们看到，当获得指向函数`interestingJumpToFunc` 的指针，然后将其存储在足以容纳指针地址的整数中时，我们将获得一个较大的值`0x2946180102c55dd8`。 这是因为地址的前24位是指针验证码（PAC）\index{Pointer Authentication Code}\index{PAC}。 在这种情况下，PAC 为 `0x294618` ，有效指针为`0x0102c55dd8`。
 
-在物理上相邻的下一个指针 `nextInterestingJumpToFunc` 是 `0x22b810102c55df8`； 显然，它具有相似的有效地址`0x0102c55df8`，但具有完全不同的PAC `0x22b81`。
+在物理上相邻的下一个指针 `nextInterestingJumpToFunc` 是 `0x22b810102c55df8`； 显然，它具有相似的有效地址`0x0102c55df8`，但具有完全不同的 PAC `0x22b81`。
 
-当我们计算指针之间的增量时，由于指针值的PAC部分，我们显然会得到一个无意义的地址。 为了正确计算指针的有效地址之间的增量，我们需要使用 `ptrauth_strip`实用程序函数。 这是作为内置宏汇编指令实现的。
+当我们计算指针之间的增量时，由于指针值的 PAC 部分，我们显然会得到一个无意义的地址。 为了正确计算指针的有效地址之间的增量，我们需要使用 `ptrauth_strip`实用程序函数。 这是作为内置宏汇编指令实现的。
 
 经过宏预处理后，代码为：
 
@@ -105,7 +105,7 @@ ptrdiff_t clean_delta =
 
 请注意，这类指针操作均不会导致崩溃。 检查指针的时间是用于更改链接寄存器\index{register!link} 的时间。 也就，当我们根据指针值来更改程序的控制流时。
 
-在函数 `viewDidLoad（）`中存在我们有以下
+在函数 `viewDidLoad()` 我们存在以下代码
 ```
 result(); // will crash; deferences a pointer with a bad PAC
 ```

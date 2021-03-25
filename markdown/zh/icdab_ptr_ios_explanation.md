@@ -1,6 +1,6 @@
 ## `icdab_ptr` PAC 崩溃
 
-在具有 A13 仿生芯片\index{CPU!A13 Bionic}的 iPhone 11\index{trademark!iPhone 11}上，运行`icdab_ptr` 程序时会看到以下崩溃信息。@icdabgithub
+在具有 A13 仿生芯片\index{CPU!A13 Bionic}的 iPhone 11\index{trademark!iPhone 11}上，运行`icdab_ptr` 程序时会得到以下崩溃信息。@icdabgithub
 
 ```
 Incident Identifier: DA9FE0C7-6127-4660-A214-5DF5D432DBD9
@@ -86,13 +86,13 @@ Binary Images:
 6468063/icdab_ptr.app/icdab_ptr
 ```
 
-首先，我们注意到崩溃的点是 `ViewController.m：26`
+首先，我们注意到的点是崩溃发生在 `ViewController.m:26`
 ```
 0   icdab_ptr                           0x0000000100ae9df8
  nextInterestingJumpToFunc + 24056 (ViewController.m:26)
 ```
 
-我们的源代码有：
+在我们的源代码里有：
 ```
 24 // this function's address is where we will be jumping to
 25 static void nextInterestingJumpToFunc(void) {
@@ -100,7 +100,7 @@ Binary Images:
 27 }
 ```
 
-这个程序的目的是通过指针运算来计算`nextInterestingJumpToFunc` 函数的地址，然后跳转到它。它成功地做到了，然后崩溃了。从上一节我们知道这是因为我们故意使用了从`interestingJumpToFunc`函数借用的函数地址PAC。
+这个程序的目的是通过指针运算来计算`nextInterestingJumpToFunc` 函数的地址，然后跳转到它。它成功地做到了，然后崩溃了。从上一节我们知道这是因为我们故意使用了从 `interestingJumpToFunc `函数借用的函数地址 PAC。
 
 崩溃报告系统会对指针进行拆解，以推导出所给的错误指针的有效指针地址。 我们有：
 ```
@@ -118,20 +118,20 @@ VM Region Info: 0x100ae9df8 is in 0x100ae4000-0x100aec000;  bytes
  r--/rw- SM=COW  ...app/icdab_ptr
 ```
 
-我们的指针`0x2000000100ae9df8` 指向程序的文本区域`0x0000000100ae9df8`，但是指针的高 24 位不正确，因此显示了消息`（可能的指针身份验证失败）`，并导致了`SIGSEGV`。 注意，PAC是一个特殊值“ 0x200000”，大概是代表`无效PAC`的值。
+我们的指针 `0x2000000100ae9df8` 指向程序的文本区域 `0x0000000100ae9df8`，但是指针的高 24 位不正确，因此显示了消息 `（可能的指针身份验证失败）`，并导致了`SIGSEGV`。 注意，PAC是一个特殊值 `0x200000`，大概是代表 `无效PAC`的值。
 
-从上一节中，我们知道可以通过下面的代码检查程序中PAC：
+从上一节中，我们知道可以通过下面的代码检查程序中 PAC：
 ```
 blraaz  x8
 ```
 
-我们的 `x8`寄存器是`0x045d340100ae9df8`，所以估计出错误的 PAC 是`0x045d34`。
+我们的 `x8` 寄存器是 `0x045d340100ae9df8`，所以估计出错误的 PAC 是 `0x045d34`。
 
 ## 指针验证机制调试技巧
 
 在本节中，我们将指出在架构构 `armv8e` 目标上运行调试器时的一些区别。我们还将展示如何将崩溃报告与调试会话匹配。
 
-当我们打印出指针时，我们得到了去掉PAC值的指针。例如，对于指针`0x36f93010201ddf8`，我们的`result` 变量，我们会得到：
+当我们打印出指针时，我们得到了去掉 PAC 值的指针。例如，对于指针`0x36f93010201ddf8`，我们的 `result` 变量，我们会得到：
 ```
 (lldb) po result
 (actual=0x000000010201ddf8 icdab_ptr`nextInterestingJumpToFunc at
@@ -210,4 +210,5 @@ Thread 0 crashed with ARM Thread State (64-bit):
    esr: 0x82000004 (Instruction Abort) Translation fault
 ```
 
-这种方法很方便，因为这样我们就可以将故障转储报告与调试器中的分析直接关联起来。 请注意，`x8` 寄存器恰好是我们先前探讨的`result`值。
+这种方法很方便，因为这样我们就可以将故障转储报告与调试器中的分析直接关联起来。 请注意，`x8` 寄存器恰好是我们先前探讨的 `result `值。
+

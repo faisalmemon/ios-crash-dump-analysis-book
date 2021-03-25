@@ -1,6 +1,6 @@
 ## 符号化失败
 
-崩溃报告程序`ReportCrash`\index{command!ReportCrash} 本身可能会失败。 幸运的是，有一个故障保护机制，允许`ReportCrash`报告`ReportCrash`故障。
+崩溃报告程序 `ReportCrash`\index{command!ReportCrash} 本身可能会失败。 幸运的是，有一个故障保护机制，允许 `ReportCrash` 报告 `ReportCrash` 故障。
 
 在我们的示例中，我们看到Symbolification \index{Symbolification} 阶段失败。
 
