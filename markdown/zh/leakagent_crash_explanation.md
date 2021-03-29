@@ -2,7 +2,7 @@
 
 苹果提供了 `LeakAgent` 程序作为其内存诊断工具的一部分。 它在 Xcode Instruments 中使用。
 
-以下是崩溃报告， `LeakAgent` 发生了崩溃，为了便于演示而被截断：
+以下是崩溃报告， `LeakAgent` 发生了崩溃，为了便于演示而对报告内容进行截断：
 
 ```
 Incident Identifier: 11ED1987-1BC9-4F44-900C-AD07EE6F7E26
