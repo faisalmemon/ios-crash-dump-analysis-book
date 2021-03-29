@@ -1,8 +1,8 @@
 ## Kindle Create 崩溃
 
-Kindle Create是一款应用程序，作者可以利用手稿(比如 `docx` 文件)创建电子书。它通过 QuartzCore 库进行大量的绘制。 
+Kindle Create是一款应用程序，作者可以利用手稿（比如 `docx` 文件）创建电子书。它通过 QuartzCore 库进行大量的绘制。 
 
-在发布预览时，它发生崩溃并产生以下崩溃报告，为便于演示，将其截断：
+在发布预览时，它发生崩溃并产生以下崩溃报告，为便于演示，对报告内容进行截断：
 
 ```
 Process:               Kindle Create [3010]
@@ -130,7 +130,7 @@ Versions/A/Libraries/libGPUSupportMercury.dylib
 
 对于系统二进制文件而言，遍历文件层次结构可能会很麻烦，因为它们深深地嵌套在文件系统中。
 
-如果 Hopper 已经**正在运行**，那么快速选择正确文件的方法是使用命令行。
+如果 Hopper 已经**正在运行**了，那么快速选择正确文件的方法就是使用命令行。
 
 ```
 '/Applications/Hopper Disassembler v4.app/Contents/
@@ -139,7 +139,7 @@ GPUSupport.framework/Versions/A/Libraries/
 libGPUSupportMercury.dylib
 ```
 
-如果Hopper没有运行，我们可以启动它。我们可以启动 Finder 程序并选择 'Go To Folder' 以选择文件夹
+如果Hopper没有运行，我们可以启动它。我们可以启动 Finder 程序并选择 `Go To Folder` 以选择文件夹
 ```
 /System/Library/PrivateFrameworks/GPUSupport.framework/
 Versions/A/Libraries/
@@ -212,12 +212,12 @@ int _gpusGenerateCrashLog(int arg0, int arg1, int arg2) {
 "Graphics hardware encountered an error and was reset: 0x%08x\n"
 ```
 
-实际上，我们在崩溃报告中看到以下内容：
+实际上，我们可以在崩溃报告中看到以下内容：
 ```
 Application Specific Signatures:
 Graphics kernel error: 0xfffffffb
 ```
 
-不幸的是，尚不清楚此错误是什么意思。 我们需要应用程序的作者打开OpenGL命令级日志记录，以便了解图形驱动程序拒绝了哪些绘图命令。
+不幸的是，尚不清楚此错误是什么意思。我们需要应用程序的作者打开 OpenGL 命令级日志记录，以便了解图形驱动程序拒绝了哪些绘图命令。
 
-通过使用不同的 Mac 和显卡配置将会是实验变得很有趣。让我们判断这是一个是特定的驱动问题，或一个通用的 OpenGL 问题。
+通过使用不同的 Mac 和显卡配置将会使实验结果变得很有趣。这让我们判断可能是一个特定的驱动问题，或一个通用的 OpenGL 问题。

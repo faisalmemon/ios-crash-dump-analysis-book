@@ -12,7 +12,7 @@
 ### 释放信号量的崩溃示例
 
 `icdab_sema` 示例程序在启动时发生崩溃。
-崩溃报告如下（为便于演示，将其截断）：
+崩溃报告如下（为便于演示，对报告内容进行截断）：
 
 ```
 Exception Type:  EXC_BREAKPOINT (SIGTRAP)
