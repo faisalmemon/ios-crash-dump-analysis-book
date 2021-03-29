@@ -261,6 +261,7 @@
 <li><a href="#应用程序中止崩溃">应用程序中止崩溃</a>
 <ul>
 <li><a href="#一般原则-1">一般原则</a></li>
+<li><a href="#kindle-create-崩溃">Kindle Create 崩溃</a></li>
 <li><a href="#类型混淆">类型混淆</a>
 <ul>
 <li><a href="#从配置文件中获取-nsdata-对象">从配置文件中获取 NSData 对象</a></li>
@@ -312,12 +313,12 @@
 <h1 id="前言">前言</h1>
 <p>这本书源于20世纪90年代后期的灵感。</p>
 <p>很难描述当下的满足感。互联网是下一次工业革命。投资者将其视为投资的最佳场所。硬件，软件和服务都经历了类似寒武纪多样性和创新的爆炸式增长。</p>
-<p>我发现自己处于时代的中心。我最近刚加入了 Sun Microsystems。所以，如果你对有一个不错的注意并想开始在网络上给为你的客服提供服务，那么 Sun Microsystems 值得依赖，必不可少。这些服务器你可以自己处理或由托管服务商来处理。</p>
-<p>那时的计算机技术已经得到了长足的发展，但是现有的解决方案已经在新方向和网络上得到使用。斯坦福大学科研中心基于 Unix 系统研制的 SunOS 操作系统现在运行在 E-Bay 上，并且运行的很好。</p>
+<p>我发现自己处于时代的中心。我最近刚加入了 Sun Microsystems。所以，如果你对有一个不错的主意并想开始在网络上给为你的客户提供服务，那么 Sun Microsystems 值得依赖，必不可少。这些服务器你可以自己处理或由托管服务商来处理。</p>
+<p>那时的计算机技术已经得到了长足的发展，但是现有的解决方案已经在新方向和网络上得到使用。斯坦福大学科研中心基于 Unix 系统研制的 SunOS 操作系统现在运行在 E-Bay 上，并且运行得很好。</p>
 <p>我们有一个电子屏幕，显示了关键客户的系统运行状态。沙特阿美公司的红色灯一直亮着，以至于我们怀疑这是否是董事会本身的错。</p>
 <p>我在 Sun 的第一天有些失落。我甚至都没有自己的隔间。我的办公桌看起来像是学校的书桌。我的键盘有几个故障或无效的按键。第一天我坐在一个巨大的办公室（”立方体农场“）的一个角落，却不清楚到底是哪个角落。午餐后，我走了很长一段路后回到了我角落的办公桌。</p>
 <p>让我惊讶的是，大约 1/4 之一的开发者的办公桌上都放了一本书。书的封面上写着，“Panic!”<span class="citation" data-cites="panicbook">(<em>Panic! Unix System Crash Dump Analysis</em> 1995)</span>。这是一本关于 SunOS crash dump 分析的书。</p>
-<p>当我拥有了自己的隔间并解释了我的同事之后，我注意到那些带着 《Panic!》的工程师们。这本书似乎在处理客户回馈的某些底层问题方面具有额外的优势。总的来说，他提升了 Sun 公司客服中心解决 IQ 问题的效率。</p>
+<p>当我拥有了自己的隔间并认识了我的同事之后，我注意到那些带着 《Panic!》的工程师们。这本书似乎在处理客户反馈的某些底层问题方面具有额外的优势。总的来说，他提升了 Sun 公司客服中心解决 IQ 问题的效率。</p>
 <p>在 Sun，有一种深厚的学习文化。我们经常接受如此广泛的培训和支持，通常情况下，我们每年要进行七门课程，每门课程周期为一周。</p>
 <p>一切都很好，直到那一堂课。它被称为分析故障排除（ATS）。这在客服中心引起了极大的争议。这是解决问题的一种正式方法。这门课并没有教会你答案是什么，而是确保你能够提出正确的问题。事实证明，在我们最棘手的问题上，我们缺少提出正确问题的能力。</p>
 <p>这是生产力再次迈出的重要一步。但是，有些工程师非常不合时宜，非常挑剔。事实证明，这些技术只是经验丰富的工程师在实践过程中所学到的，他们并不希望任何人毫不费力的得到。</p>
@@ -325,10 +326,10 @@
 <p>我记得有一次，在一节操作系统课上，我环顾整个教室。我注意到教室里到处都是 Sun Microsystems 公司的设备；我凝视着 Sun 的标志，梦想有一天可以在那里工作。梦想实现了。因此，在有关 x86 紧急情况的研讨会上，我有了另一个想法。有一天我要写一本书。这本书将完全集中在讨论单个技术问题上。这本书将记载着我在职业生涯中获得的经验。这就是你现在阅读的这本书。</p>
 <h2 id="第二版">第二版</h2>
 <p>虽然才仅仅过去两年，但 Apple 的技术发展速度还是一如既往的快。</p>
-<p>在这期间，我的职业生涯发生了有趣的改变，我被 Apple 公司聘为承包商（称为“现场供应商承包商”）。和我之前的许多工程师一样吗，我认为我通过招聘的过程，更多的是一种侥幸或者说 Apple 的错误。手里拿着 Apple 的徽章，感觉就像是一把神奇的钥匙。 它就像 Apple 的任何一款产品一样，一样的干净，完美，简洁。事实上，我并没有和其他人一样，为 Apple 公司从事什么隐秘的工作。但是，有一个笑话。 “你找到秘密房间了吗？” 一位工程师会这样询问新员工。在最初的几周内，我对此感到困惑，然后发现它就在众目睽睽之下！。在 Apple，更多的是需要你要成为所关注领域的公共 API 的大师，并与其他工程师合作来解决那些领域中的问题（我的领域是Accessibility（可访问性））。紧张而有趣的两年。</p>
+<p>在这期间，我的职业生涯发生了有趣的改变，我被 Apple 公司聘为承包商（称为“现场供应商承包商”）。和我之前的许多工程师一样，我认为我通过招聘的过程，更多的是一种侥幸或者说 Apple 的错误。手里拿着 Apple 的徽章，感觉就像是一把神奇的钥匙。 它就像 Apple 的任何一款产品一样，一样的干净，完美，简洁。事实上，我并没有和其他人一样，为 Apple 公司从事什么隐秘的工作。但是，有一个笑话。 “你找到秘密房间了吗？” 一位工程师会这样询问新员工。在最初的几周内，我对此感到困惑，然后发现它就在众目睽睽之下！。在 Apple，更多的是需要你要成为所关注领域的公共 API 的大师，并与其他工程师合作来解决那些领域中的问题（我的领域是 Accessibility（无障碍访问））。紧张而有趣的两年。</p>
 <p>本书的第二版源自于人们长期以来对 APP 产品系列关注，例如 Apple Silicon Macs 系列的发布。</p>
 <p>我更新了文章内容，并对示例进行了现代化处理，以反映最新的 OS 版本及SDK。在撰写本文时，它们是 iOS 14.2，macOS 11.0 Big Sur 和 Xcode 12.2。</p>
-<p>在我看来，Apple 产品的发展方向是朝着 Apple Silicon芯片发展，该芯片利用 ARM ABI ，以及该体系结构的最新版本所提供的高级功能。为此，我将引入一些新的章节，介绍 Apple Silicon 上的模式转换崩溃和 Pointer Authentication （指针验证机制）崩溃。</p>
+<p>在我看来，Apple 产品的发展方向是朝着 Apple Silicon 芯片发展，该芯片利用 ARM ABI ，以及该体系结构的最新版本所提供的高级功能。为此，我将引入一些新的章节，介绍 Apple Silicon 上的模式转换崩溃和 Pointer Authentication（指针验证机制）崩溃。</p>
 <h1 id="致谢">致谢</h1>
 <p>在此感谢我的同事们的帮助和支持。</p>
 <p>我要感谢本书的中文翻译者夏文强的支持，以帮助使该书的中文版得以实现。</p>
@@ -2112,7 +2113,7 @@ transitionContext:] + 248</code></pre>
      cpsr: 0x80000000</code></pre>
 <h3 id="ios-崩溃报告的-binary-images-部分">iOS 崩溃报告的 Binary Images 部分</h3>
 <p>崩溃报告会有一部分列举了崩溃进程加载的所有 Binary Images。这通常是一串很长的列表。它强调了一个事实，即我们的应用程序有许多支持框架。大多数框架是私有框架。iOS 开发工具包似乎包含了大量 API，但这只是冰山一角。</p>
-<p>这是一个示例列表，为便于演示而进行了编辑：</p>
+<p>这是一个示例列表，为便于演示而进行了一定的编辑：</p>
 <pre><code>Binary Images:
 
 0x104018000 - 0x10401ffff icdab_as arm64
@@ -3849,7 +3850,7 @@ Thread 0 Crashed:
 <p><code>libdispatch</code> 库是用于管理并发的操作系统库（称为Grand Central Dispatch或GCD）。该库可从Apple处以开源形式获得。<span class="citation" data-cites="libdispatchtar">(“Libdispatch Open Source” 2018)</span></p>
 <p>该库抽象了操作系统如何提供对多核CPU资源的访问的详细信息。 在崩溃期间，它会向崩溃报告提供其他信息。 这意味着，如果我们愿意，我们可以找到检测到运行时问题的代码。</p>
 <h3 id="释放信号量的崩溃示例">释放信号量的崩溃示例</h3>
-<p><code>icdab_sema</code> 示例程序在启动时发生崩溃。 崩溃报告如下（为便于演示，将其截断）：</p>
+<p><code>icdab_sema</code> 示例程序在启动时发生崩溃。 崩溃报告如下（为便于演示，对报告内容进行截断）：</p>
 <pre><code>Exception Type:  EXC_BREAKPOINT (SIGTRAP)
 Exception Codes: 0x0000000000000001, 0x00000001814076b8
 Termination Signal: Trace/BPT trap: 5
@@ -4071,7 +4072,7 @@ _dispatch_continuation_push(dispatch_queue_t dq,
 <p>如果我们是<code>fud</code>程序的作者，我们可以对其进行更新以检查它获得的XPC数据，并确保遵循最佳实践进行数据的序列化/反序列化，例如使用接口定义层生成器。</p>
 <h3 id="leakagent-崩溃">LeakAgent 崩溃</h3>
 <p>苹果提供了 <code>LeakAgent</code> 程序作为其内存诊断工具的一部分。 它在 Xcode Instruments 中使用。</p>
-<p>以下是崩溃报告， <code>LeakAgent</code> 发生了崩溃，为了便于演示而被截断：</p>
+<p>以下是崩溃报告， <code>LeakAgent</code> 发生了崩溃，为了便于演示而对报告内容进行截断：</p>
 <pre><code>Incident Identifier: 11ED1987-1BC9-4F44-900C-AD07EE6F7E26
 CrashReporter Key:   b544a32d592996e0efdd7f5eaafd1f4164a2e13c
 Hardware Model:      iPad6,3
@@ -4330,7 +4331,7 @@ temAUs.dylib</code></pre>
 <h2 id="总线错误sigbus崩溃">总线错误（SIGBUS）崩溃</h2>
 <h3 id="xbmc-崩溃">xbmc 崩溃</h3>
 <p><code>xbmc</code> 应用程序是一款实用程序应用程序，其作用类似于电视媒体播放器的遥控器。</p>
-<p>在启动过程中，应用程序发生崩溃并产生以下崩溃报告，为便于演示，该报告已被截断：</p>
+<p>在启动过程中，应用程序发生崩溃并产生以下崩溃报告，为便于演示，对报告内容进行截断：</p>
 <pre><code>Incident Identifier: 396B3641-5F74-4B01-9E62-FE24A2C12E92
 CrashReporter Key:   14aa0286b8b087d8b6a1ca75201a3f7d8c52d5bd
 Hardware Model:      iPad1,1
@@ -4574,7 +4575,7 @@ dlclose(0x600000157d90)
 <p>通常，如果我们的应用在运行任何代码之前就崩溃了，那么最好打开 Dynamic Loader 诊断选项。这可能是部署问题（未捆绑正确的库）或代码签名问题。</p>
 <h3 id="jablotron-崩溃">Jablotron 崩溃</h3>
 <p><code>Jablotron</code> 程序是管理家庭中的警报和检测器的程序。</p>
-<p>这是程序发生崩溃所产生的的崩溃报告，为了便于演示而被截断：</p>
+<p>这是程序发生崩溃所产生的的崩溃报告，为了便于演示而对报告内容进行截断：</p>
 <pre><code>Incident Identifier: 732438C5-9E5A-48E7-95E2-76C800CDD6D9
 CrashReporter Key:   181EC21F-295A-4D13-B14E-8BE1A7DFB5C7
 Hardware Model:      iPhone3,1
@@ -4704,15 +4705,16 @@ __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__
 <p>在这里，我们的目标是通过采用<code>ChartThermoPlotSpace</code>类并简化它来编写一个简单的测试用例，直到找到发生崩溃的必要代码为止。</p>
 <p>苹果通过更新其编译器来纠正 Swift Generics 错误，从而解决了该崩溃问题。</p>
 <h1 id="应用程序中止崩溃">应用程序中止崩溃</h1>
-<p>在本章中，我们研究应用程序中止崩溃。</p>
-<p>通过报告异常类型来区分这些崩溃，崩溃报告中的<code>EXC_CRASH (SIGABRT)</code> 。</p>
-<p>我们看见这些从网上收集的大量崩溃信息。</p>
+<p>在本章中，我们将研究应用程序中止崩溃。</p>
+<p>通过崩溃报告异常类型来区分这类崩溃—— <code>EXC_CRASH (SIGABRT)</code> 。</p>
+<p>我们关注这些从网上收集的大量崩溃信息。</p>
 <h2 id="一般原则-1">一般原则</h2>
-<p>许多操作系统语言的支持模块和库都有用于检测致命程序错误的代码。如果触犯，操作系统终止该应用程序。 这会导致 <code>SIGABRT</code> 崩溃。</p>
-<p><code>SIGABRT</code> 并没有特别的原因。所以我们我们查看各种示例，以便我们可以看到它们出现的各种情况。</p>
-<p>有时，这种崩溃会在崩溃报告的 <code>Application Specific Information</code> 区域中提供一些信息。如果这不能揭示我们所需的详细信息，通常可以找到引发崩溃的模块，并对代码进行逆向工程以了解具体是什么症状。 ## Kindle Create 崩溃</p>
-<p>Kindle Create是一款应用程序，作者可以利用手稿(比如 <code>docx</code> 文件)创建电子书。它通过 QuartzCore 库进行大量的绘制。</p>
-<p>在发布预览时，它发生崩溃并产生以下崩溃报告，为便于演示，将其截断：</p>
+<p>许多操作系统语言的支持模块和库都有用于检测致命程序错误的代码。一旦触发，操作系统将终止该应用程序，这会导致 <code>SIGABRT</code> 崩溃。</p>
+<p><code>SIGABRT</code> 并没有特别的原因。所以我们将查看各种示例，以便我们可以分析它们出现的各种情况。</p>
+<p>有时，这种崩溃会在崩溃报告的 <code>Application Specific Information</code> 区域中提供一些信息。如果这不能揭示我们所需的详细信息，但通常可以找到引发崩溃的模块，并对代码进行逆向工程以了解具体是什么症状。</p>
+<h2 id="kindle-create-崩溃">Kindle Create 崩溃</h2>
+<p>Kindle Create是一款应用程序，作者可以利用手稿（比如 <code>docx</code> 文件）创建电子书。它通过 QuartzCore 库进行大量的绘制。</p>
+<p>在发布预览时，它发生崩溃并产生以下崩溃报告，为便于演示，对报告内容进行截断：</p>
 <pre><code>Process:               Kindle Create [3010]
 Path:                  /Applications/Kindle Create.app/
 Contents/MacOS/Kindle Create
@@ -4825,12 +4827,12 @@ Binary Images:
 <pre><code>/System/Library/PrivateFrameworks/GPUSupport.framework/
 Versions/A/Libraries/libGPUSupportMercury.dylib</code></pre>
 <p>对于系统二进制文件而言，遍历文件层次结构可能会很麻烦，因为它们深深地嵌套在文件系统中。</p>
-<p>如果 Hopper 已经<strong>正在运行</strong>，那么快速选择正确文件的方法是使用命令行。</p>
+<p>如果 Hopper 已经<strong>正在运行</strong>了，那么快速选择正确文件的方法就是使用命令行。</p>
 <pre><code>&#39;/Applications/Hopper Disassembler v4.app/Contents/
 MacOS/hopper&#39; -e /System/Library/PrivateFrameworks/
 GPUSupport.framework/Versions/A/Libraries/
 libGPUSupportMercury.dylib</code></pre>
-<p>如果Hopper没有运行，我们可以启动它。我们可以启动 Finder 程序并选择 ‘Go To Folder’ 以选择文件夹</p>
+<p>如果Hopper没有运行，我们可以启动它。我们可以启动 Finder 程序并选择 <code>Go To Folder</code> 以选择文件夹</p>
 <pre><code>/System/Library/PrivateFrameworks/GPUSupport.framework/
 Versions/A/Libraries/</code></pre>
 <p><img src="screenshots/finder_support_mercury.png" /></p>
@@ -4879,11 +4881,11 @@ Versions/A/Libraries/</code></pre>
 <pre><code>&quot;Graphics kernel error: 0x%08x\n&quot;</code></pre>
 <p>另一种是:</p>
 <pre><code>&quot;Graphics hardware encountered an error and was reset: 0x%08x\n&quot;</code></pre>
-<p>实际上，我们在崩溃报告中看到以下内容：</p>
+<p>实际上，我们可以在崩溃报告中看到以下内容：</p>
 <pre><code>Application Specific Signatures:
 Graphics kernel error: 0xfffffffb</code></pre>
-<p>不幸的是，尚不清楚此错误是什么意思。 我们需要应用程序的作者打开OpenGL命令级日志记录，以便了解图形驱动程序拒绝了哪些绘图命令。</p>
-<p>通过使用不同的 Mac 和显卡配置将会是实验变得很有趣。让我们判断这是一个是特定的驱动问题，或一个通用的 OpenGL 问题。</p>
+<p>不幸的是，尚不清楚此错误是什么意思。我们需要应用程序的作者打开 OpenGL 命令级日志记录，以便了解图形驱动程序拒绝了哪些绘图命令。</p>
+<p>通过使用不同的 Mac 和显卡配置将会使实验结果变得很有趣。这让我们判断可能是一个特定的驱动问题，或一个通用的 OpenGL 问题。</p>
 <h2 id="类型混淆">类型混淆</h2>
 <p>编译器在静态类型检查方面做得非常出色。但在动态推断类型时，可能会出现问题。而 配置文件在这方面尤为麻烦。 很容易为配置参数设置错误的类型</p>
 <p>我们借助示例代码<code>icdab_nsdata</code>来说明我们的观点。<span class="citation" data-cites="icdabgithub">(“IOS Crash Dump Analysis Book Github Resources” 2018)</span></p>
@@ -5033,9 +5035,9 @@ default 13:36:58.000000 +0000   ReportCrash
     report (2 of max 25) at
     /var/mobile/Library/Logs/CrashReporter/
     icdab_nsdata-2018-07-27-133658.ips</code></pre>
-<p>从这里我们可以看到问题是 <code>__NSCFConstantString</code> 无法响应 <code>_isDispatchData</code> 是因为 <code>NSString</code> 不是数据所提供的对象。</p>
-<p>Apple SDK 具有私有实现类，以支持我们使用的公共对象。 错误报告将引用这些私有类。 因此，他们的名字可能不再令人熟悉。</p>
-<p>可以通过一种简单的方法进行管理，并找出具体的表示映射到要搜索的类类型定义的哪个对象。</p>
+<p>从这里我们可以看到问题是 <code>__NSCFConstantString</code> 无法响应 <code>_isDispatchData</code> 方法，这是因为 <code>NSString</code> 并不是数据所提供的对象。</p>
+<p>Apple SDK 具有私有实现类，以支持我们使用的公共对象。 错误报告将引用这些私有类。 因此，他们的名字可能令人不再熟悉。</p>
+<p>可以通过一种简单的方法进行管理，并找出具体表示映射到要搜索的类是类型定义的哪个对象。</p>
 <p>方便的是，其他工程师已经在框架上使用 <code>class-dump</code> 工具来生成所有 Objective-C 的类定义，并将它们存储在 GitHub上。他们使用 <code>class-dump</code>工具。这使得 Objective-C 的所有私有框架符号都很容易搜索到。</p>
 <p>我们可以找到关于 <code>_isDispatchData</code>的定义。 <span class="citation" data-cites="dispatchdata">(“NSDispatchData.h in Foundation.framework” 2018)</span></p>
 <pre><code>/* Generated by RuntimeBrowser
@@ -5081,9 +5083,9 @@ default 13:36:58.000000 +0000   ReportCrash
 
 @end</code></pre>
 <h2 id="非数字-错误">“非数字” 错误</h2>
-<p>在本节中，我们显示了由于错误的浮点数据而引起的崩溃。</p>
+<p>在本节中，我们将展示由于错误的浮点数据而导致的崩溃。</p>
 <p>我们以 macOS 上的 <code>securityAgent</code> 崩溃为例。</p>
-<p>我们看到的崩溃报告如下，为了便于演示而被截断：</p>
+<p>我们看到的崩溃报告如下，为了便于演示而对报告内容进行截断：</p>
 <pre><code>Process:               SecurityAgent [99429]
 Path:                  /System/Library/Frameworks/
 Security.framework/Versions/A/MachServices/
@@ -5414,8 +5416,8 @@ Microstackshots: 1
 Exception Subtype: CPU
 Exception Message: (Limit 50%) Observed 60% over 180 secs</code></pre>
 <p>崩溃报告的 <code>Microstackshots</code> 部分大概告诉了我们终止时的堆栈示例。似乎报告的 <code>Bad magic</code> 值有所不同，通常与 <code>EXC_RESOURCE</code> 崩溃有关。 ## 唤醒崩溃</p>
-<p>iOS平台限制唤醒次数。当CPU中断发生时，CPU会被唤醒来为某个任务提供服务。通常是在有一些 IO 需要处理时，比如入站联网数据。如果平台太频繁地唤醒，会增加电池消耗。因此，唤醒次数受到操作系统的限制。</p>
-<p>以下是崩溃报告（为了便于演示而被截断），显示了 <code>Snapchat</code>被终止了：</p>
+<p>iOS 平台限制唤醒次数。当 CPU 中断发生时，CPU 会被唤醒来为某个任务提供服务。通常是在有一些 IO 需要处理时，比如入站联网数据。如果平台太频繁地唤醒，会增加电池消耗。因此，唤醒次数受到操作系统的限制。</p>
+<p>以下是崩溃报告（为了便于演示而对报告内容进行截断），显示了 <code>Snapchat</code> 被终止了：</p>
 <pre><code>Incident Identifier: 79C39D6B-E4CA-4047-B96D-7EEED2B57B46
 CrashReporter Key:   52be47ab0a43fb240756d6f5a1e1bcf4aa53c568
 Hardware Model:      iPhone7,2
@@ -5540,8 +5542,8 @@ Microstackshots: 1
 Exception Subtype:   WAKEUPS
 Exception Message:   (Limit 150/sec) Observed 195/sec over
  300 secs</code></pre>
-<p>在崩溃报告中，我们还会得到一个 <code>Bad magic</code> 值，然后是终止点正在运行的快照。</p>
-<p>我们可以看到许多线程正在运行，与网络，音频和视频有关。 我们可以猜测，此应用程序在呈现世平流方面做了繁重的工作，并且此系统级别的类型代码有错误或存在性能问题。</p>
+<p>在崩溃报告中，我们还会得到一个 <code>Bad magic</code> 值，然后是终止点正在运行的线程快照。</p>
+<p>我们可以看到许多线程正在运行，与网络，音频和视频有关。我们可以猜测，此应用程序在呈现视频流方面做了繁重的工作，并且此系统级别的类型代码有错误或存在性能问题。</p>
 <h2 id="唤醒崩溃异常">唤醒崩溃异常</h2>
 <p>在某些情况下，iOS平台可以用 <code>Exception Code</code> 对唤醒崩溃进行分类。</p>
 <p>例如，错误的网络代码导致了以下崩溃，为了便于演示而将其截断：</p>
@@ -5658,7 +5660,7 @@ Unknown thread crashed with unknown flavor: 5, state_count: 1</code></pre>
 <p>然而，根据设计，某些信号无法被捕获。例如 SIGSTOP 和SIGKILL 信号。</p>
 <h2 id="死锁崩溃">死锁崩溃</h2>
 <p>如果在应用程序挂起之前 SQLite 文件已被锁定，则应用程序会发生崩溃。崩溃报告中解释了死锁终止原因。</p>
-<p>作为一个示例，我们展示了 OneMessenger 应用程序崩溃，并提供了以下崩溃报告，为便于演示，将其截断：</p>
+<p>作为一个示例，我们展示了 OneMessenger 应用程序崩溃，并提供了以下崩溃报告，为便于演示，对报告内容进行截断：</p>
 <pre><code>Incident Identifier: A176CFB8-6BB7-4515-A4A2-82D2B962E097
 CrashReporter Key:   f02957b828fe4090389c1282ca8e38393b4e133d
 Hardware Model:      iPhone9,4
