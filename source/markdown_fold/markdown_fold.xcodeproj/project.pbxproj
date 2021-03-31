@@ -193,7 +193,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/bash -ev";
-			shellScript = "$BUILT_PRODUCTS_DIR/$TARGET_NAME $PROJECT_DIR/markdown_fold/testdata_mfold.md > $PROJECT_DIR/markdown_fold/autogen.md\ncomparison=$(cmp $PROJECT_DIR/markdown_fold/expected.md $PROJECT_DIR/markdown_fold/autogen.md)\n\nexit $comparison\n\nexit 0\n";
+			shellScript = "\ncodesign -f -s - $BUILT_PRODUCTS_DIR/$TARGET_NAME\n$BUILT_PRODUCTS_DIR/$TARGET_NAME $PROJECT_DIR/markdown_fold/testdata_mfold.md > $PROJECT_DIR/markdown_fold/autogen.md\ncomparison=$(cmp $PROJECT_DIR/markdown_fold/expected.md $PROJECT_DIR/markdown_fold/autogen.md)\n\nexit $comparison\n\nexit 0\n";
 		};
 		3909AEC5252781E70064C9DE /* Deploy to tools directory */ = {
 			isa = PBXShellScriptBuildPhase;

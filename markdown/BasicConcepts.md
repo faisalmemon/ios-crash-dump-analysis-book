@@ -21,7 +21,7 @@ The policies\index{policy} of the operating environment are there to ensure secu
 Newcomers to the Apple\index{trademark!Apple} ecosystem are often surprised to learn that Objective-C\index{trademark!Objective-C} allows us to message a nil object.  It silently ignores the failed dispatch\index{nil dispatch}.  For example,
 the following method runs ok.
 
-```
+```objectivec
 - (void)nilDispatchDoesNothing
 {
     NSString *error = NULL;
@@ -33,7 +33,7 @@ The Objective-C runtime authors made a judgement call, and decided it was better
 
 
 However if we dereference a C pointer\index{NULL dereference} we get a crash.
-```
+```c
 void nullDereferenceCrash() {
     char *nullPointer = NULL;
     assert(strlen(nullPointer) == 0);
