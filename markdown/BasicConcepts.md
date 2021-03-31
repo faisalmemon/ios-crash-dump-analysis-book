@@ -64,7 +64,7 @@ Introduced in iOS 10\index{iOS!iOS 10}, when we want to access the Camera, a pri
 
 If we don't define the text in our `Info.plist`\index{Info.plist} for `NSCameraUsageDescription`\index{API!camera} we still see the following code evaluating true and then attempting to present the image picker.
 
-```
+```swift
 func handlePickerButtonPressed() {
     if UIImagePickerController.isCameraDeviceAvailable(.front) {
         let imagePicker = UIImagePickerController()
@@ -138,7 +138,7 @@ The code to get the MAC address is not trivial.  Therefore it merits some level 
 
 Here is a snippet from the Unit tests:
 
-```
+```swift
     func getFirstOctectAsInt(_ macAddress: String) -> Int {
         let firstOctect = macAddress.split(separator: ":").first!
         let firstOctectAsNumber = Int(String(firstOctect))!
@@ -175,7 +175,7 @@ In fact, the last test fails because the OS returns a local address.
 
 For testing camera access, we have written a simple UI test case\index{testing!UI} which just presses the __Choose Picture__ button.
 
-```
+```swift
 func testTakePhoto() throws {
     let app = XCUIApplication()
     app.launch()
