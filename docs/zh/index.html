@@ -13,6 +13,68 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="style/gitHubStyle.css" />
@@ -328,27 +390,27 @@
 <p>虽然才仅仅过去两年，但 Apple 的技术发展速度还是一如既往的快。</p>
 <p>在这期间，我的职业生涯发生了有趣的改变，我被 Apple 公司聘为承包商（称为“现场供应商承包商”）。和我之前的许多工程师一样，我认为我通过招聘的过程，更多的是一种侥幸或者说 Apple 的错误。手里拿着 Apple 的徽章，感觉就像是一把神奇的钥匙。 它就像 Apple 的任何一款产品一样，一样的干净，完美，简洁。事实上，我并没有和其他人一样，为 Apple 公司从事什么隐秘的工作。但是，有一个笑话。 “你找到秘密房间了吗？” 一位工程师会这样询问新员工。在最初的几周内，我对此感到困惑，然后发现它就在众目睽睽之下！。在 Apple，更多的是需要你要成为所关注领域的公共 API 的大师，并与其他工程师合作来解决那些领域中的问题（我的领域是 Accessibility（无障碍访问））。紧张而有趣的两年。</p>
 <p>本书的第二版源自于人们长期以来对 APP 产品系列关注，例如 Apple Silicon Macs 系列的发布。</p>
-<p>我更新了文章内容，并对示例进行了现代化处理，以反映最新的 OS 版本及SDK。在撰写本文时，它们是 iOS 14.2，macOS 11.0 Big Sur 和 Xcode 12.2。</p>
+<p>我更新了文章内容，并对示例进行了现代化处理，以适应最新的 OS 版本及SDK。在撰写本文时，它们是 iOS 14.2，macOS 11.0 Big Sur 和 Xcode 12.2。</p>
 <p>在我看来，Apple 产品的发展方向是朝着 Apple Silicon 芯片发展，该芯片利用 ARM ABI ，以及该体系结构的最新版本所提供的高级功能。为此，我将引入一些新的章节，介绍 Apple Silicon 上的模式转换崩溃和 Pointer Authentication（指针验证机制）崩溃。</p>
 <h1 id="致谢">致谢</h1>
 <p>在此感谢我的同事们的帮助和支持。</p>
 <p>我要感谢本书的中文翻译者夏文强的支持，以帮助使该书的中文版得以实现。</p>
-<p>感谢哪些被慷慨提供的开源工具，使得本书的信息汇总工作成为一种可能，特别是 <code>pandoc</code> ，它让我更愉快的编写本书。</p>
+<p>感谢那些被慷慨提供的开源工具，使得本书的信息汇总工作成为一种可能，特别是 <code>pandoc</code> ，它让我更愉快地编写本书。</p>
 <p>最后，我要感谢支持我的家庭成员，当我因为在书房中闭关而缺席大部分的家庭活动。谢谢，Junghyun 和 Christopher。</p>
 <h1 id="介绍">介绍</h1>
-<p>本书填补了当崩溃发生时应用程序开发人员与开发平台之间出现的空白。应用程序开发人员主要想的是高级概念和抽象话。当应用发生崩溃时，现实会把你粗鲁的拉到底层架构、指针和原始数据的 UNIX 世界中。</p>
-<p>我们只专注于Apple生态系统。</p>
-<p>我们的讨论涵盖了 iOS、macOS、tvOS、watchOS和BridgeOS这些平台，ARM 架构和 C（核心框架）、Objective-C、Objective-C++ 和Swift等多种语言。这是因为较旧的语言更容易崩溃。现实世界中的应用程序最终往往会成为由更安全的 Swift 语言和旧技术的混合体。</p>
-<p>我们介绍了苹果生态系统的最新发展。 特别是，由于使用Apple Silicon Macs而引起的新问题。</p>
+<p>本书填补了当崩溃发生时应用程序开发人员与开发平台之间出现的空白。应用程序开发人员主要想的是高级概念和抽象化。当应用发生崩溃时，现实会把你粗鲁地拉到底层架构、指针和原始数据的 UNIX 世界中。</p>
+<p>我们只专注于 Apple 生态系统。</p>
+<p>我们的讨论涵盖了 iOS、macOS、tvOS、watchOS 和 BridgeOS 这些平台，ARM 架构和 C(Core Foundation)、Objective-C、Objective-C++ 和 Swift 等多种语言。这是因为较旧的语言更容易崩溃。现实世界中的应用程序最终往往会成为由更安全的 Swift 语言和旧技术的混合体。</p>
+<p>我们介绍了苹果生态系统的最新发展。特别是，由于使用 Apple Silicon Macs 而引起的新问题。</p>
 <p>我们假设你至少具有 iOS 编程和软件工程的入门知识，并且可以在 Mac 上运用 Xcode 软件。</p>
-<p>我们采取的方法是将关于问题的三种不同观点结合起来，让你能以全面，稳健地了解情况以及如何解决问题。</p>
+<p>我们采取的方法是将关于问题的三种不同观点结合起来，让你能以全面、稳健地了解情况以及如何解决问题。</p>
 <p>首先，我们将会为你提供一份如何使用 Apple 提供的出色自带工具的 <code>HOW-TO</code> 指南。</p>
-<p>其次，我们提供一个针对防止和解决崩溃的软件工程概念的讨论。。</p>
+<p>其次，我们提供一个针对防止和解决崩溃的软件工程概念的讨论。</p>
 <p>最后，我们将提供一种正式的解决问题的方法，但该方法主要适用于崩溃分析。</p>
 <p>编程文献全面分析了软件工程概念，而 Apple 通过 Guides 和 WWDC 视频介绍了其 crash dump 工具。</p>
 <p>在软件工程界一般很少讨论如何去解决正式的问题，可能是因为解决问题被视作软件工程师的一种能力。它被认作是一门研究后增加”自身“能力的学科，这些能力似乎是为了从其他人群中区分出”有技术头脑“的人。</p>
 <p>我们的目标并不是羞于重复那些我们在其他地方看到过或阅读过的知识，而是采取一种统一的方式来解释整个观点。 为什么 crash dump 分析如此困难的原因在于，它假定工程师具备大量的背景知识，以便腾出空间专注于特定工具或崩溃报告的具体细节。这会使得工程师出现认知障碍，本书就是要克服这种障碍。</p>
-<p>作为本书的补充，还会有一个资源网站，用于结合书本内容一起使用，以便您可以自己设置并运行示例项目然后进行试验。本书最后的所有参考文献都收录在书目章节中。例如，你可以在其中找到资源的URL。</p>
+<p>作为本书的补充，还会有一个资源网站，用于结合书本内容一起使用，以便您可以自己设置并运行示例项目然后进行试验。本书最后的所有参考文献都收录在书目章节中。例如，你可以在其中找到资源的 URL。</p>
 <p>支持该书的GitHub网站位于@icdabgithub</p>
 <h1 id="快速入门">快速入门</h1>
 <p>当近期的代码修改导致应用程序发生崩溃时，我们可以很容易的对崩溃进行分析然后找到相关代码并进行修改。但是通常，崩溃只是由于操作环境的变化而出现。那可能是最烦人的。例如，应用程序在办公室中正常运行，但在客户站点崩溃。我们没有时间去探究为什么崩溃，但需要快速解决或提出解决方法。当探索一个新项目时，会出现另一个常见的问题场景。 在这里，我们没有使用代码库的经验，但是在编译和运行应用程序后立即会遇到崩溃问题。</p>
@@ -359,13 +421,13 @@
 <p>我们应该尝试去编译运行项目中的所有的Xcode Target。有时候，某个特定的 Target，会成为该项目整体环境不可获取的一部分如果是这样，我们可以做一个注释，以便稍后解决这些问题。</p>
 <h3 id="二进制兼容问题">二进制兼容问题</h3>
 <p>由于二进制兼容的问题，有些时候，我们的应用程序会在启动时发生崩溃。</p>
-<p>如果我们刚刚更新了我们的Xcode，或者在编译好我们工程的同时拉代码进行了更新。我们可以使用 <code>Option-Command-Shift-K</code> 命令编译过程中产生的中间文件，目标文件及可执行文件，使得项目回到没有编译之前的状态，然后重新编译。</p>
+<p>如果我们刚刚更新了我们的 Xcode，或者在编译好我们工程的同时拉代码进行了更新。我们可以使用 <code>Option-Command-Shift-K</code> 命令编译过程中产生的中间文件，目标文件及可执行文件，使得项目回到没有编译之前的状态，然后重新编译。</p>
 <blockquote>
 <p>一般来说我们可以直接删除 <code>~/Library/Developer/Xcode/DerivedData</code> 达到近似效果</p>
 </blockquote>
 <h3 id="只有模拟器有的问题">只有模拟器有的问题</h3>
 <p>有些时候，我们的应用程序只在模拟器上发生崩溃。</p>
-<p>这时候，我们应该尝试模拟器的 <code>Hardware-&gt;Reset</code> 功能对内容和功能进行重置。我们可以尝试使用 iPad 模拟器来替代 iPhone模拟器，反之亦然。示例项目通常用于解释特定技术，而不会去考虑产品化或着通用性。</p>
+<p>这时候，我们应该尝试模拟器的 <code>Hardware-&gt;Reset</code> 功能对内容和功能进行重置。我们可以尝试使用 iPad 模拟器来替代 iPhone 模拟器，反之亦然。示例项目通常用于解释特定技术，而不会去考虑产品化或者通用性。</p>
 <h3 id="特定设备的问题">特定设备的问题</h3>
 <p>有些时候，我们的应用程序只会在客户设备上发生崩溃。</p>
 <p>我们可以检查 <code>Wi-Fi</code> 设置或尝试将 iPad 热点连接到 iPhone。在办公室/家庭环境中开发我们的应用程序时，有时我们会忽略诸如连接或延迟之类的网络问题。如果这就是问题所在，我们应该记录下来以便尝试并修复这些问题。</p>
@@ -374,8 +436,8 @@
 <p>当我们将电脑与用户的设备相连时，我们可能正在进行 <code>Debug</code> 环境的部署。这意味着推送通知的 <code>tokens</code> 将是开发环境而不是生产环境的推送 <code>tokens</code>。这同时也意味着资源的访问授权（例如，对 <code>Camera</code> 相机功能的授权）不再有效，因为它们可能已经通过应用程序的 TestFlight 版本或先前的App Store版本（生产版本）获得了批准。</p>
 <p>我们应该尝试通过 <code>Command</code> -&lt; 选择左侧面板中的 <code>Run</code>，右侧面板中的 <code>Info</code> 选项，<code>Build Configuration</code> 设置 <code>Release</code>（不是 <code>Debug</code>）来切换部署配置。 我们还应手动检查 <code>iPad/iPhone</code> 设置中的任何资源访问授权。</p>
 <h3 id="特定语言环境的问题">特定语言环境的问题</h3>
-<p>有时候，客户设备的特定的语言环境会导致崩溃的发生</p>
-<p>错误的语言环境中可能会缺失某些资源文件。此外，处理语言环境充斥着毫无征兆的特殊情况。我们应该尝试将区域设置暂时更改为已知的语言区域。 当你回归问题时不要忘记做好笔记。</p>
+<p>有时候，客户设备的特定的语言环境会导致崩溃的发生。</p>
+<p>错误的语言环境中可能会缺失某些资源文件。此外，处理语言环境充斥着毫无征兆的特殊情况。我们应该尝试将区域设置暂时更改为已知的语言区域。当你回归问题时不要忘记做好笔记。</p>
 <blockquote>
 <p>不同地区的用户，NSCalendar 默认的 firstWeekday 的值是不一致的，这个基于当地的习惯。如果你的 APP 的受众更为广泛，请注意这一点</p>
 </blockquote>
@@ -412,43 +474,43 @@
 <p>在 Kepner-Tregoe 正式的问题解决培训会上，这个民间传说故事被告知给在英国的 Sun Microsystems 客服中心的工程师们。</p>
 <h3 id="总线噪音崩溃">总线噪音崩溃</h3>
 <p>当计算机同时承受较大的网络负载和磁盘负载时，系统会发生崩溃。</p>
-<p>这个崩溃是由于磁盘损坏造成的。每64字节的内存中都会出现一个零。它是计算机的缓存行大小。由于内存板接线错误，导致旁边的磁盘带状电缆在64字节边界处产生噪音。</p>
+<p>这个崩溃是由于磁盘损坏造成的。每64字节的内存中都会出现一个零。它是计算机的缓存行大小。由于内存板接线错误，导致旁边的磁盘带状电缆在 64 字节边界处产生噪音。</p>
 <p>这是在 Sun Volume Systems Group 计算机的早期原型中看到的。</p>
 <h1 id="基本概念">基本概念</h1>
 <h2 id="什么是崩溃">什么是崩溃?</h2>
 <p>我们的计算机内部是一个操作环境。它包括一个或多个正在运行的操作系统以及应用程序软件。两者的区别在于，操作系统软件在比应用程序软件（用户模式）更高的 CPU 权限（内核模式）下运行。</p>
 <p>我们通常理解为我们的应用软件的基本概念模型是位于一个操作系统上，而操作系统本身又是位于硬件上。</p>
-<p>但是，现代计算机系统具有多个协作子系统。例如，配备 TouchBar 的MacBook Pro即具有主操作系统macOS，同时也有支持处理 TouchBar 界面、磁盘加密 和 “Hey Siri” 的 Bridge OS。我们计算机中的多媒体和网络芯片是高级组件，可以在其上运行自己的实时操作系统。我们的 Mac 软件只是 macOS 上运行的众多应用程序之一。</p>
+<p>但是，现代计算机系统具有多个协作子系统。例如，配备 TouchBar 的 MacBook Pro 即具有主操作系统 macOS，同时也有支持处理 TouchBar 界面、磁盘加密 和 “Hey Siri” 的 Bridge OS。我们计算机中的多媒体和网络芯片是高级组件，可以在其上运行自己的实时操作系统。我们的 Mac 软件只是 macOS 上运行的众多应用程序之一。</p>
 <p>应用程序崩溃是操作环境响应我们在应用程序中所做的（或未完成的）某些操作，这些操作违反了我们所运行的平台的某些规则。</p>
 <p>当操作系统检测到系统中存在问题时，它可能会自行崩溃。 这称为 <code>kernel panic</code>。</p>
 <h2 id="操作系统的规则">操作系统的规则</h2>
 <p>操作环境通过某些规则来保障用户的环境安全性、数据安全性、性能和隐私性。</p>
 <h3 id="nil-处理示例">Nil 处理示例</h3>
-<p>Apple 生态系统的新手常常惊讶地发现，Objective-C 允许我们向 nil 对象发送消息。 它默默地忽略了失败的调用。 例如， 以下方法可以运行正常。</p>
-<pre><code>- (void)nilDispatchDoesNothing
-{
-    NSString *error = NULL;
-    assert([error length] == 0);
-}</code></pre>
+<p>Apple 生态系统的新手常常惊讶地发现，Objective-C 允许我们向 nil 对象发送消息。它默默地忽略了失败的调用。例如，以下方法可以运行正常。</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode objectivec"><code class="sourceCode objectivec"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a>- (<span class="dt">void</span>)nilDispatchDoesNothing</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>{</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    NSString *error = NULL;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>    assert([error length] == <span class="dv">0</span>);</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>}</span></code></pre></div>
 <p>Objective-C 运行时的开发者做出了一个判断，并认为应用程序最好忽略这些问题。</p>
 <p>但是，如果我们引用了一个 C 指针，应用程序就会发生崩溃。</p>
-<pre><code>void nullDereferenceCrash() {
-    char *nullPointer = NULL;
-    assert(strlen(nullPointer) == 0);
-}</code></pre>
-<p>操作系统的开发者为了避免对空指针地址或更底层的内存地址的非法访问，所以中断了应用程序 。</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="dt">void</span> nullDereferenceCrash() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>    <span class="dt">char</span> *nullPointer = NULL;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>    assert(strlen(nullPointer) == <span class="dv">0</span>);</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>}</span></code></pre></div>
+<p>操作系统的开发者为了避免对空指针地址或更底层的内存地址的非法访问，所以中断了应用程序。</p>
 <p>操作系统将此内存区域留出，因为它表示未正确设置对象或数据结构的编程错误。</p>
 <p>当出现问题时，我们并不总是会崩溃。 只有它违反运行环境的规则，应用程序才会发生崩溃。</p>
 <h3 id="获取-mac-地址示例">获取 MAC 地址示例</h3>
 <p>参考获取 iPhone 的的 MAC 的示例。媒体访问控制（MAC）地址是分配给网卡的唯一识别码，用来允许机器在通信栈的数据链路层进行没有重复地相互通信。</p>
 <p>在 iOS 7 之前，MAC 地址不被视为敏感 API。因此，使用 <code>sysctl</code> API 请求 MAC 地址会给出真实地址。要查看此操作，请参阅 <code>icdab_sample</code> 应用程序。</p>
-<p>不幸的是，此 API 作为跟踪用户的一种方式而被开发者滥用 ，这违反了隐私协议。因此，Apple 在 iOS 7 中引入了一项新的方式，API 始终会返回固定的 MAC 地址。</p>
+<p>不幸的是，此 API 作为跟踪用户的一种方式而被开发者滥用，这违反了隐私协议。因此，Apple 在 iOS 7 中引入了一项新的方式，API 始终会返回固定的 MAC 地址。</p>
 <p>当调用 <code>sysctl</code> API 时，Apple 本来可以选择使我们的应用程序崩溃。但是，<code>sysctl</code> 是一种通用的底层调用，它可用于其他有效目的。因此，iOS 设置的策略是在请求时返回固定的 MAC 地址 <code>02:00:00:00:00:00</code>。</p>
 <h3 id="获取相机权限示例">获取相机权限示例</h3>
 <p>现在，让我们考虑使用相机拍摄照片的情况。</p>
 <p>在 iOS 10 中，当我们的应用程序需要使用设备相机（隐私且敏感）功能时，我们需要定义一段阅读性良好的授权文案，以便用户理解并给予相机的访问权限。</p>
 <p>即便我们没有在 <code>Info.plist</code> 中为 <code>NSCameraUsageDescription</code> 定义授权描述，以下代码的判断结果还是正确的，系统会尝试弹出相册选择器。</p>
-<pre><code>if UIImagePickerController.isSourceTypeAvailable(
+<pre class="swift"><code>if UIImagePickerController.isSourceTypeAvailable(
       UIImagePickerControllerSourceType.camera) {
       // Use Xcode 9.4.1 to see it enter here
       // Xcode 10.0 will skip over
@@ -460,7 +522,7 @@
       self.present(imagePicker, animated: true, completion: nil)
       }</code></pre>
 <p>然而，当我们使用Xcode 9.4.1版本运行上面的代码时，我们在控制台会看到以下崩溃的描述性信息：</p>
-<pre><code>2018-07-10 20:09:21.549897+0100 icdab_sample[1775:15601294]
+<pre class="shell"><code>2018-07-10 20:09:21.549897+0100 icdab_sample[1775:15601294]
  [access] This app has crashed because it attempted to access
   privacy-sensitive data without a usage description.  
   The app&#39;s Info.plist must contain an NSCameraUsageDescription
@@ -468,13 +530,13 @@
    uses this data.
 Message from debugger: Terminated due to signal 9</code></pre>
 <h3 id="经验教育">经验教育</h3>
-<p>请注意这里的对比。这两种情况下我们都调用了涉及隐私敏感的API。但是在相机的案例中，Apple 选择了让应用程序崩溃而不是谈一个弹框给出警告，或者是返回一个错误的值来表明源类型不可用。</p>
-<p>这似乎是一个苛刻的设计选择。当用户在 Xcode 10.0（提供了 iOS 12 的SDK） 进行操作时， 这个调用相机授权的 API 有了不一样的表现。当由于未在 <code>Info.plist</code> 中定义授权描述是，判断相机是否可用API会返回 <code>false</code>。</p>
-<p>这强调了涉及两个实体的意义，即程序和操作环境（包括其策略）。拥有正确的源代码并不能保证程序能够正常运行。 当我们的应用程序发生崩溃时，我们需要考虑操作环境以及代码本身。</p>
+<p>请注意这里的对比。这两种情况下我们都调用了涉及隐私敏感的 API。但是在相机的案例中，Apple 选择了让应用程序崩溃而不是弹一个弹框给出警告，或者是返回一个错误的值来表明源类型不可用。</p>
+<p>这似乎是一个苛刻的设计选择。当用户在 Xcode 10.0（提供了 iOS 12 的 SDK） 进行操作时， 这个调用相机授权的 API 有了不一样的表现。当由于未在 <code>Info.plist</code> 中定义授权描述是，判断相机是否可用 API 会返回 <code>false</code>。</p>
+<p>这强调了涉及两个实体的意义，即程序和操作环境（包括其策略）。拥有正确的源代码并不能保证程序能够正常运行。当我们的应用程序发生崩溃时，我们需要考虑操作环境以及代码本身。</p>
 <h2 id="应用程序的策略">应用程序的策略</h2>
-<p>我们正在编写的应用程序也可以主动引发崩溃。这通常通过我们的代码中的断言调用来完成的。任何断言的失败，这些调用都会要求操作环境立即终止我们的应用程序。 然后操作环境就终止了我们的应用程序。 那么在崩溃报告中我们会得到这样一个类型:</p>
+<p>我们正在编写的应用程序也可以主动引发崩溃。这通常通过我们代码中的断言调用来完成的。任何断言的失败，这些调用都会要求操作环境立即终止我们的应用程序。 然后操作环境就终止了我们的应用程序。 那么在崩溃报告中我们会得到这样一个类型:</p>
 <p><code>Exception Type:  EXC_CRASH (SIGABRT)</code></p>
-<p>表明应用程序在第一时间主动触发崩溃</p>
+<p>表明应用程序在第一时间主动触发崩溃。</p>
 <h3 id="什么时候应该主动触发崩溃">什么时候应该主动触发崩溃？</h3>
 <p>我们可以遵循与操作环境类似的标准来制定我们应用的崩溃策略。</p>
 <p>如果我们的代码检测到数据的完整性存在问题，我们可能会触发崩溃以防止进一步的数据损坏。</p>
@@ -486,12 +548,12 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>需要记住的是，任何涉及操作环境保护策略的代码都是自动化测试的理想选择。</p>
 <p>在 <code>icdab_sample</code> 项目中我们已经创建了单元测试和 UI 测试。</p>
 <p>当将测试用例应用于处理琐碎的程序时，我们总会感到无所适从。 但是考虑一个具有拓展性的 <code>Info.plist</code> 文件的大型程序。当我们要创建一个新版本而需要创建另一个新的 <code>Info.plist</code> 文件。那么在不同构建目标建如何保持隐私协议设置的同步就会成为一个问题。那么仅针对启动相机的 UI 测试代码可以轻松捕获到此类问题，因此具有实用的商业价值。</p>
-<p>同样，如果我们的 APP 包含大量的底层代码，然后我们需要将APP从iOS系统移植到tvOS，那么有多少涉及操作系统的敏感代码会仍然适用呢。</p>
-<p>针对不同的设计考虑全面地对顶级功能进行单元测试可以抵消在我们对代码库中深入研究和单元测试潜在的辅助函数调用所耗费的精力。 这是一项战略性工作，可让我们在移植到 Apple 生态系统（及以后）中的其他平台时对自己的应用程序和对问题领域的早期反馈充满信心。</p>
+<p>同样，如果我们的 APP 包含大量的底层代码，然后我们需要将 APP 从 iOS 系统移植到 tvOS，那么有多少涉及操作系统的敏感代码会仍然适用呢？</p>
+<p>针对不同的设计考虑全面地对顶级功能进行单元测试可以抵消在我们对代码库中深入研究和单元测试潜在的辅助函数调用所耗费的精力。这是一项战略性工作，可让我们在移植到 Apple 生态系统（及以后）中的其他平台时对自己的应用程序和对问题领域的早期反馈充满信心。</p>
 <h3 id="单元测试获取-mac-地址">单元测试获取 MAC 地址</h3>
 <p>获取MAC地址的代码并非易事。 因此，它需要进行一定程度的测试。</p>
 <p>下面是单元测试代码的摘录：</p>
-<pre><code>    func getFirstOctectAsInt(_ macAddress: String) -&gt; Int {
+<pre class="swift"><code>    func getFirstOctectAsInt(_ macAddress: String) -&gt; Int {
         let firstOctect = macAddress.split(separator: &quot;:&quot;).first!
         let firstOctectAsNumber = Int(String(firstOctect))!
         return firstOctectAsNumber
@@ -522,7 +584,7 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>实际上，最后一个测试用例会失败，因为操作系统会返回本地地址。</p>
 <h3 id="ui-tests-测试访问相机">UI Tests 测试访问相机</h3>
 <p>为了测试访问相机的功能，我们编写了一个简单的 UI 测试用例，模拟按下了拍照按钮（通过辅助功能标识符 <code>takePhotoButton</code> ）</p>
-<pre><code>func testTakePhoto() {
+<pre class="swift"><code>func testTakePhoto() {
     let app = XCUIApplication()
     app.buttons[&quot;takePhotoButton&quot;].tap()
 }</code></pre>
@@ -534,10 +596,10 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <h2 id="概览">概览</h2>
 <p>我们有一套丰富的工具可用于协助 <code>crash dump</code> 的分析。如果使用得当，这可以节省大量时间。</p>
 <p>Xcode 提供了很多现成的帮助。然而，如何使用和理解 Xcode 工具提供的信息是令人望而生畏的。在后面的章节中，我们将介绍这些工具的使用示例。</p>
-<p>此外，在 macOS 中还提供了标准的命令行工具。这些工具在特定场景下有这难以想象的作用，尤其在我们已经知道我们需要找到什么的时候。我们将介绍具体的场景，并说明该如何使用这些工具。</p>
+<p>此外，在 macOS 中还提供了标准的命令行工具。这些工具在特定场景下有着超乎想象的作用，尤其在我们已经知道我们需要找到什么的时候。我们将介绍具体的场景，并说明该如何使用这些工具。</p>
 <p>接下来是帮助我们逆向工程的软件工具。有时候在使用第三方库时，有些问题很难被我们发现。那么除了查看文档或提出支持请求外，还可以使用这些工具自行进行调查。</p>
 <h2 id="逆向工程">逆向工程</h2>
-<p>逆向工程是研究已构建的二进制文件（例如应用程序，库或辅助进程守护程序），以确定它是如何工作的。对于一个特定的对象，我们可能想知道：</p>
+<p>逆向工程是研究已构建的二进制文件（例如应用程序、库或辅助进程守护程序），以确定它是如何工作的。对于一个特定的对象，我们可能想知道：</p>
 <ul>
 <li>它所提供对象的生命周期是什么？</li>
 <li>它对对象做什么检查？</li>
@@ -548,25 +610,25 @@ Message from debugger: Terminated due to signal 9</code></pre>
 <p>逆向工程应该走多远，应该投入多少时间和金钱？我们提供以下建议：</p>
 <ul>
 <li>如果我们刚刚开始我们的应用程序开发人员之旅，或者我们的资金有限，那么只需坚持使用标准的 Xcode 工具，macOS 命令行和 <code>class-dump</code> 工具。</li>
-<li>如果我们是专业的应用程序开发人员，强烈建议购买商业逆向工程工具。最引人注目的是 <code>Hopper</code> ; 它提供了许多由 IDA Pro（一种高端工具）提供的功能。价格合理，即使只使用了几次，也可以提高生产力。我们在本书中将展示如何使用 Hopper。</li>
+<li>如果我们是专业的应用程序开发人员，强烈建议购买商业逆向工程工具。最引人注目的是 <code>Hopper</code>；它提供了许多由 IDA Pro（一种高端工具）提供的功能。价格合理，即使只使用了几次，也可以提高生产力。我们在本书中将展示如何使用 Hopper。</li>
 <li>如果我们是一个专业的渗透测试人员、逆向工程师或安全研究员，那么我们可能希望投资于顶级软件工具 IDA Pro。该工具成本高达数千美元，但通常是在公司范围内购买的。</li>
 </ul>
 <h2 id="class-dump-工具">Class Dump 工具</h2>
 <p>Objective-C 运行时的一大优点是它在其构建的二进制文件中携带了大量丰富的程序结构信息。这些在语言的动态上得以发挥作用。实际上，灵活的动态调度是许多崩溃的源头。我们建议安装 <code>class-dump</code> 因为我们将在后面的章节中引用它的用法。</p>
 <blockquote>
-<p>点击 <a href="%5Bhttp://stevenygard.com/projects/class-dump/%5D(http://stevenygard.com/projects/class-dump/)">Class-dump</a> 下载安装。</p>
+<p>点击 <a href="http://stevenygard.com/projects/class-dump/">Class-dump</a> 下载安装。</p>
 </blockquote>
-<p><code>class-dump</code> 工具允许我们查看给定程序中的Objective C 类、方法和属性。</p>
+<p><code>class-dump</code> 工具允许我们查看给定程序中的 Objective C 类、方法和属性。</p>
 <h2 id="第三方工具手机崩溃报告">第三方工具手机崩溃报告</h2>
 <p>虽然 iTunes Connect 中的 Apple Crash Reporter 工具非常的出色，但是仍有改进空间。</p>
-<p>一个强大的开源软件，由 Plausible Labs 的 Landon Fuller 所编写 <code>plcrashreporter</code>。<span class="citation" data-cites="plcrashreporter">(“Plausible Labs Crash Reporter” 2018)</span></p>
-<p>我们想让让我们的应用程序能够尽可能的处理发生的所有可能的信号和异常，一旦应用程序将无法实现，从而导致底层操作系统触发崩溃。</p>
+<p>一个强大的开源软件，由 Plausible Labs 的 Landon Fuller 所编写 <a href="https://github.com/microsoft/plcrashreporter">plcrashreporter</a>。<span class="citation" data-cites="plcrashreporter">(“Plausible Labs Crash Reporter” 2018)</span></p>
+<p>我们想让我们的应用程序能够尽可能的处理发生的所有可能的信号和异常，一旦应用程序将无法实现，从而导致底层操作系统触发崩溃。</p>
 <p>通过这个工具，可以记录崩溃信息，然后传输到我们自己的服务器上。</p>
 <p>这有两个好处。首先，崩溃处理程序可以处理 Apple <code>ReportCrash</code> 工具尚未处理的边缘情况。其次，可以采用更全面的服务器端解决方案。</p>
 <p>对于那些想要探索和理解操作系统以及底层应用程序代码的人来说，<code>plcrashreporter</code> 提供了一个学习精心设计的系统软件的绝好机会。</p>
-<p>当公司拥有许多应用程序，许多应用程序变体，并且拥有基于 Android 等其他平台的应用程序时，就需要更强大的多平台解决方案。处理崩溃报告很快就会成为一种管理问题。哪个崩溃最严重？ 有多少客户受到影响？ 质量和稳定性的指标是什么？</p>
+<p>当公司拥有许多应用程序，许多应用程序变体，并且拥有基于 Android 等其他平台的应用程序时，就需要更强大的多平台解决方案。处理崩溃报告很快就会成为一种管理问题。哪个崩溃最严重？有多少客户受到影响？质量和稳定性的指标是什么？</p>
 <p>有许多可用的商业解决方案，都主要基于上述开源项目。</p>
-<p>移动软件开发领域在过去几年已经发展成为一个大产业。。许多专业公司为 App 开发者提供专业的服务。 该领域在合并和收购方面非常活跃。由于这个行业的变化之快，我们没办法在本书中列举这些专业公司的名称。</p>
+<p>移动软件开发领域在过去几年已经发展成为一个大产业。许多专业公司为 App 开发者提供专业的服务。该领域在合并和收购方面非常活跃。由于这个行业的变化之快，我们没办法在本书中列举这些专业公司的名称。</p>
 <p>阅读 <code>rollout.io</code> 的博客是一个好的开始，它介绍了市场上的竞争者们。<span class="citation" data-cites="3rdpartycrashtools">(“IOS Crash Reporting Tools” 2017)</span></p>
 <h1 id="xcode-内置工具">Xcode 内置工具</h1>
 <p>Xcode为开发人员在理解和预防崩溃方面提供了重要的帮助。</p>
