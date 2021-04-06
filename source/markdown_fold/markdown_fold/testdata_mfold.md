@@ -31,3 +31,9 @@ yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 We should now be outside of verbose mode.
 Now we have 67 characters.
 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+
+Now we will have a decorated verbose section with 67 t chars
+```objectivec
+
+ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+```

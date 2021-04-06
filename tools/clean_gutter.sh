@@ -36,7 +36,7 @@ echo root path is $rootPath
 shift $(($OPTIND - 1))
 remainingArgs=$@
 
-scriptPath="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+scriptPath=/usr/local/bin
 
 if ! [[ -f $scriptPath/markdown_fold ]]
 then
