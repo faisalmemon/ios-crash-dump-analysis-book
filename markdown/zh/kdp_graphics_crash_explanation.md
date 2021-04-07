@@ -147,7 +147,7 @@ Versions/A/Libraries/
 
 ![](screenshots/finder_support_mercury.png)
 
-然后，我们可以简单地将`libGPUSupportMercury.dylib`从 Finder 中拖到 Hopper 应用的主面板中，它将开始处理文件。
+然后，我们可以简单地将 `libGPUSupportMercury.dylib` 从 Finder 中拖到 Hopper 应用的主面板中，它将开始处理文件。
 
 ![](screenshots/drag_file_to_hopper.png)
 
@@ -163,7 +163,7 @@ Versions/A/Libraries/
 
 ![](screenshots/hopper_diss.png)
 
-通过选择伪代码按钮（用红色圆圈显示），我们可以使 Hopper 生成对该功能的更容易理解的描述。
+通过选择伪代码按钮（用红色圆圈显示），我们可以使 Hopper 对该功能生成更容易理解的描述。
 
 ![](screenshots/hopper_pseudocode.png)
 
